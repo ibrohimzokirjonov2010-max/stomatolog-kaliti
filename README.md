@@ -1,0 +1,48 @@
+# StomaHub
+
+Toshkentdagi stomatologlar uchun desktop-first lifestyle dashboard: marketplace, seminarlar, ta’lim va klinika marketingi. Bu MVP — to‘lov, ombor va haqiqiy CRM yo‘q.
+
+## Ishga tushirish
+
+```bash
+npm install
+npm run dev
+```
+
+Brauzer: [http://127.0.0.1:43211](http://127.0.0.1:43211)
+
+Keng oynada oching (≈1280–1440px). Chap menyu va yuqori qidiruv — asosiy boshqaruv. Kichik ekranda pastki tab va hamburger menyu.
+
+## Nima ishlaydi
+
+- **Bosh sahifa** (`/` yoki `/bosh-sahifa`) — desktop dashboard: seminarlar `/seminarlar` katalogidan, takliflar Marketplace mahsulotlaridan, community lenta, tezkor yo‘llar, video darslar `/talim`. Mobil (iPhone portret): qidiruv, ixcham hero, gorizontal seminarlar, 2×4 tezkor yo‘llar, vertikal Maxsus takliflar (Savatga), Community snippet, marketing banner; pastki tab Bosh / Marketplace / Ustalar / Seminarlar / Profil.
+- **Ortiqcha material** (`/ortiqcha-material`) — doktordan doktorga shaxsiy ortiqcha. Filtrlar (kategoriya, Yopiq/Ochilgan, muddat, shahar, narx) lentani kesadi. **E’lon joylash**: nom, brend, kategoriya, holat va yaroqlilik muddati majburiy, narx, shahar, telefon/Telegram, ixtiyoriy rasm URL, izoh — `localStorage`da saqlanadi, sotuvchi «Siz · Dr. Azizbek». Ulgurji/diler ohangi shaxsiy izohsiz bloklanadi. **Mening e’lonlarim** `/ortiqcha-material/elonlarim` — tahrirlash, faolsizlantirish, o‘chirish. **Bog‘lanish**: `tel:` / Telegram + xabar namunasi, qiziqish jurnali. **Savatga** ixtiyoriy (`ortiqcha` + muddat). Ishonch stripi saqlanadi.
+- **Marketplace** (`/marketplace`) — platforma katalogi (`src/data`) + tasdiqlangan do‘konlarning mahsulotlari (Supabase). **Sotuvchi bo‘lish** `/marketplace/sotuvchi`: akkauntga bog‘langan ariza (STIR, hujjat — private `seller-docs` bucket) → admin tasdig‘i → mahsulot qo‘shish (rasm Storage’ga yuklanadi). Buyurtmalar, statuslar, escrow va nizolar DB’da. Karta ulash hozircha brauzerda (demo).
+- **Mahsulot** (`/marketplace/[slug]`, qisqa yo‘l `/product/[id]`) — galereya, miqdor, savat, sevimlilar, tablari, o‘xshash mahsulotlar
+- **Savat** (`/savat`, `/cart`) — qatorlar, miqdor, o‘chirish, jami so‘m, xaridni davom ettirish
+- **Buyurtma** (`/buyurtma`, `/checkout`) — manzil, Click/Payme/Naqd (namuna), tasdiq `/buyurtma/tasdiq`
+- **Forma** (`/forma`) — tibbiy forma katalogi: kategoriya, o‘lcham, rang, jins, brend, narx filtrlari. **Savatga** umumiy savatga o‘lcham/rang bilan qo‘shadi. Batafsil `/forma/[id]`. Embroidery so‘rovi. **Mening forma buyurtmalarim** `/forma/buyurtmalarim`. Checkout `/buyurtma` forma qatorlarini qabul qiladi.
+- **Ishlar** (`/ishlar`) — filtrlar (lavozim, shahar, ish turi, maosh, tajriba) katalogni kesadi. **Ariza yuborish** (featured va kartalar): ism, telefon, ixtiyoriy Telegram, tajriba, qisqa xat — `yuborildi` holatida saqlanadi; bir xil telefon+vakansiya takrorlanmaydi. **Vakansiya joylash** katalogga «faol» e’lon qo‘shadi. **Rezyume yuklash** — «Mening rezyumem», Talabgorlarda ko‘rinadi. Batafsil `/ishlar/[id]`. **Mening arizalarim** `/ishlar/arizalarim` (Yuborildi / Ko‘rib chiqilmoqda / Qabul / Rad / Bekor).
+- **Community** (`/community`) — Barchasi / Case / Savol / Yangilik tablari lentani kesadi. **Yangi post**: tur, matn (majburiy), ixtiyoriy rasm URL yoki namuna rasm, teglar — `localStorage`da saqlanadi va tepaga tushadi. Like, izoh va **Havola nusxalandi** (ulashish) saqlanadi. Case’da bemor ismi ogohlantiriladi. Trend mavzular va top doktorlar yangi post/teglar bilan yangilanadi. Batafsil `/community/[id]`.
+- **Seminarlar** (`/seminarlar`) — yaqin tadbirlar (sana bo‘yicha), featured, kartochka/ro‘yxat. **Ro‘yxatdan o‘tish** `/seminarlar/[id]`: ism, telefon, ixtiyoriy Telegram/klinika. Yozuv `kutilmoqda` holatida saqlanadi; **Kelaman / Kelolmayman**. Joylar: tasdiqlangan + kutilmoqda band; bekor qilinsa qayta yozilish mumkin. **Mening yozuvlarim** (`/seminarlar/yozuvlarim`)
+- **Ustalar** (`/ustalar`) — filtrlar (Rentgen, Kreslo, O‘rnatish, Ta’mirlash, shahar, reyting) katalogni kesadi. **Qo‘ng‘iroq** (`tel:`) va **Telegram** (`t.me`) ishlaydi; bosish `bog‘langan` jurnaliga yoziladi. **Bog‘lanish** — Call + Telegram + **Xizmat so‘rovi**. So‘rovlar `/ustalar/sorovlarim` (Yuborildi / Jarayonda / Bajarildi / Bekor).
+- **Laboratoriya** (`/laboratoriya`) — filtrlar (xizmat, material, muddat, shahar, reyting) katalogni kesadi. **Bog‘lanish**: Qo‘ng‘iroq / Telegram / buyurtma. **Yangi buyurtma** (lab, xizmat, material, bemor kodi/initsial, muddat, telefon, izoh) `qabul_qilindi` holatida saqlanadi. Stepper: Qabul qilindi → Ishlanmoqda → Tayyor → Yetkazildi. **Mening lab buyurtmalarim** `/laboratoriya/buyurtmalarim`. **Lab qo‘shish** — hamkor arizasi kutilmoqda. Marketplace materiallari `/marketplace?cat=laboratoriya`.
+- **Marketing** — logo/sayt/reklama/Instagram so‘rov formasi
+- Qolgan menyu punktlari — “tez orada” yoki marketplace filtri (Jihozlar)
+
+Barcha narx, tadbir va hamkor ma’lumotlari **demo**.
+
+## Admin panel (`/admin`)
+
+CEO paneli: dashboard (sof foyda, GMV, MRR, escrow), foydalanuvchilar (blok, rol), do‘konlar, sotuvchi arizalari, buyurtmalar & escrow (release/refund), reklama (banner → sayt), kanal auksioni, kontent moderatsiyasi, audit jurnali, CSV hisobot.
+
+**Ishonch modeli**
+- Brauzer Supabase’ga to‘g‘ridan-to‘g‘ri yozmaydi: barcha `sh_*` RPC’lar `STOMAHUB_DB_SECRET` bilan himoyalangan va faqat server route’lardan chaqiriladi; sessiya — imzolangan httpOnly cookie.
+- Admin huquqi har so‘rovda SQL’da tekshiriladi (`assert_admin`, rollar: owner / admin / moderator / finance). Admin bo‘lmaganlarga `/admin` va `/api/admin/*` **404**.
+- Owner (CEO) env orqali: `ADMIN_PHONES`, `ADMIN_EMAILS`, ixtiyoriy `ADMIN_TELEGRAM_IDS` (vergul bilan). Shu identifikator bilan kirgan akkaunt avtomatik owner bo‘ladi (`sh_session_ping`). Telefon 9 xonali milliy formatga normallashtiriladi.
+- Barcha admin amallari `audit_log`da.
+- Click/Payme hali ulanmagan: onlayn to‘lov tanlangan buyurtma demo sifatida darhol escrow’ga tushadi; naqd — sotuvchi «yetkazildi» qilganda.
+
+## Texnika
+
+Next.js (App Router), TypeScript, Tailwind CSS, shadcn/ui. Kontent: `src/data/`. Shell: `src/components/dashboard/`.

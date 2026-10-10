@@ -1,0 +1,6 @@
+node_modules
+.next
+.env*
+!.env.example
+*.tsbuildinfo
+_agent_notes_*.md

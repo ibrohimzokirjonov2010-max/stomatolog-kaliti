@@ -1,0 +1,771 @@
+"use client";
+
+import { useEffect, useMemo, useRef, useState, type ReactNode } from "react";
+import Link from "next/link";
+import { useRouter } from "next/navigation";
+import {
+  Check,
+  ChevronLeft,
+  ChevronRight,
+  Clock,
+  Copy,
+  CreditCard,
+  FileText,
+  Headset,
+  House,
+  MapPin,
+  MapPinned,
+  Package,
+  Phone,
+  Scooter,
+  ShoppingBag,
+  Star,
+  Store,
+} from "lucide-react";
+import { apparelMetaLabel } from "@/data/forma";
+import { site } from "@/data/site";
+import { courierMapLink, parseCourierLocation } from "@/lib/courier-location";
+import { formatMoney } from "@/lib/format";
+import { isPickupOrder, type Order, type OrderStatus } from "@/lib/orders";
+import { cn } from "@/lib/utils";
+
+type LatLng = { lat: number; lng: number };
+
+const MAP_H = 300;
+
+function hm(iso?: string) {
+  if (!iso) return "";
+  const d = new Date(iso);
+  if (Number.isNaN(d.getTime())) return "";
+  return `${String(d.getHours()).padStart(2, "0")}:${String(d.getMinutes()).padStart(2, "0")}`;
+}
+
+function hmDate(d: Date) {
+  return `${String(d.getHours()).padStart(2, "0")}:${String(d.getMinutes()).padStart(2, "0")}`;
+}
+
+function historyAt(order: Order, statuses: OrderStatus[]) {
+  const h = [...order.statusHistory].reverse().find((x) => statuses.includes(x.status));
+  return h?.at;
+}
+
+/** Destination pin: the checkout stores "Xarita: https://yandex.uz/maps/?pt=lng,lat" inside the address/note. */
+function destinationPoint(order: Order): LatLng | null {
+  const text = `${order.address ?? ""} ${order.note ?? ""}`;
+  const m = text.match(/https:\/\/\S+/);
+  if (!m) return null;
+  const p = parseCourierLocation(m[0].replace(/[,.;]+$/, ""));
+  return p && p.lat != null && p.lng != null ? { lat: p.lat, lng: p.lng } : null;
+}
+
+function destinationLink(order: Order) {
+  const m = `${order.address ?? ""} ${order.note ?? ""}`.match(/https:\/\/\S+/);
+  return m ? m[0].replace(/[,.;]+$/, "") : "";
+}
+
+function cleanAddress(order: Order) {
+  const a = (order.address ?? "").replace(/,?\s*Xarita:\s*https:\/\/\S+/gi, "").replace(/\s*,\s*$/, "").trim();
+  return [order.city, a].filter(Boolean).join(", ");
+}
+
+function haversineKm(a: LatLng, b: LatLng) {
+  const R = 6371;
+  const dLat = ((b.lat - a.lat) * Math.PI) / 180;
+  const dLng = ((b.lng - a.lng) * Math.PI) / 180;
+  const s =
+    Math.sin(dLat / 2) ** 2 + Math.cos((a.lat * Math.PI) / 180) * Math.cos((b.lat * Math.PI) / 180) * Math.sin(dLng / 2) ** 2;
+  return 2 * R * Math.asin(Math.sqrt(s));
+}
+
+function initials(name: string) {
+  const parts = name.trim().split(/\s+/).filter(Boolean);
+  return ((parts[0]?.[0] ?? "") + (parts[1]?.[0] ?? "")).toUpperCase() || "K";
+}
+
+/* ---------------- Map ---------------- */
+
+function project(p: LatLng, z: number) {
+  const s = 256 * 2 ** z;
+  const sin = Math.sin((p.lat * Math.PI) / 180);
+  return {
+    x: ((p.lng + 180) / 360) * s,
+    y: (0.5 - Math.log((1 + sin) / (1 - sin)) / (4 * Math.PI)) * s,
+  };
+}
+
+function Bubble({
+  icon,
+  tone,
+  title,
+  subtitle,
+  href,
+  className,
+  style,
+}: {
+  icon: ReactNode;
+  tone: "blue" | "teal";
+  title: string;
+  subtitle?: string;
+  href?: string;
+  className?: string;
+  style?: React.CSSProperties;
+}) {
+  const body = (
+    <>
+      <span
+        className={cn(
+          "flex size-[30px] shrink-0 items-center justify-center rounded-[9px] text-white",
+          tone === "blue" ? "bg-[#1f6bff]" : "bg-[#14a38b]",
+        )}
+      >
+        {icon}
+      </span>
+      <span className="min-w-0">
+        <span className="block truncate text-[12px] font-bold leading-tight text-[#0B1220]">{title}</span>
+        {subtitle ? <span className="block truncate text-[11px] leading-tight text-[#4b5568]">{subtitle}</span> : null}
+      </span>
+      <ChevronRight className="size-3.5 shrink-0 text-[#4b5568]" />
+    </>
+  );
+  const cls = cn(
+    "absolute z-[3] flex max-w-[210px] items-center gap-2 rounded-[12px] bg-white py-1.5 pr-2 pl-1.5 shadow-[0_6px_18px_rgba(15,23,42,0.16)]",
+    className,
+  );
+  return href ? (
+    <a href={href} target="_blank" rel="noopener noreferrer" className={cls} style={style}>
+      {body}
+    </a>
+  ) : (
+    <div className={cls} style={style}>
+      {body}
+    </div>
+  );
+}
+
+function DestPin({ x, y }: { x: number; y: number }) {
+  return (
+    <span className="absolute z-[2] -translate-x-1/2 -translate-y-1/2" style={{ left: x, top: y }}>
+      <span className="flex size-[34px] items-center justify-center rounded-full bg-[#1f6bff] text-white ring-[4px] ring-white shadow-[0_4px_12px_rgba(31,107,255,0.4)]">
+        <House className="size-4" strokeWidth={2.4} />
+      </span>
+    </span>
+  );
+}
+
+function SellerPin({ x, y }: { x: number; y: number }) {
+  return (
+    <span className="absolute z-[2] -translate-x-1/2 -translate-y-1/2" style={{ left: x, top: y }}>
+      <span className="flex size-[34px] items-center justify-center rounded-full bg-[#14a38b] text-white ring-[4px] ring-white shadow-[0_4px_12px_rgba(20,163,139,0.4)]">
+        <Store className="size-4" strokeWidth={2.4} />
+      </span>
+    </span>
+  );
+}
+
+function CourierPin({ x, y, live }: { x: number; y: number; live: boolean }) {
+  return (
+    <span className="absolute z-[2] -translate-x-1/2 -translate-y-1/2" style={{ left: x, top: y }}>
+      {live ? <span className="absolute inset-[-8px] rounded-full bg-[#14a38b]/20" /> : null}
+      <span className="relative flex size-[40px] items-center justify-center rounded-full bg-[#14b8a6] text-[#0B1220] ring-[4px] ring-white shadow-[0_6px_16px_rgba(15,23,42,0.25)]">
+        <Scooter className="size-[21px]" strokeWidth={2.2} />
+      </span>
+    </span>
+  );
+}
+
+function curvePath(a: { x: number; y: number }, b: { x: number; y: number }, bend = 0.18) {
+  const mx = (a.x + b.x) / 2;
+  const my = (a.y + b.y) / 2;
+  const dx = b.x - a.x;
+  const dy = b.y - a.y;
+  const cx = mx - dy * bend;
+  const cy = my + dx * bend;
+  return `M${a.x} ${a.y} Q${cx} ${cy} ${b.x} ${b.y}`;
+}
+
+function TrackMap({
+  order,
+  width,
+  dest,
+  courier,
+  destLabel,
+}: {
+  order: Order;
+  width: number;
+  dest: LatLng | null;
+  courier: LatLng | null;
+  destLabel: string;
+}) {
+  const W = width;
+  const H = MAP_H;
+  const shop = order.shopName?.trim() || "Sotuvchi";
+  const delivered = order.status === "yetkazildi";
+  const onWay = order.status === "yolda";
+  const destHref = destinationLink(order) || undefined;
+  const real = [dest, courier].filter(Boolean) as LatLng[];
+
+  if (real.length) {
+    // Real tiles fitted around the known points (destination pin and/or last courier location).
+    const visTop = 96;
+    const visBottom = H - 46;
+    let z = 15;
+    if (real.length > 1) {
+      for (z = 16; z > 10; z--) {
+        const a = project(real[0], z);
+        const b = project(real[1], z);
+        if (Math.abs(a.x - b.x) < W - 110 && Math.abs(a.y - b.y) < visBottom - visTop - 40) break;
+      }
+    }
+    const pts = real.map((p) => project(p, z));
+    const cx = (Math.min(...pts.map((p) => p.x)) + Math.max(...pts.map((p) => p.x))) / 2;
+    const cy = (Math.min(...pts.map((p) => p.y)) + Math.max(...pts.map((p) => p.y))) / 2;
+    const ox = cx - W / 2;
+    const oy = cy - (visTop + visBottom) / 2;
+    const tiles: { x: number; y: number; left: number; top: number }[] = [];
+    const n = 2 ** z;
+    for (let tx = Math.floor(ox / 256); tx <= Math.floor((ox + W) / 256); tx++) {
+      for (let ty = Math.floor(oy / 256); ty <= Math.floor((oy + H) / 256); ty++) {
+        if (ty < 0 || ty >= n) continue;
+        tiles.push({ x: ((tx % n) + n) % n, y: ty, left: tx * 256 - ox, top: ty * 256 - oy });
+      }
+    }
+    const toScreen = (p: LatLng) => {
+      const q = project(p, z);
+      return { x: q.x - ox, y: q.y - oy };
+    };
+    const d = dest ? toScreen(dest) : null;
+    const c = courier && !delivered ? toScreen(courier) : null;
+    return (
+      <div className="relative h-full w-full overflow-hidden bg-[#eef0f2]" data-testid="track-map" data-map="real">
+        {tiles.map((t) => (
+          <img
+            key={`${t.x}-${t.y}-${t.left}`}
+            src={`https://tile.openstreetmap.org/${z}/${t.x}/${t.y}.png`}
+            alt=""
+            draggable={false}
+            className="absolute size-[256px] max-w-none select-none [filter:saturate(0.55)_brightness(1.04)]"
+            style={{ left: t.left, top: t.top }}
+          />
+        ))}
+        <svg className="pointer-events-none absolute inset-0 z-[1]" width={W} height={H} aria-hidden>
+          {d && c ? (
+            <>
+              <path d={curvePath(c, d)} fill="none" stroke="#ffffff" strokeWidth={9} strokeLinecap="round" />
+              <path d={curvePath(c, d)} fill="none" stroke="#1f6bff" strokeWidth={5} strokeLinecap="round" />
+            </>
+          ) : null}
+        </svg>
+        {d ? <DestPin x={d.x} y={d.y} /> : null}
+        {c ? <CourierPin x={c.x} y={c.y} live={onWay} /> : null}
+        {d ? (
+          <Bubble
+            tone="blue"
+            icon={<House className="size-4" strokeWidth={2.4} />}
+            title="Sizning manzilingiz"
+            subtitle={destLabel}
+            href={destHref}
+            style={{ left: Math.min(Math.max(d.x - 105, 10), W - 220), top: Math.max(d.y - 66, 58) }}
+          />
+        ) : null}
+        <Bubble
+          tone="teal"
+          icon={<Store className="size-4" strokeWidth={2.4} />}
+          title={shop}
+          subtitle="Sotuvchi"
+          className="bottom-11 left-3"
+        />
+        <span className="absolute right-2 bottom-8 z-[3] rounded bg-white/80 px-1 text-[9px] text-[#4b5568]">
+          © OpenStreetMap
+        </span>
+      </div>
+    );
+  }
+
+  // No coordinates yet: honest schematic (seller → destination), courier drawn on the line only when yo‘lda/delivered.
+  const s = { x: W * 0.16, y: H * 0.66 };
+  const t = { x: W * 0.74, y: H * 0.45 };
+  const routeD = `M${s.x} ${s.y} C${W * 0.36} ${H * 0.76}, ${W * 0.5} ${H * 0.6}, ${W * 0.6} ${H * 0.56} S${W * 0.7} ${H * 0.5}, ${t.x} ${t.y}`;
+  const courierPos = delivered ? t : onWay ? { x: W * 0.6, y: H * 0.56 } : null;
+  return (
+    <div className="relative h-full w-full overflow-hidden bg-[#eef1ee]" data-testid="track-map" data-map="schematic">
+      <svg className="absolute inset-0" width={W} height={H} aria-hidden>
+        <rect width={W} height={H} fill="#eef0ec" />
+        <ellipse cx={W * 0.12} cy={H * 0.3} rx={60} ry={34} fill="#d6ead2" />
+        <ellipse cx={W * 0.55} cy={H * 0.22} rx={46} ry={26} fill="#d6ead2" />
+        <ellipse cx={W * 0.9} cy={H * 0.7} rx={70} ry={40} fill="#d6ead2" />
+        <path d={`M${-10} ${H * 0.45} C${W * 0.3} ${H * 0.35}, ${W * 0.55} ${H * 0.95}, ${W + 10} ${H * 0.85}`} stroke="#cfe1f2" strokeWidth={10} fill="none" />
+        {[0.2, 0.42, 0.66, 0.86].map((k) => (
+          <path key={`v${k}`} d={`M${W * k} 0 L${W * (k + 0.05)} ${H}`} stroke="#ffffff" strokeWidth={7} />
+        ))}
+        {[0.18, 0.5, 0.8].map((k) => (
+          <path key={`h${k}`} d={`M0 ${H * k} L${W} ${H * (k + 0.06)}`} stroke="#ffffff" strokeWidth={7} />
+        ))}
+        <path d={`M0 ${H * 0.62} C${W * 0.3} ${H * 0.58}, ${W * 0.6} ${H * 0.4}, ${W} ${H * 0.28}`} stroke="#fde9b0" strokeWidth={6} fill="none" />
+        <path d={routeD} fill="none" stroke="#ffffff" strokeWidth={9} strokeLinecap="round" />
+        <path d={routeD} fill="none" stroke="#1f6bff" strokeWidth={5} strokeLinecap="round" />
+      </svg>
+      <SellerPin x={s.x} y={s.y} />
+      <DestPin x={t.x} y={t.y} />
+      {courierPos && !delivered ? <CourierPin x={courierPos.x} y={courierPos.y} live={false} /> : null}
+      <Bubble
+        tone="teal"
+        icon={<Store className="size-4" strokeWidth={2.4} />}
+        title={shop}
+        subtitle="Sotuvchi"
+        style={{ left: 10, top: s.y - 78 }}
+      />
+      <Bubble
+        tone="blue"
+        icon={<House className="size-4" strokeWidth={2.4} />}
+        title="Sizning manzilingiz"
+        subtitle={destLabel}
+        href={destHref}
+        style={{ right: 10, top: t.y - 72 }}
+      />
+      <span className="absolute bottom-9 left-3 z-[3] rounded-full bg-white/90 px-2.5 py-1 text-[10.5px] font-semibold text-[#6b7280] shadow-sm">
+        Sxema · aniq joylashuv hali yo‘q
+      </span>
+    </div>
+  );
+}
+
+/* ---------------- Steps ---------------- */
+
+function Steps({ order }: { order: Order }) {
+  const st = order.status;
+  const assigned = Boolean(order.courierName || order.courierPhone || order.yandexTrackUrl);
+  // index of the active step; 4 = all done
+  const active =
+    st === "pending_accept" ? 0 : st === "yolda" ? 2 : st === "yetkazildi" ? 4 : 1;
+  const steps = [
+    {
+      label: "Buyurtma\ntasdiqlandi",
+      time: hm(historyAt(order, ["qabul_qilindi"]) ?? order.confirmedAt),
+      sub: "Sotuvchi tasdiqlashi kutilmoqda",
+    },
+    {
+      label: "Kuryer\nchaqirildi",
+      time: hm(historyAt(order, ["yigish_tugadi"])),
+      sub: st === "yigish_tugadi" || assigned ? "Kuryer kutilmoqda" : "Buyurtma tayyorlanmoqda",
+    },
+    { label: "Yo‘lda", time: hm(historyAt(order, ["yolda"])), sub: "Sizning manzilingizga harakatlanmoqda" },
+    { label: "Yetkazildi", time: hm(historyAt(order, ["yetkazildi"])), sub: "" },
+  ];
+  return (
+    <ol className="relative mt-5 grid grid-cols-4" data-testid="track-steps">
+      {steps.map((s, i) => {
+        const done = i < active;
+        const on = i === active;
+        return (
+          <li key={i} className="relative flex flex-col items-center text-center">
+            {i < 3 ? (
+              <span
+                className={cn("absolute top-[19px] left-1/2 h-[3px] w-full", i < active ? "bg-[#1f6bff]" : "bg-[#e3e8f0]")}
+                aria-hidden
+              />
+            ) : null}
+            <span className="relative z-[1] flex h-[40px] items-center justify-center">
+              {on ? (
+                <span className="flex size-[40px] items-center justify-center rounded-full bg-[#1f6bff] text-white shadow-[0_0_0_5px_rgba(31,107,255,0.15),0_6px_14px_rgba(31,107,255,0.35)]">
+                  {i === 2 ? <Scooter className="size-[19px]" strokeWidth={2.3} /> : i === 1 ? <Package className="size-[18px]" /> : <Clock className="size-[18px]" />}
+                </span>
+              ) : done ? (
+                <span className="flex size-[30px] items-center justify-center rounded-full bg-[#1f6bff] text-white">
+                  <Check className="size-[16px]" strokeWidth={3} />
+                </span>
+              ) : (
+                <span className="flex size-[30px] items-center justify-center rounded-full bg-white text-[#b6bfcc] ring-2 ring-[#e3e8f0]">
+                  <Check className="size-[15px]" strokeWidth={2.6} />
+                </span>
+              )}
+            </span>
+            <span
+              className={cn(
+                "mt-1.5 whitespace-pre-line text-[12px] leading-[1.2] font-semibold",
+                on ? "text-[#1f6bff] font-bold" : done ? "text-[#0B1220]" : "text-[#8b93a7] font-medium",
+              )}
+            >
+              {s.label}
+            </span>
+            {on && s.sub ? (
+              <span className="mt-0.5 px-0.5 text-[10.5px] leading-[1.25] text-[#6b7280]">{s.sub}</span>
+            ) : done && s.time ? (
+              <span className="mt-0.5 text-[11px] text-[#6b7280]">{s.time}</span>
+            ) : null}
+          </li>
+        );
+      })}
+    </ol>
+  );
+}
+
+/* ---------------- Screen ---------------- */
+
+export function OrderTrackMobile({
+  order,
+  payLabel,
+  details,
+}: {
+  order: Order;
+  payLabel: string;
+  /** Escrow / confirm / dispute / review blocks, opened from "Buyurtma tafsilotlari". */
+  details: ReactNode;
+}) {
+  const router = useRouter();
+  const boxRef = useRef<HTMLDivElement>(null);
+  const [width, setWidth] = useState(430);
+  const [showAll, setShowAll] = useState(false);
+  const [openDetails, setOpenDetails] = useState(false);
+  const [copied, setCopied] = useState(false);
+  const [now, setNow] = useState(() => Date.now());
+
+  useEffect(() => {
+    const el = boxRef.current;
+    if (!el) return;
+    const ro = new ResizeObserver(() => setWidth(el.clientWidth || 430));
+    ro.observe(el);
+    const t = setInterval(() => setNow(Date.now()), 30000);
+    return () => {
+      ro.disconnect();
+      clearInterval(t);
+    };
+  }, []);
+
+  const pickup = isPickupOrder(order);
+  const dest = useMemo(() => destinationPoint(order), [order]);
+  const courier = order.courierLat != null && order.courierLng != null ? { lat: order.courierLat, lng: order.courierLng } : null;
+  const address = cleanAddress(order) || "Manzil ko‘rsatilmagan";
+  const addrShort = address.replace(/^Toshkent,\s*/i, "");
+  const delivered = order.status === "yetkazildi";
+  const refunded = order.paymentState === "refunded";
+
+  const name = order.courierName?.trim() ?? "";
+  const phone = order.courierPhone?.trim() ?? "";
+  const trackHref = order.yandexTrackUrl?.trim() || courierMapLink(order);
+  const locAge = order.courierLocationAt ? (now - new Date(order.courierLocationAt).getTime()) / 60000 : Infinity;
+
+  // ETA: only an estimate from real coordinates (courier location ≤ 30 min old + destination pin).
+  let etaBig = "";
+  let etaLabel = "Yetib kelish vaqti";
+  let chip: { text: string; tone: "green" | "gray" } = { text: "Vaqt aniqlanmoqda", tone: "gray" };
+  if (refunded) {
+    etaBig = "Bekor qilindi";
+    chip = { text: "Pul qaytarildi", tone: "gray" };
+  } else if (delivered) {
+    etaLabel = "Yetkazilgan vaqt";
+    etaBig = hm(historyAt(order, ["yetkazildi"])) || "Yetkazildi";
+    chip = { text: "Yetkazildi", tone: "green" };
+  } else if (order.status === "yolda" && courier && dest && locAge <= 30) {
+    const mins = Math.max(3, Math.round(((haversineKm(courier, dest) * 1.35) / 22) * 60));
+    const from = new Date(now + mins * 60000);
+    const to = new Date(now + (mins + 10) * 60000);
+    etaLabel = "Taxminiy yetib kelish vaqti";
+    etaBig = `${hmDate(from)} – ${hmDate(to)}`;
+    chip = { text: `${mins} daqiqa qoldi`, tone: "green" };
+  } else {
+    etaBig =
+      order.status === "pending_accept"
+        ? "Tasdiq kutilmoqda"
+        : order.status === "yolda"
+          ? "Kuryer yo‘lda"
+          : order.status === "yigish_tugadi"
+            ? "Kuryer kutilmoqda"
+            : "Tayyorlanmoqda";
+  }
+
+  const items = order.items;
+  const visibleItems = showAll ? items : items.slice(0, 3);
+
+  async function copyId() {
+    try {
+      await navigator.clipboard.writeText(order.id);
+      setCopied(true);
+      setTimeout(() => setCopied(false), 1500);
+    } catch {
+      /* ignore */
+    }
+  }
+
+  return (
+    <div className="fixed inset-0 z-[45] overflow-y-auto bg-white lg:hidden" data-testid="order-track-mobile">
+      <div ref={boxRef} className="sticky top-0 z-0 w-full" style={{ height: MAP_H }}>
+        <TrackMap order={order} width={width} dest={dest} courier={courier} destLabel={addrShort} />
+        <button
+          type="button"
+          aria-label="Orqaga"
+          onClick={() => (window.history.length > 1 ? router.back() : router.push("/buyurtmalarim"))}
+          className="absolute z-[4] flex size-[44px] items-center justify-center rounded-full bg-white text-[#0B1220] shadow-[0_4px_14px_rgba(15,23,42,0.15)]"
+          style={{ left: 12, top: "max(14px, env(safe-area-inset-top))" }}
+        >
+          <ChevronLeft className="size-6" strokeWidth={2.4} />
+        </button>
+        <a
+          href={site.telegram}
+          target="_blank"
+          rel="noopener noreferrer"
+          aria-label="Yordam"
+          className="absolute z-[4] flex size-[44px] items-center justify-center rounded-full bg-white text-[#0B1220] shadow-[0_4px_14px_rgba(15,23,42,0.15)]"
+          style={{ right: 12, top: "max(14px, env(safe-area-inset-top))" }}
+        >
+          <Headset className="size-[21px]" strokeWidth={2.1} />
+        </a>
+      </div>
+
+      <div
+        className="relative z-[5] -mt-6 rounded-t-[26px] bg-white px-3.5 pt-2.5 shadow-[0_-6px_20px_rgba(15,23,42,0.08)]"
+        style={{ paddingBottom: "max(18px, env(safe-area-inset-bottom))" }}
+      >
+        <span className="mx-auto block h-[5px] w-[42px] rounded-full bg-[#d6dbe4]" aria-hidden />
+
+        {/* ETA */}
+        <section className="mt-3 flex items-center gap-3 px-1" data-testid="track-eta">
+          <span className="flex size-[46px] shrink-0 items-center justify-center rounded-full bg-[#eef4ff] text-[#1f6bff]">
+            <Clock className="size-[22px]" strokeWidth={2.2} />
+          </span>
+          <div className="min-w-0 flex-1">
+            <p className="text-[12.5px] text-[#6b7280]">{etaLabel}</p>
+            <p
+              className={cn(
+                "truncate leading-[1.15] font-extrabold tracking-tight text-[#0B1220]",
+                /^\d{2}:\d{2}/.test(etaBig) ? "text-[28px]" : "text-[21px]",
+              )}
+            >
+              {etaBig}
+            </p>
+          </div>
+          <span
+            className={cn(
+              "flex shrink-0 items-center gap-1.5 rounded-[12px] px-2.5 py-2 text-[12px] leading-tight font-semibold",
+              chip.tone === "green" ? "bg-[#e7f7ef] text-[#0f7a4f]" : "bg-[#f1f4f8] text-[#6b7280]",
+            )}
+          >
+            <Clock className="size-[18px] shrink-0" strokeWidth={2.2} />
+            <span className="max-w-[78px]">{chip.text}</span>
+          </span>
+        </section>
+
+        <Steps order={order} />
+
+        {/* Courier */}
+        {pickup ? (
+          <section className="mt-4 flex items-center gap-3 rounded-[18px] bg-[#f2f7ff] p-3.5">
+            <span className="flex size-[52px] shrink-0 items-center justify-center rounded-full bg-white text-[#1f6bff] ring-1 ring-[#dfe8f7]">
+              <Store className="size-6" />
+            </span>
+            <div className="min-w-0">
+              <p className="text-[12px] text-[#6b7280]">Olib ketish</p>
+              <p className="text-[15px] font-bold text-[#0B1220]">Kuryer kerak emas — o‘zingiz olib ketasiz</p>
+            </div>
+          </section>
+        ) : (
+          <section className="mt-4 flex items-center gap-2 rounded-[18px] bg-[#f2f7ff] p-3" data-testid="courier-card">
+            <span className="relative shrink-0">
+              <span
+                className={cn(
+                  "flex size-[52px] items-center justify-center rounded-full text-[17px] font-bold",
+                  name ? "bg-gradient-to-br from-[#1f6bff] to-[#4f8dff] text-white" : "bg-white text-[#9aa3b5] ring-1 ring-[#dfe8f7]",
+                )}
+              >
+                {name ? initials(name) : <Scooter className="size-6" />}
+              </span>
+              {name && locAge <= 10 ? (
+                <span className="absolute right-0 bottom-0.5 size-[13px] rounded-full bg-[#22c55e] ring-2 ring-white" />
+              ) : null}
+            </span>
+            <div className="min-w-0 flex-1">
+              <p className="text-[11.5px] text-[#6b7280]">Kuryer</p>
+              <p className="truncate text-[16px] leading-tight font-bold text-[#0B1220]">{name || "Tayinlanmagan"}</p>
+              <p className="mt-0.5 flex items-center gap-1 overflow-hidden text-[10.5px] whitespace-nowrap text-[#8b93a7]">
+                <Star className="size-3 shrink-0 text-[#c7ced9]" strokeWidth={2} />
+                <span className="truncate">Hali baho yo‘q · — yetkazish</span>
+              </p>
+            </div>
+            {phone ? (
+              <a
+                href={`tel:${phone.replace(/[^\d+]/g, "")}`}
+                aria-label="Kuryerga qo‘ng‘iroq"
+                className="flex size-[40px] shrink-0 items-center justify-center rounded-full border border-[#dbe3ef] bg-white text-[#1f6bff]"
+              >
+                <Phone className="size-[18px]" strokeWidth={2.2} />
+              </a>
+            ) : (
+              <span
+                aria-label="Raqam hali yo‘q"
+                className="flex size-[40px] shrink-0 items-center justify-center rounded-full border border-[#e3e8f0] bg-white text-[#c0c7d2]"
+              >
+                <Phone className="size-[18px]" strokeWidth={2.2} />
+              </span>
+            )}
+            {trackHref ? (
+              <a
+                href={trackHref}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex h-[42px] shrink-0 items-center gap-1.5 rounded-[13px] bg-[#1f6bff] px-2.5 text-[12.5px] font-semibold text-white shadow-[0_6px_14px_rgba(31,107,255,0.3)]"
+              >
+                <MapPinned className="size-[17px]" strokeWidth={2.2} />
+                Kuzatish
+              </a>
+            ) : (
+              <span className="flex h-[42px] shrink-0 items-center gap-1.5 rounded-[13px] bg-[#e3e8f0] px-2.5 text-[12.5px] font-semibold text-[#8b93a7]">
+                <MapPinned className="size-[17px]" strokeWidth={2.2} />
+                Kuzatish
+              </span>
+            )}
+          </section>
+        )}
+
+        {/* Address / id / payment */}
+        <section className="mt-3 rounded-[18px] border border-[#e8ecf2] bg-white px-3" data-testid="track-info">
+          {(() => {
+            const destHref = destinationLink(order);
+            const row = (
+              <>
+                <span className="flex size-[34px] shrink-0 items-center justify-center rounded-full bg-[#f1f4f8] text-[#4b5568]">
+                  <MapPin className="size-[17px]" />
+                </span>
+                <span className="shrink-0 text-[13.5px] text-[#0B1220]">{pickup ? "Olib ketish" : "Yetkazish manzili"}</span>
+                <span className="min-w-0 flex-1 truncate text-right text-[12.5px] font-medium text-[#0B1220]">{address}</span>
+                <ChevronRight className="size-4 shrink-0 text-[#8b93a7]" />
+              </>
+            );
+            return destHref ? (
+              <a href={destHref} target="_blank" rel="noopener noreferrer" className="flex h-[52px] items-center gap-2.5 border-b border-[#eef1f5]">
+                {row}
+              </a>
+            ) : (
+              <div className="flex h-[52px] items-center gap-2.5 border-b border-[#eef1f5]">{row}</div>
+            );
+          })()}
+          <div className="flex h-[52px] items-center gap-2.5 border-b border-[#eef1f5]">
+            <span className="flex size-[34px] shrink-0 items-center justify-center rounded-full bg-[#f1f4f8] text-[#4b5568]">
+              <Package className="size-[17px]" />
+            </span>
+            <span className="shrink-0 text-[13.5px] text-[#0B1220]">Buyurtma raqami</span>
+            <span className="min-w-0 flex-1 truncate text-right text-[12.5px] font-semibold text-[#0B1220]">{order.id}</span>
+            <button
+              type="button"
+              onClick={copyId}
+              aria-label="Nusxa olish"
+              className="flex size-[30px] shrink-0 items-center justify-center rounded-[9px] bg-[#f1f4f8] text-[#4b5568]"
+            >
+              {copied ? <Check className="size-4 text-[#16a34a]" /> : <Copy className="size-[15px]" />}
+            </button>
+          </div>
+          <button
+            type="button"
+            onClick={() => setOpenDetails(true)}
+            className="flex h-[52px] w-full items-center gap-2.5 text-left"
+          >
+            <span className="flex size-[34px] shrink-0 items-center justify-center rounded-full bg-[#f1f4f8] text-[#4b5568]">
+              <CreditCard className="size-[17px]" />
+            </span>
+            <span className="shrink-0 text-[13.5px] text-[#0B1220]">To‘lov usuli</span>
+            <span className="min-w-0 flex-1 truncate text-right text-[12.5px] font-medium text-[#0B1220]">
+              {payLabel}
+            </span>
+            <ChevronRight className="size-4 shrink-0 text-[#8b93a7]" />
+          </button>
+        </section>
+
+        {/* Products */}
+        <section className="mt-3 rounded-[18px] border border-[#e8ecf2] bg-white p-2.5" data-testid="track-products">
+          <div className="flex items-center justify-between">
+            <p className="flex items-center gap-2 text-[15px] font-bold text-[#0B1220]">
+              <ShoppingBag className="size-[20px] text-[#1f6bff]" strokeWidth={2} />
+              Mahsulotlar ({items.length} ta)
+            </p>
+            {items.length > 3 || items.length > 0 ? (
+              <button type="button" onClick={() => setShowAll((v) => !v)} className="flex items-center gap-0.5 text-[12px] font-semibold text-[#1f6bff]">
+                {showAll ? "Yig‘ish" : "Barchasini ko‘rish"}
+                <ChevronRight className={cn("size-3.5 transition-transform", showAll && "rotate-90")} />
+              </button>
+            ) : null}
+          </div>
+          {showAll ? (
+            <ul className="mt-2">
+              {items.map((it, i) => (
+                <li key={`${it.productId}-${i}`} className="flex items-center gap-2.5 border-b border-[#eef1f5] py-2 last:border-0">
+                  <Thumb src={it.image} qty={it.qty} size={48} />
+                  <div className="min-w-0 flex-1">
+                    <p className="truncate text-[13px] font-semibold text-[#0B1220]">{it.name}</p>
+                    <p className="truncate text-[11.5px] text-[#6b7280]">
+                      {it.size || it.color ? `${apparelMetaLabel(it.size, it.color)} · ` : ""}
+                      {it.qty} dona
+                    </p>
+                  </div>
+                  <span className="shrink-0 text-[13px] font-bold text-[#1f6bff]">{formatMoney(it.price * it.qty, "UZS")}</span>
+                </li>
+              ))}
+            </ul>
+          ) : (
+            <div className="mt-2.5 grid grid-cols-3 gap-1.5">
+              {visibleItems.map((it, i) => (
+                <div key={`${it.productId}-${i}`} className="flex min-w-0 items-start gap-1.5">
+                  <Thumb src={it.image} qty={it.qty} size={40} />
+                  <div className="min-w-0 flex-1">
+                    <p className="line-clamp-2 text-[11px] leading-[1.2] font-semibold text-[#0B1220]">{it.name}</p>
+                    <p className="truncate text-[10.5px] text-[#6b7280]">
+                      {it.size || it.color ? apparelMetaLabel(it.size, it.color) : `${it.qty} dona`}
+                    </p>
+                    <p className="truncate text-[10.5px] font-bold tracking-tight text-[#1f6bff]">{formatMoney(it.price * it.qty, "UZS")}</p>
+                  </div>
+                </div>
+              ))}
+            </div>
+          )}
+        </section>
+
+        {/* Totals / details */}
+        <button
+          type="button"
+          onClick={() => setOpenDetails((v) => !v)}
+          className="mt-3 flex w-full items-center gap-2.5 rounded-[18px] border border-[#e8ecf2] bg-white p-3 text-left"
+          data-testid="track-total"
+        >
+          <span className="flex size-[38px] shrink-0 items-center justify-center rounded-full bg-[#f1f4f8] text-[#4b5568]">
+            <FileText className="size-[18px]" />
+          </span>
+          <span className="min-w-0 flex-1">
+            <span className="block text-[14px] font-bold text-[#0B1220]">Buyurtma tafsilotlari</span>
+            <span className="block truncate text-[11.5px] text-[#6b7280]">
+              {order.bonusUsed ? `Bonus −${formatMoney(order.bonusUsed, "UZS")} · ` : ""}To‘lov holati va tasdiqlash
+            </span>
+          </span>
+          <span className="shrink-0 text-right">
+            <span className="block text-[11.5px] text-[#6b7280]">Jami</span>
+            <span className="block text-[18px] leading-tight font-extrabold text-[#1f6bff]">
+              {formatMoney(order.payable ?? order.total, "UZS")}
+            </span>
+          </span>
+          <ChevronRight className={cn("size-4 shrink-0 text-[#8b93a7] transition-transform", openDetails && "rotate-90")} />
+        </button>
+
+        {openDetails ? <div className="mt-3 space-y-3" data-testid="track-details">{details}</div> : null}
+
+        <Link href="/buyurtmalarim" className="mt-4 block text-center text-[12.5px] font-semibold text-[#6b7280]">
+          Barcha buyurtmalarim
+        </Link>
+      </div>
+    </div>
+  );
+}
+
+function Thumb({ src, qty, size }: { src: string; qty: number; size: number }) {
+  return (
+    <span
+      className="relative flex shrink-0 items-center justify-center overflow-hidden rounded-[10px] bg-[#f4f6f9] ring-1 ring-[#eef1f5]"
+      style={{ width: size, height: size }}
+    >
+      {src ? (
+        // eslint-disable-next-line @next/next/no-img-element
+        <img src={src} alt="" className="size-full object-contain" loading="lazy" />
+      ) : (
+        <Package className="size-5 text-[#b6bfcc]" />
+      )}
+      <span className="absolute right-0.5 bottom-0.5 rounded-[5px] bg-white px-1 text-[9.5px] leading-[14px] font-bold text-[#0B1220] shadow-sm">
+        x{qty}
+      </span>
+    </span>
+  );
+}
