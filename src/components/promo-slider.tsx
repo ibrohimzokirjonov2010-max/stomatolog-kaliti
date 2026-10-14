@@ -56,7 +56,7 @@ export function PromoSlider({ slides, testId, label, className }: { slides: Prom
   if (!count) return null;
 
   return (
-    <section className={cn("mb-5 min-w-0", className)} data-testid={testId} aria-roledescription="karusel" aria-label={label}>
+    <section className={cn("mb-5 min-w-0 lg:mx-auto lg:w-full lg:max-w-[1360px]", className)} data-testid={testId} aria-roledescription="karusel" aria-label={label}>
       <div
         ref={trackRef}
         onScroll={(e) => {
@@ -73,7 +73,7 @@ export function PromoSlider({ slides, testId, label, className }: { slides: Prom
         {slides.map((s, i) => {
           const dark = s.tone === "dark";
           const btnCls = cn(
-            "mt-3 inline-flex h-10 w-fit items-center gap-1.5 rounded-xl px-4 text-[13px] font-semibold lg:mt-5 lg:h-12 lg:px-6 lg:text-[15px]",
+            "mt-2.5 inline-flex h-9 w-fit shrink-0 items-center gap-1.5 rounded-xl px-3.5 text-[13px] font-semibold lg:mt-4 lg:h-11 lg:px-5 lg:text-[14px]",
             dark
               ? "bg-white text-[#0066FF]"
               : s.ctaTone === "white"
@@ -90,7 +90,7 @@ export function PromoSlider({ slides, testId, label, className }: { slides: Prom
             <div key={s.id} className="w-full shrink-0 snap-center" aria-roledescription="slayd" aria-label={`${i + 1} / ${count}`}>
               <div
                 className={cn(
-                  "relative h-[196px] overflow-hidden rounded-[22px] lg:h-[320px] xl:h-[360px]",
+                  "relative h-[168px] overflow-hidden rounded-[20px] lg:h-[220px] xl:h-[240px] 2xl:h-[260px]",
                   dark ? "bg-gradient-to-br from-[#0066FF] to-[#0B1220]" : "bg-gradient-to-r from-[#dcebff] via-[#e8f3ff] to-[#F4F7FC]",
                 )}
               >
@@ -107,9 +107,28 @@ export function PromoSlider({ slides, testId, label, className }: { slides: Prom
                         height={675}
                         loading={i === 0 ? "eager" : "lazy"}
                         decoding="async"
-                        className="absolute inset-0 size-full object-cover object-center"
+                        className={cn(
+                          "absolute inset-0 size-full object-center",
+                          s.desktopTextBaked ? "scale-110 object-cover blur-2xl" : "object-cover object-right",
+                        )}
                       />
                     </picture>
+                    {s.desktopTextBaked ? (
+                      /* Poster has its own headline: show it whole (contain) so the baked text is never cropped. */
+                      <picture>
+                        <source media="(min-width: 1024px)" srcSet={s.desktopImage} type="image/webp" />
+                        <source media="(min-width: 1024px)" srcSet={s.desktopImage.replace(/\.webp$/, ".jpg")} type="image/jpeg" />
+                        <img
+                          src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7"
+                          alt=""
+                          width={1200}
+                          height={675}
+                          loading={i === 0 ? "eager" : "lazy"}
+                          decoding="async"
+                          className="absolute inset-0 size-full object-contain object-center"
+                        />
+                      </picture>
+                    ) : null}
                     {s.desktopTextBaked ? null : (
                       <div className={cn("absolute inset-0", dark ? "bg-gradient-to-r from-[#0B1220]/70 via-[#0B1220]/30 to-transparent" : "bg-gradient-to-r from-white/70 via-white/25 to-transparent")} />
                     )}
@@ -122,10 +141,10 @@ export function PromoSlider({ slides, testId, label, className }: { slides: Prom
                     <button type="button" onClick={s.onClick} aria-label={s.cta} className="absolute inset-0 z-20 hidden lg:block" />
                   )
                 ) : null}
-                <div className={cn("relative z-10 flex h-full max-w-[57%] flex-col justify-center p-4 pr-1 lg:max-w-[52%] lg:px-10 lg:py-8 xl:px-12", s.desktopImage && s.desktopTextBaked ? "lg:hidden" : "")}>
+                <div className={cn("relative z-10 flex h-full max-w-[58%] flex-col justify-center p-3.5 pr-1 lg:max-w-[52%] lg:px-9 lg:py-5 xl:px-10", s.desktopImage && s.desktopTextBaked ? "lg:hidden" : "")}>
                   {s.badge ? <span className={cn("w-fit rounded-full px-2.5 py-1 text-[10px] leading-none font-bold tracking-[0.08em] lg:px-3 lg:py-1.5 lg:text-[12px]", s.badgeCls)}>{s.badge}</span> : null}
-                  <h2 className={cn(s.badge ? "mt-2.5 lg:mt-4" : "", "text-[19px] leading-[1.15] font-bold tracking-tight lg:text-[30px] lg:leading-[1.12] xl:text-[36px]", dark ? "text-white" : "text-[#0B1220]")}>{s.title}</h2>
-                  <p className={cn("mt-1.5 line-clamp-3 text-[11.5px] leading-snug lg:mt-3 lg:line-clamp-2 lg:text-[16px]", dark ? "text-white/80" : "text-[#5b6577]")}>{s.subtitle}</p>
+                  <h2 className={cn(s.badge ? "mt-2 lg:mt-3" : "", "line-clamp-2 text-[17px] leading-[1.15] font-bold tracking-tight lg:text-[26px] lg:leading-[1.12] xl:text-[28px]", dark ? "text-white" : "text-[#0B1220]")}>{s.title}</h2>
+                  <p className={cn("mt-1 line-clamp-2 text-[11.5px] leading-snug lg:mt-2 lg:text-[15px]", dark ? "text-white/80" : "text-[#5b6577]")}>{s.subtitle}</p>
                   {s.href ? (
                     <Link href={s.href} className={btnCls}>
                       {btn}
