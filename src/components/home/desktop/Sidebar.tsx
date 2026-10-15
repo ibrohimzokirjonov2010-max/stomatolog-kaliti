@@ -24,6 +24,7 @@ import {
   Package,
   Presentation,
   Radio,
+  Shirt,
   ShoppingBag,
   Store,
   Tag,
@@ -78,6 +79,7 @@ const groups: { title: string; items: Item[] }[] = [
       { key: "ads", icon: Megaphone, label: "E’lonlar", href: "/ishlar" },
       { key: "community", icon: MessagesSquare, label: "Community", href: "/community" },
       { key: "faq", icon: HelpCircle, label: "FAQ", href: "/shartlar" },
+      { key: "forma", icon: Shirt, label: "Forma", href: "/forma" },
     ],
   },
 ];
@@ -98,6 +100,7 @@ function activeKey(pathname: string) {
   if (pathname === "/community" || pathname.startsWith("/community/")) return "community";
   if (pathname === "/ishlar" || pathname.startsWith("/ishlar/")) return "ads";
   if (pathname === "/shartlar") return "faq";
+  if (pathname === "/forma" || (pathname.startsWith("/forma/") && !pathname.startsWith("/forma/buyurtmalarim"))) return "forma";
   if (pathname === "/klinika" || pathname.startsWith("/klinika/")) return "crm";
   return "";
 }

@@ -17,6 +17,9 @@ import { KitoblarDesktop } from "@/components/hub/desktop/KitoblarDesktop";
 import { KanallarDesktop } from "@/components/hub/desktop/KanallarDesktop";
 import { CommunityDesktop } from "@/components/hub/desktop/CommunityDesktop";
 import { KlinikaDesktop } from "@/components/hub/desktop/KlinikaDesktop";
+import { FormaCatalog } from "@/components/forma/desktop/FormaCatalog";
+import { FormaProduct } from "@/components/forma/desktop/FormaProduct";
+import { getDesktopForma } from "@/data/desktop-forma";
 import { useDoctorProfile } from "@/components/doctor-profile-provider";
 
 /** Routes that render without sidebar / topbar / mobile chrome. */
@@ -51,7 +54,7 @@ export function AppChrome({ children }: { children: ReactNode }) {
     };
   }, [bare]);
 
-  const shop = desktopShop(pathname) ?? desktopSeminar(pathname) ?? desktopHub(pathname);
+  const shop = desktopShop(pathname) ?? desktopSeminar(pathname) ?? desktopHub(pathname) ?? desktopForma(pathname);
 
   if (loggedInHome) {
     return (
@@ -109,6 +112,15 @@ function desktopHub(pathname: string | null): ReactNode | null {
   if (pathname === "/community") return <CommunityDesktop />;
   if (pathname === "/mening-klinikam") return <KlinikaDesktop />;
   return null;
+}
+
+function desktopForma(pathname: string | null): ReactNode | null {
+  if (!pathname) return null;
+  if (pathname === "/forma") return <FormaCatalog />;
+  const match = pathname.match(/^\/forma\/([^/]+)$/);
+  if (!match || match[1] === "buyurtmalarim") return null;
+  if (!getDesktopForma(match[1])) return null;
+  return <FormaProduct slug={match[1]} />;
 }
 
 function desktopSeminar(pathname: string | null): ReactNode | null {
