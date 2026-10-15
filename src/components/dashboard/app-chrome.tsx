@@ -25,6 +25,9 @@ import { JihozProduct } from "@/components/jihoz/desktop/JihozProduct";
 import { getDesktopJihoz } from "@/data/desktop-jihozlar";
 import { JobsDesktop } from "@/components/jobs/desktop/JobsDesktop";
 import { NewsDesktop } from "@/components/news/desktop/NewsDesktop";
+import { UstaCatalog } from "@/components/ustalar/desktop/UstaCatalog";
+import { UstaProfileDesktop } from "@/components/ustalar/desktop/UstaProfileDesktop";
+import { getDesktopUsta } from "@/data/desktop-ustalar";
 import { useDoctorProfile } from "@/components/doctor-profile-provider";
 
 /** Routes that render without sidebar / topbar / mobile chrome. */
@@ -59,7 +62,7 @@ export function AppChrome({ children }: { children: ReactNode }) {
     };
   }, [bare]);
 
-  const shop = desktopShop(pathname) ?? desktopSeminar(pathname) ?? desktopHub(pathname) ?? desktopForma(pathname) ?? desktopJihoz(pathname) ?? desktopJobs(pathname) ?? desktopNews(pathname);
+  const shop = desktopShop(pathname) ?? desktopSeminar(pathname) ?? desktopHub(pathname) ?? desktopForma(pathname) ?? desktopJihoz(pathname) ?? desktopJobs(pathname) ?? desktopNews(pathname) ?? desktopUsta(pathname);
 
   if (loggedInHome) {
     return (
@@ -145,6 +148,15 @@ function desktopJobs(pathname: string | null): ReactNode | null {
 function desktopNews(pathname: string | null): ReactNode | null {
   if (pathname === "/yangiliklar") return <NewsDesktop />;
   return null;
+}
+
+function desktopUsta(pathname: string | null): ReactNode | null {
+  if (!pathname) return null;
+  if (pathname === "/ustalar") return <UstaCatalog />;
+  const match = pathname.match(/^\/ustalar\/([^/]+)$/);
+  if (!match || match[1] === "mening" || match[1] === "sorovlarim") return null;
+  if (!getDesktopUsta(match[1])) return null;
+  return <UstaProfileDesktop slug={match[1]} />;
 }
 
 function desktopSeminar(pathname: string | null): ReactNode | null {
