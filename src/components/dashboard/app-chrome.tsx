@@ -9,6 +9,9 @@ import { MarketProduct } from "@/components/shop/desktop/MarketProduct";
 import { SurplusCatalog } from "@/components/shop/desktop/SurplusCatalog";
 import { SurplusDetail } from "@/components/shop/desktop/SurplusDetail";
 import { isMarketId, isSurplusId } from "@/data/desktop-shop";
+import { SeminarList } from "@/components/seminars/desktop/SeminarList";
+import { SeminarDetail } from "@/components/seminars/desktop/SeminarDetail";
+import { isDesktopSeminarId } from "@/data/desktop-seminars";
 import { useDoctorProfile } from "@/components/doctor-profile-provider";
 
 /** Routes that render without sidebar / topbar / mobile chrome. */
@@ -43,7 +46,7 @@ export function AppChrome({ children }: { children: ReactNode }) {
     };
   }, [bare]);
 
-  const shop = desktopShop(pathname);
+  const shop = desktopShop(pathname) ?? desktopSeminar(pathname);
 
   if (loggedInHome) {
     return (
@@ -90,5 +93,16 @@ function desktopShop(pathname: string | null): ReactNode | null {
   if (market && market[1] !== "sotuvchi" && isMarketId(market[1])) return <MarketProduct id={market[1]} />;
   const surplus = pathname.match(/^\/ortiqcha-material\/([^/]+)$/);
   if (surplus && surplus[1] !== "elonlarim" && isSurplusId(surplus[1])) return <SurplusDetail id={surplus[1]} />;
+  return null;
+}
+
+function desktopSeminar(pathname: string | null): ReactNode | null {
+  if (!pathname) return null;
+  if (pathname === "/seminarlar") return <SeminarList />;
+  const match = pathname.match(/^\/seminarlar\/([^/]+)$/);
+  if (!match) return null;
+  const id = match[1];
+  if (id === "yozuvlarim" || id === "tashkilotchi" || id === "chiptalarim") return null;
+  if (isDesktopSeminarId(id)) return <SeminarDetail id={id} />;
   return null;
 }

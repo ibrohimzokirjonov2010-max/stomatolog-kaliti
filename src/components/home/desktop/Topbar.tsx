@@ -13,10 +13,14 @@ export default function Topbar({
   variant = "home",
   searchPath = "/marketplace",
   cartCount,
+  placeholder,
+  showCamera = true,
 }: {
   variant?: "home" | "shop";
   searchPath?: string;
   cartCount?: number;
+  placeholder?: string;
+  showCamera?: boolean;
 }) {
   const { count } = useCart();
   const favs = useShopFavs();
@@ -48,7 +52,10 @@ export default function Topbar({
           <input
             value={query}
             onChange={(event) => setQuery(event.target.value)}
-            placeholder={variant === "shop" ? "Material, brend yoki kategoriya bo‘yicha qidiring..." : "Mahsulot, brend yoki kategoriya qidiring..."}
+            placeholder={
+              placeholder ??
+              (variant === "shop" ? "Material, brend yoki kategoriya bo‘yicha qidiring..." : "Mahsulot, brend yoki kategoriya qidiring...")
+            }
             aria-label="Qidiruv"
           />
           {shot ? <img className="cam-prev" src={shot} alt="" /> : null}
@@ -62,7 +69,7 @@ export default function Topbar({
           <button className="sh-search-btn" aria-label="Qidirish">
             <Search className="i" />
           </button>
-        ) : (
+        ) : showCamera ? (
           <>
             <button className="sh-cam" type="button" onClick={() => fileRef.current?.click()}>
               <Camera className="i" /> Rasm orqali qidirish
@@ -81,7 +88,7 @@ export default function Topbar({
               }}
             />
           </>
-        )}
+        ) : null}
       </form>
       <div className="sh-actions">
         <div style={{ position: "relative" }}>

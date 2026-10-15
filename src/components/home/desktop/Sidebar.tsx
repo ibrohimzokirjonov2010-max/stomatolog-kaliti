@@ -16,6 +16,7 @@ import {
   LayoutGrid,
   Megaphone,
   MessageCircle,
+  MessagesSquare,
   MonitorPlay,
   Package,
   Presentation,
@@ -45,7 +46,7 @@ const groups: { title: string; items: Item[] }[] = [
   {
     title: "Ta’lim",
     items: [
-      { key: "sem", icon: Presentation, label: "Seminarlar va kurslar", href: "/seminarlar" },
+      { key: "sem", icon: Presentation, label: "Seminarlar", href: "/seminarlar" },
       { key: "online", icon: MonitorPlay, label: "Onlayn darslar", href: "/talim" },
       { key: "spec", icon: Users, label: "Mutaxassislar", href: "/ustalar" },
       { key: "cert", icon: Award, label: "Sertifikatlar", href: "/seminarlar/chiptalarim" },
@@ -67,6 +68,7 @@ const groups: { title: string; items: Item[] }[] = [
       { key: "labs", icon: FlaskConical, label: "Ustalar va laboratoriyalar", href: "/laboratoriya" },
       { key: "consult", icon: MessageCircle, label: "Konsultatsiyalar", href: "/community" },
       { key: "ads", icon: Megaphone, label: "E’lonlar", href: "/ishlar" },
+      { key: "community", icon: MessagesSquare, label: "Community", href: "/community" },
       { key: "faq", icon: HelpCircle, label: "FAQ", href: "/shartlar" },
     ],
   },
@@ -82,7 +84,7 @@ function activeKey(pathname: string) {
   if (pathname === "/ustalar" || pathname.startsWith("/ustalar/")) return "spec";
   if (pathname === "/buyurtmalarim" || pathname.startsWith("/buyurtmalarim/")) return "pay";
   if (pathname === "/laboratoriya" || pathname.startsWith("/laboratoriya/")) return "labs";
-  if (pathname === "/community" || pathname.startsWith("/community/")) return "consult";
+  if (pathname === "/community" || pathname.startsWith("/community/")) return "community";
   if (pathname === "/ishlar" || pathname.startsWith("/ishlar/")) return "ads";
   if (pathname === "/shartlar") return "faq";
   if (pathname === "/klinika" || pathname.startsWith("/klinika/")) return "crm";

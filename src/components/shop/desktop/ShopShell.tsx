@@ -5,10 +5,22 @@ import Topbar from "@/components/home/desktop/Topbar";
 import Sidebar from "@/components/home/desktop/Sidebar";
 import "./shop.css";
 
-export function ShopShell({ searchPath, cartCount, children }: { searchPath: string; cartCount: number; children: ReactNode }) {
+export function ShopShell({
+  searchPath,
+  cartCount,
+  placeholder,
+  showCamera = true,
+  children,
+}: {
+  searchPath: string;
+  cartCount: number;
+  placeholder?: string;
+  showCamera?: boolean;
+  children: ReactNode;
+}) {
   return (
     <div className="sh">
-      <Topbar variant="shop" searchPath={searchPath} cartCount={cartCount} />
+      <Topbar variant="shop" searchPath={searchPath} cartCount={cartCount} placeholder={placeholder} showCamera={showCamera} />
       <div className="sh-body">
         <Sidebar />
         <main className="sh-main dk" id="shop-main">

@@ -68,6 +68,11 @@ export function shopClear() {
   setState({ ...state, seeded: true, lines: [] });
 }
 
+export function useShopLineCount() {
+  const snap = useSyncExternalStore(subscribe, snapshot, () => SERVER);
+  return snap.lines.reduce((sum, line) => sum + line.qty, 0);
+}
+
 export function useShopFavs() {
   const snap = useSyncExternalStore(subscribe, snapshot, () => SERVER);
   return snap.favs;
