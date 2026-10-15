@@ -121,8 +121,12 @@
 .sh .jb-actions .ghost { height: calc(1.9 * var(--u)); padding: 0 calc(.7 * var(--u)); border-radius: calc(.4 * var(--u)); border: 1px solid #1497a8; color: #1497a8; background: #fff; font-weight: 800; font-size: calc(.62 * var(--u)); }
 .sh .jb-actions .solid { height: calc(1.9 * var(--u)); padding: 0 calc(.7 * var(--u)); border-radius: calc(.4 * var(--u)); background: #1497a8; color: #fff; font-weight: 800; font-size: calc(.62 * var(--u)); }
 .sh .jb-list { display: flex; flex-direction: column; gap: calc(.45 * var(--u)); min-width: 0; }
-.sh .jb-card { display: grid; grid-template-columns: calc(7.2 * var(--u)) minmax(0, 1fr) minmax(0, calc(11 * var(--u))); gap: calc(.5 * var(--u)); padding: calc(.45 * var(--u)); align-items: center; }
+.sh .jb-card { display: grid; grid-template-columns: calc(6.6 * var(--u)) minmax(0, 1fr) minmax(0, calc(12.4 * var(--u))); gap: calc(.5 * var(--u)); padding: calc(.45 * var(--u)); align-items: center; }
+.sh .jb-photo { position: relative; min-width: 0; }
 .sh .jb-card img.photo { width: 100%; height: calc(5.4 * var(--u)); object-fit: cover; border-radius: calc(.4 * var(--u)); background: #f4f7fb; }
+.sh .jb-logo { position: absolute; top: calc(.28 * var(--u)); left: calc(.28 * var(--u)); width: calc(1.35 * var(--u)); height: calc(1.35 * var(--u)); border-radius: calc(.28 * var(--u)); color: #fff; display: grid; place-items: center; }
+.sh .jb-logo .i { width: calc(.75 * var(--u)); height: calc(.75 * var(--u)); }
+.sh .jb-clinic .jb-logo { position: static; flex: none; }
 .sh .jb-card h3 { margin: 0; font-size: calc(.78 * var(--u)); }
 .sh .jb-clinic-name { display: flex; align-items: center; gap: calc(.25 * var(--u)); color: #1497a8; font-size: calc(.6 * var(--u)); font-weight: 700; }
 .sh .jb-loc { color: #6a7c93; font-size: calc(.58 * var(--u)); }
@@ -130,7 +134,7 @@
 .sh .jb-tags span { background: #eef8f8; color: #1497a8; border-radius: calc(.3 * var(--u)); padding: 0 calc(.35 * var(--u)); font-size: calc(.52 * var(--u)); font-weight: 700; }
 .sh .jb-card p { margin: 0; color: #5d6e86; font-size: calc(.58 * var(--u)); }
 .sh .jb-side { display: flex; flex-direction: column; align-items: flex-end; gap: calc(.25 * var(--u)); min-width: 0; }
-.sh .jb-side strong { color: #1497a8; font-size: calc(.72 * var(--u)); text-align: right; }
+.sh .jb-side strong { color: #1497a8; font-size: calc(.58 * var(--u)); text-align: right; white-space: nowrap; letter-spacing: -.02em; }
 .sh .jb-side small { color: #8b9bb0; }
 .sh .jb-side .rowbtns { display: flex; gap: calc(.25 * var(--u)); }
 .sh .jb-save { height: calc(1.7 * var(--u)); padding: 0 calc(.45 * var(--u)); border-radius: calc(.4 * var(--u)); border: 1px solid #d5e3ea; background: #fff; color: #1497a8; font-weight: 700; font-size: calc(.56 * var(--u)); }
@@ -139,11 +143,13 @@
 .sh .jb-promo img { width: 100%; height: calc(6.2 * var(--u)); object-fit: cover; border-radius: calc(.4 * var(--u)); object-position: top; }
 .sh .jb-promo h3 { margin: calc(.4 * var(--u)) 0 calc(.15 * var(--u)); }
 .sh .jb-promo p { margin: 0 0 calc(.4 * var(--u)); color: #5d6e86; font-size: calc(.58 * var(--u)); }
+.sh .jb-outline { height: calc(1.7 * var(--u)); padding: 0 calc(.55 * var(--u)); border-radius: calc(.4 * var(--u)); border: 1px solid #1497a8; background: #fff; color: #1497a8; font-weight: 800; font-size: calc(.56 * var(--u)); }
 .sh .jb-tip { display: flex; gap: calc(.3 * var(--u)); width: 100%; text-align: left; font-size: calc(.6 * var(--u)); color: #24344d; padding: calc(.18 * var(--u)) 0; }
 .sh .jb-tip .i { color: #1497a8; flex: none; }
 .sh .yn-hero { display: grid; grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr); gap: calc(.6 * var(--u)); background: #fff; border: 1px solid #e8eef6; border-radius: calc(.55 * var(--u)); overflow: hidden; min-width: 0; }
 .sh .yn-hero img.cover { width: 100%; height: calc(13 * var(--u)); object-fit: cover; }
-.sh .yn-hero .txt { padding: calc(.7 * var(--u)) calc(.7 * var(--u)) calc(.7 * var(--u)) 0; min-width: 0; }
+.sh .yn-hero .txt { position: relative; padding: calc(.7 * var(--u)) calc(.7 * var(--u)) calc(.7 * var(--u)) 0; min-width: 0; }
+.sh .yn-hero .yn-mark { position: absolute; top: calc(.45 * var(--u)); right: calc(.45 * var(--u)); }
 .sh .yn-hero h2 { margin: calc(.25 * var(--u)) 0; font-size: calc(1.15 * var(--u)); line-height: 1.25; }
 .sh .yn-hero p { margin: 0; color: #5d6e86; font-size: calc(.64 * var(--u)); }
 .sh .yn-meta, .sh .yn-card .meta { display: flex; flex-wrap: wrap; gap: calc(.4 * var(--u)); color: #7d8da3; font-size: calc(.55 * var(--u)); align-items: center; }

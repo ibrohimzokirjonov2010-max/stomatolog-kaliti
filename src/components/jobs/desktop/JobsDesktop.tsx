@@ -4,7 +4,7 @@
 import { useMemo, useState } from "react";
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
-import { BadgeCheck, Bookmark, Check, MapPin } from "lucide-react";
+import { BadgeCheck, Bookmark, Briefcase, Check, FileText, MapPin, MessageCircle, Smile, Sparkles, Wallet } from "lucide-react";
 import { RangeSlider } from "@/components/shop/desktop/parts";
 import { ShopShell } from "@/components/shop/desktop/ShopShell";
 import { som, useShopLineCount } from "@/components/shop/desktop/shop-cart";
@@ -12,7 +12,7 @@ import {
   SALARY_MAX,
   SALARY_MIN,
   desktopJobs,
-  expLabel,
+  expTag,
   jobCities,
   jobExps,
   jobSpecs,
@@ -30,6 +30,15 @@ import {
 import "@/components/jihoz/desktop/jihoz.css";
 
 type Tab = "jobs" | "resumes" | "saved";
+
+const tipIcons = [FileText, MessageCircle, Wallet, Briefcase, Sparkles];
+const clinicHues = ["#12a8b8", "#3b82f6", "#16a34a", "#1e293b", "#64748b", "#0ea5e9"];
+
+function clinicHue(name: string) {
+  let n = 0;
+  for (const ch of name) n += ch.charCodeAt(0);
+  return clinicHues[n % clinicHues.length];
+}
 
 export function JobsDesktop() {
   const cartCount = useShopLineCount();
@@ -166,12 +175,15 @@ export function JobsDesktop() {
                 <div className="jb-list" style={{ marginTop: "calc(.4 * var(--u))" }}>
                   {(tab === "saved" ? savedJobs : items).map((job) => (
                     <article className="jb-card" key={job.id}>
-                      <img className="photo" src={job.image} alt="" />
+                      <div className="jb-photo">
+                        <img className="photo" src={job.image} alt="" />
+                        <span className="jb-logo" style={{ background: clinicHue(job.clinic) }} aria-hidden><Smile className="i" /></span>
+                      </div>
                       <div>
                         <h3>{job.title}</h3>
                         <div className="jb-clinic-name">{job.clinic} {job.verified ? <BadgeCheck className="i" aria-label="Tasdiqlangan" /> : null}</div>
                         <div className="jb-loc"><MapPin className="i" /> {job.city}{job.district ? `, ${job.district}` : ""}</div>
-                        <div className="jb-tags"><span>{typeLabel(job.type)}</span><span>{expLabel(job.exp)}</span></div>
+                        <div className="jb-tags"><span>{typeLabel(job.type)}</span><span>{expTag(job.exp)}</span></div>
                         <p>{job.blurb}</p>
                       </div>
                       <div className="jb-side">
@@ -212,22 +224,25 @@ export function JobsDesktop() {
               <img src="/img/jobs/doctor.jpg" alt="" />
               <h3>Rezyume yarating</h3>
               <p>Eng yaxshi klinikalar sizni topishi uchun professional rezyume joylang.</p>
-              <button type="button" className="jz-add" onClick={() => setResumeOpen(true)}>Rezyume joylash →</button>
+              <button type="button" className="jb-outline" onClick={() => setResumeOpen(true)}>Rezyume joylash →</button>
             </section>
             <section className="jb-box">
               <h3>Mashhur klinikalar <button type="button" onClick={() => setClinic("")}>Barchasini ko‘rish</button></h3>
               {popularClinics.map((item) => (
                 <button key={item.name} type="button" className="jb-clinic" onClick={() => { setClinic(item.name); setTab("jobs"); }}>
-                  <img src={item.image} alt="" />
+                  <span className="jb-logo" style={{ background: clinicHue(item.name) }} aria-hidden><Smile className="i" /></span>
                   <div><b>{item.name}</b><span>{item.city}</span><span>{item.openings} ta vakansiya</span></div>
                 </button>
               ))}
             </section>
             <section className="jb-box">
               <h3>Foydali maslahatlar</h3>
-              {jobTips.map((item) => (
-                <button key={item.title} type="button" className="jb-tip" onClick={() => setTip(item.text)}><MapPin className="i" /> {item.title}</button>
-              ))}
+              {jobTips.map((item, index) => {
+                const Icon = tipIcons[index] ?? MapPin;
+                return (
+                  <button key={item.title} type="button" className="jb-tip" onClick={() => setTip(item.text)}><Icon className="i" /> {item.title}</button>
+                );
+              })}
               {tip ? <p className="jb-note">{tip}</p> : null}
             </section>
           </aside>

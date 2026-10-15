@@ -62,6 +62,12 @@ export const SALARY_MAX = 30_000_000;
 export const specLabel = (id: JobSpec) => jobSpecs.find((item) => item.id === id)?.label ?? id;
 export const typeLabel = (id: JobType) => jobTypes.find((item) => item.id === id)?.label ?? id;
 export const expLabel = (id: JobExp) => jobExps.find((item) => item.id === id)?.label ?? id;
+/** Short tag used on vacancy cards. The filter list keeps the longer labels. */
+export function expTag(id: JobExp) {
+  if (id === "y3") return "3+ yil";
+  if (id === "y5") return "5+ yil";
+  return expLabel(id);
+}
 
 const photos = ["/img/jobs/c1.jpg", "/img/jobs/c2.jpg", "/img/jobs/c3.jpg", "/img/jobs/c4.jpg", "/img/jobs/c5.jpg", "/img/jobs/c6.jpg", "/img/jobs/c7.jpg"];
 
@@ -102,27 +108,27 @@ const cityBag = [
   ...Array(30).fill("Boshqa"),
 ];
 const specBag: JobSpec[] = [
-  ...Array(46).fill("terapevt"),
-  ...Array(43).fill("ortoped"),
-  ...Array(27).fill("ortodont"),
-  ...Array(25).fill("jarroh"),
-  ...Array(21).fill("bolalar"),
+  ...Array(51).fill("terapevt"),
+  ...Array(47).fill("ortoped"),
+  ...Array(31).fill("ortodont"),
+  ...Array(27).fill("jarroh"),
+  ...Array(23).fill("bolalar"),
   ...Array(16).fill("gigiyenist"),
   ...Array(14).fill("texnik"),
-  ...Array(21).fill("assistent"),
-  ...Array(29).fill("admin"),
+  ...Array(17).fill("assistent"),
+  ...Array(16).fill("admin"),
 ];
 const typeBag: JobType[] = [
-  ...Array(184).fill("toliq"),
+  ...Array(185).fill("toliq"),
   ...Array(28).fill("yarim"),
-  ...Array(24).fill("smena"),
+  ...Array(23).fill("smena"),
   ...Array(6).fill("masofa"),
 ];
 const expBag: JobExp[] = [
-  ...Array(13).fill("yoq"),
+  ...Array(11).fill("yoq"),
   ...Array(85).fill("y1"),
-  ...Array(61).fill("y3"),
-  ...Array(83).fill("y5"),
+  ...Array(75).fill("y3"),
+  ...Array(71).fill("y5"),
 ];
 
 const extras: DesktopJob[] = [];
