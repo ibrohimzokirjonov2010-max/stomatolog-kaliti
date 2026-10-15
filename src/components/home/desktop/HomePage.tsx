@@ -1,0 +1,23 @@
+"use client";
+import Topbar from "./Topbar"; import Sidebar from "./Sidebar"; import Hero from "./Hero";
+import Seminars from "./Seminars"; import Categories from "./Categories"; import Products from "./Products"; import RightRail from "./RightRail";
+import { CartProvider } from "./CartContext";
+export default function HomePage() {
+  return (
+    <CartProvider>
+      <div className="sh">
+        <Topbar />
+        <div className="sh-body">
+          <Sidebar />
+          <main className="sh-main">
+            <Hero />
+            <div className="sh-cols">
+              <div className="sh-left"><Seminars /><Categories /><Products /></div>
+              <RightRail />
+            </div>
+          </main>
+        </div>
+      </div>
+    </CartProvider>
+  );
+}

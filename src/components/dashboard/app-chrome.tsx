@@ -3,6 +3,7 @@
 import { useEffect, type ReactNode } from "react";
 import { usePathname } from "next/navigation";
 import { DashboardShell } from "@/components/dashboard/shell";
+import DesktopHomePage from "@/components/home/desktop/HomePage";
 import { useDoctorProfile } from "@/components/doctor-profile-provider";
 
 /** Routes that render without sidebar / topbar / mobile chrome. */
@@ -19,6 +20,8 @@ export function AppChrome({ children }: { children: ReactNode }) {
   /** Guests on `/` get landing without app chrome; avoid chrome flash while hydrating. */
   const guestHome = pathname === "/" && (!ready || !profile);
   const bare = isBarePath(pathname) || guestHome;
+  /** Logged-in "/" is the desktop Bosh sahifa. Mobile keeps the existing shell. */
+  const loggedInHome = pathname === "/" && ready && Boolean(profile);
 
   useEffect(() => {
     const body = document.body;
@@ -34,6 +37,19 @@ export function AppChrome({ children }: { children: ReactNode }) {
       body.classList.add("overflow-hidden");
     };
   }, [bare]);
+
+  if (loggedInHome) {
+    return (
+      <>
+        <div className="home-desktop-scroll hidden lg:block">
+          <DesktopHomePage />
+        </div>
+        <div className="lg:hidden">
+          <DashboardShell>{children}</DashboardShell>
+        </div>
+      </>
+    );
+  }
 
   if (bare) {
     return (
