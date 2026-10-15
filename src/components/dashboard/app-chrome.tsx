@@ -1,9 +1,14 @@
 "use client";
 
-import { useEffect, type ReactNode } from "react";
+import { Suspense, useEffect, type ReactNode } from "react";
 import { usePathname } from "next/navigation";
 import { DashboardShell } from "@/components/dashboard/shell";
 import DesktopHomePage from "@/components/home/desktop/HomePage";
+import { MarketCatalog } from "@/components/shop/desktop/MarketCatalog";
+import { MarketProduct } from "@/components/shop/desktop/MarketProduct";
+import { SurplusCatalog } from "@/components/shop/desktop/SurplusCatalog";
+import { SurplusDetail } from "@/components/shop/desktop/SurplusDetail";
+import { isMarketId, isSurplusId } from "@/data/desktop-shop";
 import { useDoctorProfile } from "@/components/doctor-profile-provider";
 
 /** Routes that render without sidebar / topbar / mobile chrome. */
@@ -38,11 +43,26 @@ export function AppChrome({ children }: { children: ReactNode }) {
     };
   }, [bare]);
 
+  const shop = desktopShop(pathname);
+
   if (loggedInHome) {
     return (
       <>
         <div className="home-desktop-scroll hidden lg:block">
           <DesktopHomePage />
+        </div>
+        <div className="lg:hidden">
+          <DashboardShell>{children}</DashboardShell>
+        </div>
+      </>
+    );
+  }
+
+  if (shop) {
+    return (
+      <>
+        <div className="home-desktop-scroll hidden lg:block">
+          <Suspense fallback={<div className="sh" aria-busy="true" />}>{shop}</Suspense>
         </div>
         <div className="lg:hidden">
           <DashboardShell>{children}</DashboardShell>
@@ -60,4 +80,15 @@ export function AppChrome({ children }: { children: ReactNode }) {
   }
 
   return <DashboardShell>{children}</DashboardShell>;
+}
+
+function desktopShop(pathname: string | null): ReactNode | null {
+  if (!pathname) return null;
+  if (pathname === "/marketplace") return <MarketCatalog />;
+  if (pathname === "/ortiqcha-material") return <SurplusCatalog />;
+  const market = pathname.match(/^\/marketplace\/([^/]+)$/);
+  if (market && market[1] !== "sotuvchi" && isMarketId(market[1])) return <MarketProduct id={market[1]} />;
+  const surplus = pathname.match(/^\/ortiqcha-material\/([^/]+)$/);
+  if (surplus && surplus[1] !== "elonlarim" && isSurplusId(surplus[1])) return <SurplusDetail id={surplus[1]} />;
+  return null;
 }

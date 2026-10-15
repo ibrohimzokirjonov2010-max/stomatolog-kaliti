@@ -1,106 +1,143 @@
+"use client";
+
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import type { LucideIcon } from "lucide-react";
 import {
-  Activity,
+  Award,
   BadgePercent,
-  Building2,
+  CalendarDays,
+  ChevronRight,
+  ClipboardList,
+  Crown,
   FlaskConical,
   HelpCircle,
   Home,
-  Images,
-  Monitor,
+  LayoutGrid,
+  Megaphone,
+  MessageCircle,
   MonitorPlay,
+  Package,
   Presentation,
-  ShieldCheck,
-  Shirt,
-  Sparkles,
-  Star,
+  ShoppingBag,
   Store,
+  Tag,
+  UserRound,
   Users,
+  Wallet,
+  Warehouse,
 } from "lucide-react";
-import { site } from "@/data/site";
 
-type Item = { icon: LucideIcon; label: string; href?: string };
+type Item = { key: string; icon: LucideIcon; label: string; href?: string };
 
 const groups: { title: string; items: Item[] }[] = [
   {
     title: "Do‘kon",
     items: [
-      { icon: Store, label: "Marketplace", href: "/marketplace" },
-      { icon: BadgePercent, label: "Maxsus takliflar" },
-      { icon: Sparkles, label: "Yangi mahsulotlar" },
-      { icon: ShieldCheck, label: "Mashhur brendlar" },
+      { key: "all", icon: LayoutGrid, label: "Barcha mahsulotlar", href: "/marketplace" },
+      { key: "market", icon: ShoppingBag, label: "Marketplace", href: "/marketplace" },
+      { key: "surplus", icon: Package, label: "Ortiqcha material", href: "/ortiqcha-material" },
+      { key: "cats", icon: LayoutGrid, label: "Kategoriyalar", href: "/marketplace" },
+      { key: "brands", icon: Tag, label: "Brendlar", href: "/marketplace" },
+      { key: "sale", icon: BadgePercent, label: "Aksiyalar", href: "/marketplace?sale=1" },
     ],
   },
   {
     title: "Ta’lim",
     items: [
-      { icon: Presentation, label: "Seminarlar", href: "/seminarlar" },
-      { icon: Users, label: "Ustalar", href: "/ustalar" },
-      { icon: MonitorPlay, label: "Onlayn ta’lim", href: "/talim" },
+      { key: "sem", icon: Presentation, label: "Seminarlar va kurslar", href: "/seminarlar" },
+      { key: "online", icon: MonitorPlay, label: "Onlayn darslar", href: "/talim" },
+      { key: "spec", icon: Users, label: "Mutaxassislar", href: "/ustalar" },
+      { key: "cert", icon: Award, label: "Sertifikatlar", href: "/seminarlar/chiptalarim" },
     ],
   },
   {
     title: "Klinika",
     items: [
-      { icon: Building2, label: "Klinika echimlari", href: "/klinika" },
-      { icon: Monitor, label: "Uskunalar", href: "/jihozlar" },
-      { icon: FlaskConical, label: "Laboratoriya", href: "/laboratoriya" },
-      { icon: Activity, label: "Diagnostika" },
+      { key: "crm", icon: UserRound, label: "Bemorlar CRM", href: "/klinika" },
+      { key: "meet", icon: CalendarDays, label: "Uchrashuvlar", href: "/klinika" },
+      { key: "plan", icon: ClipboardList, label: "Davolash rejalari", href: "/klinika" },
+      { key: "pay", icon: Wallet, label: "To‘lovlar", href: "/buyurtmalarim" },
+      { key: "stock", icon: Warehouse, label: "Ombor (Inventar)", href: "/klinika" },
     ],
   },
   {
     title: "Xizmatlar",
     items: [
-      { icon: Shirt, label: "Forma", href: "/forma" },
-      { icon: Images, label: "Ishlar galereyasi" },
-      { icon: Star, label: "Reyting va sharhlar" },
-      { icon: HelpCircle, label: "Yordam", href: site.phoneHref },
+      { key: "labs", icon: FlaskConical, label: "Ustalar va laboratoriyalar", href: "/laboratoriya" },
+      { key: "consult", icon: MessageCircle, label: "Konsultatsiyalar", href: "/community" },
+      { key: "ads", icon: Megaphone, label: "E’lonlar", href: "/ishlar" },
+      { key: "faq", icon: HelpCircle, label: "FAQ", href: "/shartlar" },
     ],
   },
 ];
 
-function NavItem({ icon: Icon, label, href, active }: Item & { active?: boolean }) {
-  const className = active ? "sh-nav active" : "sh-nav";
-  const inner = (
-    <>
-      <Icon className="i" />
-      <span>{label}</span>
-    </>
-  );
-  if (!href) {
-    return (
-      <span className={className} title={label}>
-        {inner}
-      </span>
-    );
-  }
-  if (href.startsWith("tel:") || href.startsWith("http")) {
-    return (
-      <a className={className} href={href} title={label}>
-        {inner}
-      </a>
-    );
-  }
-  return (
-    <Link className={className} href={href} title={label}>
-      {inner}
-    </Link>
-  );
+function activeKey(pathname: string) {
+  if (pathname === "/") return "home";
+  if (pathname === "/ortiqcha-material" || pathname.startsWith("/ortiqcha-material/")) return "surplus";
+  if (pathname === "/marketplace" || (/^\/marketplace\/(?!sotuvchi|dokon)/.test(pathname) && !pathname.startsWith("/marketplace/sotuvchi"))) return "market";
+  if (pathname === "/seminarlar" || (pathname.startsWith("/seminarlar/") && !pathname.startsWith("/seminarlar/chiptalarim"))) return "sem";
+  if (pathname.startsWith("/seminarlar/chiptalarim")) return "cert";
+  if (pathname === "/talim" || pathname.startsWith("/talim/")) return "online";
+  if (pathname === "/ustalar" || pathname.startsWith("/ustalar/")) return "spec";
+  if (pathname === "/buyurtmalarim" || pathname.startsWith("/buyurtmalarim/")) return "pay";
+  if (pathname === "/laboratoriya" || pathname.startsWith("/laboratoriya/")) return "labs";
+  if (pathname === "/community" || pathname.startsWith("/community/")) return "consult";
+  if (pathname === "/ishlar" || pathname.startsWith("/ishlar/")) return "ads";
+  if (pathname === "/shartlar") return "faq";
+  if (pathname === "/klinika" || pathname.startsWith("/klinika/")) return "crm";
+  return "";
 }
 
 export default function Sidebar() {
+  const pathname = usePathname() ?? "/";
+  const current = activeKey(pathname);
+
   return (
     <aside className="sh-side">
-      <NavItem icon={Home} label="Bosh sahifa" href="/" active />
-      {groups.map((group) => (
-        <div className="sh-group" key={group.title}>
-          <h4>{group.title}</h4>
-          {group.items.map((item) => (
-            <NavItem key={item.label} {...item} />
-          ))}
-        </div>
-      ))}
+      <div className="sh-side-nav">
+        <Link className={current === "home" ? "sh-nav active" : "sh-nav"} href="/" title="Bosh sahifa">
+          <Home className="i" />
+          <span>Bosh sahifa</span>
+        </Link>
+        {groups.map((group) => (
+          <div className="sh-group" key={group.title}>
+            <h4>{group.title}</h4>
+            {group.items.map((item) => {
+              const Icon = item.icon;
+              const className = current === item.key ? "sh-nav active" : "sh-nav";
+              const inner = (
+                <>
+                  <Icon className="i" />
+                  <span>{item.label}</span>
+                </>
+              );
+              if (!item.href) {
+                return (
+                  <span className={className} key={item.key} title={item.label}>
+                    {inner}
+                  </span>
+                );
+              }
+              return (
+                <Link className={className} href={item.href} key={item.key} title={item.label}>
+                  {inner}
+                </Link>
+              );
+            })}
+          </div>
+        ))}
+      </div>
+      <Link className="sh-pro" href="/marketing">
+        <span className="crown">
+          <Crown className="i" />
+        </span>
+        <b>StomaHub Pro</b>
+        <small>Klinikangiz uchun yana ko‘proq imkoniyatlar</small>
+        <span className="go">
+          Batafsil <ChevronRight className="i" />
+        </span>
+      </Link>
     </aside>
   );
 }
