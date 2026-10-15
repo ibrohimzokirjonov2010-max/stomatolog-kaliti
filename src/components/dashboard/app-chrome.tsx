@@ -12,6 +12,11 @@ import { isMarketId, isSurplusId } from "@/data/desktop-shop";
 import { SeminarList } from "@/components/seminars/desktop/SeminarList";
 import { SeminarDetail } from "@/components/seminars/desktop/SeminarDetail";
 import { isDesktopSeminarId } from "@/data/desktop-seminars";
+import { TalimDesktop } from "@/components/hub/desktop/TalimDesktop";
+import { KitoblarDesktop } from "@/components/hub/desktop/KitoblarDesktop";
+import { KanallarDesktop } from "@/components/hub/desktop/KanallarDesktop";
+import { CommunityDesktop } from "@/components/hub/desktop/CommunityDesktop";
+import { KlinikaDesktop } from "@/components/hub/desktop/KlinikaDesktop";
 import { useDoctorProfile } from "@/components/doctor-profile-provider";
 
 /** Routes that render without sidebar / topbar / mobile chrome. */
@@ -46,7 +51,7 @@ export function AppChrome({ children }: { children: ReactNode }) {
     };
   }, [bare]);
 
-  const shop = desktopShop(pathname) ?? desktopSeminar(pathname);
+  const shop = desktopShop(pathname) ?? desktopSeminar(pathname) ?? desktopHub(pathname);
 
   if (loggedInHome) {
     return (
@@ -93,6 +98,16 @@ function desktopShop(pathname: string | null): ReactNode | null {
   if (market && market[1] !== "sotuvchi" && isMarketId(market[1])) return <MarketProduct id={market[1]} />;
   const surplus = pathname.match(/^\/ortiqcha-material\/([^/]+)$/);
   if (surplus && surplus[1] !== "elonlarim" && isSurplusId(surplus[1])) return <SurplusDetail id={surplus[1]} />;
+  return null;
+}
+
+function desktopHub(pathname: string | null): ReactNode | null {
+  if (!pathname) return null;
+  if (pathname === "/talim") return <TalimDesktop />;
+  if (pathname === "/kitoblar") return <KitoblarDesktop />;
+  if (pathname === "/foydali-kanallar") return <KanallarDesktop />;
+  if (pathname === "/community") return <CommunityDesktop />;
+  if (pathname === "/mening-klinikam") return <KlinikaDesktop />;
   return null;
 }
 

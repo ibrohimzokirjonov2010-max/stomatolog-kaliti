@@ -11,8 +11,11 @@ import {
   ClipboardList,
   Crown,
   FlaskConical,
+  BookOpen,
+  GraduationCap,
   HelpCircle,
   Home,
+  Hospital,
   LayoutGrid,
   Megaphone,
   MessageCircle,
@@ -20,6 +23,7 @@ import {
   MonitorPlay,
   Package,
   Presentation,
+  Radio,
   ShoppingBag,
   Store,
   Tag,
@@ -46,15 +50,18 @@ const groups: { title: string; items: Item[] }[] = [
   {
     title: "Ta’lim",
     items: [
+      { key: "edu", icon: GraduationCap, label: "Ta’lim", href: "/talim" },
       { key: "sem", icon: Presentation, label: "Seminarlar", href: "/seminarlar" },
       { key: "online", icon: MonitorPlay, label: "Onlayn darslar", href: "/talim" },
       { key: "spec", icon: Users, label: "Mutaxassislar", href: "/ustalar" },
       { key: "cert", icon: Award, label: "Sertifikatlar", href: "/seminarlar/chiptalarim" },
+      { key: "books", icon: BookOpen, label: "Kitoblar", href: "/kitoblar" },
     ],
   },
   {
     title: "Klinika",
     items: [
+      { key: "myclinic", icon: Hospital, label: "Mening klinikam", href: "/mening-klinikam" },
       { key: "crm", icon: UserRound, label: "Bemorlar CRM", href: "/klinika" },
       { key: "meet", icon: CalendarDays, label: "Uchrashuvlar", href: "/klinika" },
       { key: "plan", icon: ClipboardList, label: "Davolash rejalari", href: "/klinika" },
@@ -67,6 +74,7 @@ const groups: { title: string; items: Item[] }[] = [
     items: [
       { key: "labs", icon: FlaskConical, label: "Ustalar va laboratoriyalar", href: "/laboratoriya" },
       { key: "consult", icon: MessageCircle, label: "Konsultatsiyalar", href: "/community" },
+      { key: "channels", icon: Radio, label: "Foydali kanallar", href: "/foydali-kanallar" },
       { key: "ads", icon: Megaphone, label: "E’lonlar", href: "/ishlar" },
       { key: "community", icon: MessagesSquare, label: "Community", href: "/community" },
       { key: "faq", icon: HelpCircle, label: "FAQ", href: "/shartlar" },
@@ -80,7 +88,10 @@ function activeKey(pathname: string) {
   if (pathname === "/marketplace" || (/^\/marketplace\/(?!sotuvchi|dokon)/.test(pathname) && !pathname.startsWith("/marketplace/sotuvchi"))) return "market";
   if (pathname === "/seminarlar" || (pathname.startsWith("/seminarlar/") && !pathname.startsWith("/seminarlar/chiptalarim"))) return "sem";
   if (pathname.startsWith("/seminarlar/chiptalarim")) return "cert";
-  if (pathname === "/talim" || pathname.startsWith("/talim/")) return "online";
+  if (pathname === "/talim" || pathname.startsWith("/talim/")) return "edu";
+  if (pathname === "/kitoblar" || pathname.startsWith("/kitoblar/")) return "books";
+  if (pathname === "/foydali-kanallar" || pathname.startsWith("/foydali-kanallar/")) return "channels";
+  if (pathname === "/mening-klinikam") return "myclinic";
   if (pathname === "/ustalar" || pathname.startsWith("/ustalar/")) return "spec";
   if (pathname === "/buyurtmalarim" || pathname.startsWith("/buyurtmalarim/")) return "pay";
   if (pathname === "/laboratoriya" || pathname.startsWith("/laboratoriya/")) return "labs";

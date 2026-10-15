@@ -458,6 +458,11 @@ export function isDesktopSeminarId(id: string) {
   return id === "raqamli-ortopediya" || desktopSeminars.some((item) => item.id === id);
 }
 
+/** Slugs the desktop seminar pages know about, including ids that are not in the mobile seed catalog. */
+export function desktopSeminarIds() {
+  return [...desktopSeminars.map((item) => item.id), ortopediya.id];
+}
+
 export function tiersFor(seminar: DesktopSeminar): SeminarTier[] {
   if (seminar.id === "implantdan-tojgacha") return implantTiers;
   const price = seminar.price;
