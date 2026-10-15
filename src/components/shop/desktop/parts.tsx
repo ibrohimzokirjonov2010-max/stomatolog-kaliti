@@ -32,7 +32,21 @@ export function Stepper({ qty, onChange }: { qty: number; onChange: (qty: number
   );
 }
 
-export function RangeSlider({ min, max, value, onChange }: { min: number; max: number; value: [number, number]; onChange: (next: [number, number]) => void }) {
+export function RangeSlider({
+  min,
+  max,
+  value,
+  onChange,
+  step = 100_000,
+  labels,
+}: {
+  min: number;
+  max: number;
+  value: [number, number];
+  onChange: (next: [number, number]) => void;
+  step?: number;
+  labels?: [string, string];
+}) {
   const [lo, hi] = value;
   const left = ((lo - min) / (max - min)) * 100;
   const right = 100 - ((hi - min) / (max - min)) * 100;
@@ -45,7 +59,7 @@ export function RangeSlider({ min, max, value, onChange }: { min: number; max: n
           type="range"
           min={min}
           max={max}
-          step={100_000}
+          step={step}
           value={lo}
           aria-label="Eng past narx"
           onChange={(event) => onChange([Math.min(Number(event.target.value), hi), hi])}
@@ -54,15 +68,15 @@ export function RangeSlider({ min, max, value, onChange }: { min: number; max: n
           type="range"
           min={min}
           max={max}
-          step={100_000}
+          step={step}
           value={hi}
           aria-label="Eng yuqori narx"
           onChange={(event) => onChange([lo, Math.max(Number(event.target.value), lo)])}
         />
       </div>
       <div className="dk-range-labs">
-        <span>0</span>
-        <span>50 000 000</span>
+        <span>{labels?.[0] ?? "0"}</span>
+        <span>{labels?.[1] ?? "50 000 000"}</span>
       </div>
     </div>
   );
