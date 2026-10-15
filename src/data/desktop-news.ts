@@ -56,7 +56,7 @@ export const desktopArticles: DesktopArticle[] = [
 ];
 
 export const popularArticles: { title: string; views: number; date: string; image: string }[] = [
-  { title: "Implant narxlari 2025-yilda qanday o‘zgaradi?", views: 5230, date: "02.12.2024", image: "/img/news/n9.jpg" },
+  { title: "Implant narxlari 2025-yilda qanday o‘zgaradi?", views: 5230, date: "02.12.2024", image: "/img/news/tooth.jpg" },
   { title: "Bolalarda milk kasalliklari: oldini olish usullari", views: 4120, date: "29.11.2024", image: "/img/news/n10.jpg" },
   { title: "Alignerlar: kimlarga mos va qancha vaqt kerak?", views: 3980, date: "27.11.2024", image: "/img/news/n8.jpg" },
   { title: "Stomatologik lampalar: qaysi model yaxshiroq?", views: 3760, date: "21.11.2024", image: "/img/jihoz/lamp.jpg" },

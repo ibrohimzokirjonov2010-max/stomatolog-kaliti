@@ -55,6 +55,7 @@ export function NewsDesktop() {
               <article className="yn-hero">
                 <img className="cover" src={hero.image} alt="" />
                 <div className="txt">
+                  <button type="button" className={saved.includes(hero.id) ? "yn-mark on" : "yn-mark"} aria-label="Saqlash" onClick={() => toggleSave(hero.id)}><Bookmark className="i" /></button>
                   <span className="yn-badge" style={{ position: "static" }}>{newsBadge(hero.cat)}</span>
                   <h2>{hero.title}</h2>
                   <p>{hero.lead}</p>
@@ -69,7 +70,6 @@ export function NewsDesktop() {
                     <span>{hero.date}</span>
                     <span><Eye className="i" /> {hero.views.toLocaleString("fr-FR")}</span>
                     <span><Clock className="i" /> {hero.minutes} daqiqa</span>
-                    <button type="button" className={saved.includes(hero.id) ? "yn-mark on" : "yn-mark"} style={{ position: "static" }} aria-label="Saqlash" onClick={() => toggleSave(hero.id)}><Bookmark className="i" /></button>
                   </div>
                 </div>
               </article>
