@@ -146,7 +146,7 @@ export function TalimDesktop() {
                       <div className="hub-bar">
                         <i style={{ width: `${pct}%` }} />
                       </div>
-                      <div className="row">
+                      <div className="hub-foot">
                         <em>{pct}%</em>
                         <button type="button" className="hub-btn" onClick={() => play(course)}>
                           Davom ettirish →
