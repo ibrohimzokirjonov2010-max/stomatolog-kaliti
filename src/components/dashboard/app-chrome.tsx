@@ -20,6 +20,14 @@ import { KlinikaDesktop } from "@/components/hub/desktop/KlinikaDesktop";
 import { FormaCatalog } from "@/components/forma/desktop/FormaCatalog";
 import { FormaProduct } from "@/components/forma/desktop/FormaProduct";
 import { getDesktopForma } from "@/data/desktop-forma";
+import { JihozCatalog } from "@/components/jihoz/desktop/JihozCatalog";
+import { JihozProduct } from "@/components/jihoz/desktop/JihozProduct";
+import { getDesktopJihoz } from "@/data/desktop-jihozlar";
+import { JobsDesktop } from "@/components/jobs/desktop/JobsDesktop";
+import { NewsDesktop } from "@/components/news/desktop/NewsDesktop";
+import { UstaCatalog } from "@/components/ustalar/desktop/UstaCatalog";
+import { UstaProfileDesktop } from "@/components/ustalar/desktop/UstaProfileDesktop";
+import { getDesktopUsta } from "@/data/desktop-ustalar";
 import { useDoctorProfile } from "@/components/doctor-profile-provider";
 
 /** Routes that render without sidebar / topbar / mobile chrome. */
@@ -54,7 +62,7 @@ export function AppChrome({ children }: { children: ReactNode }) {
     };
   }, [bare]);
 
-  const shop = desktopShop(pathname) ?? desktopSeminar(pathname) ?? desktopHub(pathname) ?? desktopForma(pathname);
+  const shop = desktopShop(pathname) ?? desktopSeminar(pathname) ?? desktopHub(pathname) ?? desktopForma(pathname) ?? desktopJihoz(pathname) ?? desktopJobs(pathname) ?? desktopNews(pathname) ?? desktopUsta(pathname);
 
   if (loggedInHome) {
     return (
@@ -121,6 +129,34 @@ function desktopForma(pathname: string | null): ReactNode | null {
   if (!match || match[1] === "buyurtmalarim") return null;
   if (!getDesktopForma(match[1])) return null;
   return <FormaProduct slug={match[1]} />;
+}
+
+function desktopJihoz(pathname: string | null): ReactNode | null {
+  if (!pathname) return null;
+  if (pathname === "/jihozlar") return <JihozCatalog />;
+  const match = pathname.match(/^\/jihozlar\/([^/]+)$/);
+  if (!match) return null;
+  if (!getDesktopJihoz(match[1])) return null;
+  return <JihozProduct slug={match[1]} />;
+}
+
+function desktopJobs(pathname: string | null): ReactNode | null {
+  if (pathname === "/ishlar") return <JobsDesktop />;
+  return null;
+}
+
+function desktopNews(pathname: string | null): ReactNode | null {
+  if (pathname === "/yangiliklar") return <NewsDesktop />;
+  return null;
+}
+
+function desktopUsta(pathname: string | null): ReactNode | null {
+  if (!pathname) return null;
+  if (pathname === "/ustalar") return <UstaCatalog />;
+  const match = pathname.match(/^\/ustalar\/([^/]+)$/);
+  if (!match || match[1] === "mening" || match[1] === "sorovlarim") return null;
+  if (!getDesktopUsta(match[1])) return null;
+  return <UstaProfileDesktop slug={match[1]} />;
 }
 
 function desktopSeminar(pathname: string | null): ReactNode | null {

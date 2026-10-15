@@ -17,8 +17,11 @@ import {
   Home,
   Hospital,
   LayoutGrid,
+  Briefcase,
   Megaphone,
   MessageCircle,
+  Monitor,
+  Newspaper,
   MessagesSquare,
   MonitorPlay,
   Package,
@@ -31,6 +34,7 @@ import {
   UserRound,
   Users,
   Wallet,
+  Wrench,
   Warehouse,
 } from "lucide-react";
 
@@ -80,6 +84,10 @@ const groups: { title: string; items: Item[] }[] = [
       { key: "community", icon: MessagesSquare, label: "Community", href: "/community" },
       { key: "faq", icon: HelpCircle, label: "FAQ", href: "/shartlar" },
       { key: "forma", icon: Shirt, label: "Forma", href: "/forma" },
+      { key: "jihoz", icon: Monitor, label: "Jihozlar", href: "/jihozlar" },
+      { key: "ustalar", icon: Wrench, label: "Ustalar", href: "/ustalar" },
+      { key: "jobs", icon: Briefcase, label: "Ishlar", href: "/ishlar" },
+      { key: "news", icon: Newspaper, label: "Yangiliklar", href: "/yangiliklar" },
     ],
   },
 ];
@@ -94,11 +102,13 @@ function activeKey(pathname: string) {
   if (pathname === "/kitoblar" || pathname.startsWith("/kitoblar/")) return "books";
   if (pathname === "/foydali-kanallar" || pathname.startsWith("/foydali-kanallar/")) return "channels";
   if (pathname === "/mening-klinikam") return "myclinic";
-  if (pathname === "/ustalar" || pathname.startsWith("/ustalar/")) return "spec";
+  if (pathname === "/ustalar" || pathname.startsWith("/ustalar/")) return "ustalar";
   if (pathname === "/buyurtmalarim" || pathname.startsWith("/buyurtmalarim/")) return "pay";
   if (pathname === "/laboratoriya" || pathname.startsWith("/laboratoriya/")) return "labs";
   if (pathname === "/community" || pathname.startsWith("/community/")) return "community";
-  if (pathname === "/ishlar" || pathname.startsWith("/ishlar/")) return "ads";
+  if (pathname === "/ishlar" || pathname.startsWith("/ishlar/")) return "jobs";
+  if (pathname === "/yangiliklar" || pathname.startsWith("/yangiliklar/")) return "news";
+  if (pathname === "/jihozlar" || pathname.startsWith("/jihozlar/")) return "jihoz";
   if (pathname === "/shartlar") return "faq";
   if (pathname === "/forma" || (pathname.startsWith("/forma/") && !pathname.startsWith("/forma/buyurtmalarim"))) return "forma";
   if (pathname === "/klinika" || pathname.startsWith("/klinika/")) return "crm";
