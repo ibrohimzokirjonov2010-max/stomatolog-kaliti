@@ -3,6 +3,7 @@
 
 import { useMemo, useState } from "react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { BookOpen, Eye, LayoutGrid, MoreVertical, Play, Search, ShoppingCart, SlidersHorizontal } from "lucide-react";
 import { useCart } from "@/components/cart-provider";
 import { NotificationBell } from "@/components/notification-bell";
@@ -27,13 +28,13 @@ function Tooth() {
 }
 
 export function TalimMobile() {
+  const router = useRouter();
   const { count } = useCart();
   const [query, setQuery] = useState("");
   const [topic, setTopic] = useState<"all" | LessonTopic>("all");
   const [level, setLevel] = useState("");
   const [sort, setSort] = useState<LessonSort>("yangi");
   const [filters, setFilters] = useState(false);
-  const [playing, setPlaying] = useState<MobileLesson | null>(null);
   const [menu, setMenu] = useState<string | null>(null);
   const [saved, setSaved] = useState<string[]>([]);
   const [note, setNote] = useState("");
@@ -57,7 +58,7 @@ export function TalimMobile() {
     (!query.trim() || `${continueLesson.title} ${continueLesson.author} ${continueLesson.topicLabel}`.toLowerCase().includes(query.trim().toLowerCase()));
 
   async function share(item: MobileLesson) {
-    const url = `${window.location.origin}/talim#${item.id}`;
+    const url = `${window.location.origin}/talim/${item.id}/video`;
     try {
       if (navigator.share) {
         await navigator.share({ title: item.title, url });
@@ -120,7 +121,7 @@ export function TalimMobile() {
 
         {showContinue ? (
           <article className="tl-go">
-            <Thumb lesson={continueLesson} onPlay={() => setPlaying(continueLesson)} />
+            <Thumb lesson={continueLesson} onPlay={() => router.push(`/talim/${continueLesson.id}/video`)} />
             <div>
               <p className="tl-kicker">Davom ettirish</p>
               <h3>{continueLesson.title}</h3>
@@ -130,7 +131,7 @@ export function TalimMobile() {
                 </i>
                 {continueLesson.progress}%
               </p>
-              <button type="button" className="tl-resume" onClick={() => setPlaying(continueLesson)}>
+              <button type="button" className="tl-resume" onClick={() => router.push(`/talim/${continueLesson.id}/video`)}>
                 <Play fill="currentColor" /> Davom ettirish
               </button>
             </div>
@@ -156,7 +157,7 @@ export function TalimMobile() {
 
         {list.map((item) => (
           <article key={item.id} className="tl-row" id={item.id}>
-            <Thumb lesson={item} onPlay={() => setPlaying(item)} />
+            <Thumb lesson={item} onPlay={() => router.push(`/talim/${item.id}/video`)} />
             <div className="tl-main">
               <button type="button" className="tl-kebab" aria-label="Yana" aria-expanded={menu === item.id} onClick={() => setMenu((current) => (current === item.id ? null : item.id))}>
                 <MoreVertical />
@@ -234,20 +235,6 @@ export function TalimMobile() {
         </div>
       ) : null}
 
-      {playing ? (
-        <div className="tl-sheet" role="dialog" aria-label="Video">
-          <button type="button" aria-label="Yopish" className="absolute inset-0" onClick={() => setPlaying(null)} />
-          <div className="tl-box">
-            <h3>{playing.title}</h3>
-            <div className="tl-playbox">
-              <Play /> Video ochildi
-            </div>
-            <button type="button" className="go" onClick={() => setPlaying(null)}>
-              Yopish
-            </button>
-          </div>
-        </div>
-      ) : null}
     </div>
   );
 }
