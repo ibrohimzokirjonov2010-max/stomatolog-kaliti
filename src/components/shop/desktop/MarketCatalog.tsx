@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
 import {
@@ -51,8 +51,12 @@ export function MarketCatalog() {
   const params = useSearchParams();
   const lines = useShopCart(marketSeed);
   const q = (params.get("q") ?? "").trim().toLowerCase();
+  const brandParam = (params.get("brand") ?? "").trim();
   const [cat, setCat] = useState<ShopCategory | "all">("all");
-  const [brands, setBrands] = useState<string[]>([]);
+  const [brands, setBrands] = useState<string[]>(brandParam ? [brandParam] : []);
+  useEffect(() => {
+    if (brandParam) setBrands([brandParam]);
+  }, [brandParam]);
   const [brandQ, setBrandQ] = useState("");
   const [moreBrands, setMoreBrands] = useState(false);
   const [price, setPrice] = useState<[number, number]>([0, PRICE_MAX]);
@@ -155,7 +159,12 @@ export function MarketCatalog() {
                 Tozalash
               </button>
             </h4>
-            <h4>Brend</h4>
+            <h4>
+              Brend
+              <Link className="dk-link" href="/marketplace/brendlar">
+                Barcha brendlar
+              </Link>
+            </h4>
             <label className="dk-search">
               <Search className="i" />
               <input value={brandQ} onChange={(event) => setBrandQ(event.target.value)} placeholder="Brend qidirish" aria-label="Brend qidirish" />

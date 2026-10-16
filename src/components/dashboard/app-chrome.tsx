@@ -5,6 +5,7 @@ import { usePathname } from "next/navigation";
 import { DashboardShell } from "@/components/dashboard/shell";
 import DesktopHomePage from "@/components/home/desktop/HomePage";
 import { MarketCatalog } from "@/components/shop/desktop/MarketCatalog";
+import { BrandsDesktop } from "@/components/shop/desktop/BrandsDesktop";
 import { MarketProduct } from "@/components/shop/desktop/MarketProduct";
 import { SurplusCatalog } from "@/components/shop/desktop/SurplusCatalog";
 import { SurplusDetail } from "@/components/shop/desktop/SurplusDetail";
@@ -107,6 +108,9 @@ export function AppChrome({ children }: { children: ReactNode }) {
 function desktopShop(pathname: string | null): ReactNode | null {
   if (!pathname) return null;
   if (pathname === "/marketplace") return <MarketCatalog />;
+  if (pathname === "/marketplace/brendlar") return <BrandsDesktop />;
+  const brandPage = pathname.match(/^\/marketplace\/brendlar\/([^/]+)$/);
+  if (brandPage) return <BrandsDesktop slug={decodeURIComponent(brandPage[1])} />;
   if (pathname === "/ortiqcha-material") return <SurplusCatalog />;
   const market = pathname.match(/^\/marketplace\/([^/]+)$/);
   if (market && market[1] !== "sotuvchi" && isMarketId(market[1])) return <MarketProduct id={market[1]} />;
