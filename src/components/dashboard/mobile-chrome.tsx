@@ -237,6 +237,7 @@ const SECTION_ROOTS = new Set([
   "/community",
   "/ortiqcha-material",
   "/kitoblar",
+  "/talim",
 ]);
 
 export function MobileTopbar() {
@@ -507,7 +508,7 @@ export function MobileDrawer() {
 }
 
 const homeTabs = [
-  { href: "/", label: "Bosh sahifa", icon: Home, match: (path: string) => path === "/" || path.startsWith("/bosh-sahifa") },
+  { href: "/", label: "Bosh sahifa", icon: Home, match: (path: string) => path === "/" || path.startsWith("/bosh-sahifa") || path === "/talim" },
   { href: "/seminarlar", label: "Seminarlar", icon: CalendarDays, match: (path: string) => path === "/seminarlar" || path.startsWith("/seminarlar/") },
   { href: "/marketplace", label: "Marketplace", icon: ShoppingBag, match: (path: string) => marketplacePath(path) || path === "/savat" || path === "/buyurtma" || surplusMobilePath(path) },
   { href: "/forma", label: "Forma", icon: Shirt, match: (path: string) => path === "/forma" || (path.startsWith("/forma/") && !path.startsWith("/forma/buyurtmalarim")) },
@@ -518,7 +519,7 @@ export function MobileTabBar() {
   const pathname = usePathname();
   const onKlinika = pathname === "/klinika" || pathname.startsWith("/klinika/");
   if (onKlinika) return null;
-  if (pathname === "/" || surplusMobilePath(pathname) || marketMobilePath(pathname) || seminarMobilePath(pathname)) {
+  if (pathname === "/" || pathname === "/talim" || surplusMobilePath(pathname) || marketMobilePath(pathname) || seminarMobilePath(pathname)) {
     return (
       <nav aria-label="Mobil menyu" className="mh-tabs lg:hidden">
         {homeTabs.map((tab) => {
