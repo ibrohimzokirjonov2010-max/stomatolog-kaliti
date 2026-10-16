@@ -36,7 +36,7 @@ const SurplusCtx = createContext<Ctx | null>(null);
 export function SurplusWorkProvider({ children }: { children: ReactNode }) {
   const pathname = usePathname();
   const { profile, ready: profileReady } = useDoctorProfile();
-  const active = pathname.startsWith("/ortiqcha-material");
+  const active = pathname.startsWith("/ortiqcha-material") || pathname.startsWith("/elonlar");
   const userId = profile?.id ?? null;
   const [feed, setFeed] = useState<SurplusListing[]>([]);
   const [mine, setMine] = useState<SurplusListing[]>([]);

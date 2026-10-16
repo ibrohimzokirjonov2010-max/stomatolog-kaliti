@@ -10,6 +10,8 @@ import {
   CalendarDays,
   ClipboardList,
   Home,
+  Megaphone,
+  MessagesSquare,
   MonitorPlay,
   Presentation,
   Settings,
@@ -39,6 +41,16 @@ const TOP: Item[] = [
   { href: "/klinika/ombor", label: "Ombor", icon: Warehouse },
   { href: "/klinika", label: "Hisobotlar", icon: BarChart3, match: "^$" },
 ];
+const ELON_BOTTOM: Item[] = [
+  { href: "/seminarlar", label: "Seminarlar", icon: Presentation },
+  { href: "/onlayn-darslar", label: "Onlayn darslar", icon: MonitorPlay },
+  { href: "/mutaxassislar", label: "Konsultatsiyalar", icon: MessagesSquare },
+  { href: "/ustalar", label: "Ustalar", icon: UserRound },
+  { href: "/elonlar", label: "E’lonlar", icon: Megaphone },
+  { href: "/kitoblar", label: "Kitoblar", icon: BookOpen },
+  { href: "/aksiyalar", label: "Aksiyalar", icon: BadgePercent },
+  { href: "/profil", label: "Sozlamalar", icon: Settings, match: "^$" },
+];
 const BOTTOM: Item[] = [
   { href: "/seminarlar", label: "Seminarlar", icon: Presentation },
   { href: "/onlayn-darslar", label: "Onlayn darslar", icon: MonitorPlay },
@@ -48,7 +60,7 @@ const BOTTOM: Item[] = [
   { href: "/profil", label: "Sozlamalar", icon: Settings, match: "^$" },
 ];
 
-export function CrmSideNav() {
+export function CrmSideNav({ variant = "crm" }: { variant?: "crm" | "elon" }) {
   const pathname = usePathname() ?? "";
   const row = (it: Item, i: number) => {
     const on = it.match ? new RegExp(it.match).test(pathname) : pathname === it.href || pathname.startsWith(`${it.href}/`);
@@ -71,7 +83,7 @@ export function CrmSideNav() {
     <aside className="sticky top-0 hidden w-[210px] shrink-0 flex-col rounded-2xl border border-[#eceff5] bg-white p-2.5 shadow-[0_2px_12px_rgba(15,23,42,0.05)] xl:flex">
       <nav className="space-y-0.5">{TOP.map(row)}</nav>
       <div className="mx-3 my-2.5 h-px bg-[#eceff5]" />
-      <nav className="space-y-0.5">{BOTTOM.map(row)}</nav>
+      <nav className="space-y-0.5">{(variant === "elon" ? ELON_BOTTOM : BOTTOM).map(row)}</nav>
     </aside>
   );
 }
