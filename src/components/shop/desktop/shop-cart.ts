@@ -9,6 +9,9 @@ export type ShopLine = {
   image: string;
   href: string;
   qty: number;
+  seller?: string;
+  variant?: string;
+  official?: boolean;
 };
 
 type State = { seeded: boolean; lines: ShopLine[]; favs: string[] };
@@ -43,6 +46,15 @@ function seedIfNeeded(seed: ShopLine[]) {
 
 export function useShopCart(seed: ShopLine[]) {
   seedIfNeeded(seed);
+  const snap = useSyncExternalStore(subscribe, snapshot, () => SERVER);
+  return snap.seeded ? snap.lines : seed;
+}
+
+/** Savat seeds the design cart only when nothing else has filled it yet. */
+export function useShopLinesOrSeed(seed: ShopLine[]) {
+  if (typeof window !== "undefined" && !state.seeded) {
+    state = { seeded: true, lines: seed.map((line) => ({ ...line })), favs: state.favs };
+  }
   const snap = useSyncExternalStore(subscribe, snapshot, () => SERVER);
   return snap.seeded ? snap.lines : seed;
 }

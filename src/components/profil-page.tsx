@@ -43,6 +43,7 @@ export function ProfilPage() {
   useEffect(() => {
     if (!ready) return;
     if (!profile) {
+      if (window.matchMedia("(min-width: 1024px)").matches) return;
       router.replace("/kirish");
       return;
     }

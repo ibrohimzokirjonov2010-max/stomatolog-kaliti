@@ -3,7 +3,7 @@ import Link from "next/link";
 import { MyOrdersList } from "@/components/my-orders";
 
 export const metadata: Metadata = {
-  title: "Mening buyurtmalarim",
+  title: "Buyurtmalarim",
   description: "Buyurtma holati va bildirishnomalar.",
 };
 

@@ -1,0 +1,611 @@
+"use client";
+/* eslint-disable @next/next/no-img-element -- desktop shell sizes raw images with --u */
+
+import { useRef, useState, type ChangeEvent } from "react";
+import Link from "next/link";
+import {
+  Award,
+  BadgeCheck,
+  Bell,
+  Briefcase,
+  Building2,
+  Camera,
+  Clock,
+  CreditCard,
+  Globe,
+  GraduationCap,
+  Heart,
+  LogOut,
+  MapPin,
+  Pencil,
+  Phone,
+  Shield,
+  ShoppingBag,
+  Star,
+  User,
+} from "lucide-react";
+import { ShopShell } from "@/components/shop/desktop/ShopShell";
+import { som, useShopFavs, useShopLineCount } from "@/components/shop/desktop/shop-cart";
+import { desktopOrders, statusLabel } from "@/data/desktop-orders";
+import "./profil.css";
+
+type Section = "shaxsiy" | "klinika" | "kurslar" | "saqlangan" | "manzil" | "tolov" | "bildirish" | "xavfsizlik" | "chiqish";
+
+type Address = { id: string; title: string; line: string };
+type PayCard = { id: string; brand: "UZCARD" | "HUMO"; last4: string; exp: string };
+
+const recentIds = ["sh-240518", "sh-240510", "sh-240502", "sh-240428", "sh-240421"];
+const recentOrders = recentIds.map((id) => desktopOrders.find((order) => order.id === id)).filter((order) => order != null);
+
+const courses = [
+  { title: "Implantologiya asoslari", progress: 80, image: "/img/hub/course-1.jpg", done: false },
+  { title: "Raqamli protetika va CAD/CAM", progress: 100, image: "/img/news/n1.jpg", done: true },
+  { title: "Alignerlar bilan davolash", progress: 60, image: "/img/news/n8.jpg", done: false },
+];
+
+const savedSeed = [
+  { id: "pick-fuji", name: "GC Fuji II LC kapsula", price: 1_420_000 },
+  { id: "pick-scaler", name: "Eighteeth ultratovush skaler", price: 3_250_000 },
+  { id: "pick-masks", name: "Nitril niqoblar (50 dona)", price: 90_000 },
+];
+
+const specs = ["Ortoped stomatolog", "Terapevt stomatolog", "Jarroh stomatolog", "Ortodont", "Bolalar stomatologi"];
+const languages = ["O‘zbekcha", "Ruscha", "English"];
+
+const menu: { id?: Section; href?: string; label: string; icon: typeof User }[] = [
+  { id: "klinika", label: "Klinikam", icon: Building2 },
+  { href: "/buyurtmalarim", label: "Buyurtmalarim", icon: ShoppingBag },
+  { id: "kurslar", label: "Kurslarim va sertifikatlar", icon: GraduationCap },
+  { id: "saqlangan", label: "Saqlanganlar", icon: Heart },
+  { id: "manzil", label: "Manzillar", icon: MapPin },
+  { id: "tolov", label: "To‘lov usullari", icon: CreditCard },
+  { id: "bildirish", label: "Bildirishnomalar", icon: Bell },
+  { id: "xavfsizlik", label: "Xavfsizlik", icon: Shield },
+  { id: "chiqish", label: "Chiqish", icon: LogOut },
+];
+
+const settingKeys = [
+  ["email", "Email bildirishnomalari"],
+  ["sms", "SMS bildirishnomalari"],
+  ["market", "Market yangiliklari"],
+  ["courses", "Kurs va tadbirlar"],
+  ["offers", "Maxsus takliflar"],
+] as const;
+
+export function ProfilDesktop() {
+  const cartCount = useShopLineCount();
+  const favs = useShopFavs();
+  const fileRef = useRef<HTMLInputElement>(null);
+  const [avatar, setAvatar] = useState("/img/profil/dilnoza.jpg");
+  const [section, setSection] = useState<Section>("shaxsiy");
+  const [editing, setEditing] = useState(false);
+  const [editClinic, setEditClinic] = useState(false);
+  const [note, setNote] = useState("");
+  const [language, setLanguage] = useState(languages[0]);
+  const [toggles, setToggles] = useState<Record<string, boolean>>({ email: true, sms: true, market: true, courses: true, offers: true });
+  const [twoFactor, setTwoFactor] = useState(false);
+  const [form, setForm] = useState({
+    name: "Dr. Dilnoza Karimova",
+    phone: "+998 90 123 45 67",
+    email: "dilnoza.karimova@gmail.com",
+    spec: "Ortoped stomatolog",
+    exp: "8 yil",
+    license: "№ 012345",
+    about: "Implantologiya va protetik stomatologiya sohasida ixtisoslashgan. Zamonaviy raqamli texnologiyalar bilan ishlayman.",
+  });
+  const [clinic, setClinic] = useState({
+    name: "Smile Dental",
+    address: "Toshkent, Yunusobod tumani, Amir Temur ko‘chasi, 100",
+    hours: "09:00 – 19:00 (Dushanba – Shanba)",
+    phone: "+998 71 200 11 22",
+    site: "www.smiledental.uz",
+  });
+  const [addresses, setAddresses] = useState<Address[]>([
+    { id: "home", title: "Uy (Asosiy)", line: "Toshkent, Yunusobod tumani, Amir Temur ko‘chasi, 100" },
+    { id: "clinic", title: "Klinika", line: "Toshkent, Chilonzor tumani, Bunyodkor ko‘chasi, 12" },
+  ]);
+  const [cards, setCards] = useState<PayCard[]>([
+    { id: "uz", brand: "UZCARD", last4: "4521", exp: "09/28" },
+    { id: "humo", brand: "HUMO", last4: "7703", exp: "12/27" },
+  ]);
+  const [modal, setModal] = useState<null | "addr" | "card">(null);
+  const [addrForm, setAddrForm] = useState({ title: "", line: "" });
+  const [cardForm, setCardForm] = useState({ brand: "UZCARD" as PayCard["brand"], last4: "", exp: "" });
+  const [passwords, setPasswords] = useState({ current: "", next: "", confirm: "" });
+
+  function onAvatar(event: ChangeEvent<HTMLInputElement>) {
+    const file = event.target.files?.[0];
+    if (!file) return;
+    setAvatar((current) => {
+      if (current.startsWith("blob:")) URL.revokeObjectURL(current);
+      return URL.createObjectURL(file);
+    });
+    setNote("Profil rasmi yangilandi");
+  }
+
+  function toggle(key: string) {
+    setToggles((current) => ({ ...current, [key]: !current[key] }));
+  }
+
+  function savePersonal() {
+    setEditing(false);
+    setNote("Shaxsiy ma‘lumotlar saqlandi");
+  }
+
+  function addAddress() {
+    if (!addrForm.title.trim() || !addrForm.line.trim()) {
+      setNote("Manzil nomi va qatorini kiriting");
+      return;
+    }
+    setAddresses((list) => [{ id: `addr-${Date.now()}`, title: addrForm.title.trim(), line: addrForm.line.trim() }, ...list]);
+    setAddrForm({ title: "", line: "" });
+    setModal(null);
+    setNote("Yangi manzil qo‘shildi");
+  }
+
+  function addCard() {
+    if (!/^\d{4}$/.test(cardForm.last4.trim()) || !/^\d{2}\/\d{2}$/.test(cardForm.exp.trim())) {
+      setNote("Karta raqami 4 ta raqam va muddat OO/YY bo‘lishi kerak");
+      return;
+    }
+    setCards((list) => [{ id: `card-${Date.now()}`, brand: cardForm.brand, last4: cardForm.last4.trim(), exp: cardForm.exp.trim() }, ...list]);
+    setCardForm({ brand: "UZCARD", last4: "", exp: "" });
+    setModal(null);
+    setNote("Yangi karta qo‘shildi");
+  }
+
+  function downloadCert(title: string) {
+    const blob = new Blob([`${title}\nSertifikat\nDr. Dilnoza Karimova\nSmile Dental\n`], { type: "text/plain" });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement("a");
+    link.href = url;
+    link.download = `${title}.txt`;
+    link.click();
+    URL.revokeObjectURL(url);
+    setNote("Sertifikat yuklab olindi");
+  }
+
+  const saved = favs.length
+    ? favs.map((id) => ({ id, name: id, price: 0 }))
+    : savedSeed;
+
+  return (
+    <ShopShell searchPath="/profil" cartCount={cartCount} placeholder="Stomatologiya mahsulotlari, kurslar, ustalar..." showCamera={false}>
+      <div className="pf-page">
+        {note ? <p className="pf-note">{note}</p> : null}
+        <header className="pf-hero">
+          <div className="pf-ava">
+            <img src={avatar} alt="Dr. Dilnoza Karimova" />
+            <button type="button" aria-label="Rasm yuklash" onClick={() => fileRef.current?.click()}>
+              <Camera className="i" />
+            </button>
+            <input ref={fileRef} type="file" accept="image/*" hidden aria-label="Profil rasmi" onChange={onAvatar} />
+          </div>
+          <div>
+            <h1>
+              {form.name}
+              <span className="pf-badge"><BadgeCheck className="i" /> Tasdiqlangan shifokor</span>
+            </h1>
+            <p className="pf-role">{form.spec}</p>
+            <div className="pf-meta">
+              <span><Building2 className="i" /> {clinic.name}</span>
+              <span><MapPin className="i" /> Toshkent</span>
+              <span><Briefcase className="i" /> {form.exp} tajriba</span>
+              <span><BadgeCheck className="i" /> Litsenziya {form.license}</span>
+            </div>
+          </div>
+          <div className="pf-bar">
+            <label>Profil to‘liqligi <span>85%</span></label>
+            <b><i /></b>
+          </div>
+          <button
+            type="button"
+            className="pf-edit"
+            onClick={() => {
+              setSection("shaxsiy");
+              setEditing(true);
+            }}
+          >
+            <Pencil className="i" /> Profilni tahrirlash
+          </button>
+        </header>
+
+        <div className="pf-stats">
+          <Link className="pf-stat" href="/buyurtmalarim">
+            <span className="mark"><ShoppingBag className="i" /></span>
+            <span><b>24</b><span>Buyurtmalar</span></span>
+          </Link>
+          <button type="button" className="pf-stat" onClick={() => setSection("kurslar")}>
+            <span className="mark"><Award className="i" /></span>
+            <span><b>7</b><span>Sertifikatlar</span></span>
+          </button>
+          <button type="button" className="pf-stat" onClick={() => setSection("kurslar")}>
+            <span className="mark"><GraduationCap className="i" /></span>
+            <span><b>5</b><span>Kurslar</span></span>
+          </button>
+          <button type="button" className="pf-stat" onClick={() => setNote("Bonus ballar: 12 450")}>
+            <span className="mark"><Star className="i" /></span>
+            <span><b>12 450</b><span>Bonus ballar</span></span>
+          </button>
+          <button type="button" className="pf-stat" onClick={() => setSection("saqlangan")}>
+            <span className="mark"><Heart className="i" /></span>
+            <span><b>38</b><span>Saqlanganlar</span></span>
+          </button>
+        </div>
+
+        <div className="pf-body">
+          <nav className="pf-menu" aria-label="Profil bo‘limlari">
+            <button type="button" className="head" onClick={() => setSection("shaxsiy")}>
+              <User className="i" /> Shaxsiy ma‘lumotlar
+            </button>
+            {menu.map((item) => {
+              const Icon = item.icon;
+              if (item.href) {
+                return (
+                  <Link className="item" href={item.href} key={item.label}>
+                    <Icon className="i" /> {item.label}
+                  </Link>
+                );
+              }
+              return (
+                <button
+                  key={item.id}
+                  type="button"
+                  className={item.id === "chiqish" ? "item out" : section === item.id ? "item on" : "item"}
+                  onClick={() => item.id && setSection(item.id)}
+                >
+                  <Icon className="i" /> {item.label}
+                </button>
+              );
+            })}
+          </nav>
+
+          <div className="pf-stack">
+            {section === "shaxsiy" ? (
+              <>
+                <div className="pf-top">
+                  <PersonalCard form={form} setForm={setForm} editing={editing} setEditing={setEditing} onSave={savePersonal} />
+                  <ClinicCard clinic={clinic} setClinic={setClinic} editing={editClinic} setEditing={setEditClinic} onSave={() => { setEditClinic(false); setNote("Klinika ma‘lumotlari saqlandi"); }} />
+                  <SettingsCard language={language} setLanguage={setLanguage} toggles={toggles} onToggle={toggle} />
+                </div>
+                <div className="pf-mid">
+                  <CoursesCard onOpen={() => setSection("kurslar")} onContinue={(title) => setNote(`«${title}» davom ettirilmoqda`)} onCert={downloadCert} />
+                  <OrdersCard />
+                </div>
+                <div className="pf-bot">
+                  <AddressCard addresses={addresses} limit={2} onAdd={() => setModal("addr")} onOpen={() => setSection("manzil")} />
+                  <PayCardList cards={cards} limit={2} onAdd={() => setModal("card")} onOpen={() => setSection("tolov")} />
+                </div>
+              </>
+            ) : null}
+            {section === "klinika" ? (
+              <ClinicCard clinic={clinic} setClinic={setClinic} editing={editClinic} setEditing={setEditClinic} onSave={() => { setEditClinic(false); setNote("Klinika ma‘lumotlari saqlandi"); }} />
+            ) : null}
+            {section === "kurslar" ? <CoursesCard onOpen={() => setSection("kurslar")} onContinue={(title) => setNote(`«${title}» davom ettirilmoqda`)} onCert={downloadCert} /> : null}
+            {section === "saqlangan" ? <SavedCard items={saved} /> : null}
+            {section === "manzil" ? <AddressCard addresses={addresses} onAdd={() => setModal("addr")} onOpen={() => setSection("manzil")} /> : null}
+            {section === "tolov" ? <PayCardList cards={cards} onAdd={() => setModal("card")} onOpen={() => setSection("tolov")} /> : null}
+            {section === "bildirish" ? <SettingsCard language={language} setLanguage={setLanguage} toggles={toggles} onToggle={toggle} /> : null}
+            {section === "xavfsizlik" ? (
+              <SecurityCard
+                passwords={passwords}
+                setPasswords={setPasswords}
+                twoFactor={twoFactor}
+                setTwoFactor={setTwoFactor}
+                onSave={() => {
+                  setPasswords({ current: "", next: "", confirm: "" });
+                  setNote("Xavfsizlik sozlamalari saqlandi");
+                }}
+              />
+            ) : null}
+            {section === "chiqish" ? (
+              <section className="pf-card">
+                <h3>Chiqish</h3>
+                <p className="pf-role">Hisobdan chiqishni tasdiqlaysizmi? Joriy seans ochiq qoladi.</p>
+                <button type="button" className="pf-go pf-save" onClick={() => setNote("Chiqish so‘rovi qabul qilindi")}>Tasdiqlash</button>
+              </section>
+            ) : null}
+          </div>
+        </div>
+      </div>
+
+      {modal ? (
+        <div className="pf-modal" role="presentation" onClick={() => setModal(null)}>
+          <div className="pf-dialog" role="dialog" aria-modal="true" onClick={(event) => event.stopPropagation()}>
+            {modal === "addr" ? (
+              <>
+                <h3>Yangi manzil</h3>
+                <input value={addrForm.title} placeholder="Manzil nomi" aria-label="Manzil nomi" onChange={(event) => setAddrForm({ ...addrForm, title: event.target.value })} />
+                <input value={addrForm.line} placeholder="Manzil" aria-label="Manzil" onChange={(event) => setAddrForm({ ...addrForm, line: event.target.value })} />
+                <div className="acts">
+                  <button type="button" className="pf-edit" onClick={() => setModal(null)}>Bekor</button>
+                  <button type="button" className="pf-go" onClick={addAddress}>Qo‘shish</button>
+                </div>
+              </>
+            ) : (
+              <>
+                <h3>Yangi karta</h3>
+                <select value={cardForm.brand} aria-label="Karta turi" onChange={(event) => setCardForm({ ...cardForm, brand: event.target.value as PayCard["brand"] })}>
+                  <option>UZCARD</option>
+                  <option>HUMO</option>
+                </select>
+                <input value={cardForm.last4} placeholder="Oxirgi 4 raqam" aria-label="Oxirgi 4 raqam" inputMode="numeric" maxLength={4} onChange={(event) => setCardForm({ ...cardForm, last4: event.target.value })} />
+                <input value={cardForm.exp} placeholder="OO/YY" aria-label="Amal qilish muddati" onChange={(event) => setCardForm({ ...cardForm, exp: event.target.value })} />
+                <div className="acts">
+                  <button type="button" className="pf-edit" onClick={() => setModal(null)}>Bekor</button>
+                  <button type="button" className="pf-go" onClick={addCard}>Qo‘shish</button>
+                </div>
+              </>
+            )}
+          </div>
+        </div>
+      ) : null}
+    </ShopShell>
+  );
+}
+
+function PersonalCard({
+  form,
+  setForm,
+  editing,
+  setEditing,
+  onSave,
+}: {
+  form: { name: string; phone: string; email: string; spec: string; exp: string; license: string; about: string };
+  setForm: (next: { name: string; phone: string; email: string; spec: string; exp: string; license: string; about: string }) => void;
+  editing: boolean;
+  setEditing: (value: boolean) => void;
+  onSave: () => void;
+}) {
+  function field<K extends keyof typeof form>(key: K, value: string) {
+    setForm({ ...form, [key]: value });
+  }
+  return (
+    <section className="pf-card">
+      <h3>
+        Shaxsiy ma‘lumotlar
+        <button type="button" onClick={() => setEditing(!editing)}>{editing ? "Yopish" : "Tahrirlash"}</button>
+      </h3>
+      <div className="pf-grid">
+        <label>Ism familiya<input value={form.name} disabled={!editing} onChange={(event) => field("name", event.target.value)} /></label>
+        <label>Telefon<input value={form.phone} disabled={!editing} onChange={(event) => field("phone", event.target.value)} /></label>
+        <label>Email<input value={form.email} disabled={!editing} onChange={(event) => field("email", event.target.value)} /></label>
+        <label>
+          Mutaxassislik
+          <select value={form.spec} disabled={!editing} onChange={(event) => field("spec", event.target.value)}>
+            {specs.map((spec) => <option key={spec}>{spec}</option>)}
+          </select>
+        </label>
+        <label>Tajriba<input value={form.exp} disabled={!editing} onChange={(event) => field("exp", event.target.value)} /></label>
+        <label>Litsenziya raqami<input value={form.license} disabled={!editing} onChange={(event) => field("license", event.target.value)} /></label>
+      </div>
+      <label className="pf-wide">
+        Men haqimda
+        <textarea value={form.about} disabled={!editing} onChange={(event) => field("about", event.target.value)} />
+      </label>
+      {editing ? <button type="button" className="pf-go pf-save" onClick={onSave}>Saqlash</button> : null}
+    </section>
+  );
+}
+
+function ClinicCard({
+  clinic,
+  setClinic,
+  editing,
+  setEditing,
+  onSave,
+}: {
+  clinic: { name: string; address: string; hours: string; phone: string; site: string };
+  setClinic: (next: { name: string; address: string; hours: string; phone: string; site: string }) => void;
+  editing: boolean;
+  setEditing: (value: boolean) => void;
+  onSave: () => void;
+}) {
+  function field<K extends keyof typeof clinic>(key: K, value: string) {
+    setClinic({ ...clinic, [key]: value });
+  }
+  return (
+    <section className="pf-card pf-clinic">
+      <h3>
+        Klinikam
+        <button type="button" onClick={() => setEditing(!editing)}>{editing ? "Yopish" : "Tahrirlash"}</button>
+      </h3>
+      <div className="pf-shot">
+        <img src="/img/profil/clinic.jpg" alt="Smile Dental klinikasi" />
+        <b>{clinic.name}</b>
+      </div>
+      {editing ? (
+        <div className="pf-grid" style={{ marginTop: "calc(.35 * var(--u))" }}>
+          <label>Nomi<input value={clinic.name} onChange={(event) => field("name", event.target.value)} /></label>
+          <label>Telefon<input value={clinic.phone} onChange={(event) => field("phone", event.target.value)} /></label>
+          <label>Manzil<input value={clinic.address} onChange={(event) => field("address", event.target.value)} /></label>
+          <label>Sayt<input value={clinic.site} onChange={(event) => field("site", event.target.value)} /></label>
+          <label>Ish vaqti<input value={clinic.hours} onChange={(event) => field("hours", event.target.value)} /></label>
+        </div>
+      ) : (
+        <>
+          <p><MapPin className="i" /> {clinic.address}</p>
+          <p><Clock className="i" /> Ish vaqti: {clinic.hours}</p>
+          <p><Phone className="i" /> {clinic.phone}</p>
+          <p><Globe className="i" /> {clinic.site}</p>
+        </>
+      )}
+      {editing ? <button type="button" className="pf-go pf-save" onClick={onSave}>Saqlash</button> : null}
+    </section>
+  );
+}
+
+function SettingsCard({
+  language,
+  setLanguage,
+  toggles,
+  onToggle,
+}: {
+  language: string;
+  setLanguage: (value: string) => void;
+  toggles: Record<string, boolean>;
+  onToggle: (key: string) => void;
+}) {
+  return (
+    <section className="pf-card">
+      <h3>Tizim sozlamalari</h3>
+      <label className="pf-wide" style={{ marginTop: 0 }}>
+        Til
+        <select value={language} aria-label="Til" onChange={(event) => setLanguage(event.target.value)}>
+          {languages.map((item) => <option key={item}>{item}</option>)}
+        </select>
+      </label>
+      {settingKeys.map(([key, label]) => (
+        <div className="pf-row" key={key}>
+          <span>{label}</span>
+          <button type="button" className={toggles[key] ? "pf-switch on" : "pf-switch"} aria-pressed={toggles[key]} aria-label={label} onClick={() => onToggle(key)}>
+            <i />
+          </button>
+        </div>
+      ))}
+    </section>
+  );
+}
+
+function CoursesCard({
+  onOpen,
+  onContinue,
+  onCert,
+}: {
+  onOpen: () => void;
+  onContinue: (title: string) => void;
+  onCert: (title: string) => void;
+}) {
+  return (
+    <section className="pf-card">
+      <h3>Kurslarim va sertifikatlar <button type="button" onClick={onOpen}>Barchasini ko‘rish</button></h3>
+      <div className="pf-courses">
+        {courses.map((course) => (
+          <article className="pf-course" key={course.title}>
+            <img src={course.image} alt="" />
+            <div>
+              <b>{course.title}</b>
+              <div className="pf-cstat">
+                <span className={course.done ? "done" : ""}>{course.done ? "Sertifikat olingan" : "Davom etmoqda"}</span>
+                <em>{course.progress}%</em>
+              </div>
+              <div className="pf-prog"><i className={course.done ? "done" : ""} style={{ width: `${course.progress}%` }} /></div>
+              {course.done ? (
+                <button type="button" onClick={() => onCert(course.title)}>Sertifikatni yuklab olish</button>
+              ) : (
+                <button type="button" onClick={() => onContinue(course.title)}>Davom ettirish</button>
+              )}
+            </div>
+          </article>
+        ))}
+      </div>
+    </section>
+  );
+}
+
+function OrdersCard() {
+  return (
+    <section className="pf-card">
+      <h3>Oxirgi buyurtmalarim <Link className="pf-link" href="/buyurtmalarim">Barchasini ko‘rish</Link></h3>
+      {recentOrders.map((order) => (
+        <Link className="pf-order" href="/buyurtmalarim" key={order.id}>
+          <img src={order.images[0]} alt="" />
+          <span>
+            <b>№ {order.number}</b>
+            <span>{order.when.split(",")[0]}</span>
+          </span>
+          <span className="pf-order-side">
+            <b>{som(order.total)}</b>
+            <span className={`pf-pill ${order.status}`}>{statusLabel(order.status)}</span>
+          </span>
+        </Link>
+      ))}
+    </section>
+  );
+}
+
+function AddressCard({ addresses, onAdd, onOpen, limit }: { addresses: Address[]; onAdd: () => void; onOpen: () => void; limit?: number }) {
+  const shown = limit ? addresses.slice(0, limit) : addresses;
+  return (
+    <section className="pf-card">
+      <h3>Manzillarim <button type="button" onClick={onOpen}>Barchasini ko‘rish</button></h3>
+      <div className="pf-addrs">
+        {shown.map((address) => (
+          <article className="pf-addr" key={address.id}>
+            <b>{address.title}</b>
+            <span>{address.line}</span>
+          </article>
+        ))}
+        <button type="button" className="pf-add" onClick={onAdd}>+ Yangi manzil qo‘shish</button>
+      </div>
+    </section>
+  );
+}
+
+function PayCardList({ cards, onAdd, onOpen, limit }: { cards: PayCard[]; onAdd: () => void; onOpen: () => void; limit?: number }) {
+  const shown = limit ? cards.slice(0, limit) : cards;
+  return (
+    <section className="pf-card">
+      <h3>To‘lov usullari <button type="button" onClick={onOpen}>Barchasini ko‘rish</button></h3>
+      <div className="pf-pays">
+        {shown.map((card) => (
+          <article className={card.brand === "HUMO" ? "pf-pay humo" : "pf-pay uz"} key={card.id}>
+            <b>{card.brand}</b>
+            <span>**** {card.last4}</span>
+            <span>{card.exp}</span>
+          </article>
+        ))}
+        <button type="button" className="pf-add" onClick={onAdd}>+ Yangi karta qo‘shish</button>
+      </div>
+    </section>
+  );
+}
+
+function SavedCard({ items }: { items: { id: string; name: string; price: number }[] }) {
+  return (
+    <section className="pf-card">
+      <h3>Saqlanganlar</h3>
+      <div className="pf-list">
+        {items.map((item) => (
+          <article key={item.id}>
+            <b>{item.name}</b>
+            {item.price ? <span>{som(item.price)}</span> : null}
+          </article>
+        ))}
+      </div>
+    </section>
+  );
+}
+
+function SecurityCard({
+  passwords,
+  setPasswords,
+  twoFactor,
+  setTwoFactor,
+  onSave,
+}: {
+  passwords: { current: string; next: string; confirm: string };
+  setPasswords: (next: { current: string; next: string; confirm: string }) => void;
+  twoFactor: boolean;
+  setTwoFactor: (value: boolean) => void;
+  onSave: () => void;
+}) {
+  return (
+    <section className="pf-card">
+      <h3>Xavfsizlik</h3>
+      <div className="pf-grid">
+        <label>Joriy parol<input type="password" value={passwords.current} onChange={(event) => setPasswords({ ...passwords, current: event.target.value })} /></label>
+        <label>Yangi parol<input type="password" value={passwords.next} onChange={(event) => setPasswords({ ...passwords, next: event.target.value })} /></label>
+        <label>Parolni tasdiqlang<input type="password" value={passwords.confirm} onChange={(event) => setPasswords({ ...passwords, confirm: event.target.value })} /></label>
+      </div>
+      <div className="pf-row">
+        <span>Ikki bosqichli himoya</span>
+        <button type="button" className={twoFactor ? "pf-switch on" : "pf-switch"} aria-pressed={twoFactor} aria-label="Ikki bosqichli himoya" onClick={() => setTwoFactor(!twoFactor)}>
+          <i />
+        </button>
+      </div>
+      <button type="button" className="pf-go pf-save" onClick={onSave}>Saqlash</button>
+    </section>
+  );
+}
+
