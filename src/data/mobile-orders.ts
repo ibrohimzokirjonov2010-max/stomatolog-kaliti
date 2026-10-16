@@ -178,6 +178,24 @@ function delivered(
   };
 }
 
+const PLACED_KEY = "sk-placed-orders-v1";
+
+export function loadPlacedOrders(): MobileOrder[] {
+  if (typeof window === "undefined") return [];
+  try {
+    const raw = JSON.parse(window.localStorage.getItem(PLACED_KEY) ?? "[]") as unknown;
+    return Array.isArray(raw) ? (raw as MobileOrder[]) : [];
+  } catch {
+    return [];
+  }
+}
+
+export function rememberPlacedOrder(order: MobileOrder) {
+  const next = [order, ...loadPlacedOrders().filter((item) => item.id !== order.id)];
+  window.localStorage.setItem(PLACED_KEY, JSON.stringify(next));
+  window.dispatchEvent(new Event("sk-placed-orders"));
+}
+
 export function getMobileOrder(id: string) {
-  return mobileOrders.find((order) => order.id === id);
+  return loadPlacedOrders().find((order) => order.id === id) ?? mobileOrders.find((order) => order.id === id);
 }

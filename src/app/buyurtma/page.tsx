@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { CheckoutForm } from "@/components/checkout-form";
-import { CheckoutMobile } from "@/components/checkout-mobile";
+import { CheckoutSteps } from "@/components/checkout/mobile/CheckoutSteps";
 
 export const metadata: Metadata = {
   title: "Buyurtma",
@@ -11,7 +11,7 @@ export default function BuyurtmaPage() {
   return (
     <>
       <div className="lg:hidden">
-        <CheckoutMobile />
+        <CheckoutSteps />
       </div>
       <div className="hidden lg:block">
         <header className="mb-4">

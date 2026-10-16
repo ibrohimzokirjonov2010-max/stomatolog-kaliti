@@ -1,7 +1,7 @@
 "use client";
 /* eslint-disable @next/next/no-img-element -- order photos are content images */
 
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import Link from "next/link";
 import { Check, ChevronRight, Clock, FileText, Headphones, Menu, Search, ShoppingCart, Store, Truck, X } from "lucide-react";
 import { useCart } from "@/components/cart-provider";
@@ -9,6 +9,7 @@ import { useMobileNav } from "@/components/dashboard/mobile-chrome";
 import { NotificationBell } from "@/components/notification-bell";
 import { formatMoney } from "@/lib/format";
 import {
+  loadPlacedOrders,
   mobileOrders,
   orderChips,
   orderStatusMeta,
@@ -117,20 +118,28 @@ export function OrdersMobileList() {
   const [searchOpen, setSearchOpen] = useState(false);
   const [query, setQuery] = useState("");
   const [supportId, setSupportId] = useState<string | null>(null);
-  const counts = useMemo(() => {
-    const next: Record<string, number> = { all: mobileOrders.length };
-    for (const order of mobileOrders) next[order.status] = (next[order.status] ?? 0) + 1;
-    return next;
+  const [placed, setPlaced] = useState<MobileOrder[]>([]);
+  useEffect(() => {
+    const load = () => setPlaced(loadPlacedOrders());
+    load();
+    window.addEventListener("sk-placed-orders", load);
+    return () => window.removeEventListener("sk-placed-orders", load);
   }, []);
+  const orders = useMemo(() => [...placed, ...mobileOrders], [placed]);
+  const counts = useMemo(() => {
+    const next: Record<string, number> = { all: orders.length };
+    for (const order of orders) next[order.status] = (next[order.status] ?? 0) + 1;
+    return next;
+  }, [orders]);
   const rows = useMemo(() => {
     const q = query.trim().toLowerCase();
-    return mobileOrders.filter((order) => {
+    return orders.filter((order) => {
       if (status !== "all" && order.status !== status) return false;
       if (!q) return true;
       return `${order.number} ${order.seller}`.toLowerCase().includes(q);
     });
-  }, [query, status]);
-  const support = mobileOrders.find((order) => order.id === supportId) ?? null;
+  }, [orders, query, status]);
+  const support = orders.find((order) => order.id === supportId) ?? null;
 
   return (
     <div className="od lg:hidden" data-testid="mobile-buyurtmalar">
