@@ -238,6 +238,7 @@ const SECTION_ROOTS = new Set([
   "/ortiqcha-material",
   "/kitoblar",
   "/talim",
+  "/foydali-kanallar",
 ]);
 
 export function MobileTopbar() {
@@ -508,7 +509,7 @@ export function MobileDrawer() {
 }
 
 const homeTabs = [
-  { href: "/", label: "Bosh sahifa", icon: Home, match: (path: string) => path === "/" || path.startsWith("/bosh-sahifa") || path === "/talim" },
+  { href: "/", label: "Bosh sahifa", icon: Home, match: (path: string) => path === "/" || path.startsWith("/bosh-sahifa") || path === "/talim" || path === "/kitoblar" || path === "/foydali-kanallar" },
   { href: "/seminarlar", label: "Seminarlar", icon: CalendarDays, match: (path: string) => path === "/seminarlar" || path.startsWith("/seminarlar/") },
   { href: "/marketplace", label: "Marketplace", icon: ShoppingBag, match: (path: string) => marketplacePath(path) || path === "/savat" || path === "/buyurtma" || surplusMobilePath(path) },
   { href: "/forma", label: "Forma", icon: Shirt, match: (path: string) => path === "/forma" || (path.startsWith("/forma/") && !path.startsWith("/forma/buyurtmalarim")) },
@@ -519,7 +520,7 @@ export function MobileTabBar() {
   const pathname = usePathname();
   const onKlinika = pathname === "/klinika" || pathname.startsWith("/klinika/");
   if (onKlinika) return null;
-  if (pathname === "/" || pathname === "/talim" || surplusMobilePath(pathname) || marketMobilePath(pathname) || seminarMobilePath(pathname)) {
+  if (pathname === "/" || pathname === "/talim" || pathname === "/kitoblar" || pathname === "/foydali-kanallar" || surplusMobilePath(pathname) || marketMobilePath(pathname) || seminarMobilePath(pathname)) {
     return (
       <nav aria-label="Mobil menyu" className="mh-tabs lg:hidden">
         {homeTabs.map((tab) => {
@@ -537,45 +538,17 @@ export function MobileTabBar() {
   }
 
   return (
-    <nav
-      aria-label="Mobil menyu"
-      className="fixed inset-x-0 bottom-0 z-40 border-t border-[#eceff5] bg-white/95 backdrop-blur-md lg:hidden"
-      style={{ paddingBottom: "max(0.5rem, env(safe-area-inset-bottom))" }}
-    >
-      <ul className="grid grid-cols-5">
-        {tabs.map((tab) => {
-          const active = tab.match(pathname);
-          return (
-            <li key={tab.href}>
-              <Link
-                href={tab.href}
-                className={cn(
-                  "relative flex min-h-[52px] flex-col items-center justify-center gap-0.5 pt-1 text-[10px] font-semibold tracking-wide transition-colors",
-                  active ? "text-[#0066FF]" : "text-[#8b93a7]",
-                )}
-              >
-                <span
-                  className={cn(
-                    "grid place-items-center rounded-xl transition-colors",
-                    active ? "size-9 bg-[#e8f1ff] text-[#0066FF]" : "size-8",
-                  )}
-                >
-                  {/* Brand icon set (public/icons): full colour when active, dimmed when inactive */}
-                  {/* eslint-disable-next-line @next/next/no-img-element */}
-                  <img
-                    src={tab.icon}
-                    alt=""
-                    width={26}
-                    height={26}
-                    className={cn("object-contain transition-opacity", active ? "size-[26px] opacity-100" : "size-6 opacity-55")}
-                  />
-                </span>
-                {tab.label}
-              </Link>
-            </li>
-          );
-        })}
-      </ul>
+    <nav aria-label="Mobil menyu" className="mh-tabs lg:hidden">
+      {tabs.map((tab) => {
+        const active = tab.match(pathname);
+        return (
+          <Link key={tab.href} href={tab.href} className={active ? "on" : undefined}>
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img src={tab.icon} alt="" width={24} height={24} />
+            {tab.label}
+          </Link>
+        );
+      })}
     </nav>
   );
 }
@@ -616,7 +589,7 @@ export function MobileCartBar() {
   return (
     <div
       className="fixed inset-x-3 z-30 lg:hidden"
-      style={{ bottom: "calc(4.15rem + env(safe-area-inset-bottom))" }}
+      style={{ bottom: "calc(72px + env(safe-area-inset-bottom))" }}
     >
       <Link
         href="/savat"

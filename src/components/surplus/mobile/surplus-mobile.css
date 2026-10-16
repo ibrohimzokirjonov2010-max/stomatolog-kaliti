@@ -182,7 +182,7 @@
   left: 0;
   right: 0;
   z-index: 35;
-  bottom: calc(5.6 * var(--u) + env(safe-area-inset-bottom));
+  bottom: calc(64px + env(safe-area-inset-bottom));
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: calc(.5 * var(--u));
@@ -204,7 +204,7 @@
 .om-buy .cart { background: #0066ff; }
 .om-buy .chat { background: #12b981; }
 .om-buy svg { width: calc(1.4 * var(--u)); height: calc(1.4 * var(--u)); }
-.om-pad { height: calc(5.2 * var(--u)); }
+.om-pad { height: 72px; }
 .om-note { background: #e7f8ef; color: #0d7a52; border-radius: calc(.7 * var(--u)); padding: calc(.4 * var(--u)) calc(.6 * var(--u)); font-size: calc(1.08 * var(--u)); font-weight: 700; }
 .om-sheet { position: fixed; inset: 0; z-index: 60; background: rgba(15, 23, 42, .45); display: flex; align-items: flex-end; }
 .om-panel { position: relative; z-index: 1; width: 100%; background: #fff; border-radius: calc(1.3 * var(--u)) calc(1.3 * var(--u)) 0 0; padding: calc(1.1 * var(--u)) calc(1.2 * var(--u)) calc(1.2 * var(--u) + env(safe-area-inset-bottom)); display: flex; flex-direction: column; gap: calc(.45 * var(--u)); }

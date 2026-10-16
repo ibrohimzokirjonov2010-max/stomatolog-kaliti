@@ -18,7 +18,7 @@ export function DashboardShell({ children }: { children: ReactNode }) {
           <MobileTopbar />
           <main
             id="main"
-            className="min-h-0 flex-1 overflow-y-auto p-4 pb-[6rem] lg:p-5 lg:pb-8"
+            className="min-h-0 flex-1 overflow-y-auto p-4 pb-[calc(80px+env(safe-area-inset-bottom))] lg:p-5 lg:pb-8"
           >
             {children}
             <MobileCartPad />

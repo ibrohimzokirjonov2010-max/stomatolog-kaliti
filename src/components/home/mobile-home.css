@@ -10,13 +10,16 @@
 .mh * { min-width: 0; }
 .mh-bar {
   position: sticky;
-  top: 0;
-  z-index: 20;
+  /* .mh cancels the shell's 1rem top padding, so stick at that same offset
+     instead of jumping down over the greeting. */
+  top: -1rem;
+  z-index: 30;
   display: flex;
   align-items: center;
   gap: calc(.4 * var(--u));
-  height: calc(5.2 * var(--u));
-  padding: env(safe-area-inset-top) calc(1.6 * var(--u)) 0;
+  min-height: 56px;
+  height: auto;
+  padding: max(8px, env(safe-area-inset-top)) calc(1.6 * var(--u)) 8px;
   background: #f4f7fc;
 }
 .mh-logo {
@@ -137,10 +140,10 @@
 }
 .mh-banner img { width: calc(7.2 * var(--u)); height: calc(6.4 * var(--u)); object-fit: contain; }
 .mh-banner b { display: block; font-size: calc(1.25 * var(--u)); line-height: 1.25; color: #14304a; }
-.mh-banner b em { font-style: normal; color: #0066ff; }
+.mh-banner b em { font-style: normal; color: #0f9f75; }
 .mh-banner span { display: block; margin-top: calc(.2 * var(--u)); color: #6a7c93; font-size: calc(1.05 * var(--u)); }
 .mh-banner a.go, .mh-more {
-  color: #0066ff;
+  color: #0f9f75;
   font-weight: 800;
   font-size: calc(1.15 * var(--u));
   white-space: nowrap;
@@ -193,13 +196,13 @@
 .mh-meta span { display: inline-flex; align-items: center; gap: calc(.2 * var(--u)); }
 .mh-meta svg { width: calc(1.1 * var(--u)); height: calc(1.1 * var(--u)); }
 .mh-side { display: flex; flex-direction: column; align-items: flex-end; gap: calc(.4 * var(--u)); }
-.mh-side b { font-size: calc(1.15 * var(--u)); white-space: nowrap; color: #0066ff; }
+.mh-side b { font-size: calc(1.15 * var(--u)); white-space: nowrap; color: #0f9f75; }
 .mh-reg {
   height: calc(2.8 * var(--u));
   padding: 0 calc(.7 * var(--u));
   border-radius: calc(1.4 * var(--u));
-  border: 1px solid #0066ff;
-  color: #0066ff;
+  border: 1px solid #12b981;
+  color: #0f9f75;
   font-size: calc(1.05 * var(--u));
   font-weight: 800;
   display: inline-flex;
@@ -299,27 +302,34 @@
   font-size: calc(1.2 * var(--u));
 }
 .mh-tabs {
-  --u: calc(100vw / 39);
   position: fixed;
-  inset-x: 0;
+  left: 0;
+  right: 0;
   bottom: 0;
   z-index: 40;
   display: grid;
   grid-template-columns: repeat(5, minmax(0, 1fr));
+  align-items: stretch;
+  box-sizing: border-box;
+  height: calc(64px + env(safe-area-inset-bottom));
+  padding: 6px 0 env(safe-area-inset-bottom);
   background: #fff;
-  border-top: 1px solid #eceff5;
-  padding-bottom: max(calc(.35 * var(--u, 10px)), env(safe-area-inset-bottom));
+  border-top: 1px solid #e6ebf3;
+  box-shadow: 0 -4px 16px rgba(15, 23, 42, 0.06);
 }
 .mh-tabs a {
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: calc(.15 * var(--u, 10px));
-  min-height: calc(4.8 * var(--u, 10px));
+  gap: 3px;
+  min-width: 0;
+  padding: 0 2px;
   color: #8b93a7;
-  font-size: calc(.95 * var(--u, 10px));
-  font-weight: 700;
+  font-size: 11px;
+  line-height: 1.15;
+  font-weight: 600;
+  white-space: nowrap;
 }
-.mh-tabs a.on { color: #0066ff; }
-.mh-tabs svg { width: calc(1.9 * var(--u, 10px)); height: calc(1.9 * var(--u, 10px)); }
+.mh-tabs a.on { color: #0f9f75; }
+.mh-tabs svg, .mh-tabs img { width: 24px; height: 24px; flex: none; }

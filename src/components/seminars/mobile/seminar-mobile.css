@@ -115,7 +115,7 @@
 .se-stats span { color: #6a7c93; font-size: calc(.78 * var(--u)); }
 .se-buy {
   position: fixed; left: 0; right: 0; z-index: 35;
-  bottom: calc(5.6 * var(--u) + env(safe-area-inset-bottom));
+  bottom: calc(64px + env(safe-area-inset-bottom));
   display: flex; align-items: center; gap: calc(.4 * var(--u));
   padding: calc(.45 * var(--u)) calc(.9 * var(--u));
   background: #fff; border-top: 1px solid #eef2f6;
@@ -124,7 +124,7 @@
 .se-buy s { color: #9aa3b5; font-size: calc(.85 * var(--u)); }
 .se-buy em { font-style: normal; color: #e11d48; font-weight: 800; font-size: calc(.85 * var(--u)); margin-right: calc(.2 * var(--u)); }
 .se-buy .reg { margin-left: auto; height: calc(3.3 * var(--u)); }
-.se-pad { height: calc(4.8 * var(--u)); }
+.se-pad { height: 72px; }
 .se-note { background: #e7f8ef; color: #0d7a52; border-radius: calc(.7 * var(--u)); padding: calc(.4 * var(--u)) calc(.55 * var(--u)); font-weight: 700; font-size: calc(1.02 * var(--u)); }
 .se-sheet { position: fixed; inset: 0; z-index: 60; background: rgba(15,23,42,.45); display: flex; align-items: flex-end; }
 .se-panelbox { position: relative; z-index: 1; width: 100%; background: #fff; border-radius: calc(1.2 * var(--u)) calc(1.2 * var(--u)) 0 0; padding: calc(1 * var(--u)) calc(1 * var(--u)) calc(1 * var(--u) + env(safe-area-inset-bottom)); display: flex; flex-direction: column; gap: calc(.4 * var(--u)); }
