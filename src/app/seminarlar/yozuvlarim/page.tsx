@@ -10,6 +10,7 @@ import { getSeminar, seminarHref } from "@/data/seminars";
 import { cn } from "@/lib/utils";
 import type { SeminarRegistration } from "@/lib/seminar-registrations";
 import { seminarDate } from "@/data/seminars";
+import { SeminarlarimMobile } from "@/components/seminars/mobile/SeminarlarimMobile";
 
 function rank(item: SeminarRegistration) {
   if (item.status === "pending") return 0;
@@ -32,7 +33,9 @@ export default function MySeminarRegistrationsPage() {
   }, [auth]);
 
   return (
-    <div>
+    <>
+      <SeminarlarimMobile />
+      <div className="hidden lg:block">
       <header className="mb-4">
         <p className="text-[13px] text-[#8b93a7]">
           <Link href="/seminarlar" className="text-[#0066FF] hover:underline">
@@ -122,6 +125,7 @@ export default function MySeminarRegistrationsPage() {
           })}
         </ul>
       )}
-    </div>
+      </div>
+    </>
   );
 }

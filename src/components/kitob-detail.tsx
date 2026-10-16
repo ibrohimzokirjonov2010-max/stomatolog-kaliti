@@ -98,7 +98,18 @@ export function KitobDetail({ book }: { book: Book }) {
         </div>
 
         <div className="mt-4 grid grid-cols-2 gap-2.5">
-          <button type="button" onClick={() => setToast("Bepul namuna tez orada qo‘shiladi.")} className="inline-flex h-12 flex-col items-center justify-center rounded-xl border border-[#0066FF] bg-white text-[13px] leading-tight font-semibold text-[#0066FF]">
+          <button
+            type="button"
+            data-testid="kitob-read"
+            onClick={() => {
+              if (window.matchMedia("(max-width: 1023px)").matches) {
+                router.push(`/kitoblar/${book.id}/oqish`);
+                return;
+              }
+              setToast("Bepul namuna tez orada qo‘shiladi.");
+            }}
+            className="inline-flex h-12 flex-col items-center justify-center rounded-xl border border-[#0066FF] bg-white text-[13px] leading-tight font-semibold text-[#0066FF]"
+          >
             <span className="inline-flex items-center gap-1.5"><BookOpen className="size-4" />Bepul namunani o‘qish</span>
             <span className="text-[10px] font-medium text-[#8b93a7]">Tez orada</span>
           </button>

@@ -1,21 +1,33 @@
 "use client";
 
+import { useSyncExternalStore } from "react";
 import Link from "next/link";
 import { useParams } from "next/navigation";
 import { MyOrderDetail } from "@/components/my-orders";
-import { OrdersMobileDetail } from "@/components/orders/mobile/OrdersMobileDetail";
-import { getMobileOrder } from "@/data/mobile-orders";
+import { TrackMobile } from "@/components/orders/mobile/TrackMobile";
+import { getMobileOrder, mobileOrders, type MobileOrder } from "@/data/mobile-orders";
+
+function useTrackedOrder(id: string): MobileOrder | undefined {
+  return useSyncExternalStore(
+    (onChange) => {
+      window.addEventListener("sk-placed-orders", onChange);
+      return () => window.removeEventListener("sk-placed-orders", onChange);
+    },
+    () => (id ? getMobileOrder(id) : undefined),
+    () => (id ? mobileOrders.find((order) => order.id === id) : undefined),
+  );
+}
 
 export default function BuyurtmaDetailPage() {
   const params = useParams();
   const id = typeof params.id === "string" ? decodeURIComponent(params.id) : "";
-  const mobile = id ? getMobileOrder(id) : undefined;
+  const order = useTrackedOrder(id);
 
   return (
     <>
-      {mobile ? <OrdersMobileDetail order={mobile} /> : null}
-      <div className={mobile ? "hidden lg:block" : undefined}>
-        <header className="mb-4 hidden lg:block">
+      <TrackMobile order={order} />
+      <div className="hidden lg:block">
+        <header className="mb-4">
           <p className="text-[13px] text-[#8b93a7]">
             <Link href="/buyurtmalarim" className="text-[#0066FF] hover:underline">
               Buyurtmalarim

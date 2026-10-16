@@ -26,6 +26,8 @@ export type MobileOrder = {
   extra: number;
   items: MobileOrderItem[];
   steps?: MobileOrderStep[];
+  place?: string;
+  delivery?: "courier" | "pickup";
 };
 
 export const orderStatusMeta: Record<MobileOrderStatus, { label: string }> = {
@@ -178,6 +180,30 @@ function delivered(
   };
 }
 
+const PLACED_KEY = "sk-placed-orders-v1";
+let placedRaw = "";
+let placedCache: MobileOrder[] = [];
+
+export function loadPlacedOrders(): MobileOrder[] {
+  if (typeof window === "undefined") return [];
+  try {
+    const raw = window.localStorage.getItem(PLACED_KEY) ?? "[]";
+    if (raw === placedRaw) return placedCache;
+    const parsed = JSON.parse(raw) as unknown;
+    placedCache = Array.isArray(parsed) ? (parsed as MobileOrder[]) : [];
+    placedRaw = raw;
+    return placedCache;
+  } catch {
+    return [];
+  }
+}
+
+export function rememberPlacedOrder(order: MobileOrder) {
+  const next = [order, ...loadPlacedOrders().filter((item) => item.id !== order.id)];
+  window.localStorage.setItem(PLACED_KEY, JSON.stringify(next));
+  window.dispatchEvent(new Event("sk-placed-orders"));
+}
+
 export function getMobileOrder(id: string) {
-  return mobileOrders.find((order) => order.id === id);
+  return loadPlacedOrders().find((order) => order.id === id) ?? mobileOrders.find((order) => order.id === id);
 }

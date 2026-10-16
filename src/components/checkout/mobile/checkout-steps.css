@@ -1,0 +1,138 @@
+.ck {
+  --u: calc(100vw / 39);
+  width: calc(100% + 2rem);
+  margin: -1rem -1rem 0;
+  background: #f4f7fc;
+  color: #1a1d26;
+  min-width: 0;
+}
+.ck * { min-width: 0; }
+.ck-body { display: flex; flex-direction: column; gap: 8px; padding: 0 12px 8px; }
+.ck-title { margin: 0; font-size: 22px; font-weight: 800; letter-spacing: -0.03em; line-height: 1.05; }
+.ck-sub { margin: 2px 0 0; color: #8b93a7; font-size: 13px; }
+.ck-search { display: flex; align-items: center; gap: 6px; height: 36px; padding: 0 10px; background: #fff; border: 1px solid #e6ebf3; border-radius: 12px; }
+.ck-search input { flex: 1; border: 0; outline: none; background: transparent; font-size: 13px; }
+.ck-steps { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0; padding: 2px 8px 0; }
+.ck-step { display: flex; flex-direction: column; align-items: center; gap: 4px; position: relative; }
+.ck-step i {
+  width: 22px; height: 22px; border-radius: 50%; display: grid; place-items: center;
+  background: #e8eef6; color: #8b93a7; font-style: normal; font-size: 12px; font-weight: 800; z-index: 1;
+}
+.ck-step.on i, .ck-step.done i { background: #0066ff; color: #fff; }
+.ck-step b { font-size: 11px; font-weight: 700; color: #8b93a7; }
+.ck-step.on b, .ck-step.done b { color: #1a1d26; }
+.ck-step svg { width: 12px; height: 12px; }
+.ck-step:not(:last-child)::after {
+  content: ""; position: absolute; top: 11px; left: calc(50% + 16px); right: calc(-50% + 16px); height: 2px; background: #e1e8f2; z-index: 0;
+}
+.ck-step.done:not(:last-child)::after { background: #0066ff; }
+.ck-card { background: #fff; border-radius: 14px; padding: 8px 10px; box-shadow: 0 4px 14px rgba(15,23,42,.04); }
+.ck-cart-top, .ck-card-top { display: flex; align-items: center; gap: 8px; width: 100%; background: transparent; text-align: left; color: inherit; }
+.ck-count { width: 22px; height: 22px; border-radius: 50%; background: #e8f1ff; color: #0066ff; display: grid; place-items: center; font-weight: 800; font-size: 12px; flex: none; }
+.ck-cart-top span, .ck-card-top span { display: block; }
+.ck-cart-top b, .ck-card-top b { font-size: 13px; }
+.ck-cart-top small, .ck-card-top small { color: #8b93a7; font-size: 11px; }
+.ck-sum { margin-left: auto; color: #1a1d26; font-size: 13px; font-weight: 800; white-space: nowrap; }
+.ck-chev { width: 16px; height: 16px; color: #98a2b3; flex: none; transition: transform .15s ease; }
+.ck-chev.open { transform: rotate(180deg); }
+.ck-thumbs { display: flex; gap: 6px; margin-top: 8px; align-items: center; }
+.ck-thumbs img { width: 48px; height: 48px; object-fit: cover; border-radius: 8px; background: #f4f7fc; border: 1px solid #eef2f7; }
+.ck-more { color: #5c6b82; font-size: 12px; font-weight: 800; }
+.ck-sec { display: flex; gap: 8px; align-items: flex-start; margin-bottom: 8px; }
+.ck-sec svg { width: 18px; height: 18px; color: #0066ff; flex: none; margin-top: 1px; }
+.ck-sec b { display: block; font-size: 14px; }
+.ck-sec span { display: block; color: #8b93a7; font-size: 12px; }
+.ck-grid { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 8px; }
+.ck-field { position: relative; display: flex; flex-direction: column; gap: 4px; margin-top: 8px; }
+.ck-field.full { grid-column: 1 / -1; }
+.ck-field em { font-style: normal; color: #8b93a7; font-size: 11px; font-weight: 700; }
+.ck-field input, .ck-field select, .ck-field textarea {
+  width: 100%; height: 40px; border: 1px solid #e6ebf3; border-radius: 12px; background: #fff;
+  padding: 0 32px; font: inherit; font-size: 13px; font-weight: 700; color: #1a1d26; appearance: none;
+}
+.ck-field textarea { height: 56px; padding: 8px 12px 8px 32px; resize: none; font-weight: 600; }
+.ck-field .lead { position: absolute; left: 10px; bottom: 11px; width: 16px; height: 16px; color: #8b93a7; pointer-events: none; }
+.ck-field .tail { position: absolute; right: 8px; bottom: 8px; width: 24px; height: 24px; border-radius: 50%; color: #8b93a7; display: grid; place-items: center; background: transparent; pointer-events: none; }
+.ck-field .tail.clear { pointer-events: auto; }
+.ck-field .tail svg { width: 16px; height: 16px; }
+.ck-field select + .lead, .ck-field input + .lead { bottom: 12px; }
+.ck-field:has(textarea) .lead { top: 30px; bottom: auto; }
+.ck-card-top > svg { width: 18px; height: 18px; color: #0066ff; flex: none; }
+.ck-map { margin-top: 8px; width: 100%; height: 40px; border-radius: 12px; background: #e8f1ff; color: #0066ff; font-weight: 800; display: flex; align-items: center; justify-content: center; gap: 6px; }
+.ck-map svg { width: 16px; height: 16px; }
+.ck-label { display: flex; justify-content: space-between; align-items: center; margin: 10px 0 6px; font-size: 12px; font-weight: 800; color: #5c6b82; }
+.ck-label button { background: none; color: #0066ff; font-weight: 800; font-size: 12px; }
+.ck-place, .ck-ship, .ck-pay {
+  display: flex; align-items: center; gap: 8px; width: 100%; text-align: left; background: #fff;
+  border: 1.5px solid #e6ebf3; border-radius: 12px; padding: 8px; color: inherit;
+}
+.ck-place + .ck-place, .ck-ship + .ck-ship { margin-top: 6px; }
+.ck-place.on, .ck-ship.on, .ck-pay.on { border-color: #0066ff; background: #f5f9ff; }
+.ck-ico { width: 32px; height: 32px; border-radius: 10px; background: #e8f1ff; color: #0066ff; display: grid; place-items: center; flex: none; }
+.ck-ico svg { width: 16px; height: 16px; }
+.ck-place b, .ck-ship b, .ck-pay b { display: block; font-size: 13px; line-height: 1.15; }
+.ck-place small, .ck-ship small, .ck-pay small { display: block; color: #8b93a7; font-size: 11px; line-height: 1.2; }
+.ck-radio { margin-left: auto; width: 18px; height: 18px; border-radius: 50%; border: 2px solid #c5ceda; flex: none; display: grid; place-items: center; }
+.ck-ship .ck-radio { margin-left: 8px; }
+.ck-place.on .ck-radio, .ck-ship.on .ck-radio, .ck-pay.on .ck-radio { border-color: #0066ff; }
+.ck-place.on .ck-radio::after, .ck-ship.on .ck-radio::after, .ck-pay.on .ck-radio::after { content: ""; width: 8px; height: 8px; border-radius: 50%; background: #0066ff; }
+.ck-eta { margin-left: auto; text-align: right; font-size: 11px; font-weight: 800; color: #8b93a7; }
+.ck-eta em { display: block; font-style: normal; color: #12b981; }
+.ck-pays { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 8px; }
+.ck-mark { width: 28px; height: 28px; border-radius: 50%; display: grid; place-items: center; color: #fff; font-weight: 800; flex: none; font-size: 14px; }
+.ck-mark svg { width: 16px; height: 16px; }
+.ck-promo { display: flex; gap: 8px; }
+.ck-promo input { flex: 1; height: 40px; border: 1px solid #e6ebf3; border-radius: 12px; padding: 0 12px; font: inherit; font-size: 13px; }
+.ck-apply { height: 40px; padding: 0 14px; border-radius: 12px; border: 1px solid #cfe0ff; color: #0066ff; font-weight: 800; background: #fff; }
+.ck-line { display: flex; justify-content: space-between; gap: 8px; margin: 6px 0; font-size: 13px; color: #5c6b82; }
+.ck-line b { color: #1a1d26; }
+.ck-line .free { color: #12b981; }
+.ck-line .off { color: #d92d20; }
+.ck-jami { display: flex; justify-content: space-between; align-items: center; margin: 8px 0 0; font-size: 16px; font-weight: 800; }
+.ck-jami b { color: #0066ff; font-size: 18px; }
+.ck-safe { display: flex; gap: 8px; align-items: center; margin-top: 8px; background: #f3fbf8; border-radius: 12px; padding: 8px; }
+.ck-safe svg { width: 18px; height: 18px; color: #12b981; flex: none; }
+.ck-safe b { display: block; font-size: 13px; }
+.ck-safe span { display: block; color: #6a7c93; font-size: 11px; }
+.ck-edit { margin-left: auto; color: #0066ff; font-size: 12px; font-weight: 800; background: none; }
+.ck-prod { display: grid; grid-template-columns: 42px minmax(0, 1fr) auto; gap: 8px; align-items: center; padding: 6px 0; }
+.ck-prod + .ck-prod { border-top: 1px solid #f1f5f9; }
+.ck-prod img { width: 42px; height: 42px; object-fit: cover; border-radius: 8px; background: #f4f7fc; }
+.ck-prod b { display: block; font-size: 13px; line-height: 1.2; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.ck-prod small { display: block; color: #8b93a7; font-size: 11px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.ck-prod em { font-style: normal; font-size: 12px; color: #5c6b82; text-align: right; }
+.ck-prod strong { display: block; font-size: 12px; }
+.ck-offer { display: flex; align-items: center; gap: 8px; font-size: 13px; font-weight: 700; }
+.ck-offer input { width: 18px; height: 18px; accent-color: #0066ff; }
+.ck-error { margin: 0; color: #d92d20; font-size: 12px; font-weight: 800; }
+.ck-pad { height: 92px; }
+.ck-bar {
+  position: fixed; left: 12px; right: 12px; z-index: 35;
+  bottom: calc(74px + env(safe-area-inset-bottom));
+  display: flex; flex-direction: column; gap: 4px;
+}
+.ck-bar p { margin: 0; text-align: center; color: #8b93a7; font-size: 11px; }
+.ck-row { display: flex; gap: 8px; }
+.ck-next, .ck-back {
+  height: 46px; min-height: 46px; flex: none; border-radius: 12px; font-weight: 800; font-size: 15px;
+  display: flex; align-items: center; justify-content: center; gap: 6px;
+}
+.ck-next { width: 100%; background: #0066ff; color: #fff; }
+.ck-row .ck-next { flex: 1; width: auto; }
+.ck-back { width: 42%; background: #fff; color: #0066ff; border: 1.5px solid #cfe0ff; }
+.ck-next svg, .ck-back svg { width: 16px; height: 16px; }
+.ck-sheet { position: fixed; inset: 0; z-index: 60; background: rgba(15,23,42,.45); display: flex; align-items: flex-end; }
+.ck-box { position: relative; z-index: 1; width: 100%; background: #fff; border-radius: 16px 16px 0 0; padding: 16px 16px calc(16px + env(safe-area-inset-bottom)); display: flex; flex-direction: column; gap: 8px; }
+.ck-box h3 { margin: 0; }
+.ck-box button.pick { height: 42px; border-radius: 12px; background: #f4f7fc; font-weight: 800; text-align: left; padding: 0 12px; }
+.ck-empty { background: #fff; border-radius: 14px; padding: 16px; text-align: center; }
+.ck-empty a { display: inline-flex; margin-top: 8px; color: #0066ff; font-weight: 800; }
+.ck-ok { width: 64px; height: 64px; border-radius: 50%; background: #e7f8ef; color: #12b981; display: grid; place-items: center; margin: 12px auto; }
+.ck-ok svg { width: 32px; height: 32px; }
+.ck-success { text-align: center; background: #fff; border-radius: 16px; padding: 16px; }
+.ck-success h2 { margin: 0; font-size: 22px; }
+.ck-success p { margin: 6px 0; color: #6a7c93; }
+.ck-success b { display: block; color: #0066ff; font-size: 18px; }
+.ck-success .ck-next, .ck-success .ck-back { width: 100%; margin-top: 8px; text-decoration: none; }
+.ck-promo-err { margin: 4px 0 0; color: #d92d20; font-size: 12px; font-weight: 800; }
+.ck-bar .ck-error { text-align: center; }
