@@ -40,7 +40,7 @@ export function VideosCommunityMarketing() {
   return (
     <section className="grid grid-cols-[1.1fr_0.7fr_0.9fr] gap-4">
       <div>
-        <SectionHeader title="Video darslar" href="/talim" />
+        <SectionHeader title="Video darslar" href="/onlayn-darslar" />
         <div className="grid grid-cols-3 gap-3">
           {videos.map((video) => (
             <Link

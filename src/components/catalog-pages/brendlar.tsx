@@ -7,7 +7,7 @@ import { Award, ChevronRight, Globe, Search } from "lucide-react";
 import { useSellerWork } from "@/components/seller-provider";
 import { formatGroupedNumber } from "@/lib/format";
 import { cn } from "@/lib/utils";
-import { CatalogLayout, CatalogSideNav, PageTitle } from "./side-nav";
+import { CatalogLayout, PageTitle } from "./side-nav";
 
 type Brand = { id: string; name: string; country: string; flag: string; aliases?: string[] };
 
@@ -75,21 +75,7 @@ export function BrendlarPage() {
   );
 
   return (
-    <CatalogLayout
-      side={
-        <CatalogSideNav
-          active="brendlar"
-          promo={{
-            title: "Rasmiy brendlar bir joyda!",
-            text: "Dunyoning yetakchi stomatologiya brendlari",
-            cta: "Barcha brendlar",
-            href: "/brendlar",
-            image: "/catalog-pages/promo-brendlar.png",
-            icon: Award,
-          }}
-        />
-      }
-    >
+    <CatalogLayout>
       <PageTitle
         title="Brendlar"
         subtitle="Dunyoning yetakchi stomatologiya brendlari"

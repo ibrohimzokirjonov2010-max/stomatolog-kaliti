@@ -325,7 +325,7 @@ function OfferCard({ product }: { product: Product }) {
 function HomeVideos() {
   return (
     <section className={cn(panel, "p-4")}>
-      <SectionHead title="Video darslar" href="/talim" />
+      <SectionHead title="Video darslar" href="/onlayn-darslar" />
       <div className="grid grid-cols-2 gap-3">
         {videoLessons.map((video) => (
           <Link key={video.id} href={videoLessonHref(video.id)} className="overflow-hidden rounded-xl bg-[#f4f6fa]">

@@ -24,7 +24,7 @@ export const quickCategories = [
     icon: "flask",
   },
   {
-    href: "/talim",
+    href: "/onlayn-darslar",
     label: "Dasturlar",
     tone: "bg-[#ffe8ee] text-[#f43f5e]",
     icon: "clock",

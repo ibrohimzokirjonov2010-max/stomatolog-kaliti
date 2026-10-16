@@ -7,7 +7,7 @@ import { Armchair, ChevronRight, Crown, Gem, Grip, Pipette, Slice, Smile, Sparkl
 import { useSellerWork } from "@/components/seller-provider";
 import { groupsForCatParam, productGroup } from "@/data/products";
 import { formatGroupedNumber } from "@/lib/format";
-import { CatalogLayout, CatalogSideNav, PageTitle } from "./side-nav";
+import { CatalogLayout, PageTitle } from "./side-nav";
 import { ToothIcon } from "./tooth-icon";
 
 type Cat = {
@@ -53,20 +53,7 @@ export function KategoriyalarPage() {
   }, [catalog]);
 
   return (
-    <CatalogLayout
-      side={
-        <CatalogSideNav
-          active="kategoriyalar"
-          promo={{
-            title: "Sotuvchi bo‘lishni xohlaysizmi?",
-            text: "O‘z mahsulotlaringizni StomaHub’da soting",
-            cta: "Ro‘yxatdan o‘tish",
-            href: "/marketplace/sotuvchi",
-            image: "/catalog-pages/promo-kategoriyalar.png",
-          }}
-        />
-      }
-    >
+    <CatalogLayout>
       <PageTitle
         title="Kategoriyalar"
         subtitle="Stomatologiya mahsulotlarini kategoriya bo‘yicha tanlang"

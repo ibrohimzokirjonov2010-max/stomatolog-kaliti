@@ -21,7 +21,7 @@ const categories = [
   { href: "/ishlar", label: "Ishlar", icon: BriefcaseBusiness },
   { href: "/seminarlar", label: "Seminarlar", icon: CalendarDays },
   { href: "/marketing", label: "Marketing", icon: Megaphone },
-  { href: "/klinika", label: "Klinika CRM", icon: LayoutDashboard },
+  { href: "/klinika/bemorlar", label: "Klinika CRM", icon: LayoutDashboard },
   { href: "/marketplace", label: "Barchasi", icon: Grid2x2 },
 ];
 

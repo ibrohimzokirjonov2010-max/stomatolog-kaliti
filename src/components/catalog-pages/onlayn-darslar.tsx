@@ -3,10 +3,10 @@
 import Image from "next/image";
 import Link from "next/link";
 import { useMemo, useState } from "react";
-import { ArrowUpDown, BookOpenCheck, ChevronDown, Clock, GraduationCap, Layers, MonitorPlay, Play, Search } from "lucide-react";
+import { ArrowUpDown, BookOpenCheck, ChevronDown, Clock, Layers, MonitorPlay, Play, Search } from "lucide-react";
 import { videoLessonHref, videoLessons, type LessonTopic, type VideoLesson } from "@/data/education";
 import { cn } from "@/lib/utils";
-import { CatalogLayout, CatalogSideNav, ChipRow, PageTitle, StatBadge } from "./side-nav";
+import { CatalogLayout, ChipRow, PageTitle, StatBadge } from "./side-nav";
 
 const TOPICS: { id: LessonTopic | ""; label: string }[] = [
   { id: "", label: "Barchasi" },
@@ -60,22 +60,7 @@ export function OnlaynDarslarPage() {
   );
 
   return (
-    <CatalogLayout
-      side={
-        <CatalogSideNav
-          variant="edu"
-          active="darslar"
-          promo={{
-            title: "Bilimingizni oshiring!",
-            text: "Stomatologiya bo‘yicha eng yaxshi onlayn darslar",
-            cta: "Barcha kurslar",
-            href: "/onlayn-darslar",
-            image: "/catalog-pages/promo-darslar.png",
-            icon: GraduationCap,
-          }}
-        />
-      }
-    >
+    <CatalogLayout>
       <PageTitle
         title="Onlayn darslar"
         subtitle="Stomatologiya bo‘yicha professional onlayn kurslar"

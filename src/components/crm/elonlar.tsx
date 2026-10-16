@@ -25,7 +25,7 @@ import { useSurplusWork } from "@/components/surplus-provider";
 import { useUstaWork } from "@/components/usta-provider";
 import { formatMoney } from "@/lib/format";
 import { cn } from "@/lib/utils";
-import { CrmSideNav, CrmTitle, selectCls } from "./crm-shared";
+import { CrmTitle, selectCls } from "./crm-shared";
 
 type Kind = "sotiladi" | "ijara" | "ish" | "xizmat" | "hamkorlik";
 type Ad = {
@@ -144,9 +144,8 @@ export function ElonlarPage() {
   });
 
   return (
-    <div className="flex items-start gap-4">
-      <CrmSideNav variant="elon" />
-      <div className="min-w-0 flex-1">
+    <div>
+      <div className="min-w-0">
         <CrmTitle
           title="E’lonlar"
           subtitle="Stomatologiya sohasidagi e’lonlar: sotiladi, ijaraga, ish o‘rni va boshqalar"

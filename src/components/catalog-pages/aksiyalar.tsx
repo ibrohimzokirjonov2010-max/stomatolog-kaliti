@@ -10,7 +10,7 @@ import { useSellerWork } from "@/components/seller-provider";
 import { productGroup, productHref, productOldPrice, type MarketGroup, type Product } from "@/data/products";
 import { formatMoney } from "@/lib/format";
 import { cn } from "@/lib/utils";
-import { CatalogLayout, CatalogSideNav, ChipRow, PageTitle } from "./side-nav";
+import { CatalogLayout, ChipRow, PageTitle } from "./side-nav";
 
 type ChipId =
   | ""
@@ -95,21 +95,7 @@ export function AksiyalarPage() {
   }, [chip, promos, q, sort]);
 
   return (
-    <CatalogLayout
-      side={
-        <CatalogSideNav
-          active="aksiyalar"
-          promo={{
-            title: "Maxsus aksiyalar va chegirmalar",
-            text: "Stomatologiya mahsulotlarini arzon narxlarda xarid qiling!",
-            cta: "Barcha aksiyalar",
-            href: "/aksiyalar",
-            image: "/catalog-pages/promo-aksiyalar.png",
-            icon: BadgePercent,
-          }}
-        />
-      }
-    >
+    <CatalogLayout>
       <PageTitle
         title="Aksiyalar"
         subtitle="Maxsus takliflar va chegirmalar"

@@ -1,92 +1,11 @@
 "use client";
 
-import Link from "next/link";
-import { usePathname } from "next/navigation";
 import { useCallback, useEffect, useState, type ReactNode } from "react";
-import {
-  BadgePercent,
-  BarChart3,
-  BookOpen,
-  CalendarDays,
-  ClipboardList,
-  Home,
-  Megaphone,
-  MessagesSquare,
-  MonitorPlay,
-  Presentation,
-  Settings,
-  Stethoscope,
-  UserRound,
-  Users,
-  Wallet,
-  Warehouse,
-  type LucideIcon,
-} from "lucide-react";
 import { useDoctorProfile } from "@/components/doctor-profile-provider";
 import { Gate } from "@/components/work-ui";
 import type { State } from "@/components/clinic-dashboard";
 import type { FieldErrors } from "@/lib/work-validate";
 import { api } from "@/lib/work-client";
-import { cn } from "@/lib/utils";
-
-type Item = { href: string; label: string; icon: LucideIcon; match?: string };
-const TOP: Item[] = [
-  { href: "/klinika", label: "Bosh sahifa", icon: Home, match: "/klinika$" },
-  { href: "/klinika/bemorlar", label: "Bemorlar CRM", icon: Users },
-  { href: "/klinika/uchrashuvlar", label: "Uchrashuvlar", icon: CalendarDays },
-  // Not built yet: these open the clinic dashboard for now.
-  { href: "/klinika/davolash-rejalari", label: "Davolash rejalari", icon: ClipboardList },
-  { href: "/klinika/tolovlar", label: "To‘lovlar", icon: Wallet },
-  { href: "/klinika", label: "Xizmatlar", icon: Stethoscope, match: "^$" },
-  { href: "/klinika/ombor", label: "Ombor", icon: Warehouse },
-  { href: "/klinika", label: "Hisobotlar", icon: BarChart3, match: "^$" },
-];
-const ELON_BOTTOM: Item[] = [
-  { href: "/seminarlar", label: "Seminarlar", icon: Presentation },
-  { href: "/onlayn-darslar", label: "Onlayn darslar", icon: MonitorPlay },
-  { href: "/mutaxassislar", label: "Konsultatsiyalar", icon: MessagesSquare },
-  { href: "/ustalar", label: "Ustalar", icon: UserRound },
-  { href: "/elonlar", label: "E’lonlar", icon: Megaphone },
-  { href: "/kitoblar", label: "Kitoblar", icon: BookOpen },
-  { href: "/aksiyalar", label: "Aksiyalar", icon: BadgePercent },
-  { href: "/profil", label: "Sozlamalar", icon: Settings, match: "^$" },
-];
-const BOTTOM: Item[] = [
-  { href: "/seminarlar", label: "Seminarlar", icon: Presentation },
-  { href: "/onlayn-darslar", label: "Onlayn darslar", icon: MonitorPlay },
-  { href: "/ustalar", label: "Ustalar", icon: UserRound },
-  { href: "/kitoblar", label: "Kitoblar", icon: BookOpen },
-  { href: "/aksiyalar", label: "Aksiyalar", icon: BadgePercent },
-  { href: "/profil", label: "Sozlamalar", icon: Settings, match: "^$" },
-];
-
-export function CrmSideNav({ variant = "crm" }: { variant?: "crm" | "elon" }) {
-  const pathname = usePathname() ?? "";
-  const row = (it: Item, i: number) => {
-    const on = it.match ? new RegExp(it.match).test(pathname) : pathname === it.href || pathname.startsWith(`${it.href}/`);
-    const Icon = it.icon;
-    return (
-      <Link
-        key={`${it.label}-${i}`}
-        href={it.href}
-        className={cn(
-          "flex h-10 items-center gap-3 rounded-lg px-3 text-[13.5px] transition-colors",
-          on ? "bg-[#EAF2FF] font-semibold text-[#0066FF]" : "text-[#1f2a44] hover:bg-[#f4f7fc]",
-        )}
-      >
-        <Icon className="size-[18px] shrink-0" strokeWidth={on ? 2 : 1.6} />
-        {it.label}
-      </Link>
-    );
-  };
-  return (
-    <aside className="sticky top-0 hidden w-[210px] shrink-0 flex-col rounded-2xl border border-[#eceff5] bg-white p-2.5 shadow-[0_2px_12px_rgba(15,23,42,0.05)] xl:flex">
-      <nav className="space-y-0.5">{TOP.map(row)}</nav>
-      <div className="mx-3 my-2.5 h-px bg-[#eceff5]" />
-      <nav className="space-y-0.5">{(variant === "elon" ? ELON_BOTTOM : BOTTOM).map(row)}</nav>
-    </aside>
-  );
-}
 
 /** Same data source and write ops as the Mening klinikam dashboard (/api/work/clinic). */
 export function useClinic() {
@@ -138,10 +57,7 @@ export function CrmFrame({ next, children }: { next: string; children: (s: Retur
     body = <Gate title="Kirish talab qilinadi" text="Klinika ma’lumotlari shaxsiy — faqat egasi ko‘radi. Davom etish uchun tizimga kiring." next={next} />;
   else body = children(clinic);
   return (
-    <div className="flex items-start gap-4">
-      <CrmSideNav />
-      <div className="min-w-0 flex-1">{body}</div>
-    </div>
+    <div className="min-w-0">{body}</div>
   );
 }
 

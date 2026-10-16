@@ -5,7 +5,7 @@ import { useEffect, useMemo, useState } from "react";
 import { ArrowUpDown, Award, CalendarDays, ChevronDown, Clock, Download, Eye, GraduationCap, MapPin, QrCode, Search, Star } from "lucide-react";
 import { useDoctorProfile } from "@/components/doctor-profile-provider";
 import { cn } from "@/lib/utils";
-import { CatalogLayout, CatalogSideNav, ChipRow, PageTitle } from "./side-nav";
+import { CatalogLayout, ChipRow, PageTitle } from "./side-nav";
 
 export type CertType = "seminar" | "onlayn" | "vebinar" | "trening";
 export type Certificate = {
@@ -81,21 +81,7 @@ export function SertifikatlarPage() {
   const name = profile?.fullName?.replace(/^Dr\.?\s*/i, "") || "Shifokor";
 
   return (
-    <CatalogLayout
-      side={
-        <CatalogSideNav
-          variant="edu"
-          active="sert"
-          promo={{
-            title: "Bilimingiz har doim siz bilan!",
-            text: "Barcha sertifikatlaringiz bir joyda",
-            cta: "Sertifikatlaringiz",
-            href: "/sertifikatlar",
-            image: "/catalog-pages/promo-sertifikatlar.png",
-          }}
-        />
-      }
-    >
+    <CatalogLayout>
       <PageTitle
         title="Sertifikatlar"
         subtitle="Siz olgan barcha sertifikatlar va yutuqlar"

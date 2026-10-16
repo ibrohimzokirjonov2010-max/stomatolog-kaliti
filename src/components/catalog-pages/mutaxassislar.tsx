@@ -9,7 +9,7 @@ import { useFavMasters } from "@/components/usta-ui";
 import { UstaRequestSheet } from "@/components/usta-request-sheet";
 import type { Master } from "@/data/masters";
 import { cn } from "@/lib/utils";
-import { CatalogLayout, CatalogSideNav, ChipRow, PageTitle, StatBadge } from "./side-nav";
+import { CatalogLayout, ChipRow, PageTitle, StatBadge } from "./side-nav";
 
 type Spec = "" | "implantolog" | "ortodont" | "terapevt" | "ortoped" | "jarroh" | "endodontist" | "parodontolog" | "bolalar" | "gigiyenist";
 const SPECS: { id: Spec; label: string; re?: RegExp }[] = [
@@ -56,21 +56,7 @@ export function MutaxassislarPage() {
   }, [city, masters, q, sort, spec]);
 
   return (
-    <CatalogLayout
-      side={
-        <CatalogSideNav
-          variant="pro"
-          active="mutaxassislar"
-          promo={{
-            title: "Professional mutaxassislarni toping!",
-            text: "Tajribali stomatologlar bilan bog‘laning",
-            cta: "Mutaxassis qidirish",
-            href: "/mutaxassislar",
-            image: "/catalog-pages/promo-mutaxassislar.png",
-          }}
-        />
-      }
-    >
+    <CatalogLayout>
       <PageTitle
         title="Mutaxassislar"
         subtitle="Tajribali stomatolog mutaxassislar bilan bog‘laning"

@@ -380,7 +380,7 @@ function MobileVideos() {
     <section>
       <div className="mb-3 flex items-center justify-between">
         <h2 className="text-[16px] font-bold tracking-tight text-[#1a1d26]">Video darslar</h2>
-        <Link href="/talim" className="text-[13px] font-semibold text-[#0066FF]">
+        <Link href="/onlayn-darslar" className="text-[13px] font-semibold text-[#0066FF]">
           Barchasi &gt;
         </Link>
       </div>
