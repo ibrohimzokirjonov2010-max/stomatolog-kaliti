@@ -21,7 +21,11 @@ export function useStoredList<T>(key: string, seed: T[]) {
 
   useEffect(() => {
     if (!ready) return;
-    window.localStorage.setItem(key, JSON.stringify(items));
+    try {
+      window.localStorage.setItem(key, JSON.stringify(items));
+    } catch {
+      /* quota — the in-memory list still updates */
+    }
   }, [items, key, ready]);
 
   return [items, setItems] as const;

@@ -16,6 +16,7 @@ import {
 import { useStoredList } from "@/lib/stored-list";
 import { downloadText } from "@/lib/simple-pdf";
 import { formatGroupedNumber } from "@/lib/format";
+import { NewPatientModal, patientFromDraft, type NewPatientDraft } from "@/components/crm/NewPatientModal";
 
 const PATIENT_STATES: ToothState[] = ["soglom", "davolanmoqda", "davolangan", "muammo"];
 const SEED = buildPatients();
@@ -45,7 +46,7 @@ export function PatientsDesktop() {
   const [menu, setMenu] = useState(false);
   const [adding, setAdding] = useState(false);
   const [visit, setVisit] = useState(false);
-  const [form, setForm] = useState({ name: "", phone: "", city: "Toshkent", age: "30", gender: "Ayol" as "Ayol" | "Erkak", status: "yangi" as PatientStatus });
+  const [toast, setToast] = useState("");
   const [visitForm, setVisitForm] = useState({ date: "22.10.2026", kind: "Maslahat", note: "", doctor: "Dr. Karimov" });
 
   const filtered = useMemo(() => {
@@ -59,7 +60,7 @@ export function PatientsDesktop() {
     next.sort((a, b) => {
       if (sort === "ism") return a.name < b.name ? -1 : a.name > b.name ? 1 : 0;
       if (sort === "eski") return a.created.localeCompare(b.created);
-      return b.created.localeCompare(a.created);
+      return (b.addedAt ?? 0) - (a.addedAt ?? 0) || b.created.localeCompare(a.created);
     });
     return next;
   }, [city, items, q, sort, status]);
@@ -73,32 +74,17 @@ export function PatientsDesktop() {
     setItems((prev) => prev.map((item) => (item.id === id ? update(item) : item)));
   }
 
-  function addPatient() {
-    if (!form.name.trim() || !form.phone.trim()) return;
-    const id = `p-${Date.now().toString().slice(-4)}`;
-    const next: Patient = {
-      id,
-      num: items.length + 1,
-      name: form.name.trim(),
-      age: Number(form.age) || 30,
-      gender: form.gender,
-      phone: form.phone.trim(),
-      city: form.city,
-      status: form.status,
-      lastVisit: "",
-      nextVisit: "",
-      avatar: "/img/jobs/doctor.jpg",
-      email: "",
-      created: "2026-10-22",
-      teeth: {},
-      visits: [],
-      payments: [],
-      docs: [],
-    };
+  function addPatient(draft: NewPatientDraft) {
+    const next = patientFromDraft(draft, items.length + 1);
     setItems((prev) => [next, ...prev]);
-    setSelected(id);
+    setSelected(next.id);
+    setStatus("");
+    setQ("");
+    setCity("");
     setAdding(false);
     setPage(1);
+    setToast(`${next.name} qo‘shildi`);
+    window.setTimeout(() => setToast(""), 2800);
   }
 
   return (
@@ -209,16 +195,8 @@ export function PatientsDesktop() {
             </aside>
           ) : null}
         </div>
-        {adding ? (
-          <CrmModal title="Yangi bemor" onClose={() => setAdding(false)}>
-            <label className="crm-field">Ism<input data-testid="patient-name" value={form.name} onChange={(event) => setForm({ ...form, name: event.target.value })} /></label>
-            <label className="crm-field">Telefon<input data-testid="patient-phone" value={form.phone} onChange={(event) => setForm({ ...form, phone: event.target.value })} /></label>
-            <label className="crm-field">Shahar<select value={form.city} onChange={(event) => setForm({ ...form, city: event.target.value })}>{patientCities.map((item) => <option key={item}>{item}</option>)}</select></label>
-            <label className="crm-field">Yosh<input value={form.age} onChange={(event) => setForm({ ...form, age: event.target.value })} /></label>
-            <label className="crm-field">Jins<select value={form.gender} onChange={(event) => setForm({ ...form, gender: event.target.value as "Ayol" | "Erkak" })}><option>Ayol</option><option>Erkak</option></select></label>
-            <div className="row"><button type="button" className="go" data-testid="patient-save" onClick={addPatient}>Saqlash</button></div>
-          </CrmModal>
-        ) : null}
+        {adding ? <NewPatientModal onClose={() => setAdding(false)} onSave={addPatient} /> : null}
+        {toast ? <div className="nb-toast" data-testid="patient-toast" role="status"><i />{toast}</div> : null}
         {visit && current ? (
           <CrmModal title="Qabul qo‘shish" onClose={() => setVisit(false)}>
             <label className="crm-field">Sana<input value={visitForm.date} onChange={(event) => setVisitForm({ ...visitForm, date: event.target.value })} /></label>

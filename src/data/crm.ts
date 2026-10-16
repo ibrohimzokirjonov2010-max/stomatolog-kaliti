@@ -19,6 +19,15 @@ export type Patient = {
   avatar: string;
   email: string;
   created: string;
+  /** Set when the patient is added from the form, so they sort ahead of the seed list. */
+  addedAt?: number;
+  family?: string;
+  birth?: string;
+  address?: string;
+  source?: string;
+  conditions?: string[];
+  otherCondition?: string;
+  note?: string;
   teeth: Record<string, ToothState>;
   visits: PatientVisit[];
   payments: PatientPay[];
