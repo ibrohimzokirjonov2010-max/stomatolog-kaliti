@@ -27,6 +27,7 @@ import {
   Package,
   Presentation,
   Radio,
+  Receipt,
   Shirt,
   ShoppingBag,
   Store,
@@ -46,6 +47,7 @@ const groups: { title: string; items: Item[] }[] = [
     items: [
       { key: "all", icon: LayoutGrid, label: "Barcha mahsulotlar", href: "/marketplace" },
       { key: "market", icon: ShoppingBag, label: "Marketplace", href: "/marketplace" },
+      { key: "orders", icon: Receipt, label: "Buyurtmalarim", href: "/buyurtmalarim" },
       { key: "surplus", icon: Package, label: "Ortiqcha material", href: "/ortiqcha-material" },
       { key: "cats", icon: LayoutGrid, label: "Kategoriyalar", href: "/marketplace" },
       { key: "brands", icon: Tag, label: "Brendlar", href: "/marketplace" },
@@ -103,7 +105,7 @@ function activeKey(pathname: string) {
   if (pathname === "/foydali-kanallar" || pathname.startsWith("/foydali-kanallar/")) return "channels";
   if (pathname === "/mening-klinikam") return "myclinic";
   if (pathname === "/ustalar" || pathname.startsWith("/ustalar/")) return "ustalar";
-  if (pathname === "/buyurtmalarim" || pathname.startsWith("/buyurtmalarim/")) return "pay";
+  if (pathname === "/buyurtmalarim" || pathname.startsWith("/buyurtmalarim/")) return "orders";
   if (pathname === "/laboratoriya" || pathname.startsWith("/laboratoriya/")) return "labs";
   if (pathname === "/community" || pathname.startsWith("/community/")) return "community";
   if (pathname === "/ishlar" || pathname.startsWith("/ishlar/")) return "jobs";

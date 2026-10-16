@@ -117,7 +117,7 @@ export default function Topbar({
             {favs.length === 0 ? <p>Hali sevimlilar yo‘q</p> : favs.map((id) => <div key={id}>{id}</div>)}
           </div>
         ) : null}
-        <Link className="sh-ic" href={variant === "shop" ? searchPath : "/savat"} aria-label="Savat">
+        <Link className="sh-ic" href="/savat" aria-label="Savat">
           <ShoppingCart className="i" />
           <em className="badge">{shown}</em>
         </Link>
