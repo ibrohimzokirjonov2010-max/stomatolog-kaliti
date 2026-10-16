@@ -230,6 +230,8 @@ export function CheckoutSteps() {
       total,
       images: items.slice(0, 3).map((item) => item.product.image),
       extra: Math.max(0, items.length - 3),
+      place: [district, city].filter(Boolean).join(", "),
+      delivery,
       items: items.map((item) => ({
         id: item.product.id,
         name: item.product.name,
@@ -613,8 +615,8 @@ export function CheckoutSteps() {
             <p>Buyurtma raqami</p>
             <b data-testid="ck-order-number">{placed.number}</b>
             <p>Jami {formatMoney(placed.total, "UZS")}</p>
-            <Link href="/buyurtmalarim" className="ck-next" data-testid="ck-success-orders">Buyurtmalarim</Link>
-            <Link href="/marketplace" className="ck-back" data-testid="ck-success-market">Marketplace</Link>
+            <Link href={`/buyurtmalarim/${placed.id}`} className="ck-next" data-testid="ck-success-track">Buyurtmani kuzatish</Link>
+            <Link href="/buyurtmalarim" className="ck-back" data-testid="ck-success-orders">Buyurtmalarim</Link>
           </div>
         ) : null}
       </div>

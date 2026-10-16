@@ -26,6 +26,8 @@ export type MobileOrder = {
   extra: number;
   items: MobileOrderItem[];
   steps?: MobileOrderStep[];
+  place?: string;
+  delivery?: "courier" | "pickup";
 };
 
 export const orderStatusMeta: Record<MobileOrderStatus, { label: string }> = {
@@ -179,12 +181,18 @@ function delivered(
 }
 
 const PLACED_KEY = "sk-placed-orders-v1";
+let placedRaw = "";
+let placedCache: MobileOrder[] = [];
 
 export function loadPlacedOrders(): MobileOrder[] {
   if (typeof window === "undefined") return [];
   try {
-    const raw = JSON.parse(window.localStorage.getItem(PLACED_KEY) ?? "[]") as unknown;
-    return Array.isArray(raw) ? (raw as MobileOrder[]) : [];
+    const raw = window.localStorage.getItem(PLACED_KEY) ?? "[]";
+    if (raw === placedRaw) return placedCache;
+    const parsed = JSON.parse(raw) as unknown;
+    placedCache = Array.isArray(parsed) ? (parsed as MobileOrder[]) : [];
+    placedRaw = raw;
+    return placedCache;
   } catch {
     return [];
   }

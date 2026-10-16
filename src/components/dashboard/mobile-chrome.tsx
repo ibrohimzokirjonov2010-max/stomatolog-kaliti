@@ -26,7 +26,6 @@ import {
 } from "lucide-react";
 import { useCart } from "@/components/cart-provider";
 import { useDoctorProfile } from "@/components/doctor-profile-provider";
-import { getMobileOrder } from "@/data/mobile-orders";
 import { initialsFromName } from "@/lib/doctor-profile";
 import { Sidebar } from "@/components/dashboard/sidebar";
 import { NotificationBell } from "@/components/notification-bell";
@@ -302,10 +301,7 @@ export function MobileTopbar() {
   if (/^\/ishlar\/[^/]+\/?$/.test(pathname) && !pathname.startsWith("/ishlar/arizalarim") && !pathname.startsWith("/ishlar/vakansiyalarim")) return null;
   if (/^\/jihozlar\/[^/]+\/?$/.test(pathname)) return null;
   if (/^\/yangiliklar\/[^/]+\/?$/.test(pathname)) return null;
-  if (/^\/buyurtmalarim\/[^/]+\/?$/.test(pathname)) {
-    const slug = decodeURIComponent(pathname.split("/").filter(Boolean)[1] ?? "");
-    if (getMobileOrder(slug)) return null;
-  }
+  if (/^\/buyurtmalarim\/[^/]+\/?$/.test(pathname)) return null;
   const onListing = pathname === "/marketplace" || pathname === "/jihozlar";
   const onHome = pathname === "/" || pathname.startsWith("/bosh-sahifa");
   const onSeminarlar =
@@ -542,9 +538,9 @@ export function MobileDrawer() {
 const homeTabs = [
   { href: "/", label: "Bosh sahifa", icon: Home, match: (path: string) => path === "/" || path.startsWith("/bosh-sahifa") || path === "/talim" || path === "/kitoblar" || path === "/foydali-kanallar" },
   { href: "/seminarlar", label: "Seminarlar", icon: CalendarDays, match: (path: string) => path === "/seminarlar" || path.startsWith("/seminarlar/") || ustaMobilePath(path) || newsMobilePath(path) },
-  { href: "/marketplace", label: "Marketplace", icon: ShoppingBag, match: (path: string) => marketplacePath(path) || path === "/savat" || path === "/buyurtma" || path.startsWith("/buyurtma/") || surplusMobilePath(path) || jihozMobilePath(path) },
+  { href: "/marketplace", label: "Marketplace", icon: ShoppingBag, match: (path: string) => marketplacePath(path) || path === "/savat" || path === "/buyurtma" || path.startsWith("/buyurtma/") || /^\/buyurtmalarim\/[^/]+/.test(path) || surplusMobilePath(path) || jihozMobilePath(path) },
   { href: "/forma", label: "Forma", icon: Shirt, match: (path: string) => path === "/forma" || (path.startsWith("/forma/") && !path.startsWith("/forma/buyurtmalarim")) },
-  { href: "/profil", label: "Profil", icon: User, match: (path: string) => path === "/profil" || path.startsWith("/profil/") || path === "/community" || path === "/mening-klinikam" || path === "/buyurtmalarim" || path.startsWith("/buyurtmalarim/") },
+  { href: "/profil", label: "Profil", icon: User, match: (path: string) => path === "/profil" || path.startsWith("/profil/") || path === "/community" || path === "/mening-klinikam" || path === "/buyurtmalarim" },
 ] as const;
 
 export function MobileTabBar() {
