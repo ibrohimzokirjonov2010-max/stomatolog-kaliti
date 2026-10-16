@@ -1,3 +1,4 @@
+import { desktopCourses, type DesktopCourse } from "@/data/desktop-courses";
 import { videoLessons } from "@/data/education";
 import { continueLesson, mobileLessons, type MobileLesson } from "@/data/mobile-lessons";
 
@@ -194,6 +195,40 @@ function fromLesson(lesson: MobileLesson): VideoCourse {
   };
 }
 
+function fromDesktop(course: DesktopCourse): VideoCourse {
+  const total = Math.min(12, Math.max(6, Math.round(course.hours)));
+  const startIndex = Math.min(2, total - 1);
+  const lessons = Array.from({ length: total }, (_, index) =>
+    lessonOf(STEP_TITLES[index] ?? `Dars ${index + 1}`, STEP_MINUTES[index] ?? 20, index < startIndex, index > startIndex),
+  );
+  return {
+    id: course.id,
+    title: course.title,
+    author: course.teacher,
+    role: course.role,
+    avatar: course.avatar,
+    poster: course.image,
+    videoSrc: SAMPLE,
+    viewsLabel: course.students >= 1000 ? `${(course.students / 1000).toFixed(1)}K` : String(course.students),
+    progressDone: startIndex,
+    progressTotal: total,
+    progressPercent: Math.round((startIndex / total) * 100),
+    lessons,
+    startIndex,
+    startSec: 0,
+    about: [
+      `${course.title} — ${course.hours} soatlik professional kurs. ${course.teacher} (${course.role}) amaliy bosqichlarni ko‘rsatadi.`,
+      "Kurs yakunida sertifikat beriladi. Har bir darsdan keyin qisqa xulosa qoldiriladi.",
+    ],
+    materials: [
+      { name: "Dars bayonnomasi.pdf", detail: "1.1 MB" },
+      { name: "Amaliy checklist.pdf", detail: "240 KB" },
+    ],
+    comments: designCourse.comments.slice(0, 2),
+    commentCount: Math.min(course.reviews, 24),
+  };
+}
+
 export function resolveVideoCourse(id: string): VideoCourse {
   if (id === designCourse.id) return designCourse;
   const lesson = [continueLesson, ...mobileLessons].find((item) => item.id === id);
@@ -210,5 +245,7 @@ export function resolveVideoCourse(id: string): VideoCourse {
       lessons: 6,
     });
   }
+  const desktop = desktopCourses.find((item) => item.id === id);
+  if (desktop) return fromDesktop(desktop);
   return { ...designCourse, id: id || designCourse.id };
 }

@@ -1,0 +1,178 @@
+.sh .od-head { display: flex; align-items: flex-start; justify-content: space-between; gap: calc(.6 * var(--u)); }
+.sh .od-head h1 { margin: 0; font-size: calc(1.45 * var(--u)); letter-spacing: -.02em; }
+.sh .od-head p { margin: calc(.1 * var(--u)) 0 0; color: #6a7c93; font-size: calc(.72 * var(--u)); }
+.sh .od-badges { display: flex; gap: calc(.4 * var(--u)); flex: none; }
+.sh .od-badges .brd-badge { padding: calc(.35 * var(--u)) calc(.55 * var(--u)); }
+.sh .od-badges .brd-badge b { white-space: nowrap; }
+.sh .od-badges .brd-badge span { white-space: nowrap; }
+
+.sh .od-tools { display: flex; gap: calc(.4 * var(--u)); margin: calc(.55 * var(--u)) 0 calc(.45 * var(--u)); }
+.sh .od-search {
+  flex: 1.35;
+  min-width: 0;
+  height: calc(2.05 * var(--u));
+  background: #fff;
+  border: 1px solid #e6edf5;
+  border-radius: calc(.5 * var(--u));
+  display: flex;
+  align-items: center;
+  gap: calc(.35 * var(--u));
+  padding: 0 calc(.6 * var(--u));
+  color: #8b9bb0;
+}
+.sh .od-search input { flex: 1; min-width: 0; border: 0; outline: 0; background: transparent; font: inherit; font-size: calc(.64 * var(--u)); color: #0f1e3d; }
+.sh .od-search input::placeholder { color: #8b9bb0; }
+.sh .od-search .i, .sh .od-select .i { font-size: calc(.78 * var(--u)); color: #6a7c93; }
+.sh .od-select {
+  flex: 1;
+  min-width: 0;
+  height: calc(2.05 * var(--u));
+  background: #fff;
+  border: 1px solid #e6edf5;
+  border-radius: calc(.5 * var(--u));
+  display: flex;
+  align-items: center;
+  gap: calc(.25 * var(--u));
+  padding: 0 calc(.5 * var(--u));
+  color: #3d4f6a;
+}
+.sh .od-select select {
+  flex: 1;
+  min-width: 0;
+  border: 0;
+  outline: 0;
+  background: transparent;
+  font: inherit;
+  font-size: calc(.62 * var(--u));
+  font-weight: 650;
+  color: #24344d;
+  appearance: none;
+}
+
+.sh .od-chips { display: flex; gap: calc(.28 * var(--u)); margin-bottom: calc(.55 * var(--u)); }
+.sh .od-chips button {
+  flex: none;
+  height: calc(1.65 * var(--u));
+  padding: 0 calc(.62 * var(--u));
+  border-radius: calc(1 * var(--u));
+  background: #fff;
+  border: 1px solid #e6edf5;
+  color: #3d4f6a;
+  font-size: calc(.58 * var(--u));
+  font-weight: 700;
+  white-space: nowrap;
+}
+.sh .od-chips button.on { background: #0066ff; border-color: #0066ff; color: #fff; }
+
+.sh .od-grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: calc(.5 * var(--u)); }
+.sh .od-card {
+  position: relative;
+  background: #fff;
+  border: 1px solid #e8eef6;
+  border-radius: calc(.6 * var(--u));
+  min-width: 0;
+  box-shadow: 0 calc(.06 * var(--u)) calc(.3 * var(--u)) rgba(20, 40, 80, .04);
+}
+.sh .od-card:hover { border-color: #c5d9ff; box-shadow: 0 calc(.15 * var(--u)) calc(.5 * var(--u)) rgba(0, 102, 255, .08); }
+.sh .od-hit { display: block; padding: calc(.4 * var(--u)); color: inherit; }
+.sh .od-ph { position: relative; height: calc(13.2 * var(--u)); border-radius: calc(.45 * var(--u)); background: #eef3f8; overflow: hidden; }
+.sh .od-ph img { width: 100%; height: 100%; object-fit: cover; }
+.sh .od-flag {
+  position: absolute;
+  top: calc(.35 * var(--u));
+  left: calc(.35 * var(--u));
+  height: calc(1.15 * var(--u));
+  padding: 0 calc(.42 * var(--u));
+  border-radius: calc(.28 * var(--u));
+  color: #fff;
+  font-size: calc(.54 * var(--u));
+  font-weight: 800;
+  display: inline-flex;
+  align-items: center;
+}
+.sh .od-flag.best { background: #ef3b3b; }
+.sh .od-flag.new { background: #16a34a; }
+.sh .od-flag.pop { background: #0066ff; }
+.sh .od-flag.pro { background: #f59e0b; }
+.sh .od-hours {
+  position: absolute;
+  left: calc(.35 * var(--u));
+  bottom: calc(.35 * var(--u));
+  height: calc(1.2 * var(--u));
+  padding: 0 calc(.4 * var(--u));
+  border-radius: calc(.3 * var(--u));
+  background: #fff;
+  color: #24344d;
+  font-size: calc(.56 * var(--u));
+  font-weight: 750;
+  display: inline-flex;
+  align-items: center;
+  gap: calc(.18 * var(--u));
+  box-shadow: 0 calc(.04 * var(--u)) calc(.16 * var(--u)) rgba(15, 30, 60, .1);
+}
+.sh .od-hours .i { font-size: calc(.7 * var(--u)); }
+.sh .od-mark {
+  position: absolute;
+  top: calc(.75 * var(--u));
+  right: calc(.75 * var(--u));
+  z-index: 2;
+  width: calc(1.5 * var(--u));
+  height: calc(1.5 * var(--u));
+  border-radius: calc(.35 * var(--u));
+  background: #fff;
+  color: #5c6d84;
+  display: grid;
+  place-items: center;
+  box-shadow: 0 calc(.04 * var(--u)) calc(.16 * var(--u)) rgba(15, 30, 60, .12);
+}
+.sh .od-mark .i { font-size: calc(.78 * var(--u)); }
+.sh .od-mark.on { color: #0066ff; }
+.sh .od-mark.on .i { fill: currentColor; }
+.sh .od-card h3 {
+  margin: calc(.4 * var(--u)) 0 0;
+  font-size: calc(.66 * var(--u));
+  line-height: 1.28;
+  font-weight: 750;
+  min-height: calc(1.7 * var(--u));
+}
+.sh .od-teach { display: flex; align-items: center; gap: calc(.35 * var(--u)); margin-top: calc(.35 * var(--u)); min-width: 0; }
+.sh .od-teach img { width: calc(1.55 * var(--u)); height: calc(1.55 * var(--u)); border-radius: 50%; object-fit: cover; flex: none; }
+.sh .od-teach div { min-width: 0; }
+.sh .od-teach b, .sh .od-teach span { display: block; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.sh .od-teach b { font-size: calc(.6 * var(--u)); font-weight: 750; }
+.sh .od-teach span { color: #6a7c93; font-size: calc(.52 * var(--u)); margin-top: calc(.02 * var(--u)); }
+.sh .od-meta {
+  display: flex;
+  align-items: center;
+  gap: calc(.22 * var(--u));
+  margin-top: calc(.32 * var(--u));
+  font-size: calc(.56 * var(--u));
+  color: #5b6b82;
+}
+.sh .od-meta .star { color: #f5b400; fill: #f5b400; font-size: calc(.7 * var(--u)); }
+.sh .od-meta b { color: #24344d; font-weight: 750; }
+.sh .od-meta .stu { margin-left: auto; display: inline-flex; align-items: center; gap: calc(.15 * var(--u)); white-space: nowrap; }
+.sh .od-meta .stu .i { font-size: calc(.7 * var(--u)); }
+.sh .od-price { margin: calc(.28 * var(--u)) 0 0; color: #0066ff; font-size: calc(.78 * var(--u)); font-weight: 800; }
+.sh .od-empty { background: #fff; border-radius: calc(.6 * var(--u)); padding: calc(1.6 * var(--u)); text-align: center; color: #5b6b82; }
+.sh .od-empty button {
+  margin-top: calc(.5 * var(--u));
+  height: calc(1.8 * var(--u));
+  padding: 0 calc(.9 * var(--u));
+  background: #0066ff;
+  color: #fff;
+  border-radius: calc(.4 * var(--u));
+  font-weight: 750;
+  font-size: calc(.66 * var(--u));
+}
+.sh .brd-promo .od-cap { color: #0066ff; font-size: calc(1.15 * var(--u)); }
+.sh .od-promo { min-height: calc(8.6 * var(--u)); }
+.sh .od-promo b, .sh .od-promo small { max-width: calc(7.6 * var(--u)); }
+.sh .od-promo img {
+  width: calc(5.4 * var(--u));
+  height: calc(6.4 * var(--u));
+  right: calc(.15 * var(--u));
+  bottom: calc(.15 * var(--u));
+  object-fit: contain;
+  object-position: right bottom;
+}

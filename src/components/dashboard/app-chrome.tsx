@@ -14,7 +14,7 @@ import { isMarketId, isSurplusId } from "@/data/desktop-shop";
 import { SeminarList } from "@/components/seminars/desktop/SeminarList";
 import { SeminarDetail } from "@/components/seminars/desktop/SeminarDetail";
 import { isDesktopSeminarId } from "@/data/desktop-seminars";
-import { TalimDesktop } from "@/components/hub/desktop/TalimDesktop";
+import { OnlaynDarslarDesktop } from "@/components/education/desktop/OnlaynDarslarDesktop";
 import { KitoblarDesktop } from "@/components/hub/desktop/KitoblarDesktop";
 import { KanallarDesktop } from "@/components/hub/desktop/KanallarDesktop";
 import { CommunityDesktop } from "@/components/hub/desktop/CommunityDesktop";
@@ -123,7 +123,7 @@ function desktopShop(pathname: string | null): ReactNode | null {
 
 function desktopHub(pathname: string | null): ReactNode | null {
   if (!pathname) return null;
-  if (pathname === "/talim") return <TalimDesktop />;
+  if (pathname === "/talim") return <OnlaynDarslarDesktop />;
   if (pathname === "/kitoblar") return <KitoblarDesktop />;
   if (pathname === "/foydali-kanallar") return <KanallarDesktop />;
   if (pathname === "/community") return <CommunityDesktop />;

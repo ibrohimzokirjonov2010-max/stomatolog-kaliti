@@ -28,6 +28,9 @@ import "./market-frame.css";
 
 export type MarketNavKey = "home" | "cats" | "brands" | "all" | "new" | "popular" | "sale" | "fav" | "orders" | "seller";
 
+export type FrameLink = { key: string; label: string; href: string; icon: LucideIcon };
+export type HeaderLink = { href: string; label: string; key?: string };
+
 const mainNav: { key: MarketNavKey; label: string; href: string; icon: LucideIcon }[] = [
   { key: "home", label: "Bosh sahifa", href: "/", icon: Home },
   { key: "cats", label: "Kategoriyalar", href: "/marketplace", icon: LayoutGrid },
@@ -61,26 +64,46 @@ export function MarketFrame({
   promoHref = "/marketplace/brendlar",
   promoImage = "/img/implant.jpg",
   promoIcon,
+  promoClass,
   onPromo,
+  headerLinks = headerNav,
+  headerActive = "market",
+  searchPlaceholder = "Mahsulot, brend yoki kategoriya qidiring...",
+  headerQuery,
+  onHeaderQuery,
+  sideMain = mainNav,
+  sideSecond = secondNav,
+  sideLabel = "Marketplace",
   children,
 }: {
-  active: MarketNavKey;
+  active: string;
   promoTitle?: string;
   promoText?: string;
   promoCta?: string;
   promoHref?: string;
   promoImage?: string;
   promoIcon?: ReactNode;
+  promoClass?: string;
   onPromo?: () => void;
+  headerLinks?: HeaderLink[];
+  headerActive?: string;
+  searchPlaceholder?: string;
+  headerQuery?: string;
+  onHeaderQuery?: (value: string) => void;
+  sideMain?: FrameLink[];
+  sideSecond?: FrameLink[];
+  sideLabel?: string;
   children: ReactNode;
 }) {
   const router = useRouter();
   const { count } = useCart();
   const [query, setQuery] = useState("");
   const [notes, setNotes] = useState(false);
+  const searchValue = onHeaderQuery ? (headerQuery ?? "") : query;
 
   function onSearch(event: FormEvent) {
     event.preventDefault();
+    if (onHeaderQuery) return;
     const q = query.trim();
     router.push(q ? `/marketplace?q=${encodeURIComponent(q)}` : "/marketplace");
   }
@@ -99,15 +122,15 @@ export function MarketFrame({
         <form className="brd-q" onSubmit={onSearch}>
           <Search className="i" />
           <input
-            value={query}
-            onChange={(event) => setQuery(event.target.value)}
-            placeholder="Mahsulot, brend yoki kategoriya qidiring..."
+            value={searchValue}
+            onChange={(event) => (onHeaderQuery ? onHeaderQuery(event.target.value) : setQuery(event.target.value))}
+            placeholder={searchPlaceholder}
             aria-label="Qidiruv"
           />
         </form>
-        <nav className="brd-nav" aria-label="Bo‘limlar">
-          {headerNav.map((item) => (
-            <Link key={item.href} href={item.href} className={item.key === "market" ? "on" : undefined} aria-current={item.key === "market" ? "page" : undefined}>
+        <nav className={headerLinks.length > 6 ? "brd-nav tight" : "brd-nav"} aria-label="Bo‘limlar">
+          {headerLinks.map((item) => (
+            <Link key={item.href} href={item.href} className={item.key === headerActive ? "on" : undefined} aria-current={item.key === headerActive ? "page" : undefined}>
               {item.label}
             </Link>
           ))}
@@ -131,22 +154,22 @@ export function MarketFrame({
       </header>
       <div className="brd-body">
         <aside className="brd-side">
-          <nav className="brd-navlist" aria-label="Marketplace">
-            {mainNav.map((item) => (
+          <nav className="brd-navlist" aria-label={sideLabel}>
+            {sideMain.map((item) => (
               <Link key={item.key} href={item.href} className={active === item.key ? "brd-item on" : "brd-item"} data-testid={`mf-${item.key}`}>
                 <item.icon className="i" />
                 <span>{item.label}</span>
               </Link>
             ))}
             <div className="brd-split" />
-            {secondNav.map((item) => (
+            {sideSecond.map((item) => (
               <Link key={item.key} href={item.href} className={active === item.key ? "brd-item on" : "brd-item"} data-testid={`mf-${item.key}`}>
                 <item.icon className="i" />
                 <span>{item.label}</span>
               </Link>
             ))}
           </nav>
-          <div className="brd-promo">
+          <div className={promoClass ? `brd-promo ${promoClass}` : "brd-promo"}>
             {promoIcon ?? <Crown className="crown i" />}
             <b>{promoTitle}</b>
             <small>{promoText}</small>
