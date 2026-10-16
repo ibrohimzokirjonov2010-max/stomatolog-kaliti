@@ -50,7 +50,7 @@ const UstaCtx = createContext<Ctx | null>(null);
 export function UstaWorkProvider({ children }: { children: ReactNode }) {
   const pathname = usePathname();
   const { profile, ready: profileReady } = useDoctorProfile();
-  const active = pathname.startsWith("/ustalar");
+  const active = pathname.startsWith("/ustalar") || pathname.startsWith("/mutaxassislar");
   const [masters, setMasters] = useState<Master[]>([]);
   const [mastersReady, setMastersReady] = useState(false);
   const [requests, setRequests] = useState<UstaRequest[]>([]);
