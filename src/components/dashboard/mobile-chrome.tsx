@@ -290,6 +290,7 @@ export function MobileTopbar() {
     return null;
   // Book detail page draws its own header (back / share / save).
   if (/^\/kitoblar\/[^/]+\/?$/.test(pathname)) return null;
+  if (/\/oqish\/?$/.test(pathname)) return null;
   // Ustalar list + usta profile draw their own headers (mock: logo + "Usta qo‘shish" / back · heart · share).
   if (
     pathname === "/ustalar" ||
@@ -546,7 +547,7 @@ const homeTabs = [
 export function MobileTabBar() {
   const pathname = usePathname();
   const onKlinika = pathname === "/klinika" || pathname.startsWith("/klinika/");
-  if (onKlinika) return null;
+  if (onKlinika || /\/oqish\/?$/.test(pathname)) return null;
   if (pathname === "/" || pathname === "/talim" || pathname === "/kitoblar" || pathname === "/foydali-kanallar" || pathname === "/community" || pathname === "/mening-klinikam" || pathname === "/profil" || pathname.startsWith("/profil/") || formaMobilePath(pathname) || jihozMobilePath(pathname) || ustaMobilePath(pathname) || newsMobilePath(pathname) || surplusMobilePath(pathname) || marketMobilePath(pathname) || seminarMobilePath(pathname) || pathname === "/savat" || pathname === "/buyurtma" || pathname.startsWith("/buyurtma/") || pathname === "/buyurtmalarim" || pathname.startsWith("/buyurtmalarim/")) {
     return (
       <nav aria-label="Mobil menyu" className="mh-tabs lg:hidden">
