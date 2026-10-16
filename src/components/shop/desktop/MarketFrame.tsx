@@ -35,7 +35,7 @@ const mainNav: { key: MarketNavKey; label: string; href: string; icon: LucideIco
   { key: "all", label: "Barcha mahsulotlar", href: "/marketplace", icon: Package },
   { key: "new", label: "Yangi mahsulotlar", href: "/marketplace?sort=yangi", icon: Sparkles },
   { key: "popular", label: "Ommabop mahsulotlar", href: "/marketplace?sort=ommabop", icon: ShoppingBag },
-  { key: "sale", label: "Aksiyalar", href: "/marketplace?sale=1", icon: BadgePercent },
+  { key: "sale", label: "Aksiyalar", href: "/marketplace/aksiyalar", icon: BadgePercent },
 ];
 
 const secondNav: { key: MarketNavKey; label: string; href: string; icon: LucideIcon }[] = [
@@ -59,6 +59,8 @@ export function MarketFrame({
   promoText = "Dunyoning yetakchi stomatologiya brendlari",
   promoCta = "Barcha brendlar",
   promoHref = "/marketplace/brendlar",
+  promoImage = "/img/implant.jpg",
+  promoIcon,
   onPromo,
   children,
 }: {
@@ -67,6 +69,8 @@ export function MarketFrame({
   promoText?: string;
   promoCta?: string;
   promoHref?: string;
+  promoImage?: string;
+  promoIcon?: ReactNode;
   onPromo?: () => void;
   children: ReactNode;
 }) {
@@ -143,7 +147,7 @@ export function MarketFrame({
             ))}
           </nav>
           <div className="brd-promo">
-            <Crown className="crown i" />
+            {promoIcon ?? <Crown className="crown i" />}
             <b>{promoTitle}</b>
             <small>{promoText}</small>
             {onPromo ? (
@@ -155,7 +159,7 @@ export function MarketFrame({
                 {promoCta} <ChevronRight className="i" />
               </Link>
             )}
-            <img src="/img/implant.jpg" alt="" />
+            <img src={promoImage} alt="" />
           </div>
         </aside>
         <main className="brd-main">{children}</main>

@@ -6,6 +6,7 @@ import { DashboardShell } from "@/components/dashboard/shell";
 import DesktopHomePage from "@/components/home/desktop/HomePage";
 import { MarketCatalog } from "@/components/shop/desktop/MarketCatalog";
 import { BrandsDesktop } from "@/components/shop/desktop/BrandsDesktop";
+import { AksiyalarDesktop } from "@/components/shop/desktop/AksiyalarDesktop";
 import { MarketProduct } from "@/components/shop/desktop/MarketProduct";
 import { SurplusCatalog } from "@/components/shop/desktop/SurplusCatalog";
 import { SurplusDetail } from "@/components/shop/desktop/SurplusDetail";
@@ -109,6 +110,7 @@ function desktopShop(pathname: string | null): ReactNode | null {
   if (!pathname) return null;
   if (pathname === "/marketplace") return <MarketCatalog />;
   if (pathname === "/marketplace/brendlar") return <BrandsDesktop />;
+  if (pathname === "/marketplace/aksiyalar") return <AksiyalarDesktop />;
   const brandPage = pathname.match(/^\/marketplace\/brendlar\/([^/]+)$/);
   if (brandPage) return <BrandsDesktop slug={decodeURIComponent(brandPage[1])} />;
   if (pathname === "/ortiqcha-material") return <SurplusCatalog />;
