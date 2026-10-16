@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { useEffect, useMemo, useRef, useState, type FormEvent } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState, type FormEvent } from "react";
 import {
   AlertTriangle,
   Boxes,
@@ -98,6 +98,7 @@ function Ombor() {
   const [page, setPage] = useState(1);
   const [adding, setAdding] = useState<StockItem | null | "new">(null);
   const fileRef = useRef<HTMLInputElement>(null);
+  const openImport = useCallback(() => fileRef.current?.click(), []);
 
   const cats = [...new Set(all.map((i) => i.category).filter(Boolean))].sort();
   const sups = [...new Set(all.map((i) => i.supplier ?? "").filter(Boolean))].sort();
@@ -287,7 +288,7 @@ function Ombor() {
               { icon: PackagePlus, label: "Yangi mahsulot", on: () => setAdding("new") },
               { icon: ShoppingCart, label: "Buyurtma berish", href: "/marketplace" },
               { icon: ClipboardCheck, label: "Inventarizatsiya", on: () => { setSt(""); setQ(""); setCat(""); setSup(""); } },
-              { icon: FileSpreadsheet, label: "Excel (CSV) import", on: () => fileRef.current?.click() },
+              { icon: FileSpreadsheet, label: "Excel (CSV) import", on: openImport },
             ].map((a) => {
               const Icon = a.icon;
               const cls = "mb-1.5 flex h-10 w-full items-center gap-2.5 rounded-xl bg-[#f3f8ff] px-3 text-[12.5px] font-semibold text-[#0066FF] last:mb-0";
