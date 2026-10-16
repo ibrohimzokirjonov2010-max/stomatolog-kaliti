@@ -3,6 +3,7 @@
 
 import { useState } from "react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { BookOpen, Briefcase, CalendarDays, ChevronRight, Clock, FileCheck2, GraduationCap, Heart, MapPin, Play, Share2, Stethoscope, Users } from "lucide-react";
 import { type MobileSeminar } from "@/data/mobile-seminars";
 import { formatMoney } from "@/lib/format";
@@ -20,12 +21,11 @@ type TabId = (typeof tabs)[number]["id"];
 const featureIcons = [BookOpen, Users, Stethoscope, FileCheck2];
 
 export function SeminarMobileDesign({ item }: { item: MobileSeminar }) {
+  const router = useRouter();
   const [tab, setTab] = useState<TabId>("umumiy");
   const [saved, setSaved] = useState(false);
   const [more, setMore] = useState(false);
   const [video, setVideo] = useState(false);
-  const [join, setJoin] = useState(false);
-  const [name, setName] = useState("");
   const [note, setNote] = useState("");
   const taken = Math.max(0, Math.min(100, Math.round(((item.seats - item.seatsLeft) / item.seats) * 100)));
 
@@ -98,7 +98,7 @@ export function SeminarMobileDesign({ item }: { item: MobileSeminar }) {
               <s>{formatMoney(item.oldPrice, "UZS")}</s>
             </span>
           </div>
-          <button type="button" className="se-go reg" onClick={() => setJoin(true)}>
+          <button type="button" className="se-go reg" onClick={() => router.push(`/seminarlar/${item.id}/royxat`)}>
             Ro‘yxatdan o‘tish <ChevronRight />
           </button>
         </section>
@@ -186,7 +186,7 @@ export function SeminarMobileDesign({ item }: { item: MobileSeminar }) {
             <s>{formatMoney(item.oldPrice, "UZS")}</s>
           </span>
         </div>
-        <button type="button" className="se-go reg" data-testid="se-register" onClick={() => setJoin(true)}>
+        <button type="button" className="se-go reg" data-testid="se-register" onClick={() => router.push(`/seminarlar/${item.id}/royxat`)}>
           Ro‘yxatdan o‘tish <ChevronRight />
         </button>
       </div>
@@ -206,32 +206,6 @@ export function SeminarMobileDesign({ item }: { item: MobileSeminar }) {
         </div>
       ) : null}
 
-      {join ? (
-        <div className="se-sheet" role="dialog" aria-label="Ro‘yxatdan o‘tish">
-          <button type="button" aria-label="Yopish" className="absolute inset-0" onClick={() => setJoin(false)} />
-          <form
-            className="se-panelbox"
-            onSubmit={(event) => {
-              event.preventDefault();
-              if (!name.trim()) return;
-              setJoin(false);
-              setName("");
-              setNote("Ariza qabul qilindi");
-            }}
-          >
-            <h3>Ro‘yxatdan o‘tish</h3>
-            <input aria-label="Ism" value={name} onChange={(event) => setName(event.target.value)} placeholder="Ismingiz" />
-            <div className="row">
-              <button type="button" className="go" style={{ background: "#eef2f6", color: "#24344d" }} onClick={() => setJoin(false)}>
-                Yopish
-              </button>
-              <button type="submit" className="go">
-                Yuborish
-              </button>
-            </div>
-          </form>
-        </div>
-      ) : null}
     </div>
   );
 }

@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState, type FormEvent, type ReactNode } from "react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { ArrowRight } from "lucide-react";
 import { Button, buttonVariants } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -231,6 +232,7 @@ export function SeminarRegisterPage({ seminar }: { seminar: Seminar }) {
   const mine = activeReg(seminar.id);
   const upcoming = isSeminarUpcoming(live);
   const formRef = useRef<HTMLElement>(null);
+  const router = useRouter();
 
   return (
     <>
@@ -241,7 +243,7 @@ export function SeminarRegisterPage({ seminar }: { seminar: Seminar }) {
           mine={mine}
           upcoming={upcoming}
           formRef={formRef}
-          onRegister={() => formRef.current?.scrollIntoView({ behavior: "smooth", block: "start" })}
+          onRegister={() => router.push(`/seminarlar/${live.id}/royxat`)}
         >
           <SeminarMobileRegistration seminar={live} left={left} mine={mine} upcoming={upcoming} sectionRef={formRef} />
         </SeminarDetailMobile>
