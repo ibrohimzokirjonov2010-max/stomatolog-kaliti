@@ -2,6 +2,7 @@
 
 /* eslint-disable react-hooks/set-state-in-effect -- data loading effects kick off async fetches */
 
+import Link from "next/link";
 import { useCallback, useEffect, useMemo, useState, type FormEvent, type ReactNode } from "react";
 import { CalendarDays, CalendarPlus, Phone, Plus, Search, Settings, Trash2, UserPlus, Users, X } from "lucide-react";
 import { useDoctorProfile } from "@/components/doctor-profile-provider";
@@ -12,12 +13,12 @@ import { api } from "@/lib/work-client";
 import { validateClinicOp, type FieldErrors } from "@/lib/work-validate";
 import { cn } from "@/lib/utils";
 
-type VisitStatus = "Keldi" | "Kutilyapti" | "Bekor";
-type Clinic = { id: string; name: string; branch: string | null; address: string | null; openTime: string; closeTime: string };
-type Patient = { id: string; name: string; phone: string | null; status: "Faol" | "Noaktiv"; note: string | null; lastVisit: string | null; nextVisit: string | null };
-type Visit = { id: string; patientId: string | null; name: string; date: string; time: string; procedure: string; status: VisitStatus };
-type Staff = { id: string; name: string; role: string; onDuty: boolean };
-type State = { today: string; clinic: Clinic | null; patients: Patient[]; visits: Visit[]; staff: Staff[] };
+export type VisitStatus = "Keldi" | "Kutilyapti" | "Bekor";
+export type Clinic = { id: string; name: string; branch: string | null; address: string | null; openTime: string; closeTime: string };
+export type Patient = { id: string; name: string; phone: string | null; status: "Faol" | "Noaktiv"; note: string | null; lastVisit: string | null; nextVisit: string | null };
+export type Visit = { id: string; patientId: string | null; name: string; date: string; time: string; procedure: string; status: VisitStatus };
+export type Staff = { id: string; name: string; role: string; onDuty: boolean };
+export type State = { today: string; clinic: Clinic | null; patients: Patient[]; visits: Visit[]; staff: Staff[] };
 type Modal = null | "clinic" | "patient" | "visit" | "staff";
 
 const statusClass: Record<VisitStatus, string> = {
@@ -117,6 +118,20 @@ export function ClinicDashboard() {
           </div>
         ) : null}
       </div>
+
+      {userId ? (
+        <nav className="-mx-4 mt-3 flex gap-2 overflow-x-auto px-4 [scrollbar-width:none] lg:mx-0 lg:px-0">
+          {[
+            ["/klinika/bemorlar", "Bemorlar CRM"],
+            ["/klinika/uchrashuvlar", "Uchrashuvlar"],
+            ["/klinika/ombor", "Ombor"],
+          ].map(([href, label]) => (
+            <Link key={href} href={href} className="inline-flex h-9 shrink-0 items-center rounded-full border border-[#d6e4ff] bg-white px-4 text-[13px] font-semibold text-[#0066FF] hover:bg-[#f3f8ff]">
+              {label}
+            </Link>
+          ))}
+        </nav>
+      ) : null}
 
       {error ? <p role="alert" className="mt-3 rounded-xl bg-[#fef2f2] px-3.5 py-2.5 text-[13px] font-medium text-[#b91c1c]">{error}</p> : null}
 
@@ -300,7 +315,7 @@ function VisitRow({ v, showDate, busy, onStatus, onDelete }: { v: Visit; showDat
   );
 }
 
-type Submit = (data: Record<string, unknown>) => Promise<{ ok: true } | { ok: false; error: string; errors?: FieldErrors }>;
+export type Submit = (data: Record<string, unknown>) => Promise<{ ok: true } | { ok: false; error: string; errors?: FieldErrors }>;
 
 function useForm(op: string, onSubmit: Submit, onDone: () => void) {
   const [errors, setErrors] = useState<FieldErrors>({});
@@ -337,7 +352,7 @@ function Actions({ busy, label, formError }: { busy: boolean; label: string; for
   );
 }
 
-function ClinicForm({ clinic, onSubmit, onDone }: { clinic?: Clinic; onSubmit: Submit; onDone: () => void }) {
+export function ClinicForm({ clinic, onSubmit, onDone }: { clinic?: Clinic; onSubmit: Submit; onDone: () => void }) {
   const [f, setF] = useState({ name: clinic?.name ?? "", branch: clinic?.branch ?? "", address: clinic?.address ?? "", openTime: clinic?.openTime ?? "09:00", closeTime: clinic?.closeTime ?? "18:00" });
   const { errors, formError, busy, submit } = useForm("clinic_save", onSubmit, onDone);
   return (
@@ -364,7 +379,7 @@ function ClinicForm({ clinic, onSubmit, onDone }: { clinic?: Clinic; onSubmit: S
   );
 }
 
-function PatientForm({ patient, onSubmit, onDone }: { patient: Patient | null; onSubmit: Submit; onDone: () => void }) {
+export function PatientForm({ patient, onSubmit, onDone }: { patient: Patient | null; onSubmit: Submit; onDone: () => void }) {
   const [f, setF] = useState({ name: patient?.name ?? "", phone: patient?.phone ?? "", status: patient?.status ?? "Faol", note: patient?.note ?? "" });
   const { errors, formError, busy, submit } = useForm("patient_save", onSubmit, onDone);
   return (
@@ -390,7 +405,7 @@ function PatientForm({ patient, onSubmit, onDone }: { patient: Patient | null; o
   );
 }
 
-function VisitForm({ patients, today, onSubmit, onDone }: { patients: Patient[]; today: string; onSubmit: Submit; onDone: () => void }) {
+export function VisitForm({ patients, today, onSubmit, onDone }: { patients: Patient[]; today: string; onSubmit: Submit; onDone: () => void }) {
   const [f, setF] = useState({ patientId: "", name: "", date: today, time: "10:00", procedure: "" });
   const { errors, formError, busy, submit } = useForm("visit_save", onSubmit, onDone);
   return (
@@ -446,7 +461,7 @@ function StaffForm({ onSubmit, onDone }: { onSubmit: Submit; onDone: () => void 
   );
 }
 
-function Sheet({ title, onClose, children }: { title: string; onClose: () => void; children: ReactNode }) {
+export function Sheet({ title, onClose, children }: { title: string; onClose: () => void; children: ReactNode }) {
   return (
     <div className="fixed inset-0 z-50 flex items-end justify-center bg-slate-900/40 p-0 sm:items-center sm:p-4">
       <button type="button" className="absolute inset-0" aria-label="Yopish" onClick={onClose} />
