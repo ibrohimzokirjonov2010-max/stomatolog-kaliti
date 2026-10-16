@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { useCallback, useEffect, useMemo, useRef, useState, type FormEvent } from "react";
+import { useEffect, useMemo, useState, type FormEvent } from "react";
 import {
   AlertTriangle,
   Boxes,
@@ -97,8 +97,7 @@ function Ombor() {
   const [sup, setSup] = useState("");
   const [page, setPage] = useState(1);
   const [adding, setAdding] = useState<StockItem | null | "new">(null);
-  const fileRef = useRef<HTMLInputElement>(null);
-  const openImport = useCallback(() => fileRef.current?.click(), []);
+  const openImport = () => document.getElementById("ombor-import")?.click();
 
   const cats = [...new Set(all.map((i) => i.category).filter(Boolean))].sort();
   const sups = [...new Set(all.map((i) => i.supplier ?? "").filter(Boolean))].sort();
@@ -155,7 +154,7 @@ function Ombor() {
           </>
         }
       />
-      <input ref={fileRef} type="file" accept=".csv,text/csv" hidden onChange={(e) => e.target.files?.[0] && void importCsv(e.target.files[0])} />
+      <input id="ombor-import" type="file" accept=".csv,text/csv" hidden onChange={(e) => e.target.files?.[0] && void importCsv(e.target.files[0])} />
 
       <div className="flex items-start gap-4">
         <div className="min-w-0 flex-1">
@@ -187,7 +186,7 @@ function Ombor() {
               <p className="mt-1 text-[13px] text-[#8b93a7]">Mahsulot qo‘shing yoki CSV fayldan import qiling. Ma’lumotlar shu qurilmada saqlanadi.</p>
               <div className="mt-4 flex justify-center gap-2">
                 <button type="button" onClick={() => setAdding("new")} className="inline-flex h-10 items-center gap-2 rounded-lg bg-[#0066FF] px-4 text-[13px] font-semibold text-white"><PackagePlus className="size-4" /> Yangi mahsulot</button>
-                <button type="button" onClick={() => fileRef.current?.click()} className="inline-flex h-10 items-center gap-2 rounded-lg border border-[#d6e4ff] px-4 text-[13px] font-semibold text-[#0066FF]"><FileSpreadsheet className="size-4" /> CSV import</button>
+                <button type="button" onClick={() => openImport()} className="inline-flex h-10 items-center gap-2 rounded-lg border border-[#d6e4ff] px-4 text-[13px] font-semibold text-[#0066FF]"><FileSpreadsheet className="size-4" /> CSV import</button>
               </div>
             </div>
           ) : (
