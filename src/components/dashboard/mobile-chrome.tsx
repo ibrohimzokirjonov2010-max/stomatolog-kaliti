@@ -99,6 +99,13 @@ function surplusMobilePath(path: string) {
   return /^\/ortiqcha-material\/[^/]+\/?$/.test(path) && !path.startsWith("/ortiqcha-material/elonlarim");
 }
 
+function seminarMobilePath(path: string) {
+  if (path === "/seminarlar") return true;
+  const match = path.match(/^\/seminarlar\/([^/]+)\/?$/);
+  if (!match) return false;
+  return !["yozuvlarim", "tashkilotchi", "chiptalarim", "chipta"].includes(match[1]);
+}
+
 function marketMobilePath(path: string) {
   if (path === "/marketplace") return true;
   if (!path.startsWith("/marketplace/")) return false;
@@ -511,7 +518,7 @@ export function MobileTabBar() {
   const pathname = usePathname();
   const onKlinika = pathname === "/klinika" || pathname.startsWith("/klinika/");
   if (onKlinika) return null;
-  if (pathname === "/" || surplusMobilePath(pathname) || marketMobilePath(pathname)) {
+  if (pathname === "/" || surplusMobilePath(pathname) || marketMobilePath(pathname) || seminarMobilePath(pathname)) {
     return (
       <nav aria-label="Mobil menyu" className="mh-tabs lg:hidden">
         {homeTabs.map((tab) => {

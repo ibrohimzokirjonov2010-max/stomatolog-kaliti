@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { SeminarRegisterPage } from "@/components/seminar-register";
+import { SeminarMobileDesign } from "@/components/seminars/mobile/SeminarMobileDesign";
+import { getMobileSeminar } from "@/data/mobile-seminars";
 import { getSeminar } from "@/data/seminars";
 import { desktopSeminarIds, getDesktopSeminar, type DesktopSeminar } from "@/data/desktop-seminars";
 import { rowToSeminar } from "@/lib/seminar-remote";
@@ -28,6 +30,8 @@ async function resolve(id: string) {
 
 export async function generateMetadata({ params }: { params: Promise<Params> }): Promise<Metadata> {
   const { id } = await params;
+  const design = getMobileSeminar(id);
+  if (design) return { title: design.title, description: `${design.speaker} — ${design.place}.` };
   const desktop = getDesktopSeminar(id);
   if (desktop) return { title: desktop.detailTitle, description: `${desktop.speaker} — ${desktop.city}.` };
   const seminar = await resolve(id);
@@ -51,6 +55,27 @@ function DesktopSeminarFallback({ seminar }: { seminar: DesktopSeminar }) {
 
 export default async function SeminarDetailPage({ params }: { params: Promise<Params> }) {
   const { id } = await params;
+  const design = getMobileSeminar(id);
+  if (design) {
+    const known = getDesktopSeminar(id);
+    return (
+      <>
+        <SeminarMobileDesign item={design} />
+        {known ? (
+          <div className="hidden lg:block">
+            <DesktopSeminarFallback seminar={known} />
+          </div>
+        ) : (
+          <article className="hidden lg:block rounded-2xl border border-[#eceff5] bg-white p-4">
+            <h1 className="text-[22px] font-bold tracking-tight text-[#1a1d26]">{design.title}</h1>
+            <p className="mt-2 text-sm text-[#52637c]">
+              {design.speaker} — {design.place}
+            </p>
+          </article>
+        )}
+      </>
+    );
+  }
   const desktop = getDesktopSeminar(id);
   if (desktop) return <DesktopSeminarFallback seminar={desktop} />;
   const seminar = await resolve(id);
