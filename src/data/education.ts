@@ -3,29 +3,46 @@ export type VideoLesson = {
   title: string;
   duration: string;
   image: string;
+  /** Topic used by the Onlayn darslar filters. */
+  topic?: LessonTopic;
 };
+
+export type LessonTopic =
+  | "implantologiya"
+  | "endodontiya"
+  | "ortopediya"
+  | "terapiya"
+  | "ortodontiya"
+  | "jarrohlik"
+  | "gigiyena"
+  | "raqamli"
+  | "management";
 
 export const videoLessons: VideoLesson[] = [
   {
     id: "kompozit-qatlam",
+    topic: "terapiya",
     title: "Kompozit restavratsiya: qatlamma usul",
     duration: "16:42",
     image: "/images/seminar-lecture.png",
   },
   {
     id: "implant-bosqich",
+    topic: "implantologiya",
     title: "Implant joylashtirish: bosqichma-bosqich",
     duration: "22:15",
     image: "/images/video-dentist-thumb.png",
   },
   {
     id: "endo-mikroskop",
+    topic: "endodontiya",
     title: "Mikroskop yordamida endodontiya asoslari",
     duration: "18:05",
     image: "/images/seminar-scope.png",
   },
   {
     id: "smile-design",
+    topic: "raqamli",
     title: "Digital smile design: foto va wax-up",
     duration: "14:30",
     image: "/images/seminar-smile.png",

@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Image from "next/image";
+import Link from "next/link";
 import { Play } from "lucide-react";
 import { videoLessons } from "@/data/education";
 
@@ -11,9 +12,17 @@ export const metadata: Metadata = {
 export default function TalimPage() {
   return (
     <div>
-      <header className="mb-4">
+      <header className="mb-4 flex flex-wrap items-start gap-3">
+        <div>
         <h1 className="text-[26px] font-bold tracking-tight text-[#1a1d26]">Ta’lim</h1>
         <p className="mt-1 text-sm text-[#8b93a7]">Video darslar — namuna. To‘liq player keyinroq.</p>
+        </div>
+        <Link
+          href="/onlayn-darslar"
+          className="ml-auto inline-flex h-10 items-center rounded-lg bg-[#0066FF] px-4 text-[13px] font-semibold text-white hover:bg-[#0057d9]"
+        >
+          Onlayn darslar
+        </Link>
       </header>
       <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 xl:grid-cols-3">
         {videoLessons.map((video) => (
