@@ -167,7 +167,10 @@ export function KlinikaDesktop() {
         <div className="hub-sched">
           <section className="hub-box">
             <h3>
-              Bugungi qabul jadvali
+              <span>
+                Bugungi qabul jadvali{" "}
+                <Link className="hub-more" href="/crm/uchrashuvlar">Uchrashuvlar →</Link>
+              </span>
               <span className="hub-actions">
                 <button type="button" onClick={() => shift(-1)} aria-label="Oldingi kun">
                   <ChevronLeft className="i" />
@@ -232,7 +235,10 @@ export function KlinikaDesktop() {
           <div className="hub-rail">
             <section className="hub-box">
               <h3>
-                Daromad statistikasi
+                <span>
+                  Daromad statistikasi{" "}
+                  <Link className="hub-more" href="/crm/tolovlar">To‘lovlar →</Link>
+                </span>
                 <div className={false ? "dk-drop on" : "dk-drop"}>
                   <button type="button" onClick={() => setRange(range === "6" ? "3" : "6")}>
                     {range === "6" ? "Oxirgi 6 oy" : "Oxirgi 3 oy"}
@@ -250,7 +256,7 @@ export function KlinikaDesktop() {
               </div>
             </section>
             <section className="hub-box">
-              <h3>Ombor ogohlantirishlari</h3>
+              <h3>Ombor ogohlantirishlari <Link className="hub-more" href="/crm/ombor">Omborga o‘tish →</Link></h3>
               {inventory.map((item) => (
                 <button key={item.id} type="button" className="hub-alert" onClick={() => setOrdered(item.name)}>
                   <span className={item.tone === "red" ? "hub-dot" : "hub-dot amber"} />
@@ -271,7 +277,7 @@ export function KlinikaDesktop() {
 
         <div className="hub-bot">
           <section className="hub-box">
-            <h3>Bemorlar ro‘yxati</h3>
+            <h3>Bemorlar ro‘yxati <Link className="hub-more" href="/crm/bemorlar">Barcha bemorlar →</Link></h3>
             <table className="hub-table">
               <thead>
                 <tr>

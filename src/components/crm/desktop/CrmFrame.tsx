@@ -19,6 +19,9 @@ import {
   Warehouse,
   Wrench,
 } from "lucide-react";
+import { Search } from "lucide-react";
+import { ShopShell } from "@/components/shop/desktop/ShopShell";
+import { useShopLineCount } from "@/components/shop/desktop/shop-cart";
 import { MarketFrame, type FrameLink, type HeaderLink } from "@/components/shop/desktop/MarketFrame";
 import "./crm.css";
 
@@ -87,8 +90,10 @@ export function CrmFrame({
   headerQuery,
   onHeaderQuery,
   listings,
+  inlineSearch,
   children,
 }: {
+  inlineSearch?: boolean;
   active: CrmKey;
   placeholder: string;
   headerQuery?: string;
@@ -96,6 +101,24 @@ export function CrmFrame({
   listings?: boolean;
   children: ReactNode;
 }) {
+  const cartCount = useShopLineCount();
+  if (!listings) {
+    return (
+      <ShopShell searchPath="/mening-klinikam" cartCount={cartCount} placeholder="Stomatologga nima kerak?" showCamera={false}>
+        <div className="crm-teal">
+          {inlineSearch && onHeaderQuery ? (
+            <div className="crm-tools">
+              <label className="crm-search">
+                <Search className="i" />
+                <input value={headerQuery ?? ""} onChange={(event) => onHeaderQuery(event.target.value)} placeholder={placeholder} aria-label="Qidirish" />
+              </label>
+            </div>
+          ) : null}
+          {children}
+        </div>
+      </ShopShell>
+    );
+  }
   return (
     <MarketFrame
       active={active}

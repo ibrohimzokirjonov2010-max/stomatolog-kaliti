@@ -36,6 +36,8 @@ import {
   UserRound,
   Users,
   Wallet,
+  Stethoscope,
+  BarChart3,
   Wrench,
   Warehouse,
 } from "lucide-react";
@@ -70,11 +72,13 @@ const groups: { title: string; items: Item[] }[] = [
     title: "Klinika",
     items: [
       { key: "myclinic", icon: Hospital, label: "Mening klinikam", href: "/mening-klinikam" },
-      { key: "crm", icon: UserRound, label: "Bemorlar CRM", href: "/klinika" },
-      { key: "meet", icon: CalendarDays, label: "Uchrashuvlar", href: "/klinika" },
-      { key: "plan", icon: ClipboardList, label: "Davolash rejalari", href: "/klinika" },
-      { key: "pay", icon: Wallet, label: "To‘lovlar", href: "/buyurtmalarim" },
-      { key: "stock", icon: Warehouse, label: "Ombor (Inventar)", href: "/klinika" },
+      { key: "crm", icon: UserRound, label: "Bemorlar CRM", href: "/crm/bemorlar" },
+      { key: "meet", icon: CalendarDays, label: "Uchrashuvlar", href: "/crm/uchrashuvlar" },
+      { key: "plan", icon: ClipboardList, label: "Davolash rejalari", href: "/crm/davolash-rejalari" },
+      { key: "pay", icon: Wallet, label: "To‘lovlar", href: "/crm/tolovlar" },
+      { key: "stock", icon: Warehouse, label: "Ombor (Inventar)", href: "/crm/ombor" },
+      { key: "services", icon: Stethoscope, label: "Xizmatlar", href: "/crm/xizmatlar" },
+      { key: "reports", icon: BarChart3, label: "Hisobotlar", href: "/crm/hisobotlar" },
     ],
   },
   {
@@ -117,7 +121,10 @@ function activeKey(pathname: string) {
   if (pathname === "/jihozlar" || pathname.startsWith("/jihozlar/")) return "jihoz";
   if (pathname === "/shartlar") return "faq";
   if (pathname === "/forma" || (pathname.startsWith("/forma/") && !pathname.startsWith("/forma/buyurtmalarim"))) return "forma";
-  if (pathname === "/klinika" || pathname.startsWith("/klinika/")) return "crm";
+  if (pathname === "/klinika" || pathname.startsWith("/klinika/") || pathname === "/crm" || pathname === "/crm/bemorlar") return "crm";
+  const crm: Record<string, string> = { uchrashuvlar: "meet", "davolash-rejalari": "plan", tolovlar: "pay", ombor: "stock", xizmatlar: "services", hisobotlar: "reports" };
+  const crmMatch = pathname.match(/^\/crm\/([^/]+)/);
+  if (crmMatch && crm[crmMatch[1]]) return crm[crmMatch[1]];
   return "";
 }
 

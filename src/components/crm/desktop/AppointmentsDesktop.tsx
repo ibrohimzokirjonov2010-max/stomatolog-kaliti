@@ -102,7 +102,7 @@ export function AppointmentsDesktop() {
   const monthDays = Array.from({ length: 31 }, (_, index) => addDays(monthStart, index)).filter((item) => item.slice(5, 7) === cursor.slice(5, 7));
 
   return (
-    <CrmFrame active="appointments" placeholder="Bemor, telefon, ID yoki xizmat bo‘yicha qidiring..." headerQuery={q} onHeaderQuery={setQ}>
+    <CrmFrame inlineSearch active="appointments" placeholder="Bemor, telefon, ID yoki xizmat bo‘yicha qidiring..." headerQuery={q} onHeaderQuery={setQ}>
       <div data-testid="appointments-desktop">
         <div className="crm-head">
           <div>
