@@ -259,6 +259,7 @@ const SECTION_ROOTS = new Set([
   "/foydali-kanallar",
   "/mening-klinikam",
   "/yangiliklar",
+  "/savat",
 ]);
 
 export function MobileTopbar() {
@@ -542,7 +543,7 @@ export function MobileTabBar() {
   const pathname = usePathname();
   const onKlinika = pathname === "/klinika" || pathname.startsWith("/klinika/");
   if (onKlinika) return null;
-  if (pathname === "/" || pathname === "/talim" || pathname === "/kitoblar" || pathname === "/foydali-kanallar" || pathname === "/community" || pathname === "/mening-klinikam" || formaMobilePath(pathname) || jihozMobilePath(pathname) || ustaMobilePath(pathname) || newsMobilePath(pathname) || surplusMobilePath(pathname) || marketMobilePath(pathname) || seminarMobilePath(pathname)) {
+  if (pathname === "/" || pathname === "/talim" || pathname === "/kitoblar" || pathname === "/foydali-kanallar" || pathname === "/community" || pathname === "/mening-klinikam" || formaMobilePath(pathname) || jihozMobilePath(pathname) || ustaMobilePath(pathname) || newsMobilePath(pathname) || surplusMobilePath(pathname) || marketMobilePath(pathname) || seminarMobilePath(pathname) || pathname === "/savat") {
     return (
       <nav aria-label="Mobil menyu" className="mh-tabs lg:hidden">
         {homeTabs.map((tab) => {

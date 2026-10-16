@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { CartBrowse } from "@/components/cart-browse";
+import { SavatMobile } from "@/components/savat/mobile/SavatMobile";
 
 export const metadata: Metadata = {
   title: "Savat",
@@ -7,5 +8,12 @@ export const metadata: Metadata = {
 };
 
 export default function SavatPage() {
-  return <CartBrowse />;
+  return (
+    <>
+      <SavatMobile />
+      <div className="hidden lg:block">
+        <CartBrowse />
+      </div>
+    </>
+  );
 }
