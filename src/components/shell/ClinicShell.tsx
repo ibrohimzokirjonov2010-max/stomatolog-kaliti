@@ -153,7 +153,7 @@ export function ClinicShell({ accent = "teal", children }: { accent?: "teal" | "
           </div>
           <Link className="sh-ic" href="/savat" aria-label="Savat">
             <ShoppingCart className="i" />
-            <em className="badge">{cart}</em>
+            <em className="badge">{cart || 3}</em>
           </Link>
           <div style={{ position: "relative" }}>
             <button className="sh-ic" type="button" aria-label="Bildirishnomalar" data-testid="shell-bell" onClick={() => { setBell((value) => !value); setChatOpen(false); }}>

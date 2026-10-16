@@ -131,6 +131,7 @@ export type Appointment = {
 };
 
 export const apptDoctors = [
+  { id: "ibrohim", name: "Dr. Ibrohim", role: "Stomatolog" },
   { id: "karimov", name: "Dr. Karimov", role: "Implantolog" },
   { id: "aliyeva", name: "Dr. Aliyeva", role: "Terapevt" },
   { id: "toxtayev", name: "Dr. To‘xtayev", role: "Ortoped" },
@@ -251,7 +252,7 @@ export const seedPlans: TreatmentPlan[] = [
 ];
 
 export type PayStatus = "tolandi" | "qisman";
-export type PayMethod = "Naqd" | "Click" | "Karta" | "Payme";
+export type PayMethod = "Naqd" | "Click" | "Karta" | "Payme" | "O‘tkazma";
 
 export type ClinicPayment = {
   id: string;

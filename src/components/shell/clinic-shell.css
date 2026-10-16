@@ -1,5 +1,5 @@
-.sh.shell-teal { --teal: #0f8a8a; }
-.sh.shell-blue { --teal: #0066ff; }
+.sh.shell-teal { --teal: #0198a4; }
+.sh.shell-blue { --teal: #3773fe; }
 
 .sh .cl-sub {
   padding-left: calc(1.55 * var(--u));

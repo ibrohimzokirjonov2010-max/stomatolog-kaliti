@@ -4,250 +4,197 @@
 import { useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { Check } from "lucide-react";
 import { ClinicShell } from "@/components/shell/ClinicShell";
-import { shopClear, som, useShopLinesOrSeed } from "@/components/shop/desktop/shop-cart";
-import { SAVAT_DELIVERY, SAVAT_DISCOUNT, SAVAT_PROMO, savatSeed } from "@/data/desktop-savat";
+import { shopClear } from "@/components/shop/desktop/shop-cart";
 import { rememberPlacedOrder, loadPlacedOrders, type MobileOrder } from "@/data/mobile-orders";
+import { formatGroupedNumber } from "@/lib/format";
 import "./checkout-desktop.css";
 
 type Step = 1 | 2 | 3;
-type PayId = "click" | "payme" | "uzum" | "card" | "naqd";
-type ShipId = "courier" | "pickup";
-
-const STEPS = [
-  { id: 1 as const, label: "Yetkazish" },
-  { id: 2 as const, label: "To‘lov" },
-  { id: 3 as const, label: "Tasdiqlash" },
+const ITEMS = [
+  { id: "implant", name: "Implant tizimi", qty: "1 dona", price: 1250000, image: "/img/designs/prod-implant.png" },
+  { id: "composite", name: "Kompozit (universal)", qty: "2 dona", price: 340000, image: "/img/designs/prod-composite.png" },
+  { id: "curette", name: "Periodontal kuretlar to‘plami", qty: "1 dona", price: 330000, image: "/img/designs/prod-curette.png" },
 ];
+const GOODS = 1920000;
+const DELIVERY = 25000;
 
-const CITIES = ["Toshkent", "Samarqand", "Buxoro", "Andijon", "Farg‘ona", "Namangan"];
-const TASHKENT = ["Yunusobod", "Chilonzor", "Shayxontohur", "Mirzo Ulug‘bek", "Yakkasaroy", "Sergeli", "Uchtepa"];
-const SAVED = [
-  { id: "uy", title: "Uy", city: "Toshkent", district: "Yunusobod", address: "Yunusobod tumani, Amir Temur ko‘chasi, 25-uy" },
-  { id: "klinika", title: "Klinika", city: "Toshkent", district: "Shayxontohur", address: "Shayxontohur tumani, Navoiy ko‘chasi, 12-uy" },
-];
-const PAYS: { id: PayId; title: string; hint: string }[] = [
-  { id: "click", title: "Click", hint: "Click ilovasi orqali" },
-  { id: "payme", title: "Payme", hint: "Payme ilovasi orqali" },
-  { id: "uzum", title: "Uzum", hint: "Uzum ilovasi orqali" },
-  { id: "card", title: "Bank kartasi", hint: "Visa / Mastercard" },
-  { id: "naqd", title: "Naqd", hint: "Yetkazilganda to‘lash" },
-];
-
-function districtsOf(city: string) {
-  return city === "Toshkent" ? TASHKENT : ["Markaz", "Shahar"];
+function som(n: number) {
+  return `${formatGroupedNumber(n)} so‘m`;
 }
 
 export function CheckoutDesktop() {
   const router = useRouter();
-  const lines = useShopLinesOrSeed(savatSeed);
   const [step, setStep] = useState<Step>(1);
-  const [name, setName] = useState("Ibrohim Zokirjonov");
+  const [name, setName] = useState("Ibrohim");
   const [phone, setPhone] = useState("+998 90 123 45 67");
   const [city, setCity] = useState("Toshkent");
-  const [district, setDistrict] = useState("Yunusobod");
-  const [address, setAddress] = useState(SAVED[0].address);
+  const [district, setDistrict] = useState("Yunusobod tumani");
+  const [address, setAddress] = useState("Amir Temur ko‘chasi, 25-uy, 3-xonadon, 5-qavat");
   const [saved, setSaved] = useState("uy");
-  const [comment, setComment] = useState("");
-  const [delivery, setDelivery] = useState<ShipId>("courier");
-  const [pay, setPay] = useState<PayId>("click");
+  const [more, setMore] = useState(false);
+  const [map, setMap] = useState(false);
+  const [ship, setShip] = useState<"courier" | "pickup">("courier");
+  const [note, setNote] = useState("");
+  const [pay, setPay] = useState("click");
   const [promo, setPromo] = useState("");
   const [promoOn, setPromoOn] = useState(false);
-  const [promoError, setPromoError] = useState("");
+  const [invoice, setInvoice] = useState(false);
   const [oferta, setOferta] = useState(false);
   const [error, setError] = useState("");
-
-  const goods = lines.reduce((sum, line) => sum + line.price * line.qty, 0);
-  const discount = promoOn ? Math.min(SAVAT_DISCOUNT, goods) : 0;
-  const ship = lines.length && delivery === "courier" ? SAVAT_DELIVERY : 0;
-  const total = Math.max(0, goods - discount) + ship;
-  const payMeta = PAYS.find((item) => item.id === pay) ?? PAYS[0];
-
-  function chooseCity(next: string) {
-    setCity(next);
-    const list = districtsOf(next);
-    setDistrict((current) => (list.includes(current) ? current : list[0]));
-    setSaved("");
-  }
-
-  function chooseSaved(id: string) {
-    const place = SAVED.find((item) => item.id === id);
-    if (!place) return;
-    setSaved(id);
-    setCity(place.city);
-    setDistrict(place.district);
-    setAddress(place.address);
-    setError("");
-  }
+  const delivery = ship === "courier" ? DELIVERY : 0;
+  const discount = promoOn ? 0 : 0;
+  const total = GOODS + delivery - discount;
 
   function nextFromDelivery() {
-    if (!name.trim()) return setError("Ismni kiriting");
-    if (phone.replace(/\D/g, "").length < 9) return setError("Telefon raqamini kiriting");
-    if (!address.trim()) return setError("Manzilni kiriting");
+    if (!name.trim() || !phone.trim() || !address.trim()) { setError("Manzil maydonlarini to‘ldiring"); return; }
     setError("");
     setStep(2);
   }
-
-  function applyPromo() {
-    if (promo.trim().toUpperCase() !== SAVAT_PROMO) {
-      setPromoOn(false);
-      setPromoError("Promokod topilmadi");
-      return;
-    }
-    setPromoError("");
-    setPromoOn(true);
-  }
-
   function confirm() {
-    if (!oferta) {
-      setError("Ofertani tasdiqlang");
-      return;
-    }
-    const seq = 10080 + loadPlacedOrders().length;
+    if (!oferta) { setError("Oferta shartlarini tasdiqlang"); return; }
+    const orders = loadPlacedOrders();
+    const id = `sk-${10080 + orders.length}`;
     const order: MobileOrder = {
-      id: `sk-${seq}`,
-      number: `SK-${seq}`,
-      date: new Date().toISOString().slice(0, 16).replace("T", " "),
-      seller: lines[0]?.seller || "StomaHub Market",
-      status: "jarayonda",
-      itemCount: lines.reduce((sum, line) => sum + line.qty, 0),
+      id,
+      number: "SH-10245",
+      date: "14 okt 2024, 10:24",
+      seller: "DentPro.uz",
+      status: "yetkazilmoqda",
+      itemCount: 3,
       total,
-      images: lines.slice(0, 3).map((line) => line.image),
-      extra: Math.max(0, lines.length - 3),
-      place: [district, city].filter(Boolean).join(", "),
-      delivery,
-      items: lines.map((line) => ({ id: line.id, name: line.name, price: line.price, image: line.image, qty: line.qty })),
+      images: ITEMS.map((item) => item.image),
+      extra: 0,
+      items: ITEMS.map((item) => ({ id: item.id, name: item.name, price: item.price, image: item.image, qty: item.id === "composite" ? 2 : 1 })),
+      delivery: ship,
+      place: `${city}, ${district}, ${address}`,
     };
     rememberPlacedOrder(order);
     shopClear();
-    router.push(`/buyurtmalarim/${order.id}`);
+    router.push(`/buyurtmalarim/${id}`);
   }
 
   return (
     <ClinicShell accent="blue">
-      <div data-testid="checkout-desktop" data-step={step}>
-        <div className="ckd-head">
-          <h1>Buyurtma berish</h1>
-          <p>{step === 1 ? "Yetkazib berish manzilini kiriting" : step === 2 ? "To‘lov usulini tanlang" : "Ma’lumotlarni tekshirib, tasdiqlang"}</p>
+      <div data-testid="checkout-desktop" data-step={step} className="ckx">
+        <div className="ckx-crumb"><Link href="/marketplace">Marketplace</Link><span>›</span><Link href="/savat">Savatcha</Link><span>›</span><b>Buyurtma berish</b></div>
+        <h1>Buyurtma berish</h1>
+        <p className="ckx-sub">
+          {step === 1 ? "Buyurtmangizni rasmiylashtirish uchun ma’lumotlarni kiriting" : step === 2 ? "Buyurtmangizni rasmiylashtirish uchun to‘lov usulini tanlang" : "Buyurtmangizni tekshirib, tasdiqlang"}
+        </p>
+        <div className="ckx-steps" data-testid="ckd-stepper">
+          {[
+            [1, "Yetkazish", "Manzil va yetkazish usuli"],
+            [2, "To‘lov", "To‘lov usulini tanlang"],
+            [3, "Tasdiqlash", "Buyurtmani tekshirib tasdiqlang"],
+          ].map(([id, label, hint]) => (
+            <div key={String(id)} className={step === id ? "on" : step > (id as number) ? "done" : undefined}>
+              <b>{id}</b><span>{label}</span><small>{hint}</small>
+            </div>
+          ))}
         </div>
-        <div className="ckd-steps" data-testid="ckd-stepper">
-          {STEPS.map((item, index) => {
-            const state = step === item.id ? "on" : step > item.id ? "done" : "";
-            return (
-              <button key={item.id} type="button" className={`ckd-step ${state}`} onClick={() => { if (item.id < step) { setError(""); setStep(item.id); } }}>
-                {index > 0 ? <span className="line" /> : null}
-                <i>{state === "done" ? <Check size={12} /> : item.id}</i>
-                {item.label}
-              </button>
-            );
-          })}
-        </div>
-
-        {lines.length === 0 ? (
-          <div className="ckd-card" data-testid="ckd-empty">
-            <h2>Savat bo‘sh</h2>
-            <p>Marketplacedan mahsulot qo‘shing.</p>
-            <Link className="ckd-next" href="/savat">Savatga o‘tish</Link>
-          </div>
-        ) : (
-          <div className="ckd-grid">
-            <section className="ckd-card">
-              {step === 1 ? (
-                <>
-                  <h2>Yetkazish</h2>
-                  <div className="ckd-fields">
-                    <label>Ism*<input data-testid="ckd-name" value={name} onChange={(event) => setName(event.target.value)} /></label>
-                    <label>Telefon*<input data-testid="ckd-phone" value={phone} onChange={(event) => setPhone(event.target.value)} /></label>
-                    <label>Shahar
-                      <select aria-label="Shahar" value={city} onChange={(event) => chooseCity(event.target.value)}>{CITIES.map((item) => <option key={item}>{item}</option>)}</select>
-                    </label>
-                    <label>Tuman
-                      <select aria-label="Tuman" value={district} onChange={(event) => setDistrict(event.target.value)}>{districtsOf(city).map((item) => <option key={item}>{item}</option>)}</select>
-                    </label>
-                    <label className="ckd-wide">Manzil*<input data-testid="ckd-address" value={address} onChange={(event) => { setAddress(event.target.value); setSaved(""); }} /></label>
-                  </div>
-                  <div className="ckd-saved">
-                    {SAVED.map((item) => (
-                      <button key={item.id} type="button" className={saved === item.id ? "on" : undefined} onClick={() => chooseSaved(item.id)}>
-                        <b>{item.title}</b>
-                        <span>{item.address}</span>
-                      </button>
-                    ))}
-                  </div>
-                  <div className="ckd-ship">
-                    <button type="button" className={delivery === "courier" ? "on" : undefined} onClick={() => setDelivery("courier")}><b>Kuryer</b><span>Ertaga, {som(SAVAT_DELIVERY)}</span></button>
-                    <button type="button" className={delivery === "pickup" ? "on" : undefined} onClick={() => setDelivery("pickup")}><b>Olib ketish</b><span>Do‘kondan, bepul</span></button>
-                  </div>
-                  <label className="ckd-note">Izoh<textarea aria-label="Izoh" value={comment} onChange={(event) => setComment(event.target.value)} /></label>
-                </>
-              ) : null}
-
-              {step === 2 ? (
-                <>
-                  <h2>To‘lov</h2>
-                  <div className="ckd-pay">
-                    {PAYS.map((item) => (
-                      <button key={item.id} type="button" className={pay === item.id ? "on" : undefined} data-testid={`ckd-pay-${item.id}`} onClick={() => setPay(item.id)}>
-                        <b>{item.title}</b>
-                        <span>{item.hint}</span>
-                      </button>
-                    ))}
-                  </div>
-                  <div className="ckd-promo">
-                    <input aria-label="Promokod" value={promo} placeholder="Promokod" onChange={(event) => setPromo(event.target.value)} />
-                    <button type="button" data-testid="ckd-promo" onClick={applyPromo}>Qo‘llash</button>
-                  </div>
-                  {promoOn ? <p className="ckd-error" style={{ color: "#16803c" }}>Promokod qo‘llandi</p> : null}
-                  {promoError ? <p className="ckd-error">{promoError}</p> : null}
-                </>
-              ) : null}
-
-              {step === 3 ? (
-                <>
-                  <h2>Tasdiqlash</h2>
-                  <div className="ckd-review">
-                    <article><b>Qabul qiluvchi</b>{name} · {phone}</article>
-                    <article><b>Manzil</b>{delivery === "pickup" ? "Olib ketish" : address}<br />{district}, {city}</article>
-                    <article><b>To‘lov</b>{payMeta.title}</article>
-                    {comment ? <article><b>Izoh</b>{comment}</article> : null}
-                  </div>
-                  <label className="ckd-check">
-                    <input type="checkbox" checked={oferta} data-testid="ckd-oferta" onChange={(event) => setOferta(event.target.checked)} />
-                    <span>Oferta shartlariga roziman</span>
-                  </label>
-                </>
-              ) : null}
-
-              {error ? <p className="ckd-error" data-testid="ckd-error">{error}</p> : null}
-              <div className="ckd-actions">
-                {step === 1 ? <Link className="ckd-back" href="/savat">Orqaga</Link> : (
-                  <button type="button" className="ckd-back" data-testid="ckd-back" onClick={() => { setError(""); setStep((step - 1) as Step); }}>Orqaga</button>
-                )}
-                {step < 3 ? (
-                  <button type="button" className="ckd-next" data-testid="ckd-next" onClick={() => (step === 1 ? nextFromDelivery() : setStep(3))}>Keyingi</button>
-                ) : (
-                  <button type="button" className="ckd-next" data-testid="ckd-confirm" onClick={confirm}>Tasdiqlash</button>
-                )}
-              </div>
-            </section>
-
-            <aside className="ckd-card" data-testid="ckd-summary">
-              <h2>Buyurtma</h2>
-              {lines.map((line) => (
-                <div key={line.id} className="ckd-line">
-                  <img src={line.image} alt="" />
-                  <span style={{ flex: 1 }}><b>{line.name}</b><span>{line.qty} ta</span></span>
-                  <b>{som(line.price * line.qty)}</b>
+        <div className="ckx-grid">
+          <div>
+            {step === 1 ? (
+              <section className="ckx-card">
+                <h2>Yetkazish manzili</h2>
+                <p>Buyurtmangiz qayerga yetkazilishini kiriting</p>
+                <div className="ckx-2">
+                  <label>Ism *<input data-testid="ckd-name" value={name} onChange={(event) => setName(event.target.value)} /></label>
+                  <label>Telefon *<input data-testid="ckd-phone" value={phone} onChange={(event) => setPhone(event.target.value)} /></label>
+                  <label>Shahar *<select aria-label="Shahar" value={city} onChange={(event) => setCity(event.target.value)}>{["Toshkent", "Samarqand", "Buxoro"].map((item) => <option key={item}>{item}</option>)}</select></label>
+                  <label>Tuman *<select aria-label="Tuman" value={district} onChange={(event) => setDistrict(event.target.value)}>{["Yunusobod tumani", "Chilonzor tumani", "Mirzo Ulug‘bek tumani"].map((item) => <option key={item}>{item}</option>)}</select></label>
+                  <label className="wide">Aniq manzil *<input data-testid="ckd-address" value={address} onChange={(event) => setAddress(event.target.value)} /></label>
                 </div>
-              ))}
-              <div className="ckd-row"><span>Mahsulotlar</span><b>{som(goods)}</b></div>
-              <div className="ckd-row"><span>Chegirma</span><b>- {som(discount)}</b></div>
-              <div className="ckd-row"><span>Yetkazib berish</span><b>{som(ship)}</b></div>
-              <div className="ckd-row total"><span>Jami</span><b>{som(total)}</b></div>
-            </aside>
+                <button type="button" className="ckx-mapbtn" onClick={() => setMap((value) => !value)}>Xaritada manzilni tanlang</button>
+                {map ? <img className="ckx-map" src="/img/designs/toshkent-map.png" alt="Toshkent xaritasi" /> : null}
+                <div className="ckx-saved-head"><b>Saqlangan manzillarim</b><button type="button" onClick={() => setMore((value) => !value)}>Barchasini ko‘rish ›</button></div>
+                {[{ id: "uy", title: "Uy", line: "Amir Temur ko‘chasi, 25-uy, 3-xonadon" }, { id: "klinika", title: "Klinika", line: "Shota Rustaveli ko‘chasi, 15-uy" }].slice(0, more ? 2 : 2).map((item) => (
+                  <button key={item.id} type="button" className={saved === item.id ? "ckx-addr on" : "ckx-addr"} onClick={() => { setSaved(item.id); setAddress(item.id === "uy" ? "Amir Temur ko‘chasi, 25-uy, 3-xonadon, 5-qavat" : "Shota Rustaveli ko‘chasi, 15-uy"); }}>
+                    <b>{item.title}</b><span>{item.line}</span><em>Tahrirlash</em>
+                  </button>
+                ))}
+                <h2>Yetkazish usuli</h2>
+                <p>Sizga qulay yetkazish usulini tanlang</p>
+                <div className="ckx-ship">
+                  <button type="button" className={ship === "courier" ? "on" : undefined} onClick={() => setShip("courier")}><b>Kuryer orqali</b><span>1–2 kun</span><em>25 000 so‘m</em></button>
+                  <button type="button" className={ship === "pickup" ? "on" : undefined} onClick={() => setShip("pickup")}><b>Olib ketish</b><span>Bepul</span><em>Bugun</em></button>
+                </div>
+                <label className="wide">Qo‘shimcha ma’lumot
+                  <textarea maxLength={300} placeholder="Kuryer uchun izoh (masalan: qo‘ng‘iroq qiling, darvozada kutaman va h.k.)" value={note} onChange={(event) => setNote(event.target.value)} />
+                  <small>{note.length}/300</small>
+                </label>
+              </section>
+            ) : null}
+            {step === 2 ? (
+              <section className="ckx-card">
+                <h2>To‘lov usulini tanlang</h2>
+                <p>Sizga qulay to‘lov usulini tanlang</p>
+                <div className="ckx-pays">
+                  {[
+                    ["click", "Click", "Click orqali to‘lov", "Tavsiya etiladi"],
+                    ["payme", "Payme", "Payme orqali to‘lov", ""],
+                    ["uzum", "Uzum", "Uzum orqali to‘lov", ""],
+                    ["card", "Bank kartasi", "Visa, Mastercard, Humo", ""],
+                    ["naqd", "Naqd to‘lov", "Yetkazishda naqd", ""],
+                    ["muddatli", "Muddatli to‘lov", "Uzum nasiya / Bank", ""],
+                  ].map(([id, title, hint, badge]) => (
+                    <button key={id} type="button" className={pay === id ? "on" : undefined} data-testid={`ckd-pay-${id}`} onClick={() => setPay(id)}>
+                      {badge ? <em>{badge}</em> : null}<b>{title}</b><span>{hint}</span>
+                    </button>
+                  ))}
+                </div>
+                <p className="ckx-safe">To‘lovlar xavfsiz. Barcha to‘lovlar shifrlangan va to‘liq himoyalangan.</p>
+                <div className="ckx-promo">
+                  <input aria-label="Promokod" placeholder="Promokodni kiriting" value={promo} onChange={(event) => setPromo(event.target.value)} />
+                  <button type="button" data-testid="ckd-promo" onClick={() => setPromoOn(Boolean(promo.trim()))}>Qo‘llash</button>
+                </div>
+                <label className="ckx-check"><input type="checkbox" checked={invoice} onChange={(event) => setInvoice(event.target.checked)} /> Menga elektron hisob-faktura (PDF) yuborilsin</label>
+                <div className="ckx-mini">
+                  <span>Mahsulotlar (3 ta)<b>{som(GOODS)}</b></span>
+                  <span>Yetkazish<b>{som(delivery)}</b></span>
+                  <span>Chegirma (promokod)<b>{som(discount)}</b></span>
+                  <span>Jami to‘lov<b>{som(total)}</b></span>
+                </div>
+              </section>
+            ) : null}
+            {step === 3 ? (
+              <section className="ckx-card">
+                <div className="ckx-saved-head"><h2>Mahsulotlar (3 ta)</h2><button type="button" onClick={() => setStep(1)}>O‘zgartirish</button></div>
+                {ITEMS.map((item) => (
+                  <div key={item.id} className="ckx-line"><img src={item.image} alt="" /><div><b>{item.name}</b><small>{item.qty}</small></div><em>{som(item.price)}</em></div>
+                ))}
+                <div className="ckx-saved-head"><h2>Yetkazish manzili</h2><button type="button" onClick={() => setStep(1)}>O‘zgartirish</button></div>
+                <p><b>{name}</b><br />{phone}<br />{city}, {district}<br />{address}</p>
+                <div className="ckx-saved-head"><h2>Yetkazish vaqti</h2><button type="button" onClick={() => setStep(1)}>O‘zgartirish</button></div>
+                <p>{ship === "courier" ? "Kuryer orqali · 15 okt 2024, Seshanba · 10:00–18:00" : "Olib ketish · Bugun"}</p>
+                <div className="ckx-saved-head"><h2>To‘lov usuli</h2><button type="button" onClick={() => setStep(2)}>O‘zgartirish</button></div>
+                <p>{pay === "click" ? "Click · Click orqali to‘lov" : pay}</p>
+                <label className="ckx-check"><input type="checkbox" checked={oferta} data-testid="ckd-oferta" onChange={(event) => setOferta(event.target.checked)} /> Men oferta shartlari bilan tanishib chiqdim va roziman</label>
+                <p className="ckx-fine">Buyurtma berish orqali siz StomaHub’ning foydalanish shartlari va maxfiylik siyosatiga rozilik bildirasiz.</p>
+              </section>
+            ) : null}
+            {error ? <p className="ckx-error" data-testid="ckd-error">{error}</p> : null}
+            <div className="ckx-nav">
+              {step > 1 ? <button type="button" className="back" data-testid="ckd-back" onClick={() => { setError(""); setStep((step - 1) as Step); }}>‹ Orqaga</button> : <span />}
+              {step < 3 ? <button type="button" className="next" data-testid="ckd-next" onClick={() => (step === 1 ? nextFromDelivery() : setStep(3))}>Davom etish ›</button> : <button type="button" className="next" data-testid="ckd-confirm" onClick={confirm}>Buyurtmani tasdiqlash ›</button>}
+            </div>
           </div>
-        )}
+          <aside className="ckx-card" data-testid="ckd-summary">
+            <h2>Buyurtma ma’lumotlari <small>3 ta mahsulot</small></h2>
+            {ITEMS.map((item) => (
+              <div key={item.id} className="ckx-line"><img src={item.image} alt="" /><div><b>{item.name}</b><small>{item.qty}</small></div><em>{som(item.price)}</em></div>
+            ))}
+            <div className="ckx-mini">
+              <span>Mahsulotlar (3 ta)<b>{som(GOODS)}</b></span>
+              <span>Yetkazish<b>{som(delivery)}</b></span>
+              <span>Promokod <button type="button" onClick={() => setPromoOn(Boolean(promo.trim()))}>Qo‘llash</button></span>
+              <span className="total">Jami<b>{som(total)}</b></span>
+            </div>
+            <p className="ckx-safe">{step === 3 ? "Xavfsiz xarid. To‘lov ma’lumotlaringiz himoyalangan. Barcha operatsiyalar shifrlangan." : "Xavfsiz to‘lov va ma’lumotlaringiz himoyalangan"}</p>
+            {step === 1 ? <p className="ckx-fine">Toshkent shahri bo‘ylab 1–2 kun ichida yetkazib beriladi. Boshqa hududlar uchun muddatlar operator tomonidan tasdiqlanadi.</p> : null}
+          </aside>
+        </div>
       </div>
     </ClinicShell>
   );
