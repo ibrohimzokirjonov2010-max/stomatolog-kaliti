@@ -35,8 +35,8 @@ const TOP: Item[] = [
   { href: "/klinika/bemorlar", label: "Bemorlar CRM", icon: Users },
   { href: "/klinika/uchrashuvlar", label: "Uchrashuvlar", icon: CalendarDays },
   // Not built yet: these open the clinic dashboard for now.
-  { href: "/klinika", label: "Davolash rejalari", icon: ClipboardList, match: "^$" },
-  { href: "/klinika", label: "To‘lovlar", icon: Wallet, match: "^$" },
+  { href: "/klinika/davolash-rejalari", label: "Davolash rejalari", icon: ClipboardList },
+  { href: "/klinika/tolovlar", label: "To‘lovlar", icon: Wallet },
   { href: "/klinika", label: "Xizmatlar", icon: Stethoscope, match: "^$" },
   { href: "/klinika/ombor", label: "Ombor", icon: Warehouse },
   { href: "/klinika", label: "Hisobotlar", icon: BarChart3, match: "^$" },

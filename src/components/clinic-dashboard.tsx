@@ -124,6 +124,8 @@ export function ClinicDashboard() {
           {[
             ["/klinika/bemorlar", "Bemorlar CRM"],
             ["/klinika/uchrashuvlar", "Uchrashuvlar"],
+            ["/klinika/davolash-rejalari", "Davolash rejalari"],
+            ["/klinika/tolovlar", "To‘lovlar"],
             ["/klinika/ombor", "Ombor"],
           ].map(([href, label]) => (
             <Link key={href} href={href} className="inline-flex h-9 shrink-0 items-center rounded-full border border-[#d6e4ff] bg-white px-4 text-[13px] font-semibold text-[#0066FF] hover:bg-[#f3f8ff]">
