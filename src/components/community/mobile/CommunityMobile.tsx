@@ -1,0 +1,379 @@
+"use client";
+/* eslint-disable @next/next/no-img-element -- post photos are sized by the fluid unit */
+
+import { useMemo, useRef, useState } from "react";
+import Link from "next/link";
+import { Bookmark, Heart, HelpCircle, Image as ImageIcon, Lightbulb, MessageCircle, MoreHorizontal, Plus, Search, Share2, ShoppingCart, SlidersHorizontal, Stethoscope, Video } from "lucide-react";
+import { useCart } from "@/components/cart-provider";
+import { useDoctorProfile } from "@/components/doctor-profile-provider";
+import { NotificationBell } from "@/components/notification-bell";
+import "./community-mobile.css";
+
+type Kind = "klinik" | "savol" | "maslahat" | "yangilik";
+
+type Post = {
+  id: string;
+  name: string;
+  avatar: string;
+  time: string;
+  kind: Kind;
+  kindLabel: string;
+  title: string;
+  body: string;
+  likes: number;
+  comments: number;
+  pair?: { before: string; after: string };
+  mosaic?: { big: string; stack: string[] };
+};
+
+const chips: { id: "all" | Kind; label: string }[] = [
+  { id: "all", label: "Hammasi" },
+  { id: "klinik", label: "Klinik case" },
+  { id: "savol", label: "Savollar" },
+  { id: "maslahat", label: "Maslahatlar" },
+  { id: "yangilik", label: "Yangiliklar" },
+];
+
+const seed: Post[] = [
+  {
+    id: "cct",
+    name: "Ibrohim Zokirjonov",
+    avatar: "/img/mobile/avatar.jpg",
+    time: "3 kun oldin",
+    kind: "klinik",
+    kindLabel: "Klinik case",
+    title: "Davolash natijasi: CCT bilan milk retessiyasini yopish",
+    body: "Mandibular old tishlar sohasida milk retessiyasi kuzatildi. CCT (Connective Tissue Graft) usuli bilan yopildi. 6 oylik nazorat natijasi. Bemorda sezgirlik kamaydi va estetik ko‘rinish yaxshilandi.",
+    likes: 24,
+    comments: 8,
+    pair: { before: "/img/mobile/cm-before.jpg", after: "/img/mobile/cm-after.jpg" },
+  },
+  {
+    id: "qatlam",
+    name: "Dr. Dilnoza Karimova",
+    avatar: "/img/mobile/se-dilnoza.jpg",
+    time: "5 kun oldin",
+    kind: "maslahat",
+    kindLabel: "Maslahatlar",
+    title: "Kompozit restavratsiyada qatlamma usul",
+    body: "Posterior tishlarda kompozit bilan ishlashda qatlamma usul natijani yanada mustahkam va estetik qiladi. Siz qanday materiallardan foydalanasiz?",
+    likes: 18,
+    comments: 12,
+    mosaic: { big: "/img/mobile/cm-composite.jpg", stack: ["/img/mobile/cm-teeth-a.jpg", "/img/mobile/cm-teeth-b.jpg"] },
+  },
+  {
+    id: "protez",
+    name: "Dr. Azizbek Murodov",
+    avatar: "/img/mobile/tl-azizbek.jpg",
+    time: "1 hafta oldin",
+    kind: "savol",
+    kindLabel: "Savollar",
+    title: "Implantdan keyingi protetik bosqich",
+    body: "Implant joylashgach, vaqtinchalik tojni qachon qo‘yishni ma’qul ko‘rasiz?",
+    likes: 9,
+    comments: 4,
+  },
+  {
+    id: "yangilik",
+    name: "StomaHub",
+    avatar: "/img/mobile/avatar.jpg",
+    time: "2 hafta oldin",
+    kind: "yangilik",
+    kindLabel: "Yangiliklar",
+    title: "Seminarlar kalendari yangilandi",
+    body: "Oktabr oyi uchun yangi amaliy kurslar qo‘shildi. Ro‘yxatdan o‘tish ochiq.",
+    likes: 31,
+    comments: 2,
+  },
+];
+
+export function CommunityMobile() {
+  const { count } = useCart();
+  const { profile } = useDoctorProfile();
+  const fileRef = useRef<HTMLInputElement>(null);
+  const [query, setQuery] = useState("");
+  const [kind, setKind] = useState<"all" | Kind>("all");
+  const [posts, setPosts] = useState(seed);
+  const [liked, setLiked] = useState<string[]>([]);
+  const [saved, setSaved] = useState<string[]>([]);
+  const [menu, setMenu] = useState<string | null>(null);
+  const [draft, setDraft] = useState("");
+  const [photo, setPhoto] = useState("");
+  const [video, setVideo] = useState(false);
+  const [composer, setComposer] = useState(false);
+  const [sheetTitle, setSheetTitle] = useState("");
+  const [sheetBody, setSheetBody] = useState("");
+  const [commentFor, setCommentFor] = useState<Post | null>(null);
+  const [comment, setComment] = useState("");
+  const [filters, setFilters] = useState(false);
+  const [onlySaved, setOnlySaved] = useState(false);
+  const [note, setNote] = useState("");
+  const avatar = profile?.avatarUrl || "/img/mobile/avatar.jpg";
+  const myName = profile?.fullName || "Ibrohim Zokirjonov";
+
+  const list = useMemo(() => {
+    const q = query.trim().toLowerCase();
+    return posts.filter((post) => {
+      if (kind !== "all" && post.kind !== kind) return false;
+      if (onlySaved && !saved.includes(post.id)) return false;
+      if (!q) return true;
+      return `${post.title} ${post.body} ${post.name} ${post.kindLabel}`.toLowerCase().includes(q);
+    });
+  }, [kind, onlySaved, posts, query, saved]);
+
+  function publish(title: string, body: string) {
+    const text = body.trim();
+    if (!text && !title.trim()) return;
+    setPosts((current) => [
+      {
+        id: `p-${Date.now()}`,
+        name: myName,
+        avatar,
+        time: "hozir",
+        kind: "savol",
+        kindLabel: "Savollar",
+        title: title.trim() || text.slice(0, 72),
+        body: text || title.trim(),
+        likes: 0,
+        comments: 0,
+        mosaic: photo ? { big: photo, stack: [] } : undefined,
+      },
+      ...current,
+    ]);
+    setDraft("");
+    setSheetTitle("");
+    setSheetBody("");
+    setPhoto("");
+    setVideo(false);
+    setComposer(false);
+    setNote("Post joylandi");
+  }
+
+  async function share(post: Post) {
+    const url = `${window.location.origin}/community#${post.id}`;
+    try {
+      if (navigator.share) {
+        await navigator.share({ title: post.title, url });
+        return;
+      }
+      await navigator.clipboard.writeText(url);
+    } catch {
+      try {
+        await navigator.clipboard.writeText(url);
+      } catch {
+        /* the note still confirms the action */
+      }
+    }
+    setNote("Havola nusxalandi");
+  }
+
+  return (
+    <div className="cm lg:hidden" data-testid="mobile-community">
+      <header className="mh-bar">
+        <Link href="/" className="mh-logo">STOMAHUB</Link>
+        <button type="button" className="mh-ic" aria-label="Qidirish" onClick={() => document.querySelector<HTMLInputElement>("[data-community-search]")?.focus()}>
+          <Search />
+        </button>
+        <Link href="/savat" className="mh-ic" aria-label="Savat">
+          <ShoppingCart />
+          {count > 0 ? <span className="mh-badge">{count > 9 ? "9+" : count}</span> : null}
+        </Link>
+        <NotificationBell variant="mobile" minBadge={2} buttonClassName="size-10 text-[#1a1d26]" />
+      </header>
+
+      <div className="cm-body">
+        <h1 className="cm-title">Hamjamiyat</h1>
+        <p className="cm-sub">Stomatologlar tajribasi, savollari va klinik holatlar</p>
+        <form className="cm-search" onSubmit={(event) => event.preventDefault()}>
+          <Search />
+          <input data-community-search data-section-search value={query} onChange={(event) => setQuery(event.target.value)} placeholder="Mavzu yoki savollarni izlash..." aria-label="Qidiruv" />
+          <button type="button" className="cm-filter" aria-label="Filtr" onClick={() => setFilters(true)}>
+            <SlidersHorizontal />
+          </button>
+        </form>
+
+        <form
+          className="cm-compose"
+          onSubmit={(event) => {
+            event.preventDefault();
+            publish(draft, draft);
+          }}
+        >
+          <img src={avatar} alt="" />
+          <input value={draft} onChange={(event) => setDraft(event.target.value)} placeholder="Nima haqida o‘ylayapsiz?" aria-label="Nima haqida o‘ylayapsiz?" />
+          <button type="button" className="cm-ico" aria-label="Rasm" onClick={() => fileRef.current?.click()}>
+            <ImageIcon />
+          </button>
+          <button type="button" className={video ? "cm-ico" : "cm-ico"} aria-label="Video" aria-pressed={video} onClick={() => setVideo((value) => !value)}>
+            <Video />
+          </button>
+          <button type="submit" className="cm-plus" aria-label="Joylash">
+            <Plus />
+          </button>
+        </form>
+        <input
+          ref={fileRef}
+          type="file"
+          accept="image/*"
+          hidden
+          aria-label="Rasm fayli"
+          onChange={(event) => {
+            const file = event.target.files?.[0];
+            if (!file) return;
+            const reader = new FileReader();
+            reader.onload = () => {
+              setPhoto(String(reader.result || ""));
+              setNote("Rasm biriktirildi");
+            };
+            reader.readAsDataURL(file);
+          }}
+        />
+        {photo ? <img className="cm-preview" src={photo} alt="" /> : null}
+
+        <div className="cm-cats" aria-label="Toifalar">
+          {chips.map((chip) => (
+            <button key={chip.id} type="button" className={kind === chip.id ? "on" : undefined} onClick={() => setKind(chip.id)}>
+              {chip.label}
+            </button>
+          ))}
+        </div>
+
+        {note ? <p className="cm-note">{note}</p> : null}
+        {list.length === 0 ? <p className="cm-note">Mos post topilmadi</p> : null}
+
+        {list.map((post) => {
+          const on = liked.includes(post.id);
+          const kept = saved.includes(post.id);
+          return (
+            <article key={post.id} id={post.id} className="cm-post">
+              <div className="cm-who">
+                <img src={post.avatar} alt="" />
+                <div>
+                  <b>{post.name}</b>
+                  <span>Stomatolog · {post.time}</span>
+                </div>
+                <div className="cm-side">
+                <span className={`cm-badge ${post.kind}`}>
+                  {post.kind === "klinik" ? <Stethoscope /> : post.kind === "maslahat" ? <Lightbulb /> : post.kind === "savol" ? <HelpCircle /> : null}
+                  {post.kindLabel}
+                </span>
+                <button type="button" className="cm-more" aria-label="Yana" aria-expanded={menu === post.id} onClick={() => setMenu((current) => (current === post.id ? null : post.id))}>
+                  <MoreHorizontal />
+                </button>
+                  {menu === post.id ? (
+                    <span className="cm-menu">
+                      <button type="button" onClick={() => { setSaved((current) => (current.includes(post.id) ? current.filter((id) => id !== post.id) : [...current, post.id])); setMenu(null); }}>Saqlash</button>
+                      <button type="button" onClick={() => { setMenu(null); void share(post); }}>Ulashish</button>
+                    </span>
+                  ) : null}
+                </div>
+              </div>
+              <h2>{post.title}</h2>
+              <p>{post.body}</p>
+              {post.pair ? (
+                <div className="cm-pair">
+                  <figure>
+                    <img src={post.pair.before} alt="Oldin" />
+                    <figcaption>Oldin</figcaption>
+                  </figure>
+                  <figure>
+                    <img src={post.pair.after} alt="Keyin" />
+                    <figcaption>Keyin</figcaption>
+                  </figure>
+                </div>
+              ) : null}
+              {post.mosaic ? (
+                <div className="cm-mosaic">
+                  <img className="big" src={post.mosaic.big} alt="" />
+                  {post.mosaic.stack.length ? (
+                    <div className="cm-stack">
+                      {post.mosaic.stack.map((src) => (
+                        <figure key={src}>
+                          <img src={src} alt="" />
+                        </figure>
+                      ))}
+                    </div>
+                  ) : null}
+                </div>
+              ) : null}
+              <div className="cm-acts">
+                <button type="button" className={on ? "like on" : "like"} aria-pressed={on} onClick={() => setLiked((current) => (current.includes(post.id) ? current.filter((id) => id !== post.id) : [...current, post.id]))}>
+                  <Heart fill={on ? "currentColor" : "none"} /> {post.likes + (on ? 1 : 0)}
+                </button>
+                <button type="button" aria-label="Izohlar" onClick={() => { setCommentFor(post); setComment(""); }}>
+                  <MessageCircle /> {post.comments}
+                </button>
+                <button type="button" className="save" aria-pressed={kept} onClick={() => setSaved((current) => (current.includes(post.id) ? current.filter((id) => id !== post.id) : [...current, post.id]))}>
+                  <Bookmark fill={kept ? "currentColor" : "none"} /> Saqlash
+                </button>
+                <button type="button" onClick={() => void share(post)}>
+                  <Share2 /> Ulashish
+                </button>
+              </div>
+            </article>
+          );
+        })}
+        <div className="cm-pad" />
+      </div>
+
+      <button type="button" className="cm-new" onClick={() => setComposer(true)}>
+        <Plus /> Yangi post
+      </button>
+
+      {composer ? (
+        <div className="cm-sheet" role="dialog" aria-label="Yangi post">
+          <button type="button" aria-label="Yopish" className="absolute inset-0" onClick={() => setComposer(false)} />
+          <form className="cm-box" onSubmit={(event) => { event.preventDefault(); publish(sheetTitle, sheetBody); }}>
+            <h3>Yangi post</h3>
+            <input aria-label="Sarlavha" value={sheetTitle} onChange={(event) => setSheetTitle(event.target.value)} placeholder="Sarlavha" />
+            <textarea aria-label="Matn" value={sheetBody} onChange={(event) => setSheetBody(event.target.value)} placeholder="Nima haqida o‘ylayapsiz?" />
+            <div className="row">
+              <button type="button" className="go" style={{ background: "#eef2f6", color: "#24344d" }} onClick={() => setComposer(false)}>Yopish</button>
+              <button type="submit" className="go">Joylash</button>
+            </div>
+          </form>
+        </div>
+      ) : null}
+
+      {commentFor ? (
+        <div className="cm-sheet" role="dialog" aria-label="Izoh">
+          <button type="button" aria-label="Yopish" className="absolute inset-0" onClick={() => setCommentFor(null)} />
+          <form
+            className="cm-box"
+            onSubmit={(event) => {
+              event.preventDefault();
+              if (!comment.trim()) return;
+              const id = commentFor.id;
+              setPosts((current) => current.map((post) => (post.id === id ? { ...post, comments: post.comments + 1 } : post)));
+              setCommentFor(null);
+              setNote("Izoh qo‘shildi");
+            }}
+          >
+            <h3>Izoh</h3>
+            <textarea aria-label="Izoh matni" value={comment} onChange={(event) => setComment(event.target.value)} placeholder="Izoh yozing" />
+            <div className="row">
+              <button type="button" className="go" style={{ background: "#eef2f6", color: "#24344d" }} onClick={() => setCommentFor(null)}>Yopish</button>
+              <button type="submit" className="go">Yuborish</button>
+            </div>
+          </form>
+        </div>
+      ) : null}
+
+      {filters ? (
+        <div className="cm-sheet" role="dialog" aria-label="Filtr">
+          <button type="button" aria-label="Yopish" className="absolute inset-0" onClick={() => setFilters(false)} />
+          <form className="cm-box" onSubmit={(event) => { event.preventDefault(); setFilters(false); }}>
+            <h3>Filtr</h3>
+            <label>
+              <input type="checkbox" checked={onlySaved} onChange={(event) => setOnlySaved(event.target.checked)} /> Saqlanganlar
+            </label>
+            <div className="row">
+              <button type="button" className="go" style={{ background: "#eef2f6", color: "#24344d" }} onClick={() => { setOnlySaved(false); setFilters(false); }}>Tozalash</button>
+              <button type="submit" className="go">Ko‘rish</button>
+            </div>
+          </form>
+        </div>
+      ) : null}
+    </div>
+  );
+}
