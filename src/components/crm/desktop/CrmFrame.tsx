@@ -1,0 +1,190 @@
+"use client";
+
+import { type FormEvent, type ReactNode } from "react";
+import {
+  BadgePercent,
+  BookOpen,
+  CalendarDays,
+  ClipboardList,
+  GraduationCap,
+  Home,
+  LayoutGrid,
+  MessageCircle,
+  Settings,
+  Stethoscope,
+  Tag,
+  UserRound,
+  Users,
+  Wallet,
+  Warehouse,
+  Wrench,
+} from "lucide-react";
+import { MarketFrame, type FrameLink, type HeaderLink } from "@/components/shop/desktop/MarketFrame";
+import "./crm.css";
+
+export type CrmKey =
+  | "home"
+  | "patients"
+  | "appointments"
+  | "plans"
+  | "payments"
+  | "services"
+  | "stock"
+  | "reports"
+  | "seminars"
+  | "courses"
+  | "consults"
+  | "masters"
+  | "listings"
+  | "books"
+  | "sales"
+  | "settings";
+
+const headerLinks: HeaderLink[] = [
+  { href: "/", label: "Bosh sahifa" },
+  { href: "/marketplace", label: "Marketplace" },
+  { href: "/seminarlar", label: "Seminarlar" },
+  { href: "/ustalar", label: "Ustalar" },
+  { href: "/forma", label: "Forma" },
+  { href: "/talim", label: "Ta’lim" },
+  { href: "/crm/bemorlar", label: "CRM", key: "crm" },
+];
+
+const main: FrameLink[] = [
+  { key: "home", label: "Bosh sahifa", href: "/", icon: Home },
+  { key: "patients", label: "Bemorlar CRM", href: "/crm/bemorlar", icon: Users },
+  { key: "appointments", label: "Uchrashuvlar", href: "/crm/uchrashuvlar", icon: CalendarDays },
+  { key: "plans", label: "Davolash rejalari", href: "/crm/davolash-rejalari", icon: ClipboardList },
+  { key: "payments", label: "To‘lovlar", href: "/crm/tolovlar", icon: Wallet },
+  { key: "services", label: "Xizmatlar", href: "/crm/xizmatlar", icon: Stethoscope },
+  { key: "stock", label: "Ombor", href: "/crm/ombor", icon: Warehouse },
+  { key: "reports", label: "Hisobotlar", href: "/crm/hisobotlar", icon: LayoutGrid },
+];
+
+const second: FrameLink[] = [
+  { key: "seminars", label: "Seminarlar", href: "/seminarlar", icon: CalendarDays },
+  { key: "courses", label: "Onlayn darslar", href: "/talim", icon: GraduationCap },
+  { key: "masters", label: "Ustalar", href: "/ustalar", icon: Wrench },
+  { key: "books", label: "Kitoblar", href: "/kitoblar", icon: BookOpen },
+  { key: "sales", label: "Aksiyalar", href: "/marketplace/aksiyalar", icon: BadgePercent },
+  { key: "settings", label: "Sozlamalar", href: "/profil", icon: Settings },
+];
+
+const listingSecond: FrameLink[] = [
+  { key: "seminars", label: "Seminarlar", href: "/seminarlar", icon: CalendarDays },
+  { key: "courses", label: "Onlayn darslar", href: "/talim", icon: GraduationCap },
+  { key: "consults", label: "Konsultatsiyalar", href: "/elonlar?tur=xizmat", icon: MessageCircle },
+  { key: "masters", label: "Ustalar", href: "/ustalar", icon: UserRound },
+  { key: "listings", label: "E‘lonlar", href: "/elonlar", icon: Tag },
+  { key: "books", label: "Kitoblar", href: "/kitoblar", icon: BookOpen },
+  { key: "sales", label: "Aksiyalar", href: "/marketplace/aksiyalar", icon: BadgePercent },
+  { key: "settings", label: "Sozlamalar", href: "/profil", icon: Settings },
+];
+
+export function CrmFrame({
+  active,
+  placeholder,
+  headerQuery,
+  onHeaderQuery,
+  listings,
+  children,
+}: {
+  active: CrmKey;
+  placeholder: string;
+  headerQuery?: string;
+  onHeaderQuery?: (value: string) => void;
+  listings?: boolean;
+  children: ReactNode;
+}) {
+  return (
+    <MarketFrame
+      active={active}
+      headerLinks={headerLinks}
+      headerActive={listings ? "" : "crm"}
+      searchPlaceholder={placeholder}
+      headerQuery={headerQuery}
+      onHeaderQuery={onHeaderQuery}
+      sideMain={main}
+      sideSecond={listings ? listingSecond : second}
+      sideLabel="CRM"
+      promoTitle="Klinika boshqaruvi"
+      promoText="Bemor, qabul va ombor bir joyda"
+      promoCta="Bemorlar"
+      promoHref="/crm/bemorlar"
+      promoImage="/img/jihoz/chair.jpg"
+      promoIcon={<Stethoscope className="i" />}
+    >
+      {children}
+    </MarketFrame>
+  );
+}
+
+export function CrmModal({ title, onClose, children }: { title: string; onClose: () => void; children: ReactNode }) {
+  return (
+    <div className="crm-modal" role="dialog" aria-modal="true" aria-label={title}>
+      <form
+        className="crm-dialog"
+        onSubmit={(event: FormEvent) => {
+          event.preventDefault();
+        }}
+      >
+        <header>
+          <b>{title}</b>
+          <button type="button" onClick={onClose} aria-label="Yopish">
+            ×
+          </button>
+        </header>
+        {children}
+      </form>
+    </div>
+  );
+}
+
+export function CrmPager({
+  page,
+  pages,
+  size,
+  totalLabel,
+  onPage,
+  onSize,
+}: {
+  page: number;
+  pages: number;
+  size: number;
+  totalLabel: string;
+  onPage: (page: number) => void;
+  onSize: (size: number) => void;
+}) {
+  const shown = pages <= 6 ? Array.from({ length: pages }, (_, index) => index + 1) : [1, 2, 3, 4, pages];
+  return (
+    <div className="crm-pager">
+      <span>{totalLabel}</span>
+      <div>
+        <button type="button" aria-label="Oldingi" disabled={page <= 1} onClick={() => onPage(page - 1)}>
+          ‹
+        </button>
+        {shown.map((item, index) => (
+          <span key={item}>
+            {index > 0 && shown[index - 1] !== item - 1 ? <i>…</i> : null}
+            <button type="button" className={item === page ? "on" : undefined} onClick={() => onPage(item)}>
+              {item}
+            </button>
+          </span>
+        ))}
+        <button type="button" aria-label="Keyingi" disabled={page >= pages} onClick={() => onPage(page + 1)}>
+          ›
+        </button>
+      </div>
+      <label>
+        Sahifada:
+        <select aria-label="Sahifa hajmi" value={size} onChange={(event) => onSize(Number(event.target.value))}>
+          {[10, 25, 50].map((item) => (
+            <option key={item} value={item}>
+              {item}
+            </option>
+          ))}
+        </select>
+      </label>
+    </div>
+  );
+}

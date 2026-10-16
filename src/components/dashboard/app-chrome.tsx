@@ -5,6 +5,8 @@ import { usePathname } from "next/navigation";
 import { DashboardShell } from "@/components/dashboard/shell";
 import DesktopHomePage from "@/components/home/desktop/HomePage";
 import { MarketCatalog } from "@/components/shop/desktop/MarketCatalog";
+import { BrandsDesktop } from "@/components/shop/desktop/BrandsDesktop";
+import { AksiyalarDesktop } from "@/components/shop/desktop/AksiyalarDesktop";
 import { MarketProduct } from "@/components/shop/desktop/MarketProduct";
 import { SurplusCatalog } from "@/components/shop/desktop/SurplusCatalog";
 import { SurplusDetail } from "@/components/shop/desktop/SurplusDetail";
@@ -12,7 +14,7 @@ import { isMarketId, isSurplusId } from "@/data/desktop-shop";
 import { SeminarList } from "@/components/seminars/desktop/SeminarList";
 import { SeminarDetail } from "@/components/seminars/desktop/SeminarDetail";
 import { isDesktopSeminarId } from "@/data/desktop-seminars";
-import { TalimDesktop } from "@/components/hub/desktop/TalimDesktop";
+import { OnlaynDarslarDesktop } from "@/components/education/desktop/OnlaynDarslarDesktop";
 import { KitoblarDesktop } from "@/components/hub/desktop/KitoblarDesktop";
 import { KanallarDesktop } from "@/components/hub/desktop/KanallarDesktop";
 import { CommunityDesktop } from "@/components/hub/desktop/CommunityDesktop";
@@ -25,12 +27,23 @@ import { JihozProduct } from "@/components/jihoz/desktop/JihozProduct";
 import { getDesktopJihoz } from "@/data/desktop-jihozlar";
 import { JobsDesktop } from "@/components/jobs/desktop/JobsDesktop";
 import { NewsDesktop } from "@/components/news/desktop/NewsDesktop";
+import { MutaxassislarDesktop } from "@/components/specialists/desktop/MutaxassislarDesktop";
+import { MutaxassisProfileDesktop } from "@/components/specialists/desktop/MutaxassisProfileDesktop";
+import { getSpecialist } from "@/data/desktop-specialists";
 import { UstaCatalog } from "@/components/ustalar/desktop/UstaCatalog";
 import { UstaProfileDesktop } from "@/components/ustalar/desktop/UstaProfileDesktop";
 import { getDesktopUsta } from "@/data/desktop-ustalar";
 import { SavatDesktop } from "@/components/savat/desktop/SavatDesktop";
 import { OrdersDesktop } from "@/components/savat/desktop/OrdersDesktop";
 import { ProfilDesktop } from "@/components/profil/desktop/ProfilDesktop";
+import { CertificatesDesktop } from "@/components/crm/desktop/CertificatesDesktop";
+import { PatientsDesktop } from "@/components/crm/desktop/PatientsDesktop";
+import { AppointmentsDesktop } from "@/components/crm/desktop/AppointmentsDesktop";
+import { PlansDesktop } from "@/components/crm/desktop/PlansDesktop";
+import { PaymentsDesktop } from "@/components/crm/desktop/PaymentsDesktop";
+import { StockDesktop } from "@/components/crm/desktop/StockDesktop";
+import { CrmStubDesktop } from "@/components/crm/desktop/CrmStubDesktop";
+import { ListingDetailDesktop, ListingsDesktop } from "@/components/crm/desktop/ListingsDesktop";
 import { useDoctorProfile } from "@/components/doctor-profile-provider";
 
 /** Routes that render without sidebar / topbar / mobile chrome. */
@@ -65,7 +78,7 @@ export function AppChrome({ children }: { children: ReactNode }) {
     };
   }, [bare]);
 
-  const shop = desktopShop(pathname) ?? desktopSeminar(pathname) ?? desktopHub(pathname) ?? desktopForma(pathname) ?? desktopJihoz(pathname) ?? desktopJobs(pathname) ?? desktopNews(pathname) ?? desktopUsta(pathname) ?? desktopCart(pathname);
+  const shop = desktopShop(pathname) ?? desktopSeminar(pathname) ?? desktopHub(pathname) ?? desktopForma(pathname) ?? desktopJihoz(pathname) ?? desktopJobs(pathname) ?? desktopNews(pathname) ?? desktopSpec(pathname) ?? desktopUsta(pathname) ?? desktopCart(pathname) ?? desktopCrm(pathname);
 
   if (loggedInHome) {
     return (
@@ -107,6 +120,10 @@ export function AppChrome({ children }: { children: ReactNode }) {
 function desktopShop(pathname: string | null): ReactNode | null {
   if (!pathname) return null;
   if (pathname === "/marketplace") return <MarketCatalog />;
+  if (pathname === "/marketplace/brendlar") return <BrandsDesktop />;
+  if (pathname === "/marketplace/aksiyalar") return <AksiyalarDesktop />;
+  const brandPage = pathname.match(/^\/marketplace\/brendlar\/([^/]+)$/);
+  if (brandPage) return <BrandsDesktop slug={decodeURIComponent(brandPage[1])} />;
   if (pathname === "/ortiqcha-material") return <SurplusCatalog />;
   const market = pathname.match(/^\/marketplace\/([^/]+)$/);
   if (market && market[1] !== "sotuvchi" && isMarketId(market[1])) return <MarketProduct id={market[1]} />;
@@ -117,7 +134,7 @@ function desktopShop(pathname: string | null): ReactNode | null {
 
 function desktopHub(pathname: string | null): ReactNode | null {
   if (!pathname) return null;
-  if (pathname === "/talim") return <TalimDesktop />;
+  if (pathname === "/talim") return <OnlaynDarslarDesktop />;
   if (pathname === "/kitoblar") return <KitoblarDesktop />;
   if (pathname === "/foydali-kanallar") return <KanallarDesktop />;
   if (pathname === "/community") return <CommunityDesktop />;
@@ -153,6 +170,16 @@ function desktopNews(pathname: string | null): ReactNode | null {
   return null;
 }
 
+function desktopSpec(pathname: string | null): ReactNode | null {
+  if (!pathname) return null;
+  if (pathname === "/mutaxassislar") return <MutaxassislarDesktop />;
+  const match = pathname.match(/^\/mutaxassislar\/([^/]+)$/);
+  if (!match) return null;
+  const id = decodeURIComponent(match[1]);
+  if (!getSpecialist(id)) return null;
+  return <MutaxassisProfileDesktop id={id} />;
+}
+
 function desktopUsta(pathname: string | null): ReactNode | null {
   if (!pathname) return null;
   if (pathname === "/ustalar") return <UstaCatalog />;
@@ -166,6 +193,22 @@ function desktopCart(pathname: string | null): ReactNode | null {
   if (pathname === "/savat") return <SavatDesktop />;
   if (pathname === "/buyurtmalarim") return <OrdersDesktop />;
   if (pathname === "/profil") return <ProfilDesktop />;
+  return null;
+}
+
+function desktopCrm(pathname: string | null): ReactNode | null {
+  if (!pathname) return null;
+  if (pathname === "/sertifikatlar") return <CertificatesDesktop />;
+  if (pathname === "/crm/bemorlar") return <PatientsDesktop />;
+  if (pathname === "/crm/uchrashuvlar") return <AppointmentsDesktop />;
+  if (pathname === "/crm/davolash-rejalari") return <PlansDesktop />;
+  if (pathname === "/crm/tolovlar") return <PaymentsDesktop />;
+  if (pathname === "/crm/ombor") return <StockDesktop />;
+  if (pathname === "/crm/xizmatlar") return <CrmStubDesktop active="services" title="Xizmatlar" text="Klinika xizmatlari narxlari shu bo‘limda yuritiladi." />;
+  if (pathname === "/crm/hisobotlar") return <CrmStubDesktop active="reports" title="Hisobotlar" text="Kunlik va oylik klinika hisobotlari shu yerda." />;
+  if (pathname === "/elonlar") return <ListingsDesktop />;
+  const listing = pathname.match(/^\/elonlar\/([^/]+)$/);
+  if (listing) return <ListingDetailDesktop id={decodeURIComponent(listing[1])} />;
   return null;
 }
 

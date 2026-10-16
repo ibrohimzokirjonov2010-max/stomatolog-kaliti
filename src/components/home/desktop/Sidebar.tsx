@@ -51,8 +51,8 @@ const groups: { title: string; items: Item[] }[] = [
       { key: "orders", icon: Receipt, label: "Buyurtmalarim", href: "/buyurtmalarim" },
       { key: "surplus", icon: Package, label: "Ortiqcha material", href: "/ortiqcha-material" },
       { key: "cats", icon: LayoutGrid, label: "Kategoriyalar", href: "/marketplace" },
-      { key: "brands", icon: Tag, label: "Brendlar", href: "/marketplace" },
-      { key: "sale", icon: BadgePercent, label: "Aksiyalar", href: "/marketplace?sale=1" },
+      { key: "brands", icon: Tag, label: "Brendlar", href: "/marketplace/brendlar" },
+      { key: "sale", icon: BadgePercent, label: "Aksiyalar", href: "/marketplace/aksiyalar" },
     ],
   },
   {
@@ -98,6 +98,8 @@ const groups: { title: string; items: Item[] }[] = [
 function activeKey(pathname: string) {
   if (pathname === "/") return "home";
   if (pathname === "/ortiqcha-material" || pathname.startsWith("/ortiqcha-material/")) return "surplus";
+  if (pathname === "/marketplace/brendlar" || pathname.startsWith("/marketplace/brendlar/")) return "brands";
+  if (pathname === "/marketplace/aksiyalar") return "sale";
   if (pathname === "/marketplace" || (/^\/marketplace\/(?!sotuvchi|dokon)/.test(pathname) && !pathname.startsWith("/marketplace/sotuvchi"))) return "market";
   if (pathname === "/seminarlar" || (pathname.startsWith("/seminarlar/") && !pathname.startsWith("/seminarlar/chiptalarim"))) return "sem";
   if (pathname.startsWith("/seminarlar/chiptalarim")) return "cert";
