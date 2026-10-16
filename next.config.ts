@@ -4,6 +4,13 @@ const nextConfig: NextConfig = {
   devIndicators: false,
   agentRules: false,
   allowedDevOrigins: ["127.0.0.1", "localhost"],
+  async redirects() {
+    return ["bemorlar", "uchrashuvlar", "ombor", "davolash-rejalari", "tolovlar"].map((s) => ({
+      source: `/klinika/${s}`,
+      destination: `/crm/${s}`,
+      permanent: false,
+    }));
+  },
   images: {
     remotePatterns: [
       { protocol: "https", hostname: "**.alicdn.com" },

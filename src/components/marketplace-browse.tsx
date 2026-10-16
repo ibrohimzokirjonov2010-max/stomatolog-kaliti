@@ -66,6 +66,7 @@ export function MarketplaceBrowse({
   const router = useRouter();
   const { catalog } = useSellerWork();
   const qParam = (params.get("q") ?? "").trim().toLowerCase();
+  const brandParam = (params.get("brand") ?? "").trim().toLowerCase();
   const catParam = (forcedCategory ?? params.get("cat")) as ProductCategory | null;
   const [query, setQuery] = useState("");
   const [sheet, setSheet] = useState<"brand" | "price" | "stock" | null>(null);
@@ -75,7 +76,11 @@ export function MarketplaceBrowse({
   const [tab, setTab] = useState<ProductCategory | "">(catParam || "materiallar");
   const [checkedCats, setCheckedCats] = useState<ProductCategory[]>(catParam ? [catParam] : []);
   const [brandQuery, setBrandQuery] = useState("");
-  const [checkedBrands, setCheckedBrands] = useState<string[]>([]);
+  const [checkedBrands, setCheckedBrands] = useState<string[]>(() => {
+    if (!brandParam) return [];
+    const hit = catalog.find((p) => p.brand.trim().toLowerCase() === brandParam);
+    return hit ? [hit.brand] : [];
+  });
   const [showAllBrands, setShowAllBrands] = useState(false);
   const [minPrice, setMinPrice] = useState(PRICE_MIN);
   const [maxPrice, setMaxPrice] = useState(PRICE_MAX);
@@ -216,11 +221,12 @@ export function MarketplaceBrowse({
           <JihozlarDesktop catalog={catalog} q={qParam} />
         ) : (
           <MarketplaceDesktop
-          key={`${forcedCategory ?? ""}|${params.get("cat") ?? ""}`}
+          key={`${forcedCategory ?? ""}|${params.get("cat") ?? ""}|${params.get("brand") ?? ""}`}
           catalog={catalog}
           q={qParam}
           title={title}
           initialGroups={groupsForCatParam(catParam)}
+          initialBrands={brandParam ? [brandParam] : []}
         />
         )}
       </div>
@@ -230,6 +236,22 @@ export function MarketplaceBrowse({
           title={forcedCategory === "jihozlar" ? "Jihozlar" : "Marketplace"}
           subtitle={forcedCategory === "jihozlar" ? "Klinik jihoz va uskunalar — sotuvchilar e’lonlari ham shu yerda" : undefined}
         />
+
+        <nav className="-mx-4 mb-3 flex gap-2 overflow-x-auto px-4 [scrollbar-width:none]">
+          {[
+            ["/kategoriyalar", "Kategoriyalar"],
+            ["/marketplace/brendlar", "Brendlar"],
+            ["/marketplace/aksiyalar", "Aksiyalar"],
+          ].map(([href, label]) => (
+            <Link
+              key={href}
+              href={href}
+              className="h-8 shrink-0 rounded-full border border-[#e6eaf2] bg-white px-3.5 text-[12.5px] leading-8 font-semibold text-[#0066FF]"
+            >
+              {label}
+            </Link>
+          ))}
+        </nav>
 
         <div className="relative mb-3">
           <Search className="pointer-events-none absolute top-1/2 left-3.5 size-4 -translate-y-1/2 text-[#8b93a7]" />

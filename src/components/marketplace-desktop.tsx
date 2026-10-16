@@ -1,5 +1,7 @@
 "use client";
 
+import Link from "next/link";
+
 import { useMemo, useState } from "react";
 import {
   Anchor,
@@ -100,15 +102,17 @@ export function MarketplaceDesktop({
   title,
   subtitle,
   initialGroups,
+  initialBrands = [],
 }: {
   catalog: Product[];
   q: string;
   title: string;
   subtitle?: string;
   initialGroups: MarketGroup[];
+  initialBrands?: string[];
 }) {
   const router = useRouter();
-  const [filters, setFilters] = useState<Filters>({ ...emptyFilters, groups: initialGroups });
+  const [filters, setFilters] = useState<Filters>({ ...emptyFilters, groups: initialGroups, brands: initialBrands });
   const [sort, setSort] = useState<SortKey>("new");
   const [view, setView] = useState<"grid" | "list">("grid");
   const [brandQuery, setBrandQuery] = useState("");
@@ -248,6 +252,11 @@ export function MarketplaceDesktop({
         <div className="min-w-0 shrink-0">
           <h1 className="text-[28px] leading-tight font-extrabold tracking-tight text-[#0B1F4D]">{title}</h1>
           {subtitle ? <p className="mt-1 text-[13.5px] text-[#8b93a7]">{subtitle}</p> : null}
+          <nav className="mt-1.5 flex gap-3 text-[12.5px] font-semibold text-[#0066FF]">
+            <Link href="/kategoriyalar" className="hover:underline">Kategoriyalar</Link>
+            <Link href="/marketplace/brendlar" className="hover:underline">Brendlar</Link>
+            <Link href="/marketplace/aksiyalar" className="hover:underline">Aksiyalar</Link>
+          </nav>
         </div>
         <div className="ml-auto flex items-center gap-2.5">
           <ValueBadge icon={ShieldCheck} title="Original mahsulotlar" text="Ishonchli sotuvchilar" />
