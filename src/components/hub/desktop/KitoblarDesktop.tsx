@@ -2,6 +2,7 @@
 /* eslint-disable @next/next/no-img-element */
 
 import { useEffect, useMemo, useState } from "react";
+import Link from "next/link";
 import { useSearchParams } from "next/navigation";
 import { BookOpen, Check, ImageIcon, Plus, ShoppingCart, Star, X } from "lucide-react";
 import { ShopShell } from "@/components/shop/desktop/ShopShell";
@@ -301,7 +302,7 @@ export function KitoblarDesktop() {
                           {book.formats.includes("pdf") ? <i>PDF</i> : null}
                         </span>
                       </div>
-                      <h3>{book.title}</h3>
+                      <h3><Link href={`/kitoblar/${book.id}`}>{book.title}</Link></h3>
                       <p className="by">{book.authors}</p>
                       <p className="by">
                         {book.year} · {book.pages} · {book.lang}

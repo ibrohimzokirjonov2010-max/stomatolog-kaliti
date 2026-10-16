@@ -1,0 +1,31 @@
+.sh .trd h1 { margin: 0; font-size: calc(1.25 * var(--u)); }
+.sh .trd .sub { margin: calc(.08 * var(--u)) 0 calc(.45 * var(--u)); color: #6a7c93; font-size: calc(.64 * var(--u)); }
+.sh .trd-grid { display: grid; grid-template-columns: minmax(0, 1.35fr) minmax(calc(15 * var(--u)), .65fr); gap: calc(.5 * var(--u)); }
+.sh .trd-card { background: #fff; border: 1px solid #e8eef6; border-radius: calc(.55 * var(--u)); padding: calc(.65 * var(--u)); }
+.sh .trd-status { display: flex; gap: calc(.45 * var(--u)); align-items: center; }
+.sh .trd-check { width: calc(2.2 * var(--u)); height: calc(2.2 * var(--u)); border-radius: 50%; background: #e8f8ef; color: #16803c; display: grid; place-items: center; flex: none; }
+.sh .trd-status b { display: block; font-size: calc(.7 * var(--u)); }
+.sh .trd-status strong { display: block; font-size: calc(1 * var(--u)); color: #0066ff; text-transform: lowercase; }
+.sh .trd-steps { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: calc(.3 * var(--u)); margin-top: calc(.55 * var(--u)); }
+.sh .trd-steps article { position: relative; padding-top: calc(.7 * var(--u)); }
+.sh .trd-steps article::before { content: ""; position: absolute; left: 0; right: 0; top: calc(.28 * var(--u)); height: 3px; background: #e6edf5; }
+.sh .trd-steps article.done::before, .sh .trd-steps article.on::before { background: #0066ff; }
+.sh .trd-steps i { position: relative; z-index: 1; width: calc(.7 * var(--u)); height: calc(.7 * var(--u)); border-radius: 50%; background: #e6edf5; display: block; }
+.sh .trd-steps article.done i, .sh .trd-steps article.on i { background: #0066ff; }
+.sh .trd-steps b { display: block; margin-top: calc(.25 * var(--u)); font-size: calc(.58 * var(--u)); }
+.sh .trd-steps span { color: #6a7c93; font-size: calc(.5 * var(--u)); }
+.sh .trd-line { display: flex; gap: calc(.35 * var(--u)); align-items: center; padding: calc(.28 * var(--u)) 0; border-bottom: 1px solid #f3f6fa; font-size: calc(.6 * var(--u)); }
+.sh .trd-line img { width: calc(2.1 * var(--u)); height: calc(2.1 * var(--u)); object-fit: cover; border-radius: calc(.3 * var(--u)); }
+.sh .trd-courier { display: flex; gap: calc(.4 * var(--u)); align-items: center; }
+.sh .trd-courier img { width: calc(2.6 * var(--u)); height: calc(2.6 * var(--u)); border-radius: 50%; object-fit: cover; }
+.sh .trd-courier b { display: block; }
+.sh .trd-courier span { color: #6a7c93; font-size: calc(.55 * var(--u)); }
+.sh .trd-actions { display: flex; gap: calc(.3 * var(--u)); margin-top: calc(.45 * var(--u)); }
+.sh .trd-actions a, .sh .trd-actions button { height: calc(1.9 * var(--u)); padding: 0 calc(.7 * var(--u)); border-radius: calc(.4 * var(--u)); font-weight: 750; font-size: calc(.62 * var(--u)); display: inline-flex; align-items: center; }
+.sh .trd-help { background: #fff; border: 1px solid #e1e8f2; }
+.sh .trd-go { background: #0066ff; color: #fff; }
+.sh .trd-map { margin-top: calc(.4 * var(--u)); height: calc(7 * var(--u)); border-radius: calc(.45 * var(--u)); background: linear-gradient(160deg, #dbeafe, #eff6ff 40%, #e0f2fe); position: relative; overflow: hidden; }
+.sh .trd-pin { position: absolute; left: 46%; top: 42%; width: calc(.7 * var(--u)); height: calc(.7 * var(--u)); border-radius: 50% 50% 50% 0; background: #0066ff; transform: rotate(-45deg); }
+.sh .trd-chat { margin-top: calc(.35 * var(--u)); display: flex; flex-direction: column; gap: calc(.25 * var(--u)); }
+.sh .trd-chat textarea { min-height: calc(3 * var(--u)); border: 1px solid #e6edf5; border-radius: calc(.35 * var(--u)); padding: calc(.3 * var(--u)); font: inherit; font-size: calc(.58 * var(--u)); }
+.sh .trd-chat button { align-self: flex-end; background: #0066ff; color: #fff; border-radius: calc(.35 * var(--u)); height: calc(1.7 * var(--u)); padding: 0 calc(.6 * var(--u)); font-weight: 750; }

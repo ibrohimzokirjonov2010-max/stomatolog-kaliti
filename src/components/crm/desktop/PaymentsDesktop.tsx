@@ -3,7 +3,8 @@
 
 import { useMemo, useState } from "react";
 import { ChevronRight, Plus, Search } from "lucide-react";
-import { CrmFrame, CrmModal, CrmPager } from "@/components/crm/desktop/CrmFrame";
+import { CrmFrame, CrmPager } from "@/components/crm/desktop/CrmFrame";
+import { NewPaymentModal } from "@/components/crm/CrmCreateModals";
 import { buildPayments, debtors, revenueBars, type ClinicPayment, type PayMethod } from "@/data/crm";
 import { formatGroupedNumber, formatMoney } from "@/lib/format";
 import { useStoredList } from "@/lib/stored-list";
@@ -27,7 +28,7 @@ export function PaymentsDesktop() {
   const [page, setPage] = useState(1);
   const [size, setSize] = useState(10);
   const [open, setOpen] = useState<PayMethod | "">("");
-  const [form, setForm] = useState({ patient: "", service: "Konsultatsiya", amount: "200000", method: "Naqd" as PayMethod });
+  const [form, setForm] = useState({ patient: "", service: "Konsultatsiya", amount: "200000", method: "Naqd" as PayMethod, date: "2026-10-22", note: "" });
 
   const filtered = useMemo(() => items.filter((item) => {
     const iso = parseDate(item.date);
@@ -51,15 +52,6 @@ export function PaymentsDesktop() {
   const circ = 2 * Math.PI * radius;
   let offset = 0;
   const bars = chart === "kun" ? revenueBars : chart === "hafta" ? [8, 14, 18, 16, 12] : [22, 28, 31, 26, 34, 40];
-
-  function add(nextMethod?: PayMethod) {
-    const methodName = nextMethod ?? form.method;
-    if (!form.patient.trim() && !nextMethod) return;
-    const next: ClinicPayment = { id: `pay-user-${Date.now()}`, date: "22.10.2026", patient: form.patient.trim() || "Yangi bemor", avatar: "/img/jobs/doctor.jpg", service: form.service, amount: Number(form.amount) || 0, method: methodName, status: "tolandi" };
-    setItems((prev) => [next, ...prev]);
-    setOpen("");
-    setPage(1);
-  }
 
   return (
     <CrmFrame active="payments" placeholder="Bemor, telefon, to‘lov raqami yoki xizmat nomi..." headerQuery={q} onHeaderQuery={(value) => { setQ(value); setPage(1); }}>
@@ -151,13 +143,27 @@ export function PaymentsDesktop() {
           </aside>
         </div>
         {open ? (
-          <CrmModal title="Yangi to‘lov" onClose={() => setOpen("")}>
-            <label className="crm-field">Bemor<input data-testid="pay-patient" value={form.patient} onChange={(event) => setForm({ ...form, patient: event.target.value })} /></label>
-            <label className="crm-field">Xizmat<input value={form.service} onChange={(event) => setForm({ ...form, service: event.target.value })} /></label>
-            <label className="crm-field">Summa<input value={form.amount} onChange={(event) => setForm({ ...form, amount: event.target.value })} /></label>
-            <label className="crm-field">Usul<select value={form.method} onChange={(event) => setForm({ ...form, method: event.target.value as PayMethod })}>{METHODS.map((item) => <option key={item}>{item}</option>)}</select></label>
-            <div className="row"><button type="button" className="go" data-testid="pay-save" onClick={() => add()}>Saqlash</button></div>
-          </CrmModal>
+          <NewPaymentModal
+            initial={{ ...form, method: open || "Naqd" }}
+            onClose={() => setOpen("")}
+            onSave={(draft) => {
+              const [year, month, day] = draft.date.split("-");
+              const next: ClinicPayment = {
+                id: `pay-user-${Date.now()}`,
+                date: day && month && year ? `${day}.${month}.${year}` : "22.10.2026",
+                patient: draft.patient.trim(),
+                avatar: "/img/jobs/doctor.jpg",
+                service: draft.note.trim() ? `${draft.service} · ${draft.note.trim()}` : draft.service,
+                amount: Number(draft.amount) || 0,
+                method: draft.method,
+                status: "tolandi",
+              };
+              setItems((prev) => [next, ...prev]);
+              setForm(draft);
+              setOpen("");
+              setPage(1);
+            }}
+          />
         ) : null}
       </div>
     </CrmFrame>

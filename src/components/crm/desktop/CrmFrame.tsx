@@ -20,8 +20,7 @@ import {
   Wrench,
 } from "lucide-react";
 import { Search } from "lucide-react";
-import { ShopShell } from "@/components/shop/desktop/ShopShell";
-import { useShopLineCount } from "@/components/shop/desktop/shop-cart";
+import { ClinicShell } from "@/components/shell/ClinicShell";
 import { MarketFrame, type FrameLink, type HeaderLink } from "@/components/shop/desktop/MarketFrame";
 import "./crm.css";
 
@@ -101,10 +100,9 @@ export function CrmFrame({
   listings?: boolean;
   children: ReactNode;
 }) {
-  const cartCount = useShopLineCount();
   if (!listings) {
     return (
-      <ShopShell searchPath="/mening-klinikam" cartCount={cartCount} placeholder="Stomatologga nima kerak?" showCamera={false}>
+      <ClinicShell accent="teal">
         <div className="crm-teal">
           {inlineSearch && onHeaderQuery ? (
             <div className="crm-tools">
@@ -116,7 +114,7 @@ export function CrmFrame({
           ) : null}
           {children}
         </div>
-      </ShopShell>
+      </ClinicShell>
     );
   }
   return (

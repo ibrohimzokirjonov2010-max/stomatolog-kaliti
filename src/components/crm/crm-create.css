@@ -1,0 +1,36 @@
+.nb-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px 16px; }
+.nb-field { font-size: 13px; font-weight: 700; color: #243044; }
+.nb-field input, .nb-field select, .nb-field textarea { font-weight: 500; }
+.nb-span { grid-column: 1 / -1; }
+.nb-error { margin: 4px 0 0; color: #dc2626; font-size: 12px; font-weight: 650; }
+.nb-pays { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; }
+.nb-pays button {
+  height: 64px;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  background: #fff;
+  font-weight: 750;
+  color: var(--ink);
+}
+.nb-pays button.on { border-color: var(--teal); background: #e7f6f6; color: var(--teal); }
+.nb-foot {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  margin-top: 18px;
+  padding-top: 14px;
+  border-top: 1px solid var(--line);
+}
+.nb-foot .ghost, .nb-foot .go {
+  height: 42px;
+  padding: 0 18px;
+  border-radius: 12px;
+  font-weight: 750;
+}
+.nb-foot .ghost { background: #fff; border: 1px solid var(--line); color: var(--ink); }
+.nb-foot .go { background: var(--teal); color: #fff; }
+.nb-foot .go:hover { background: #0c7575; }
+
+@media (max-width: 720px) {
+  .nb-grid, .nb-pays { grid-template-columns: 1fr; }
+}

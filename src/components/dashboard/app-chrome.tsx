@@ -43,6 +43,12 @@ import { PlansDesktop } from "@/components/crm/desktop/PlansDesktop";
 import { PaymentsDesktop } from "@/components/crm/desktop/PaymentsDesktop";
 import { StockDesktop } from "@/components/crm/desktop/StockDesktop";
 import { CrmStubDesktop } from "@/components/crm/desktop/CrmStubDesktop";
+import { PatientProfileDesktop } from "@/components/crm/desktop/PatientProfileDesktop";
+import { ReportsDesktop } from "@/components/crm/desktop/ReportsDesktop";
+import { CheckoutDesktop } from "@/components/checkout/desktop/CheckoutDesktop";
+import { TrackDesktop } from "@/components/orders/desktop/TrackDesktop";
+import { BookProductDesktop } from "@/components/books/desktop/BookProductDesktop";
+import { ReaderDesktop } from "@/components/books/desktop/ReaderDesktop";
 import { ListingDetailDesktop, ListingsDesktop } from "@/components/crm/desktop/ListingsDesktop";
 import { useDoctorProfile } from "@/components/doctor-profile-provider";
 
@@ -78,7 +84,7 @@ export function AppChrome({ children }: { children: ReactNode }) {
     };
   }, [bare]);
 
-  const shop = desktopShop(pathname) ?? desktopSeminar(pathname) ?? desktopHub(pathname) ?? desktopForma(pathname) ?? desktopJihoz(pathname) ?? desktopJobs(pathname) ?? desktopNews(pathname) ?? desktopSpec(pathname) ?? desktopUsta(pathname) ?? desktopCart(pathname) ?? desktopCrm(pathname);
+  const shop = desktopShop(pathname) ?? desktopSeminar(pathname) ?? desktopHub(pathname) ?? desktopForma(pathname) ?? desktopJihoz(pathname) ?? desktopJobs(pathname) ?? desktopNews(pathname) ?? desktopSpec(pathname) ?? desktopUsta(pathname) ?? desktopCart(pathname) ?? desktopFlow(pathname) ?? desktopCrm(pathname);
 
   if (loggedInHome) {
     return (
@@ -200,15 +206,29 @@ function desktopCrm(pathname: string | null): ReactNode | null {
   if (!pathname) return null;
   if (pathname === "/sertifikatlar") return <CertificatesDesktop />;
   if (pathname === "/crm/bemorlar") return <PatientsDesktop />;
+  const patient = pathname.match(/^\/crm\/bemorlar\/([^/]+)$/);
+  if (patient) return <PatientProfileDesktop id={decodeURIComponent(patient[1])} />;
   if (pathname === "/crm/uchrashuvlar") return <AppointmentsDesktop />;
   if (pathname === "/crm/davolash-rejalari") return <PlansDesktop />;
   if (pathname === "/crm/tolovlar") return <PaymentsDesktop />;
   if (pathname === "/crm/ombor") return <StockDesktop />;
   if (pathname === "/crm/xizmatlar") return <CrmStubDesktop active="services" title="Xizmatlar" text="Klinika xizmatlari narxlari shu bo‘limda yuritiladi." />;
-  if (pathname === "/crm/hisobotlar") return <CrmStubDesktop active="reports" title="Hisobotlar" text="Kunlik va oylik klinika hisobotlari shu yerda." />;
+  if (pathname === "/crm/hisobotlar") return <ReportsDesktop />;
   if (pathname === "/elonlar") return <ListingsDesktop />;
   const listing = pathname.match(/^\/elonlar\/([^/]+)$/);
   if (listing) return <ListingDetailDesktop id={decodeURIComponent(listing[1])} />;
+  return null;
+}
+
+function desktopFlow(pathname: string | null): ReactNode | null {
+  if (!pathname) return null;
+  if (pathname === "/buyurtma" || pathname === "/checkout") return <CheckoutDesktop />;
+  const track = pathname.match(/^\/buyurtmalarim\/([^/]+)$/);
+  if (track) return <TrackDesktop id={decodeURIComponent(track[1])} />;
+  const read = pathname.match(/^\/kitoblar\/([^/]+)\/oqish$/);
+  if (read) return <ReaderDesktop id={decodeURIComponent(read[1])} />;
+  const book = pathname.match(/^\/kitoblar\/([^/]+)$/);
+  if (book) return <BookProductDesktop id={decodeURIComponent(book[1])} />;
   return null;
 }
 

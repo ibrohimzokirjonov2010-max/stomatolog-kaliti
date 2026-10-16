@@ -3,7 +3,8 @@
 
 import { useMemo, useState } from "react";
 import { ChevronLeft, ChevronRight, Plus } from "lucide-react";
-import { CrmFrame, CrmModal } from "@/components/crm/desktop/CrmFrame";
+import { CrmFrame } from "@/components/crm/desktop/CrmFrame";
+import { NewAppointmentModal } from "@/components/crm/CrmCreateModals";
 import {
   CLINIC_TODAY,
   apptDoctors,
@@ -59,7 +60,7 @@ export function AppointmentsDesktop() {
   const [doctor, setDoctor] = useState("");
   const [room, setRoom] = useState("");
   const [adding, setAdding] = useState(false);
-  const [form, setForm] = useState({ patient: "", service: "Konsultatsiya", doctorId: "karimov", room: "Xona 1", date: CLINIC_TODAY, start: "09:00", end: "10:00", status: "tasdiq" as ApptStatus });
+  const [form, setForm] = useState({ patient: "", service: "Konsultatsiya", doctorId: "karimov", room: "Xona 1", date: CLINIC_TODAY, start: "09:00", end: "10:00", status: "tasdiq" as ApptStatus, note: "" });
 
   const weekStart = weekOf(cursor);
   const days = Array.from({ length: 7 }, (_, index) => addDays(weekStart, index));
@@ -76,27 +77,6 @@ export function AppointmentsDesktop() {
   const avg = shownToday.length ? Math.round(shownToday.reduce((sum, item) => sum + (minutes(item.end) - minutes(item.start)), 0) / shownToday.length) : 0;
   const load = Math.min(100, Math.round((shownToday.reduce((sum, item) => sum + (minutes(item.end) - minutes(item.start)), 0) / (10 * 60)) * 100));
   const seedDay = cursor === CLINIC_TODAY && !items.some((item) => item.id.startsWith("user-"));
-
-  function add() {
-    if (!form.patient.trim()) return;
-    const doc = apptDoctors.find((item) => item.id === form.doctorId) ?? apptDoctors[0];
-    const next: Appointment = {
-      id: `user-${Date.now()}`,
-      date: form.date,
-      start: form.start,
-      end: form.end,
-      patient: form.patient.trim(),
-      avatar: "/img/jobs/doctor.jpg",
-      service: form.service,
-      doctor: doc.name,
-      doctorId: doc.id,
-      room: form.room,
-      status: form.status,
-    };
-    setItems((prev) => [next, ...prev]);
-    setCursor(form.date);
-    setAdding(false);
-  }
 
   const monthStart = `${cursor.slice(0, 8)}01`;
   const monthDays = Array.from({ length: 31 }, (_, index) => addDays(monthStart, index)).filter((item) => item.slice(5, 7) === cursor.slice(5, 7));
@@ -202,16 +182,31 @@ export function AppointmentsDesktop() {
           </aside>
         </div>
         {adding ? (
-          <CrmModal title="Yangi uchrashuv" onClose={() => setAdding(false)}>
-            <label className="crm-field">Bemor<input data-testid="appt-patient" value={form.patient} onChange={(event) => setForm({ ...form, patient: event.target.value })} /></label>
-            <label className="crm-field">Xizmat<input value={form.service} onChange={(event) => setForm({ ...form, service: event.target.value })} /></label>
-            <label className="crm-field">Shifokor<select value={form.doctorId} onChange={(event) => setForm({ ...form, doctorId: event.target.value })}>{apptDoctors.map((item) => <option key={item.id} value={item.id}>{item.name}</option>)}</select></label>
-            <label className="crm-field">Xona<select value={form.room} onChange={(event) => setForm({ ...form, room: event.target.value })}>{apptRooms.map((item) => <option key={item}>{item}</option>)}</select></label>
-            <label className="crm-field">Sana<input type="date" value={form.date} onChange={(event) => setForm({ ...form, date: event.target.value })} /></label>
-            <label className="crm-field">Boshlanish<input value={form.start} onChange={(event) => setForm({ ...form, start: event.target.value })} /></label>
-            <label className="crm-field">Tugash<input value={form.end} onChange={(event) => setForm({ ...form, end: event.target.value })} /></label>
-            <div className="row"><button type="button" className="go" data-testid="appt-save" onClick={add}>Saqlash</button></div>
-          </CrmModal>
+          <NewAppointmentModal
+            initial={form}
+            onClose={() => setAdding(false)}
+            onSave={(draft) => {
+              setForm((current) => ({ ...current, ...draft }));
+              if (!draft.patient.trim()) return;
+              const doc = apptDoctors.find((item) => item.id === draft.doctorId) ?? apptDoctors[0];
+              const next: Appointment = {
+                id: `user-${Date.now()}`,
+                date: draft.date,
+                start: draft.start,
+                end: draft.end,
+                patient: draft.patient.trim(),
+                avatar: "/img/jobs/doctor.jpg",
+                service: draft.note.trim() ? `${draft.service} · ${draft.note.trim()}` : draft.service,
+                doctor: doc.name,
+                doctorId: doc.id,
+                room: draft.room,
+                status: "tasdiq",
+              };
+              setItems((prev) => [next, ...prev]);
+              setCursor(draft.date);
+              setAdding(false);
+            }}
+          />
         ) : null}
       </div>
     </CrmFrame>

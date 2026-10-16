@@ -1,0 +1,61 @@
+.sh.shell-teal { --teal: #0f8a8a; }
+.sh.shell-blue { --teal: #0066ff; }
+
+.sh .cl-sub {
+  padding-left: calc(1.55 * var(--u));
+  min-height: calc(1.65 * var(--u));
+  font-size: calc(.64 * var(--u));
+}
+
+.sh .cl-foot {
+  margin-top: auto;
+  display: flex;
+  flex-direction: column;
+  gap: calc(.15 * var(--u));
+  padding-top: calc(.35 * var(--u));
+  border-top: 1px solid #e6edf5;
+}
+
+.sh .cl-pop {
+  position: absolute;
+  top: calc(2.2 * var(--u));
+  right: 0;
+  z-index: 30;
+  width: calc(14 * var(--u));
+  background: #fff;
+  border: 1px solid #e6edf5;
+  border-radius: calc(.5 * var(--u));
+  box-shadow: 0 calc(.4 * var(--u)) calc(1.2 * var(--u)) rgba(20, 40, 80, .12);
+  padding: calc(.55 * var(--u));
+}
+
+.sh .cl-pop b { display: block; font-size: calc(.7 * var(--u)); margin-bottom: calc(.3 * var(--u)); }
+.sh .cl-pop button, .sh .cl-pop a {
+  display: block;
+  width: 100%;
+  text-align: left;
+  padding: calc(.28 * var(--u)) calc(.2 * var(--u));
+  font-size: calc(.62 * var(--u));
+  font-weight: 650;
+  border-radius: calc(.3 * var(--u));
+}
+.sh .cl-pop button:hover, .sh .cl-pop a:hover { background: #f4f8fb; }
+.sh .cl-pop textarea {
+  width: 100%;
+  min-height: calc(3.2 * var(--u));
+  border: 1px solid #e6edf5;
+  border-radius: calc(.35 * var(--u));
+  padding: calc(.35 * var(--u));
+  font: inherit;
+  font-size: calc(.6 * var(--u));
+  resize: vertical;
+}
+.sh .cl-send {
+  margin-top: calc(.3 * var(--u));
+  height: calc(1.7 * var(--u));
+  border-radius: calc(.35 * var(--u));
+  background: var(--teal);
+  color: #fff !important;
+  font-weight: 750;
+  text-align: center !important;
+}

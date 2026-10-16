@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import Link from "next/link";
 import { Plus } from "lucide-react";
 import { buildPatients, patientStatuses } from "@/data/crm";
 import { useStoredList } from "@/lib/stored-list";
@@ -31,7 +32,7 @@ export function PatientsPhone() {
       <ul className="space-y-2">
         {items.slice(0, 12).map((item) => (
           <li key={item.id} className="rounded-xl border border-[#e6edf5] bg-white px-3 py-2 text-[14px] text-[#0f1e3d]" data-testid="patient-phone-row">
-            <b>{item.name}</b>
+            <b><Link href={`/crm/bemorlar/${item.id}`}>{item.name}</Link></b>
             <span className="mt-0.5 block text-[12px] text-[#6a7c93]">{item.phone} · {item.city} · {patientStatuses.find((entry) => entry.id === item.status)?.label}</span>
           </li>
         ))}

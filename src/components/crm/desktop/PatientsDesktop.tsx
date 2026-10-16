@@ -2,6 +2,7 @@
 /* eslint-disable @next/next/no-img-element */
 
 import { useMemo, useState } from "react";
+import Link from "next/link";
 import { ChevronRight, Download, MoreHorizontal, Plus, Search, Upload } from "lucide-react";
 import { CrmFrame, CrmModal, CrmPager } from "@/components/crm/desktop/CrmFrame";
 import { ADULT_LOWER, ADULT_UPPER, BABY_LOWER, BABY_UPPER, ToothChart, cycleTooth } from "@/components/crm/desktop/ToothChart";
@@ -140,7 +141,7 @@ export function PatientsDesktop() {
                   <tr key={item.id} className={item.id === current?.id ? "on" : undefined} data-testid="patient-row" onClick={() => setSelected(item.id)}>
                     <td><input type="checkbox" aria-label={item.name} checked={checked.includes(item.id)} onChange={(event) => setChecked((prev) => event.target.checked ? [...prev, item.id] : prev.filter((id) => id !== item.id))} onClick={(event) => event.stopPropagation()} /></td>
                     <td>{item.num}</td>
-                    <td><span className="crm-person pt-who"><img src={item.avatar} alt="" /><span><b>{item.name}</b><small>{item.age} yosh · {item.gender}</small></span></span></td>
+                    <td><span className="crm-person pt-who"><img src={item.avatar} alt="" /><span><b><Link href={`/crm/bemorlar/${item.id}`} data-testid="patient-profile-link" onClick={(event) => event.stopPropagation()}>{item.name}</Link></b><small>{item.age} yosh · {item.gender}</small></span></span></td>
                     <td>{item.phone}</td>
                     <td>{item.city}</td>
                     <td><span className={`crm-pill ${item.status}`}>{patientStatuses.find((entry) => entry.id === item.status)?.label}</span></td>

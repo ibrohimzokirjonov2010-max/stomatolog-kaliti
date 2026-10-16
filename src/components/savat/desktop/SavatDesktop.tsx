@@ -3,6 +3,7 @@
 
 import { useMemo, useState } from "react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { BadgeCheck, Check, Heart, Lock, Minus, Plus, RotateCcw, ShieldCheck, ShoppingCart, Store, Trash2, Truck } from "lucide-react";
 import { ShopShell } from "@/components/shop/desktop/ShopShell";
 import { shopAdd, shopRemove, shopSetQty, shopToggleFav, som, useShopFavs, useShopLineCount, useShopLinesOrSeed, type ShopLine } from "@/components/shop/desktop/shop-cart";
@@ -13,6 +14,7 @@ const steps = ["Savat", "Yetkazib berish", "To‘lov", "Tasdiqlash"];
 const pays = ["Click", "Payme", "Uzum", "Naqd"] as const;
 
 export function SavatDesktop() {
+  const router = useRouter();
   const lines = useShopLinesOrSeed(savatSeed);
   const cartCount = useShopLineCount();
   const favs = useShopFavs();
@@ -21,7 +23,7 @@ export function SavatDesktop() {
   const [promo, setPromo] = useState<"ok" | "bad" | "">("ok");
   const [pay, setPay] = useState<(typeof pays)[number]>("Click");
   const [installment, setInstallment] = useState(false);
-  const [step, setStep] = useState(0);
+  const step = 0;
   const [note, setNote] = useState("");
 
   const groups = useMemo(() => {
@@ -158,7 +160,7 @@ export function SavatDesktop() {
               {promo === "ok" ? <p className="sv-ok">Promokod muvaffaqiyatli qo‘llandi!</p> : null}
               {promo === "bad" ? <p className="sv-bad">Promokod topilmadi</p> : null}
               <div className="sv-total"><span>JAMI</span><b>{som(total)}</b></div>
-              <button type="button" className="sv-go" disabled={selected.length === 0} onClick={() => { setStep(1); setNote("Yetkazib berish bosqichiga o‘tildi"); }}>
+              <button type="button" className="sv-go" data-testid="savat-checkout" disabled={selected.length === 0} onClick={() => router.push("/buyurtma")}>
                 Rasmiylashtirish →
               </button>
             </section>

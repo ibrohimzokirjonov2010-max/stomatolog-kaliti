@@ -1,0 +1,49 @@
+.sh .ckd-head h1 { margin: 0; font-size: calc(1.25 * var(--u)); }
+.sh .ckd-head p { margin: calc(.1 * var(--u)) 0 calc(.45 * var(--u)); color: #6a7c93; font-size: calc(.64 * var(--u)); }
+.sh .ckd-steps { display: flex; align-items: center; gap: calc(.2 * var(--u)); margin-bottom: calc(.55 * var(--u)); }
+.sh .ckd-step { display: inline-flex; align-items: center; gap: calc(.28 * var(--u)); color: #8b97a8; font-size: calc(.62 * var(--u)); font-weight: 750; background: transparent; }
+.sh .ckd-step i { width: calc(1.35 * var(--u)); height: calc(1.35 * var(--u)); border-radius: 50%; display: grid; place-items: center; border: 1px solid #d5deea; font-style: normal; font-size: calc(.58 * var(--u)); }
+.sh .ckd-step .line { width: calc(2.2 * var(--u)); height: 2px; background: #e1e8f2; margin-right: calc(.2 * var(--u)); }
+.sh .ckd-step.on { color: #0066ff; }
+.sh .ckd-step.on i, .sh .ckd-step.done i { background: #0066ff; border-color: #0066ff; color: #fff; }
+.sh .ckd-step.done .line, .sh .ckd-step.on .line { background: #0066ff; }
+.sh .ckd-grid { display: grid; grid-template-columns: minmax(0, 1.4fr) minmax(calc(16 * var(--u)), .7fr); gap: calc(.55 * var(--u)); align-items: start; }
+.sh .ckd-card { background: #fff; border: 1px solid #e8eef6; border-radius: calc(.55 * var(--u)); padding: calc(.65 * var(--u)); }
+.sh .ckd-card h2 { margin: 0 0 calc(.4 * var(--u)); font-size: calc(.85 * var(--u)); }
+.sh .ckd-fields { display: grid; grid-template-columns: 1fr 1fr; gap: calc(.4 * var(--u)); }
+.sh .ckd-fields label, .sh .ckd-note { display: flex; flex-direction: column; gap: calc(.12 * var(--u)); font-size: calc(.55 * var(--u)); color: #5b6b82; font-weight: 700; }
+.sh .ckd-fields input, .sh .ckd-fields select, .sh .ckd-note textarea {
+  height: calc(1.9 * var(--u)); border: 1px solid #e6edf5; border-radius: calc(.35 * var(--u)); padding: 0 calc(.4 * var(--u)); font: inherit; font-size: calc(.62 * var(--u)); font-weight: 550; color: #122033; background: #fff;
+}
+.sh .ckd-note { margin-top: calc(.4 * var(--u)); }
+.sh .ckd-note textarea { height: calc(3.4 * var(--u)); padding-top: calc(.3 * var(--u)); }
+.sh .ckd-wide { grid-column: 1 / -1; }
+.sh .ckd-saved { display: flex; gap: calc(.3 * var(--u)); margin: calc(.4 * var(--u)) 0; }
+.sh .ckd-saved button, .sh .ckd-ship button, .sh .ckd-pay button {
+  border: 1px solid #e6edf5; background: #fff; border-radius: calc(.4 * var(--u)); padding: calc(.35 * var(--u)) calc(.5 * var(--u)); text-align: left; font-size: calc(.58 * var(--u));
+}
+.sh .ckd-saved button.on, .sh .ckd-ship button.on, .sh .ckd-pay button.on { border-color: #0066ff; background: #eef4ff; color: #0066ff; }
+.sh .ckd-ship, .sh .ckd-pay { display: grid; grid-template-columns: 1fr 1fr; gap: calc(.35 * var(--u)); }
+.sh .ckd-pay { grid-template-columns: 1fr 1fr 1fr; }
+.sh .ckd-pay b, .sh .ckd-ship b { display: block; font-size: calc(.64 * var(--u)); }
+.sh .ckd-pay span, .sh .ckd-ship span, .sh .ckd-saved span { color: #6a7c93; font-size: calc(.52 * var(--u)); }
+.sh .ckd-error { color: #dc2626; font-size: calc(.58 * var(--u)); font-weight: 700; margin: calc(.3 * var(--u)) 0 0; }
+.sh .ckd-actions { display: flex; justify-content: space-between; gap: calc(.3 * var(--u)); margin-top: calc(.5 * var(--u)); }
+.sh .ckd-actions button, .sh .ckd-actions a {
+  height: calc(1.95 * var(--u)); padding: 0 calc(.8 * var(--u)); border-radius: calc(.4 * var(--u)); font-weight: 750; font-size: calc(.64 * var(--u)); display: inline-flex; align-items: center;
+}
+.sh .ckd-back { background: #fff; border: 1px solid #e1e8f2; color: #24344d; }
+.sh .ckd-next { background: #0066ff; color: #fff; margin-left: auto; }
+.sh .ckd-line { display: flex; gap: calc(.35 * var(--u)); align-items: center; padding: calc(.28 * var(--u)) 0; border-bottom: 1px solid #f3f6fa; }
+.sh .ckd-line img { width: calc(2.2 * var(--u)); height: calc(2.2 * var(--u)); object-fit: cover; border-radius: calc(.3 * var(--u)); background: #f4f7fb; }
+.sh .ckd-line b { display: block; font-size: calc(.6 * var(--u)); }
+.sh .ckd-line span { color: #6a7c93; font-size: calc(.52 * var(--u)); }
+.sh .ckd-row { display: flex; justify-content: space-between; gap: calc(.3 * var(--u)); font-size: calc(.6 * var(--u)); margin-top: calc(.25 * var(--u)); }
+.sh .ckd-row.total { font-size: calc(.78 * var(--u)); font-weight: 800; margin-top: calc(.4 * var(--u)); }
+.sh .ckd-promo { display: flex; gap: calc(.25 * var(--u)); margin-top: calc(.35 * var(--u)); }
+.sh .ckd-promo input { flex: 1; height: calc(1.8 * var(--u)); border: 1px solid #e6edf5; border-radius: calc(.35 * var(--u)); padding: 0 calc(.4 * var(--u)); font: inherit; font-size: calc(.6 * var(--u)); }
+.sh .ckd-promo button { background: #eef4ff; color: #0066ff; border-radius: calc(.35 * var(--u)); padding: 0 calc(.5 * var(--u)); font-weight: 750; font-size: calc(.58 * var(--u)); }
+.sh .ckd-check { display: flex; gap: calc(.3 * var(--u)); align-items: flex-start; margin-top: calc(.4 * var(--u)); font-size: calc(.6 * var(--u)); }
+.sh .ckd-review { display: grid; gap: calc(.3 * var(--u)); }
+.sh .ckd-review article { background: #f7faff; border-radius: calc(.4 * var(--u)); padding: calc(.4 * var(--u)); font-size: calc(.6 * var(--u)); }
+.sh .ckd-review b { display: block; margin-bottom: calc(.1 * var(--u)); }
