@@ -30,6 +30,7 @@ import { UstaProfileDesktop } from "@/components/ustalar/desktop/UstaProfileDesk
 import { getDesktopUsta } from "@/data/desktop-ustalar";
 import { SavatDesktop } from "@/components/savat/desktop/SavatDesktop";
 import { OrdersDesktop } from "@/components/savat/desktop/OrdersDesktop";
+import { ProfilDesktop } from "@/components/profil/desktop/ProfilDesktop";
 import { useDoctorProfile } from "@/components/doctor-profile-provider";
 
 /** Routes that render without sidebar / topbar / mobile chrome. */
@@ -164,6 +165,7 @@ function desktopUsta(pathname: string | null): ReactNode | null {
 function desktopCart(pathname: string | null): ReactNode | null {
   if (pathname === "/savat") return <SavatDesktop />;
   if (pathname === "/buyurtmalarim") return <OrdersDesktop />;
+  if (pathname === "/profil") return <ProfilDesktop />;
   return null;
 }
 
