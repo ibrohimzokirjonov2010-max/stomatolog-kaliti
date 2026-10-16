@@ -45,6 +45,8 @@ import { formatGroupedNumber } from "@/lib/format";
 import { listingFromDb, type DbSurplus } from "@/lib/surplus-work";
 import { api } from "@/lib/work-client";
 import { cn } from "@/lib/utils";
+import { getMobileSurplus } from "@/data/mobile-surplus";
+import { SurplusMobileDetail } from "@/components/surplus/mobile/SurplusMobileDetail";
 
 const EMPTY = "—";
 
@@ -83,6 +85,19 @@ const MOD_COPY: Record<string, string> = {
 };
 
 export function SurplusProductPage({ id }: { id: string }) {
+  const design = getMobileSurplus(id);
+  if (!design) return <SurplusProductBody id={id} />;
+  return (
+    <>
+      <SurplusMobileDetail item={design} />
+      <div className="hidden lg:block">
+        <SurplusProductBody id={id} />
+      </div>
+    </>
+  );
+}
+
+function SurplusProductBody({ id }: { id: string }) {
   const { feed, getById, ready: workReady, mine } = useSurplusWork();
   const [listing, setListing] = useState<SurplusListing | null>(null);
   const [state, setState] = useState<"loading" | "ok" | "missing">("loading");
