@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { ProfilPage } from "@/components/profil-page";
+import { ProfilMobile } from "@/components/profil/mobile/ProfilMobile";
 
 export const metadata: Metadata = {
   title: "Profil",
@@ -7,5 +7,5 @@ export const metadata: Metadata = {
 };
 
 export default function ProfilRoutePage() {
-  return <ProfilPage />;
+  return <ProfilMobile />;
 }

@@ -1,6 +1,7 @@
 import { Suspense } from "react";
 import type { Metadata } from "next";
 import { FormaBrowse } from "@/components/forma-browse";
+import { FormaMobileCatalog } from "@/components/forma/mobile/FormaMobileCatalog";
 
 export const metadata: Metadata = {
   title: "Forma",
@@ -9,8 +10,13 @@ export const metadata: Metadata = {
 
 export default function FormaPage() {
   return (
-    <Suspense>
-      <FormaBrowse />
-    </Suspense>
+    <>
+      <FormaMobileCatalog />
+      <div className="hidden lg:block">
+        <Suspense>
+          <FormaBrowse />
+        </Suspense>
+      </div>
+    </>
   );
 }

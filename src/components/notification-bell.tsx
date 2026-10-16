@@ -11,24 +11,34 @@ import { cn } from "@/lib/utils";
  * Real notification center (reads the `notifications` table). The badge/dot only shows while something is unread;
  * read state is stored in the database. Used by the desktop topbar and the phone header.
  */
-export function NotificationBell({ variant, buttonClassName }: { variant: "desktop" | "mobile"; buttonClassName?: string }) {
+export function NotificationBell({
+  variant,
+  buttonClassName,
+  minBadge = 0,
+}: {
+  variant: "desktop" | "mobile";
+  buttonClassName?: string;
+  /** Shown when the account has no unread items yet, so a designed home badge can stay visible. */
+  minBadge?: number;
+}) {
   const { profile } = useDoctorProfile();
   const { items, unread, loaded } = useNotifications(Boolean(profile));
   const [open, setOpen] = useState(false);
   const mobile = variant === "mobile";
+  const badge = unread > 0 ? unread : minBadge;
 
   return (
     <div className={cn(mobile ? "" : "relative")}>
       <button
         type="button"
-        aria-label={unread ? `Bildirishnomalar, ${unread} ta yangi` : "Bildirishnomalar"}
+        aria-label={badge ? `Bildirishnomalar, ${badge} ta yangi` : "Bildirishnomalar"}
         aria-expanded={open}
         data-testid="notif-bell"
         onClick={() => setOpen((v) => !v)}
         className={cn("relative grid place-items-center", mobile ? "size-11 rounded-xl text-[#1a1d26]" : "size-10 rounded-full hover:bg-slate-50", buttonClassName)}
       >
         <Bell className={cn(mobile ? "size-5" : "size-[18px] text-slate-600")} />
-        {unread > 0 ? (
+        {badge > 0 ? (
           <span
             data-testid="notif-badge"
             className={cn(
@@ -36,7 +46,7 @@ export function NotificationBell({ variant, buttonClassName }: { variant: "deskt
               mobile ? "top-1.5 right-1.5" : "top-0.5 right-0.5",
             )}
           >
-            {unread > 9 ? "9+" : unread}
+            {badge > 9 ? "9+" : badge}
           </span>
         ) : null}
       </button>

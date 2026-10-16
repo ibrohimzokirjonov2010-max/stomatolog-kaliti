@@ -1,5 +1,6 @@
 import { Suspense } from "react";
 import type { Metadata } from "next";
+import { JihozMobileCatalog } from "@/components/jihoz/mobile/JihozMobileCatalog";
 import { MarketplaceBrowse } from "@/components/marketplace-browse";
 
 export const metadata: Metadata = {
@@ -9,8 +10,13 @@ export const metadata: Metadata = {
 
 export default function Page() {
   return (
-    <Suspense>
-      <MarketplaceBrowse title="Jihozlar" forcedCategory="jihozlar" />
-    </Suspense>
+    <>
+      <JihozMobileCatalog />
+      <div className="hidden lg:block">
+        <Suspense>
+          <MarketplaceBrowse title="Jihozlar" forcedCategory="jihozlar" />
+        </Suspense>
+      </div>
+    </>
   );
 }

@@ -13,21 +13,27 @@ import {
   CalendarDays,
   ChevronDown,
   ChevronLeft,
+  Home,
   MapPin,
   Menu,
   MessageSquare,
   ShieldCheck,
+  Shirt,
+  ShoppingBag,
   ShoppingCart,
+  User,
   X,
 } from "lucide-react";
 import { useCart } from "@/components/cart-provider";
 import { useDoctorProfile } from "@/components/doctor-profile-provider";
+import { getMobileOrder } from "@/data/mobile-orders";
 import { initialsFromName } from "@/lib/doctor-profile";
 import { Sidebar } from "@/components/dashboard/sidebar";
 import { NotificationBell } from "@/components/notification-bell";
 import { formatMoney } from "@/lib/format";
 import { cn } from "@/lib/utils";
 import { useSoonToast } from "@/components/soon-toast";
+import "@/components/home/mobile-home.css";
 
 const MobileNavContext = createContext<{
   open: boolean;
@@ -87,6 +93,44 @@ function marketplacePath(path: string) {
     path.startsWith("/product/") ||
     path === "/jihozlar"
   );
+}
+
+function surplusMobilePath(path: string) {
+  if (path === "/ortiqcha-material") return true;
+  return /^\/ortiqcha-material\/[^/]+\/?$/.test(path) && !path.startsWith("/ortiqcha-material/elonlarim");
+}
+
+function formaMobilePath(path: string) {
+  if (path === "/forma") return true;
+  return /^\/forma\/[^/]+\/?$/.test(path) && !path.startsWith("/forma/buyurtmalarim");
+}
+
+function jihozMobilePath(path: string) {
+  return path === "/jihozlar" || /^\/jihozlar\/[^/]+\/?$/.test(path);
+}
+
+function ustaMobilePath(path: string) {
+  if (path === "/ustalar") return true;
+  return /^\/ustalar\/[^/]+\/?$/.test(path) && !path.startsWith("/ustalar/mening") && !path.startsWith("/ustalar/sorovlarim");
+}
+
+function newsMobilePath(path: string) {
+  return path === "/yangiliklar" || /^\/yangiliklar\/[^/]+\/?$/.test(path);
+}
+
+function seminarMobilePath(path: string) {
+  if (path === "/seminarlar") return true;
+  const match = path.match(/^\/seminarlar\/([^/]+)\/?$/);
+  if (!match) return false;
+  return !["yozuvlarim", "tashkilotchi", "chiptalarim", "chipta"].includes(match[1]);
+}
+
+function marketMobilePath(path: string) {
+  if (path === "/marketplace") return true;
+  if (!path.startsWith("/marketplace/")) return false;
+  if (path.startsWith("/marketplace/dokon")) return false;
+  if (path.startsWith("/marketplace/sotuvchi")) return false;
+  return true;
 }
 
 function shopPath(path: string) {
@@ -212,6 +256,13 @@ const SECTION_ROOTS = new Set([
   "/community",
   "/ortiqcha-material",
   "/kitoblar",
+  "/talim",
+  "/foydali-kanallar",
+  "/mening-klinikam",
+  "/yangiliklar",
+  "/savat",
+  "/buyurtmalarim",
+  "/profil",
 ]);
 
 export function MobileTopbar() {
@@ -248,6 +299,12 @@ export function MobileTopbar() {
   // Vacancy detail draws its own hero header (back · heart · share).
   if (/^\/laboratoriya\/[^/]+\/?$/.test(pathname) && !pathname.startsWith("/laboratoriya/buyurtmalarim") && !pathname.startsWith("/laboratoriya/mening")) return null;
   if (/^\/ishlar\/[^/]+\/?$/.test(pathname) && !pathname.startsWith("/ishlar/arizalarim") && !pathname.startsWith("/ishlar/vakansiyalarim")) return null;
+  if (/^\/jihozlar\/[^/]+\/?$/.test(pathname)) return null;
+  if (/^\/yangiliklar\/[^/]+\/?$/.test(pathname)) return null;
+  if (/^\/buyurtmalarim\/[^/]+\/?$/.test(pathname)) {
+    const slug = decodeURIComponent(pathname.split("/").filter(Boolean)[1] ?? "");
+    if (getMobileOrder(slug)) return null;
+  }
   const onListing = pathname === "/marketplace" || pathname === "/jihozlar";
   const onHome = pathname === "/" || pathname.startsWith("/bosh-sahifa");
   const onSeminarlar =
@@ -481,51 +538,47 @@ export function MobileDrawer() {
   );
 }
 
+const homeTabs = [
+  { href: "/", label: "Bosh sahifa", icon: Home, match: (path: string) => path === "/" || path.startsWith("/bosh-sahifa") || path === "/talim" || path === "/kitoblar" || path === "/foydali-kanallar" },
+  { href: "/seminarlar", label: "Seminarlar", icon: CalendarDays, match: (path: string) => path === "/seminarlar" || path.startsWith("/seminarlar/") || ustaMobilePath(path) || newsMobilePath(path) },
+  { href: "/marketplace", label: "Marketplace", icon: ShoppingBag, match: (path: string) => marketplacePath(path) || path === "/savat" || path === "/buyurtma" || surplusMobilePath(path) || jihozMobilePath(path) },
+  { href: "/forma", label: "Forma", icon: Shirt, match: (path: string) => path === "/forma" || (path.startsWith("/forma/") && !path.startsWith("/forma/buyurtmalarim")) },
+  { href: "/profil", label: "Profil", icon: User, match: (path: string) => path === "/profil" || path.startsWith("/profil/") || path === "/community" || path === "/mening-klinikam" || path === "/buyurtmalarim" || path.startsWith("/buyurtmalarim/") },
+] as const;
+
 export function MobileTabBar() {
   const pathname = usePathname();
   const onKlinika = pathname === "/klinika" || pathname.startsWith("/klinika/");
   if (onKlinika) return null;
-
-  return (
-    <nav
-      aria-label="Mobil menyu"
-      className="fixed inset-x-0 bottom-0 z-40 border-t border-[#eceff5] bg-white/95 backdrop-blur-md lg:hidden"
-      style={{ paddingBottom: "max(0.5rem, env(safe-area-inset-bottom))" }}
-    >
-      <ul className="grid grid-cols-5">
-        {tabs.map((tab) => {
+  if (pathname === "/" || pathname === "/talim" || pathname === "/kitoblar" || pathname === "/foydali-kanallar" || pathname === "/community" || pathname === "/mening-klinikam" || pathname === "/profil" || pathname.startsWith("/profil/") || formaMobilePath(pathname) || jihozMobilePath(pathname) || ustaMobilePath(pathname) || newsMobilePath(pathname) || surplusMobilePath(pathname) || marketMobilePath(pathname) || seminarMobilePath(pathname) || pathname === "/savat" || pathname === "/buyurtmalarim" || pathname.startsWith("/buyurtmalarim/")) {
+    return (
+      <nav aria-label="Mobil menyu" className="mh-tabs lg:hidden">
+        {homeTabs.map((tab) => {
+          const Icon = tab.icon;
           const active = tab.match(pathname);
           return (
-            <li key={tab.href}>
-              <Link
-                href={tab.href}
-                className={cn(
-                  "relative flex min-h-[52px] flex-col items-center justify-center gap-0.5 pt-1 text-[10px] font-semibold tracking-wide transition-colors",
-                  active ? "text-[#0066FF]" : "text-[#8b93a7]",
-                )}
-              >
-                <span
-                  className={cn(
-                    "grid place-items-center rounded-xl transition-colors",
-                    active ? "size-9 bg-[#e8f1ff] text-[#0066FF]" : "size-8",
-                  )}
-                >
-                  {/* Brand icon set (public/icons): full colour when active, dimmed when inactive */}
-                  {/* eslint-disable-next-line @next/next/no-img-element */}
-                  <img
-                    src={tab.icon}
-                    alt=""
-                    width={26}
-                    height={26}
-                    className={cn("object-contain transition-opacity", active ? "size-[26px] opacity-100" : "size-6 opacity-55")}
-                  />
-                </span>
-                {tab.label}
-              </Link>
-            </li>
+            <Link key={tab.href} href={tab.href} className={active ? "on" : undefined}>
+              <Icon strokeWidth={active ? 2.4 : 1.8} />
+              {tab.label}
+            </Link>
           );
         })}
-      </ul>
+      </nav>
+    );
+  }
+
+  return (
+    <nav aria-label="Mobil menyu" className="mh-tabs lg:hidden">
+      {tabs.map((tab) => {
+        const active = tab.match(pathname);
+        return (
+          <Link key={tab.href} href={tab.href} className={active ? "on" : undefined}>
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img src={tab.icon} alt="" width={24} height={24} />
+            {tab.label}
+          </Link>
+        );
+      })}
     </nav>
   );
 }
@@ -534,6 +587,7 @@ function isProductDetailPath(path: string) {
   if (path.startsWith("/product/")) return true;
   if (/^\/ortiqcha-material\/[^/]+\/?$/.test(path) && !path.startsWith("/ortiqcha-material/elonlarim")) return true;
   if (/^\/forma\/[^/]+\/?$/.test(path) && !path.startsWith("/forma/buyurtmalarim")) return true;
+  if (/^\/jihozlar\/[^/]+\/?$/.test(path)) return true;
   if (!path.startsWith("/marketplace/")) return false;
   if (path.startsWith("/marketplace/dokon")) return false;
   if (path.startsWith("/marketplace/sotuvchi")) return false;
@@ -566,7 +620,7 @@ export function MobileCartBar() {
   return (
     <div
       className="fixed inset-x-3 z-30 lg:hidden"
-      style={{ bottom: "calc(4.15rem + env(safe-area-inset-bottom))" }}
+      style={{ bottom: "calc(72px + env(safe-area-inset-bottom))" }}
     >
       <Link
         href="/savat"

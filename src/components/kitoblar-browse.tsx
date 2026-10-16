@@ -1,7 +1,7 @@
 "use client";
 
+import { KitoblarMobile } from "@/components/books/mobile/KitoblarMobile";
 import { KitoblarDesktop } from "@/components/kitoblar-desktop";
-import { KitoblarMobile } from "@/components/kitoblar-mobile";
 
 export function KitoblarBrowse() {
   return (
