@@ -35,7 +35,7 @@ const panel =
 export function HomeDashboard() {
   return (
     <>
-      <AdBanner placement="home" className="mb-3 lg:mb-4" />
+      <AdBanner placement="home" className="mb-4 hidden lg:block" />
       <MobileHome />
       <div className="hidden min-h-full flex-col gap-4 lg:flex">
         <div className="grid grid-cols-1 items-stretch gap-4 xl:grid-cols-[minmax(0,1.48fr)_minmax(352px,0.94fr)] xl:grid-rows-[minmax(208px,auto)_1fr]">

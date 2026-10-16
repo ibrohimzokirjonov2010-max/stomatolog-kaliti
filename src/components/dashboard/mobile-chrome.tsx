@@ -13,11 +13,15 @@ import {
   CalendarDays,
   ChevronDown,
   ChevronLeft,
+  Home,
   MapPin,
   Menu,
   MessageSquare,
   ShieldCheck,
+  Shirt,
+  ShoppingBag,
   ShoppingCart,
+  User,
   X,
 } from "lucide-react";
 import { useCart } from "@/components/cart-provider";
@@ -28,6 +32,7 @@ import { NotificationBell } from "@/components/notification-bell";
 import { formatMoney } from "@/lib/format";
 import { cn } from "@/lib/utils";
 import { useSoonToast } from "@/components/soon-toast";
+import "@/components/home/mobile-home.css";
 
 const MobileNavContext = createContext<{
   open: boolean;
@@ -481,10 +486,34 @@ export function MobileDrawer() {
   );
 }
 
+const homeTabs = [
+  { href: "/", label: "Bosh sahifa", icon: Home, match: (path: string) => path === "/" || path.startsWith("/bosh-sahifa") },
+  { href: "/seminarlar", label: "Seminarlar", icon: CalendarDays, match: (path: string) => path === "/seminarlar" || path.startsWith("/seminarlar/") },
+  { href: "/marketplace", label: "Marketplace", icon: ShoppingBag, match: (path: string) => marketplacePath(path) || path === "/savat" || path === "/buyurtma" },
+  { href: "/forma", label: "Forma", icon: Shirt, match: (path: string) => path === "/forma" || (path.startsWith("/forma/") && !path.startsWith("/forma/buyurtmalarim")) },
+  { href: "/profil", label: "Profil", icon: User, match: (path: string) => path === "/profil" || path.startsWith("/profil/") },
+] as const;
+
 export function MobileTabBar() {
   const pathname = usePathname();
   const onKlinika = pathname === "/klinika" || pathname.startsWith("/klinika/");
   if (onKlinika) return null;
+  if (pathname === "/") {
+    return (
+      <nav aria-label="Mobil menyu" className="mh-tabs lg:hidden">
+        {homeTabs.map((tab) => {
+          const Icon = tab.icon;
+          const active = tab.match(pathname);
+          return (
+            <Link key={tab.href} href={tab.href} className={active ? "on" : undefined}>
+              <Icon strokeWidth={active ? 2.4 : 1.8} />
+              {tab.label}
+            </Link>
+          );
+        })}
+      </nav>
+    );
+  }
 
   return (
     <nav
