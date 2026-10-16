@@ -40,6 +40,7 @@ import {
 import { formatMoney } from "@/lib/format";
 import { cn } from "@/lib/utils";
 import { MobileSectionHeader } from "@/components/mobile-section-header";
+import { MarketMobileCatalog } from "@/components/market/mobile/MarketMobileCatalog";
 
 type SortKey = "featured" | "cheap" | "expensive" | "new" | "rating";
 
@@ -188,12 +189,13 @@ export function MarketplaceBrowse({
 
   return (
     <div>
-      <AdBanner placement="marketplace" />
+      <AdBanner placement="marketplace" className={forcedCategory ? undefined : "hidden lg:block"} />
       {forcedCategory ? null : (
-        <div className="mb-4 space-y-3 empty:hidden">
+        <div className="mb-4 hidden space-y-3 empty:hidden lg:block">
           <BonusNotice />
         </div>
       )}
+      {forcedCategory ? null : <MarketMobileCatalog />}
       <div className="hidden lg:block">
         {/* Same promo slider as on phones (shared PromoSlider), shown on desktop too. */}
         {forcedCategory === "jihozlar" ? (
@@ -223,7 +225,7 @@ export function MarketplaceBrowse({
         )}
       </div>
 
-      <div className="lg:hidden">
+      {forcedCategory ? <div className="lg:hidden">
         <MobileSectionHeader
           title={forcedCategory === "jihozlar" ? "Jihozlar" : "Marketplace"}
           subtitle={forcedCategory === "jihozlar" ? "Klinik jihoz va uskunalar — sotuvchilar e’lonlari ham shu yerda" : undefined}
@@ -370,9 +372,9 @@ export function MarketplaceBrowse({
             </button>
           </div>
         ) : null}
-      </div>
+      </div> : null}
 
-      <div className="lg:hidden">
+      {forcedCategory ? <div className="lg:hidden">
         <div>
           {mobileList.length === 0 ? (
             <div className="mt-3 rounded-xl bg-white px-6 py-16 text-center">
@@ -392,9 +394,9 @@ export function MarketplaceBrowse({
             </div>
           )}
         </div>
-      </div>
+      </div> : null}
 
-      {sheet ? (
+      {forcedCategory && sheet ? (
         <FilterSheet title="Filtrlar" onClose={() => setSheet(null)}>
           <div className="max-h-[60vh] space-y-4 overflow-y-auto pb-2">
             <section>

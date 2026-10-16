@@ -99,6 +99,14 @@ function surplusMobilePath(path: string) {
   return /^\/ortiqcha-material\/[^/]+\/?$/.test(path) && !path.startsWith("/ortiqcha-material/elonlarim");
 }
 
+function marketMobilePath(path: string) {
+  if (path === "/marketplace") return true;
+  if (!path.startsWith("/marketplace/")) return false;
+  if (path.startsWith("/marketplace/dokon")) return false;
+  if (path.startsWith("/marketplace/sotuvchi")) return false;
+  return true;
+}
+
 function shopPath(path: string) {
   return (
     marketplacePath(path) ||
@@ -503,7 +511,7 @@ export function MobileTabBar() {
   const pathname = usePathname();
   const onKlinika = pathname === "/klinika" || pathname.startsWith("/klinika/");
   if (onKlinika) return null;
-  if (pathname === "/" || surplusMobilePath(pathname)) {
+  if (pathname === "/" || surplusMobilePath(pathname) || marketMobilePath(pathname)) {
     return (
       <nav aria-label="Mobil menyu" className="mh-tabs lg:hidden">
         {homeTabs.map((tab) => {
