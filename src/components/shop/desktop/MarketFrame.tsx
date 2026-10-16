@@ -71,6 +71,7 @@ export function MarketFrame({
   searchPlaceholder = "Mahsulot, brend yoki kategoriya qidiring...",
   headerQuery,
   onHeaderQuery,
+  onHeaderSubmit,
   sideMain = mainNav,
   sideSecond = secondNav,
   sideLabel = "Marketplace",
@@ -90,6 +91,7 @@ export function MarketFrame({
   searchPlaceholder?: string;
   headerQuery?: string;
   onHeaderQuery?: (value: string) => void;
+  onHeaderSubmit?: (value: string) => void;
   sideMain?: FrameLink[];
   sideSecond?: FrameLink[];
   sideLabel?: string;
@@ -103,6 +105,10 @@ export function MarketFrame({
 
   function onSearch(event: FormEvent) {
     event.preventDefault();
+    if (onHeaderSubmit) {
+      onHeaderSubmit(searchValue.trim());
+      return;
+    }
     if (onHeaderQuery) return;
     const q = query.trim();
     router.push(q ? `/marketplace?q=${encodeURIComponent(q)}` : "/marketplace");

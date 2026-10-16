@@ -27,6 +27,9 @@ import { JihozProduct } from "@/components/jihoz/desktop/JihozProduct";
 import { getDesktopJihoz } from "@/data/desktop-jihozlar";
 import { JobsDesktop } from "@/components/jobs/desktop/JobsDesktop";
 import { NewsDesktop } from "@/components/news/desktop/NewsDesktop";
+import { MutaxassislarDesktop } from "@/components/specialists/desktop/MutaxassislarDesktop";
+import { MutaxassisProfileDesktop } from "@/components/specialists/desktop/MutaxassisProfileDesktop";
+import { getSpecialist } from "@/data/desktop-specialists";
 import { UstaCatalog } from "@/components/ustalar/desktop/UstaCatalog";
 import { UstaProfileDesktop } from "@/components/ustalar/desktop/UstaProfileDesktop";
 import { getDesktopUsta } from "@/data/desktop-ustalar";
@@ -67,7 +70,7 @@ export function AppChrome({ children }: { children: ReactNode }) {
     };
   }, [bare]);
 
-  const shop = desktopShop(pathname) ?? desktopSeminar(pathname) ?? desktopHub(pathname) ?? desktopForma(pathname) ?? desktopJihoz(pathname) ?? desktopJobs(pathname) ?? desktopNews(pathname) ?? desktopUsta(pathname) ?? desktopCart(pathname);
+  const shop = desktopShop(pathname) ?? desktopSeminar(pathname) ?? desktopHub(pathname) ?? desktopForma(pathname) ?? desktopJihoz(pathname) ?? desktopJobs(pathname) ?? desktopNews(pathname) ?? desktopSpec(pathname) ?? desktopUsta(pathname) ?? desktopCart(pathname);
 
   if (loggedInHome) {
     return (
@@ -157,6 +160,16 @@ function desktopJobs(pathname: string | null): ReactNode | null {
 function desktopNews(pathname: string | null): ReactNode | null {
   if (pathname === "/yangiliklar") return <NewsDesktop />;
   return null;
+}
+
+function desktopSpec(pathname: string | null): ReactNode | null {
+  if (!pathname) return null;
+  if (pathname === "/mutaxassislar") return <MutaxassislarDesktop />;
+  const match = pathname.match(/^\/mutaxassislar\/([^/]+)$/);
+  if (!match) return null;
+  const id = decodeURIComponent(match[1]);
+  if (!getSpecialist(id)) return null;
+  return <MutaxassisProfileDesktop id={id} />;
 }
 
 function desktopUsta(pathname: string | null): ReactNode | null {
