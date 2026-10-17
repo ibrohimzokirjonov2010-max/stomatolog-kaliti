@@ -1,12 +1,12 @@
 .sh .od-head { display: flex; align-items: flex-start; justify-content: space-between; gap: calc(.6 * var(--u)); }
-.sh .od-head h1 { margin: 0; font-size: calc(2 * var(--u)); letter-spacing: -.02em; }
+.sh .od-head h1 { margin: 0; font-size: calc(3.05 * var(--u)); line-height: 1.15; letter-spacing: -.02em; }
 .sh .od-head p { margin: calc(.1 * var(--u)) 0 0; color: #6a7c93; font-size: calc(.72 * var(--u)); }
 .sh .od-badges { display: flex; gap: calc(.4 * var(--u)); flex: none; }
 .sh .od-badges .brd-badge { padding: calc(.35 * var(--u)) calc(.55 * var(--u)); }
 .sh .od-badges .brd-badge b { white-space: nowrap; }
 .sh .od-badges .brd-badge span { white-space: nowrap; }
 
-.sh .od-tools { display: flex; gap: calc(.4 * var(--u)); margin: calc(1.15 * var(--u)) 0 calc(.7 * var(--u)); }
+.sh .od-tools { display: flex; gap: calc(.4 * var(--u)); margin: calc(2.4 * var(--u)) 0 calc(1.5 * var(--u)); }
 .sh .od-search {
   flex: 1.35;
   min-width: 0;
@@ -49,7 +49,7 @@
   appearance: none;
 }
 
-.sh .od-chips { display: flex; gap: calc(.28 * var(--u)); margin-bottom: calc(1.15 * var(--u)); }
+.sh .od-chips { display: flex; gap: calc(.28 * var(--u)); margin-bottom: calc(1.7 * var(--u)); }
 .sh .od-chips button {
   flex: none;
   height: calc(1.65 * var(--u));

@@ -1,10 +1,10 @@
 .sh .mx-head { display: flex; align-items: flex-start; justify-content: space-between; gap: calc(.6 * var(--u)); }
-.sh .mx-head h1 { margin: 0; font-size: calc(2 * var(--u)); letter-spacing: -.02em; }
+.sh .mx-head h1 { margin: 0; font-size: calc(3.05 * var(--u)); line-height: 1.15; letter-spacing: -.02em; }
 .sh .mx-head p { margin: calc(.1 * var(--u)) 0 0; color: #6a7c93; font-size: calc(.72 * var(--u)); }
 .sh .mx-badges { display: flex; gap: calc(.4 * var(--u)); flex: none; }
 .sh .mx-badges .brd-badge b, .sh .mx-badges .brd-badge span { white-space: nowrap; }
 
-.sh .mx-tools { display: flex; gap: calc(.4 * var(--u)); margin: calc(1.15 * var(--u)) 0 calc(.7 * var(--u)); }
+.sh .mx-tools { display: flex; gap: calc(.4 * var(--u)); margin: calc(2.4 * var(--u)) 0 calc(1.5 * var(--u)); }
 .sh .mx-search {
   flex: 1.6;
   min-width: 0;
@@ -47,7 +47,7 @@
   appearance: none;
 }
 
-.sh .mx-chips { display: flex; gap: calc(.28 * var(--u)); margin-bottom: calc(1.15 * var(--u)); }
+.sh .mx-chips { display: flex; gap: calc(.28 * var(--u)); margin-bottom: calc(2 * var(--u)); }
 .sh .mx-chips button {
   flex: none;
   height: calc(1.65 * var(--u));
@@ -75,7 +75,7 @@
   flex-direction: column;
 }
 .sh .mx-card:hover { border-color: #c5d9ff; }
-.sh .mx-ph { position: relative; height: calc(10.3 * var(--u)); border-radius: calc(.45 * var(--u)); background: #e8eef6; overflow: hidden; }
+.sh .mx-ph { position: relative; height: calc(10.8 * var(--u)); border-radius: calc(.45 * var(--u)); background: #e8eef6; overflow: hidden; }
 .sh .mx-ph img { width: 100%; height: 100%; object-fit: cover; object-position: center 20%; }
 .sh .mx-live {
   position: absolute;

@@ -166,11 +166,11 @@
   object-position: right bottom;
   pointer-events: none;
 }
-.brd-mark .mk-logo { width: 100%; height: calc(2.5 * var(--u)); object-fit: contain; }
+.brd-mark .mk-logo { width: 100%; height: calc(4.4 * var(--u)); object-fit: contain; object-position: center; }
 
 .brd-main { flex: 1; min-width: 0; padding: calc(1.7 * var(--u)) calc(1 * var(--u)) calc(1.2 * var(--u)); }
-.brd-head { display: flex; align-items: flex-start; justify-content: space-between; gap: calc(.8 * var(--u)); margin-bottom: calc(1.05 * var(--u)); }
-.brd-head h1 { margin: 0; font-size: calc(2 * var(--u)); letter-spacing: -.02em; }
+.brd-head { display: flex; align-items: flex-start; justify-content: space-between; gap: calc(.8 * var(--u)); margin-bottom: calc(2.1 * var(--u)); }
+.brd-head h1 { margin: 0; font-size: calc(3.05 * var(--u)); line-height: 1.15; letter-spacing: -.02em; }
 .brd-head p { margin: calc(.12 * var(--u)) 0 0; color: #6a7c93; font-size: calc(.72 * var(--u)); }
 .brd-badge {
   flex: none;
@@ -194,7 +194,7 @@
 .brd-badge b { display: block; font-size: calc(.72 * var(--u)); color: #0066ff; }
 .brd-badge span { display: block; color: #6a7c93; font-size: calc(.56 * var(--u)); }
 
-.brd-tools { display: flex; gap: calc(.55 * var(--u)); margin-bottom: calc(.55 * var(--u)); }
+.brd-tools { display: flex; gap: calc(.55 * var(--u)); margin-bottom: calc(1.6 * var(--u)); }
 .brd-search {
   flex: 1;
   min-width: 0;
@@ -236,7 +236,7 @@
   color: #24344d;
   appearance: none;
 }
-.brd-letters { display: flex; gap: calc(.28 * var(--u)); margin-bottom: calc(.7 * var(--u)); }
+.brd-letters { display: flex; gap: calc(.28 * var(--u)); margin-bottom: calc(2.2 * var(--u)); }
 .sh .brd-letters button {
   flex: 1;
   min-width: 0;
@@ -265,7 +265,7 @@
   min-height: calc(7.6 * var(--u));
 }
 .brd-card:hover { border-color: #c5d9ff; box-shadow: 0 calc(.15 * var(--u)) calc(.5 * var(--u)) rgba(0, 102, 255, .08); }
-.brd-mark { height: calc(2.7 * var(--u)); display: grid; place-items: center; }
+.brd-mark { height: calc(4.5 * var(--u)); display: grid; place-items: center; }
 .brd-card h2 { margin: calc(.15 * var(--u)) 0 0; font-size: calc(.72 * var(--u)); font-weight: 750; line-height: 1.2; }
 .brd-card .where { display: flex; align-items: center; gap: calc(.25 * var(--u)); margin-top: calc(.12 * var(--u)); color: #6a7c93; font-size: calc(.58 * var(--u)); }
 .brd-foot { margin-top: auto; display: flex; align-items: center; justify-content: space-between; gap: calc(.3 * var(--u)); padding-top: calc(.35 * var(--u)); }

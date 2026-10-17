@@ -1,5 +1,7 @@
 .sh .crm-head { display: flex; align-items: flex-start; justify-content: space-between; gap: calc(.6 * var(--u)); margin-bottom: calc(.45 * var(--u)); }
 .sh .crm-head h1 { margin: 0; font-size: calc(2 * var(--u)); letter-spacing: -.02em; }
+.sh [data-testid="certs-desktop"] .crm-head { margin-bottom: calc(1.8 * var(--u)); }
+.sh [data-testid="certs-desktop"] .crm-head h1 { font-size: calc(3.05 * var(--u)); line-height: 1.15; }
 .sh .crm-head p { margin: calc(.08 * var(--u)) 0 0; color: #6a7c93; font-size: calc(.68 * var(--u)); }
 .sh .crm-actions { display: flex; gap: calc(.35 * var(--u)); flex: none; align-items: center; }
 .sh .crm-btn, .sh .crm-actions a, .sh .crm-mini button, .sh .crm-dialog .go {
@@ -18,6 +20,7 @@
 .sh .crm-btn.blue, .sh .crm-dialog .go, .sh .crm-mini .blue { background: #0066ff; border-color: #0066ff; color: #fff; }
 .sh .crm-btn .i, .sh .crm-actions a .i { font-size: calc(.75 * var(--u)); }
 .sh .crm-tools { display: flex; gap: calc(.35 * var(--u)); margin-bottom: calc(.45 * var(--u)); align-items: center; }
+.sh [data-testid="certs-desktop"] .crm-tools { margin-bottom: calc(1.9 * var(--u)); }
 .sh .crm-search, .sh .crm-select {
   height: calc(1.95 * var(--u));
   background: #fff;
@@ -80,7 +83,7 @@
 .sh .cert-chips button.on { background: #0066ff; border-color: #0066ff; color: #fff; }
 .sh .cert-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: calc(.5 * var(--u)); }
 .sh .cert-card { background: #fff; border: 1px solid #e8eef6; border-radius: calc(.55 * var(--u)); padding: calc(.4 * var(--u)); min-width: 0; }
-.sh .cert-paper { position: relative; height: calc(10.4 * var(--u)); border-radius: calc(.4 * var(--u)); overflow: hidden; padding: calc(.45 * var(--u)); color: #14315c; border: 2px solid rgba(212, 175, 55, .75); box-shadow: inset 0 0 0 3px rgba(255,255,255,.45); }
+.sh .cert-paper { position: relative; height: calc(13.8 * var(--u)); border-radius: calc(.4 * var(--u)); overflow: hidden; padding: calc(.45 * var(--u)); color: #14315c; border: 2px solid rgba(212, 175, 55, .75); box-shadow: inset 0 0 0 3px rgba(255,255,255,.45); }
 .sh .cert-paper.photo { padding: 0; border: 0; box-shadow: none; background: #f4f7fb; }
 .sh .cert-paper.photo img { width: 100%; height: 100%; object-fit: cover; object-position: top center; }
 .sh .cert-paper.blue { background: linear-gradient(135deg, #e7f0ff, #f8fbff 40%, #d7e6ff); }
