@@ -61,9 +61,9 @@ export function PhoneFrame({
   );
 }
 
-export function SearchBox({ value, onChange, placeholder, label }: { value: string; onChange: (value: string) => void; placeholder: string; label: string }) {
+export function SearchBox({ value, onChange, placeholder, label, className }: { value: string; onChange: (value: string) => void; placeholder: string; label: string; className?: string }) {
   return (
-    <label className="p14-search">
+    <label className={className ? `p14-search ${className}` : "p14-search"}>
       <Search />
       <input aria-label={label} value={value} placeholder={placeholder} onChange={(event) => onChange(event.target.value)} />
     </label>
