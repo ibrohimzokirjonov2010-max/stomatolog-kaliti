@@ -5,7 +5,7 @@ import { CartProvider } from "./CartContext";
 export default function HomePage() {
   return (
     <CartProvider>
-      <div className="sh">
+      <div className="sh dh">
         <Topbar />
         <div className="sh-body">
           <Sidebar />

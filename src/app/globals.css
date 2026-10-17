@@ -171,7 +171,7 @@
 .home-desktop-scroll {
   height: 100dvh;
   overflow-x: clip;
-  overflow-y: auto;
+  overflow-y: scroll;
   background: #F4F7FB;
   container-type: inline-size;
 }
@@ -213,7 +213,7 @@
 /* Sidebar */
 .sh .sh-body { display:flex; min-width:0; max-width:100%; }
 .sh { max-width:100%; min-width:0; }
-.sh .sh-side { width:calc(14 * var(--u)); flex:none; background:#F8FAFD; border-right:1px solid #EEF2F7; padding:calc(.7 * var(--u)) calc(.55 * var(--u)) calc(.5 * var(--u)); min-height:calc(100vh - calc(3.6 * var(--u))); position:sticky; top:calc(3.6 * var(--u)); align-self:flex-start; height:calc(100vh - calc(3.6 * var(--u))); overflow:hidden; display:flex; flex-direction:column; }
+.sh .sh-side { width:calc(15.5 * var(--u)); flex:none; background:#F8FAFD; border-right:1px solid #EEF2F7; padding:calc(.7 * var(--u)) calc(.55 * var(--u)) calc(.5 * var(--u)); min-height:calc(100dvh - var(--dh, 72px)); position:sticky; top:var(--dh, 72px); align-self:flex-start; height:calc(100dvh - var(--dh, 72px)); overflow:hidden; display:flex; flex-direction:column; }
 .sh .sh-side-nav { flex:1; min-height:0; overflow:auto; }
 .sh .sh-pro { margin: calc(.4 * var(--u)) calc(.15 * var(--u)) 0; background: linear-gradient(180deg,#E7F8F4,#F4FBFA); border-radius: calc(.55 * var(--u)); padding: calc(.65 * var(--u)); display:flex; flex-direction:column; align-items:flex-start; gap: calc(.25 * var(--u)); }
 .sh .sh-pro .crown { width: calc(1.7 * var(--u)); height: calc(1.7 * var(--u)); border-radius: calc(.4 * var(--u)); background:#fff; color:#E6B325; display:grid; place-items:center; font-size: calc(.9 * var(--u)); }

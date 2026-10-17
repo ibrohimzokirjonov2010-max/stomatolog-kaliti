@@ -19,7 +19,7 @@ export function ShopShell({
   children: ReactNode;
 }) {
   return (
-    <div className="sh">
+    <div className="sh dh">
       <Topbar variant="shop" searchPath={searchPath} cartCount={cartCount} placeholder={placeholder} showCamera={showCamera} />
       <div className="sh-body">
         <Sidebar />
