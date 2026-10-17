@@ -9,6 +9,7 @@
 }
 .mk * { min-width: 0; }
 .mk-body { display: flex; flex-direction: column; gap: calc(.55 * var(--u)); padding: 0 calc(1.2 * var(--u)) calc(.8 * var(--u)); }
+.mk-jump { align-self: flex-start; height: calc(2.8 * var(--u)); padding: 0 calc(.9 * var(--u)); border-radius: 999px; background: #0066ff; color: #fff; font-weight: 800; font-size: calc(1.05 * var(--u)); display: inline-flex; align-items: center; }
 .mk-search {
   display: flex;
   align-items: center;

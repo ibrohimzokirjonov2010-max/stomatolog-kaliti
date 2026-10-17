@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { BrandsMobile } from "@/components/shop/BrandsMobile";
+import { PhoneBrands } from "@/components/phone14/shop";
 
 export const metadata: Metadata = {
   title: "Brendlar",
@@ -7,5 +7,5 @@ export const metadata: Metadata = {
 };
 
 export default function BrandsPage() {
-  return <BrandsMobile />;
+  return <PhoneBrands />;
 }

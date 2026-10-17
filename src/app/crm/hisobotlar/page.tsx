@@ -1,8 +1,8 @@
 import type { Metadata } from "next";
-import { PhoneSection } from "@/components/crm/PhoneSection";
+import { PhoneReports } from "@/components/phone14/reports";
 
-export const metadata: Metadata = { title: "Hisobotlar", description: "Klinika hisobotlari." };
+export const metadata: Metadata = { title: "Hisobotlar", description: "Klinika daromadi, qabullar va shifokorlar hisoboti." };
 
 export default function Page() {
-  return <PhoneSection title="Hisobotlar" text="Kunlik tushum va qabullar." lines={["Bugungi qabullar", "Oylik tushum", "Qarzdorlar"]} />;
+  return <PhoneReports />;
 }

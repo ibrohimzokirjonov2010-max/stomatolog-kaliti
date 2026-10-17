@@ -29,6 +29,7 @@ import {
 } from "lucide-react";
 import { Modal, OrderForm } from "@/components/lab-browse";
 import { useLabWork } from "@/components/lab-provider";
+import { findPhoneLab } from "@/data/phone14";
 import {
   LabLogo,
   LabPhoto,
@@ -101,8 +102,8 @@ function serviceRows(lab: Lab): (LabPriceItem & { derived?: boolean })[] {
 
 export function LabProfile({ id }: { id: string }) {
   const { labs, labsReady } = useLabWork();
-  const lab = labs.find((l) => l.id === id) ?? null;
-  if (!labsReady) return <p className="py-16 text-center text-sm text-[#8b93a7]">Yuklanmoqda…</p>;
+  const lab = labs.find((l) => l.id === id) ?? findPhoneLab(id) ?? null;
+  if (!labsReady && !lab) return <p className="py-16 text-center text-sm text-[#8b93a7]">Yuklanmoqda…</p>;
   if (!lab)
     return (
       <div className="mx-auto max-w-md py-16 text-center" data-testid="lab-notfound">

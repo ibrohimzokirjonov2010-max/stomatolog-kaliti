@@ -92,6 +92,7 @@ export function MarketMobileCatalog() {
       </header>
 
       <div className="mk-body">
+        <Link href="/kategoriyalar" className="mk-jump" data-testid="mk-kategoriyalar">Kategoriyalar</Link>
         <form className="mk-search" onSubmit={(event) => event.preventDefault()}>
           <Search />
           <input

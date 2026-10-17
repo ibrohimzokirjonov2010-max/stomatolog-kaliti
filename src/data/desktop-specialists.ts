@@ -1,3 +1,5 @@
+import { phoneSpecialists } from "@/data/phone14";
+
 export type Specialty =
   | "implantolog"
   | "ortodont"
@@ -284,5 +286,5 @@ export function sortSpecialists(list: Specialist[], sort: SpecSort) {
 }
 
 export function getSpecialist(id: string) {
-  return specialists.find((person) => person.id === id) ?? null;
+  return specialists.find((person) => person.id === id) ?? phoneSpecialists.find((person) => person.id === id) ?? null;
 }

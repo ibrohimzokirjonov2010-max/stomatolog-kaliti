@@ -207,12 +207,12 @@ function desktopCart(pathname: string | null): ReactNode | null {
 function desktopCrm(pathname: string | null): ReactNode | null {
   if (!pathname) return null;
   if (pathname === "/sertifikatlar") return <CertificatesDesktop />;
-  if (pathname === "/crm/bemorlar") return <PatientsDesktop />;
+  if (pathname === "/crm/bemorlar" || pathname === "/crm/bemorlar/yangi") return <PatientsDesktop />;
   const patient = pathname.match(/^\/crm\/bemorlar\/([^/]+)$/);
   if (patient) return <PatientProfileDesktop id={decodeURIComponent(patient[1])} />;
-  if (pathname === "/crm/uchrashuvlar") return <AppointmentsDesktop />;
-  if (pathname === "/crm/davolash-rejalari") return <PlansDesktop />;
-  if (pathname === "/crm/tolovlar") return <PaymentsDesktop />;
+  if (pathname === "/crm/uchrashuvlar" || pathname === "/crm/uchrashuvlar/yangi") return <AppointmentsDesktop />;
+  if (pathname === "/crm/davolash-rejalari" || pathname === "/crm/davolash-rejalari/yangi") return <PlansDesktop />;
+  if (pathname === "/crm/tolovlar" || pathname === "/crm/tolovlar/yangi") return <PaymentsDesktop />;
   if (pathname === "/crm/ombor") return <StockDesktop />;
   if (pathname === "/crm/xizmatlar") return <CrmStubDesktop active="services" title="Xizmatlar" text="Klinika xizmatlari narxlari shu bo‘limda yuritiladi." />;
   if (pathname === "/crm/hisobotlar") return <ReportsDesktop />;

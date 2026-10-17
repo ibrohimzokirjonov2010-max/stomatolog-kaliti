@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { KategoriyalarPage } from "@/components/catalog-pages/kategoriyalar";
+import { PhoneCategories } from "@/components/phone14/shop";
 
 export const metadata: Metadata = {
   title: "Kategoriyalar",
@@ -7,5 +7,5 @@ export const metadata: Metadata = {
 };
 
 export default function Page() {
-  return <KategoriyalarPage />;
+  return <PhoneCategories />;
 }
