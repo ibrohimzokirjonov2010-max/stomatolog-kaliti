@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { CalendarDays, Home, Menu, Search, Shirt, ShoppingBag, ShoppingCart, UserRound, type LucideIcon } from "lucide-react";
+import { CalendarDays, Home, Menu, MonitorPlay, Search, ShoppingBag, ShoppingCart, UserRound, type LucideIcon } from "lucide-react";
 import { useCart } from "@/components/cart-provider";
 import { useMobileNav } from "@/components/dashboard/mobile-chrome";
 import { NotificationBell } from "@/components/notification-bell";
@@ -9,9 +9,9 @@ import "./phone14.css";
 
 const TABS: { href: string; label: string; icon: LucideIcon; key: string }[] = [
   { href: "/", label: "Bosh sahifa", icon: Home, key: "home" },
-  { href: "/seminarlar", label: "Seminarlar", icon: CalendarDays, key: "seminar" },
   { href: "/marketplace", label: "Marketplace", icon: ShoppingBag, key: "market" },
-  { href: "/forma", label: "Forma", icon: Shirt, key: "forma" },
+  { href: "/seminarlar", label: "Seminarlar", icon: CalendarDays, key: "seminar" },
+  { href: "/talim", label: "Onlayn darslar", icon: MonitorPlay, key: "talim" },
   { href: "/profil", label: "Profil", icon: UserRound, key: "profil" },
 ];
 

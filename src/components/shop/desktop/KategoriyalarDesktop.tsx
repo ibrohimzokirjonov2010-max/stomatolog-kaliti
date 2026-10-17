@@ -2,10 +2,10 @@
 /* eslint-disable @next/next/no-img-element -- category photos are fixed card crops */
 
 import Link from "next/link";
-import { BadgePercent, ChevronRight, Gem, Home, LayoutGrid, Package, ShoppingBag, Sparkles } from "lucide-react";
+import { ChevronRight, Gem, } from "lucide-react";
 import { CATEGORIES } from "@/components/catalog-pages/kategoriyalar";
 import { formatGroupedNumber } from "@/lib/format";
-import { MarketFrame, type FrameLink } from "./MarketFrame";
+import { MarketFrame, } from "./MarketFrame";
 import "./kategoriyalar.css";
 
 const COUNTS: Record<string, number> = {
@@ -33,20 +33,11 @@ const HREFS: Record<string, string> = {
   uskunalar: "/marketplace?cat=uskunalar",
 };
 
-const sideMain: FrameLink[] = [
-  { key: "home", label: "Bosh sahifa", href: "/", icon: Home },
-  { key: "cats", label: "Kategoriyalar", href: "/kategoriyalar", icon: LayoutGrid },
-  { key: "all", label: "Barcha mahsulotlar", href: "/marketplace", icon: Package },
-  { key: "new", label: "Yangi mahsulotlar", href: "/marketplace?sort=yangi", icon: Sparkles },
-  { key: "popular", label: "Ommabop mahsulotlar", href: "/marketplace?sort=ommabop", icon: ShoppingBag },
-  { key: "sale", label: "Aksiyalar", href: "/marketplace/aksiyalar", icon: BadgePercent },
-];
 
 export function KategoriyalarDesktop() {
   return (
     <MarketFrame
       active="cats"
-      sideMain={sideMain}
       promoTitle="Sotuvchi bo‘lishni xohlaysizmi?"
       promoText="Do‘kon oching va mahsulotlaringizni soting"
       promoCta="Ro‘yxatdan o‘tish"

@@ -1,0 +1,33 @@
+.sh .nt .nt-head {
+  display: flex; align-items: center; gap: calc(.5 * var(--u)); width: 100%;
+  background: none; border: 0; cursor: pointer; text-align: left;
+  padding: calc(.25 * var(--u)) calc(.55 * var(--u)) calc(.25 * var(--u)) calc(.6 * var(--u));
+  border-radius: calc(.45 * var(--u)); color: var(--ink, #0f1e3d);
+  font: inherit; font-size: calc(.66 * var(--u)); font-weight: 700; letter-spacing: .01em;
+}
+.sh .nt .nt-head:hover { background: #eef3f9; }
+.sh .nt .nt-head span { flex: 1; min-width: 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.sh .nt .nt-head .nt-gi { font-size: calc(.9 * var(--u)); color: #5a6b85; flex: none; }
+.sh .nt .nt-head .nt-chev { font-size: calc(.75 * var(--u)); color: #8b98ad; transition: transform .2s; transform: rotate(-90deg); flex: none; }
+.sh .nt .nt-group.open .nt-chev { transform: rotate(0deg); }
+.sh .nt .nt-items { display: flex; flex-direction: column; margin-top: calc(.15 * var(--u)); }
+.sh .nt .nt-group { margin-top: calc(.3 * var(--u)); padding-top: calc(.3 * var(--u)); }
+.sh .nt .sh-nav.nt-sub { padding-left: calc(1.1 * var(--u)); }
+.sh .nt .sh-nav.nt-sub.active { padding-left: calc(1.1 * var(--u)); }
+
+/* MarketFrame (.brd) variant uses a smaller --u, so sizes are scaled up. */
+.brd .nt-brd { gap: calc(.2 * var(--u)); }
+.brd .nt-brd .nt-group { border-top: 1px solid #e6ecf3; margin-top: calc(.35 * var(--u)); padding-top: calc(.35 * var(--u)); }
+.brd .nt-brd .nt-head {
+  display: flex; align-items: center; gap: calc(.6 * var(--u)); width: 100%;
+  background: none; border: 0; cursor: pointer; text-align: left; font: inherit;
+  min-height: calc(2.2 * var(--u)); padding: 0 calc(.55 * var(--u)); border-radius: calc(.45 * var(--u));
+  color: #0f1e3d; font-size: calc(1 * var(--u)); font-weight: 700;
+}
+.brd .nt-brd .nt-head:hover { background: #eef3f9; }
+.brd .nt-brd .nt-head span { flex: 1; min-width: 0; }
+.brd .nt-brd .nt-head .nt-gi { font-size: calc(1.3 * var(--u)); color: #5a6b85; }
+.brd .nt-brd .nt-head .nt-chev { font-size: calc(1.1 * var(--u)); color: #8b98ad; transition: transform .2s; transform: rotate(-90deg); }
+.brd .nt-brd .nt-group.open .nt-chev { transform: rotate(0deg); }
+.brd .nt-brd .nt-items { display: flex; flex-direction: column; gap: calc(.2 * var(--u)); }
+.brd .nt-brd .brd-item.nt-sub { padding-left: calc(1.4 * var(--u)); min-height: calc(2.3 * var(--u)); font-size: calc(1 * var(--u)); }

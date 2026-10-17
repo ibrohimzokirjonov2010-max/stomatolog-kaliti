@@ -7,29 +7,18 @@ import { useSearchParams } from "next/navigation";
 import {
   ArrowUpDown,
   BadgeCheck,
-  BadgePercent,
-  BookOpen,
-  Building2,
-  CalendarDays,
   ChevronRight,
-  ClipboardList,
   Clock,
-  GraduationCap,
   Heart,
-  Home,
-  LayoutGrid,
   MapPin,
   MessageCircle,
   Search,
-  Settings,
   Star,
   Stethoscope,
-  Tag,
-  UserRound,
   Users,
   X,
 } from "lucide-react";
-import { MarketFrame, type FrameLink, type HeaderLink } from "@/components/shop/desktop/MarketFrame";
+import { MarketFrame, type HeaderLink } from "@/components/shop/desktop/MarketFrame";
 import {
   filterSpecialists,
   sortSpecialists,
@@ -51,24 +40,7 @@ const headerLinks: HeaderLink[] = [
   { href: "/kitoblar", label: "Kitoblar" },
 ];
 
-const sideMain: FrameLink[] = [
-  { key: "home", label: "Bosh sahifa", href: "/", icon: Home },
-  { key: "courses", label: "Onlayn darslar", href: "/talim", icon: GraduationCap },
-  { key: "seminars", label: "Seminarlar", href: "/seminarlar", icon: CalendarDays },
-  { key: "specs", label: "Mutaxassislar", href: "/mutaxassislar", icon: UserRound },
-  { key: "clinics", label: "Klinikalar", href: "/mening-klinikam", icon: Building2 },
-  { key: "books", label: "Kitoblar", href: "/kitoblar", icon: BookOpen },
-  { key: "cats", label: "Kategoriyalar", href: "/kategoriyalar", icon: LayoutGrid },
-  { key: "brands", label: "Brendlar", href: "/marketplace/brendlar", icon: Tag },
-  { key: "sale", label: "Aksiyalar", href: "/marketplace/aksiyalar", icon: BadgePercent },
-];
 
-const sideSecond: FrameLink[] = [
-  { key: "fav", label: "Sevimlilar", href: "/mutaxassislar", icon: Heart },
-  { key: "requests", label: "Mening so‘rovlarim", href: "/ustalar/sorovlarim", icon: ClipboardList },
-  { key: "messages", label: "Xabarlar", href: "/profil", icon: MessageCircle },
-  { key: "settings", label: "Sozlamalar", href: "/profil", icon: Settings },
-];
 
 export function SpecialistsFrame({
   children,
@@ -92,9 +64,6 @@ export function SpecialistsFrame({
       headerQuery={headerQuery}
       onHeaderQuery={onHeaderQuery}
       onHeaderSubmit={onHeaderSubmit}
-      sideMain={sideMain}
-      sideSecond={sideSecond}
-      sideLabel="Mutaxassislar"
       promoTitle="Professional mutaxassislarni toping!"
       promoText="Tajribali stomatologlar bilan bog‘laning"
       promoCta="Mutaxassis qidirish"

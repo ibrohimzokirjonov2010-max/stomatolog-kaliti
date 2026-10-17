@@ -12,48 +12,25 @@ import {
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import {
-  Award,
-  BarChart3,
-  BookOpen,
-  Briefcase,
-  Building2,
-  CalendarClock,
   CalendarDays,
   ChevronDown,
   ChevronLeft,
   ChevronRight,
-  ClipboardList,
-  FlaskConical,
-  Gift,
-  GraduationCap,
   Home,
-  LayoutGrid,
   LogOut,
   MapPin,
-  Megaphone,
   Menu,
   MessageSquare,
-  Newspaper,
-  Package,
-  PackageCheck,
-  Percent,
-  Radio,
   ShieldCheck,
-  Shirt,
+  MonitorPlay,
   ShoppingBag,
   ShoppingCart,
-  Stethoscope,
-  Tags,
   User,
-  UserRound,
-  Users,
-  Wallet,
-  Warehouse,
-  Wrench,
   X,
-  type LucideIcon,
-} from "lucide-react";
+  } from "lucide-react";
 import { useCart } from "@/components/cart-provider";
+import { navBottom, navGroups, navTop, type NavItem } from "@/data/nav";
+import { useNavTree } from "@/components/nav/use-nav-tree";
 import { useDoctorProfile } from "@/components/doctor-profile-provider";
 import { initialsFromName } from "@/lib/doctor-profile";
 import { NotificationBell } from "@/components/notification-bell";
@@ -131,38 +108,14 @@ function surplusMobilePath(path: string) {
   return /^\/ortiqcha-material\/[^/]+\/?$/.test(path) && !path.startsWith("/ortiqcha-material/elonlarim");
 }
 
-function formaMobilePath(path: string) {
-  if (path === "/forma") return true;
-  return /^\/forma\/[^/]+\/?$/.test(path) && !path.startsWith("/forma/buyurtmalarim");
-}
 
 function jihozMobilePath(path: string) {
   return path === "/jihozlar" || /^\/jihozlar\/[^/]+\/?$/.test(path);
 }
 
-function ustaMobilePath(path: string) {
-  if (path === "/ustalar") return true;
-  return /^\/ustalar\/[^/]+\/?$/.test(path) && !path.startsWith("/ustalar/mening") && !path.startsWith("/ustalar/sorovlarim");
-}
 
-function newsMobilePath(path: string) {
-  return path === "/yangiliklar" || /^\/yangiliklar\/[^/]+\/?$/.test(path);
-}
 
-function seminarMobilePath(path: string) {
-  if (path === "/seminarlar") return true;
-  const match = path.match(/^\/seminarlar\/([^/]+)\/?$/);
-  if (!match) return false;
-  return !["yozuvlarim", "tashkilotchi", "chiptalarim", "chipta"].includes(match[1]);
-}
 
-function marketMobilePath(path: string) {
-  if (path === "/marketplace") return true;
-  if (!path.startsWith("/marketplace/")) return false;
-  if (path.startsWith("/marketplace/dokon")) return false;
-  if (path.startsWith("/marketplace/sotuvchi")) return false;
-  return true;
-}
 
 function shopPath(path: string) {
   return (
@@ -172,41 +125,6 @@ function shopPath(path: string) {
   );
 }
 
-const tabs = [
-  {
-    href: "/",
-    label: "Bosh sahifa",
-    icon: "/icons/bosh-sahifa-128.png",
-    match: (path: string) => path === "/" || path.startsWith("/bosh-sahifa"),
-  },
-  {
-    href: "/seminarlar",
-    label: "Seminarlar",
-    icon: "/icons/seminarlar-128.png",
-    match: (path: string) =>
-      path === "/seminarlar" || path.startsWith("/seminarlar/"),
-  },
-  {
-    href: "/marketplace",
-    label: "Marketplace",
-    icon: "/icons/marketplace-128.png",
-    match: (path: string) => marketplacePath(path) || path === "/savat" || path === "/buyurtma",
-  },
-  {
-    href: "/forma",
-    label: "Forma",
-    icon: "/icons/forma-128.png",
-    match: (path: string) =>
-      path === "/forma" ||
-      (path.startsWith("/forma/") && !path.startsWith("/forma/buyurtmalarim")),
-  },
-  {
-    href: "/profil",
-    label: "Profil",
-    icon: "/icons/profil-128.png",
-    match: (path: string) => path === "/profil" || path.startsWith("/profil/"),
-  },
-] as const;
 
 function MobileProfileChip() {
   const { ready, profile } = useDoctorProfile();
@@ -547,83 +465,70 @@ export function MobileTopbar() {
 
 const APP_VERSION = "0.1.0";
 
-type MenuItem = {
-  href: string;
-  label: string;
-  icon: LucideIcon;
-  bg: string;
-  color: string;
+const GROUP_TONES: Record<string, { bg: string; color: string }> = {
+  top: { bg: "#e8f1ff", color: "#0066ff" },
+  xaridlar: { bg: "#e8f1ff", color: "#2563eb" },
+  talim: { bg: "#ffe8ee", color: "#e11d48" },
+  klinika: { bg: "#e7f6f4", color: "#0d9488" },
+  hamkorlar: { bg: "#fff1e6", color: "#ea580c" },
+  hamjamiyat: { bg: "#f3e8ff", color: "#7c3aed" },
 };
 
-const MENU_GROUPS: { title: string; items: MenuItem[] }[] = [
-  {
-    title: "Asosiy",
-    items: [
-      { href: "/", label: "Bosh sahifa", icon: Home, bg: "#e8f1ff", color: "#0066ff" },
-      { href: "/marketplace", label: "Marketplace", icon: ShoppingBag, bg: "#e8f1ff", color: "#0066ff" },
-      { href: "/kategoriyalar", label: "Kategoriyalar", icon: LayoutGrid, bg: "#e8f1ff", color: "#2563eb" },
-      { href: "/marketplace/brendlar", label: "Brendlar", icon: Tags, bg: "#fff7e6", color: "#d97706" },
-      { href: "/marketplace/aksiyalar", label: "Aksiyalar", icon: Percent, bg: "#ffe8ee", color: "#e11d48" },
-      { href: "/ortiqcha-material", label: "Ortiqcha material", icon: Package, bg: "#fff1e6", color: "#f59e0b" },
-      { href: "/forma", label: "Forma", icon: Shirt, bg: "#f3e8ff", color: "#8b5cf6" },
-      { href: "/jihozlar", label: "Jihozlar", icon: Stethoscope, bg: "#e7f6f4", color: "#0f766e" },
-    ],
-  },
-  {
-    title: "Ta‘lim",
-    items: [
-      { href: "/seminarlar", label: "Seminarlar", icon: CalendarDays, bg: "#e7f6f4", color: "#1497a8" },
-      { href: "/talim", label: "Ta‘lim", icon: GraduationCap, bg: "#ffe8ee", color: "#f43f5e" },
-      { href: "/kitoblar", label: "Kitoblar", icon: BookOpen, bg: "#e8f1ff", color: "#3b82f6" },
-      { href: "/mutaxassislar", label: "Mutaxassislar", icon: UserRound, bg: "#e8f1ff", color: "#2563eb" },
-      { href: "/sertifikatlar", label: "Sertifikatlar", icon: Award, bg: "#fff7e6", color: "#d97706" },
-    ],
-  },
-  {
-    title: "Xizmatlar",
-    items: [
-      { href: "/ustalar", label: "Ustalar", icon: Wrench, bg: "#e7f6f4", color: "#0d9488" },
-      { href: "/laboratoriya", label: "Laboratoriya", icon: FlaskConical, bg: "#f3e8ff", color: "#7c3aed" },
-      { href: "/ishlar", label: "Ishlar", icon: Briefcase, bg: "#e8f1ff", color: "#1d4ed8" },
-      { href: "/elonlar", label: "E‘lonlar", icon: Megaphone, bg: "#fff1e6", color: "#ea580c" },
-      { href: "/community", label: "Community", icon: Users, bg: "#e7f6f4", color: "#0d9488" },
-      { href: "/yangiliklar", label: "Yangiliklar", icon: Newspaper, bg: "#ffe8ee", color: "#e11d48" },
-      { href: "/foydali-kanallar", label: "Foydali kanallar", icon: Radio, bg: "#e8f1ff", color: "#2563eb" },
-    ],
-  },
-  {
-    title: "Klinika",
-    items: [
-      { href: "/mening-klinikam", label: "Mening klinikam", icon: Building2, bg: "#e8f1ff", color: "#0066ff" },
-      { href: "/crm/bemorlar", label: "Bemorlar", icon: Users, bg: "#e7f6f4", color: "#0d9488" },
-      { href: "/crm/uchrashuvlar", label: "Uchrashuvlar", icon: CalendarClock, bg: "#fff1e6", color: "#d97706" },
-      { href: "/crm/davolash-rejalari", label: "Davolash rejalari", icon: ClipboardList, bg: "#f3e8ff", color: "#7c3aed" },
-      { href: "/crm/tolovlar", label: "To‘lovlar", icon: Wallet, bg: "#e7f8f2", color: "#059669" },
-      { href: "/crm/ombor", label: "Ombor", icon: Warehouse, bg: "#fff1e6", color: "#ea580c" },
-      { href: "/crm/hisobotlar", label: "Hisobotlar", icon: BarChart3, bg: "#e8f1ff", color: "#2563eb" },
-    ],
-  },
-  {
-    title: "Shaxsiy",
-    items: [
-      { href: "/savat", label: "Savat", icon: ShoppingCart, bg: "#e8f1ff", color: "#0066ff" },
-      { href: "/buyurtmalarim", label: "Buyurtmalarim", icon: PackageCheck, bg: "#e7f6f4", color: "#0d9488" },
-      { href: "/bonuslarim", label: "Bonuslarim", icon: Gift, bg: "#fff1e6", color: "#f59e0b" },
-      { href: "/profil", label: "Profil", icon: User, bg: "#f3e8ff", color: "#7c3aed" },
-    ],
-  },
-];
+function DrawerLink({ item, tone, active, sub = false }: { item: NavItem; tone: { bg: string; color: string }; active: boolean; sub?: boolean }) {
+  const Icon = item.icon;
+  return (
+    <li>
+      <Link
+        href={item.href}
+        aria-current={active ? "page" : undefined}
+        className={cn("flex items-center gap-3 rounded-xl px-2", sub ? "py-1.5" : "py-2", active ? "bg-[#e8f1ff] text-[#0066FF]" : "text-[#1a1d26]")}
+      >
+        <span className={cn("grid shrink-0 place-items-center rounded-xl", sub ? "size-8" : "size-9")} style={{ background: tone.bg, color: tone.color }}>
+          <Icon className={sub ? "size-[18px]" : "size-5"} strokeWidth={2} aria-hidden="true" />
+        </span>
+        <span className={cn("min-w-0 flex-1 truncate font-semibold", sub ? "text-[14px]" : "text-[15px]")}>{item.label}</span>
+        <ChevronRight className="size-4 shrink-0 text-[#8b93a7]" aria-hidden="true" />
+      </Link>
+    </li>
+  );
+}
 
-const MENU_HREFS = MENU_GROUPS.flatMap((group) => group.items.map((item) => item.href));
-
-function menuItemActive(pathname: string, href: string) {
-  const matches = (candidate: string) => {
-    if (candidate === "/") return pathname === "/" || pathname.startsWith("/bosh-sahifa");
-    return pathname === candidate || pathname.startsWith(`${candidate}/`);
-  };
-  if (!matches(href)) return false;
-  const best = MENU_HREFS.filter(matches).sort((a, b) => b.length - a.length)[0];
-  return best === href;
+function DrawerNav() {
+  const { activeHref, isOpen, toggle } = useNavTree();
+  return (
+    <nav className="min-h-0 flex-1 overflow-y-auto overscroll-contain px-3 py-2" aria-label="Bo‘limlar" data-testid="drawer-nav">
+      <ul>
+        <DrawerLink item={navTop} tone={GROUP_TONES.top} active={activeHref === navTop.href} />
+      </ul>
+      {navGroups.map((group) => {
+        const open = isOpen(group.id);
+        const tone = GROUP_TONES[group.id] ?? GROUP_TONES.top;
+        return (
+          <section key={group.id} className="border-t border-[#f1f3f8] pt-1" data-group={group.id}>
+            <button
+              type="button"
+              aria-expanded={open}
+              onClick={() => toggle(group.id)}
+              className="flex w-full items-center gap-2 px-2 pt-2 pb-1.5 text-left text-[12px] font-bold tracking-[0.12em] text-[#8b93a7] uppercase"
+            >
+              <span className="min-w-0 flex-1 truncate">{group.title}</span>
+              <ChevronDown className={cn("size-4 shrink-0 transition-transform", open ? "" : "-rotate-90")} aria-hidden="true" />
+            </button>
+            {open ? (
+              <ul className="pb-1">
+                {group.items.map((item) => (
+                  <DrawerLink key={item.href} item={item} tone={tone} active={activeHref === item.href} sub />
+                ))}
+              </ul>
+            ) : null}
+          </section>
+        );
+      })}
+      <ul className="border-t border-[#f1f3f8] pt-1">
+        <DrawerLink item={navBottom} tone={GROUP_TONES.hamjamiyat} active={activeHref === navBottom.href} />
+      </ul>
+    </nav>
+  );
 }
 
 export function MobileMenuButton({ variant = "bar" }: { variant?: "bar" | "top" }) {
@@ -649,7 +554,6 @@ export function MobileMenuButton({ variant = "bar" }: { variant?: "bar" | "top" 
 
 export function MobileDrawer() {
   const { open, setOpen } = useMobileNav();
-  const pathname = usePathname();
   const { ready, profile, logout } = useDoctorProfile();
   const closeRef = useRef<HTMLButtonElement>(null);
   const touch = useRef({ x: 0, y: 0 });
@@ -774,42 +678,7 @@ export function MobileDrawer() {
             </div>
           )}
         </div>
-        <nav className="min-h-0 flex-1 overflow-y-auto overscroll-contain px-3 py-2" aria-label="Bo‘limlar">
-          {MENU_GROUPS.map((group) => (
-            <section key={group.title} className="pb-2">
-              <h2 className="px-2 pt-3 pb-1 text-[11px] font-bold tracking-[0.14em] text-[#8b93a7] uppercase">
-                {group.title}
-              </h2>
-              <ul>
-                {group.items.map((item) => {
-                  const Icon = item.icon;
-                  const active = menuItemActive(pathname, item.href);
-                  return (
-                    <li key={item.href}>
-                      <Link
-                        href={item.href}
-                        aria-current={active ? "page" : undefined}
-                        className={cn(
-                          "flex items-center gap-3 rounded-xl px-2 py-2",
-                          active ? "bg-[#e8f1ff] text-[#0066FF]" : "text-[#1a1d26]",
-                        )}
-                      >
-                        <span
-                          className="grid size-9 shrink-0 place-items-center rounded-xl"
-                          style={{ background: item.bg, color: item.color }}
-                        >
-                          <Icon className="size-5" strokeWidth={2} aria-hidden="true" />
-                        </span>
-                        <span className="min-w-0 flex-1 truncate text-[15px] font-semibold">{item.label}</span>
-                        <ChevronRight className="size-4 shrink-0 text-[#8b93a7]" aria-hidden="true" />
-                      </Link>
-                    </li>
-                  );
-                })}
-              </ul>
-            </section>
-          ))}
-        </nav>
+        <DrawerNav />
         <div className="border-t border-[#eceff5] px-3 pt-2 pb-[max(12px,env(safe-area-inset-bottom))]">
           {profile ? (
             <button
@@ -834,10 +703,10 @@ export function MobileDrawer() {
 }
 
 const homeTabs = [
-  { href: "/", label: "Bosh sahifa", icon: Home, match: (path: string) => path === "/" || path.startsWith("/bosh-sahifa") || path === "/talim" || path === "/kitoblar" || path === "/foydali-kanallar" },
-  { href: "/seminarlar", label: "Seminarlar", icon: CalendarDays, match: (path: string) => path === "/seminarlar" || path.startsWith("/seminarlar/") || ustaMobilePath(path) || newsMobilePath(path) },
+  { href: "/", label: "Bosh sahifa", icon: Home, match: (path: string) => path === "/" || path.startsWith("/bosh-sahifa") || path === "/kitoblar" || path === "/foydali-kanallar" },
   { href: "/marketplace", label: "Marketplace", icon: ShoppingBag, match: (path: string) => marketplacePath(path) || path === "/savat" || path === "/buyurtma" || path.startsWith("/buyurtma/") || /^\/buyurtmalarim\/[^/]+/.test(path) || surplusMobilePath(path) || jihozMobilePath(path) },
-  { href: "/forma", label: "Forma", icon: Shirt, match: (path: string) => path === "/forma" || (path.startsWith("/forma/") && !path.startsWith("/forma/buyurtmalarim")) },
+  { href: "/seminarlar", label: "Seminarlar", icon: CalendarDays, match: (path: string) => path === "/seminarlar" || path.startsWith("/seminarlar/") },
+  { href: "/talim", label: "Onlayn darslar", icon: MonitorPlay, match: (path: string) => path === "/talim" || path.startsWith("/talim/") },
   { href: "/profil", label: "Profil", icon: User, match: (path: string) => path === "/profil" || path.startsWith("/profil/") || path === "/community" || path === "/mening-klinikam" || path === "/buyurtmalarim" },
 ] as const;
 
@@ -845,31 +714,14 @@ export function MobileTabBar() {
   const pathname = usePathname();
   const onKlinika = pathname === "/klinika" || pathname.startsWith("/klinika/");
   if (onKlinika || isPhone14(pathname) || /\/oqish\/?$/.test(pathname) || /\/talim\/[^/]+\/video\/?$/.test(pathname) || /\/seminarlar\/[^/]+\/royxat\/?$/.test(pathname)) return null;
-  if (pathname === "/" || pathname === "/talim" || pathname === "/kitoblar" || pathname === "/foydali-kanallar" || pathname === "/community" || pathname === "/mening-klinikam" || pathname === "/profil" || pathname.startsWith("/profil/") || formaMobilePath(pathname) || jihozMobilePath(pathname) || ustaMobilePath(pathname) || newsMobilePath(pathname) || surplusMobilePath(pathname) || marketMobilePath(pathname) || seminarMobilePath(pathname) || pathname === "/savat" || pathname === "/buyurtma" || pathname.startsWith("/buyurtma/") || pathname === "/buyurtmalarim" || pathname.startsWith("/buyurtmalarim/")) {
-    return (
-      <nav aria-label="Mobil menyu" className="mh-tabs lg:hidden">
-        {homeTabs.map((tab) => {
-          const Icon = tab.icon;
-          const active = tab.match(pathname);
-          return (
-            <Link key={tab.href} href={tab.href} className={active ? "on" : undefined}>
-              <Icon strokeWidth={active ? 2.4 : 1.8} />
-              {tab.label}
-            </Link>
-          );
-        })}
-      </nav>
-    );
-  }
-
   return (
     <nav aria-label="Mobil menyu" className="mh-tabs lg:hidden">
-      {tabs.map((tab) => {
+      {homeTabs.map((tab) => {
+        const Icon = tab.icon;
         const active = tab.match(pathname);
         return (
           <Link key={tab.href} href={tab.href} className={active ? "on" : undefined}>
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img src={tab.icon} alt="" width={24} height={24} />
+            <Icon strokeWidth={active ? 2.4 : 1.8} />
             {tab.label}
           </Link>
         );

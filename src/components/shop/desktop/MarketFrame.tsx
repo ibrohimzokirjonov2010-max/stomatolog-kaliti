@@ -5,25 +5,17 @@ import { useState, type FormEvent, type ReactNode } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import {
-  BadgePercent,
   Bell,
   ChevronRight,
-  ClipboardList,
   Crown,
   Globe,
-  Heart,
-  Home,
-  LayoutGrid,
-  Package,
   Search,
-  ShoppingBag,
   ShoppingCart,
-  Sparkles,
-  Store,
-  Tag,
   type LucideIcon,
 } from "lucide-react";
 import { useCart } from "@/components/cart-provider";
+import { ShNavTree, useProfilActive } from "@/components/nav/sh-nav-tree";
+import { UserRound } from "lucide-react";
 import "./market-frame.css";
 
 export type MarketNavKey = "home" | "cats" | "brands" | "all" | "new" | "popular" | "sale" | "fav" | "orders" | "seller";
@@ -31,21 +23,7 @@ export type MarketNavKey = "home" | "cats" | "brands" | "all" | "new" | "popular
 export type FrameLink = { key: string; label: string; href: string; icon: LucideIcon };
 export type HeaderLink = { href: string; label: string; key?: string };
 
-const mainNav: { key: MarketNavKey; label: string; href: string; icon: LucideIcon }[] = [
-  { key: "home", label: "Bosh sahifa", href: "/", icon: Home },
-  { key: "cats", label: "Kategoriyalar", href: "/kategoriyalar", icon: LayoutGrid },
-  { key: "brands", label: "Brendlar", href: "/marketplace/brendlar", icon: Tag },
-  { key: "all", label: "Barcha mahsulotlar", href: "/marketplace", icon: Package },
-  { key: "new", label: "Yangi mahsulotlar", href: "/marketplace?sort=yangi", icon: Sparkles },
-  { key: "popular", label: "Ommabop mahsulotlar", href: "/marketplace?sort=ommabop", icon: ShoppingBag },
-  { key: "sale", label: "Aksiyalar", href: "/marketplace/aksiyalar", icon: BadgePercent },
-];
 
-const secondNav: { key: MarketNavKey; label: string; href: string; icon: LucideIcon }[] = [
-  { key: "fav", label: "Sevimlilar", href: "/marketplace", icon: Heart },
-  { key: "orders", label: "Mening buyurtmalarim", href: "/buyurtmalarim", icon: ClipboardList },
-  { key: "seller", label: "Sotuvchi bo‘lish", href: "/marketplace/sotuvchi", icon: Store },
-];
 
 const headerNav = [
   { href: "/", label: "Bosh sahifa" },
@@ -57,7 +35,6 @@ const headerNav = [
 ];
 
 export function MarketFrame({
-  active,
   promoTitle = "Rasmiy brendlar bir joyda!",
   promoText = "Dunyoning yetakchi stomatologiya brendlari",
   promoCta = "Barcha brendlar",
@@ -72,9 +49,6 @@ export function MarketFrame({
   headerQuery,
   onHeaderQuery,
   onHeaderSubmit,
-  sideMain = mainNav,
-  sideSecond = secondNav,
-  sideLabel = "Marketplace",
   children,
 }: {
   active: string;
@@ -92,11 +66,9 @@ export function MarketFrame({
   headerQuery?: string;
   onHeaderQuery?: (value: string) => void;
   onHeaderSubmit?: (value: string) => void;
-  sideMain?: FrameLink[];
-  sideSecond?: FrameLink[];
-  sideLabel?: string;
   children: ReactNode;
 }) {
+  const profilActive = useProfilActive();
   const router = useRouter();
   const { count } = useCart();
   const [query, setQuery] = useState("");
@@ -160,21 +132,11 @@ export function MarketFrame({
       </header>
       <div className="brd-body">
         <aside className="brd-side">
-          <nav className="brd-navlist" aria-label={sideLabel}>
-            {sideMain.map((item) => (
-              <Link key={item.key} href={item.href} className={active === item.key ? "brd-item on" : "brd-item"} data-testid={`mf-${item.key}`}>
-                <item.icon className="i" />
-                <span>{item.label}</span>
-              </Link>
-            ))}
-            <div className="brd-split" />
-            {sideSecond.map((item) => (
-              <Link key={item.key} href={item.href} className={active === item.key ? "brd-item on" : "brd-item"} data-testid={`mf-${item.key}`}>
-                <item.icon className="i" />
-                <span>{item.label}</span>
-              </Link>
-            ))}
-          </nav>
+          <ShNavTree variant="brd" />
+          <Link className={profilActive ? "brd-item on" : "brd-item"} href="/profil">
+            <UserRound className="i" />
+            <span>Profil</span>
+          </Link>
           <div className={promoClass ? `brd-promo ${promoClass}` : "brd-promo"}>
             {promoIcon ?? <Crown className="crown i" />}
             <b>{promoTitle}</b>

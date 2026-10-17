@@ -2,18 +2,18 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { ChevronRight, Headphones, ShieldCheck } from "lucide-react";
+import { ChevronDown, ChevronRight, Headphones, ShieldCheck } from "lucide-react";
 import { useDoctorProfile } from "@/components/doctor-profile-provider";
 import { Logo } from "@/components/logo";
 import { useSellerWork } from "@/components/seller-provider";
 import { SellerCabinetNav } from "@/components/seller-cabinet-nav";
 import { isShopApproved } from "@/data/shops";
-import { navItems, type NavItem } from "@/data/nav";
+import { navBottom, navGroups, navTop, type NavGroup, type NavItem } from "@/data/nav";
+import { useNavTree } from "@/components/nav/use-nav-tree";
 import { site } from "@/data/site";
 import { cn } from "@/lib/utils";
 
 const SOTUVCHI_HREF = "/marketplace/sotuvchi";
-const PROFIL_HREF = "/profil";
 
 export function Sidebar({ className }: { className?: string }) {
   const pathname = usePathname();
@@ -24,73 +24,48 @@ export function Sidebar({ className }: { className?: string }) {
 
   const cabinet = onSotuvchi && Boolean(session) && isShopApproved(session!);
 
-  const visibleItems = navItems.filter((item) => {
-    if (item.href === SOTUVCHI_HREF) return Boolean(session);
-    return true;
-  });
-  // Profil is always last and pinned to the bottom of the sidebar.
-  const mainItems = visibleItems.filter((item) => item.href !== PROFIL_HREF);
-  const bottomItems = visibleItems.filter((item) => item.href === PROFIL_HREF);
+  const { activeHref, isOpen, toggle } = useNavTree();
 
-  const under = (href: string) => pathname === href || pathname.startsWith(`${href}/`);
-  const groupOpen = (item: NavItem) =>
-    Boolean(item.children?.length) &&
-    (under(item.href) || (item.match ?? []).some(under) || item.children!.some((c) => under(c.href))) &&
-    !(item.href === "/marketplace" && onSotuvchi);
-
-  const renderItem = (item: NavItem) => {
+  const renderItem = (item: NavItem, sub = false) => {
     const isSotuvchi = item.href === SOTUVCHI_HREF;
-    const isMarketplace = item.href === "/marketplace";
-    const open = groupOpen(item);
-    const childActive = Boolean(item.children?.some((c) => c.href !== item.href && under(c.href)));
-    const active =
-      item.href === "/"
-        ? pathname === "/" || pathname.startsWith("/bosh-sahifa")
-        : isSotuvchi
-          ? onSotuvchi
-          : isMarketplace
-            ? (pathname === "/marketplace" || pathname.startsWith("/marketplace/")) && !onSotuvchi
-            : under(item.href) && !childActive && !item.children?.some((c) => c.href === item.href);
+    const active = isSotuvchi ? onSotuvchi : activeHref === item.href;
     const Icon = item.icon;
-    const soft = (active && (isMarketplace || isSotuvchi)) || (open && !active);
     const label = isSotuvchi && session ? "Mening do‘konim" : item.label;
     return (
-      <div key={item.href}>
-        <Link
-          href={item.href}
-          aria-current={active ? "page" : undefined}
-          className={cn(
-            "flex items-center gap-3 rounded-[12px] px-3 py-2 text-[13.5px] font-medium transition-colors",
-            soft
-              ? "bg-[#e8f1ff] text-[#0066FF]"
-              : active
-                ? "bg-primary text-white"
-                : "text-slate-500 hover:bg-slate-50 hover:text-foreground"
-          )}
+      <Link
+        key={item.href}
+        href={item.href}
+        aria-current={active ? "page" : undefined}
+        className={cn(
+          "flex items-center gap-3 rounded-[12px] font-medium transition-colors",
+          sub ? "px-2.5 py-1.5 text-[13px]" : "px-3 py-2 text-[13.5px]",
+          active ? "bg-primary text-white" : "text-slate-500 hover:bg-slate-50 hover:text-foreground"
+        )}
+      >
+        <Icon className={sub ? "size-4 shrink-0" : "size-[18px] shrink-0"} strokeWidth={active ? 2 : 1.6} />
+        <span className="truncate">{label}</span>
+      </Link>
+    );
+  };
+
+  const renderGroup = (group: NavGroup) => {
+    const open = isOpen(group.id);
+    const GroupIcon = group.icon;
+    return (
+      <div key={group.id} className="pt-1" data-group={group.id}>
+        <button
+          type="button"
+          aria-expanded={open}
+          onClick={() => toggle(group.id)}
+          className="flex w-full items-center gap-3 rounded-[12px] px-3 py-2 text-left text-[12.5px] font-semibold text-foreground transition-colors hover:bg-slate-50"
         >
-          <Icon className="size-[18px] shrink-0" strokeWidth={soft ? 2 : 1.6} />
-          <span className="truncate">{label}</span>
-        </Link>
+          <GroupIcon className="size-[18px] shrink-0 text-slate-400" strokeWidth={1.8} />
+          <span className="min-w-0 flex-1 truncate">{group.title}</span>
+          <ChevronDown className={cn("size-4 shrink-0 text-slate-400 transition-transform", open ? "" : "-rotate-90")} />
+        </button>
         {open ? (
           <div className="mt-0.5 mb-1 ml-[21px] space-y-0.5 border-l border-[#e3eaf6] pl-2">
-            {item.children!.map((c) => {
-              const on = under(c.href);
-              const CIcon = c.icon;
-              return (
-                <Link
-                  key={c.href}
-                  href={c.href}
-                  aria-current={on ? "page" : undefined}
-                  className={cn(
-                    "flex items-center gap-2.5 rounded-[10px] px-2.5 py-1.5 text-[13px] font-medium transition-colors",
-                    on ? "bg-primary text-white" : "text-slate-500 hover:bg-slate-50 hover:text-foreground"
-                  )}
-                >
-                  <CIcon className="size-4 shrink-0" strokeWidth={on ? 2 : 1.6} />
-                  <span className="truncate">{c.label}</span>
-                </Link>
-              );
-            })}
+            {group.items.map((item) => renderItem(item, true))}
           </div>
         ) : null}
       </div>
@@ -110,10 +85,12 @@ export function Sidebar({ className }: { className?: string }) {
       ) : (
         <>
       <nav aria-label="Asosiy menyu" className="flex-1 space-y-0.5 overflow-y-auto px-3 pb-4">
-        {mainItems.map(renderItem)}
+        {renderItem(navTop)}
+        {navGroups.map(renderGroup)}
       </nav>
 
-      {bottomItems.length > 0 || profile?.isAdmin ? (
+      {(
+
         <div className="space-y-0.5 border-t border-border px-3 pt-2">
           {profile?.isAdmin ? (
             <Link
@@ -124,9 +101,9 @@ export function Sidebar({ className }: { className?: string }) {
               <span className="truncate">Admin panel</span>
             </Link>
           ) : null}
-          {bottomItems.map(renderItem)}
+          {renderItem(navBottom)}
         </div>
-      ) : null}
+      )}
 
       <div className="p-3">
         <a

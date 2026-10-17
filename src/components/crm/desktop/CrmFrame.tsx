@@ -2,26 +2,11 @@
 
 import { type FormEvent, type ReactNode } from "react";
 import {
-  BadgePercent,
-  BookOpen,
-  CalendarDays,
-  ClipboardList,
-  GraduationCap,
-  Home,
-  LayoutGrid,
-  MessageCircle,
-  Settings,
   Stethoscope,
-  Tag,
-  UserRound,
-  Users,
-  Wallet,
-  Warehouse,
-  Wrench,
-} from "lucide-react";
+  } from "lucide-react";
 import { Search } from "lucide-react";
 import { ClinicShell } from "@/components/shell/ClinicShell";
-import { MarketFrame, type FrameLink, type HeaderLink } from "@/components/shop/desktop/MarketFrame";
+import { MarketFrame, type HeaderLink } from "@/components/shop/desktop/MarketFrame";
 import "./crm.css";
 
 export type CrmKey =
@@ -52,36 +37,8 @@ const headerLinks: HeaderLink[] = [
   { href: "/crm/bemorlar", label: "CRM", key: "crm" },
 ];
 
-const main: FrameLink[] = [
-  { key: "home", label: "Bosh sahifa", href: "/", icon: Home },
-  { key: "patients", label: "Bemorlar CRM", href: "/crm/bemorlar", icon: Users },
-  { key: "appointments", label: "Uchrashuvlar", href: "/crm/uchrashuvlar", icon: CalendarDays },
-  { key: "plans", label: "Davolash rejalari", href: "/crm/davolash-rejalari", icon: ClipboardList },
-  { key: "payments", label: "To‘lovlar", href: "/crm/tolovlar", icon: Wallet },
-  { key: "services", label: "Xizmatlar", href: "/crm/xizmatlar", icon: Stethoscope },
-  { key: "stock", label: "Ombor", href: "/crm/ombor", icon: Warehouse },
-  { key: "reports", label: "Hisobotlar", href: "/crm/hisobotlar", icon: LayoutGrid },
-];
 
-const second: FrameLink[] = [
-  { key: "seminars", label: "Seminarlar", href: "/seminarlar", icon: CalendarDays },
-  { key: "courses", label: "Onlayn darslar", href: "/talim", icon: GraduationCap },
-  { key: "masters", label: "Ustalar", href: "/ustalar", icon: Wrench },
-  { key: "books", label: "Kitoblar", href: "/kitoblar", icon: BookOpen },
-  { key: "sales", label: "Aksiyalar", href: "/marketplace/aksiyalar", icon: BadgePercent },
-  { key: "settings", label: "Sozlamalar", href: "/profil", icon: Settings },
-];
 
-const listingSecond: FrameLink[] = [
-  { key: "seminars", label: "Seminarlar", href: "/seminarlar", icon: CalendarDays },
-  { key: "courses", label: "Onlayn darslar", href: "/talim", icon: GraduationCap },
-  { key: "consults", label: "Konsultatsiyalar", href: "/elonlar?tur=xizmat", icon: MessageCircle },
-  { key: "masters", label: "Ustalar", href: "/ustalar", icon: UserRound },
-  { key: "listings", label: "E‘lonlar", href: "/elonlar", icon: Tag },
-  { key: "books", label: "Kitoblar", href: "/kitoblar", icon: BookOpen },
-  { key: "sales", label: "Aksiyalar", href: "/marketplace/aksiyalar", icon: BadgePercent },
-  { key: "settings", label: "Sozlamalar", href: "/profil", icon: Settings },
-];
 
 export function CrmFrame({
   active,
@@ -125,9 +82,6 @@ export function CrmFrame({
       searchPlaceholder={placeholder}
       headerQuery={headerQuery}
       onHeaderQuery={onHeaderQuery}
-      sideMain={main}
-      sideSecond={listings ? listingSecond : second}
-      sideLabel="CRM"
       promoTitle="Klinika boshqaruvi"
       promoText="Bemor, qabul va ombor bir joyda"
       promoCta="Bemorlar"

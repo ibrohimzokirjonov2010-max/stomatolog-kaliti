@@ -4,28 +4,17 @@
 import { useEffect, useMemo, useState } from "react";
 import {
   Award,
-  BadgePercent,
-  BookOpen,
-  Building2,
   CalendarDays,
   ChevronRight,
   Clock,
   Download,
   Eye,
-  GraduationCap,
-  Heart,
-  Home,
-  LayoutGrid,
   MapPin,
-  PlayCircle,
   QrCode,
   Search,
-  Settings,
-  Tag,
-  UserRound,
-} from "lucide-react";
+  } from "lucide-react";
 import QRCode from "qrcode";
-import { MarketFrame, type FrameLink, type HeaderLink } from "@/components/shop/desktop/MarketFrame";
+import { MarketFrame, type HeaderLink } from "@/components/shop/desktop/MarketFrame";
 import { certTypes, certificatesFromTickets, designCertificates, type CertType, type Certificate } from "@/data/certificates";
 import { downloadPdf } from "@/lib/simple-pdf";
 import { loadSeminarTickets } from "@/lib/seminar-tickets";
@@ -41,24 +30,7 @@ const headerLinks: HeaderLink[] = [
   { href: "/talim", label: "Ta’lim", key: "talim" },
 ];
 
-const sideMain: FrameLink[] = [
-  { key: "home", label: "Bosh sahifa", href: "/", icon: Home },
-  { key: "courses", label: "Onlayn darslar", href: "/talim", icon: GraduationCap },
-  { key: "seminars", label: "Seminarlar", href: "/seminarlar", icon: CalendarDays },
-  { key: "specs", label: "Mutaxassislar", href: "/mutaxassislar", icon: UserRound },
-  { key: "clinics", label: "Klinikalar", href: "/mening-klinikam", icon: Building2 },
-  { key: "books", label: "Kitoblar", href: "/kitoblar", icon: BookOpen },
-  { key: "cats", label: "Kategoriyalar", href: "/kategoriyalar", icon: LayoutGrid },
-  { key: "brands", label: "Brendlar", href: "/marketplace/brendlar", icon: Tag },
-  { key: "sale", label: "Aksiyalar", href: "/marketplace/aksiyalar", icon: BadgePercent },
-];
 
-const sideSecond: FrameLink[] = [
-  { key: "fav", label: "Sevimlilar", href: "/talim", icon: Heart },
-  { key: "mine", label: "Mening kurslarim", href: "/talim", icon: PlayCircle },
-  { key: "certs", label: "Sertifikatlar", href: "/sertifikatlar", icon: Award },
-  { key: "settings", label: "Sozlamalar", href: "/profil", icon: Settings },
-];
 
 function norm(value: string) {
   return value.toLowerCase().replaceAll("‘", "'").replaceAll("’", "'");
@@ -227,9 +199,6 @@ export function CertificatesDesktop() {
       searchPlaceholder="Kurs, seminar yoki mavzu bo‘yicha qidiring..."
       headerQuery={q}
       onHeaderQuery={setQ}
-      sideMain={sideMain}
-      sideSecond={sideSecond}
-      sideLabel="Ta’lim"
       promoTitle="Bilimingiz har doim siz bilan!"
       promoText="Barcha sertifikatlaringiz bir joyda"
       promoCta="Sertifikatlaringiz"

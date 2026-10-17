@@ -5,27 +5,17 @@ import { useMemo, useState } from "react";
 import Link from "next/link";
 import {
   ArrowUpDown,
-  Award,
   BadgeCheck,
-  BadgePercent,
-  BookOpen,
   Bookmark,
-  CalendarDays,
   ChevronRight,
   Clock,
   GraduationCap,
-  Heart,
-  Home,
-  LayoutGrid,
-  PlayCircle,
   Search,
-  Settings,
   Star,
-  Tag,
   UserRound,
   Users,
 } from "lucide-react";
-import { MarketFrame, type FrameLink, type HeaderLink } from "@/components/shop/desktop/MarketFrame";
+import { MarketFrame, type HeaderLink } from "@/components/shop/desktop/MarketFrame";
 import {
   courseBadgeLabel,
   courseLevels,
@@ -54,23 +44,7 @@ const headerLinks: HeaderLink[] = [
   { href: "/talim", label: "Ta’lim", key: "talim" },
 ];
 
-const sideMain: FrameLink[] = [
-  { key: "home", label: "Bosh sahifa", href: "/", icon: Home },
-  { key: "courses", label: "Onlayn darslar", href: "/talim", icon: GraduationCap },
-  { key: "seminars", label: "Seminarlar", href: "/seminarlar", icon: CalendarDays },
-  { key: "masters", label: "Ustalar", href: "/ustalar", icon: UserRound },
-  { key: "books", label: "Kitoblar", href: "/kitoblar", icon: BookOpen },
-  { key: "cats", label: "Kategoriyalar", href: "/kategoriyalar", icon: LayoutGrid },
-  { key: "brands", label: "Brendlar", href: "/marketplace/brendlar", icon: Tag },
-  { key: "sale", label: "Aksiyalar", href: "/marketplace/aksiyalar", icon: BadgePercent },
-];
 
-const sideSecond: FrameLink[] = [
-  { key: "fav", label: "Sevimlilar", href: "/talim", icon: Heart },
-  { key: "mycourses", label: "Mening kurslarim", href: "/talim", icon: PlayCircle },
-  { key: "certs", label: "Sertifikatlar", href: "/profil", icon: Award },
-  { key: "settings", label: "Sozlamalar", href: "/profil", icon: Settings },
-];
 
 export function OnlaynDarslarDesktop() {
   const [q, setQ] = useState("");
@@ -101,9 +75,6 @@ export function OnlaynDarslarDesktop() {
       searchPlaceholder="Onlayn darslar, mavzular yoki o‘qituvchini qidiring..."
       headerQuery={q}
       onHeaderQuery={setQ}
-      sideMain={sideMain}
-      sideSecond={sideSecond}
-      sideLabel="Ta’lim"
       promoTitle="Bilimingizni oshiring!"
       promoText="Stomatologiya bo‘yicha eng yaxshi onlayn darslar"
       promoCta="Barcha kurslar"

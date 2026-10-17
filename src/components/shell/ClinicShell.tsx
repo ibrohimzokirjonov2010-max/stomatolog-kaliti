@@ -3,81 +3,25 @@
 
 import { useState, type FormEvent, type ReactNode } from "react";
 import Link from "next/link";
-import { usePathname, useRouter } from "next/navigation";
+import { useRouter } from "next/navigation";
+import { ShNavTree, useProfilActive } from "@/components/nav/sh-nav-tree";
 import {
-  Award,
   Bell,
-  BookOpen,
-  CalendarDays,
   ChevronDown,
-  ClipboardList,
-  FlaskConical,
   HelpCircle,
-  Hospital,
   MapPin,
-  Megaphone,
   MessageCircle,
-  Presentation,
   Search,
-  Settings,
-  ShoppingBag,
   ShoppingCart,
   UserRound,
-  Wallet,
-  Warehouse,
-  BarChart3,
-} from "lucide-react";
+  } from "lucide-react";
 import { useShopLineCount } from "@/components/shop/desktop/shop-cart";
 import "./clinic-shell.css";
 
 const cities = ["Toshkent", "Samarqand", "Buxoro", "Farg‘ona", "Andijon", "Namangan"];
 
-type Item = { key: string; label: string; href: string; icon: typeof ShoppingBag };
-
-const shop: Item[] = [
-  { key: "market", label: "Marketplace", href: "/marketplace", icon: ShoppingBag },
-  { key: "ads", label: "E’lonlar", href: "/elonlar", icon: Megaphone },
-  { key: "labs", label: "Ustalar laboratoriyalari", href: "/ustalar", icon: FlaskConical },
-  { key: "consult", label: "Konsultatsiyalar", href: "/community", icon: MessageCircle },
-];
-
-const edu: Item[] = [
-  { key: "sem", label: "Seminarlar", href: "/seminarlar", icon: Presentation },
-  { key: "cert", label: "Sertifikatlar", href: "/sertifikatlar", icon: Award },
-  { key: "books", label: "Kitoblar", href: "/kitoblar", icon: BookOpen },
-];
-
-const clinic: Item[] = [
-  { key: "patients", label: "Bemorlar CRM", href: "/crm/bemorlar", icon: UserRound },
-  { key: "meet", label: "Uchrashuvlar", href: "/crm/uchrashuvlar", icon: CalendarDays },
-  { key: "plan", label: "Davolash rejalari", href: "/crm/davolash-rejalari", icon: ClipboardList },
-  { key: "pay", label: "To‘lovlar", href: "/crm/tolovlar", icon: Wallet },
-  { key: "stock", label: "Ombor", href: "/crm/ombor", icon: Warehouse },
-  { key: "reports", label: "Hisobotlar", href: "/crm/hisobotlar", icon: BarChart3 },
-];
-
-function activeKey(pathname: string) {
-  if (pathname.startsWith("/crm/bemorlar")) return "patients";
-  if (pathname.startsWith("/crm/uchrashuvlar")) return "meet";
-  if (pathname.startsWith("/crm/davolash-rejalari")) return "plan";
-  if (pathname.startsWith("/crm/tolovlar")) return "pay";
-  if (pathname.startsWith("/crm/ombor")) return "stock";
-  if (pathname.startsWith("/crm/hisobotlar")) return "reports";
-  if (pathname.startsWith("/mening-klinikam")) return "clinic";
-  if (pathname.startsWith("/seminarlar")) return "sem";
-  if (pathname.startsWith("/sertifikatlar")) return "cert";
-  if (pathname.startsWith("/kitoblar")) return "books";
-  if (pathname.startsWith("/elonlar")) return "ads";
-  if (pathname.startsWith("/ustalar") || pathname.startsWith("/laboratoriya")) return "labs";
-  if (pathname.startsWith("/community")) return "consult";
-  if (pathname.startsWith("/buyurtma") || pathname.startsWith("/savat") || pathname.startsWith("/marketplace") || pathname.startsWith("/buyurtmalarim")) return "market";
-  if (pathname.startsWith("/profil")) return "settings";
-  return "";
-}
-
 export function ClinicShell({ accent = "teal", children }: { accent?: "teal" | "blue"; children: ReactNode }) {
-  const pathname = usePathname() ?? "/";
-  const current = activeKey(pathname);
+  const profilActive = useProfilActive();
   const router = useRouter();
   const cart = useShopLineCount();
   const [query, setQuery] = useState("");
@@ -93,17 +37,6 @@ export function ClinicShell({ accent = "teal", children }: { accent?: "teal" | "
     event.preventDefault();
     const q = query.trim();
     router.push(q ? `/marketplace?q=${encodeURIComponent(q)}` : "/marketplace");
-  }
-
-  function nav(item: Item) {
-    const Icon = item.icon;
-    const className = current === item.key ? "sh-nav cl-sub active" : "sh-nav cl-sub";
-    return (
-      <Link key={item.key} className={className} href={item.href} title={item.label}>
-        <Icon className="i" />
-        <span>{item.label}</span>
-      </Link>
-    );
   }
 
   return (
@@ -181,28 +114,11 @@ export function ClinicShell({ accent = "teal", children }: { accent?: "teal" | "
       </header>
       <div className="sh-body">
         <aside className="sh-side">
-          <div className="sh-side-nav">
-            <div className="sh-group">
-              <h4>Do‘kon</h4>
-              {shop.map(nav)}
-            </div>
-            <div className="sh-group">
-              <h4>Ta’lim</h4>
-              {edu.map(nav)}
-            </div>
-            <div className="sh-group">
-              <h4>Klinika</h4>
-              <Link className={current === "clinic" ? "sh-nav active" : "sh-nav"} href="/mening-klinikam">
-                <Hospital className="i" />
-                <span>Mening klinikam</span>
-              </Link>
-              {clinic.map(nav)}
-            </div>
-          </div>
+          <ShNavTree />
           <div className="cl-foot">
-            <Link className={current === "settings" ? "sh-nav active" : "sh-nav"} href="/profil">
-              <Settings className="i" />
-              <span>Sozlamalar</span>
+            <Link className={profilActive ? "sh-nav active" : "sh-nav"} href="/profil">
+              <UserRound className="i" />
+              <span>Profil</span>
             </Link>
             <button type="button" className="sh-nav" data-testid="shell-help" onClick={() => setHelp((value) => !value)}>
               <HelpCircle className="i" />
