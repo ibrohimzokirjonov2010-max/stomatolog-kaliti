@@ -3,7 +3,8 @@
 import { useEffect, useRef, useState, type ReactNode } from "react";
 import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
-import { AlertTriangle, CalendarPlus, Check, ChevronLeft, CreditCard, Minus, Pencil, Phone, Plus, QrCode, Trash2, Wallet, X } from "lucide-react";
+import { AlertTriangle, CalendarPlus, Check, ChevronDown, ChevronLeft, CreditCard, Minus, Pencil, Phone, Plus, QrCode, Trash2, UserRound, Wallet, X } from "lucide-react";
+import { ToothChart, ToothLegend } from "@/components/phone14/teeth";
 import { Sheet } from "@/components/phone14/chrome";
 import {
   PHONE_APPTS_KEY,
@@ -19,16 +20,6 @@ import {
 import { formatGroupedNumber } from "@/lib/format";
 
 const CLINIC_TODAY = new Date(2024, 9, 17);
-const ADULT = [
-  ["18", "17", "16", "15", "14", "13", "12", "11", "21", "22", "23", "24", "25", "26", "27", "28"],
-  ["48", "47", "46", "45", "44", "43", "42", "41", "31", "32", "33", "34", "35", "36", "37", "38"],
-];
-const BABY = [
-  ["55", "54", "53", "52", "51", "61", "62", "63", "64", "65"],
-  ["85", "84", "83", "82", "81", "71", "72", "73", "74", "75"],
-];
-const KIND: Record<string, string> = { "16": "implant", "14": "plomba", "11": "endo", "26": "krona", "31": "implant", "36": "plomba" };
-const KIND_COLOR: Record<string, string> = { sog: "#e8eef5", plomba: "#f5c518", endo: "#ef4444", krona: "#7c5cfc", implant: "#2f6bff", gone: "#94a3b8", pick: "#0E8F94" };
 const DOCTORS = ["Dr. Ibrohim", "Dr. Aziza", "Dr. Kamron"];
 const CITIES = ["Toshkent", "Samarqand", "Buxoro", "Andijon", "Namangan", "Farg‘ona"];
 const SOURCES = ["Telegram / Instagram", "Do‘stlar", "Google", "Tavsiya", "Boshqa"];
@@ -102,41 +93,16 @@ function Field({ label, required, error, children }: { label: string; required?:
   );
 }
 
-function ToothSvg({ kind, selected }: { kind?: string; selected?: boolean }) {
-  const fill = selected ? KIND_COLOR.pick : KIND_COLOR[kind || "sog"] || "#fff";
-  const stroke = kind || selected ? fill : "#c5d0e0";
+function SelectBox({ label, value, onChange, options, icon, avatar }: { label: string; value: string; onChange: (value: string) => void; options: { value: string; label: string }[]; icon?: ReactNode; avatar?: string }) {
   return (
-    <svg viewBox="0 0 32 40" aria-hidden="true">
-      <path d="M16 3c5 0 9 3.5 9 9 0 3-.8 6-1.6 10-.8 5-1.6 10-2.4 12-.6 1.2-1.6 1.4-2.4.2-1-2.2-1.6-7-1.6-12V14c0 5-.6 9.8-1.6 12-.8 1.2-1.8 1-2.4-.2-.8-2-1.6-7-2.4-12C7.8 18 7 15 7 12c0-5.5 4-9 9-9z" fill={kind || selected ? fill : "#fff"} stroke={stroke} strokeWidth="1.6" />
-    </svg>
-  );
-}
-
-function ToothChart({ mode, selected, onToggle, palette }: { mode: "katta" | "bola"; selected?: string[]; onToggle?: (id: string) => void; palette?: boolean }) {
-  const rows = mode === "katta" ? ADULT : BABY;
-  return (
-    <div className="teeth" aria-label="Tish kartasi">
-      {rows.map((row) => (
-        <div key={row[0]} className="crm-arch">
-          {row.map((id) => {
-            const on = selected?.includes(id);
-            const kind = palette ? KIND[id] : undefined;
-            return (
-              <button key={id} type="button" className={on ? "crm-tooth on" : "crm-tooth"} aria-pressed={on} aria-label={`Tish ${id}`} onClick={() => onToggle?.(id)}>
-                <ToothSvg kind={kind} selected={on && !kind} />
-                <small>{id}</small>
-              </button>
-            );
-          })}
-        </div>
-      ))}
+    <div className="crm-select">
+      {avatar ? <img src={avatar} alt="" /> : icon}
+      <select aria-label={label} value={value} onChange={(event) => onChange(event.target.value)}>
+        {options.map((item) => <option key={item.value} value={item.value}>{item.label}</option>)}
+      </select>
+      <ChevronDown />
     </div>
   );
-}
-
-function Legend() {
-  const items = [["#d5dee8", "Sog‘lom"], ["#f5c518", "Plomba"], ["#ef4444", "Endo"], ["#7c5cfc", "Krona"], ["#2f6bff", "Implant"], ["#94a3b8", "Olib tashlangan"]];
-  return <p className="crm-legend">{items.map(([color, label]) => <span key={label}><i style={{ background: color }} />{label}</span>)}</p>;
 }
 
 export function PhoneAddPatient() {
@@ -221,9 +187,12 @@ export function PhoneAddPatient() {
       {photoError ? <p className="crm-err">{photoError}</p> : null}
       <Field label="Telefon" required error={errors.phone}>
         <span className="crm-phone">
-          <select aria-label="Kod" value={form.prefix} onChange={(event) => setForm({ ...form, prefix: event.target.value })}>
-            <option>+998</option><option>+7</option><option>+1</option>
-          </select>
+          <span className="crm-select">
+            <select aria-label="Kod" value={form.prefix} onChange={(event) => setForm({ ...form, prefix: event.target.value })}>
+              <option>+998</option><option>+7</option><option>+1</option>
+            </select>
+            <ChevronDown />
+          </span>
           <input inputMode="tel" placeholder="90 123 45 67" value={form.phone} onChange={(event) => setForm({ ...form, phone: event.target.value })} />
         </span>
       </Field>
@@ -238,12 +207,12 @@ export function PhoneAddPatient() {
         </Field>
       </div>
       <Field label="Shahar" required error={errors.city}>
-        <select value={form.city} onChange={(event) => setForm({ ...form, city: event.target.value })}>{CITIES.map((item) => <option key={item}>{item}</option>)}</select>
+        <SelectBox label="Shahar" value={form.city} onChange={(value) => setForm({ ...form, city: value })} options={CITIES.map((item) => ({ value: item, label: item }))} icon={<UserRound />} />
       </Field>
       <Field label="Manzil"><input placeholder="Manzilni kiriting (ko‘cha, uy, xonadon)" value={form.address} onChange={(event) => setForm({ ...form, address: event.target.value })} /></Field>
       <Field label="Email"><input type="email" placeholder="example@mail.com" value={form.email} onChange={(event) => setForm({ ...form, email: event.target.value })} /></Field>
       <Field label="Qayerdan bildi?" required error={errors.source}>
-        <select value={form.source} onChange={(event) => setForm({ ...form, source: event.target.value })}>{SOURCES.map((item) => <option key={item}>{item}</option>)}</select>
+        <SelectBox label="Qayerdan bildi" value={form.source} onChange={(value) => setForm({ ...form, source: value })} options={SOURCES.map((item) => ({ value: item, label: item }))} icon={<ChevronDown />} />
       </Field>
       <div>
         <b>Allergiya va kasalliklar</b>
@@ -314,14 +283,19 @@ export function PhonePatientProfile({ id }: { id: string }) {
             <span className="seg two"><button type="button" className={dent === "katta" ? "on" : undefined} onClick={() => setDent("katta")}>Katta</button><button type="button" className={dent === "bola" ? "on" : undefined} onClick={() => setDent("bola")}>Bola</button></span>
           </div>
           <ToothChart mode={dent} palette={dent === "katta" && malika} />
-          <Legend />
+          <ToothLegend />
         </section>
       ) : null}
       {tab === "Umumiy" ? (
         <>
           <div className="mini-cards">
             <article><small>Balans</small><b>{money(malika ? 8_000_000 : 0)}</b></article>
-            <article><small>To‘lov holati</small><b style={{ color: "#e11d48" }}>Qarzdor</b><span className="spec">33%</span><span className="bar"><i style={{ width: "33%", background: "#ef4444" }} /></span></article>
+            <article>
+              <small>To‘lov holati</small>
+              <b style={{ color: "#e11d48" }}>Qarzdor</b>
+              <span className="meter" aria-hidden="true"><i style={{ width: "33%", background: "#ef4444" }} /></span>
+              <span className="spec">33%</span>
+            </article>
           </div>
           <p className="spec">Umumiy: {money(malika ? 12_000_000 : 0)} · Qarz: {money(malika ? 8_000_000 : 0)}</p>
           <p className="spec">To‘langan: {money(malika ? 4_000_000 : 0)} · To‘langan: 33%</p>
@@ -412,11 +386,11 @@ export function PhoneAddAppointment() {
         </article>
       ) : null}
       <div className="crm-split">
-        <Field label="Shifokor" required error={errors.doctor}><select value={doctor} onChange={(event) => setDoctor(event.target.value)}>{DOCTORS.map((item) => <option key={item}>{item}</option>)}</select></Field>
-        <Field label="Kreslo" required error={errors.chair}><select value={chair} onChange={(event) => setChair(event.target.value)}>{["Kreslo 1", "Kreslo 2", "Kreslo 3"].map((item) => <option key={item}>{item}</option>)}</select></Field>
+        <Field label="Shifokor" required error={errors.doctor}><SelectBox label="Shifokor" value={doctor} onChange={setDoctor} options={DOCTORS.map((item) => ({ value: item, label: item }))} icon={<UserRound />} /></Field>
+        <Field label="Kreslo" required error={errors.chair}><SelectBox label="Kreslo" value={chair} onChange={setChair} options={["Kreslo 1", "Kreslo 2", "Kreslo 3"].map((item) => ({ value: item, label: item }))} icon={<UserRound />} /></Field>
       </div>
       <Field label="Xizmat" required error={errors.service}>
-        <select value={service} onChange={(event) => setService(event.target.value)}>{STARTER.map((item) => <option key={item.id}>{item.name}</option>)}<option>Professional gigiyena</option></select>
+        <SelectBox label="Xizmat" value={service} onChange={setService} options={[...STARTER.map((item) => item.name), "Professional gigiyena"].map((item) => ({ value: item, label: item }))} icon={<Wallet />} />
       </Field>
       <Field label="Sana" required error={errors.day}>
         <span className="crm-days">
@@ -491,13 +465,11 @@ export function PhoneAddPlan() {
   return (
     <FormScreen title="Yangi davolash rejasi" subtitle="Davolash reja ma’lumotlarini kiriting" back="/crm/davolash-rejalari" testId="phone-reja-qoshish">
       <Field label="Bemor" required error={errors.patient}>
-        <select value={patientId} onChange={(event) => setPatientId(event.target.value)}>
-          {people.map((item) => <option key={item.id} value={item.id}>{item.name}</option>)}
-        </select>
+        <SelectBox label="Bemor" value={patientId} onChange={setPatientId} avatar={people.find((item) => item.id === patientId)?.avatar} options={people.map((item) => ({ value: item.id, label: item.name }))} />
       </Field>
       <p className="spec">ID: #{patientId === "b-0012" ? "B-1024" : people.find((item) => item.id === patientId)?.num} · {people.find((item) => item.id === patientId)?.phone}</p>
       <div className="crm-split">
-        <Field label="Shifokor" required error={errors.doctor}><select value={doctor} onChange={(event) => setDoctor(event.target.value)}>{DOCTORS.map((item) => <option key={item}>{item}</option>)}</select></Field>
+        <Field label="Shifokor" required error={errors.doctor}><SelectBox label="Shifokor" value={doctor} onChange={setDoctor} options={DOCTORS.map((item) => ({ value: item, label: item }))} icon={<UserRound />} /></Field>
         <Field label="Reja nomi" required error={errors.title}><input value={title} onChange={(event) => setTitle(event.target.value)} /></Field>
       </div>
       <div className="p14-head">
@@ -506,7 +478,7 @@ export function PhoneAddPlan() {
       </div>
       <span className="seg two"><button type="button" className={dent === "katta" ? "on" : undefined} onClick={() => setDent("katta")}>Katta</button><button type="button" className={dent === "bola" ? "on" : undefined} onClick={() => setDent("bola")}>Bola</button></span>
       <ToothChart mode={dent} palette={dent === "katta"} selected={picked} onToggle={(id) => setPicked((prev) => prev.includes(id) ? prev.filter((item) => item !== id) : [...prev, id])} />
-      <Legend />
+      <ToothLegend />
       <b>Xizmatlar</b>
       <table className="crm-table">
         <thead><tr><th>Xizmat</th><th>Tish</th><th>Soni</th><th>Narx</th><th>Jami</th><th /></tr></thead>
@@ -529,18 +501,19 @@ export function PhoneAddPlan() {
         <button type="button" className={discountOn ? "crm-switch on" : "crm-switch"} aria-pressed={discountOn} onClick={() => setDiscountOn(!discountOn)}><i /></button>
       </div>
       {discountOn ? (
-        <div className="crm-split">
-          <span className="seg two">
-            <button type="button" className={mode === "%" ? "on" : undefined} onClick={() => setMode("%")}>%</button>
-            <button type="button" className={mode === "so‘m" ? "on" : undefined} onClick={() => setMode("so‘m")}>so‘m</button>
-          </span>
-          {mode === "%" ? <input aria-label="Chegirma foizi" value={percent} onChange={(event) => setPercent(Number(event.target.value) || 0)} /> : <input aria-label="Chegirma summasi" value={sumOff} onChange={(event) => setSumOff(Number(event.target.value.replace(/\D/g, "")) || 0)} />}
-          <b>{money(discount)}</b>
+        <div className="list">
+          <div className="crm-split">
+            <span className="seg two">
+              <button type="button" className={mode === "%" ? "on" : undefined} onClick={() => setMode("%")}>%</button>
+              <button type="button" className={mode === "so‘m" ? "on" : undefined} onClick={() => setMode("so‘m")}>so‘m</button>
+            </span>
+            {mode === "%" ? <input aria-label="Chegirma foizi" value={percent} onChange={(event) => setPercent(Number(event.target.value) || 0)} /> : <input aria-label="Chegirma summasi" value={formatGroupedNumber(sumOff)} onChange={(event) => setSumOff(Number(event.target.value.replace(/\D/g, "")) || 0)} />}
+          </div>
+          <div className="green-card">{money(discount)}</div>
         </div>
       ) : null}
       <article className="p14-card">
-        <div className="p14-head"><span>Jami summa</span><b style={{ color: "#0E8F94" }}>{money(total)}</b></div>
-        <p className="spec">{rows.length} ta xizmat · {teeth.size} ta tish</p>
+        <div className="p14-head"><span>Jami summa<small className="spec">{rows.length} ta xizmat · {teeth.size} ta tish</small></span><b style={{ color: "#0E8F94", whiteSpace: "nowrap" }}>{money(total)}</b></div>
       </article>
       <button type="button" className="crm-save" onClick={save}>Saqlash</button>
     </FormScreen>
@@ -586,14 +559,11 @@ export function PhoneAddPayment() {
   return (
     <FormScreen title="Yangi to‘lov qo‘shish" subtitle="To‘lov ma’lumotlarini kiriting" back="/crm/tolovlar" testId="phone-tolov-qoshish">
       <Field label="Bemor" required error={errors.patient}>
-        <select value={patientId} onChange={(event) => setPatientId(event.target.value)}>{people.map((item) => <option key={item.id} value={item.id}>{item.name}</option>)}</select>
+        <SelectBox label="Bemor" value={patientId} onChange={setPatientId} avatar={people.find((item) => item.id === patientId)?.avatar} options={people.map((item) => ({ value: item.id, label: item.name }))} />
       </Field>
       {patient ? <p className="spec">ID: #{patient.id === "b-0012" ? "B-1024" : patient.num} · {patient.phone}</p> : null}
       <Field label="Davolash rejasi" required error={errors.plan}>
-        <select value={plan} onChange={(event) => setPlan(event.target.value)}>
-          <option>Kompleks davolash</option>
-          <option>Implant va protetik davolash</option>
-        </select>
+        <SelectBox label="Davolash rejasi" value={plan} onChange={setPlan} options={["Kompleks davolash", "Implant va protetik davolash"].map((item) => ({ value: item, label: item }))} icon={<Wallet />} />
       </Field>
       <p className="spec">ID: #R-001 · 12 ta xizmat · 5 ta tish</p>
       <article className="debt">

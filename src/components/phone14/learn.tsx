@@ -110,7 +110,7 @@ export function PhoneSpecialists() {
       </div>
       <div className="list">
         {items.length === 0 ? <p className="p14-empty">Mutaxassis topilmadi</p> : items.map((item) => (
-          <article key={item.id} className="p14-card spec">
+          <article key={item.id} className="p14-card spec-card">
             <Link href={`/mutaxassislar/${item.id}`} className="ava">
               <img src={item.image} alt="" />
               <i className={item.online ? "dot" : "dot off"} />

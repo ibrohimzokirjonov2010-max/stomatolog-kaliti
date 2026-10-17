@@ -5,6 +5,7 @@ import Link from "next/link";
 import { Download, Eye, Filter, MessageCircle, Phone, Plus, QrCode, Share2, SlidersHorizontal } from "lucide-react";
 import QRCode from "qrcode";
 import { PhoneFrame, SearchBox, Sheet } from "@/components/phone14/chrome";
+import { ToothChart, ToothLegend } from "@/components/phone14/teeth";
 import { PHONE_APPTS_KEY, PHONE_PATIENTS_KEY, PHONE_PAYS_KEY, PHONE_PLANS_KEY, phoneAppts, phoneCerts, phoneLate, phonePatients, phonePayments, phoneStock, planStages, readPhoneStore, type PhonePatient } from "@/data/phone14";
 import { certificatesFromTickets } from "@/data/certificates";
 import { loadSeminarTickets } from "@/lib/seminar-tickets";
@@ -308,24 +309,6 @@ export function PhoneAppointments() {
   );
 }
 
-const UPPER = ["18", "17", "16", "15", "14", "13", "12", "11", "21", "22", "23", "24", "25", "26", "27", "28"];
-const LOWER = ["48", "47", "46", "45", "44", "43", "42", "41", "31", "32", "33", "34", "35", "36", "37", "38"];
-const TOOTH: Record<string, "implant" | "endo" | "plomba"> = { "16": "implant", "14": "endo", "26": "implant", "31": "implant", "36": "plomba" };
-
-function Tooth({ id }: { id: string }) {
-  const state = TOOTH[id];
-  const fill = state === "implant" ? "#0066FF" : state === "endo" ? "#ef4444" : state === "plomba" ? "#f5c518" : "#fff";
-  const stroke = state ? fill : "#c5d0e0";
-  return (
-    <span className="tooth" aria-label={`Tish ${id}`}>
-      <svg viewBox="0 0 32 40">
-        <path d="M16 3c5 0 9 3.5 9 9 0 3-.8 6-1.6 10-.8 5-1.6 10-2.4 12-.6 1.2-1.6 1.4-2.4.2-1-2.2-1.6-7-1.6-12V14c0 5-.6 9.8-1.6 12-.8 1.2-1.8 1-2.4-.2-.8-2-1.6-7-2.4-12C7.8 18 7 15 7 12c0-5.5 4-9 9-9z" fill={fill} stroke={stroke} strokeWidth="1.4" />
-      </svg>
-      <small>{id}</small>
-    </span>
-  );
-}
-
 export function PhonePlans() {
   const [q, setQ] = useState("");
   const [tab, setTab] = useState("Barchasi");
@@ -369,19 +352,8 @@ export function PhonePlans() {
           <article className="p14-card">
             <div className="p14-head"><b>Implant va protetik davolash</b><span className="pill blue">Davom etmoqda</span></div>
             <p className="spec">Reja raqami DP-2024-001 · 12 okt 2024</p>
-            <div className="teeth" aria-label="Tish kartasi">
-              <div className="arch">{UPPER.slice(0, 8).map((id) => <Tooth key={id} id={id} />)}</div>
-              <div className="arch">{UPPER.slice(8).map((id) => <Tooth key={id} id={id} />)}</div>
-              <div className="arch">{LOWER.slice(0, 8).map((id) => <Tooth key={id} id={id} />)}</div>
-              <div className="arch">{LOWER.slice(8).map((id) => <Tooth key={id} id={id} />)}</div>
-            </div>
-            <p className="tags" style={{ marginTop: 8 }}>
-              <i style={{ color: "#0066ff" }}>Implant</i>
-              <i style={{ color: "#ef4444" }}>Endodontiya</i>
-              <i style={{ color: "#d4a017" }}>Plomba</i>
-              <i>Protez</i>
-              <i>Rejalashtirilgan</i>
-            </p>
+            <ToothChart palette />
+            <ToothLegend />
           </article>
           <section>
             <div className="p14-head"><h2 style={{ margin: 0, fontSize: "1.05rem" }}>Davolash bosqichlari</h2><b>Umumiy summa 12 500 000 so‘m</b></div>

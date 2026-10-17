@@ -2,7 +2,7 @@
 
 import { useMemo, useState } from "react";
 import Link from "next/link";
-import { Bell, CalendarRange, ChevronRight, Home, MoreHorizontal, Stethoscope, TrendingUp, Users, Wallet } from "lucide-react";
+import { Bell, CalendarRange, ChevronDown, ChevronRight, Home, MoreHorizontal, Stethoscope, TrendingUp, Users, Wallet } from "lucide-react";
 import { Sheet } from "@/components/phone14/chrome";
 import { formatGroupedNumber } from "@/lib/format";
 
@@ -20,10 +20,12 @@ const SERVICES = [
 const METHODS = [
   { name: "Naqd", pct: 45, color: "#0E8F94" },
   { name: "Karta", pct: 28, color: "#2F6BFF" },
-  { name: "Click", pct: 15, color: "#7C5CFC" },
+  { name: "Click", pct: 15, color: "#F5A524" },
   { name: "Payme", pct: 8, color: "#22A06B" },
   { name: "O‘tkazma", pct: 4, color: "#94A3B8" },
 ];
+
+const OCTOBER = [2891566, 2891566, 3614458, 4939759, 5903614, 6385542, 5301205, 5180723, 6265060, 8313253, 8554217, 7469880, 7590361, 8554217, 10000000, 10240964, 9879518, 10722892, 11566265, 13493976, 14819277, 12289157, 10361446, 11204819, 13373494, 15783133, 17831325, 17108434, 16024096, 16867470, 17831325];
 
 const DOCTORS = [
   { name: "Dr. Ibrohim", amount: 52400000, photo: "/img/phone14/doc-0.png" },
@@ -70,11 +72,7 @@ function series(period: Period) {
   if (period === "3 oy") return { labels: ["Avg", "Sen", "Okt"], values: [98, 112, 128].map((v) => v * 1_000_000), max: 160_000_000 };
   if (period === "Yil") return { labels: ["Yan", "Mar", "May", "Iyl", "Sen", "Okt"], values: [72, 81, 90, 96, 110, 128].map((v) => v * 1_000_000), max: 160_000_000 };
   if (period === "Barcha davr") return { labels: ["2022", "2023", "2024"], values: [640, 890, 1120].map((v) => v * 1_000_000), max: 1_400_000_000 };
-  const values = Array.from({ length: 31 }, (_, i) => {
-    const d = i + 1;
-    return Math.round((7.2 + Math.sin(d / 2.4) * 4.2 + d / 7.5) * 1_000_000);
-  });
-  return { labels: ["1 okt", "5 okt", "10 okt", "15 okt", "20 okt", "25 okt", "31 okt"], values, max: 20_000_000 };
+  return { labels: ["1 okt", "5 okt", "10 okt", "15 okt", "20 okt", "25 okt", "31 okt"], values: OCTOBER, max: 20_000_000 };
 }
 
 function AreaChart({ values, labels, max }: { values: number[]; labels: string[]; max: number }) {
@@ -184,12 +182,17 @@ export function PhoneReports() {
     <div className="p14 rpt lg:hidden" data-testid="phone-hisobotlar">
       <header className="rpt-top">
         <Link href="/mening-klinikam" className="rpt-brand">
-          <span className="rpt-mark">S</span>
+          <span className="rpt-mark" aria-hidden="true">
+            <svg viewBox="0 0 32 32" width="18" height="18"><path d="M16 4c4 0 8 3 8 8 0 2-.4 4-1 6-.6 3-1 6-1.4 8-.3 1.2-.8 1.4-1.2.2-.5-1.4-.8-4-.8-6v-2c0 2-.3 4.6-.8 6-.4 1.2-.9 1-1.2-.2C16.2 22 16 19 16 16c0 3-.2 6-.6 8-.3 1.2-.8 1.4-1.2.2-.5-1.4-.8-4-.8-6v2c0 2-.3 4.6-.8 6-.4 1.2-.9 1-1.2-.2C10 22 9.6 19 9 16c-.6-2-1-4-1-6 0-5 4-8 8-8z" fill="#fff"/></svg>
+          </span>
           <span><b>StomaHub</b><small>Mening klinikam</small></span>
         </Link>
-        <select className="rpt-city" aria-label="Shahar" value={city} onChange={(event) => setCity(event.target.value)}>
-          {Object.keys(CITY_FACTOR).map((item) => <option key={item}>{item}</option>)}
-        </select>
+        <span className="crm-select" style={{ width: "auto", height: "calc(2.8 * var(--u))" }}>
+          <select aria-label="Shahar" value={city} onChange={(event) => setCity(event.target.value)}>
+            {Object.keys(CITY_FACTOR).map((item) => <option key={item}>{item}</option>)}
+          </select>
+          <ChevronDown size={14} />
+        </span>
         <button type="button" className="rpt-ico rpt-bell" aria-label="Bildirishnomalar" onClick={() => setOpen("bell")}>
           <Bell />
           <i className="dot" />
@@ -229,8 +232,8 @@ export function PhoneReports() {
         <section className="p14-card">
           <div className="rpt-sec"><b>To‘lov usullari</b><button type="button" onClick={() => setOpen("methods")}>Batafsil</button></div>
           <Donut total={money(income)} />
-          <div className="crm-legend">
-            {METHODS.map((item) => <span key={item.name}><i style={{ background: item.color }} />{item.name} {item.pct}%</span>)}
+          <div className="rpt-legend">
+            {METHODS.map((item) => <span key={item.name}><i style={{ background: item.color, width: 8, height: 8, borderRadius: 99, display: "inline-block" }} />{item.name}<b>{item.pct}%</b></span>)}
           </div>
         </section>
       </div>
@@ -241,7 +244,7 @@ export function PhoneReports() {
             <article key={item.name} className="rpt-doc">
               <img src={item.photo} alt="" />
               <span><b>{item.name}</b><span className="track" style={{ display: "block", height: 4, background: "#e7eef5", borderRadius: 99 }}><i style={{ display: "block", height: "100%", width: `${(item.amount / maxDoctor) * 100}%`, background: "#0E8F94", borderRadius: 99 }} /></span></span>
-              <b>{money(item.amount)} so‘m</b>
+              <b className="amt">{money(item.amount)} so‘m</b>
             </article>
           ))}
         </div>
