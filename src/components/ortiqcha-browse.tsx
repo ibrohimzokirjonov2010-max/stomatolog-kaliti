@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { useSearchParams } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { OrtiqchaDesktop } from "@/components/ortiqcha-desktop";
 import { ContactForm, Modal, PostForm } from "@/components/surplus-forms";
 import { SurplusMobileCatalog } from "@/components/surplus/mobile/SurplusMobileCatalog";
@@ -11,6 +11,7 @@ import type { SurplusListing } from "@/data/surplus";
 type ModalKind = "post" | "contact" | "edit" | null;
 
 export function OrtiqchaBrowse() {
+  const router = useRouter();
   const params = useSearchParams();
   const q = (params.get("q") ?? "").trim().toLowerCase();
   const { feed } = useSurplusWork();
@@ -32,10 +33,7 @@ export function OrtiqchaBrowse() {
           feed={feed}
           q={q}
           added={added}
-          onPost={() => {
-            setActive(null);
-            setModal("post");
-          }}
+          onPost={() => router.push("/ortiqcha-material/yangi")}
           onContact={(listing) => {
             setActive(listing);
             setModal("contact");

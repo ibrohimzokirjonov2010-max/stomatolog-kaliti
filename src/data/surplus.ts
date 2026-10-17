@@ -66,6 +66,12 @@ export type SurplusListing = {
   modStatus?: string;
   rejectReason?: string | null;
   interestCount?: number;
+  /** Seller-entered quantity, kept for the listing form and local demo rows. */
+  qty?: number;
+  unit?: string;
+  holatiLabel?: string;
+  /** Saved in this browser when the surplus API is unavailable. */
+  localDemo?: boolean;
 };
 
 /** Categories offered in the post form + desktop category row (order matches the design). */

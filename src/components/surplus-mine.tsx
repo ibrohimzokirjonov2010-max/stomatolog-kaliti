@@ -63,7 +63,8 @@ export function SurplusMinePage() {
             <h1 className="text-[26px] font-bold tracking-tight text-[#0B1F4D] lg:text-[#1a1d26]">Mening e’lonlarim</h1>
             <p className="mt-1 text-sm text-[#8b93a7]">E’lonlaringiz, kelgan bog‘lanish so‘rovlari va o‘zingiz yuborgan so‘rovlar.</p>
           </div>
-          <Button className="h-11 !rounded-xl px-4" onClick={() => setCreating(true)}>E’lon joylash</Button>
+          <Link href="/ortiqcha-material/yangi" className={cn(buttonVariants(), "hidden h-11 !rounded-xl px-4 lg:inline-flex")}>+ E’lon joylash</Link>
+          <Button className="h-11 !rounded-xl px-4 lg:hidden" onClick={() => setCreating(true)}>E’lon joylash</Button>
         </div>
         <div className="mt-3">
           <TabBar
@@ -78,7 +79,7 @@ export function SurplusMinePage() {
         </div>
       </header>
 
-      {ready && !authed ? (
+      {ready && !authed && items.length === 0 ? (
         <Gate title="Kirish talab qilinadi" text="E’lonlar va so‘rovlar shaxsiy — ko‘rish uchun tizimga kiring." next="/ortiqcha-material/elonlarim" />
       ) : !ready ? (
         <p className="py-16 text-center text-sm text-[#8b93a7]">Yuklanmoqda…</p>
