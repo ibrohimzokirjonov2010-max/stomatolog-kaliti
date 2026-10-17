@@ -60,7 +60,7 @@ const sideMain: FrameLink[] = [
   { key: "seminars", label: "Seminarlar", href: "/seminarlar", icon: CalendarDays },
   { key: "masters", label: "Ustalar", href: "/ustalar", icon: UserRound },
   { key: "books", label: "Kitoblar", href: "/kitoblar", icon: BookOpen },
-  { key: "cats", label: "Kategoriyalar", href: "/marketplace", icon: LayoutGrid },
+  { key: "cats", label: "Kategoriyalar", href: "/kategoriyalar", icon: LayoutGrid },
   { key: "brands", label: "Brendlar", href: "/marketplace/brendlar", icon: Tag },
   { key: "sale", label: "Aksiyalar", href: "/marketplace/aksiyalar", icon: BadgePercent },
 ];
@@ -98,7 +98,7 @@ export function OnlaynDarslarDesktop() {
       active="courses"
       headerLinks={headerLinks}
       headerActive="talim"
-      searchPlaceholder="Onlayn darslar, mavzular yoki o‘qituvchini qidiring"
+      searchPlaceholder="Onlayn darslar, mavzular yoki o‘qituvchini qidiring..."
       headerQuery={q}
       onHeaderQuery={setQ}
       sideMain={sideMain}
@@ -107,7 +107,7 @@ export function OnlaynDarslarDesktop() {
       promoTitle="Bilimingizni oshiring!"
       promoText="Stomatologiya bo‘yicha eng yaxshi onlayn darslar"
       promoCta="Barcha kurslar"
-      promoImage="/img/hub/books-stack.svg"
+      promoImage="/img/design-pr13/promo/books.png"
       promoIcon={<GraduationCap className="od-cap i" />}
       promoClass="od-promo"
       onPromo={reset}

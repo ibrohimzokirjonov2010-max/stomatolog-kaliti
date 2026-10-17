@@ -69,7 +69,7 @@ export const designCertificates: Certificate[] = [
   },
   {
     id: "cert-cad",
-    title: "Raqamli stomatologiya: skanerlar va CAD/CAM",
+    title: "Raqamli stomatologiya: skanerlash va CAD/CAM",
     type: "vebinar",
     typeLabel: "Vebinar",
     teacher: "Dr. Bobur Tursunov",

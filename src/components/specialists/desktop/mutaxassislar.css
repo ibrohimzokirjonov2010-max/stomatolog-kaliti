@@ -1,10 +1,10 @@
 .sh .mx-head { display: flex; align-items: flex-start; justify-content: space-between; gap: calc(.6 * var(--u)); }
-.sh .mx-head h1 { margin: 0; font-size: calc(1.45 * var(--u)); letter-spacing: -.02em; }
-.sh .mx-head p { margin: calc(.1 * var(--u)) 0 0; color: #6a7c93; font-size: calc(.72 * var(--u)); }
+.sh .mx-head h1 { margin: 0; font-size: calc(3.05 * var(--u)); line-height: 1.15; letter-spacing: -.02em; }
+.sh .mx-head p { margin: calc(.1 * var(--u)) 0 0; color: #6a7c93; font-size: calc(.92 * var(--u)); font-weight: 500; }
 .sh .mx-badges { display: flex; gap: calc(.4 * var(--u)); flex: none; }
 .sh .mx-badges .brd-badge b, .sh .mx-badges .brd-badge span { white-space: nowrap; }
 
-.sh .mx-tools { display: flex; gap: calc(.4 * var(--u)); margin: calc(.55 * var(--u)) 0 calc(.45 * var(--u)); }
+.sh .mx-tools { display: flex; gap: calc(.4 * var(--u)); margin: calc(2.4 * var(--u)) 0 calc(1.5 * var(--u)); }
 .sh .mx-search {
   flex: 1.6;
   min-width: 0;
@@ -47,35 +47,35 @@
   appearance: none;
 }
 
-.sh .mx-chips { display: flex; gap: calc(.28 * var(--u)); margin-bottom: calc(.55 * var(--u)); }
+.sh .mx-chips { display: flex; gap: calc(.28 * var(--u)); margin-bottom: calc(2 * var(--u)); }
 .sh .mx-chips button {
   flex: none;
-  height: calc(1.65 * var(--u));
-  padding: 0 calc(.58 * var(--u));
+  height: calc(2 * var(--u));
+  padding: 0 calc(.7 * var(--u));
   border-radius: calc(1 * var(--u));
   background: #fff;
   border: 1px solid #e6edf5;
   color: #3d4f6a;
-  font-size: calc(.56 * var(--u));
-  font-weight: 700;
+  font-size: calc(.92 * var(--u));
+  font-weight: 650;
   white-space: nowrap;
 }
 .sh .mx-chips button.on { background: #0066ff; border-color: #0066ff; color: #fff; }
 
-.sh .mx-grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: calc(.5 * var(--u)); }
+.sh .mx-grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: calc(.85 * var(--u)); }
 .sh .mx-card {
   position: relative;
   background: #fff;
   border: 1px solid #e8eef6;
-  border-radius: calc(.6 * var(--u));
+  border-radius: calc(.7 * var(--u));
   padding: calc(.4 * var(--u));
   min-width: 0;
-  box-shadow: 0 calc(.06 * var(--u)) calc(.3 * var(--u)) rgba(20, 40, 80, .04);
+  box-shadow: 0 calc(.12 * var(--u)) calc(.7 * var(--u)) rgba(20, 40, 80, .08);
   display: flex;
   flex-direction: column;
 }
 .sh .mx-card:hover { border-color: #c5d9ff; }
-.sh .mx-ph { position: relative; height: calc(12.4 * var(--u)); border-radius: calc(.45 * var(--u)); background: #e8eef6; overflow: hidden; }
+.sh .mx-ph { position: relative; height: calc(10.8 * var(--u)); border-radius: calc(.45 * var(--u)); background: #e8eef6; overflow: hidden; }
 .sh .mx-ph img { width: 100%; height: 100%; object-fit: cover; object-position: center 20%; }
 .sh .mx-live {
   position: absolute;
@@ -110,12 +110,12 @@
 .sh .mx-heart .i { font-size: calc(.78 * var(--u)); }
 .sh .mx-heart.on { color: #ef3b3b; }
 .sh .mx-heart.on .i { fill: currentColor; }
-.sh .mx-card h3 { margin: calc(.4 * var(--u)) 0 0; font-size: calc(.72 * var(--u)); font-weight: 800; }
-.sh .mx-role { margin: calc(.04 * var(--u)) 0 0; color: #6a7c93; font-size: calc(.58 * var(--u)); }
-.sh .mx-rate { display: flex; align-items: center; gap: calc(.2 * var(--u)); margin-top: calc(.28 * var(--u)); font-size: calc(.58 * var(--u)); color: #5b6b82; }
-.sh .mx-rate .star { color: #f5b400; fill: #f5b400; font-size: calc(.72 * var(--u)); }
+.sh .mx-card h3 { margin: calc(.4 * var(--u)) 0 0; font-size: calc(1.07 * var(--u)); font-weight: 600; }
+.sh .mx-role { margin: calc(.04 * var(--u)) 0 0; color: #6a7c93; font-size: calc(.86 * var(--u)); font-weight: 500; }
+.sh .mx-rate { display: flex; align-items: center; gap: calc(.28 * var(--u)); margin-top: calc(.32 * var(--u)); font-size: calc(.86 * var(--u)); color: #5b6b82; }
+.sh .mx-rate .star { color: #f5b400; fill: #f5b400; font-size: calc(1 * var(--u)); }
 .sh .mx-rate b { color: #24344d; font-weight: 800; }
-.sh .mx-meta { display: grid; grid-template-columns: 1fr 1fr; gap: calc(.18 * var(--u)) calc(.3 * var(--u)); margin-top: calc(.35 * var(--u)); color: #5b6b82; font-size: calc(.54 * var(--u)); }
+.sh .mx-meta { display: grid; grid-template-columns: 1fr 1fr; gap: calc(.22 * var(--u)) calc(.35 * var(--u)); margin-top: calc(.4 * var(--u)); color: #5b6b82; font-size: calc(.8 * var(--u)); }
 .sh .mx-meta span { display: inline-flex; align-items: center; gap: calc(.18 * var(--u)); min-width: 0; }
 .sh .mx-meta .i { font-size: calc(.7 * var(--u)); color: #8b9bb0; }
 .sh .mx-actions { display: flex; gap: calc(.3 * var(--u)); margin-top: calc(.4 * var(--u)); }
@@ -147,11 +147,31 @@
 }
 .sh .brd-promo .mx-cap { color: #0066ff; font-size: calc(1.1 * var(--u)); }
 .sh .mx-promo b, .sh .mx-promo small { max-width: calc(8 * var(--u)); }
+.sh .mx-chat {
+  position: fixed;
+  right: calc(1.2 * var(--u));
+  bottom: calc(1.2 * var(--u));
+  z-index: 40;
+  width: calc(16 * var(--u));
+  background: #fff;
+  border-radius: calc(.55 * var(--u));
+  overflow: hidden;
+  box-shadow: 0 calc(.3 * var(--u)) calc(1.2 * var(--u)) rgba(15, 30, 60, .18);
+}
+.sh .mx-chat header { background: #0066ff; color: #fff; padding: calc(.5 * var(--u)) calc(.65 * var(--u)); display: flex; justify-content: space-between; align-items: center; font-size: calc(.68 * var(--u)); }
+.sh .mx-chat header button { color: #fff; }
+.sh .mx-chat .log { max-height: calc(12 * var(--u)); overflow: auto; padding: calc(.5 * var(--u)); display: flex; flex-direction: column; gap: calc(.3 * var(--u)); }
+.sh .mx-chat .log p { margin: 0; color: #6a7c93; font-size: calc(.54 * var(--u)); }
+.sh .mx-chat .msg { background: #f3f6fa; border-radius: calc(.4 * var(--u)); padding: calc(.35 * var(--u)) calc(.45 * var(--u)); font-size: calc(.6 * var(--u)); }
+.sh .mx-chat .msg.me { background: #e8f1ff; align-self: flex-end; }
+.sh .mx-chat form { display: flex; border-top: 1px solid #eef2f7; }
+.sh .mx-chat input { flex: 1; border: 0; outline: 0; padding: calc(.45 * var(--u)); font: inherit; font-size: calc(.62 * var(--u)); }
+.sh .mx-chat form button { padding: 0 calc(.55 * var(--u)); color: #0066ff; font-weight: 750; font-size: calc(.6 * var(--u)); }
 .sh .mx-promo img {
-  width: calc(6.2 * var(--u));
-  height: calc(6.6 * var(--u));
-  right: 0;
-  bottom: 0;
-  object-fit: cover;
-  object-position: center 40%;
+  width: calc(7.2 * var(--u));
+  height: calc(6.4 * var(--u));
+  right: calc(.15 * var(--u));
+  bottom: calc(.15 * var(--u));
+  object-fit: contain;
+  object-position: right bottom;
 }

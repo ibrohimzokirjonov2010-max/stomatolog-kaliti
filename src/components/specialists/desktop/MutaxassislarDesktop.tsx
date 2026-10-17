@@ -1,7 +1,7 @@
 "use client";
 /* eslint-disable @next/next/no-img-element -- specialist photos are fixed-size cards */
 
-import { useMemo, useState, type ReactNode } from "react";
+import { useState, useMemo, type FormEvent, type ReactNode } from "react";
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
 import {
@@ -27,6 +27,7 @@ import {
   Tag,
   UserRound,
   Users,
+  X,
 } from "lucide-react";
 import { MarketFrame, type FrameLink, type HeaderLink } from "@/components/shop/desktop/MarketFrame";
 import {
@@ -57,7 +58,7 @@ const sideMain: FrameLink[] = [
   { key: "specs", label: "Mutaxassislar", href: "/mutaxassislar", icon: UserRound },
   { key: "clinics", label: "Klinikalar", href: "/mening-klinikam", icon: Building2 },
   { key: "books", label: "Kitoblar", href: "/kitoblar", icon: BookOpen },
-  { key: "cats", label: "Kategoriyalar", href: "/marketplace", icon: LayoutGrid },
+  { key: "cats", label: "Kategoriyalar", href: "/kategoriyalar", icon: LayoutGrid },
   { key: "brands", label: "Brendlar", href: "/marketplace/brendlar", icon: Tag },
   { key: "sale", label: "Aksiyalar", href: "/marketplace/aksiyalar", icon: BadgePercent },
 ];
@@ -98,7 +99,7 @@ export function SpecialistsFrame({
       promoText="Tajribali stomatologlar bilan bog‘laning"
       promoCta="Mutaxassis qidirish"
       promoHref="/mutaxassislar"
-      promoImage="/img/jihoz/chair.jpg"
+      promoImage="/img/design-pr13/promo/chair.png"
       promoIcon={<Stethoscope className="mx-cap i" />}
       promoClass="mx-promo"
       onPromo={onPromo}
@@ -115,6 +116,7 @@ export function MutaxassislarDesktop() {
   const [city, setCity] = useState("");
   const [sort, setSort] = useState<SpecSort>("reyting");
   const [saved, setSaved] = useState<string[]>([]);
+  const [chat, setChat] = useState<Specialist | null>(null);
   const items = useMemo(() => sortSpecialists(filterSpecialists(specialists, { q, specialty, city }), sort), [q, specialty, city, sort]);
 
   function reset() {
@@ -165,7 +167,7 @@ export function MutaxassislarDesktop() {
           <label className="mx-select">
             <MapPin className="i" />
             <select data-testid="spec-city" aria-label="Shahar" value={city} onChange={(event) => setCity(event.target.value)}>
-              <option value="">Shahar: Barchasi</option>
+              <option value="">Shahar</option>
               {specialistCities.map((item) => (
                 <option key={item} value={item}>
                   {item}
@@ -217,16 +219,56 @@ export function MutaxassislarDesktop() {
         ) : (
           <div className="mx-grid">
             {items.map((person) => (
-              <SpecCard key={person.id} person={person} saved={saved.includes(person.id)} onSave={() => toggleSave(person.id)} />
+              <SpecCard key={person.id} person={person} saved={saved.includes(person.id)} onSave={() => toggleSave(person.id)} onContact={() => setChat(person)} />
             ))}
           </div>
         )}
+        {chat ? <SpecChat person={chat} onClose={() => setChat(null)} /> : null}
       </div>
     </SpecialistsFrame>
   );
 }
 
-function SpecCard({ person, saved, onSave }: { person: Specialist; saved: boolean; onSave: () => void }) {
+export function SpecChat({ person, onClose }: { person: Specialist; onClose: () => void }) {
+  const [draft, setDraft] = useState("");
+  const [sent, setSent] = useState<string[]>([]);
+
+  function send(event: FormEvent) {
+    event.preventDefault();
+    const text = draft.trim();
+    if (!text) return;
+    setSent((current) => [...current, text]);
+    setDraft("");
+  }
+
+  return (
+    <div className="mx-chat" role="dialog" aria-label={`${person.name} bilan chat`} data-testid="spec-chat">
+      <header>
+        <b>{person.name}</b>
+        <button type="button" onClick={onClose} aria-label="Yopish">
+          <X className="i" />
+        </button>
+      </header>
+      <div className="log">
+        <p>
+          {person.specialtyLabel} · {person.city} · {person.clinic}
+        </p>
+        <div className="msg">Assalomu alaykum. Savolingizni yozing, tez orada javob beraman.</div>
+        {sent.map((text, index) => (
+          <div className="msg me" key={`${index}-${text}`}>
+            {text}
+          </div>
+        ))}
+      </div>
+      <form onSubmit={send}>
+        <input data-testid="spec-chat-input" aria-label="Xabar" value={draft} placeholder="Xabar yozing..." onChange={(event) => setDraft(event.target.value)} />
+        <button type="submit">Yuborish</button>
+      </form>
+    </div>
+  );
+}
+
+function SpecCard({ person, saved, onSave, onContact }: { person: Specialist; saved: boolean; onSave: () => void; onContact: () => void }) {
   return (
     <article className="mx-card" data-testid="spec-card">
       <button type="button" className={saved ? "mx-heart on" : "mx-heart"} data-testid="spec-heart" aria-label="Sevimlilar" aria-pressed={saved} onClick={onSave}>
@@ -262,9 +304,9 @@ function SpecCard({ person, saved, onSave }: { person: Specialist; saved: boolea
         <Link className="mx-profil" href={`/mutaxassislar/${person.id}`} data-testid={`spec-profile-${person.id}`}>
           Profil
         </Link>
-        <Link className="mx-contact" href={`/mutaxassislar/${person.id}?aloqa=1`} data-testid={`spec-contact-${person.id}`}>
+        <button type="button" className="mx-contact" data-testid={`spec-contact-${person.id}`} onClick={onContact}>
           <MessageCircle className="i" /> Bog‘lanish
-        </Link>
+        </button>
       </div>
     </article>
   );

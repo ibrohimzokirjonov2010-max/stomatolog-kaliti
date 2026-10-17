@@ -35,6 +35,28 @@ type SortKey = "ommabop" | "arzon" | "qimmat" | "yangi";
 type StockFilter = "all" | "ombor" | "buyurtma";
 type RatingFilter = "all" | "5" | "4" | "3";
 
+const shopCats: (ShopCategory | "all")[] = ["all", "kompozitlar", "bondlar", "endodontiya", "implantlar", "uchliklar", "asboblar", "uskunalar", "gigiyena"];
+
+const catAlias: Record<string, ShopCategory> = {
+  materiallar: "kompozitlar",
+  terapiya: "kompozitlar",
+  laboratoriya: "bondlar",
+  ortopediya: "bondlar",
+  implantologiya: "implantlar",
+  implantlar: "implantlar",
+  jarrohlik: "uchliklar",
+  jihozlar: "uskunalar",
+};
+
+function shopCatFromQuery(raw: string): ShopCategory | "all" {
+  if (shopCats.includes(raw as ShopCategory)) return raw as ShopCategory;
+  return catAlias[raw] ?? "all";
+}
+
+function isSortKey(value: string): value is SortKey {
+  return value === "ommabop" || value === "arzon" || value === "qimmat" || value === "yangi";
+}
+
 const chipIcon = {
   all: LayoutGrid,
   kompozitlar: Droplets,
@@ -52,18 +74,26 @@ export function MarketCatalog() {
   const lines = useShopCart(marketSeed);
   const q = (params.get("q") ?? "").trim().toLowerCase();
   const brandParam = (params.get("brand") ?? "").trim();
-  const [cat, setCat] = useState<ShopCategory | "all">("all");
+  const catParam = params.get("cat") ?? "";
+  const sortParam = params.get("sort") ?? "";
+  const [cat, setCat] = useState<ShopCategory | "all">(() => shopCatFromQuery(catParam));
   const [brands, setBrands] = useState<string[]>(brandParam ? [brandParam] : []);
   useEffect(() => {
     if (brandParam) setBrands([brandParam]);
   }, [brandParam]);
+  useEffect(() => {
+    setCat(shopCatFromQuery(catParam));
+  }, [catParam]);
   const [brandQ, setBrandQ] = useState("");
   const [moreBrands, setMoreBrands] = useState(false);
   const [price, setPrice] = useState<[number, number]>([0, PRICE_MAX]);
   const [stock, setStock] = useState<StockFilter>("all");
   const [official, setOfficial] = useState(false);
   const [rating, setRating] = useState<RatingFilter>("all");
-  const [sort, setSort] = useState<SortKey>("ommabop");
+  const [sort, setSort] = useState<SortKey>(() => (isSortKey(sortParam) ? sortParam : "ommabop"));
+  useEffect(() => {
+    if (isSortKey(sortParam)) setSort(sortParam);
+  }, [sortParam]);
   const [list, setList] = useState(false);
   const [sale] = useState(params.get("sale") === "1");
   const [pulse, setPulse] = useState<string | null>(null);
@@ -134,7 +164,7 @@ export function MarketCatalog() {
           {marketChips.map((chip) => {
             const Icon = chipIcon[chip.id];
             return (
-              <button key={chip.id} type="button" className={cat === chip.id ? "dk-chip on" : "dk-chip"} onClick={() => setCat(chip.id)}>
+              <button key={chip.id} type="button" className={cat === chip.id ? "dk-chip on" : "dk-chip"} data-testid={`market-chip-${chip.id}`} onClick={() => setCat(chip.id)}>
                 <Icon className="i" /> {chip.label}
               </button>
             );

@@ -5,6 +5,7 @@ import { usePathname } from "next/navigation";
 import { DashboardShell } from "@/components/dashboard/shell";
 import DesktopHomePage from "@/components/home/desktop/HomePage";
 import { MarketCatalog } from "@/components/shop/desktop/MarketCatalog";
+import { KategoriyalarDesktop } from "@/components/shop/desktop/KategoriyalarDesktop";
 import { BrandsDesktop } from "@/components/shop/desktop/BrandsDesktop";
 import { AksiyalarDesktop } from "@/components/shop/desktop/AksiyalarDesktop";
 import { MarketProduct } from "@/components/shop/desktop/MarketProduct";
@@ -125,6 +126,7 @@ export function AppChrome({ children }: { children: ReactNode }) {
 
 function desktopShop(pathname: string | null): ReactNode | null {
   if (!pathname) return null;
+  if (pathname === "/kategoriyalar") return <KategoriyalarDesktop />;
   if (pathname === "/marketplace") return <MarketCatalog />;
   if (pathname === "/marketplace/brendlar") return <BrandsDesktop />;
   if (pathname === "/marketplace/aksiyalar") return <AksiyalarDesktop />;

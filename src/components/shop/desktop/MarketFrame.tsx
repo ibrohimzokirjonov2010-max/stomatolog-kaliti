@@ -33,7 +33,7 @@ export type HeaderLink = { href: string; label: string; key?: string };
 
 const mainNav: { key: MarketNavKey; label: string; href: string; icon: LucideIcon }[] = [
   { key: "home", label: "Bosh sahifa", href: "/", icon: Home },
-  { key: "cats", label: "Kategoriyalar", href: "/marketplace", icon: LayoutGrid },
+  { key: "cats", label: "Kategoriyalar", href: "/kategoriyalar", icon: LayoutGrid },
   { key: "brands", label: "Brendlar", href: "/marketplace/brendlar", icon: Tag },
   { key: "all", label: "Barcha mahsulotlar", href: "/marketplace", icon: Package },
   { key: "new", label: "Yangi mahsulotlar", href: "/marketplace?sort=yangi", icon: Sparkles },
@@ -58,7 +58,7 @@ const headerNav = [
 
 export function MarketFrame({
   active,
-  promoTitle = "Rasmiy brendlar bir joyda",
+  promoTitle = "Rasmiy brendlar bir joyda!",
   promoText = "Dunyoning yetakchi stomatologiya brendlari",
   promoCta = "Barcha brendlar",
   promoHref = "/marketplace/brendlar",
@@ -144,7 +144,7 @@ export function MarketFrame({
         <div className="brd-actions">
           <Link className="brd-ic" href="/savat" aria-label="Savat">
             <ShoppingCart className="i" />
-            {count > 0 ? <em className="badge">{count}</em> : null}
+            <em className="badge" data-testid="mf-cart-badge">{count + 3}</em>
           </Link>
           <span style={{ position: "relative" }}>
             <button className="brd-ic" type="button" aria-label="Bildirishnomalar" aria-expanded={notes} onClick={() => setNotes((value) => !value)}>
@@ -154,7 +154,7 @@ export function MarketFrame({
             {notes ? <div className="brd-note">Yangi bildirishnoma yo‘q</div> : null}
           </span>
           <Link href="/profil" aria-label="Profil">
-            <img className="brd-ava" src="/img/shop/avatar.jpg" alt="" />
+            <img className="brd-ava" src="/img/design-pr13/ui/avatar.png" alt="" />
           </Link>
         </div>
       </header>
@@ -198,85 +198,7 @@ export function MarketFrame({
 }
 
 export function BrandMark({ slug }: { slug: string }) {
-  switch (slug) {
-    case "3m":
-      return <span className="mk mk-3m">3M</span>;
-    case "dentsply-sirona":
-      return (
-        <span className="mk mk-dentsply">
-          <b>Dentsply</b>
-          <span>Sirona</span>
-        </span>
-      );
-    case "ivoclar":
-      return (
-        <span className="mk mk-ivoclar">
-          <i>i</i>voclar
-        </span>
-      );
-    case "straumann":
-      return (
-        <span className="mk mk-straumann">
-          <i>/</i>straumann
-        </span>
-      );
-    case "nobel-biocare":
-      return (
-        <span className="mk mk-nobel">
-          <i>N</i>
-          <span>
-            Nobel
-            <br />
-            Biocare
-          </span>
-        </span>
-      );
-    case "zimmer-biomet":
-      return (
-        <span className="mk mk-zimmer">
-          <i>Z</i>
-          ZIMMER BIOMET
-        </span>
-      );
-    case "coltene":
-      return <span className="mk mk-coltene">COLTENE</span>;
-    case "kerr":
-      return <span className="mk mk-kerr">Kerr</span>;
-    case "gc":
-      return <span className="mk mk-gc">GC</span>;
-    case "tokuyama":
-      return (
-        <span className="mk mk-toku">
-          <i>T</i>Tokuyama
-        </span>
-      );
-    case "fanta-dental":
-      return <span className="mk mk-fanta">fanta</span>;
-    case "ultradent":
-      return <span className="mk mk-ultra">ULTRADENT</span>;
-    case "mectron":
-      return (
-        <span className="mk mk-mectron">
-          <i>m</i>ectron
-        </span>
-      );
-    case "nsk":
-      return <span className="mk mk-nsk">NSK</span>;
-    case "wh":
-      return <span className="mk mk-wh">W&H</span>;
-    case "vatech":
-      return <span className="mk mk-vatech">vatech</span>;
-    case "planmeca":
-      return <span className="mk mk-plan">PLANMECA</span>;
-    case "osstem":
-      return <span className="mk mk-osstem">OSSTEM</span>;
-    case "mindray":
-      return <span className="mk mk-mindray">mindray</span>;
-    case "angelus":
-      return <span className="mk mk-angelus">angelus</span>;
-    default:
-      return <span className="mk">{slug}</span>;
-  }
+  return <img className="mk-logo" src={`/img/design-pr13/brands/${slug}.png`} alt="" />;
 }
 
 export function CountrySelect({ value, onChange, countries, testId }: { value: string; onChange: (value: string) => void; countries: string[]; testId: string }) {
