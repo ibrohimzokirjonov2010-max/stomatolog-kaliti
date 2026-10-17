@@ -1,6 +1,8 @@
 .rdx {
   --u: calc(100cqw / 102.4);
-  min-height: 100dvh;
+  min-height: calc(100dvh - var(--dh, 72px));
+  flex: 1;
+  min-width: 0;
   background: #f4f7fb;
   color: #142033;
   display: flex;
@@ -18,7 +20,7 @@
 .rdx-title strong { font-size: calc(.78 * var(--u)); }
 .rdx-title span, .rdx-book small, .rdx-book em, .rdx-mark small, .rdx-note small { color: #8b97a8; font-size: calc(.6 * var(--u)); font-style: normal; }
 .rdx-tools { margin-left: auto; display: flex; gap: calc(.25 * var(--u)); align-items: center; }
-.rdx-tools button, .rdx-foot button { height: calc(1.8 * var(--u)); padding: 0 calc(.5 * var(--u)); border-radius: calc(.35 * var(--u)); border: 1px solid #e3eaf2; font-size: calc(.66 * var(--u)); font-weight: 800; background: #fff; }
+.sh .rdx-tools button, .sh .rdx-foot button, .rdx-tools button, .rdx-foot button { height: calc(1.8 * var(--u)); padding: 0 calc(.5 * var(--u)); border-radius: calc(.35 * var(--u)); border: 1px solid #e3eaf2; font-size: calc(.66 * var(--u)); font-weight: 800; background: #fff; }
 .rdx.dark .rdx-tools button, .rdx.dark .rdx-foot button { background: #0f1724; color: #e8eef6; border-color: #334155; }
 .rdx-tools button.on { background: #3773fe; color: #fff; border-color: #3773fe; }
 .rdx-tools input, .rdx textarea { border: 1px solid #e3eaf2; border-radius: calc(.35 * var(--u)); font: inherit; padding: calc(.25 * var(--u)); font-size: calc(.66 * var(--u)); }

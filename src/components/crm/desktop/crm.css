@@ -19,7 +19,7 @@
 }
 .sh .crm-btn.blue, .sh .crm-dialog .go, .sh .crm-mini .blue { background: #0066ff; border-color: #0066ff; color: #fff; }
 .sh .crm-btn .i, .sh .crm-actions a .i { font-size: calc(.75 * var(--u)); }
-.sh .crm-tools { display: flex; gap: calc(.35 * var(--u)); margin-bottom: calc(.45 * var(--u)); align-items: center; }
+.sh .crm-tools { display: flex; gap: calc(.35 * var(--u)); margin-bottom: calc(.45 * var(--u)); align-items: center; flex-wrap: wrap; }
 .sh [data-testid="certs-desktop"] .crm-tools { margin-bottom: calc(1.9 * var(--u)); }
 .sh .crm-search, .sh .crm-select {
   height: calc(1.95 * var(--u));
@@ -40,8 +40,9 @@
 .sh .crm-select { flex: none; width: calc(11 * var(--u)); }
 .sh .crm-select select { appearance: none; font-weight: 650; }
 .sh .crm-select .i, .sh .crm-search .i { font-size: calc(.75 * var(--u)); }
-.sh .crm-split { display: grid; grid-template-columns: minmax(0, 1fr) calc(18.5 * var(--u)); gap: calc(.5 * var(--u)); align-items: start; }
+.sh .crm-split { display: grid; grid-template-columns: minmax(0, 1fr) calc(18.5 * var(--u)); gap: calc(.5 * var(--u)); align-items: start; min-width: 0; max-width: 100%; }
 .sh .crm-card { background: #fff; border: 1px solid #e8eef6; border-radius: calc(.55 * var(--u)); min-width: 0; }
+.sh .crm-table-scroll { overflow-x: auto; max-width: 100%; }
 .sh .crm-table { width: 100%; border-collapse: collapse; font-size: calc(.58 * var(--u)); }
 .sh .crm-table th { text-align: left; color: #7b8ba3; font-weight: 700; padding: calc(.35 * var(--u)) calc(.3 * var(--u)); border-bottom: 1px solid #eef2f7; white-space: nowrap; }
 .sh .crm-table td { padding: calc(.32 * var(--u)) calc(.3 * var(--u)); border-bottom: 1px solid #f3f6fa; vertical-align: middle; }
