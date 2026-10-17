@@ -107,7 +107,8 @@
   padding: calc(.55 * var(--u)) calc(.5 * var(--u)) calc(.7 * var(--u));
   position: sticky;
   top: calc(3.45 * var(--u));
-  height: calc(100dvh - 3.45 * var(--u));
+  align-self: flex-start;
+  max-height: calc(100dvh - 3.45 * var(--u));
   overflow: auto;
   display: flex;
   flex-direction: column;
@@ -130,13 +131,14 @@
 .brd-item.on .i { color: #0066ff; }
 .brd-split { height: 1px; background: #e6ecf3; margin: calc(.45 * var(--u)) calc(.3 * var(--u)); }
 .brd-promo {
-  margin-top: auto;
+  margin-top: calc(.55 * var(--u));
   background: linear-gradient(180deg, #e8f3ff, #f4f8ff);
   border-radius: calc(.6 * var(--u));
-  padding: calc(.7 * var(--u));
+  padding: calc(.65 * var(--u)) calc(.7 * var(--u)) calc(.7 * var(--u));
   position: relative;
   overflow: hidden;
-  min-height: calc(8.2 * var(--u));
+  min-height: calc(7.6 * var(--u));
+  flex: none;
 }
 .brd-promo .crown { color: #e6b325; font-size: calc(1.1 * var(--u)); }
 .brd-promo b { display: block; margin-top: calc(.25 * var(--u)); font-size: calc(.72 * var(--u)); line-height: 1.25; max-width: calc(8.5 * var(--u)); }
@@ -156,11 +158,12 @@
 }
 .brd-promo img {
   position: absolute;
-  right: calc(-.2 * var(--u));
-  bottom: 0;
-  width: calc(4.6 * var(--u));
-  height: calc(5.2 * var(--u));
+  right: calc(.15 * var(--u));
+  bottom: calc(.35 * var(--u));
+  width: calc(4.2 * var(--u));
+  height: calc(4.4 * var(--u));
   object-fit: contain;
+  pointer-events: none;
 }
 
 .brd-main { flex: 1; min-width: 0; padding: calc(.85 * var(--u)) calc(1 * var(--u)) calc(1.2 * var(--u)); }
