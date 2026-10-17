@@ -477,3 +477,37 @@
 .rpt-city { display: inline-flex; align-items: center; gap: 4px; height: calc(2.8 * var(--u)); border-radius: 999px; border: 1px solid #e1e8f0; background: #fff; padding: 0 calc(.55 * var(--u)); color: #16324f; width: auto; }
 .rpt-city select { border: 0; background: transparent; height: 100%; width: auto; padding: 0; font-weight: 800; font-size: calc(.85 * var(--u)); color: #16324f; }
 .rpt-city svg { color: var(--brand); flex: none; }
+.p14-chip.green { background: #e9f9ef; color: #15803d; border-color: #b7ebc9; }
+.p14-chip.blue { background: #e8f1ff; color: #0066ff; border-color: #c9dbff; }
+.p14-chip.orange { background: #fff4e6; color: #d97706; border-color: #ffd7a8; }
+.p14-chip.gray { background: #f1f5f9; color: #64748b; border-color: #e2e8f0; }
+.p14-chip.green.on, .p14-chip.blue.on, .p14-chip.orange.on, .p14-chip.gray.on { box-shadow: inset 0 0 0 1.5px currentColor; }
+.p14-chip .count { font-style: normal; background: rgba(255,255,255,.75); border-radius: 999px; padding: 0 calc(.35 * var(--u)); margin-left: 2px; }
+.pat-card { display: grid; grid-template-columns: calc(5.6 * var(--u)) 1fr auto; gap: calc(.5 * var(--u)); align-items: center; background: #fff; border-radius: calc(1.05 * var(--u)); padding: calc(.65 * var(--u)); box-shadow: 0 6px 16px rgba(20,40,80,.05); }
+.pat-ava { position: relative; width: calc(5.4 * var(--u)); height: calc(5.4 * var(--u)); }
+.pat-ava img { width: 100%; height: 100%; border-radius: 999px; object-fit: cover; }
+.pat-ava .dot { position: absolute; right: 1px; bottom: 1px; width: calc(.85 * var(--u)); height: calc(.85 * var(--u)); border-radius: 999px; background: #22c55e; border: 2px solid #fff; }
+.pat-main { min-width: 0; }
+.pat-top { display: flex; align-items: center; gap: calc(.3 * var(--u)); min-width: 0; }
+.pat-top b { font-size: calc(1.15 * var(--u)); }
+.pat-top button { margin-left: auto; color: #94a3b8; background: transparent; font-weight: 800; letter-spacing: .08em; }
+.pat-status { border-radius: 999px; padding: 1px calc(.45 * var(--u)); font-size: calc(.72 * var(--u)); font-weight: 800; white-space: nowrap; }
+.pat-status.davolanishda, .pat-status.davolan { background: #e8f1ff; color: #0066ff; }
+.pat-status.kuzatuvda, .pat-status.kutil { background: #fff4e6; color: #d97706; }
+.pat-status.yangi, .pat-status.keladi { background: #e9f9ef; color: #15803d; }
+.pat-status.yakun { background: #f1f5f9; color: #64748b; }
+.pat-visits { display: grid; grid-template-columns: 1fr 1fr; gap: calc(.3 * var(--u)); margin-top: 2px; }
+.pat-visits span { display: flex; flex-wrap: wrap; align-items: center; gap: 3px; color: #7b879c; font-size: calc(.72 * var(--u)); font-weight: 700; }
+.pat-visits small { display: block; width: 100%; color: #16324f; font-size: calc(.78 * var(--u)); }
+.pat-call { width: calc(3.3 * var(--u)); height: calc(3.3 * var(--u)); border-radius: 999px; background: #0066ff; color: #fff; display: grid; place-items: center; }
+.tags i.tag-plomba, .tags i.tag-konsultatsiya { background: #e8f1ff; color: #0066ff; }
+.tags i.tag-endodontiya, .tags i.tag-estetik { background: #fde8ee; color: #e11d48; }
+.tags i.tag-kuzatuv, .tags i.tag-nazorat, .tags i.tag-koronka { background: #fff4e6; color: #d97706; }
+.tags i.tag-implant, .tags i.tag-proteziya, .tags i.tag-ortodontiya, .tags i.tag-veneer { background: #f3e8ff; color: #7c3aed; }
+.tags i.tag-breket, .tags i.tag-protez { background: #e7f6f6; color: #0e8f94; }
+.tags i.tag-diagnostika, .tags i.tag-yakunlangan { background: #f1f5f9; color: #64748b; }
+.appt-card { display: grid; grid-template-columns: calc(4.4 * var(--u)) calc(3.2 * var(--u)) 1fr; gap: calc(.4 * var(--u)); background: #fff; border-radius: calc(1 * var(--u)); padding: calc(.55 * var(--u)); align-items: start; }
+.appt-card img { width: calc(3.2 * var(--u)); height: calc(3.2 * var(--u)); border-radius: 999px; object-fit: cover; }
+.appt-card .when { color: #0066ff; font-size: calc(1.05 * var(--u)); }
+.pay-row { grid-template-columns: calc(3.6 * var(--u)) 1fr auto auto; }
+.pay-row img { width: calc(3.6 * var(--u)); height: calc(3.6 * var(--u)); border-radius: 999px; }

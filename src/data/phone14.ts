@@ -107,40 +107,40 @@ export type PhonePatient = {
 };
 
 export const phonePatients: PhonePatient[] = [
-  { id: "b-0012", name: "Malika Karimova", num: "B-0012", age: 28, gender: "Ayol", phone: "+998 90 123 45 67", status: "davolanishda", statusLabel: "Davolanishda", last: "12 okt 2024", next: "18 okt 2024", tags: ["Implant", "Endodontiya"], online: true, avatar: "/img/phone14/pat-0.png" },
-  { id: "b-0018", name: "Jahongir Rahimov", num: "B-0018", age: 34, gender: "Erkak", phone: "+998 93 200 11 22", status: "yangi", statusLabel: "Yangi", last: "11 okt 2024", next: "19 okt 2024", tags: ["Konsultatsiya"], online: true, avatar: "/img/phone14/pat-1.png" },
-  { id: "b-0024", name: "Oysha Abdurahmonova", num: "B-0024", age: 26, gender: "Ayol", phone: "+998 97 310 22 33", status: "kuzatuvda", statusLabel: "Kuzatuvda", last: "10 okt 2024", next: "25 okt 2024", tags: ["Veneer"], online: false, avatar: "/img/phone14/pat-2.png" },
-  { id: "b-0031", name: "Sardorbek Aliyev", num: "B-0031", age: 41, gender: "Erkak", phone: "+998 90 440 33 44", status: "yakun", statusLabel: "Yakunlangan", last: "9 okt 2024", next: "—", tags: ["Protez"], online: false, avatar: "/img/phone14/pat-3.png" },
-  { id: "b-0036", name: "Nilufar Ismoilova", num: "B-0036", age: 23, gender: "Ayol", phone: "+998 91 550 44 55", status: "davolanishda", statusLabel: "Davolanishda", last: "8 okt 2024", next: "15 okt 2024", tags: ["Ortodontiya"], online: true, avatar: "/img/phone14/pat-4.png" },
-  { id: "b-0042", name: "Azizbek Normatov", num: "B-0042", age: 37, gender: "Erkak", phone: "+998 93 660 55 66", status: "kuzatuvda", statusLabel: "Kuzatuvda", last: "7 okt 2024", next: "21 okt 2024", tags: ["Gigiyena"], online: false, avatar: "/img/phone14/pat-5.png" },
+  { id: "b-0012", name: "Malika Karimova", num: "B-0012", age: 28, gender: "Ayol", phone: "+998 90 123 45 67", status: "davolanishda", statusLabel: "Davolanishda", last: "12 okt 2024", next: "20 okt 2024", tags: ["Plomba", "Endodontiya", "Kuzatuv"], online: true, avatar: "/img/phone14/pat-0.png" },
+  { id: "b-0013", name: "Jahongir Rahimov", num: "B-0013", age: 35, gender: "Erkak", phone: "+998 93 200 11 22", status: "kuzatuvda", statusLabel: "Kuzatuvda", last: "5 okt 2024", next: "5 noy 2024", tags: ["Implant", "Proteziya", "Kuzatuv"], online: true, avatar: "/img/phone14/pat-1.png" },
+  { id: "b-0014", name: "Oysa Abdurahmonova", num: "B-0014", age: 42, gender: "Ayol", phone: "+998 97 310 22 33", status: "yangi", statusLabel: "Yangi", last: "—", next: "Rejalashtirish", tags: ["Konsultatsiya", "Diagnostika"], online: false, avatar: "/img/phone14/pat-2.png" },
+  { id: "b-0015", name: "Sardorbek Aliyev", num: "B-0015", age: 12, gender: "Erkak", phone: "+998 90 440 33 44", status: "davolanishda", statusLabel: "Davolanishda", last: "10 okt 2024", next: "25 okt 2024", tags: ["Ortodontiya", "Breket", "Nazorat"], online: true, avatar: "/img/phone14/pat-3.png" },
+  { id: "b-0016", name: "Nilufar Ismoilova", num: "B-0016", age: 31, gender: "Ayol", phone: "+998 91 550 44 55", status: "yakun", statusLabel: "Yakunlangan", last: "1 okt 2024", next: "—", tags: ["Estetik", "Veneer", "Yakunlangan"], online: false, avatar: "/img/phone14/pat-4.png" },
+  { id: "b-0017", name: "Azizbek Normatov", num: "B-0017", age: 29, gender: "Erkak", phone: "+998 93 660 55 66", status: "davolanishda", statusLabel: "Davolanishda", last: "8 okt 2024", next: "15 okt 2024", tags: ["Protez", "Koronka", "Nazorat"], online: true, avatar: "/img/phone14/pat-5.png" },
 ];
 
 export const phoneAppts = [
-  { id: "u1", time: "09:00", end: "09:45", name: "Malika Karimova", service: "Konsultatsiya va diagnostika", age: 28, gender: "Ayol", tooth: "16", note: "KT natijasini ko‘rib chiqish", status: "keladi", statusLabel: "Keladigan", phone: "+998901234567", avatar: "/img/phone14/pat-0.png" },
-  { id: "u2", time: "10:30", end: "11:15", name: "Jahongir Rahimov", service: "Implant nazorati", age: 34, gender: "Erkak", tooth: "31", note: "Tikishlar olinadi", status: "keladi", statusLabel: "Keladigan", phone: "+998932001122", avatar: "/img/phone14/pat-1.png" },
-  { id: "u3", time: "12:00", end: "12:40", name: "Oysha Abdurahmonova", service: "Veneer konsultatsiya", age: 26, gender: "Ayol", tooth: "11, 21", note: "Rang tanlash", status: "kutil", statusLabel: "Kutilayotgan", phone: "+998973102233", avatar: "/img/phone14/pat-2.png" },
-  { id: "u4", time: "14:00", end: "14:50", name: "Sardorbek Aliyev", service: "Protetik qabul", age: 41, gender: "Erkak", tooth: "26", note: "Doimiy protez namunasi", status: "keladi", statusLabel: "Keladigan", phone: "+998904403344", avatar: "/img/phone14/pat-3.png" },
-  { id: "u5", time: "15:30", end: "16:10", name: "Nilufar Ismoilova", service: "Ortodontik faollashtirish", age: 23, gender: "Ayol", tooth: "—", note: "Elayner almashinuvi", status: "bajar", statusLabel: "Bajarildi", phone: "+998915504455", avatar: "/img/phone14/pat-4.png" },
+  { id: "u1", time: "09:00", end: "09:45", name: "Malika Karimova", service: "Profilaktik ko‘rik", age: 28, gender: "Ayol", tooth: "Umumiy ko‘rik", note: "Tozalash va maslahat", status: "keladi", statusLabel: "Kelmoqda", phone: "+998901234567", avatar: "/img/phone14/pat-0.png" },
+  { id: "u2", time: "10:30", end: "11:15", name: "Jahongir Rahimov", service: "Plomba davolash", age: 35, gender: "Erkak", tooth: "Karies (16)", note: "Anesteziya kerak", status: "kutil", statusLabel: "Kutilmoqda", phone: "+998932001122", avatar: "/img/phone14/pat-1.png" },
+  { id: "u3", time: "12:00", end: "12:40", name: "Oysa Abdurahmonova", service: "Endodontik davolash", age: 42, gender: "Ayol", tooth: "Endodontiya (11)", note: "Rentgen olingan", status: "davolan", statusLabel: "Davolanmoqda", phone: "+998973102233", avatar: "/img/phone14/pat-2.png" },
+  { id: "u4", time: "14:00", end: "14:50", name: "Sardorbek Aliyev", service: "Ortodontik konsultatsiya", age: 12, gender: "Erkak", tooth: "Breket maslahati", note: "Panoramik rentgen bilan", status: "kutil", statusLabel: "Kutilmoqda", phone: "+998904403344", avatar: "/img/phone14/pat-3.png" },
+  { id: "u5", time: "15:30", end: "16:10", name: "Nilufar Ismoilova", service: "Estetik restoratsiya", age: 31, gender: "Ayol", tooth: "Veneer konsultatsiya", note: "Rang tanlash", status: "keladi", statusLabel: "Kelmoqda", phone: "+998915504455", avatar: "/img/phone14/pat-4.png" },
 ];
 
 export const planStages = [
-  { id: "s1", name: "Diagnostika va rejalashtirish", status: "Yakunlangan", price: 500000, date: "12 okt 2024", note: "KT va foto tahlil qilindi. Reja bemor bilan kelishildi." },
-  { id: "s2", name: "Endodontik davolash (14)", status: "Davom etmoqda", price: 1500000, date: "18 okt 2024", note: "14-tish kanallari tozalanmoqda. Keyingi seans obturatsiya." },
-  { id: "s3", name: "Implant qo‘yish (16, 31)", status: "Rejalashtirilgan", price: 8000000, date: "2 noy 2024", note: "Ikki implant. Suyak hajmi yetarli." },
-  { id: "s4", name: "Protetik bosqich", status: "Kutilmoqda", price: 2500000, date: "20 noy 2024", note: "Vaqtinchalik, so‘ng doimiy protez." },
+  { id: "s1", name: "Diagnostika va rejalashtirish", status: "Yakunlangan", price: 500000, date: "12 okt 2024", note: "Konsultatsiya, OPG, KT" },
+  { id: "s2", name: "Endodontik davolash (14)", status: "Davom etmoqda", price: 1500000, date: "20 okt 2024", note: "Kanal davolash" },
+  { id: "s3", name: "Implant qo‘yish (16, 31)", status: "Rejalashtirilgan", price: 8000000, date: "5 noy 2024", note: "Implant + abutment" },
+  { id: "s4", name: "Protetik bosqich", status: "Kutilmoqda", price: 2500000, date: "", note: "Krona va protez" },
 ];
 
 export const phonePayments = [
-  { id: "p1", name: "Malika Karimova", amount: "2 500 000 so‘m", note: "Implant bosqichi", date: "12 okt", status: "To‘langan", avatar: "/img/phone14/pat-0.png", late: false },
-  { id: "p2", name: "Jahongir Rahimov", amount: "1 800 000 so‘m", note: "Nazorat va gigiyena", date: "11 okt", status: "To‘langan", avatar: "/img/phone14/pat-1.png", late: false },
-  { id: "p3", name: "Oysha Abdurahmonova", amount: "500 000 so‘m", note: "Qisman to‘lov", date: "10 okt", status: "Qisman to‘lov", avatar: "/img/phone14/pat-2.png", late: false },
-  { id: "p4", name: "Sardorbek Aliyev", amount: "3 200 000 so‘m", note: "Protetika", date: "9 okt", status: "To‘langan", avatar: "/img/phone14/pat-3.png", late: false },
+  { id: "p1", name: "Malika Karimova", amount: "2 500 000 so‘m", note: "Davolash (Implant)", date: "12 okt 2024 · 14:30", status: "To‘langan", avatar: "/img/phone14/pat-0.png", late: false },
+  { id: "p2", name: "Jahongir Rahimov", amount: "1 800 000 so‘m", note: "Davolash (Proteziya)", date: "12 okt 2024 · 11:20", status: "To‘langan", avatar: "/img/phone14/pat-1.png", late: false },
+  { id: "p3", name: "Oysa Abdurahmonova", amount: "500 000 so‘m", note: "Konsultatsiya", date: "11 okt 2024 · 16:45", status: "To‘langan", avatar: "/img/phone14/pat-2.png", late: false },
+  { id: "p4", name: "Sardorbek Aliyev", amount: "3 200 000 so‘m", note: "Davolash (Ortodontiya)", date: "11 okt 2024 · 10:15", status: "To‘langan", avatar: "/img/phone14/pat-3.png", late: false },
 ];
 
 export const phoneLate = [
   { id: "l1", name: "Azizbek Normatov", amount: "700 000 so‘m", note: "Muddati o‘tgan", date: "1 okt", status: "Muddati o‘tgan", avatar: "/img/phone14/pat-5.png", late: true },
   { id: "l2", name: "Nilufar Ismoilova", amount: "450 000 so‘m", note: "Muddati o‘tgan", date: "28 sen", status: "Muddati o‘tgan", avatar: "/img/phone14/pat-4.png", late: true },
-  { id: "l3", name: "Oysha Abdurahmonova", amount: "900 000 so‘m", note: "Qoldiq", date: "20 sen", status: "Muddati o‘tgan", avatar: "/img/phone14/pat-2.png", late: true },
+  { id: "l3", name: "Oysa Abdurahmonova", amount: "900 000 so‘m", note: "Qoldiq", date: "20 sen", status: "Muddati o‘tgan", avatar: "/img/phone14/pat-2.png", late: true },
   { id: "l4", name: "Jahongir Rahimov", amount: "150 000 so‘m", note: "Qoldiq", date: "12 sen", status: "Muddati o‘tgan", avatar: "/img/phone14/pat-1.png", late: true },
   { id: "l5", name: "Sardorbek Aliyev", amount: "100 000 so‘m", note: "Qoldiq", date: "5 sen", status: "Muddati o‘tgan", avatar: "/img/phone14/pat-3.png", late: true },
 ];
@@ -151,7 +151,7 @@ export const phoneStock = [
   { id: "st3", name: "Frez (Turbina)", category: "Instrumentlar", sku: "FRZ-012", qty: 5, max: 10, expiry: "10 yan 2026", status: "Kam qoldi", image: "/img/phone14/stock-2.png" },
   { id: "st4", name: "Sutura (3-0)", category: "Materiallar", sku: "SUT-003", qty: 24, max: 30, expiry: "5 dek 2026", status: "Norma", image: "/img/phone14/stock-3.png" },
   { id: "st5", name: "Kostniy material (Bone Graft)", category: "Materiallar", sku: "BG-007", qty: 2, max: 10, expiry: "1 mar 2026", status: "Kam qoldi", image: "/img/phone14/stock-4.png" },
-  { id: "st6", name: "Dezinfeksiya vositasi", category: "Jihozlar", sku: "DSF-019", qty: 8, max: 15, expiry: "12 apr 2026", status: "Kam qoldi", image: "/img/phone14/stock-5.png" },
+  { id: "st6", name: "Dezinfeksiya vositasi", category: "Materiallar", sku: "DSF-019", qty: 8, max: 15, expiry: "12 apr 2026", status: "Kam qoldi", image: "/img/phone14/stock-5.png" },
 ];
 
 export const phoneLabs: (Lab & { district: string; rating: number; reviews: number; tags: string[]; daysLabel: string; priceLabel: string; chip: string })[] = [

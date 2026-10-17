@@ -2,7 +2,7 @@
 
 import { useEffect, useMemo, useState } from "react";
 import Link from "next/link";
-import { Download, Eye, Filter, MessageCircle, Phone, Plus, QrCode, Share2, SlidersHorizontal } from "lucide-react";
+import { Calendar, ChevronRight, Download, Eye, Filter, MessageCircle, Phone, Plus, QrCode, Share2, SlidersHorizontal } from "lucide-react";
 import QRCode from "qrcode";
 import { PhoneFrame, SearchBox, Sheet } from "@/components/phone14/chrome";
 import { ToothChart, ToothLegend } from "@/components/phone14/teeth";
@@ -99,7 +99,7 @@ export function PhoneCerts() {
     }
   }
   return (
-    <PhoneFrame testId="phone-sertifikatlar" tab="profil">
+    <PhoneFrame testId="phone-sertifikatlar" tab="market">
       <div>
         <h1>Sertifikatlar</h1>
         <p className="sub">Seminarlar, onlayn darslar va kurslar bo‘yicha sertifikatlaringiz</p>
@@ -166,14 +166,13 @@ export function PhonePatients() {
     return !q.trim() || blob.includes(q.trim().toLowerCase());
   });
   const chips = [
-    ["", "Barchasi", 124 + extra.length],
-    ["yangi", "Yangi", 12 + extra.length],
-    ["davolanishda", "Davolanishda", 28],
-    ["kuzatuvda", "Kuzatuvda", 36],
-    ["yakun", "Yakunlangan", 48],
+    ["yangi", "Yangi", 12, "green"],
+    ["davolanishda", "Davolanishda", 20, "blue"],
+    ["kuzatuvda", "Kuzatuvda", 38, "orange"],
+    ["yakun", "Yakunlangan", 28, "gray"],
   ] as const;
   return (
-    <PhoneFrame testId="phone-bemorlar" tab="profil">
+    <PhoneFrame testId="phone-bemorlar" tab="market">
       <div className="p14-head">
         <div>
           <h1>Bemorlar CRM</h1>
@@ -183,27 +182,32 @@ export function PhonePatients() {
       </div>
       <SearchBox value={q} onChange={setQ} label="Bemor qidirish" placeholder="Bemor ismi, telefon raqami yoki ID bo‘yicha qidirish..." />
       <div className="p14-row">
-        {chips.map(([id, label, count]) => (
-          <button key={label} type="button" className={status === id ? "p14-chip on" : "p14-chip"} onClick={() => setStatus(id)}>{label} ({count})</button>
+        {chips.map(([id, label, count, tone]) => (
+          <button key={label} type="button" className={status === id ? `p14-chip ${tone} on` : `p14-chip ${tone}`} onClick={() => setStatus(status === id ? "" : id)}>{label} <i className="count">{count}</i></button>
         ))}
       </div>
       <div className="list">
         {items.length === 0 ? <p className="p14-empty">Bemor topilmadi</p> : items.map((item) => (
-          <article key={item.id} className="p14-card">
-            <div className="p14-head">
-              <Link href={`/crm/bemorlar/${item.id}`} className="who">
-                <span style={{ position: "relative" }}>
-                  <img src={item.avatar} alt="" />
-                  {item.online ? <i className="dot" style={{ position: "absolute", right: 0, bottom: 0 }} /> : null}
-                </span>
-                <span><b>{item.name}</b><small>#{item.num} · {item.age} yosh · {item.gender}</small></span>
-              </Link>
-              <button type="button" aria-label="Menyu" onClick={() => setMenu(menu === item.id ? null : item.id)}>···</button>
+          <article key={item.id} className="pat-card">
+            <Link href={`/crm/bemorlar/${item.id}`} className="pat-ava">
+              <img src={item.avatar} alt="" />
+              {item.online ? <i className="dot" /> : null}
+            </Link>
+            <div className="pat-main">
+              <div className="pat-top">
+                <Link href={`/crm/bemorlar/${item.id}`}><b>{item.name}</b></Link>
+                <span className={`pat-status ${item.status}`}>{item.statusLabel}</span>
+                <button type="button" aria-label="Menyu" onClick={() => setMenu(menu === item.id ? null : item.id)}><span aria-hidden="true">···</span></button>
+              </div>
+              <p className="spec">#{item.num} | {item.age} yosh | {item.gender}</p>
+              <div className="pat-visits">
+                <span><Calendar size={12} /> Oxirgi tashrif<small>{item.last}</small></span>
+                <span><svg viewBox="0 0 24 24" width="12" height="12" aria-hidden="true"><path d="M12 3c3 0 5 2 5 5 0 2-.4 3.2-.8 5-.4 2-.8 4-1.2 5.2-.2.6-.5.8-.8.2-.4-1-.6-3-.6-4.4v-1c0 1.4-.2 3.4-.6 4.4-.3.6-.6.4-.8-.2-.4-1.2-.8-3.2-1.2-5.2C7.4 11.2 7 10 7 8c0-3 2-5 5-5z" fill="none" stroke="currentColor" strokeWidth="1.6"/></svg> Keyingi tashrif<small>{item.next}</small></span>
+              </div>
+              <p className="tags">{item.tags.map((tag) => <i key={tag} className={`tag-${tag.toLowerCase()}`}>{tag}</i>)}</p>
+              {menu === item.id ? <p className="spec">{item.phone}</p> : null}
             </div>
-            <p className="spec">Oxirgi tashrif {item.last} · Keyingi tashrif {item.next}</p>
-            <p className="tags">{item.tags.map((tag) => <i key={tag}>{tag}</i>)} <span className="pill blue">{item.statusLabel}</span></p>
-            <a className="ghost" style={{ display: "inline-flex", alignItems: "center", gap: 6, padding: "0 12px" }} href={`tel:${item.phone.replace(/\s/g, "")}`}><Phone size={14} /> Qo‘ng‘iroq</a>
-            {menu === item.id ? <p className="spec">{item.phone}</p> : null}
+            <a className="pat-call" aria-label="Qo‘ng‘iroq" href={`tel:${item.phone.replace(/\s/g, "")}`}><Phone size={16} /></a>
           </article>
         ))}
       </div>
@@ -248,7 +252,7 @@ export function PhoneAppointments() {
     return true;
   });
   return (
-    <PhoneFrame testId="phone-uchrashuvlar" tab="profil">
+    <PhoneFrame testId="phone-uchrashuvlar" tab="market">
       <div className="p14-head">
         <div>
           <h1>Uchrashuvlar</h1>
@@ -278,21 +282,24 @@ export function PhoneAppointments() {
       <div className="list">
         {items.length === 0 ? <p className="p14-empty">Bu kunda uchrashuv yo‘q</p> : null}
         {items.map((item) => (
-          <article key={item.id} className="p14-card">
-            <div className="p14-head">
-              <b>{item.time}</b>
-              <span className={`pill ${item.status === "bajar" ? "green" : item.status === "kutil" ? "amber" : "blue"}`}>{item.statusLabel}</span>
-            </div>
-            <div className="who"><img src={item.avatar} alt="" /><span><b>{item.name}</b><small>{item.service}</small></span></div>
-            <p className="spec">{item.age} yosh · {item.gender} · Tish {item.tooth}</p>
-            <p>{item.note}</p>
-            <div className="pair">
-              <a className="ghost" style={{ display: "grid", placeItems: "center" }} href={`/crm/bemorlar/b-0012`}><MessageCircle size={14} /> Chat</a>
-              <a className="solid" style={{ display: "grid", placeItems: "center" }} href={`tel:${item.phone}`}><Phone size={14} /> Qo‘ng‘iroq</a>
+          <div key={item.id}>
+          <article className="appt-card">
+            <b className="when">{item.time}</b>
+            <img src={item.avatar} alt="" />
+            <div>
+              <div className="pat-top">
+                <b>{item.name}</b>
+                <span className={`pat-status ${item.status}`}>{item.statusLabel}</span>
+              </div>
+              <p>{item.service}</p>
+              <p className="spec">{item.age} yosh | {item.gender}</p>
+              <p className="spec">{item.tooth}</p>
+              <p className="spec">Izoh: {item.note}</p>
             </div>
           </article>
+          {day === 17 && tab === "Barchasi" && item.time === "12:00" ? <div className="lunch">13:00–14:00 · Tushlik tanaffusi<br />14:00 da davom etadi</div> : null}
+          </div>
         ))}
-        {day === 17 && tab === "Barchasi" ? <div className="lunch">13:00–14:00 · Tushlik tanaffusi</div> : null}
       </div>
       <Link href="/crm/uchrashuvlar/yangi" className="p14-fab" data-testid="appt-add"><Plus size={16} /> Uchrashuv</Link>
       {cal ? (
@@ -311,33 +318,32 @@ export function PhoneAppointments() {
 
 export function PhonePlans() {
   const [q, setQ] = useState("");
-  const [tab, setTab] = useState("Barchasi");
+  const [tab, setTab] = useState("");
   const [open, setOpen] = useState<string | null>("s2");
   const [filter, setFilter] = useState(false);
   const [extra, setExtra] = useState<{ id: string; title: string; status: string }[]>([]);
   useEffect(() => { setExtra(readPhoneStore<{ id: string; title: string; status: string }>(PHONE_PLANS_KEY)); }, []);
-  const showMain = (tab === "Barchasi" || tab === "Davom etmoqda") && (!q.trim() || "malika implant protetik".includes(q.trim().toLowerCase()) || "implant va protetik davolash".includes(q.trim().toLowerCase()));
+  const showMain = (tab === "" || tab === "Davom etmoqda") && (!q.trim() || "malika implant protetik".includes(q.trim().toLowerCase()) || "implant va protetik davolash".includes(q.trim().toLowerCase()));
   return (
-    <PhoneFrame testId="phone-reja" tab="profil">
+    <PhoneFrame testId="phone-reja" tab="market">
       <div className="p14-head">
         <div>
           <h1>Davolash rejalari</h1>
-          <p className="sub">Bemorlarning davolash rejalari va bosqichlari</p>
+          <p className="sub">Bemorlar uchun davolash rejalari va bosqichlar</p>
         </div>
         <Link href="/crm/davolash-rejalari/yangi" className="p14-chip on" data-testid="plan-add"><Plus size={14} /> Yangi reja</Link>
       </div>
       <div className="p14-head">
-        <SearchBox value={q} onChange={setQ} label="Reja qidirish" placeholder="Bemor yoki reja nomi..." />
+        <SearchBox value={q} onChange={setQ} label="Reja qidirish" placeholder="Bemor ismi yoki reja nomi bo‘yicha qidirish..." />
         <button type="button" className="p14-filter" onClick={() => setFilter(true)}><SlidersHorizontal /> Filtr</button>
       </div>
       <div className="p14-row">
         {[
-          ["Barchasi", "12"],
           ["Rejalashtirilgan", "4"],
           ["Davom etmoqda", "5"],
           ["Yakunlangan", "3"],
         ].map(([label, count]) => (
-          <button key={label} type="button" className={tab === label ? "p14-chip on" : "p14-chip"} onClick={() => setTab(label)}>{label} ({count})</button>
+          <button key={label} type="button" className={tab === label ? "p14-chip on" : "p14-chip"} onClick={() => setTab(tab === label ? "" : label)}>{label} ({count})</button>
         ))}
       </div>
       {showMain ? (
@@ -365,7 +371,7 @@ export function PhonePlans() {
                     <span className={`pill ${stage.status === "Yakunlangan" ? "green" : stage.status === "Davom etmoqda" ? "blue" : stage.status === "Rejalashtirilgan" ? "amber" : "gray"}`}>{stage.status}</span>
                   </div>
                   <p>{formatGroupedNumber(stage.price)} so‘m</p>
-                  {open === stage.id ? <p className="spec">{stage.date}. {stage.note}</p> : null}
+                  {open === stage.id ? <p className="spec">{stage.date ? `${stage.date}. ` : ""}{stage.note}</p> : null}
                 </button>
               ))}
             </div>
@@ -399,11 +405,11 @@ export function PhonePayments() {
   const bars = range === "Hafta" ? WEEK : range === "Oy" ? WEEK.map((item, index) => ({ ...item, h: 30 + ((index * 17) % 60), tip: index === 5 ? item.tip : undefined })) : WEEK.map((item) => ({ ...item, h: 36 + (item.h % 40), tip: undefined }));
   const rows = tab === "recent" ? [...extra, ...phonePayments] : phoneLate;
   return (
-    <PhoneFrame testId="phone-tolovlar" tab="profil">
+    <PhoneFrame testId="phone-tolovlar" tab="market">
       <div className="p14-head">
         <div>
           <h1>To‘lovlar</h1>
-          <p className="sub">Tushumlar va bemor to‘lovlari</p>
+          <p className="sub">Moliyaviy ko‘rsatkichlar va to‘lovlar tarixi</p>
         </div>
         <button type="button" className="p14-filter" onClick={() => setMonth(months[(months.indexOf(month) + 1) % months.length])}>{month}</button>
       </div>
@@ -431,10 +437,11 @@ export function PhonePayments() {
       </div>
       <div className="list">
         {rows.map((item) => (
-          <article key={item.id} className="p14-card row-card">
+          <article key={item.id} className="p14-card row-card pay-row">
             <img src={item.avatar} alt="" />
-            <div><b>{item.name}</b><p className="spec">{item.note} · {item.date}</p><span className={`pill ${item.late ? "red" : item.status.includes("Qisman") ? "amber" : "green"}`}>{item.status}</span></div>
+            <div><b>{item.name}</b><p className="spec">{item.note}</p><p className="spec">{item.date}</p>{item.late ? <span className="pill red">{item.status}</span> : null}</div>
             <b>{item.amount}</b>
+            <ChevronRight size={16} color="#94a3b8" />
           </article>
         ))}
       </div>
@@ -464,7 +471,7 @@ export function PhoneStock() {
     return !q.trim() || blob.includes(q.trim().toLowerCase());
   }), [extra, low, q, tab]);
   return (
-    <PhoneFrame testId="phone-ombor" tab="profil">
+    <PhoneFrame testId="phone-ombor" tab="market">
       <div className="p14-head">
         <div>
           <h1>Ombor</h1>
@@ -473,7 +480,7 @@ export function PhoneStock() {
         <button type="button" className="p14-filter" onClick={() => setScan(true)}>Skaner</button>
       </div>
       <div className="p14-head">
-        <SearchBox value={q} onChange={setQ} label="Ombor qidirish" placeholder="Nomi, kategoriya yoki SKU..." />
+        <SearchBox value={q} onChange={setQ} label="Ombor qidirish" placeholder="Mahsulot nomi, kategoriya yoki SKU bo‘yicha qidirish..." />
         <button type="button" className="p14-filter" onClick={() => setFilter(true)}><SlidersHorizontal /> Filtr</button>
       </div>
       <div className="p14-row">
@@ -489,7 +496,7 @@ export function PhoneStock() {
       </div>
       <button type="button" className="alert" onClick={() => setLow(true)}>
         <b>Kam miqdordagi mahsulotlar</b>
-        5 ta mahsulotning qoldig‘i kam. Buyurtma berishni unutmang.
+        5 ta mahsulotning qoldig‘i kam. Zudlik bilan buyurtma bering.
       </button>
       <div className="list">
         {items.length === 0 ? <p className="p14-empty">Mahsulot topilmadi</p> : items.map((item) => (

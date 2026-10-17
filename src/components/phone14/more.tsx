@@ -134,7 +134,7 @@ export function PhoneAds() {
     setAdd(false);
   }
   return (
-    <PhoneFrame testId="phone-elonlar" tab="profil">
+    <PhoneFrame testId="phone-elonlar" tab="market">
       <div className="p14-head">
         <div>
           <h1>E’lonlar</h1>
