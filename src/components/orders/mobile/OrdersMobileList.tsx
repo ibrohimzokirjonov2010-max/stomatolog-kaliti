@@ -3,9 +3,9 @@
 
 import { useEffect, useMemo, useState } from "react";
 import Link from "next/link";
-import { Check, ChevronRight, Clock, FileText, Headphones, Menu, Search, ShoppingCart, Store, Truck, X } from "lucide-react";
+import { Check, ChevronRight, Clock, FileText, Headphones, Search, ShoppingCart, Store, Truck, X } from "lucide-react";
 import { useCart } from "@/components/cart-provider";
-import { useMobileNav } from "@/components/dashboard/mobile-chrome";
+import { MobileMenuButton } from "@/components/dashboard/mobile-chrome";
 import { NotificationBell } from "@/components/notification-bell";
 import { formatMoney } from "@/lib/format";
 import {
@@ -111,7 +111,6 @@ export function OrderSupportSheet({ order, onClose }: { order: MobileOrder; onCl
 }
 
 export function OrdersMobileList() {
-  const { open, setOpen } = useMobileNav();
   const cart = useCart();
   const lines = cart.items.length;
   const [status, setStatus] = useState<"all" | MobileOrderStatus>("all");
@@ -144,9 +143,7 @@ export function OrdersMobileList() {
   return (
     <div className="od lg:hidden" data-testid="mobile-buyurtmalar">
       <header className="mh-bar">
-        <button type="button" className="mh-ic" aria-label={open ? "Menyuni yopish" : "Menyu"} aria-expanded={open} onClick={() => setOpen(!open)}>
-          <Menu />
-        </button>
+        <MobileMenuButton />
         <Link href="/" className="mh-logo">STOMAHUB</Link>
         <button type="button" className="mh-ic" aria-label="Qidiruv" aria-expanded={searchOpen} onClick={() => setSearchOpen((open) => !open)}>
           <Search />

@@ -24,13 +24,13 @@ export function PhoneFrame({
   testId: string;
   tab?: string;
 }) {
-  const { setOpen } = useMobileNav();
+  const { open, setOpen } = useMobileNav();
   const { count } = useCart();
   const badge = count > 0 ? count : 3;
   return (
     <div className="p14 lg:hidden" data-testid={testId}>
       <header className="p14-bar">
-        <button type="button" className="p14-ico" aria-label="Menyu" onClick={() => setOpen(true)}>
+        <button type="button" className="p14-ico" aria-label={open ? "Menyuni yopish" : "Menyu"} aria-expanded={open} aria-controls="mobile-app-menu" onClick={() => setOpen(!open)}>
           <Menu />
         </button>
         <Link href="/" className="p14-logo" aria-label="STOMAHUB">

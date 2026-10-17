@@ -6,6 +6,7 @@ import Link from "next/link";
 import { Heart, MapPin, Plus, Search, ShoppingCart, SlidersHorizontal } from "lucide-react";
 import { useCart } from "@/components/cart-provider";
 import { useFavorites } from "@/components/favorites-provider";
+import { MobileMenuButton } from "@/components/dashboard/mobile-chrome";
 import { NotificationBell } from "@/components/notification-bell";
 import {
   MOBILE_SURPLUS_TOTAL,
@@ -54,6 +55,7 @@ export function SurplusMobileCatalog({ onPost }: { onPost: () => void }) {
   return (
     <div className="om lg:hidden" data-testid="mobile-surplus">
       <header className="mh-bar">
+        <MobileMenuButton />
         <Link href="/" className="mh-logo">
           STOMAHUB
         </Link>

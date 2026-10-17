@@ -21,6 +21,7 @@ import {
 } from "lucide-react";
 import { useCart } from "@/components/cart-provider";
 import { useFavorites } from "@/components/favorites-provider";
+import { MobileMenuButton } from "@/components/dashboard/mobile-chrome";
 import { NotificationBell } from "@/components/notification-bell";
 import {
   MOBILE_MARKET_TOTAL,
@@ -76,6 +77,7 @@ export function MarketMobileCatalog() {
   return (
     <div className="mk lg:hidden" data-testid="mobile-market">
       <header className="mh-bar">
+        <MobileMenuButton />
         <Link href="/" className="mh-logo">
           STOMAHUB
         </Link>

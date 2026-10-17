@@ -6,6 +6,7 @@ import Link from "next/link";
 import { Bookmark, Heart, HelpCircle, Image as ImageIcon, Lightbulb, MessageCircle, MoreHorizontal, Plus, Search, Share2, ShoppingCart, SlidersHorizontal, Stethoscope, Video } from "lucide-react";
 import { useCart } from "@/components/cart-provider";
 import { useDoctorProfile } from "@/components/doctor-profile-provider";
+import { MobileMenuButton } from "@/components/dashboard/mobile-chrome";
 import { NotificationBell } from "@/components/notification-bell";
 import "./community-mobile.css";
 
@@ -170,6 +171,7 @@ export function CommunityMobile() {
   return (
     <div className="cm lg:hidden" data-testid="mobile-community">
       <header className="mh-bar">
+        <MobileMenuButton />
         <Link href="/" className="mh-logo">STOMAHUB</Link>
         <button type="button" className="mh-ic" aria-label="Qidirish" onClick={() => document.querySelector<HTMLInputElement>("[data-community-search]")?.focus()}>
           <Search />

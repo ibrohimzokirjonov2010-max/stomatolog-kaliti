@@ -30,6 +30,7 @@ import {
 import { useCart } from "@/components/cart-provider";
 import { useDoctorProfile } from "@/components/doctor-profile-provider";
 import { useFavorites } from "@/components/favorites-provider";
+import { MobileMenuButton } from "@/components/dashboard/mobile-chrome";
 import { NotificationBell } from "@/components/notification-bell";
 import "./profil-mobile.css";
 
@@ -126,6 +127,7 @@ export function ProfilMobile() {
   return (
     <div className="pm lg:hidden" data-testid="mobile-profil">
       <header className="mh-bar">
+        <MobileMenuButton />
         <Link href="/" className="mh-logo">STOMAHUB</Link>
         <button type="button" className="mh-ic" aria-label="Qidiruv" aria-expanded={searchOpen} onClick={() => setSearchOpen((open) => !open)}>
           <Search />

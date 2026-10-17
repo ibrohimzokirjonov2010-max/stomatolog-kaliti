@@ -5,6 +5,7 @@ import { useMemo, useState } from "react";
 import Link from "next/link";
 import { ArrowUpDown, ChevronDown, Heart, LayoutGrid, List, Search, ShieldCheck, ShoppingCart, SlidersHorizontal, Tag } from "lucide-react";
 import { useCart } from "@/components/cart-provider";
+import { MobileMenuButton } from "@/components/dashboard/mobile-chrome";
 import { NotificationBell } from "@/components/notification-bell";
 import { JIZHOZ_RESULT_TOTAL, jihozKinds, mobileJihoz, type JihozKind, type MobileJihoz } from "@/data/mobile-jihozlar";
 import type { Product } from "@/data/products";
@@ -127,6 +128,7 @@ export function JihozMobileCatalog() {
   return (
     <div className="jz lg:hidden" data-testid="mobile-jihoz">
       <header className="mh-bar">
+        <MobileMenuButton />
         <Link href="/" className="mh-logo">STOMAHUB</Link>
         <button type="button" className="mh-ic" aria-label="Qidirish" onClick={() => document.querySelector<HTMLInputElement>("[data-jihoz-search]")?.focus()}>
           <Search />

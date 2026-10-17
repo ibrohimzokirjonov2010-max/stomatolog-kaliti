@@ -5,6 +5,7 @@ import { useMemo, useState } from "react";
 import Link from "next/link";
 import { Bell, Calendar, ChevronRight, Clock, Eye, Flame, Search, ShoppingCart, SlidersHorizontal } from "lucide-react";
 import { useCart } from "@/components/cart-provider";
+import { MobileMenuButton } from "@/components/dashboard/mobile-chrome";
 import { NotificationBell } from "@/components/notification-bell";
 import { formatNewsViews, mobileNews, newsKinds, type NewsKind } from "@/data/mobile-news";
 import "./yangiliklar-mobile.css";
@@ -88,6 +89,7 @@ export function YangiliklarMobileList() {
   return (
     <div className="nw lg:hidden" data-testid="mobile-yangiliklar">
       <header className="mh-bar">
+        <MobileMenuButton />
         <Link href="/" className="mh-logo">STOMAHUB</Link>
         <button type="button" className="mh-ic" aria-label="Qidirish" onClick={() => document.querySelector<HTMLInputElement>("[data-news-search]")?.focus()}>
           <Search />

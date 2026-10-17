@@ -4,6 +4,7 @@
 import { useRef, useState } from "react";
 import Link from "next/link";
 import { BarChart3, Building2, CalendarDays, Camera, ChevronRight, Clock, Lock, MapPin, Navigation, Phone, Store, Users, X } from "lucide-react";
+import { MobileMenuButton } from "@/components/dashboard/mobile-chrome";
 import { NotificationBell } from "@/components/notification-bell";
 import "./klinika-mobile.css";
 
@@ -54,6 +55,7 @@ export function KlinikamMobile() {
   return (
     <div className="kl lg:hidden" data-testid="mobile-klinikam">
       <header className="mh-bar">
+        <MobileMenuButton />
         <Link href="/" className="mh-logo">STOMAHUB</Link>
         <NotificationBell variant="mobile" minBadge={2} buttonClassName="size-10 text-[#1a1d26]" />
       </header>

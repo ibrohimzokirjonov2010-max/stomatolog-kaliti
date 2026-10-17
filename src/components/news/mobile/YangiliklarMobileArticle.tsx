@@ -3,6 +3,7 @@
 
 import Link from "next/link";
 import { ArrowLeft, Calendar, Clock, Eye } from "lucide-react";
+import { MobileMenuButton } from "@/components/dashboard/mobile-chrome";
 import { formatNewsViews, type MobileNews } from "@/data/mobile-news";
 import "./yangiliklar-mobile.css";
 
@@ -10,6 +11,7 @@ export function YangiliklarMobileArticle({ item }: { item: MobileNews }) {
   return (
     <article className="nw lg:hidden" data-testid="mobile-yangilik">
       <header className="mh-bar">
+        <MobileMenuButton />
         <Link href="/yangiliklar" className="nw-back" aria-label="Orqaga"><ArrowLeft /></Link>
       </header>
       <div className="nw-body nw-article">

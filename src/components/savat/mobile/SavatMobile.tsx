@@ -7,6 +7,7 @@ import { useRouter } from "next/navigation";
 import { ArrowLeft, Heart, ShoppingCart, Store, Trash2, Truck } from "lucide-react";
 import { useCart } from "@/components/cart-provider";
 import { useFavorites } from "@/components/favorites-provider";
+import { MobileMenuButton } from "@/components/dashboard/mobile-chrome";
 import { NotificationBell } from "@/components/notification-bell";
 import { formatMoney } from "@/lib/format";
 import "./savat-mobile.css";
@@ -33,6 +34,7 @@ export function SavatMobile() {
     <div className="sv lg:hidden" data-testid="mobile-savat">
       <header className="mh-bar">
         <div className="sv-head">
+          <MobileMenuButton />
           <button
             type="button"
             className="sv-back"
