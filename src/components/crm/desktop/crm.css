@@ -79,10 +79,10 @@
 
 .sh .cert-stats { display: flex; gap: calc(.4 * var(--u)); }
 .sh .cert-chips { display: flex; gap: calc(.28 * var(--u)); margin-bottom: calc(.45 * var(--u)); flex-wrap: wrap; }
-.sh .cert-chips button { height: calc(1.6 * var(--u)); padding: 0 calc(.6 * var(--u)); border-radius: calc(.4 * var(--u)); background: #fff; border: 1px solid #e6edf5; font-size: calc(.58 * var(--u)); font-weight: 750; color: #24344d; }
+.sh .cert-chips button { height: calc(2 * var(--u)); padding: 0 calc(.7 * var(--u)); border-radius: calc(.45 * var(--u)); background: #fff; border: 1px solid #e6edf5; font-size: calc(.92 * var(--u)); font-weight: 650; color: #24344d; }
 .sh .cert-chips button.on { background: #0066ff; border-color: #0066ff; color: #fff; }
-.sh .cert-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: calc(.5 * var(--u)); }
-.sh .cert-card { background: #fff; border: 1px solid #e8eef6; border-radius: calc(.55 * var(--u)); padding: calc(.4 * var(--u)); min-width: 0; }
+.sh .cert-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: calc(.9 * var(--u)); }
+.sh .cert-card { background: #fff; border: 1px solid #e8eef6; border-radius: calc(.7 * var(--u)); padding: calc(.45 * var(--u)); min-width: 0; box-shadow: 0 calc(.12 * var(--u)) calc(.7 * var(--u)) rgba(20, 40, 80, .08); }
 .sh .cert-paper { position: relative; height: calc(13.8 * var(--u)); border-radius: calc(.4 * var(--u)); overflow: hidden; padding: calc(.45 * var(--u)); color: #14315c; border: 2px solid rgba(212, 175, 55, .75); box-shadow: inset 0 0 0 3px rgba(255,255,255,.45); }
 .sh .cert-paper.photo { padding: 0; border: 0; box-shadow: none; background: #f4f7fb; }
 .sh .cert-paper.photo img { width: 100%; height: 100%; object-fit: cover; object-position: top center; }
@@ -116,7 +116,7 @@
 .sh .cert-full .go { height: calc(1.9 * var(--u)); padding: 0 calc(1 * var(--u)); border-radius: calc(.4 * var(--u)); background: #0066ff; color: #fff; font-weight: 750; font-size: calc(.66 * var(--u)); }
 .sh .cert-card h2 { margin: calc(.35 * var(--u)) 0 0; font-size: calc(1.07 * var(--u)); font-weight: 600; }
 .sh .cert-card .meta { margin: calc(.08 * var(--u)) 0 0; color: #6a7c93; font-size: calc(.86 * var(--u)); font-weight: 500; }
-.sh .cert-card .when { display: flex; gap: calc(.45 * var(--u)); margin-top: calc(.2 * var(--u)); color: #5b6b82; font-size: calc(.54 * var(--u)); }
+.sh .cert-card .when { display: flex; gap: calc(.45 * var(--u)); margin-top: calc(.28 * var(--u)); color: #5b6b82; font-size: calc(.8 * var(--u)); }
 .sh .cert-ops { display: flex; gap: calc(.25 * var(--u)); margin-top: calc(.35 * var(--u)); }
 .sh .cert-ops button { flex: 1; height: calc(1.55 * var(--u)); border-radius: calc(.35 * var(--u)); border: 1px solid #e6edf5; background: #fff; font-size: calc(.54 * var(--u)); font-weight: 750; color: #24344d; display: inline-flex; align-items: center; justify-content: center; gap: calc(.15 * var(--u)); }
 .sh .cert-view { width: min(calc(42 * var(--u)), 92vw); }

@@ -1,6 +1,6 @@
 .sh .od-head { display: flex; align-items: flex-start; justify-content: space-between; gap: calc(.6 * var(--u)); }
 .sh .od-head h1 { margin: 0; font-size: calc(3.05 * var(--u)); line-height: 1.15; letter-spacing: -.02em; }
-.sh .od-head p { margin: calc(.1 * var(--u)) 0 0; color: #6a7c93; font-size: calc(.72 * var(--u)); }
+.sh .od-head p { margin: calc(.1 * var(--u)) 0 0; color: #6a7c93; font-size: calc(.92 * var(--u)); font-weight: 500; }
 .sh .od-badges { display: flex; gap: calc(.4 * var(--u)); flex: none; }
 .sh .od-badges .brd-badge { padding: calc(.35 * var(--u)) calc(.55 * var(--u)); }
 .sh .od-badges .brd-badge b { white-space: nowrap; }
@@ -52,26 +52,26 @@
 .sh .od-chips { display: flex; gap: calc(.28 * var(--u)); margin-bottom: calc(1.7 * var(--u)); }
 .sh .od-chips button {
   flex: none;
-  height: calc(1.65 * var(--u));
-  padding: 0 calc(.62 * var(--u));
+  height: calc(2 * var(--u));
+  padding: 0 calc(.7 * var(--u));
   border-radius: calc(1 * var(--u));
   background: #fff;
   border: 1px solid #e6edf5;
   color: #3d4f6a;
-  font-size: calc(.58 * var(--u));
-  font-weight: 700;
+  font-size: calc(.92 * var(--u));
+  font-weight: 650;
   white-space: nowrap;
 }
 .sh .od-chips button.on { background: #0066ff; border-color: #0066ff; color: #fff; }
 
-.sh .od-grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: calc(.5 * var(--u)); }
+.sh .od-grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: calc(.85 * var(--u)); }
 .sh .od-card {
   position: relative;
   background: #fff;
   border: 1px solid #e8eef6;
-  border-radius: calc(.6 * var(--u));
+  border-radius: calc(.7 * var(--u));
   min-width: 0;
-  box-shadow: 0 calc(.06 * var(--u)) calc(.3 * var(--u)) rgba(20, 40, 80, .04);
+  box-shadow: 0 calc(.12 * var(--u)) calc(.7 * var(--u)) rgba(20, 40, 80, .08);
 }
 .sh .od-card:hover { border-color: #c5d9ff; box-shadow: 0 calc(.15 * var(--u)) calc(.5 * var(--u)) rgba(0, 102, 255, .08); }
 .sh .od-hit { display: block; padding: calc(.4 * var(--u)); color: inherit; }
@@ -146,7 +146,7 @@
   align-items: center;
   gap: calc(.22 * var(--u));
   margin-top: calc(.32 * var(--u));
-  font-size: calc(.56 * var(--u));
+  font-size: calc(.86 * var(--u));
   color: #5b6b82;
 }
 .sh .od-meta .star { color: #f5b400; fill: #f5b400; font-size: calc(.7 * var(--u)); }

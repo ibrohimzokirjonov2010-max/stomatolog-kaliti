@@ -1,11 +1,11 @@
-.sh .kat-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: calc(.55 * var(--u)); }
+.sh .kat-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: calc(1.05 * var(--u)); }
 .sh .kat-card {
   background: #fff;
   border: 1px solid #e8eef6;
-  border-radius: calc(.6 * var(--u));
+  border-radius: calc(.7 * var(--u));
   overflow: hidden;
   min-width: 0;
-  box-shadow: 0 calc(.06 * var(--u)) calc(.3 * var(--u)) rgba(20, 40, 80, .04);
+  box-shadow: 0 calc(.12 * var(--u)) calc(.7 * var(--u)) rgba(20, 40, 80, .08);
 }
 .sh .kat-card:hover { border-color: #c5d9ff; box-shadow: 0 calc(.15 * var(--u)) calc(.5 * var(--u)) rgba(0, 102, 255, .08); }
 .sh .kat-ph { height: calc(9 * var(--u)); background: #eef3f8; overflow: hidden; }

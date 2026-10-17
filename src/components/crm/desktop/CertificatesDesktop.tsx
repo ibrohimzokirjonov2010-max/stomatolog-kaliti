@@ -73,7 +73,28 @@ const paperFill: Record<Certificate["theme"], string> = {
   royal: "#dbeafe",
 };
 
+const designPreview: Record<string, string> = {
+  "cert-implant": "/img/design-pr13/certs/cert-implant.png",
+  "cert-endo": "/img/design-pr13/certs/cert-endo.png",
+  "cert-orto": "/img/design-pr13/certs/cert-orto.png",
+  "cert-cad": "/img/design-pr13/certs/cert-cad.png",
+  "cert-paro": "/img/design-pr13/certs/cert-paro.png",
+  "cert-child": "/img/design-pr13/certs/cert-child.png",
+};
+
 async function downloadCert(cert: Certificate) {
+  const preview = designPreview[cert.id];
+  if (preview) {
+    const response = await fetch(preview);
+    const blob = await response.blob();
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement("a");
+    link.href = url;
+    link.download = `${cert.id}.png`;
+    link.click();
+    URL.revokeObjectURL(url);
+    return;
+  }
   const canvas = document.createElement("canvas");
   canvas.width = 1400;
   canvas.height = 900;
@@ -114,15 +135,6 @@ async function downloadCert(cert: Certificate) {
   link.click();
   downloadPdf(`${cert.id}.pdf`, ["STOMAHUB", "SERTIFIKAT", cert.holder, cert.title, `${cert.typeLabel} · ${cert.teacher}`, `${cert.dateLabel} · ${cert.place}`, `${cert.cme} CME`]);
 }
-
-const designPreview: Record<string, string> = {
-  "cert-implant": "/img/design-pr13/certs/cert-implant.png",
-  "cert-endo": "/img/design-pr13/certs/cert-endo.png",
-  "cert-orto": "/img/design-pr13/certs/cert-orto.png",
-  "cert-cad": "/img/design-pr13/certs/cert-cad.png",
-  "cert-paro": "/img/design-pr13/certs/cert-paro.png",
-  "cert-child": "/img/design-pr13/certs/cert-child.png",
-};
 
 function CertSheet({ item }: { item: Certificate }) {
   const preview = designPreview[item.id];
