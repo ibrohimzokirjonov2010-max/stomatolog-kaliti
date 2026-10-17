@@ -5,7 +5,11 @@ import {
   Building2,
   Check,
   ChevronRight,
+  Home,
   LayoutDashboard,
+  Search,
+  ShoppingBag,
+  User,
   Users,
 } from "lucide-react";
 import { LandingFaq, LandingLang, LandingLogo, LandingSearch, LandingSocials, PayMarks, ToothBadge } from "@/components/landing/landing-bits";
@@ -14,74 +18,137 @@ import { appPoints, crmPoints, desktopNav, faqs, features, heroText, people, ste
 const wrap = "mx-auto w-[min(1320px,calc(100%-64px))]";
 const title = "text-left font-[family-name:var(--font-outfit)] text-[clamp(32px,2.8vw,40px)] font-bold tracking-tight text-[#0f2744]";
 
-const homeTiles = [
-  { label: "Seminar", color: "#1497a8", bg: "#e7f6f4" },
-  { label: "Market", color: "#0066ff", bg: "#e8f1ff" },
-  { label: "Material", color: "#f59e0b", bg: "#fff1e6" },
-  { label: "Forma", color: "#8b5cf6", bg: "#f3e8ff" },
-  { label: "Ta’lim", color: "#f43f5e", bg: "#ffe8ee" },
-  { label: "Kitob", color: "#3b82f6", bg: "#e8f1ff" },
-  { label: "Usta", color: "#0d9488", bg: "#e7f6f4" },
-  { label: "Lab", color: "#7c3aed", bg: "#f3e8ff" },
+const phoneCats = [
+  { label: "Seminar", src: "/img/phone14/cat-seminar.png" },
+  { label: "Market", src: "/img/phone14/cat-uskunalar.png" },
+  { label: "Material", src: "/img/phone14/cat-materiallar.png" },
+  { label: "Forma", src: "/img/phone14/cat-forma.png" },
+] as const;
+
+const phoneProducts = [
+  { label: "Filtek", src: "/img/shop/m-filtek.jpg" },
+  { label: "ProTaper", src: "/img/shop/m-protaper.jpg" },
+  { label: "Implant", src: "/img/shop/m-timax.jpg" },
+] as const;
+
+const phoneTabs = [
+  { label: "Bosh", icon: Home },
+  { label: "Market", icon: ShoppingBag },
+  { label: "CRM", icon: LayoutDashboard },
+  { label: "Profil", icon: User },
 ] as const;
 
 function PhoneShell({ children, className = "", width = "w-[300px]", height = "h-[540px]" }: { children: ReactNode; className?: string; width?: string; height?: string }) {
   return (
-    <div className={`${width} overflow-hidden rounded-[28px] border-[7px] border-[#0f172a] bg-white shadow-[0_18px_40px_rgba(15,23,42,0.18)] ${className}`}>
-      <div className={`relative overflow-hidden rounded-[22px] bg-[#f4f7fb] ${height}`}>
-        <span className="absolute left-1/2 top-1.5 z-10 h-3 w-12 -translate-x-1/2 rounded-full bg-[#0f172a]" />
-        <div className="h-full overflow-hidden px-2 pt-5">{children}</div>
+    <div className={`${width} overflow-hidden rounded-[28px] border-[6px] border-[#0f172a] bg-white shadow-[0_18px_40px_rgba(15,23,42,0.18)] ${className}`}>
+      <div className={`relative flex flex-col overflow-hidden rounded-[22px] bg-[#f4f7fb] ${height}`}>
+        <span className="absolute left-1/2 top-1.5 z-10 h-3 w-14 -translate-x-1/2 rounded-full bg-[#0f172a]" />
+        <div className="flex h-full min-h-0 flex-col px-2 pt-5">{children}</div>
       </div>
     </div>
   );
 }
 
-export function HomePhone({ width, height, className = "", compact = false }: { width?: string; height?: string; className?: string; compact?: boolean }) {
-  const tiles = compact ? homeTiles.slice(0, 4) : homeTiles;
+function PhoneTabs() {
+  return (
+    <div className="mt-auto grid grid-cols-4 border-t border-[#e6ebf3] bg-white px-0.5 py-1.5">
+      {phoneTabs.map((tab, index) => (
+        <div key={tab.label} className={`text-center ${index === 0 ? "text-[#0066FF]" : "text-[#94a3b8]"}`}>
+          <tab.icon className="mx-auto size-4" />
+          <span className="mt-0.5 block text-[12px] font-semibold leading-none">{tab.label}</span>
+        </div>
+      ))}
+    </div>
+  );
+}
+
+export function HomePhone({ width, height, className = "", variant = "full" }: { width?: string; height?: string; className?: string; variant?: "full" | "compact" }) {
+  if (variant === "compact") {
+    return (
+      <PhoneShell width={width} height={height} className={className}>
+        <div className="flex h-full flex-col">
+          <b className="text-[13px] text-[#16324f]">Stoma<span className="text-[#0066FF]">Hub</span></b>
+          <div className="mt-2 grid grid-cols-4 gap-1">
+            {phoneCats.map((cat) => (
+              <div key={cat.label} className="text-center">
+                <span className="mx-auto grid size-8 place-items-center overflow-hidden rounded-lg bg-white shadow-sm">
+                  <img src={cat.src} alt="" className="size-7 object-contain" />
+                </span>
+                <span className="mt-1 block truncate text-[12px] font-semibold text-[#334155]">{cat.label}</span>
+              </div>
+            ))}
+          </div>
+          <div className="mt-2 rounded-xl bg-[#0066FF] px-2 py-2 text-[12px] font-bold leading-tight text-white">
+            Stomatologlar uchun yagona platforma
+          </div>
+        </div>
+      </PhoneShell>
+    );
+  }
   return (
     <PhoneShell width={width} height={height} className={className}>
-      <div className="pb-2">
-        <b className="text-[13px] text-[#16324f]">Stoma<span className="text-[#0066FF]">Hub</span></b>
-        <p className="mt-2 text-[12px] text-[#64748b]">Xush kelibsiz</p>
-        <p className="text-[15px] font-extrabold leading-tight text-[#16324f]">Dr. Azizbek</p>
-        <div className="mt-2 flex h-8 items-center rounded-full bg-white px-2 text-[12px] text-[#94a3b8] ring-1 ring-[#e6ebf3]">Qidiruv</div>
-        <div className={`mt-2 grid gap-1.5 ${compact ? "grid-cols-2" : "grid-cols-4"}`}>
-          {tiles.map((tile) => (
-            <div key={tile.label} className="rounded-xl bg-white px-1 py-1.5 text-center shadow-sm">
-              <span className="mx-auto grid size-7 place-items-center rounded-lg text-[12px] font-bold" style={{ background: tile.bg, color: tile.color }}>
-                {tile.label.slice(0, 1)}
+      <div className="flex h-full min-h-0 flex-col">
+        <div className="flex items-center justify-between">
+          <b className="text-[13px] text-[#16324f]">Stoma<span className="text-[#0066FF]">Hub</span></b>
+          <img src="/images/avatar-azizbek.png" alt="" className="size-6 rounded-full object-cover" />
+        </div>
+        <div className="mt-2 flex h-8 items-center gap-1 rounded-full bg-white px-2 text-[12px] text-[#94a3b8] ring-1 ring-[#e6ebf3]">
+          <Search className="size-3.5 shrink-0" />
+          Qidiruv
+        </div>
+        <div className="mt-2 grid grid-cols-4 gap-1">
+          {phoneCats.map((cat) => (
+            <div key={cat.label} className="rounded-xl bg-white px-0.5 py-1.5 text-center shadow-sm">
+              <span className="mx-auto grid size-8 place-items-center overflow-hidden rounded-lg bg-[#f4f7fb]">
+                <img src={cat.src} alt="" className="size-7 object-contain" />
               </span>
-              <span className="mt-1 block truncate text-[12px] font-semibold text-[#334155]">{tile.label}</span>
+              <span className="mt-1 block truncate text-[12px] font-semibold text-[#334155]">{cat.label}</span>
             </div>
           ))}
         </div>
-        <div className="mt-2 overflow-hidden rounded-xl bg-white shadow-sm">
-          <img src="/img/mobile/implant.jpg" alt="" className="h-16 w-full object-cover" />
-          <div className="p-2">
-            <p className="text-[13px] font-bold leading-tight text-[#16324f]">Implantologiya</p>
-            <p className="text-[12px] text-[#64748b]">21 okt · Toshkent</p>
-          </div>
+        <div className="mt-2 rounded-xl bg-[#0066FF] px-2.5 py-2 text-[12px] font-bold leading-snug text-white">
+          Stomatologlar uchun yagona platforma
         </div>
+        <p className="mt-2 text-[12px] font-bold text-[#16324f]">Ommabop kategoriyalar</p>
+        <div className="mt-1 grid grid-cols-3 gap-1">
+          {phoneProducts.map((item) => (
+            <div key={item.label} className="overflow-hidden rounded-lg bg-white shadow-sm">
+              <img src={item.src} alt="" className="h-12 w-full object-cover" />
+              <p className="truncate px-1 py-1 text-[12px] font-semibold text-[#16324f]">{item.label}</p>
+            </div>
+          ))}
+        </div>
+        <PhoneTabs />
       </div>
     </PhoneShell>
   );
 }
 
-export function ProfilePhone({ width, height, className = "mt-10" }: { width?: string; height?: string; className?: string }) {
+export function ProfilePhone({ width, height, className = "" }: { width?: string; height?: string; className?: string }) {
   return (
     <PhoneShell width={width} height={height} className={className}>
-      <div className="pb-2">
+      <div className="flex h-full min-h-0 flex-col">
         <p className="text-center text-[12px] font-extrabold text-[#16324f]">Profil</p>
-        <img src="/images/avatar-azizbek.png" alt="" className="mx-auto mt-1 size-10 rounded-full object-cover" />
-        <p className="mt-1 text-center text-[12px] font-bold leading-tight text-[#16324f]">Dr. Azizbek</p>
+        <img src="/images/avatar-azizbek.png" alt="" className="mx-auto mt-2 size-12 rounded-full object-cover" />
+        <p className="mt-1 text-center text-[13px] font-bold leading-tight text-[#16324f]">Dr. Azizbek</p>
+        <p className="text-center text-[12px] text-[#64748b]">Stomatolog</p>
+        <div className="mt-2 grid grid-cols-2 gap-1">
+          {[["12", "Kurs"], ["4", "Buyurtma"]].map(([value, label]) => (
+            <div key={label} className="rounded-lg bg-white py-1 text-center shadow-sm">
+              <b className="block text-[13px] text-[#0066FF]">{value}</b>
+              <span className="block text-[12px] text-[#64748b]">{label}</span>
+            </div>
+          ))}
+        </div>
         <div className="mt-2 space-y-1">
           {["Kurslarim", "Buyurtmalar", "Uchrashuvlar", "Sozlamalar"].map((label) => (
-            <div key={label} className="flex items-center justify-between rounded-lg bg-white px-1.5 py-1 text-[12px] font-semibold text-[#16324f] shadow-sm">
+            <div key={label} className="flex items-center justify-between rounded-lg bg-white px-1.5 py-1.5 text-[12px] font-semibold text-[#16324f] shadow-sm">
               <span className="truncate">{label}</span>
               <ChevronRight className="size-3 shrink-0 text-[#94a3b8]" />
             </div>
           ))}
         </div>
+        <PhoneTabs />
       </div>
     </PhoneShell>
   );
@@ -161,7 +228,7 @@ export function CrmMock({ compact = false }: { compact?: boolean }) {
 export function LandingDesktop() {
   return (
     <div className="bg-[#f7f9fc] text-[#16324f]" data-testid="desktop-landing">
-      <header data-section="header" className="sticky top-0 z-40 border-b border-[#e8eef6] bg-white/95 backdrop-blur">
+      <header data-section="header" data-landing-header className="sticky top-0 z-40 border-b border-[#e8eef6] bg-white/95 backdrop-blur">
         <div className={`${wrap} flex h-[84px] items-center gap-3`}>
           <Link href="/landing" aria-label="StomaHub" className="shrink-0">
             <LandingLogo size="lg" />
@@ -185,24 +252,24 @@ export function LandingDesktop() {
         </div>
       </header>
 
-      <section data-section="hero" className="relative overflow-hidden">
-        <div className="pointer-events-none absolute inset-y-0 right-0 w-[62%]">
-          <img src="/img/landing/hero-dentist.jpg" alt="" className="h-full w-full object-cover object-[36%_16%]" />
-          <div className="absolute inset-0 bg-[linear-gradient(90deg,#f7f9fc_0%,rgba(247,249,252,0.88)_10%,rgba(247,249,252,0.18)_34%,rgba(247,249,252,0)_58%)]" />
-          <div className="absolute inset-x-0 bottom-0 h-28 bg-gradient-to-t from-[#f7f9fc] to-transparent" />
+      <section data-section="hero" className="relative">
+        <div className="pointer-events-none absolute inset-y-0 right-0 w-[58%] overflow-hidden">
+          <img src="/img/landing/hero-dentist.jpg" alt="" className="h-full w-full object-cover object-[28%_16%]" />
+          <div className="absolute inset-0 bg-[linear-gradient(90deg,#f7f9fc_0%,rgba(247,249,252,0.72)_16%,rgba(247,249,252,0.08)_42%,rgba(247,249,252,0)_68%)]" />
+          <div className="absolute inset-x-0 bottom-0 h-20 bg-gradient-to-t from-[#f7f9fc] to-transparent" />
         </div>
-        <div className={`${wrap} relative grid min-h-[720px] items-center gap-8 py-16 lg:grid-cols-[minmax(0,0.92fr)_minmax(320px,1.08fr)]`}>
+        <div className={`${wrap} relative grid items-center gap-6 py-8 lg:grid-cols-[minmax(0,1fr)_320px]`}>
           <div>
             <p className="inline-flex items-center gap-2 rounded-full bg-white px-3.5 py-1.5 text-[14px] font-semibold text-[#0066FF] shadow-sm ring-1 ring-[#e6ebf3]">
               <span className="size-1.5 rounded-full bg-[#00C2A8]" />
               Stomatologlar uchun yagona platforma
             </p>
-            <h1 className="mt-6 font-[family-name:var(--font-outfit)] text-[clamp(48px,4.7vw,72px)] font-bold leading-[1.05] tracking-tight text-[#0f2744]">
+            <h1 className="mt-4 font-[family-name:var(--font-outfit)] text-[clamp(48px,4.7vw,72px)] font-bold leading-[1.05] tracking-tight text-[#0f2744]">
               Stomatologlar uchun
               <span className="block text-[#0066FF]">yagona platforma</span>
             </h1>
-            <p className="mt-5 max-w-xl text-[16px] leading-relaxed text-[#52637a]">{heroText}</p>
-            <div className="mt-8 flex flex-wrap gap-3">
+            <p className="mt-4 max-w-xl text-[16px] leading-relaxed text-[#52637a]">{heroText}</p>
+            <div className="mt-5 flex flex-wrap gap-3">
               <Link href="/royxat" className="inline-flex h-14 items-center rounded-full bg-[#0066FF] px-7 text-[16px] font-bold text-white shadow-[0_10px_24px_rgba(0,102,255,0.28)] transition hover:bg-[#0052cc]">
                 Bepul ro‘yxatdan o‘tish
               </Link>
@@ -210,46 +277,46 @@ export function LandingDesktop() {
                 Marketplace’ni ko‘rish
               </Link>
             </div>
-            <ul className="mt-9 flex flex-wrap gap-x-6 gap-y-3 text-[15px] font-semibold text-[#334155]">
+            <ul className="mt-5 flex flex-wrap gap-x-6 gap-y-3 text-[15px] font-semibold text-[#334155]">
               <li className="inline-flex items-center gap-2"><span className="grid size-10 place-items-center rounded-full bg-[#e8f1ff] text-[#0066FF]"><LayoutDashboard className="size-5" /></span>Barcha imkoniyatlar bir joyda</li>
               <li className="inline-flex items-center gap-2"><span className="grid size-10 place-items-center rounded-full bg-[#e6faf6] text-[#00A896]"><Building2 className="size-5" /></span>O‘zbekiston bozori uchun mos</li>
               <li className="inline-flex items-center gap-2"><span className="grid size-10 place-items-center rounded-full bg-[#fff4e5] text-[#d97706]"><Users className="size-5" /></span>Stomatologlar hamjamiyati</li>
             </ul>
           </div>
-          <div className="relative min-h-[560px]">
-            <ToothBadge className="absolute right-[18%] top-10 size-[72px]" />
-            <div className="absolute bottom-2 right-2">
-              <HomePhone />
-            </div>
+          <div className="relative justify-self-end pb-2">
+            <ToothBadge className="absolute -left-8 top-10 size-[72px]" />
+            <HomePhone width="w-[300px]" height="h-[540px]" />
           </div>
         </div>
       </section>
 
-      <section data-section="features" className={`${wrap} py-20`}>
+      <section data-section="features" className={`${wrap} py-12`}>
         <h2 className={title}>Nimalar bor?</h2>
-        <p className="mt-3 max-w-xl text-[16px] text-[#52637a]">Stomatologlar uchun kerakli barcha imkoniyatlar bir joyda</p>
-        <div className="mt-10 grid gap-5 sm:grid-cols-2 xl:grid-cols-4">
+        <p className="mt-2 max-w-xl text-[16px] text-[#52637a]">Stomatologlar uchun kerakli barcha imkoniyatlar bir joyda</p>
+        <div className="mt-6 grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
           {features.map((item) => (
-            <Link key={item.href} href={item.href} className="min-h-[210px] rounded-[22px] border border-[#e8eef6] bg-white p-6 shadow-[0_10px_28px_rgba(15,23,42,0.05)] transition hover:-translate-y-0.5 hover:shadow-[0_16px_36px_rgba(15,23,42,0.08)]">
-              <span className="grid size-14 place-items-center rounded-2xl bg-[#e8f1ff] text-[#0066FF]">
-                <item.icon className="size-7" strokeWidth={1.75} />
+            <Link key={item.href} href={item.href} className="flex h-[120px] items-start gap-3 rounded-[18px] border border-[#e8eef6] bg-white p-3 shadow-[0_8px_20px_rgba(15,23,42,0.04)] transition hover:-translate-y-0.5 hover:shadow-[0_14px_28px_rgba(15,23,42,0.08)]">
+              <span className="grid size-12 shrink-0 place-items-center rounded-2xl bg-[#e8f1ff] text-[#0066FF]">
+                <item.icon className="size-6" strokeWidth={1.75} />
               </span>
-              <h3 className="mt-5 font-[family-name:var(--font-outfit)] text-[18px] font-bold">{item.title}</h3>
-              <p className="mt-2 text-[15px] leading-relaxed text-[#52637a]">{item.text}</p>
+              <span className="min-w-0">
+                <h3 className="font-[family-name:var(--font-outfit)] text-[16px] font-bold leading-tight">{item.title}</h3>
+                <p className="mt-1 line-clamp-2 text-[14px] leading-snug text-[#52637a]">{item.text}</p>
+              </span>
             </Link>
           ))}
         </div>
       </section>
 
-      <section data-section="audiences" className="bg-white py-20">
+      <section data-section="audiences" className="bg-white py-12">
         <div className={wrap}>
           <h2 className={title}>Kimlar uchun?</h2>
-          <p className="mt-3 text-[16px] text-[#52637a]">Platforma klinikadagi har bir rol uchun</p>
-          <div className="mt-10 grid grid-cols-2 gap-5 md:grid-cols-3 xl:grid-cols-5">
+          <p className="mt-2 text-[16px] text-[#52637a]">Platforma klinikadagi har bir rol uchun</p>
+          <div className="mt-6 grid grid-cols-2 gap-4 md:grid-cols-3 xl:grid-cols-5">
             {people.map((person) => (
-              <Link key={person.title} href={person.href} className={`group rounded-[22px] border p-3 shadow-[0_10px_28px_rgba(15,23,42,0.04)] transition hover:-translate-y-0.5 ${person.selected ? "border-[#0066FF] bg-[#e8f1ff]" : "border-[#e8eef6] bg-white"}`}>
-                <span className="relative block aspect-[16/10] overflow-hidden rounded-2xl bg-[#dbe7f5]">
-                  <img src={person.image} alt="" className="absolute inset-x-0 top-0 h-[148%] w-full object-cover object-top" />
+              <Link key={person.title} href={person.href} className={`group rounded-[22px] border p-2.5 shadow-[0_8px_20px_rgba(15,23,42,0.04)] transition hover:-translate-y-0.5 ${person.selected ? "border-[#0066FF] bg-[#e8f1ff]" : "border-[#e8eef6] bg-white"}`}>
+                <span className="relative block h-[180px] overflow-hidden rounded-2xl bg-[#dbe7f5]">
+                  <img src={person.image} alt="" className="absolute inset-x-0 top-0 h-[155%] w-full object-cover object-top" />
                 </span>
                 <span className="mt-3 flex items-start justify-between gap-2 px-1 pb-1">
                   <span>
@@ -266,7 +333,7 @@ export function LandingDesktop() {
         </div>
       </section>
 
-      <section data-section="crm" className="relative overflow-hidden py-20">
+      <section data-section="crm" className="relative overflow-hidden py-12">
         <div className="pointer-events-none absolute inset-y-0 right-0 w-[48%]">
           <img src="/img/landing/hero-dentist.jpg" alt="" className="h-full w-full object-cover object-[72%_center]" />
           <div className="absolute inset-0 bg-[linear-gradient(90deg,#f7f9fc_0%,rgba(247,249,252,0.78)_24%,rgba(247,249,252,0.28)_78%)]" />
@@ -297,14 +364,14 @@ export function LandingDesktop() {
         </div>
       </section>
 
-      <section data-section="steps" className="bg-white py-20">
+      <section data-section="steps" className="bg-white py-12">
         <div className={wrap}>
           <h2 className={title}>Qanday ishlaydi?</h2>
-          <p className="mt-3 text-[16px] text-[#52637a]">StomaHub’da boshlash juda oson</p>
-          <ol className="mt-12 grid items-stretch gap-4 lg:grid-cols-[1fr_auto_1fr_auto_1fr]">
+          <p className="mt-2 text-[16px] text-[#52637a]">StomaHub’da boshlash juda oson</p>
+          <ol className="mt-6 grid items-stretch gap-4 lg:grid-cols-[1fr_auto_1fr_auto_1fr]">
             {steps.map((step, index) => (
               <li key={step.n} className="contents">
-                <div className="rounded-[24px] border border-[#e8eef6] bg-[#f7f9fc] px-7 py-10 text-center">
+                <div className="rounded-[24px] border border-[#e8eef6] bg-[#f7f9fc] px-6 py-6 text-center">
                   <span className="inline-grid size-14 place-items-center rounded-full bg-[#0066FF] font-[family-name:var(--font-outfit)] text-[20px] font-bold text-white">{step.n}</span>
                   <h3 className="mt-5 text-[18px] font-bold">{step.title}</h3>
                   <p className="mt-2 text-[15px] leading-relaxed text-[#52637a]">{step.text}</p>
@@ -316,9 +383,8 @@ export function LandingDesktop() {
         </div>
       </section>
 
-      <section data-section="app" id="ilova" className="relative overflow-hidden py-20">
-        <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_center,#e7f0ff_0%,#f7f9fc_68%)]" />
-        <div className={`${wrap} relative grid items-center gap-10 lg:grid-cols-[minmax(0,0.9fr)_auto_minmax(0,0.85fr)]`}>
+      <section data-section="app" id="ilova" className="py-12">
+        <div className={`${wrap} grid items-center gap-6 lg:grid-cols-[minmax(0,0.85fr)_auto_minmax(0,0.8fr)]`}>
           <div>
             <h2 className={title}>Har doim yoningizda</h2>
             <p className="mt-4 max-w-md text-[16px] leading-relaxed text-[#52637a]">
@@ -335,9 +401,11 @@ export function LandingDesktop() {
               </a>
             </div>
           </div>
-          <div className="flex items-end justify-center gap-5">
-            <HomePhone width="w-[280px]" height="h-[500px]" />
-            <ProfilePhone width="w-[250px]" height="h-[460px]" className="mb-6" />
+          <div className="rounded-[32px] bg-[#e7f0ff] px-5 py-6">
+            <div className="flex items-end justify-center gap-4">
+              <HomePhone width="w-[230px]" height="h-[460px]" />
+              <ProfilePhone width="w-[210px]" height="h-[420px]" className="mb-4" />
+            </div>
           </div>
           <ul className="space-y-3">
             {appPoints.map((point) => (
@@ -350,17 +418,17 @@ export function LandingDesktop() {
         </div>
       </section>
 
-      <section data-section="faq" id="savollar" className="bg-white py-20">
+      <section data-section="faq" id="savollar" className="bg-white py-12">
         <div className={wrap}>
           <h2 className={title}>Ko‘p so‘raladigan savollar</h2>
-          <div className="mt-10">
+          <div className="mt-6">
             <LandingFaq items={faqs.map((item) => ({ q: item.q, a: item.a }))} />
           </div>
         </div>
       </section>
 
-      <section data-section="cta" className={`${wrap} py-10`}>
-        <div className="rounded-[28px] bg-gradient-to-r from-[#0066FF] to-[#3d8bff] px-8 py-14 text-center text-white shadow-[0_16px_40px_rgba(0,102,255,0.25)]">
+      <section data-section="cta" className={`${wrap} py-6`}>
+        <div className="rounded-[28px] bg-gradient-to-r from-[#0066FF] to-[#3d8bff] px-8 py-10 text-center text-white shadow-[0_16px_40px_rgba(0,102,255,0.25)]">
           <h2 className="font-[family-name:var(--font-outfit)] text-[clamp(32px,2.6vw,44px)] font-bold tracking-tight">Stomatologlar hamjamiyatiga qo‘shiling</h2>
           <p className="mx-auto mt-3 max-w-2xl text-[16px] text-white/90">Kasbiy o‘sish, yangi imkoniyatlar va ishonchli hamkorlar — barchasi StomaHub’da.</p>
           <Link href="/royxat" className="mt-7 inline-flex h-12 items-center rounded-full bg-white px-6 text-[16px] font-bold text-[#0066FF] transition hover:bg-[#f3f8ff]">
@@ -370,7 +438,7 @@ export function LandingDesktop() {
       </section>
 
       <footer data-section="footer" className="mt-6 border-t border-[#e8eef6] bg-white">
-        <div className={`${wrap} grid gap-8 py-14 sm:grid-cols-2 lg:grid-cols-6`}>
+        <div className={`${wrap} grid gap-8 py-10 sm:grid-cols-2 lg:grid-cols-6`}>
           <div className="lg:col-span-1">
             <LandingLogo />
             <div className="mt-4">

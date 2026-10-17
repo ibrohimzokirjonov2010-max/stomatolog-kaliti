@@ -37,7 +37,7 @@ function StoreBadges() {
 export function LandingMobile() {
   return (
     <div className="overflow-x-clip bg-[#f7f9fc] text-[#16324f]" data-testid="mobile-landing">
-      <header className="sticky top-0 z-30 flex min-h-16 items-center justify-between bg-white/95 px-3 py-1.5 backdrop-blur">
+      <header data-landing-header className="sticky top-0 z-30 flex min-h-16 items-center justify-between bg-white/95 px-3 py-1.5 backdrop-blur">
         <Link href="/landing" aria-label="StomaHub" className="min-w-0">
           <LandingLogo />
         </Link>
@@ -47,44 +47,40 @@ export function LandingMobile() {
         </div>
       </header>
 
-      <section className="relative overflow-hidden px-4 pb-6 pt-4">
-        <div className="pointer-events-none absolute inset-x-0 top-0 h-[430px]">
-          <img src="/img/landing/hero-dentist.jpg" alt="" className="absolute right-0 top-0 h-full w-[92%] object-cover object-[22%_12%]" />
-          <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(247,249,252,0.02)_0%,rgba(247,249,252,0.12)_48%,#f7f9fc_100%)]" />
-          <div className="absolute inset-0 bg-[linear-gradient(90deg,#f7f9fc_0%,rgba(247,249,252,0.45)_26%,rgba(247,249,252,0)_68%)]" />
+      <section className="px-4 pb-5 pt-4">
+        <p className="inline-flex items-center gap-2 rounded-full bg-white px-3 py-1.5 text-[12px] font-semibold text-[#0066FF] ring-1 ring-[#e6ebf3]">
+          <span className="size-1.5 rounded-full bg-[#00C2A8]" />
+          Stomatologlar uchun yagona platforma
+        </p>
+        <h1 className="mt-3 text-left font-[family-name:var(--font-outfit)] text-[34px] font-bold leading-[1.12] tracking-tight">
+          Stomatologlar uchun
+          <span className="block text-[#0066FF]">yagona platforma</span>
+        </h1>
+        <p className="mt-3 text-[15px] leading-relaxed text-[#52637a]">{heroText}</p>
+        <div className="relative mt-4 h-[330px] overflow-hidden bg-[#eef3f8]">
+          <img src="/img/landing/hero-dentist.jpg" alt="" className="absolute inset-y-0 right-0 h-full w-[78%] object-cover object-[24%_16%]" />
+          <div className="absolute inset-0 bg-[linear-gradient(90deg,#f7f9fc_0%,rgba(247,249,252,0.55)_22%,rgba(247,249,252,0)_48%)]" />
+          <div className="absolute inset-x-0 bottom-0 h-16 bg-gradient-to-t from-[#f7f9fc] to-transparent" />
+          <div className="absolute bottom-2 left-2 z-10">
+            <HomePhone variant="compact" width="w-[156px]" height="h-[268px]" />
+          </div>
+          <ToothBadge className="absolute right-2 top-1/2 z-10 size-14 -translate-y-1/2" />
         </div>
-        <div className="relative">
-          <p className="inline-flex items-center gap-2 rounded-full bg-white/90 px-3 py-1.5 text-[12px] font-semibold text-[#0066FF] ring-1 ring-[#e6ebf3]">
-            <span className="size-1.5 rounded-full bg-[#00C2A8]" />
-            Stomatologlar uchun yagona platforma
-          </p>
-          <h1 className="mt-3 max-w-[280px] text-left font-[family-name:var(--font-outfit)] text-[34px] font-bold leading-[1.12] tracking-tight">
-            Stomatologlar uchun
-            <span className="block text-[#0066FF]">yagona platforma</span>
-          </h1>
-          <p className="mt-3 max-w-[280px] text-[15px] leading-relaxed text-[#52637a]">{heroText}</p>
-          <div className="relative mt-2 h-[250px]">
-            <div className="absolute bottom-0 left-0">
-              <HomePhone compact width="w-[158px]" height="h-[248px]" />
+        <Link href="/royxat" className="mt-4 flex h-12 items-center justify-center rounded-full bg-[#0066FF] text-[15px] font-bold text-white shadow-[0_10px_24px_rgba(0,102,255,0.28)]">
+          Bepul ro‘yxatdan o‘tish
+        </Link>
+        <Link href="/marketplace" className="mt-2.5 flex h-12 items-center justify-center rounded-full border border-[#d7e2f0] bg-white text-[15px] font-bold text-[#16324f]">
+          Marketplace’ni ko‘rish
+        </Link>
+        <div className="mt-3 grid grid-cols-2 gap-2">
+          {highlights.map((item) => (
+            <div key={item.title} className="flex items-start gap-2 rounded-2xl border border-[#e8eef6] bg-white p-2.5">
+              <span className={`grid size-9 shrink-0 place-items-center rounded-lg ${item.tone}`}>
+                <item.icon className="size-4" />
+              </span>
+              <span className="pt-0.5 text-[13px] font-semibold leading-snug">{item.title}</span>
             </div>
-            <ToothBadge className="absolute right-1 top-6 size-14" />
-          </div>
-          <Link href="/royxat" className="mt-3 flex h-12 items-center justify-center rounded-full bg-[#0066FF] text-[15px] font-bold text-white shadow-[0_10px_24px_rgba(0,102,255,0.28)]">
-            Bepul ro‘yxatdan o‘tish
-          </Link>
-          <Link href="/marketplace" className="mt-2.5 flex h-12 items-center justify-center rounded-full border border-[#d7e2f0] bg-white text-[15px] font-bold text-[#16324f]">
-            Marketplace’ni ko‘rish
-          </Link>
-          <div className="mt-3 grid grid-cols-2 gap-2">
-            {highlights.map((item) => (
-              <div key={item.title} className="flex items-start gap-2 rounded-2xl border border-[#e8eef6] bg-white p-2.5">
-                <span className={`grid size-9 shrink-0 place-items-center rounded-lg ${item.tone}`}>
-                  <item.icon className="size-4" />
-                </span>
-                <span className="pt-0.5 text-[13px] font-semibold leading-snug">{item.title}</span>
-              </div>
-            ))}
-          </div>
+          ))}
         </div>
       </section>
 
