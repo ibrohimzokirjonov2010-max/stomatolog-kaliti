@@ -4,6 +4,7 @@
 import { useMemo, useState } from "react";
 import { ChevronRight, Download, Plus, Printer, Search } from "lucide-react";
 import { CrmFrame, CrmModal } from "@/components/crm/desktop/CrmFrame";
+import { NewPlanModal } from "@/components/crm/CrmCreateModals";
 import { ADULT_LOWER, ADULT_UPPER, ToothChart, cycleTooth } from "@/components/crm/desktop/ToothChart";
 import { buildPatients, seedPlans, type PlanStep, type ToothState, type TreatmentPlan } from "@/data/crm";
 import { downloadPdf } from "@/lib/simple-pdf";
@@ -37,7 +38,7 @@ export function PlansDesktop() {
   const [templates, setTemplates] = useState(false);
   const [step, setStep] = useState({ name: "", teeth: "", price: "300000" });
   const [pay, setPay] = useState({ amount: "200000", method: "Naqd", note: "To‘lov" });
-  const [draft, setDraft] = useState({ title: "", doctor: "Dr. Sardor Karimov", patientId: "p-0002" });
+  const [draft, setDraft] = useState({ title: "", doctor: "Dr. Sardor Karimov", patientId: "p-0002", date: "2026-10-22", teeth: "", amount: "", note: "" });
 
   const filtered = useMemo(() => plans.filter((plan) => {
     const patient = PATIENTS.find((item) => item.id === plan.patientId);
@@ -161,11 +162,31 @@ export function PlansDesktop() {
           </CrmModal>
         ) : null}
         {newOpen ? (
-          <CrmModal title="Yangi reja" onClose={() => setNewOpen(false)}>
-            <label className="crm-field">Nomi<input data-testid="new-plan" value={draft.title} onChange={(event) => setDraft({ ...draft, title: event.target.value })} /></label>
-            <label className="crm-field">Bemor<select value={draft.patientId} onChange={(event) => setDraft({ ...draft, patientId: event.target.value })}>{PATIENTS.map((item) => <option key={item.id} value={item.id}>{item.name}</option>)}</select></label>
-            <div className="row"><button type="button" className="go" data-testid="new-plan-save" onClick={() => { const id = `r-${Date.now()}`; setPlans((prev) => [{ id, title: draft.title || "Yangi reja", code: id.slice(-6), date: "22.10.2026", status: "reja", doctor: draft.doctor, patientId: draft.patientId, steps: [], payments: [], teeth: {} }, ...prev]); setSelected(id); setNewOpen(false); }}>Saqlash</button></div>
-          </CrmModal>
+          <NewPlanModal
+            patients={PATIENTS}
+            initial={draft}
+            onClose={() => setNewOpen(false)}
+            onSave={(next) => {
+              const id = `r-${Date.now()}`;
+              const [year, month, day] = next.date.split("-");
+              const price = Number(next.amount) || 0;
+              setPlans((prev) => [{
+                id,
+                title: next.title.trim() || "Yangi reja",
+                code: id.slice(-6),
+                date: day && month && year ? `${day}.${month}.${year}` : "22.10.2026",
+                status: "reja",
+                doctor: next.doctor,
+                patientId: next.patientId,
+                steps: price || next.teeth ? [{ id: `s-${id}`, name: next.note.trim() || "Asosiy bosqich", teeth: next.teeth || "–", count: 1, price, status: "kutil", date: "" }] : [],
+                payments: [],
+                teeth: {},
+              }, ...prev]);
+              setDraft(next);
+              setSelected(id);
+              setNewOpen(false);
+            }}
+          />
         ) : null}
         {templates ? (
           <CrmModal title="Reja shablonlari" onClose={() => setTemplates(false)}>

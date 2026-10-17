@@ -19,6 +19,15 @@ export type Patient = {
   avatar: string;
   email: string;
   created: string;
+  /** Set when the patient is added from the form, so they sort ahead of the seed list. */
+  addedAt?: number;
+  family?: string;
+  birth?: string;
+  address?: string;
+  source?: string;
+  conditions?: string[];
+  otherCondition?: string;
+  note?: string;
   teeth: Record<string, ToothState>;
   visits: PatientVisit[];
   payments: PatientPay[];
@@ -122,6 +131,7 @@ export type Appointment = {
 };
 
 export const apptDoctors = [
+  { id: "ibrohim", name: "Dr. Ibrohim", role: "Stomatolog" },
   { id: "karimov", name: "Dr. Karimov", role: "Implantolog" },
   { id: "aliyeva", name: "Dr. Aliyeva", role: "Terapevt" },
   { id: "toxtayev", name: "Dr. To‘xtayev", role: "Ortoped" },
@@ -242,7 +252,7 @@ export const seedPlans: TreatmentPlan[] = [
 ];
 
 export type PayStatus = "tolandi" | "qisman";
-export type PayMethod = "Naqd" | "Click" | "Karta" | "Payme";
+export type PayMethod = "Naqd" | "Click" | "Karta" | "Payme" | "O‘tkazma";
 
 export type ClinicPayment = {
   id: string;
