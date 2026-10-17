@@ -3,7 +3,7 @@
 import { useEffect, useMemo, useRef, useState, type DragEvent, type FormEvent } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { Check, Video } from "lucide-react";
+import { Camera, Check, ChevronLeft, ChevronRight, Circle, ClipboardList, Eye, FileUp, ImagePlus, MapPin, Package, Send, Tag, Upload, Video, X } from "lucide-react";
 import { useDoctorProfile } from "@/components/doctor-profile-provider";
 import { useSurplusWork } from "@/components/surplus-provider";
 import { ShopShell } from "@/components/shop/desktop/ShopShell";
@@ -55,6 +55,7 @@ const emptyForm = {
   source: "",
   shopName: "",
   invoiceName: "",
+  invoiceSize: 0,
   reason: "",
   note: "",
   price: "",
@@ -74,6 +75,12 @@ function monthsAhead(month: string, year: string) {
   const yyyy = Number(year);
   if (!mm || !yyyy) return 0;
   return Math.max(1, (yyyy - 2026) * 12 + (mm - 10));
+}
+
+function fileSize(bytes: number) {
+  if (bytes < 1024) return `${bytes} B`;
+  if (bytes < 1024 * 1024) return `${Math.max(1, Math.round(bytes / 1024))} KB`;
+  return `${(bytes / (1024 * 1024)).toFixed(1)} MB`;
 }
 
 function blobToDataUrl(blob: Blob) {
@@ -167,6 +174,7 @@ export function SurplusPostForm({ mobile = false }: { mobile?: boolean }) {
         source: draft.source ?? "",
         shopName: draft.shopName ?? "",
         invoiceName: draft.invoiceName ?? "",
+        invoiceSize: draft.invoiceSize ?? 0,
         reason: draft.reason ?? "",
         note: draft.note ?? "",
         price: draft.price ?? "",
@@ -228,6 +236,7 @@ export function SurplusPostForm({ mobile = false }: { mobile?: boolean }) {
     narx: price > 0 && phoneOk(form.phone) && form.city.trim().length >= 2,
   };
   const valid = sections.mahsulot && sections.kelib && sections.media && sections.narx;
+  const doneRatio = [sections.mahsulot, sections.kelib, sections.media, sections.narx].filter(Boolean).length / 3;
 
   function show(key: string) {
     return (attempted || errors[key]) && errors[key] ? errors[key] : "";
@@ -489,7 +498,7 @@ export function SurplusPostForm({ mobile = false }: { mobile?: boolean }) {
         <h1>Ortiqcha material sotish</h1>
         <p className="sp-lead">Ishlatilmagan yoki ortiqcha qolgan materialni boshqa stomatologlarga soting. E’lon moderatsiyadan so‘ng katalogda ko‘rinadi.</p>
 
-        <div className="sp-steps" aria-label="Bosqichlar">
+        <div className="sp-steps" aria-label="Bosqichlar" style={{ ["--done" as string]: String(Math.min(1, doneRatio)) }}>
           {(
             [
               ["mahsulot", "Mahsulot", sections.mahsulot],
@@ -497,23 +506,26 @@ export function SurplusPostForm({ mobile = false }: { mobile?: boolean }) {
               ["media", "Rasm va video", sections.media],
               ["narx", "Narx va aloqa", sections.narx],
             ] as const
-          ).map(([id, label, done], index) => (
-            <button
-              key={id}
-              type="button"
-              className={`sp-step${done ? " done" : ""}`}
-              onClick={() => document.getElementById(id)?.scrollIntoView({ behavior: "smooth", block: "start" })}
-            >
-              <span className="n">{done ? "✓" : index + 1}</span>
-              <span className="label">{label}</span>
-            </button>
-          ))}
+          ).map(([id, label, done], index, list) => {
+            const active = !done && list.slice(0, index).every((step) => step[2]);
+            return (
+              <button
+                key={id}
+                type="button"
+                className={`sp-step${done ? " done" : ""}${active ? " on" : ""}`}
+                onClick={() => document.getElementById(id)?.scrollIntoView({ behavior: "smooth", block: "start" })}
+              >
+                <span className="n">{done ? <Check size={14} strokeWidth={3} /> : index + 1}</span>
+                <span className="label">{label}</span>
+              </button>
+            );
+          })}
         </div>
 
         <div className="sp-layout">
           <div className="sp-main">
             <section className="sp-card" id="mahsulot">
-              <h2>Mahsulot ma’lumotlari</h2>
+              <h2><Package size={18} /> Mahsulot ma’lumotlari</h2>
               <div className="sp-grid">
                 <div className={`sp-field wide${show("name") ? " is-bad" : ""}`}>
                   <label htmlFor="sp-name">Mahsulot nomi <span className="sp-req">*</span></label>
@@ -584,7 +596,7 @@ export function SurplusPostForm({ mobile = false }: { mobile?: boolean }) {
             </section>
 
             <section className="sp-card" id="kelib">
-              <h2>Kelib chiqishi va sabab</h2>
+              <h2><MapPin size={18} /> Kelib chiqishi va sabab</h2>
               <div className="sp-field">
                 <span className="sp-label">Qayerdan olingan? <span className="sp-req">*</span></span>
                 <div className="sp-chips">
@@ -602,10 +614,24 @@ export function SurplusPostForm({ mobile = false }: { mobile?: boolean }) {
               </div>
               <div className="sp-field" style={{ marginTop: 12 }}>
                 <span className="sp-label">Chek yoki faktura</span>
-                <div className="sp-video-actions">
-                  <button type="button" className="sp-secondary" onClick={() => invoiceRef.current?.click()}>Fayl tanlash</button>
-                  {form.invoiceName ? <span className="sp-hint" style={{ marginTop: 8 }}>{form.invoiceName}</span> : <span className="sp-hint" style={{ marginTop: 8 }}>Ixtiyoriy · PDF yoki rasm</span>}
+                <div className="sp-invoice">
+                  <FileUp size={18} />
+                  <div>
+                    <strong>Chek yoki fakturani yuklang</strong>
+                    <span>Ixtiyoriy · PDF yoki rasm</span>
+                  </div>
+                  <button type="button" className="sp-outline" onClick={() => invoiceRef.current?.click()}><FileUp size={15} /> Fayl tanlash</button>
                 </div>
+                {form.invoiceName ? (
+                  <div className="sp-filechip">
+                    <FileUp size={16} />
+                    <div>
+                      <b>{form.invoiceName}</b>
+                      <span>{form.invoiceSize ? fileSize(form.invoiceSize) : "Fayl tanlandi"}</span>
+                    </div>
+                    <button type="button" className="sp-icon" aria-label="Faylni olib tashlash" onClick={() => setForm({ ...form, invoiceName: "", invoiceSize: 0 })}><X size={14} /></button>
+                  </div>
+                ) : null}
                 <input
                   ref={invoiceRef}
                   type="file"
@@ -614,7 +640,7 @@ export function SurplusPostForm({ mobile = false }: { mobile?: boolean }) {
                   onChange={(event) => {
                     const file = event.target.files?.[0];
                     event.target.value = "";
-                    if (file) setForm({ ...form, invoiceName: file.name });
+                    if (file) setForm({ ...form, invoiceName: file.name, invoiceSize: file.size });
                   }}
                 />
               </div>
@@ -638,7 +664,7 @@ export function SurplusPostForm({ mobile = false }: { mobile?: boolean }) {
             </section>
 
             <section className="sp-card" id="media">
-              <h2>Rasm va video</h2>
+              <h2><Camera size={18} /> Rasm va video</h2>
               <div
                 className={`sp-drop${dragOver ? " over" : ""}`}
                 onDragOver={(event) => {
@@ -651,7 +677,7 @@ export function SurplusPostForm({ mobile = false }: { mobile?: boolean }) {
                 <strong>Rasmlarni shu yerga tashlang</strong>
                 <span>Birinchi rasm muqova bo‘ladi. Kamida 3, eng ko‘pi 10 ta.</span>
                 <div>
-                  <button type="button" className="sp-file" onClick={() => photoRef.current?.click()}>Rasm tanlash</button>
+                  <button type="button" className="sp-outline" onClick={() => photoRef.current?.click()}><ImagePlus size={16} /> Rasm tanlash</button>
                 </div>
                 <input
                   ref={photoRef}
@@ -689,11 +715,11 @@ export function SurplusPostForm({ mobile = false }: { mobile?: boolean }) {
                     >
                       {/* eslint-disable-next-line @next/next/no-img-element */}
                       <img src={photo.dataUrl} alt="" />
-                      <button type="button" className="x" aria-label="Rasmni olib tashlash" onClick={() => setPhotos((prev) => prev.filter((item) => item.id !== photo.id))}>×</button>
-                      <div className="cap">{index === 0 ? "Muqova" : `Rasm ${index + 1}`}</div>
+                      {index === 0 ? <span className="sp-cover">Muqova</span> : null}
+                      <button type="button" className="sp-x" aria-label="Rasmni olib tashlash" onClick={() => setPhotos((prev) => prev.filter((item) => item.id !== photo.id))}><X size={12} /></button>
                       <div className="tools">
-                        <button type="button" aria-label="Oldinga" onClick={() => movePhoto(index, -1)}>‹</button>
-                        <button type="button" aria-label="Keyinga" onClick={() => movePhoto(index, 1)}>›</button>
+                        <button type="button" className="sp-move" aria-label="Oldinga" onClick={() => movePhoto(index, -1)}><ChevronLeft size={14} /></button>
+                        <button type="button" className="sp-move" aria-label="Keyinga" onClick={() => movePhoto(index, 1)}><ChevronRight size={14} /></button>
                       </div>
                     </div>
                   ))}
@@ -716,26 +742,26 @@ export function SurplusPostForm({ mobile = false }: { mobile?: boolean }) {
                 )}
               </div>
               <div className="sp-video-actions">
-                <button type="button" className="sp-secondary" onClick={() => videoRef.current?.click()}>Video yuklash</button>
+                <button type="button" className="sp-video" onClick={() => videoRef.current?.click()}><Upload size={16} /> Video yuklash</button>
                 {recording ? (
-                  <button type="button" className="sp-secondary" onClick={stopCamera}>Yozishni to‘xtatish</button>
+                  <button type="button" className="sp-outline" onClick={stopCamera}>Yozishni to‘xtatish</button>
                 ) : (
-                  <button type="button" className="sp-secondary" data-testid="camera-btn" onClick={() => void startCamera()}>Kamera bilan yozish</button>
+                  <button type="button" className="sp-outline" data-testid="camera-btn" onClick={() => void startCamera()}><Camera size={16} /> Kamera bilan yozish</button>
                 )}
-                {videoUrl && !recording ? (
-                  <button
-                    type="button"
-                    className="sp-secondary sp-remove"
-                    onClick={() => {
-                      setVideoUrl("");
-                      setVideoName("");
-                      setVideoDuration(0);
-                    }}
-                  >
-                    Videoni olib tashlash
-                  </button>
-                ) : null}
               </div>
+              {videoUrl && !recording ? (
+                <button
+                  type="button"
+                  className="sp-outline sp-remove"
+                  onClick={() => {
+                    setVideoUrl("");
+                    setVideoName("");
+                    setVideoDuration(0);
+                  }}
+                >
+                  <X size={15} /> Videoni olib tashlash
+                </button>
+              ) : null}
               <input
                 ref={videoRef}
                 data-testid="video-input"
@@ -756,9 +782,9 @@ export function SurplusPostForm({ mobile = false }: { mobile?: boolean }) {
 
           <aside className="sp-side" id="narx">
             <section className="sp-card">
-              <h2>E’lon ko‘rinishi</h2>
+              <h2><Eye size={18} /> E’lon ko‘rinishi</h2>
               <p className="sp-preview-note">Katalogdagi karta shu ko‘rinishda chiqadi.</p>
-              <article className="dk-card" data-testid="listing-preview">
+              <article className="sp-preview" data-testid="listing-preview">
                 <div className="ph">
                   {cover ? (
                     // eslint-disable-next-line @next/next/no-img-element
@@ -766,16 +792,16 @@ export function SurplusPostForm({ mobile = false }: { mobile?: boolean }) {
                   ) : (
                     <span className="sp-ph-empty">Muqova rasmi</span>
                   )}
-                  {holati ? <span className={`dk-badge ${holati.pkg === "yopiq" ? "mint" : "blue"}`}>{holati.label}</span> : null}
+                  {holati ? <span className="sp-pill">{holati.label}</span> : null}
+                  {checks.video ? <span className="sp-pill video">Video tasdiqlangan</span> : null}
                 </div>
                 <div className="brand">{form.brand.trim() || "Brend"}</div>
                 <h3>{form.name.trim() || "Mahsulot nomi"}</h3>
-                <div className="sp-badges sp-meta-row">
-                  {checks.video ? <span className="sp-badge green">Video tasdiqlangan</span> : null}
-                  {qty >= 1 ? <span className="sp-badge blue">{qty} {form.unit}</span> : null}
-                  {expiry ? <span className="sp-badge orange">Yaroqlilik: {expiry}</span> : null}
+                <div className="sp-meta-row">
+                  {qty >= 1 ? <span>{qty} {form.unit}</span> : null}
+                  {expiry ? <span>Yaroqlilik: {expiry}</span> : null}
                 </div>
-                <div className="dk-price">
+                <div className="price">
                   <strong>{price > 0 ? som(price) : "Narx"}</strong>
                   {newPrice > price ? <s>{som(newPrice)}</s> : null}
                 </div>
@@ -783,7 +809,7 @@ export function SurplusPostForm({ mobile = false }: { mobile?: boolean }) {
             </section>
 
             <section className="sp-card">
-              <h2>Narx</h2>
+              <h2><Tag size={18} /> Narx</h2>
               <div className={`sp-field${show("price") ? " is-bad" : ""}`}>
                 <label htmlFor="sp-price">Sotuv narxi <span className="sp-req">*</span></label>
                 <input id="sp-price" inputMode="numeric" value={form.price} onChange={(event) => setForm({ ...form, price: event.target.value.replace(/[^\d]/g, "") })} placeholder="450000" />
@@ -802,12 +828,13 @@ export function SurplusPostForm({ mobile = false }: { mobile?: boolean }) {
               </div>
               <div className={`sp-field${show("city") ? " is-bad" : ""}`} style={{ marginTop: 10 }}>
                 <label htmlFor="sp-city">Shahar <span className="sp-req">*</span></label>
-                <input id="sp-city" list="sp-cities" value={form.city} onChange={(event) => setForm({ ...form, city: event.target.value })} placeholder="Toshkent" />
-                <datalist id="sp-cities">
+                <select id="sp-city" value={form.city} onChange={(event) => setForm({ ...form, city: event.target.value })}>
+                  <option value="">Shaharni tanlang</option>
+                  {form.city && !surplusCities.includes(form.city as (typeof surplusCities)[number]) ? <option value={form.city}>{form.city}</option> : null}
                   {surplusCities.map((city) => (
-                    <option key={city} value={city} />
+                    <option key={city} value={city}>{city}</option>
                   ))}
-                </datalist>
+                </select>
                 {show("city") ? <span className="sp-err" role="alert">{show("city")}</span> : null}
               </div>
               <div className="sp-field" style={{ marginTop: 10 }}>
@@ -817,7 +844,7 @@ export function SurplusPostForm({ mobile = false }: { mobile?: boolean }) {
             </section>
 
             <section className="sp-card">
-              <h2>E’lon talablari</h2>
+              <h2><ClipboardList size={18} /> E’lon talablari</h2>
               <ul className="sp-check">
                 <CheckRow ok={checks.photos} text="Kamida 3 ta rasm" />
                 <CheckRow ok={checks.video} text="Video qo‘lda yuklangan" />
@@ -825,8 +852,8 @@ export function SurplusPostForm({ mobile = false }: { mobile?: boolean }) {
                 <CheckRow ok={checks.origin} text="Kelib chiqishi tasdiqlangan" />
               </ul>
               {formError ? <p className="sp-err" role="alert">{formError}</p> : null}
-              <button type="submit" className={`sp-primary${valid ? "" : " is-disabled"}`} aria-disabled={!valid} data-testid="post-submit" disabled={busy} style={{ marginTop: 14 }}>
-                {busy ? "Yuborilmoqda…" : "E’lonni joylash"}
+              <button type="submit" className={`sp-primary${valid ? "" : " is-disabled"}`} aria-disabled={!valid} data-testid="post-submit" disabled={busy}>
+                <Send size={16} /> {busy ? "Yuborilmoqda…" : "E’lonni joylash"}
               </button>
               <button type="button" className="sp-ghost" data-testid="post-draft" onClick={saveDraft}>Qoralama saqlash</button>
               {savedNote ? <p className="sp-saved">{savedNote}</p> : null}
@@ -841,7 +868,7 @@ export function SurplusPostForm({ mobile = false }: { mobile?: boolean }) {
 function CheckRow({ ok, text }: { ok: boolean; text: string }) {
   return (
     <li className={ok ? "on" : ""}>
-      <span className="dot">{ok ? <Check size={12} strokeWidth={3} /> : null}</span>
+      <span className="dot">{ok ? <Check size={12} strokeWidth={3} /> : <Circle size={12} />}</span>
       {text}
     </li>
   );

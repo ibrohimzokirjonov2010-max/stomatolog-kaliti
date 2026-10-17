@@ -17,6 +17,7 @@ export type SurplusDraft = {
   source: string;
   shopName: string;
   invoiceName: string;
+  invoiceSize?: number;
   reason: string;
   note: string;
   price: string;
