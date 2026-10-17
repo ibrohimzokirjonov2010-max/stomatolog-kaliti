@@ -34,8 +34,10 @@ export function DashboardShell({ children }: { children: ReactNode }) {
             </div>
           </main>
         </div>
-        <MobileCartBar />
-        <MobileTabBar />
+        <div className="mh-phone">
+          <MobileCartBar />
+          <MobileTabBar />
+        </div>
       </div>
     </MobileNavProvider>
   );

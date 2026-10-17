@@ -175,6 +175,20 @@
   background: #F4F7FB;
   container-type: inline-size;
 }
+/* Custom mobile shells set display outside Tailwind's layer, which was keeping
+   lg:hidden elements on screen. At desktop the utility must win. */
+@media (min-width: 1024px) {
+  .lg\:hidden { display: none !important; }
+  .rg, .vd, .rd {
+    position: relative !important;
+    inset: auto !important;
+    z-index: auto !important;
+    width: auto;
+    height: auto;
+    min-height: 0;
+  }
+  .rg-brand, .vd-brand, .rd-name { display: none !important; }
+}
 
 .sh .i { width:1em; height:1em; flex:none; stroke-width:2; }
 .sh button { cursor:pointer; font:inherit; color:inherit; background:none; border:0; padding:0; }

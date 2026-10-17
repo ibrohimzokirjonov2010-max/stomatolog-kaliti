@@ -97,8 +97,8 @@ export function MarketFrame({
       <div className="sh-body brd-body">
         <DesktopSidebar />
         <main className="brd-main">
-          {promo}
           {children}
+          {promo}
         </main>
       </div>
     </div>

@@ -4,6 +4,8 @@
 import { useEffect, useMemo, useState } from "react";
 import { useRouter } from "next/navigation";
 import { READER_PAGES, readerChapters } from "@/data/reader-book";
+import { DesktopHeader } from "@/components/desktop/desktop-header";
+import { DesktopSidebar } from "@/components/desktop/desktop-sidebar";
 import "./reader-desktop.css";
 
 const FONT_MIN = 14;
@@ -126,10 +128,13 @@ export function ReaderDesktop({ id }: { id: string }) {
   }
 
   return (
-    <div className={dark ? "rdx dark" : "rdx"} data-testid="reader-desktop" data-theme={dark ? "dark" : "light"}>
+    <div className="sh dh">
+      <DesktopHeader searchPlaceholder="Kitob, mavzu yoki muallif..." />
+      <div className="sh-body">
+        <DesktopSidebar />
+        <main className={dark ? "rdx dark" : "rdx"} data-testid="reader-desktop" data-theme={dark ? "dark" : "light"}>
       <header className="rdx-top">
         <button type="button" aria-label="Orqaga" onClick={() => (window.history.length > 1 ? router.back() : router.push(`/kitoblar/${id}`))}>‹</button>
-        <b>StomaHub</b>
         <div className="rdx-title"><strong>Stomatologiya klinik amaliyotda</strong><span>Dr. Azizbek Rahimov</span></div>
         <div className="rdx-tools">
           <button type="button" data-testid="rd-font-down" onClick={() => setFont((value) => Math.max(FONT_MIN, value - 1))}>A−</button>
@@ -226,6 +231,8 @@ export function ReaderDesktop({ id }: { id: string }) {
         <span data-testid="rd-page">{page} / {READER_PAGES} bet</span>
         <button type="button" data-testid="rd-next" onClick={() => go(page + 1)}>Keyingi sahifa ›</button>
       </footer>
+        </main>
+      </div>
     </div>
   );
 }

@@ -308,9 +308,8 @@
   min-width: 0;
 }
 
-.brd-main .brd-promo {
-  width: min(100%, 280px);
-  margin-bottom: calc(1 * var(--u));
+@media (min-width: 1024px) {
+  .mh-phone { display: none; }
 }
 
 @media (max-width: 1279px) {

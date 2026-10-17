@@ -333,3 +333,6 @@
 }
 .mh-tabs a.on { color: #0f9f75; }
 .mh-tabs svg, .mh-tabs img { width: 24px; height: 24px; flex: none; }
+@media (min-width: 1024px) {
+  .mh-tabs { display: none; }
+}

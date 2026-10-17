@@ -73,6 +73,7 @@ export function StockDesktop() {
               <label className="crm-select"><select data-testid="stock-supplier" aria-label="Yetkazib beruvchi" value={supplier} onChange={(event) => { setSupplier(event.target.value); setPage(1); }}><option value="">Barcha yetkazib beruvchilar</option>{stockSuppliers.map((item) => <option key={item}>{item}</option>)}</select><ChevronRight className="i" style={{ transform: "rotate(90deg)" }} /></label>
             </div>
             {slice.length === 0 ? <div className="crm-empty">Mahsulot topilmadi</div> : (
+              <div className="crm-table-scroll">
               <table className="crm-table">
                 <thead><tr><th /><th>#</th><th>Mahsulot</th><th>Kategoriya</th><th>SKU</th><th>Zaxira</th><th>Min zaxira</th><th>Yaroqlilik muddati</th><th>Yetkazib beruvchi</th><th>Holat</th><th /></tr></thead>
                 <tbody>
@@ -93,6 +94,7 @@ export function StockDesktop() {
                   ))}
                 </tbody>
               </table>
+              </div>
             )}
             <CrmPager page={safe} pages={pages} size={size} totalLabel={`Jami: ${filtered.length} mahsulot`} onPage={setPage} onSize={(value) => { setSize(value); setPage(1); }} />
           </div>

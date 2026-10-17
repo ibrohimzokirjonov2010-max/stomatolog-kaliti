@@ -167,6 +167,40 @@
   pointer-events: none;
   background: transparent;
 }
+/* End-of-content card. The promo used to live in the sidebar; in the main column it is a full-width banner after the page. */
+.sh.brd.dh .brd-main > .brd-promo {
+  width: 100%;
+  max-width: none;
+  margin: calc(1.6 * var(--u)) 0 0;
+  min-height: calc(8.4 * var(--u));
+  padding: calc(1 * var(--u)) calc(9 * var(--u)) calc(1 * var(--u)) calc(1.1 * var(--u));
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+  box-sizing: border-box;
+}
+.sh.brd.dh .brd-main > .brd-promo b,
+.sh.brd.dh .brd-main > .brd-promo small {
+  max-width: min(520px, 68%);
+}
+.sh.brd.dh .brd-main > .brd-promo .go {
+  background: #0066ff;
+  color: #fff;
+  border: 0;
+  height: calc(1.7 * var(--u));
+  padding: 0 calc(.7 * var(--u));
+}
+.sh.brd.dh .brd-main > .brd-promo img {
+  position: absolute;
+  right: calc(.6 * var(--u));
+  bottom: 0;
+  top: auto;
+  width: calc(7.4 * var(--u));
+  height: calc(6.6 * var(--u));
+  object-fit: contain;
+  object-position: right bottom;
+}
 .brd-mark .mk-logo { width: 100%; height: calc(4.4 * var(--u)); object-fit: contain; object-position: center; }
 
 .brd-main { flex: 1; min-width: 0; padding: calc(1.7 * var(--u)) calc(1 * var(--u)) calc(1.2 * var(--u)); }
