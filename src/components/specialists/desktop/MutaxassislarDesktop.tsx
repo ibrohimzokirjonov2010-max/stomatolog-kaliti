@@ -99,7 +99,7 @@ export function SpecialistsFrame({
       promoText="Tajribali stomatologlar bilan bog‘laning"
       promoCta="Mutaxassis qidirish"
       promoHref="/mutaxassislar"
-      promoImage="/img/jihoz/chair.jpg"
+      promoImage="/img/design-pr13/promo/chair.png"
       promoIcon={<Stethoscope className="mx-cap i" />}
       promoClass="mx-promo"
       onPromo={onPromo}

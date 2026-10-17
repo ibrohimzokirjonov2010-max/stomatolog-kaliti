@@ -28,7 +28,7 @@ function BrandDirectory() {
   }
 
   return (
-    <MarketFrame active="brands" onPromo={reset}>
+    <MarketFrame active="brands" promoImage="/img/design-pr13/promo/implant.png" onPromo={reset}>
       <div data-testid="brands-desktop">
         <div className="brd-head">
           <div>

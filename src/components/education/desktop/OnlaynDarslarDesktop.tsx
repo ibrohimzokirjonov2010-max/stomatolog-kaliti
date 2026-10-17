@@ -107,7 +107,7 @@ export function OnlaynDarslarDesktop() {
       promoTitle="Bilimingizni oshiring!"
       promoText="Stomatologiya bo‘yicha eng yaxshi onlayn darslar"
       promoCta="Barcha kurslar"
-      promoImage="/img/hub/books-stack.svg"
+      promoImage="/img/design-pr13/promo/books.png"
       promoIcon={<GraduationCap className="od-cap i" />}
       promoClass="od-promo"
       onPromo={reset}

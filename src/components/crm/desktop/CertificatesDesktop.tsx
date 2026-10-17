@@ -115,7 +115,24 @@ async function downloadCert(cert: Certificate) {
   downloadPdf(`${cert.id}.pdf`, ["STOMAHUB", "SERTIFIKAT", cert.holder, cert.title, `${cert.typeLabel} · ${cert.teacher}`, `${cert.dateLabel} · ${cert.place}`, `${cert.cme} CME`]);
 }
 
+const designPreview: Record<string, string> = {
+  "cert-implant": "/img/design-pr13/certs/cert-implant.png",
+  "cert-endo": "/img/design-pr13/certs/cert-endo.png",
+  "cert-orto": "/img/design-pr13/certs/cert-orto.png",
+  "cert-cad": "/img/design-pr13/certs/cert-cad.png",
+  "cert-paro": "/img/design-pr13/certs/cert-paro.png",
+  "cert-child": "/img/design-pr13/certs/cert-child.png",
+};
+
 function CertSheet({ item }: { item: Certificate }) {
+  const preview = designPreview[item.id];
+  if (preview) {
+    return (
+      <div className={`cert-paper photo ${item.theme}`} data-testid="cert-sheet">
+        <img src={preview} alt="" />
+      </div>
+    );
+  }
   return (
     <div className={`cert-paper ${item.theme}`} data-testid="cert-sheet">
       <b className="brand">
@@ -204,7 +221,7 @@ export function CertificatesDesktop() {
       promoTitle="Bilimingiz har doim siz bilan!"
       promoText="Barcha sertifikatlaringiz bir joyda"
       promoCta="Sertifikatlaringiz"
-      promoImage="/img/hub/ribbon.svg"
+      promoImage="/img/design-pr13/promo/medal.png"
       promoIcon={<Award className="i" />}
       onPromo={() => {
         setQ("");

@@ -51,7 +51,7 @@ export function KategoriyalarDesktop() {
       promoText="Do‘kon oching va mahsulotlaringizni soting"
       promoCta="Ro‘yxatdan o‘tish"
       promoHref="/marketplace/sotuvchi"
-      promoImage="/categories/uskunalar.jpg"
+      promoImage="/img/design-pr13/promo/toothbrush.png"
     >
       <div data-testid="cats-desktop">
         <div className="brd-head">
@@ -76,7 +76,7 @@ export function KategoriyalarDesktop() {
             return (
               <Link key={item.id} className="kat-card" href={HREFS[item.id] ?? `/marketplace?q=${encodeURIComponent(item.name)}`} data-testid={`kat-${item.id}`}>
                 <div className="kat-ph">
-                  <img src={`/categories/${item.id}.jpg`} alt="" />
+                  <img src={`/img/design-pr13/categories/${item.id}.png`} alt="" />
                 </div>
                 <div className="kat-body">
                   <span className="kat-ic">

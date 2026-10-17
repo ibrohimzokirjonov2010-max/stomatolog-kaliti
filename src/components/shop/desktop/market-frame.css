@@ -1,7 +1,7 @@
 /* Desktop marketplace section chrome (Brendlar, and pages that reuse it). Lengths use .sh --u. */
 .brd { min-height: 100%; }
 .brd-top {
-  height: calc(3.45 * var(--u));
+  height: calc(4.5 * var(--u));
   background: #fff;
   display: flex;
   align-items: center;
@@ -100,15 +100,15 @@
 
 .brd-body { display: flex; align-items: flex-start; min-width: 0; }
 .brd-side {
-  width: calc(14.2 * var(--u));
+  width: calc(20.2 * var(--u));
   flex: none;
   background: #f8fafd;
   border-right: 1px solid #eef2f7;
-  padding: calc(.55 * var(--u)) calc(.5 * var(--u)) calc(.7 * var(--u));
+  padding: calc(.7 * var(--u)) calc(.55 * var(--u)) calc(.8 * var(--u));
   position: sticky;
-  top: calc(3.45 * var(--u));
+  top: calc(4.5 * var(--u));
   align-self: flex-start;
-  max-height: calc(100dvh - 3.45 * var(--u));
+  max-height: calc(100dvh - 4.5 * var(--u));
   overflow: auto;
   display: flex;
   flex-direction: column;
@@ -117,8 +117,8 @@
 .brd-item {
   display: flex;
   align-items: center;
-  gap: calc(.5 * var(--u));
-  min-height: calc(1.85 * var(--u));
+  gap: calc(.55 * var(--u));
+  min-height: calc(2.15 * var(--u));
   padding: 0 calc(.55 * var(--u));
   border-radius: calc(.45 * var(--u));
   color: #24344d;
@@ -158,17 +158,19 @@
 }
 .brd-promo img {
   position: absolute;
-  right: calc(.15 * var(--u));
-  bottom: calc(.35 * var(--u));
-  width: calc(4.2 * var(--u));
-  height: calc(4.4 * var(--u));
+  right: calc(-.15 * var(--u));
+  bottom: calc(-.1 * var(--u));
+  width: calc(5.4 * var(--u));
+  height: calc(4.6 * var(--u));
   object-fit: contain;
+  object-position: right bottom;
   pointer-events: none;
 }
+.brd-mark .mk-logo { width: 100%; height: calc(2.5 * var(--u)); object-fit: contain; }
 
-.brd-main { flex: 1; min-width: 0; padding: calc(.85 * var(--u)) calc(1 * var(--u)) calc(1.2 * var(--u)); }
-.brd-head { display: flex; align-items: flex-start; justify-content: space-between; gap: calc(.8 * var(--u)); margin-bottom: calc(.7 * var(--u)); }
-.brd-head h1 { margin: 0; font-size: calc(1.45 * var(--u)); letter-spacing: -.02em; }
+.brd-main { flex: 1; min-width: 0; padding: calc(1.7 * var(--u)) calc(1 * var(--u)) calc(1.2 * var(--u)); }
+.brd-head { display: flex; align-items: flex-start; justify-content: space-between; gap: calc(.8 * var(--u)); margin-bottom: calc(1.05 * var(--u)); }
+.brd-head h1 { margin: 0; font-size: calc(2 * var(--u)); letter-spacing: -.02em; }
 .brd-head p { margin: calc(.12 * var(--u)) 0 0; color: #6a7c93; font-size: calc(.72 * var(--u)); }
 .brd-badge {
   flex: none;
