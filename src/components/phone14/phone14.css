@@ -511,3 +511,131 @@
 .appt-card .when { color: #0066ff; font-size: calc(1.05 * var(--u)); }
 .pay-row { grid-template-columns: calc(3.6 * var(--u)) 1fr auto auto; }
 .pay-row img { width: calc(3.6 * var(--u)); height: calc(3.6 * var(--u)); border-radius: 999px; }
+
+.p14-fab {
+  bottom: calc(5.6 * var(--u) + env(safe-area-inset-bottom) + 16px);
+  z-index: 45;
+  min-height: 44px;
+  height: auto;
+  font-size: 14px;
+}
+.list.pad-fab { padding-bottom: calc(5.6 * var(--u) + env(safe-area-inset-bottom) + 96px); }
+.search-44 { height: 44px; }
+.search-44 input { font-size: 16px; }
+.bemor-chips { padding-bottom: 2px; }
+.bemor-chips .p14-chip, .queue-chips .p14-chip { height: 38px; min-height: 38px; font-size: 13px; }
+.bemor-list { gap: 12px; }
+.bemor-list .pat-card {
+  grid-template-columns: 56px minmax(0, 1fr) 44px;
+  gap: 12px;
+  padding: 16px;
+  border-radius: 16px;
+  background: #fff;
+  box-shadow: 0 8px 22px rgba(20, 40, 80, 0.05);
+}
+.bemor-list .pat-ava, .bemor-list .pat-ava img { width: 56px; height: 56px; }
+.bemor-list .pat-top b { font-size: 16px; font-weight: 650; }
+.bemor-list .spec, .bemor-list .pat-visits small { font-size: 13px; }
+.bemor-list .pat-visits span, .bemor-list .tags i, .bemor-list .pat-status { font-size: 12px; }
+.bemor-list .pat-top button { min-width: 44px; min-height: 44px; }
+.pat-call { width: 44px; height: 44px; background: #e7f3ff; color: #0066ff; }
+.days.snap { scroll-snap-type: x mandatory; }
+.days.snap::-webkit-scrollbar { display: none; }
+.days.snap button { scroll-snap-align: center; min-height: 72px; }
+.days.snap small { font-size: 12px; }
+.days.snap b { font-size: 16px; }
+.month-label { margin: 0; font-size: 14px; font-weight: 800; color: #16324f; }
+.appt-card { display: flex; flex-direction: column; gap: 8px; background: #fff; border-radius: 16px; padding: 12px; box-shadow: 0 6px 16px rgba(20, 40, 80, 0.05); }
+.appt-card.live { box-shadow: 0 0 0 2px #0066ff, 0 8px 20px rgba(0, 102, 255, 0.12); }
+.appt-open { display: grid; grid-template-columns: 56px 44px minmax(0, 1fr); gap: 10px; align-items: center; width: 100%; min-height: 44px; text-align: left; background: transparent; border: 0; padding: 0; }
+.appt-open img { width: 44px; height: 44px; border-radius: 999px; object-fit: cover; }
+.appt-open .when { font-size: 16px; }
+.appt-open p, .appt-open .spec, .count-down, .live-badge, .lunch { font-size: 12px; }
+.appt-go { min-height: 44px; width: 100%; border: 0; border-radius: 12px; background: #0066ff; color: #fff; font-weight: 800; font-size: 15px; }
+.live-badge { font-style: normal; background: #0066ff; color: #fff; border-radius: 999px; padding: 2px 8px; font-weight: 800; }
+.count-down { color: #0066ff; font-weight: 700; }
+.pat-status.davolan { background: #e7f6f6; color: #0e8f94; }
+.pat-status.bajar { background: #e9f9ef; color: #15803d; }
+.pat-status.bekor { background: #fde8ee; color: #e11d48; }
+.cal-head { display: flex; align-items: center; justify-content: space-between; gap: 8px; }
+.cal-head button { min-width: 44px; min-height: 44px; font-size: 22px; background: #f4f7fb; border-radius: 12px; }
+.cal-grid { display: grid; grid-template-columns: repeat(7, minmax(0, 1fr)); gap: 4px; }
+.cal-grid small, .cal-grid span { min-height: 28px; display: grid; place-items: center; font-size: 12px; color: #7b879c; }
+.cal-grid button { min-height: 44px; border-radius: 12px; background: #f7f9fc; font-weight: 700; font-size: 14px; }
+.cal-grid button.on { background: #0066ff; color: #fff; }
+.finish-sheet { display: flex; flex-direction: column; gap: 10px; }
+.finish-sheet .crm-save, .finish-sheet .p14-chip { min-height: 44px; width: 100%; justify-content: center; font-size: 14px; }
+.ghost-save { background: #fff; color: #16324f; border: 1px solid #d5deea; }
+.sheet-links button { background: #f4f7fb; border-radius: 12px; min-height: 44px; padding: 8px 12px; font-weight: 800; text-align: left; width: 100%; font-size: 14px; color: #16324f; }
+.sheet-links a { min-height: 44px; display: flex; align-items: center; font-size: 14px; }
+.move-times { display: flex; flex-wrap: wrap; gap: 8px; }
+.move-times .p14-chip { min-height: 44px; }
+.visit-banner { position: sticky; top: 0; z-index: 30; display: flex; align-items: center; justify-content: space-between; gap: 8px; background: #0e8f94; color: #fff; border-radius: 14px; padding: 8px 12px; min-height: 56px; }
+.visit-banner b { font-size: 14px; font-weight: 800; }
+.visit-banner button { min-height: 44px; padding: 0 14px; border: 0; border-radius: 12px; background: #fff; color: #0e8f94; font-weight: 800; font-size: 14px; }
+.prof-tabs { display: flex; gap: 6px; overflow-x: auto; position: sticky; top: 0; z-index: 20; background: #f4f7fb; padding: 4px 0; scrollbar-width: none; }
+.prof.has-visit .prof-tabs { top: 64px; }
+.prof-tabs button { flex: none; min-height: 40px; padding: 0 12px; border-radius: 999px; background: #fff; border: 1px solid #e6ebf3; font-weight: 700; font-size: 13px; color: #16324f; }
+.prof-tabs button.on { background: #0e8f94; color: #fff; border-color: #0e8f94; }
+.xray-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+.xray-card { background: #fff; border-radius: 12px; padding: 8px; text-align: left; min-height: 44px; border: 0; }
+.xray-card img { width: 100%; height: 110px; object-fit: cover; border-radius: 8px; background: #111; }
+.xray-card b, .xray-card small { display: block; font-size: 12px; }
+.xray-view { position: fixed; inset: 0; z-index: 90; background: #0b1220; color: #fff; display: flex; flex-direction: column; padding: 12px; }
+.xray-view header { display: flex; justify-content: space-between; align-items: center; }
+.xray-view header button { min-width: 44px; min-height: 44px; color: #fff; background: transparent; }
+.xray-stage { flex: 1; overflow: hidden; display: grid; place-items: center; touch-action: none; }
+.xray-stage img { max-width: 100%; max-height: 70vh; }
+.tooth-status { display: flex; flex-wrap: wrap; gap: 8px; }
+.tooth-status button { min-height: 44px; padding: 0 12px; border-radius: 999px; background: #f4f7fb; font-weight: 700; font-size: 13px; }
+.tooth-status button.on { background: #0e8f94; color: #fff; }
+.plan-card ul { margin: 8px 0 0; padding: 0; list-style: none; display: flex; flex-direction: column; gap: 6px; }
+.plan-card li { display: flex; justify-content: space-between; gap: 8px; font-size: 13px; }
+.visit-card { width: 100%; text-align: left; display: flex; flex-wrap: wrap; gap: 6px; justify-content: space-between; min-height: 44px; border: 0; }
+.visit-more { display: flex; flex-direction: column; width: 100%; gap: 4px; }
+.visit-more small { font-size: 12px; }
+.p14.crm .teeth { overflow-x: auto; }
+.p14.crm .crm-arch { justify-content: flex-start; width: max-content; min-width: 100%; gap: 2px; }
+.p14.crm .crm-tooth { width: 44px; min-height: 44px; }
+.p14.crm .crm-tooth svg { height: 28px; }
+.p14.crm .crm-tooth small, .p14.crm .spec, .p14.crm .crm-err, .p14.crm .crm-count, .p14.crm .pat-status { font-size: 12px; }
+.p14.crm .act-row a, .p14.crm .act-row button { font-size: 12px; min-height: 44px; }
+.p14.crm .allergy { min-height: 44px; }
+.p14.crm .allergy b, .p14.crm .allergy small, .p14.crm .allergy .bang { font-size: 12px; }
+.p14.crm .crm-legend { font-size: 12px; }
+.p14.crm.crm-new {
+  width: 100%;
+  max-width: 480px;
+  margin: 0 auto;
+  padding: 0 16px calc(24px + env(safe-area-inset-bottom));
+  overflow-x: clip;
+}
+.crm-section { margin: 14px 0 0; font-size: 15px; font-weight: 800; }
+.ava-pick { width: 76px; height: 76px; border-radius: 999px; margin: 8px auto; display: grid; place-items: center; overflow: hidden; border: 1.5px dashed #8fd0d2; background: #f3fbfb; color: #0e8f94; }
+.ava-pick img { width: 100%; height: 100%; object-fit: cover; }
+.crm-new .crm-field > span, .crm-new .crm-section { font-size: 13px; }
+.crm-new .crm-field input, .crm-new .crm-field select, .crm-new .crm-field textarea, .crm-new .crm-select, .crm-new .crm-find { min-height: 48px; height: 48px; font-size: 16px; }
+.crm-new .crm-field textarea { height: 120px; }
+.crm-new .seg button { min-height: 44px; font-size: 14px; }
+.allergy-chips { display: flex; flex-wrap: wrap; gap: 8px; }
+.allergy-chips button { min-height: 44px; padding: 0 14px; border-radius: 999px; background: #fff; border: 1px solid #e1e8f0; font-weight: 700; font-size: 14px; color: #16324f; }
+.allergy-chips button.on { background: #e7f6f6; border-color: #0e8f94; color: #0e8f94; }
+.sticky-save { position: sticky; bottom: calc(env(safe-area-inset-bottom) + 8px); z-index: 20; }
+.crm-new .crm-times button, .crm-new .crm-dur button, .pay-methods button { min-height: 44px; font-size: 12px; }
+.p14[data-testid="phone-bemorlar"] .p14-chip,
+.p14[data-testid="phone-uchrashuvlar"] .p14-chip,
+.p14[data-testid="phone-bemorlar"] .sub,
+.p14[data-testid="phone-uchrashuvlar"] .sub { font-size: 13px; }
+.appt-card .pat-status { font-size: 12px; }
+.p14[data-testid="phone-bemorlar"] .p14-tabs a,
+.p14[data-testid="phone-uchrashuvlar"] .p14-tabs a,
+.p14[data-testid="phone-reja"] .p14-tabs a,
+.p14[data-testid="phone-tolovlar"] .p14-tabs a,
+.p14[data-testid="phone-ombor"] .p14-tabs a { font-size: 12px; }
+.p14[data-testid="phone-bemorlar"] .spec,
+.p14[data-testid="phone-uchrashuvlar"] .spec,
+.p14[data-testid="phone-bemorlar"] .p14-filter,
+.p14[data-testid="phone-uchrashuvlar"] .p14-filter { font-size: 13px; }
+.p14[data-testid="phone-bemorlar"] .p14-badge,
+.p14[data-testid="phone-uchrashuvlar"] .p14-badge,
+.p14.crm .p14-badge { font-size: 12px; }

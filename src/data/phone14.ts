@@ -104,15 +104,22 @@ export type PhonePatient = {
   tags: string[];
   online: boolean;
   avatar: string;
+  city?: string;
+  birth?: string;
+  email?: string;
+  address?: string;
+  source?: string;
+  note?: string;
+  conditions?: string[];
 };
 
 export const phonePatients: PhonePatient[] = [
-  { id: "b-0012", name: "Malika Karimova", num: "B-0012", age: 28, gender: "Ayol", phone: "+998 90 123 45 67", status: "davolanishda", statusLabel: "Davolanishda", last: "12 okt 2024", next: "20 okt 2024", tags: ["Plomba", "Endodontiya", "Kuzatuv"], online: true, avatar: "/img/phone14/pat-0.png" },
-  { id: "b-0013", name: "Jahongir Rahimov", num: "B-0013", age: 35, gender: "Erkak", phone: "+998 93 200 11 22", status: "kuzatuvda", statusLabel: "Kuzatuvda", last: "5 okt 2024", next: "5 noy 2024", tags: ["Implant", "Proteziya", "Kuzatuv"], online: true, avatar: "/img/phone14/pat-1.png" },
-  { id: "b-0014", name: "Oysa Abdurahmonova", num: "B-0014", age: 42, gender: "Ayol", phone: "+998 97 310 22 33", status: "yangi", statusLabel: "Yangi", last: "—", next: "Rejalashtirish", tags: ["Konsultatsiya", "Diagnostika"], online: false, avatar: "/img/phone14/pat-2.png" },
-  { id: "b-0015", name: "Sardorbek Aliyev", num: "B-0015", age: 12, gender: "Erkak", phone: "+998 90 440 33 44", status: "davolanishda", statusLabel: "Davolanishda", last: "10 okt 2024", next: "25 okt 2024", tags: ["Ortodontiya", "Breket", "Nazorat"], online: true, avatar: "/img/phone14/pat-3.png" },
-  { id: "b-0016", name: "Nilufar Ismoilova", num: "B-0016", age: 31, gender: "Ayol", phone: "+998 91 550 44 55", status: "yakun", statusLabel: "Yakunlangan", last: "1 okt 2024", next: "—", tags: ["Estetik", "Veneer", "Yakunlangan"], online: false, avatar: "/img/phone14/pat-4.png" },
-  { id: "b-0017", name: "Azizbek Normatov", num: "B-0017", age: 29, gender: "Erkak", phone: "+998 93 660 55 66", status: "davolanishda", statusLabel: "Davolanishda", last: "8 okt 2024", next: "15 okt 2024", tags: ["Protez", "Koronka", "Nazorat"], online: true, avatar: "/img/phone14/pat-5.png" },
+  { id: "b-0012", name: "Malika Karimova", num: "B-0012", age: 28, gender: "Ayol", phone: "+998 90 123 45 67", status: "davolanishda", statusLabel: "Davolanishda", last: "12 okt 2024", next: "20 okt 2024", tags: ["Plomba", "Endodontiya", "Kuzatuv"], online: true, avatar: "/img/phone14/pat-0.png", city: "Toshkent", birth: "1996-10-14", conditions: ["Allergiya", "Gipertoniya"] },
+  { id: "b-0013", name: "Jahongir Rahimov", num: "B-0013", age: 35, gender: "Erkak", phone: "+998 93 200 11 22", status: "kuzatuvda", statusLabel: "Kuzatuvda", last: "5 okt 2024", next: "5 noy 2024", tags: ["Implant", "Proteziya", "Kuzatuv"], online: true, avatar: "/img/phone14/pat-1.png", city: "Toshkent" },
+  { id: "b-0014", name: "Oysa Abdurahmonova", num: "B-0014", age: 42, gender: "Ayol", phone: "+998 97 310 22 33", status: "yangi", statusLabel: "Yangi", last: "—", next: "Rejalashtirish", tags: ["Konsultatsiya", "Diagnostika"], online: false, avatar: "/img/phone14/pat-2.png", city: "Toshkent" },
+  { id: "b-0015", name: "Sardorbek Aliyev", num: "B-0015", age: 12, gender: "Erkak", phone: "+998 90 440 33 44", status: "davolanishda", statusLabel: "Davolanishda", last: "10 okt 2024", next: "25 okt 2024", tags: ["Ortodontiya", "Breket", "Nazorat"], online: true, avatar: "/img/phone14/pat-3.png", city: "Toshkent" },
+  { id: "b-0016", name: "Nilufar Ismoilova", num: "B-0016", age: 31, gender: "Ayol", phone: "+998 91 550 44 55", status: "yakun", statusLabel: "Yakunlangan", last: "1 okt 2024", next: "—", tags: ["Estetik", "Veneer", "Yakunlangan"], online: false, avatar: "/img/phone14/pat-4.png", city: "Toshkent" },
+  { id: "b-0017", name: "Azizbek Normatov", num: "B-0017", age: 29, gender: "Erkak", phone: "+998 93 660 55 66", status: "davolanishda", statusLabel: "Davolanishda", last: "8 okt 2024", next: "15 okt 2024", tags: ["Protez", "Koronka", "Nazorat"], online: true, avatar: "/img/phone14/pat-5.png", city: "Toshkent" },
 ];
 
 export const phoneAppts = [

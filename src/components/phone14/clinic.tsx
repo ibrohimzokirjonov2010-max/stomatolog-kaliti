@@ -5,24 +5,14 @@ import Link from "next/link";
 import { Calendar, ChevronRight, Download, Eye, Filter, MessageCircle, Phone, Plus, QrCode, Share2, SlidersHorizontal } from "lucide-react";
 import QRCode from "qrcode";
 import { PhoneFrame, SearchBox, Sheet } from "@/components/phone14/chrome";
+import { hidePhonePatient, listPhonePatients } from "@/data/phone-records";
 import { ToothChart, ToothLegend } from "@/components/phone14/teeth";
-import { PHONE_APPTS_KEY, PHONE_PATIENTS_KEY, PHONE_PAYS_KEY, PHONE_PLANS_KEY, phoneAppts, phoneCerts, phoneLate, phonePatients, phonePayments, phoneStock, planStages, readPhoneStore, type PhonePatient } from "@/data/phone14";
+import { PHONE_PAYS_KEY, PHONE_PLANS_KEY, phoneCerts, phoneLate, phonePatients, phonePayments, phoneStock, planStages, readPhoneStore, type PhonePatient } from "@/data/phone14";
 import { certificatesFromTickets } from "@/data/certificates";
 import { loadSeminarTickets } from "@/lib/seminar-tickets";
 import { useCart } from "@/components/cart-provider";
 import { formatGroupedNumber } from "@/lib/format";
 import type { Product } from "@/data/products";
-
-const EXTRA_PATIENTS = PHONE_PATIENTS_KEY;
-
-function readExtra(): PhonePatient[] {
-  if (typeof window === "undefined") return [];
-  try {
-    return JSON.parse(window.localStorage.getItem(EXTRA_PATIENTS) || "[]") as PhonePatient[];
-  } catch {
-    return [];
-  }
-}
 
 export function PhoneCerts() {
   const [q, setQ] = useState("");
@@ -151,28 +141,37 @@ export function PhoneCerts() {
 }
 
 export function PhonePatients() {
-  const [extra, setExtra] = useState<PhonePatient[]>([]);
+  const [rev, setRev] = useState(0);
+  const [ready, setReady] = useState(false);
   const [q, setQ] = useState("");
   const [status, setStatus] = useState("");
   const [city, setCity] = useState("");
   const [open, setOpen] = useState(false);
-  const [menu, setMenu] = useState<string | null>(null);
-  useEffect(() => { setExtra(readExtra()); }, []);
-  const overridden = new Set(extra.map((item) => item.id));
-  const all = [...extra, ...phonePatients.filter((item) => !overridden.has(item.id))];
-  const items = all.filter((item) => {
+  const [menu, setMenu] = useState<PhonePatient | null>(null);
+  useEffect(() => { setReady(true); }, [rev]);
+  const all = ready ? listPhonePatients() : phonePatients;
+  const filteredCity = all.filter((item) => !city || (item.city || "Toshkent") === city);
+  const counts = {
+    "": filteredCity.length,
+    yangi: filteredCity.filter((item) => item.status === "yangi").length,
+    davolanishda: filteredCity.filter((item) => item.status === "davolanishda").length,
+    kuzatuvda: filteredCity.filter((item) => item.status === "kuzatuvda").length,
+    yakun: filteredCity.filter((item) => item.status === "yakun").length,
+  };
+  const items = filteredCity.filter((item) => {
     if (status && item.status !== status) return false;
     const blob = `${item.name} ${item.phone} ${item.num}`.toLowerCase();
     return !q.trim() || blob.includes(q.trim().toLowerCase());
   });
   const chips = [
-    ["yangi", "Yangi", 12, "green"],
-    ["davolanishda", "Davolanishda", 20, "blue"],
-    ["kuzatuvda", "Kuzatuvda", 38, "orange"],
-    ["yakun", "Yakunlangan", 28, "gray"],
+    ["", "Barchasi", ""],
+    ["yangi", "Yangi", "green"],
+    ["davolanishda", "Davolanishda", "blue"],
+    ["kuzatuvda", "Kuzatuvda", "orange"],
+    ["yakun", "Yakunlangan", "gray"],
   ] as const;
   return (
-    <PhoneFrame testId="phone-bemorlar" tab="market">
+    <PhoneFrame testId="phone-bemorlar" tab="none">
       <div className="p14-head">
         <div>
           <h1>Bemorlar CRM</h1>
@@ -180,13 +179,13 @@ export function PhonePatients() {
         </div>
         <button type="button" className="p14-filter" onClick={() => setOpen(true)}><Filter size={14} /> Filtr</button>
       </div>
-      <SearchBox value={q} onChange={setQ} label="Bemor qidirish" placeholder="Bemor ismi, telefon raqami yoki ID bo‘yicha qidirish..." />
-      <div className="p14-row">
-        {chips.map(([id, label, count, tone]) => (
-          <button key={label} type="button" className={status === id ? `p14-chip ${tone} on` : `p14-chip ${tone}`} onClick={() => setStatus(status === id ? "" : id)}>{label} <i className="count">{count}</i></button>
+      <SearchBox className="search-44" value={q} onChange={setQ} label="Bemor qidirish" placeholder="Bemor ismi, telefon raqami yoki ID bo‘yicha qidirish..." />
+      <div className="p14-row bemor-chips">
+        {chips.map(([id, label, tone]) => (
+          <button key={label} type="button" className={status === id ? `p14-chip ${tone} on` : `p14-chip ${tone}`} onClick={() => setStatus(id)}>{label} <i className="count">{counts[id]}</i></button>
         ))}
       </div>
-      <div className="list">
+      <div className="list bemor-list pad-fab">
         {items.length === 0 ? <p className="p14-empty">Bemor topilmadi</p> : items.map((item) => (
           <article key={item.id} className="pat-card">
             <Link href={`/crm/bemorlar/${item.id}`} className="pat-ava">
@@ -197,27 +196,37 @@ export function PhonePatients() {
               <div className="pat-top">
                 <Link href={`/crm/bemorlar/${item.id}`}><b>{item.name}</b></Link>
                 <span className={`pat-status ${item.status}`}>{item.statusLabel}</span>
-                <button type="button" aria-label="Menyu" onClick={() => setMenu(menu === item.id ? null : item.id)}><span aria-hidden="true">···</span></button>
+                <button type="button" aria-label="Menyu" onClick={() => setMenu(item)}><span aria-hidden="true">···</span></button>
               </div>
               <p className="spec">#{item.num} | {item.age} yosh | {item.gender}</p>
               <div className="pat-visits">
-                <span><Calendar size={12} /> Oxirgi tashrif<small>{item.last}</small></span>
-                <span><svg viewBox="0 0 24 24" width="12" height="12" aria-hidden="true"><path d="M12 3c3 0 5 2 5 5 0 2-.4 3.2-.8 5-.4 2-.8 4-1.2 5.2-.2.6-.5.8-.8.2-.4-1-.6-3-.6-4.4v-1c0 1.4-.2 3.4-.6 4.4-.3.6-.6.4-.8-.2-.4-1.2-.8-3.2-1.2-5.2C7.4 11.2 7 10 7 8c0-3 2-5 5-5z" fill="none" stroke="currentColor" strokeWidth="1.6"/></svg> Keyingi tashrif<small>{item.next}</small></span>
+                <span><Calendar size={14} /> Oxirgi tashrif<small>{item.last}</small></span>
+                <span>Keyingi tashrif<small>{item.next}</small></span>
               </div>
               <p className="tags">{item.tags.map((tag) => <i key={tag} className={`tag-${tag.toLowerCase()}`}>{tag}</i>)}</p>
-              {menu === item.id ? <p className="spec">{item.phone}</p> : null}
             </div>
-            <a className="pat-call" aria-label="Qo‘ng‘iroq" href={`tel:${item.phone.replace(/\s/g, "")}`}><Phone size={16} /></a>
+            <a className="pat-call" aria-label="Qo‘ng‘iroq" href={`tel:${item.phone.replace(/\s/g, "")}`}><Phone size={18} /></a>
           </article>
         ))}
       </div>
       <Link href="/crm/bemorlar/yangi" className="p14-fab" data-testid="patient-add-mobile"><Plus size={16} /> Bemor</Link>
+      {menu ? (
+        <Sheet title={menu.name} onClose={() => setMenu(null)}>
+          <div className="sheet-links">
+            <Link href={`/crm/bemorlar/${menu.id}`}>Ko‘rish</Link>
+            <Link href={`/crm/bemorlar/yangi?edit=${menu.id}`}>Tahrirlash</Link>
+            <Link href={`/crm/uchrashuvlar/yangi?patient=${menu.id}`}>Qabul qo‘shish</Link>
+            <button type="button" onClick={() => { hidePhonePatient(menu.id); setMenu(null); setRev((value) => value + 1); }}>O‘chirish</button>
+          </div>
+        </Sheet>
+      ) : null}
       {open ? (
         <Sheet title="Filtr" onClose={() => setOpen(false)}>
           <label>Shahar
             <select aria-label="Shahar" value={city} onChange={(event) => setCity(event.target.value)}>
               <option value="">Barchasi</option>
               <option>Toshkent</option>
+              <option>Samarqand</option>
             </select>
           </label>
           <button type="button" className="p14-go" onClick={() => setOpen(false)}>Qo‘llash</button>
@@ -227,94 +236,7 @@ export function PhonePatients() {
   );
 }
 
-const DAYS = [
-  { key: "Dsh", n: 14 },
-  { key: "Sesh", n: 15 },
-  { key: "Chor", n: 16 },
-  { key: "Pay", n: 17 },
-  { key: "Jum", n: 18 },
-  { key: "Shan", n: 19 },
-  { key: "Yak", n: 20 },
-];
-
-export function PhoneAppointments() {
-  const [day, setDay] = useState(17);
-  const [tab, setTab] = useState("Barchasi");
-  const [extra, setExtra] = useState<(typeof phoneAppts[number] & { day?: number })[]>([]);
-  const [cal, setCal] = useState(false);
-  useEffect(() => { setExtra(readPhoneStore<(typeof phoneAppts[number] & { day?: number })>(PHONE_APPTS_KEY)); }, []);
-  const items = [...extra, ...phoneAppts].filter((item) => {
-    const itemDay = "day" in item && typeof item.day === "number" ? item.day : 17;
-    if (itemDay !== day) return false;
-    if (tab === "Keladigan" && item.status !== "keladi") return false;
-    if (tab === "Kutilayotgan" && item.status !== "kutil") return false;
-    if (tab === "Bajarildi" && item.status !== "bajar") return false;
-    return true;
-  });
-  return (
-    <PhoneFrame testId="phone-uchrashuvlar" tab="market">
-      <div className="p14-head">
-        <div>
-          <h1>Uchrashuvlar</h1>
-          <p className="sub">Bemorlar uchrashuvlarini boshqaring</p>
-        </div>
-        <button type="button" className="p14-filter" onClick={() => setCal(true)}>Kalendar</button>
-      </div>
-      <div className="days">
-        {DAYS.map((item) => (
-          <button key={item.n} type="button" className={day === item.n ? "on" : undefined} onClick={() => setDay(item.n)}>
-            <small>{item.key}</small>
-            <b>{item.n}</b>
-            <small>Okt</small>
-          </button>
-        ))}
-      </div>
-      <div className="p14-row">
-        <button type="button" className={tab === "Barchasi" ? "p14-chip on" : "p14-chip"} onClick={() => setTab("Barchasi")}>Barchasi (8)</button>
-        <button type="button" className={tab === "Keladigan" ? "p14-chip on" : "p14-chip"} onClick={() => setTab("Keladigan")}>Keladigan (5)</button>
-        <button type="button" className={tab === "Kutilayotgan" ? "p14-chip on" : "p14-chip"} onClick={() => setTab("Kutilayotgan")}>Kutilayotgan (1)</button>
-        <button type="button" className={tab === "Bajarildi" ? "p14-chip on" : "p14-chip"} onClick={() => setTab("Bajarildi")}>Bajarildi (2)</button>
-      </div>
-      <div className="p14-head">
-        <b>Bugun, {day} oktyabr</b>
-        <span className="spec">{items.length} ta uchrashuv</span>
-      </div>
-      <div className="list">
-        {items.length === 0 ? <p className="p14-empty">Bu kunda uchrashuv yo‘q</p> : null}
-        {items.map((item) => (
-          <div key={item.id}>
-          <article className="appt-card">
-            <b className="when">{item.time}</b>
-            <img src={item.avatar} alt="" />
-            <div>
-              <div className="pat-top">
-                <b>{item.name}</b>
-                <span className={`pat-status ${item.status}`}>{item.statusLabel}</span>
-              </div>
-              <p>{item.service}</p>
-              <p className="spec">{item.age} yosh | {item.gender}</p>
-              <p className="spec">{item.tooth}</p>
-              <p className="spec">Izoh: {item.note}</p>
-            </div>
-          </article>
-          {day === 17 && tab === "Barchasi" && item.time === "12:00" ? <div className="lunch">13:00–14:00 · Tushlik tanaffusi<br />14:00 da davom etadi</div> : null}
-          </div>
-        ))}
-      </div>
-      <Link href="/crm/uchrashuvlar/yangi" className="p14-fab" data-testid="appt-add"><Plus size={16} /> Uchrashuv</Link>
-      {cal ? (
-        <Sheet title="Kalendar" onClose={() => setCal(false)}>
-          <p>Oktabr 2024</p>
-          <div className="p14-grid">
-            {DAYS.map((item) => (
-              <button key={item.n} type="button" className={day === item.n ? "p14-chip on" : "p14-chip"} onClick={() => { setDay(item.n); setCal(false); }}>{item.key} {item.n}</button>
-            ))}
-          </div>
-        </Sheet>
-      ) : null}
-    </PhoneFrame>
-  );
-}
+export { PhoneAppointments } from "@/components/phone14/appointments-phone";
 
 export function PhonePlans() {
   const [q, setQ] = useState("");
@@ -325,7 +247,7 @@ export function PhonePlans() {
   useEffect(() => { setExtra(readPhoneStore<{ id: string; title: string; status: string }>(PHONE_PLANS_KEY)); }, []);
   const showMain = (tab === "" || tab === "Davom etmoqda") && (!q.trim() || "malika implant protetik".includes(q.trim().toLowerCase()) || "implant va protetik davolash".includes(q.trim().toLowerCase()));
   return (
-    <PhoneFrame testId="phone-reja" tab="market">
+    <PhoneFrame testId="phone-reja" tab="none">
       <div className="p14-head">
         <div>
           <h1>Davolash rejalari</h1>
@@ -405,7 +327,7 @@ export function PhonePayments() {
   const bars = range === "Hafta" ? WEEK : range === "Oy" ? WEEK.map((item, index) => ({ ...item, h: 30 + ((index * 17) % 60), tip: index === 5 ? item.tip : undefined })) : WEEK.map((item) => ({ ...item, h: 36 + (item.h % 40), tip: undefined }));
   const rows = tab === "recent" ? [...extra, ...phonePayments] : phoneLate;
   return (
-    <PhoneFrame testId="phone-tolovlar" tab="market">
+    <PhoneFrame testId="phone-tolovlar" tab="none">
       <div className="p14-head">
         <div>
           <h1>To‘lovlar</h1>
@@ -471,7 +393,7 @@ export function PhoneStock() {
     return !q.trim() || blob.includes(q.trim().toLowerCase());
   }), [extra, low, q, tab]);
   return (
-    <PhoneFrame testId="phone-ombor" tab="market">
+    <PhoneFrame testId="phone-ombor" tab="none">
       <div className="p14-head">
         <div>
           <h1>Ombor</h1>

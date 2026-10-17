@@ -45,6 +45,7 @@ export function ToothMark({ id, kind, selected }: { id: string; kind?: string; s
         </>
       ) : null}
       {kind === "gone" ? <path d="M12 14l16 20M28 14L12 34" stroke="#94a3b8" strokeWidth="2" /> : null}
+      {kind === "karies" ? <ellipse cx="20" cy="20" rx="5" ry="4" fill="#6b4f3a" /> : null}
     </svg>
   );
 }
@@ -54,11 +55,13 @@ export function ToothChart({
   selected,
   onToggle,
   palette,
+  kinds,
 }: {
   mode?: "katta" | "bola";
   selected?: string[];
   onToggle?: (id: string) => void;
   palette?: boolean;
+  kinds?: Record<string, string>;
 }) {
   const rows = mode === "katta" ? ADULT : BABY;
   return (
@@ -67,7 +70,7 @@ export function ToothChart({
         <div key={row[0]} className="crm-arch">
           {row.map((id) => {
             const on = selected?.includes(id);
-            const kind = palette ? TOOTH_KIND[id] : undefined;
+            const kind = kinds?.[id] || (palette ? TOOTH_KIND[id] : undefined);
             return (
               <button key={id} type="button" className={on ? "crm-tooth on" : "crm-tooth"} aria-pressed={Boolean(on)} aria-label={`Tish ${id}`} onClick={() => onToggle?.(id)}>
                 <ToothMark id={id} kind={kind} selected={on} />
@@ -82,6 +85,6 @@ export function ToothChart({
 }
 
 export function ToothLegend() {
-  const items = [["#e8eef5", "Sog‘lom"], ["#3b82f6", "Plomba"], ["#ef4444", "Endo"], ["#e0b044", "Krona"], ["#8b97a8", "Implant"], ["#94a3b8", "Olib tashlangan"]];
+  const items = [["#e8eef5", "Sog‘lom"], ["#3b82f6", "Plomba"], ["#ef4444", "Endo"], ["#e0b044", "Krona"], ["#8b97a8", "Implant"], ["#94a3b8", "Olib tashlangan"], ["#6b4f3a", "Karies"]];
   return <p className="crm-legend">{items.map(([color, label]) => <span key={label}><i style={{ background: color }} />{label}</span>)}</p>;
 }
