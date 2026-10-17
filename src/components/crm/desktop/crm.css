@@ -114,8 +114,8 @@
 .sh .cert-full .cert-seal { width: calc(4.2 * var(--u)); height: calc(4.2 * var(--u)); }
 .sh .cert-full .cert-close { position: absolute; top: calc(.8 * var(--u)); right: calc(1 * var(--u)); color: #fff; font-size: calc(1.5 * var(--u)); }
 .sh .cert-full .go { height: calc(1.9 * var(--u)); padding: 0 calc(1 * var(--u)); border-radius: calc(.4 * var(--u)); background: #0066ff; color: #fff; font-weight: 750; font-size: calc(.66 * var(--u)); }
-.sh .cert-card h2 { margin: calc(.35 * var(--u)) 0 0; font-size: calc(.68 * var(--u)); }
-.sh .cert-card .meta { margin: calc(.08 * var(--u)) 0 0; color: #6a7c93; font-size: calc(.56 * var(--u)); }
+.sh .cert-card h2 { margin: calc(.35 * var(--u)) 0 0; font-size: calc(1.07 * var(--u)); font-weight: 600; }
+.sh .cert-card .meta { margin: calc(.08 * var(--u)) 0 0; color: #6a7c93; font-size: calc(.86 * var(--u)); font-weight: 500; }
 .sh .cert-card .when { display: flex; gap: calc(.45 * var(--u)); margin-top: calc(.2 * var(--u)); color: #5b6b82; font-size: calc(.54 * var(--u)); }
 .sh .cert-ops { display: flex; gap: calc(.25 * var(--u)); margin-top: calc(.35 * var(--u)); }
 .sh .cert-ops button { flex: 1; height: calc(1.55 * var(--u)); border-radius: calc(.35 * var(--u)); border: 1px solid #e6edf5; background: #fff; font-size: calc(.54 * var(--u)); font-weight: 750; color: #24344d; display: inline-flex; align-items: center; justify-content: center; gap: calc(.15 * var(--u)); }

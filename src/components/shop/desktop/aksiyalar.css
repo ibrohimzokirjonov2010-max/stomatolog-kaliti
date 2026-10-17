@@ -106,14 +106,14 @@
   font-variant-numeric: tabular-nums;
 }
 .sh .ax-time .i { font-size: calc(.72 * var(--u)); }
-.sh .ax-card h3 { margin: calc(.28 * var(--u)) 0 0; font-size: calc(.7 * var(--u)); font-weight: 750; line-height: 1.25; min-height: calc(1.75 * var(--u)); }
-.sh .ax-brand { margin: calc(.08 * var(--u)) 0 0; color: #8b9bb0; font-size: calc(.58 * var(--u)); }
+.sh .ax-card h3 { margin: calc(.28 * var(--u)) 0 0; font-size: calc(1.07 * var(--u)); font-weight: 600; line-height: 1.25; min-height: calc(2.6 * var(--u)); }
+.sh .ax-brand { margin: calc(.08 * var(--u)) 0 0; color: #8b9bb0; font-size: calc(.86 * var(--u)); font-weight: 500; }
 .sh .ax-meta { display: flex; align-items: center; gap: calc(.25 * var(--u)); margin-top: calc(.2 * var(--u)); color: #5c6d84; font-size: calc(.58 * var(--u)); }
 .sh .ax-meta .star { color: #f5b400; fill: #f5b400; font-size: calc(.68 * var(--u)); }
 .sh .ax-meta .sold { margin-left: auto; color: #8b9bb0; }
 .sh .ax-buy { display: flex; align-items: flex-end; justify-content: space-between; gap: calc(.4 * var(--u)); margin-top: calc(.35 * var(--u)); }
-.sh .ax-buy b { display: block; color: #0066ff; font-size: calc(.86 * var(--u)); letter-spacing: -.02em; line-height: 1.1; }
-.sh .ax-buy s { display: block; margin-top: calc(.08 * var(--u)); color: #a0aec0; font-size: calc(.58 * var(--u)); }
+.sh .ax-buy b { display: block; color: #0066ff; font-size: calc(1.42 * var(--u)); font-weight: 800; letter-spacing: -.02em; line-height: 1.1; }
+.sh .ax-buy s { display: block; margin-top: calc(.08 * var(--u)); color: #a0aec0; font-size: calc(.92 * var(--u)); font-weight: 500; }
 .sh .ax-cart {
   width: calc(1.9 * var(--u));
   height: calc(1.9 * var(--u));

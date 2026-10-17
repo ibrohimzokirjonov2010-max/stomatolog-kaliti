@@ -158,13 +158,14 @@
 }
 .brd-promo img {
   position: absolute;
-  right: calc(-.15 * var(--u));
-  bottom: calc(-.1 * var(--u));
-  width: calc(5.4 * var(--u));
-  height: calc(4.6 * var(--u));
+  right: calc(.15 * var(--u));
+  bottom: calc(.1 * var(--u));
+  width: calc(7.2 * var(--u));
+  height: calc(6.4 * var(--u));
   object-fit: contain;
   object-position: right bottom;
   pointer-events: none;
+  background: transparent;
 }
 .brd-mark .mk-logo { width: 100%; height: calc(4.4 * var(--u)); object-fit: contain; object-position: center; }
 
@@ -266,7 +267,7 @@
 }
 .brd-card:hover { border-color: #c5d9ff; box-shadow: 0 calc(.15 * var(--u)) calc(.5 * var(--u)) rgba(0, 102, 255, .08); }
 .brd-mark { height: calc(4.5 * var(--u)); display: grid; place-items: center; }
-.brd-card h2 { margin: calc(.15 * var(--u)) 0 0; font-size: calc(.72 * var(--u)); font-weight: 750; line-height: 1.2; }
+.brd-card h2 { margin: calc(.15 * var(--u)) 0 0; font-size: calc(1.07 * var(--u)); font-weight: 600; line-height: 1.2; }
 .brd-card .where { display: flex; align-items: center; gap: calc(.25 * var(--u)); margin-top: calc(.12 * var(--u)); color: #6a7c93; font-size: calc(.58 * var(--u)); }
 .brd-foot { margin-top: auto; display: flex; align-items: center; justify-content: space-between; gap: calc(.3 * var(--u)); padding-top: calc(.35 * var(--u)); }
 .brd-foot em { color: #0066ff; font-style: normal; font-weight: 750; font-size: calc(.62 * var(--u)); }

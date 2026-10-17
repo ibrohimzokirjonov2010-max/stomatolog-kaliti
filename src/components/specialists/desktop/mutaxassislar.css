@@ -110,8 +110,8 @@
 .sh .mx-heart .i { font-size: calc(.78 * var(--u)); }
 .sh .mx-heart.on { color: #ef3b3b; }
 .sh .mx-heart.on .i { fill: currentColor; }
-.sh .mx-card h3 { margin: calc(.4 * var(--u)) 0 0; font-size: calc(.72 * var(--u)); font-weight: 800; }
-.sh .mx-role { margin: calc(.04 * var(--u)) 0 0; color: #6a7c93; font-size: calc(.58 * var(--u)); }
+.sh .mx-card h3 { margin: calc(.4 * var(--u)) 0 0; font-size: calc(1.07 * var(--u)); font-weight: 600; }
+.sh .mx-role { margin: calc(.04 * var(--u)) 0 0; color: #6a7c93; font-size: calc(.86 * var(--u)); font-weight: 500; }
 .sh .mx-rate { display: flex; align-items: center; gap: calc(.2 * var(--u)); margin-top: calc(.28 * var(--u)); font-size: calc(.58 * var(--u)); color: #5b6b82; }
 .sh .mx-rate .star { color: #f5b400; fill: #f5b400; font-size: calc(.72 * var(--u)); }
 .sh .mx-rate b { color: #24344d; font-weight: 800; }
@@ -168,10 +168,10 @@
 .sh .mx-chat input { flex: 1; border: 0; outline: 0; padding: calc(.45 * var(--u)); font: inherit; font-size: calc(.62 * var(--u)); }
 .sh .mx-chat form button { padding: 0 calc(.55 * var(--u)); color: #0066ff; font-weight: 750; font-size: calc(.6 * var(--u)); }
 .sh .mx-promo img {
-  width: calc(4.4 * var(--u));
-  height: calc(4.6 * var(--u));
+  width: calc(7.2 * var(--u));
+  height: calc(6.4 * var(--u));
   right: calc(.15 * var(--u));
-  bottom: calc(.3 * var(--u));
-  object-fit: cover;
-  object-position: center 30%;
+  bottom: calc(.15 * var(--u));
+  object-fit: contain;
+  object-position: right bottom;
 }
