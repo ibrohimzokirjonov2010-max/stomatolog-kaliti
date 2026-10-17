@@ -17,6 +17,7 @@ import {
   Wifi,
 } from "lucide-react";
 import { useCart } from "@/components/cart-provider";
+import { MobileMenuButton } from "@/components/dashboard/mobile-chrome";
 import { NotificationBell } from "@/components/notification-bell";
 import {
   MOBILE_SEMINAR_TOTAL,
@@ -87,6 +88,7 @@ export function SeminarMobileList() {
   return (
     <div className="se lg:hidden" data-testid="mobile-seminars">
       <header className="mh-bar">
+        <MobileMenuButton />
         <Link href="/" className="mh-logo">
           STOMAHUB
         </Link>

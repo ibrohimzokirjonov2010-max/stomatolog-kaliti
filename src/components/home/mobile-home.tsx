@@ -27,6 +27,7 @@ import {
 import { useCart } from "@/components/cart-provider";
 import { useFavorites } from "@/components/favorites-provider";
 import { useDoctorProfile } from "@/components/doctor-profile-provider";
+import { MobileMenuButton } from "@/components/dashboard/mobile-chrome";
 import { NotificationBell } from "@/components/notification-bell";
 import { seminarHref } from "@/data/seminars";
 import { formatMoney } from "@/lib/format";
@@ -134,6 +135,7 @@ export function MobileHome() {
   return (
     <div className="mh lg:hidden" data-testid="mobile-home">
       <header className="mh-bar">
+        <MobileMenuButton />
         <Link href="/" className="mh-logo">STOMAHUB</Link>
         <button type="button" className="mh-ic" aria-label="Qidirish" onClick={() => document.querySelector<HTMLInputElement>("[data-section-search]")?.focus()}>
           <Search />

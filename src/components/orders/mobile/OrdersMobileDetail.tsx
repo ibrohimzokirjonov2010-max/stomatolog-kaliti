@@ -5,6 +5,7 @@ import { useState } from "react";
 import Link from "next/link";
 import { ArrowLeft, FileText, Headphones, ShoppingCart, Store } from "lucide-react";
 import { useCart } from "@/components/cart-provider";
+import { MobileMenuButton } from "@/components/dashboard/mobile-chrome";
 import { formatMoney } from "@/lib/format";
 import type { MobileOrder } from "@/data/mobile-orders";
 import { OrderSupportSheet, reorderMobileOrder } from "./OrdersMobileList";
@@ -16,6 +17,7 @@ export function OrdersMobileDetail({ order }: { order: MobileOrder }) {
   return (
     <article className="od lg:hidden" data-testid="mobile-buyurtma">
       <header className="mh-bar">
+        <MobileMenuButton />
         <Link href="/buyurtmalarim" className="od-back" aria-label="Orqaga"><ArrowLeft /></Link>
         <h1 className="od-title" style={{ fontSize: 18 }}>{order.number}</h1>
       </header>

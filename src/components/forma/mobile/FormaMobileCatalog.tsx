@@ -5,6 +5,7 @@ import { useMemo, useState } from "react";
 import Link from "next/link";
 import { ArrowUpDown, ChevronDown, ChevronRight, Heart, Search, ShoppingCart, SlidersHorizontal, Star } from "lucide-react";
 import { useCart } from "@/components/cart-provider";
+import { MobileMenuButton } from "@/components/dashboard/mobile-chrome";
 import { NotificationBell } from "@/components/notification-bell";
 import { formaKinds, mobileForma, type FormaColor, type FormaGender, type FormaKind, type MobileForma } from "@/data/mobile-forma";
 import type { Product } from "@/data/products";
@@ -130,6 +131,7 @@ export function FormaMobileCatalog() {
   return (
     <div className="fm lg:hidden" data-testid="mobile-forma">
       <header className="mh-bar">
+        <MobileMenuButton />
         <Link href="/" className="mh-logo">STOMAHUB</Link>
         <button type="button" className="mh-ic" aria-label="Qidirish" onClick={() => document.querySelector<HTMLInputElement>("[data-forma-search]")?.focus()}>
           <Search />

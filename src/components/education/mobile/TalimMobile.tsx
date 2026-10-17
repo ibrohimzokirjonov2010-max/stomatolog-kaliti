@@ -6,6 +6,7 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { BookOpen, Eye, LayoutGrid, MoreVertical, Play, Search, ShoppingCart, SlidersHorizontal } from "lucide-react";
 import { useCart } from "@/components/cart-provider";
+import { MobileMenuButton } from "@/components/dashboard/mobile-chrome";
 import { NotificationBell } from "@/components/notification-bell";
 import {
   continueLesson,
@@ -78,6 +79,7 @@ export function TalimMobile() {
   return (
     <div className="tl lg:hidden" data-testid="mobile-talim">
       <header className="mh-bar">
+        <MobileMenuButton />
         <Link href="/" className="mh-logo">
           STOMAHUB
         </Link>

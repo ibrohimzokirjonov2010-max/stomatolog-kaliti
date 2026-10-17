@@ -15,7 +15,6 @@ import {
   Home,
   Map,
   MapPin,
-  Menu,
   MessageSquare,
   Percent,
   Phone,
@@ -29,7 +28,7 @@ import {
   X,
 } from "lucide-react";
 import { useCart } from "@/components/cart-provider";
-import { useMobileNav } from "@/components/dashboard/mobile-chrome";
+import { MobileMenuButton } from "@/components/dashboard/mobile-chrome";
 import { useDoctorProfile } from "@/components/doctor-profile-provider";
 import { NotificationBell } from "@/components/notification-bell";
 import { loadPlacedOrders, rememberPlacedOrder, type MobileOrder } from "@/data/mobile-orders";
@@ -115,7 +114,6 @@ function PayMark({ mark, color }: { mark: string; color: string }) {
 }
 
 export function CheckoutSteps() {
-  const { open, setOpen } = useMobileNav();
   const cart = useCart();
   const { items, clear } = cart;
   const { profile } = useDoctorProfile();
@@ -273,9 +271,7 @@ export function CheckoutSteps() {
   return (
     <div className="ck lg:hidden" data-testid="mobile-checkout" data-step={step}>
       <header className="mh-bar">
-        <button type="button" className="mh-ic" aria-label={open ? "Menyuni yopish" : "Menyu"} aria-expanded={open} onClick={() => setOpen(!open)}>
-          <Menu />
-        </button>
+        <MobileMenuButton />
         <Link href="/" className="mh-logo">STOMAHUB</Link>
         <button type="button" className="mh-ic" aria-label="Qidiruv" aria-expanded={searchOpen} onClick={() => setSearchOpen((value) => !value)}>
           <Search />

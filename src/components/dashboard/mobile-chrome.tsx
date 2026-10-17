@@ -4,30 +4,58 @@ import {
   createContext,
   useContext,
   useEffect,
+  useRef,
   useState,
   type ReactNode,
+  type TouchEvent,
 } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import {
+  Award,
+  BarChart3,
+  BookOpen,
+  Briefcase,
+  Building2,
+  CalendarClock,
   CalendarDays,
   ChevronDown,
   ChevronLeft,
+  ChevronRight,
+  ClipboardList,
+  FlaskConical,
+  Gift,
+  GraduationCap,
   Home,
+  LayoutGrid,
+  LogOut,
   MapPin,
+  Megaphone,
   Menu,
   MessageSquare,
+  Newspaper,
+  Package,
+  PackageCheck,
+  Percent,
+  Radio,
   ShieldCheck,
   Shirt,
   ShoppingBag,
   ShoppingCart,
+  Stethoscope,
+  Tags,
   User,
+  UserRound,
+  Users,
+  Wallet,
+  Warehouse,
+  Wrench,
   X,
+  type LucideIcon,
 } from "lucide-react";
 import { useCart } from "@/components/cart-provider";
 import { useDoctorProfile } from "@/components/doctor-profile-provider";
 import { initialsFromName } from "@/lib/doctor-profile";
-import { Sidebar } from "@/components/dashboard/sidebar";
 import { NotificationBell } from "@/components/notification-bell";
 import { formatMoney } from "@/lib/format";
 import { cn } from "@/lib/utils";
@@ -53,8 +81,12 @@ export function MobileNavProvider({ children }: { children: ReactNode }) {
     if (!open) return;
     const previous = document.body.style.overflow;
     document.body.style.overflow = "hidden";
+    const main = document.getElementById("main");
+    const prevMain = main?.style.overflow ?? "";
+    if (main) main.style.overflow = "hidden";
     return () => {
       document.body.style.overflow = previous;
+      if (main) main.style.overflow = prevMain;
     };
   }, [open]);
 
@@ -292,7 +324,6 @@ export function MobileTopbar() {
   const soon = useSoonToast();
   const pathname = usePathname();
   const onKlinika = pathname === "/klinika" || pathname.startsWith("/klinika/");
-  const { open, setOpen } = useMobileNav();
   const { count } = useCart();
   if (onKlinika || isPhone14(pathname)) return null;
   // Main section pages draw the unified MobileSectionHeader (title · search · cart · bell) themselves.
@@ -357,12 +388,12 @@ export function MobileTopbar() {
       style={{ paddingTop: "env(safe-area-inset-top)" }}
     >
       <div className="flex h-14 items-center gap-0.5 px-2">
+        <MobileMenuButton variant="top" />
         {onBrandHeader ? (
-          <button
-            type="button"
+          <Link
+            href="/"
             className="flex min-h-11 min-w-0 flex-1 items-center gap-2 rounded-xl px-1 py-1 text-left"
-            aria-label="Menyu"
-            onClick={() => setOpen(!open)}
+            aria-label="Bosh sahifa"
           >
             <span
               className={cn(
@@ -404,7 +435,7 @@ export function MobileTopbar() {
                 </span>
               </span>
             )}
-          </button>
+          </Link>
         ) : (
           <>
             {onMarketplace || onUstalar ? (
@@ -418,18 +449,6 @@ export function MobileTopbar() {
                 <ChevronLeft className="size-6" />
               </Link>
             ) : null}
-            <button
-              type="button"
-              className={cn(
-                "grid size-11 place-items-center rounded-xl text-[#1a1d26]",
-                onUstalar && "hidden",
-              )}
-              aria-label={open ? "Menyuni yopish" : "Menyu"}
-              aria-expanded={open}
-              onClick={() => setOpen(!open)}
-            >
-              {open ? <X className="size-6" /> : <Menu className="size-6" />}
-            </button>
             {onUstalar ? (
               <h1 className="min-w-0 flex-1 truncate text-[17px] font-bold tracking-tight text-[#1a1d26]">
                 {onUstaRequests ? "Mening so‘rovlarim" : "Ustalar"}
@@ -526,34 +545,289 @@ export function MobileTopbar() {
   );
 }
 
+const APP_VERSION = "0.1.0";
+
+type MenuItem = {
+  href: string;
+  label: string;
+  icon: LucideIcon;
+  bg: string;
+  color: string;
+};
+
+const MENU_GROUPS: { title: string; items: MenuItem[] }[] = [
+  {
+    title: "Asosiy",
+    items: [
+      { href: "/", label: "Bosh sahifa", icon: Home, bg: "#e8f1ff", color: "#0066ff" },
+      { href: "/marketplace", label: "Marketplace", icon: ShoppingBag, bg: "#e8f1ff", color: "#0066ff" },
+      { href: "/kategoriyalar", label: "Kategoriyalar", icon: LayoutGrid, bg: "#e8f1ff", color: "#2563eb" },
+      { href: "/marketplace/brendlar", label: "Brendlar", icon: Tags, bg: "#fff7e6", color: "#d97706" },
+      { href: "/marketplace/aksiyalar", label: "Aksiyalar", icon: Percent, bg: "#ffe8ee", color: "#e11d48" },
+      { href: "/ortiqcha-material", label: "Ortiqcha material", icon: Package, bg: "#fff1e6", color: "#f59e0b" },
+      { href: "/forma", label: "Forma", icon: Shirt, bg: "#f3e8ff", color: "#8b5cf6" },
+      { href: "/jihozlar", label: "Jihozlar", icon: Stethoscope, bg: "#e7f6f4", color: "#0f766e" },
+    ],
+  },
+  {
+    title: "Ta‘lim",
+    items: [
+      { href: "/seminarlar", label: "Seminarlar", icon: CalendarDays, bg: "#e7f6f4", color: "#1497a8" },
+      { href: "/talim", label: "Ta‘lim", icon: GraduationCap, bg: "#ffe8ee", color: "#f43f5e" },
+      { href: "/kitoblar", label: "Kitoblar", icon: BookOpen, bg: "#e8f1ff", color: "#3b82f6" },
+      { href: "/mutaxassislar", label: "Mutaxassislar", icon: UserRound, bg: "#e8f1ff", color: "#2563eb" },
+      { href: "/sertifikatlar", label: "Sertifikatlar", icon: Award, bg: "#fff7e6", color: "#d97706" },
+    ],
+  },
+  {
+    title: "Xizmatlar",
+    items: [
+      { href: "/ustalar", label: "Ustalar", icon: Wrench, bg: "#e7f6f4", color: "#0d9488" },
+      { href: "/laboratoriya", label: "Laboratoriya", icon: FlaskConical, bg: "#f3e8ff", color: "#7c3aed" },
+      { href: "/ishlar", label: "Ishlar", icon: Briefcase, bg: "#e8f1ff", color: "#1d4ed8" },
+      { href: "/elonlar", label: "E‘lonlar", icon: Megaphone, bg: "#fff1e6", color: "#ea580c" },
+      { href: "/community", label: "Community", icon: Users, bg: "#e7f6f4", color: "#0d9488" },
+      { href: "/yangiliklar", label: "Yangiliklar", icon: Newspaper, bg: "#ffe8ee", color: "#e11d48" },
+      { href: "/foydali-kanallar", label: "Foydali kanallar", icon: Radio, bg: "#e8f1ff", color: "#2563eb" },
+    ],
+  },
+  {
+    title: "Klinika",
+    items: [
+      { href: "/mening-klinikam", label: "Mening klinikam", icon: Building2, bg: "#e8f1ff", color: "#0066ff" },
+      { href: "/crm/bemorlar", label: "Bemorlar", icon: Users, bg: "#e7f6f4", color: "#0d9488" },
+      { href: "/crm/uchrashuvlar", label: "Uchrashuvlar", icon: CalendarClock, bg: "#fff1e6", color: "#d97706" },
+      { href: "/crm/davolash-rejalari", label: "Davolash rejalari", icon: ClipboardList, bg: "#f3e8ff", color: "#7c3aed" },
+      { href: "/crm/tolovlar", label: "To‘lovlar", icon: Wallet, bg: "#e7f8f2", color: "#059669" },
+      { href: "/crm/ombor", label: "Ombor", icon: Warehouse, bg: "#fff1e6", color: "#ea580c" },
+      { href: "/crm/hisobotlar", label: "Hisobotlar", icon: BarChart3, bg: "#e8f1ff", color: "#2563eb" },
+    ],
+  },
+  {
+    title: "Shaxsiy",
+    items: [
+      { href: "/savat", label: "Savat", icon: ShoppingCart, bg: "#e8f1ff", color: "#0066ff" },
+      { href: "/buyurtmalarim", label: "Buyurtmalarim", icon: PackageCheck, bg: "#e7f6f4", color: "#0d9488" },
+      { href: "/bonuslarim", label: "Bonuslarim", icon: Gift, bg: "#fff1e6", color: "#f59e0b" },
+      { href: "/profil", label: "Profil", icon: User, bg: "#f3e8ff", color: "#7c3aed" },
+    ],
+  },
+];
+
+const MENU_HREFS = MENU_GROUPS.flatMap((group) => group.items.map((item) => item.href));
+
+function menuItemActive(pathname: string, href: string) {
+  const matches = (candidate: string) => {
+    if (candidate === "/") return pathname === "/" || pathname.startsWith("/bosh-sahifa");
+    return pathname === candidate || pathname.startsWith(`${candidate}/`);
+  };
+  if (!matches(href)) return false;
+  const best = MENU_HREFS.filter(matches).sort((a, b) => b.length - a.length)[0];
+  return best === href;
+}
+
+export function MobileMenuButton({ variant = "bar" }: { variant?: "bar" | "top" }) {
+  const { open, setOpen } = useMobileNav();
+  return (
+    <button
+      type="button"
+      data-testid="mobile-menu-button"
+      className={
+        variant === "top"
+          ? "grid size-11 shrink-0 place-items-center rounded-xl text-[#1a1d26]"
+          : "mh-ic"
+      }
+      aria-label={open ? "Menyuni yopish" : "Menyu"}
+      aria-expanded={open}
+      aria-controls="mobile-app-menu"
+      onClick={() => setOpen(!open)}
+    >
+      <Menu className={variant === "top" ? "size-5" : undefined} strokeWidth={2} aria-hidden="true" />
+    </button>
+  );
+}
+
 export function MobileDrawer() {
   const { open, setOpen } = useMobileNav();
+  const pathname = usePathname();
+  const { ready, profile, logout } = useDoctorProfile();
+  const closeRef = useRef<HTMLButtonElement>(null);
+  const touch = useRef({ x: 0, y: 0 });
+  const [present, setPresent] = useState(false);
+  const [visible, setVisible] = useState(false);
+
+  useEffect(() => {
+    if (open) {
+      setPresent(true);
+      const frame = requestAnimationFrame(() => {
+        requestAnimationFrame(() => setVisible(true));
+      });
+      return () => cancelAnimationFrame(frame);
+    }
+    setVisible(false);
+    const timer = window.setTimeout(() => setPresent(false), 300);
+    return () => window.clearTimeout(timer);
+  }, [open]);
+
+  useEffect(() => {
+    if (!open) return;
+    const onKey = (event: KeyboardEvent) => {
+      if (event.key === "Escape") setOpen(false);
+    };
+    window.addEventListener("keydown", onKey);
+    const focusTimer = window.setTimeout(() => closeRef.current?.focus(), 40);
+    return () => {
+      window.removeEventListener("keydown", onKey);
+      window.clearTimeout(focusTimer);
+    };
+  }, [open, setOpen]);
+
+  function onTouchStart(event: TouchEvent) {
+    const point = event.touches[0];
+    touch.current = { x: point.clientX, y: point.clientY };
+  }
+
+  function onTouchEnd(event: TouchEvent) {
+    const point = event.changedTouches[0];
+    const dx = point.clientX - touch.current.x;
+    const dy = point.clientY - touch.current.y;
+    if (dx < -56 && Math.abs(dx) > Math.abs(dy)) setOpen(false);
+  }
+
+  if (!present) return null;
 
   return (
-    <div
-      className={cn(
-        "fixed inset-0 z-50 lg:hidden",
-        open ? "pointer-events-auto" : "pointer-events-none",
-      )}
-    >
+    <div className="fixed inset-0 z-[70] lg:hidden">
       <button
         type="button"
         aria-label="Menyuni yopish"
         className={cn(
-          "absolute inset-0 bg-black/40 transition-opacity",
-          open ? "opacity-100" : "opacity-0",
+          "absolute inset-0 bg-black/50 motion-safe:transition-opacity motion-safe:duration-300",
+          visible ? "opacity-100" : "opacity-0",
         )}
         onClick={() => setOpen(false)}
       />
       <div
+        id="mobile-app-menu"
+        role="dialog"
+        aria-modal="true"
+        aria-label="Ilova menyusi"
+        data-testid="mobile-app-menu"
         className={cn(
-          "absolute inset-y-0 left-0 w-[min(100%,232px)] bg-white shadow-2xl transition-transform duration-200",
-          open
-            ? "translate-x-0 pointer-events-auto"
-            : "pointer-events-none -translate-x-full",
+          "absolute inset-y-0 left-0 flex w-[min(85vw,360px)] flex-col bg-white shadow-2xl motion-safe:transition-transform motion-safe:duration-300 motion-safe:ease-out",
+          visible ? "translate-x-0" : "-translate-x-full",
         )}
+        onTouchStart={onTouchStart}
+        onTouchEnd={onTouchEnd}
       >
-        <Sidebar />
+        <div
+          className="relative border-b border-[#eceff5] px-4 pt-[max(16px,env(safe-area-inset-top))] pb-4"
+        >
+          <button
+            ref={closeRef}
+            type="button"
+            className="absolute top-[max(12px,env(safe-area-inset-top))] right-3 grid size-10 place-items-center rounded-xl text-[#1a1d26]"
+            aria-label="Menyuni yopish"
+            onClick={() => setOpen(false)}
+          >
+            <X className="size-5" strokeWidth={2} />
+          </button>
+          {!ready ? (
+            <div className="flex items-center gap-3 pr-12" aria-hidden="true">
+              <span className="size-12 animate-pulse rounded-full bg-[#f3f4f8]" />
+              <span className="h-4 w-32 animate-pulse rounded bg-[#f3f4f8]" />
+            </div>
+          ) : profile ? (
+            <div className="flex items-center gap-3 pr-12">
+              {profile.avatarUrl ? (
+                // eslint-disable-next-line @next/next/no-img-element -- profile photo is a user upload
+                <img src={profile.avatarUrl} alt="" className="size-12 rounded-full object-cover" />
+              ) : (
+                <span className="grid size-12 place-items-center rounded-full bg-[#e8f1ff] text-[15px] font-extrabold text-[#0066FF]">
+                  {initialsFromName(profile.fullName)}
+                </span>
+              )}
+              <div className="min-w-0">
+                <p className="truncate text-[16px] font-extrabold text-[#1a1d26]">{profile.fullName}</p>
+                <Link href="/profil" className="mt-0.5 inline-flex text-[13px] font-semibold text-[#0066FF]">
+                  Profilni ko‘rish
+                </Link>
+              </div>
+            </div>
+          ) : (
+            <div className="pr-12">
+              <p className="text-[15px] font-extrabold text-[#1a1d26]">Hisobingizga kiring</p>
+              <div className="mt-3 flex flex-wrap gap-2">
+                <Link
+                  href="/kirish"
+                  className="inline-flex h-9 items-center rounded-full bg-[#0066FF] px-4 text-[13px] font-bold text-white"
+                >
+                  Kirish
+                </Link>
+                <Link
+                  href="/royxat"
+                  className="inline-flex h-9 items-center rounded-full border border-[#d7e3f4] px-4 text-[13px] font-bold text-[#0066FF]"
+                >
+                  Ro‘yxatdan o‘tish
+                </Link>
+              </div>
+            </div>
+          )}
+        </div>
+        <nav className="min-h-0 flex-1 overflow-y-auto overscroll-contain px-3 py-2" aria-label="Bo‘limlar">
+          {MENU_GROUPS.map((group) => (
+            <section key={group.title} className="pb-2">
+              <h2 className="px-2 pt-3 pb-1 text-[11px] font-bold tracking-[0.14em] text-[#8b93a7] uppercase">
+                {group.title}
+              </h2>
+              <ul>
+                {group.items.map((item) => {
+                  const Icon = item.icon;
+                  const active = menuItemActive(pathname, item.href);
+                  return (
+                    <li key={item.href}>
+                      <Link
+                        href={item.href}
+                        aria-current={active ? "page" : undefined}
+                        className={cn(
+                          "flex items-center gap-3 rounded-xl px-2 py-2",
+                          active ? "bg-[#e8f1ff] text-[#0066FF]" : "text-[#1a1d26]",
+                        )}
+                      >
+                        <span
+                          className="grid size-9 shrink-0 place-items-center rounded-xl"
+                          style={{ background: item.bg, color: item.color }}
+                        >
+                          <Icon className="size-5" strokeWidth={2} aria-hidden="true" />
+                        </span>
+                        <span className="min-w-0 flex-1 truncate text-[15px] font-semibold">{item.label}</span>
+                        <ChevronRight className="size-4 shrink-0 text-[#8b93a7]" aria-hidden="true" />
+                      </Link>
+                    </li>
+                  );
+                })}
+              </ul>
+            </section>
+          ))}
+        </nav>
+        <div className="border-t border-[#eceff5] px-3 pt-2 pb-[max(12px,env(safe-area-inset-bottom))]">
+          {profile ? (
+            <button
+              type="button"
+              className="flex w-full items-center gap-3 rounded-xl px-2 py-2 text-[15px] font-semibold text-[#e11d48]"
+              onClick={() => {
+                void logout();
+                setOpen(false);
+              }}
+            >
+              <span className="grid size-9 place-items-center rounded-xl bg-[#ffe8ee] text-[#e11d48]">
+                <LogOut className="size-5" strokeWidth={2} aria-hidden="true" />
+              </span>
+              Chiqish
+            </button>
+          ) : null}
+          <p className="py-2 text-center text-[12px] text-[#8b93a7]">StomaHub · v{APP_VERSION}</p>
+        </div>
       </div>
     </div>
   );

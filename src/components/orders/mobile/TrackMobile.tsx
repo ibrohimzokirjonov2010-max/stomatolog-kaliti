@@ -3,9 +3,9 @@
 
 import { useState } from "react";
 import Link from "next/link";
-import { Calendar, Check, ChevronRight, FileText, Headphones, Home, Menu, MessageCircle, Phone, ShoppingBag, ShoppingCart, Star, Store, Truck } from "lucide-react";
+import { Calendar, Check, ChevronRight, FileText, Headphones, Home, MessageCircle, Phone, ShoppingBag, ShoppingCart, Star, Store, Truck } from "lucide-react";
 import { useCart } from "@/components/cart-provider";
-import { useMobileNav } from "@/components/dashboard/mobile-chrome";
+import { MobileMenuButton } from "@/components/dashboard/mobile-chrome";
 import { NotificationBell } from "@/components/notification-bell";
 import { formatMoney } from "@/lib/format";
 import type { MobileOrder, MobileOrderStatus } from "@/data/mobile-orders";
@@ -57,7 +57,6 @@ function headline(order: MobileOrder) {
 }
 
 export function TrackMobile({ order }: { order: MobileOrder | undefined }) {
-  const { open, setOpen } = useMobileNav();
   const lines = useCart().items.length;
   const [help, setHelp] = useState(false);
   const [chat, setChat] = useState(false);
@@ -68,9 +67,7 @@ export function TrackMobile({ order }: { order: MobileOrder | undefined }) {
   return (
     <div className="tr lg:hidden" data-testid="mobile-track">
       <header className="mh-bar">
-        <button type="button" className="mh-ic" aria-label={open ? "Menyuni yopish" : "Menyu"} aria-expanded={open} onClick={() => setOpen(!open)}>
-          <Menu />
-        </button>
+        <MobileMenuButton />
         <Link href="/" className="mh-logo">STOMAHUB</Link>
         <Link href="/savat" className="mh-ic" aria-label="Savat">
           <ShoppingCart />

@@ -5,6 +5,7 @@ import { useMemo, useState } from "react";
 import Link from "next/link";
 import { BookOpen, FileText, Heart, LayoutGrid, Search, ShoppingCart, SlidersHorizontal, Star } from "lucide-react";
 import { useCart } from "@/components/cart-provider";
+import { MobileMenuButton } from "@/components/dashboard/mobile-chrome";
 import { NotificationBell } from "@/components/notification-bell";
 import { bookSorts, bookTopics, mobileBooks, type BookFormat, type BookSort, type BookTopic, type MobileBook } from "@/data/mobile-books";
 import type { Product } from "@/data/products";
@@ -64,6 +65,7 @@ export function KitoblarMobile() {
   return (
     <div className="kb lg:hidden" data-testid="mobile-kitoblar">
       <header className="mh-bar">
+        <MobileMenuButton />
         <Link href="/" className="mh-logo">STOMAHUB</Link>
         <button type="button" className="mh-ic" aria-label="Qidirish" onClick={() => document.querySelector<HTMLInputElement>("[data-book-search]")?.focus()}>
           <Search />

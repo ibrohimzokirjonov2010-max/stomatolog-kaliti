@@ -5,6 +5,7 @@ import { useMemo, useState } from "react";
 import Link from "next/link";
 import { ArrowUpDown, BadgeCheck, CalendarDays, ChevronDown, MapPin, Phone, Search, ShoppingCart, Star } from "lucide-react";
 import { useCart } from "@/components/cart-provider";
+import { MobileMenuButton } from "@/components/dashboard/mobile-chrome";
 import { NotificationBell } from "@/components/notification-bell";
 import { mobileUstalar, ustaKinds, ustaServicesOf, type MobileUsta, type UstaKind } from "@/data/mobile-ustalar";
 import { formatMoney } from "@/lib/format";
@@ -99,6 +100,7 @@ export function UstalarMobileList() {
   return (
     <div className="ut lg:hidden" data-testid="mobile-ustalar">
       <header className="mh-bar">
+        <MobileMenuButton />
         <Link href="/" className="mh-logo">STOMAHUB</Link>
         <button type="button" className="mh-ic" aria-label="Qidirish" onClick={() => document.querySelector<HTMLInputElement>("[data-usta-search]")?.focus()}>
           <Search />

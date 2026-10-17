@@ -5,6 +5,7 @@ import { useMemo, useState } from "react";
 import Link from "next/link";
 import { Crown, Lightbulb, Plus, Search, Send, ShoppingCart, SlidersHorizontal } from "lucide-react";
 import { useCart } from "@/components/cart-provider";
+import { MobileMenuButton } from "@/components/dashboard/mobile-chrome";
 import { NotificationBell } from "@/components/notification-bell";
 import { channelPlatforms, channelTopics, mobileChannels, type ChannelPlatform, type ChannelTopic, type MobileChannel } from "@/data/mobile-channels";
 import { formatMoney } from "@/lib/format";
@@ -60,6 +61,7 @@ export function KanallarMobile() {
   return (
     <div className="fk lg:hidden" data-testid="mobile-kanallar">
       <header className="mh-bar">
+        <MobileMenuButton />
         <Link href="/" className="mh-logo">STOMAHUB</Link>
         <button type="button" className="mh-ic" aria-label="Qidirish" onClick={() => document.querySelector<HTMLInputElement>("[data-channel-search]")?.focus()}>
           <Search />
