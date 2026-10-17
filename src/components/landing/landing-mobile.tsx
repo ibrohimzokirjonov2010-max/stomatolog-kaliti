@@ -1,8 +1,7 @@
 import Link from "next/link";
 import { ArrowDown, Check, ChevronRight, Globe, LayoutDashboard, Mail, MapPin, Phone, Send, ShieldCheck, Users } from "lucide-react";
-import { Logo } from "@/components/logo";
-import { LandingFaq, LandingLang, LandingMenu, LandingSocials } from "@/components/landing/landing-bits";
-import { appPoints, contacts, crmPoints, faqs, features, helpLinks, heroText, heroTitle, people, platformLinks, steps } from "@/components/landing/landing-content";
+import { LandingFaq, LandingLang, LandingLogo, LandingMenu, LandingSocials, PayMarks, ToothBadge } from "@/components/landing/landing-bits";
+import { appPoints, contacts, crmPoints, faqs, features, helpLinks, heroText, people, platformLinks, steps } from "@/components/landing/landing-content";
 import { CrmMock, HomePhone, ProfilePhone } from "@/components/landing/landing-desktop";
 import { NotificationBell } from "@/components/notification-bell";
 
@@ -37,75 +36,86 @@ function StoreBadges() {
 
 export function LandingMobile() {
   return (
-    <div className="overflow-x-clip bg-[#f7f9fc] pb-[calc(96px+env(safe-area-inset-bottom))] text-[#16324f]" data-testid="mobile-landing">
-      <header className="sticky top-0 z-30 flex h-14 items-center justify-between bg-white/95 px-3 backdrop-blur">
+    <div className="overflow-x-clip bg-[#f7f9fc] text-[#16324f]" data-testid="mobile-landing">
+      <header className="sticky top-0 z-30 flex min-h-16 items-center justify-between bg-white/95 px-3 py-1.5 backdrop-blur">
         <Link href="/landing" aria-label="StomaHub" className="min-w-0">
-          <Logo />
+          <LandingLogo />
         </Link>
-        <div className="flex items-center">
+        <div className="flex shrink-0 items-center">
           <NotificationBell variant="mobile" />
           <LandingMenu />
         </div>
       </header>
 
-      <section className="px-4 pt-5">
-        <p className="inline-flex items-center gap-2 rounded-full bg-white px-3 py-1.5 text-[12px] font-semibold text-[#0066FF] ring-1 ring-[#e6ebf3]">
-          <span className="size-1.5 rounded-full bg-[#00C2A8]" />
-          Stomatologlar uchun yagona platforma
-        </p>
-        <h1 className="mt-4 font-[family-name:var(--font-outfit)] text-[clamp(28px,8vw,34px)] font-bold leading-[1.15] tracking-tight">{heroTitle}</h1>
-        <p className="mt-3 text-[15px] leading-relaxed text-[#52637a]">{heroText}</p>
-        <div className="relative mt-5 overflow-hidden rounded-[24px]">
-          <img src="/img/landing/hero-dentist.jpg" alt="Stomatolog shifokor klinika fonida" className="h-[320px] w-full object-cover object-[center_18%]" />
-          <div className="absolute bottom-3 right-3">
-            <HomePhone width="w-[150px]" height="h-[248px]" />
+      <section className="relative overflow-hidden px-4 pb-6 pt-4">
+        <div className="pointer-events-none absolute inset-x-0 top-0 h-[430px]">
+          <img src="/img/landing/hero-dentist.jpg" alt="" className="absolute right-0 top-0 h-full w-[92%] object-cover object-[22%_12%]" />
+          <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(247,249,252,0.02)_0%,rgba(247,249,252,0.12)_48%,#f7f9fc_100%)]" />
+          <div className="absolute inset-0 bg-[linear-gradient(90deg,#f7f9fc_0%,rgba(247,249,252,0.45)_26%,rgba(247,249,252,0)_68%)]" />
+        </div>
+        <div className="relative">
+          <p className="inline-flex items-center gap-2 rounded-full bg-white/90 px-3 py-1.5 text-[12px] font-semibold text-[#0066FF] ring-1 ring-[#e6ebf3]">
+            <span className="size-1.5 rounded-full bg-[#00C2A8]" />
+            Stomatologlar uchun yagona platforma
+          </p>
+          <h1 className="mt-3 max-w-[280px] text-left font-[family-name:var(--font-outfit)] text-[34px] font-bold leading-[1.12] tracking-tight">
+            Stomatologlar uchun
+            <span className="block text-[#0066FF]">yagona platforma</span>
+          </h1>
+          <p className="mt-3 max-w-[280px] text-[15px] leading-relaxed text-[#52637a]">{heroText}</p>
+          <div className="relative mt-2 h-[250px]">
+            <div className="absolute bottom-0 left-0">
+              <HomePhone compact width="w-[158px]" height="h-[248px]" />
+            </div>
+            <ToothBadge className="absolute right-1 top-6 size-14" />
+          </div>
+          <Link href="/royxat" className="mt-3 flex h-12 items-center justify-center rounded-full bg-[#0066FF] text-[15px] font-bold text-white shadow-[0_10px_24px_rgba(0,102,255,0.28)]">
+            Bepul ro‘yxatdan o‘tish
+          </Link>
+          <Link href="/marketplace" className="mt-2.5 flex h-12 items-center justify-center rounded-full border border-[#d7e2f0] bg-white text-[15px] font-bold text-[#16324f]">
+            Marketplace’ni ko‘rish
+          </Link>
+          <div className="mt-3 grid grid-cols-2 gap-2">
+            {highlights.map((item) => (
+              <div key={item.title} className="flex items-start gap-2 rounded-2xl border border-[#e8eef6] bg-white p-2.5">
+                <span className={`grid size-9 shrink-0 place-items-center rounded-lg ${item.tone}`}>
+                  <item.icon className="size-4" />
+                </span>
+                <span className="pt-0.5 text-[13px] font-semibold leading-snug">{item.title}</span>
+              </div>
+            ))}
           </div>
         </div>
-        <Link href="/royxat" className="mt-4 flex h-12 items-center justify-center rounded-full bg-[#0066FF] text-[15px] font-bold text-white shadow-[0_10px_24px_rgba(0,102,255,0.28)]">
-          Bepul ro‘yxatdan o‘tish
-        </Link>
-        <Link href="/marketplace" className="mt-3 flex h-12 items-center justify-center rounded-full border border-[#d7e2f0] bg-white text-[15px] font-bold text-[#16324f]">
-          Marketplace’ni ko‘rish
-        </Link>
-      </section>
-
-      <section className="grid grid-cols-2 gap-3 px-4 py-6">
-        {highlights.map((item) => (
-          <div key={item.title} className="flex min-h-[88px] items-start gap-2 rounded-2xl border border-[#e8eef6] bg-white p-3">
-            <span className={`grid size-11 shrink-0 place-items-center rounded-xl ${item.tone}`}>
-              <item.icon className="size-5" />
-            </span>
-            <span className="pt-1 text-[13px] font-semibold leading-snug">{item.title}</span>
-          </div>
-        ))}
       </section>
 
       <section className="px-4 pb-8">
-        <h2 className="text-center font-[family-name:var(--font-outfit)] text-[24px] font-bold">Nimalar bor?</h2>
-        <p className="mx-auto mt-2 max-w-xs text-center text-[14px] leading-relaxed text-[#52637a]">Stomatologlar uchun kerakli barcha imkoniyatlar bir joyda</p>
-        <div className="mt-4 grid grid-cols-2 gap-3">
+        <h2 className="text-left font-[family-name:var(--font-outfit)] text-[26px] font-bold">Nimalar bor?</h2>
+        <p className="mt-1.5 text-left text-[14px] leading-relaxed text-[#52637a]">Stomatologlar uchun kerakli barcha imkoniyatlar bir joyda</p>
+        <div className="mt-4 grid grid-cols-2 gap-2.5">
           {features.map((item) => (
-            <Link key={item.href} href={item.href} className="min-h-[148px] rounded-2xl border border-[#e8eef6] bg-white p-3 shadow-[0_6px_16px_rgba(15,23,42,0.04)]">
-              <span className={`grid size-11 place-items-center rounded-xl ${item.tone}`}>
-                <item.icon className="size-5" />
+            <Link key={item.href} href={item.href} className="rounded-2xl border border-[#e8eef6] bg-white p-3 shadow-[0_6px_16px_rgba(15,23,42,0.04)]">
+              <span className="grid size-9 place-items-center rounded-lg bg-[#e8f1ff] text-[#0066FF]">
+                <item.icon className="size-4" strokeWidth={1.75} />
               </span>
-              <b className="mt-3 block text-[14px] leading-tight">{item.title}</b>
-              <span className="mt-1 block text-[12px] leading-snug text-[#52637a]">{item.text}</span>
+              <b className="mt-2 block text-[14px] leading-tight">{item.title}</b>
+              <span className="mt-1 line-clamp-3 block text-[12px] leading-snug text-[#52637a]">{item.text}</span>
             </Link>
           ))}
         </div>
       </section>
 
       <section className="bg-white px-4 py-8">
-        <h2 className="text-center font-[family-name:var(--font-outfit)] text-[24px] font-bold">Kimlar uchun?</h2>
-        <p className="mx-auto mt-2 max-w-sm text-center text-[14px] leading-relaxed text-[#52637a]">StomaHub barcha stomatologiya sohasidagi mutaxassislar uchun</p>
-        <div className="mt-4 flex flex-col gap-3">
+        <h2 className="text-left font-[family-name:var(--font-outfit)] text-[26px] font-bold">Kimlar uchun?</h2>
+        <p className="mt-1.5 text-left text-[14px] leading-relaxed text-[#52637a]">StomaHub barcha stomatologiya sohasidagi mutaxassislar uchun</p>
+        <div className="mt-3 flex flex-col gap-2">
           {people.map((person) => (
-            <Link key={person.title} href={person.href} className={`flex min-h-11 items-center gap-3 rounded-2xl border bg-white p-2 ${person.selected ? "border-[#0066FF] ring-2 ring-[#0066FF]/25" : "border-[#e8eef6]"}`}>
-              <img src={person.image} alt="" className="size-14 shrink-0 rounded-xl object-cover object-top" />
+            <Link key={person.title} href={person.href} className={`flex min-h-11 items-center gap-2.5 rounded-2xl border p-1.5 ${person.selected ? "border-[#0066FF] bg-[#e8f1ff]" : "border-[#e8eef6] bg-white"}`}>
+              <span className="relative size-12 shrink-0 overflow-hidden rounded-xl">
+                <img src={person.image} alt="" className="absolute inset-x-0 top-0 h-[160%] w-full object-cover object-top" />
+              </span>
               <span className="min-w-0 flex-1">
-                <b className="block text-[15px]">{person.title}</b>
-                <span className="block text-[13px] text-[#52637a]">{person.text}</span>
+                <b className="block text-[14px] leading-tight">{person.title}</b>
+                <span className="block text-[12px] text-[#52637a]">{person.text}</span>
               </span>
               <ChevronRight className="size-5 shrink-0 text-[#94a3b8]" />
             </Link>
@@ -114,8 +124,9 @@ export function LandingMobile() {
       </section>
 
       <section className="px-4 py-8">
-        <p className="inline-flex rounded-full bg-[#e8f1ff] px-3 py-1 text-[12px] font-bold text-[#0066FF]">Klinika CRM</p>
-        <h2 className="mt-3 font-[family-name:var(--font-outfit)] text-[24px] font-bold leading-tight">Klinikangizni to‘liq nazorat qiling</h2>
+        <h2 className="text-left font-[family-name:var(--font-outfit)] text-[26px] font-bold">Klinika CRM</h2>
+        <p className="mt-3 inline-flex rounded-full bg-[#e8f1ff] px-3 py-1 text-[12px] font-bold text-[#0066FF]">Klinika CRM</p>
+        <p className="mt-3 font-[family-name:var(--font-outfit)] text-[20px] font-bold leading-tight">Klinikangizni to‘liq nazorat qiling</p>
         <p className="mt-2 text-[14px] leading-relaxed text-[#52637a]">Bemorlar, uchrashuvlar, davolash rejalari, to‘lovlar va hisobotlar — barchasi bir joyda.</p>
         <ul className="mt-4 space-y-2">
           {crmPoints.map((point) => (
@@ -134,8 +145,8 @@ export function LandingMobile() {
       </section>
 
       <section className="bg-white px-4 py-8">
-        <h2 className="text-center font-[family-name:var(--font-outfit)] text-[24px] font-bold">Qanday ishlaydi?</h2>
-        <p className="mt-2 text-center text-[14px] text-[#52637a]">StomaHub’da boshlash juda oson</p>
+        <h2 className="text-left font-[family-name:var(--font-outfit)] text-[26px] font-bold">Qanday ishlaydi?</h2>
+        <p className="mt-1.5 text-left text-[14px] text-[#52637a]">StomaHub’da boshlash juda oson</p>
         <ol className="mt-5 flex flex-col items-stretch gap-2">
           {steps.map((step, index) => (
             <li key={step.n} className="flex flex-col items-center">
@@ -171,7 +182,7 @@ export function LandingMobile() {
       </section>
 
       <section id="savollar" className="bg-white px-4 py-8">
-        <h2 className="text-center font-[family-name:var(--font-outfit)] text-[24px] font-bold">Ko‘p so‘raladigan savollar</h2>
+        <h2 className="text-left font-[family-name:var(--font-outfit)] text-[26px] font-bold">Ko‘p so‘raladigan savollar</h2>
         <div className="mt-4">
           <LandingFaq items={faqs.map((item) => ({ q: item.q, a: item.a }))} columns={1} />
         </div>
@@ -225,9 +236,8 @@ export function LandingMobile() {
       </section>
 
       <footer className="border-t border-[#e8eef6] bg-white px-4 py-8">
-        <Logo />
-        <p className="mt-3 text-[14px] font-semibold">Stomatologlar uchun yagona platforma</p>
-        <p className="mt-1 text-[13px] leading-relaxed text-[#52637a]">Stomatologiya sohasini rivojlantirish uchun zamonaviy raqamli ekosistema.</p>
+        <LandingLogo />
+        <p className="mt-3 text-[13px] leading-relaxed text-[#52637a]">Stomatologiya sohasini rivojlantirish uchun zamonaviy raqamli ekosistema.</p>
         <div className="mt-4">
           <LandingSocials names={["telegram", "instagram", "youtube", "tiktok"]} />
         </div>
@@ -256,9 +266,8 @@ export function LandingMobile() {
           </div>
         </div>
         <b className="mt-4 block text-[14px]">To‘lov usullari</b>
-        <div className="mt-2 flex gap-2">
-          <span className="inline-flex h-11 w-24 items-center justify-center rounded-lg bg-[#0066FF]"><img src="/img/phone14/logo-click.png" alt="Click" className="h-4 object-contain" /></span>
-          <span className="inline-flex h-11 w-24 items-center justify-center rounded-lg bg-[#00C2A8]"><img src="/img/phone14/logo-payme.png" alt="Payme" className="h-5 object-contain" /></span>
+        <div className="mt-2">
+          <PayMarks />
         </div>
         <div className="mt-6 flex flex-wrap items-center justify-between gap-3 border-t border-[#eef2f7] pt-4">
           <p className="text-[12px] text-[#64748b]">© 2026 StomaHub. Barcha huquqlar himoyalangan.</p>
@@ -266,11 +275,6 @@ export function LandingMobile() {
         </div>
       </footer>
 
-      <div className="fixed inset-x-0 bottom-0 z-40 border-t border-[#e8eef6] bg-white px-4 pt-2 pb-[max(8px,env(safe-area-inset-bottom))]">
-        <Link href="/royxat" className="flex h-12 items-center justify-center rounded-full bg-[#0066FF] text-[15px] font-bold text-white">
-          Bepul ro‘yxatdan o‘tish
-        </Link>
-      </div>
     </div>
   );
 }

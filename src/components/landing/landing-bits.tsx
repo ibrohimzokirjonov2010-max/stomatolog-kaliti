@@ -41,6 +41,42 @@ export function LandingSocials({ names }: { names: (keyof typeof SOCIALS)[] }) {
   );
 }
 
+const toothPath = "M16 3.2c-2.9 0-5.2 2.1-5.2 4.8 0 1.2-.5 3.2-1.2 5.1C8.5 15.6 7.6 17.9 7.6 20c0 2.7 2 4.8 4.3 4.8 1.4 0 2.3-.9 4.1-.9s2.7.9 4.1.9c2.3 0 4.3-2.1 4.3-4.8 0-2.1-.9-4.4-2-7-.7-1.9-1.2-3.9-1.2-5.1 0-2.7-2.3-4.8-5.2-4.8z";
+
+export function LandingLogo({ tagline = true, size = "md" }: { tagline?: boolean; size?: "md" | "lg" }) {
+  const large = size === "lg";
+  return (
+    <span className="flex items-center gap-2.5">
+      <svg viewBox="0 0 32 32" className={`${large ? "size-12" : "size-10"} shrink-0 text-[#0066FF]`} aria-hidden="true">
+        <path fill="currentColor" d={toothPath} />
+      </svg>
+      <span className="leading-tight">
+        <span className={`block font-extrabold tracking-tight text-[#16324f] ${large ? "text-[22px]" : "text-[18px]"}`}>Stoma<span className="text-[#0066FF]">Hub</span></span>
+        {tagline ? <span className="mt-0.5 block max-w-[168px] text-[12px] font-medium leading-snug text-[#64748b]">Stomatologlar uchun yagona platforma</span> : null}
+      </span>
+    </span>
+  );
+}
+
+export function ToothBadge({ className = "size-16" }: { className?: string }) {
+  return (
+    <span className={`grid place-items-center rounded-[18px] bg-white shadow-[0_14px_32px_rgba(15,23,42,0.14)] ring-1 ring-[#e6eef8] ${className}`}>
+      <svg viewBox="0 0 32 32" className="size-[55%] text-[#0066FF]" aria-hidden="true">
+        <path fill="currentColor" d={toothPath} />
+      </svg>
+    </span>
+  );
+}
+
+export function PayMarks() {
+  return (
+    <div className="flex flex-wrap gap-2">
+      <span className="inline-flex h-10 min-w-[92px] items-center justify-center rounded-lg bg-[#0066FF] px-3 text-[15px] font-black tracking-[0.16em] text-white">CLICK</span>
+      <span className="inline-flex h-10 min-w-[92px] items-center justify-center rounded-lg bg-[#00C2A8] px-3 text-[17px] font-extrabold tracking-tight text-white">Payme</span>
+    </div>
+  );
+}
+
 const LANGS = [
   { id: "uz", label: "O‘zbekcha" },
   { id: "ru", label: "Русский" },
