@@ -3,7 +3,7 @@
 import { useEffect, useRef, useState, type ReactNode } from "react";
 import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
-import { AlertTriangle, CalendarPlus, Check, ChevronDown, ChevronLeft, CreditCard, Minus, Pencil, Phone, Plus, QrCode, Trash2, UserRound, Wallet, X } from "lucide-react";
+import { AlertTriangle, Bell, CalendarPlus, Camera, Check, ChevronDown, ChevronLeft, ChevronRight, Clock, CreditCard, Hash, Minus, MoreHorizontal, Pencil, Phone, Plus, QrCode, Save, Search, Trash2, UserRound, Wallet, X } from "lucide-react";
 import { ToothChart, ToothLegend } from "@/components/phone14/teeth";
 import { Sheet } from "@/components/phone14/chrome";
 import {
@@ -83,10 +83,10 @@ function FormScreen({ title, subtitle, back, testId, children }: { title: string
   );
 }
 
-function Field({ label, required, error, children }: { label: string; required?: boolean; error?: string; children: ReactNode }) {
+function Field({ label, required, error, icon, children }: { label: string; required?: boolean; error?: string; icon?: ReactNode; children: ReactNode }) {
   return (
     <div className={error ? "crm-field bad" : "crm-field"}>
-      <span>{label}{required ? <i className="star"> *</i> : null}</span>
+      <span className={icon ? "with-ico" : undefined}>{icon}{label}{required ? <i className="star"> *</i> : null}</span>
       {children}
       {error ? <span className="crm-err">{error}</span> : null}
     </div>
@@ -242,6 +242,8 @@ export function PhonePatientProfile({ id }: { id: string }) {
   const [extra, setExtra] = useState<PhonePatient[]>([]);
   const [tab, setTab] = useState("Umumiy");
   const [dent, setDent] = useState<"katta" | "bola">("katta");
+  const [menu, setMenu] = useState(false);
+  const [photo, setPhoto] = useState<string | null>(null);
   useEffect(() => { setExtra(readPhoneStore<PhonePatient>(PHONE_PATIENTS_KEY)); }, []);
   const patient = extra.find((item) => item.id === id) ?? findPhonePatient(id) ?? null;
   if (!patient) {
@@ -256,16 +258,21 @@ export function PhonePatientProfile({ id }: { id: string }) {
       <header className="crm-bar">
         <Link href="/crm/bemorlar" aria-label="Orqaga"><ChevronLeft /></Link>
         <h1>Bemor profili</h1>
-        <span />
+        <button type="button" aria-label="Menyu" onClick={() => setMenu(true)}><MoreHorizontal /></button>
       </header>
       <div className="prof-hero">
-        <img src={patient.avatar} alt="" />
+        <label className="ava">
+          <img src={photo || patient.avatar} alt="" />
+          <span className="cam"><Camera size={12} /></span>
+          <input type="file" accept="image/*" aria-label="Rasm" onChange={(event) => { const file = event.target.files?.[0]; if (file) setPhoto(URL.createObjectURL(file)); }} />
+        </label>
         <div>
-          <b>{patient.name}</b> <span className="badge-live">Faol bemor</span>
-          <p className="spec">ID: #{num}</p>
+          <b>{patient.name}</b>
+          <p className="spec"><Phone size={12} /> {patient.phone}</p>
+          <p className="spec"><Hash size={12} /> ID: #{num}</p>
           <p className="spec">{patient.age} yosh · {birth} · {patient.gender}</p>
-          <p className="spec">{patient.phone}</p>
         </div>
+        <span className="badge-live">Faol bemor</span>
       </div>
       <div className="act-row">
         <a href={`tel:${patient.phone.replace(/\s/g, "")}`}><Phone />Qo‘ng‘iroq</a>
@@ -273,7 +280,13 @@ export function PhonePatientProfile({ id }: { id: string }) {
         <Link href={`/crm/tolovlar/yangi?patient=${patient.id}`}><Wallet />To‘lov</Link>
         <Link href={`/crm/bemorlar/yangi?edit=${patient.id}`}><Pencil />Tahrirlash</Link>
       </div>
-      {malika ? <p className="allergy"><AlertTriangle size={14} /> Penitsillin allergiyasi. Gipertoniya (dori qabul qiladi)</p> : null}
+      {malika ? (
+        <button type="button" className="allergy" onClick={() => setTab("Umumiy")}>
+          <span className="bang">!</span>
+          <span><b>Allergiya</b><small>Penitsillin allergiyasi. Gipertoniya (dori qabul qiladi)</small></span>
+          <ChevronRight size={16} />
+        </button>
+      ) : null}
       <div className="p14-row">
         {tabs.map((item) => <button key={item} type="button" className={tab === item ? "p14-chip on" : "p14-chip"} onClick={() => setTab(item)}>{item}</button>)}
       </div>
@@ -289,23 +302,30 @@ export function PhonePatientProfile({ id }: { id: string }) {
       {tab === "Umumiy" ? (
         <>
           <div className="mini-cards">
-            <article><small>Balans</small><b>{money(malika ? 8_000_000 : 0)}</b></article>
             <article>
+              <span className="tile"><Wallet size={16} /></span>
+              <small>Balans</small>
+              <b>{money(malika ? 8_000_000 : 0)}</b>
+              <p className="spec">Umumiy: {money(malika ? 12_000_000 : 0)}</p>
+              <p className="spec">Qarz: {money(malika ? 8_000_000 : 0)}</p>
+            </article>
+            <article>
+              <span className="tile red"><AlertTriangle size={16} /></span>
               <small>To‘lov holati</small>
-              <b style={{ color: "#e11d48" }}>Qarzdor</b>
+              <b className="debt-word">Qarzdor</b>
               <span className="meter" aria-hidden="true"><i style={{ width: "33%", background: "#ef4444" }} /></span>
-              <span className="spec">33%</span>
+              <p className="spec">To‘langan: {money(malika ? 4_000_000 : 0)}</p>
+              <p className="spec">33%</p>
             </article>
           </div>
-          <p className="spec">Umumiy: {money(malika ? 12_000_000 : 0)} · Qarz: {money(malika ? 8_000_000 : 0)}</p>
-          <p className="spec">To‘langan: {money(malika ? 4_000_000 : 0)} · To‘langan: 33%</p>
-          <div className="p14-head"><b>So‘nggi tashriflar</b><span className="spec">Barchasini ko‘rish</span></div>
-          <div className="list">
-            {(malika ? VISITS : []).map((item) => (
+          <div className="p14-head"><b>So‘nggi tashriflar</b><button type="button" className="spec" onClick={() => setTab("Tashriflar")}>Barchasini ko‘rish</button></div>
+          <div className="timeline">
+            {(malika ? VISITS : []).map((item, index) => (
               <article key={item.date} className="visit">
-                <span className="rail" />
+                <span className={`rail c${index}`} />
                 <span><small className="spec">{item.date}</small><b>{item.title}</b><p>{item.note}</p></span>
                 <span className="who"><img src={item.photo} alt="" /><small>{item.doctor}</small></span>
+                <ChevronRight size={16} color="#94a3b8" />
               </article>
             ))}
             {!malika ? <p className="p14-empty">Tashriflar yo‘q</p> : null}
@@ -316,7 +336,16 @@ export function PhonePatientProfile({ id }: { id: string }) {
       {tab === "Tashriflar" ? <div className="list">{malika ? VISITS.map((item) => <article key={item.date} className="p14-card"><b>{item.title}</b><p className="spec">{item.date} · {item.doctor}</p><p>{item.note}</p></article>) : <p className="p14-empty">Tashriflar yo‘q</p>}</div> : null}
       {tab === "To‘lovlar" ? <article className="p14-card"><b>To‘langan {money(4_000_000)}</b><p className="spec">Qarz {money(8_000_000)}</p></article> : null}
       {tab === "Rentgen" ? <p className="p14-empty">Rentgen suratlar hali yuklanmagan</p> : null}
-      <Link href={`/crm/uchrashuvlar/yangi?patient=${patient.id}`} className="crm-save" style={{ display: "grid", placeItems: "center" }}>+ Yangi qabul qo‘shish</Link>
+      <Link href={`/crm/uchrashuvlar/yangi?patient=${patient.id}`} className="crm-save"><Plus size={16} /> Yangi qabul qo‘shish</Link>
+      {menu ? (
+        <Sheet title="Amallar" onClose={() => setMenu(false)}>
+          <div className="sheet-links">
+            <Link href={`/crm/bemorlar/yangi?edit=${patient.id}`}>Tahrirlash</Link>
+            <a href={`tel:${patient.phone.replace(/\s/g, "")}`}>Qo‘ng‘iroq</a>
+            <Link href={`/crm/tolovlar/yangi?patient=${patient.id}`}>To‘lov</Link>
+          </div>
+        </Sheet>
+      ) : null}
     </div>
   );
 }
@@ -331,8 +360,8 @@ export function PhoneAddAppointment() {
   const [doctor, setDoctor] = useState("Dr. Ibrohim");
   const [chair, setChair] = useState("Kreslo 1");
   const [service, setService] = useState("Konsultatsiya");
-  const [day, setDay] = useState(17);
-  const [time, setTime] = useState("09:00");
+  const [day, setDay] = useState(15);
+  const [time, setTime] = useState("10:30");
   const [dur, setDur] = useState(30);
   const [sms, setSms] = useState(true);
   const [note, setNote] = useState("");
@@ -368,9 +397,10 @@ export function PhoneAddAppointment() {
   return (
     <FormScreen title="Yangi uchrashuv" subtitle="Qabul ma’lumotlarini kiriting" back="/crm/uchrashuvlar" testId="phone-uchrashuv-qoshish">
       <Field label="Bemor" required error={errors.patient}>
-        <span className="crm-phone">
+        <span className="crm-find">
+          <Search />
           <input placeholder="Bemorni qidiring (ism, telefon yoki ID)" value={q} onChange={(event) => setQ(event.target.value)} />
-          <button type="button" aria-label="QR" className="p14-filter" onClick={() => setQr(true)}><QrCode /></button>
+          <button type="button" aria-label="QR" onClick={() => setQr(true)}><QrCode /></button>
         </span>
       </Field>
       {q.trim() ? found.map((item) => (
@@ -381,7 +411,7 @@ export function PhoneAddAppointment() {
       {patient ? (
         <article className="crm-card">
           <img src={patient.avatar} alt="" />
-          <span><b>{patient.name}</b><small>ID: #{patient.id === "b-0012" ? "B-1024" : patient.num} · {patient.phone}</small></span>
+          <span><b>{patient.name}</b><small>ID: #{patient.id === "b-0012" ? "B-1024" : patient.num}</small></span>
           <button type="button" aria-label="Tozalash" onClick={() => setPatient(null)}><X /></button>
         </article>
       ) : null}
@@ -408,16 +438,16 @@ export function PhoneAddAppointment() {
       </Field>
       <Field label="Davomiyligi" required error={errors.dur}>
         <span className="crm-dur">
-          {[30, 45, 60, 90].map((item) => <button key={item} type="button" className={dur === item ? "on" : undefined} onClick={() => setDur(item)}>{item} daqiqa</button>)}
+          {[30, 45, 60, 90].map((item) => <button key={item} type="button" className={dur === item ? "on" : undefined} onClick={() => setDur(item)}><Clock size={14} />{item} daqiqa</button>)}
         </span>
       </Field>
       <div className="crm-toggle">
-        <span><b>SMS eslatma yuborish</b><small className="spec">Bemorga uchrashuvdan oldin eslatma yuboriladi</small></span>
+        <span className="with-ico"><Bell size={16} /><span><b>SMS eslatma yuborish</b><small className="spec">Bemorga uchrashuvdan oldin eslatma yuboriladi</small></span></span>
         <button type="button" className={sms ? "crm-switch on" : "crm-switch"} aria-pressed={sms} onClick={() => setSms(!sms)}><i /></button>
       </div>
-      <Field label="Izoh"><textarea maxLength={500} placeholder="Uchrashuv haqida qo‘shimcha ma’lumot..." value={note} onChange={(event) => setNote(event.target.value)} /></Field>
+      <Field label="Izoh" icon={<Pencil size={14} />}><textarea maxLength={500} placeholder="Uchrashuv haqida qo‘shimcha ma’lumot..." value={note} onChange={(event) => setNote(event.target.value)} /></Field>
       <p className="crm-count">{note.length}/500</p>
-      <button type="button" className="crm-save" onClick={save}>Saqlash</button>
+      <button type="button" className="crm-save" onClick={save}><Save size={16} /> Saqlash</button>
       {qr ? (
         <Sheet title="QR skaner" onClose={() => setQr(false)}>
           <div className="scan fake" />

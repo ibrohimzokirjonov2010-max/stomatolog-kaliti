@@ -2,7 +2,7 @@
 
 import { useEffect, useMemo, useState } from "react";
 import Link from "next/link";
-import { BadgeCheck, ChevronDown, Heart, MapPin, Plus, SlidersHorizontal, Star } from "lucide-react";
+import { BadgeCheck, Briefcase, Building2, CalendarDays, ChevronDown, Heart, LayoutGrid, MapPin, Package, Plus, SlidersHorizontal, Star, Wrench } from "lucide-react";
 import { Modal, OrderForm } from "@/components/lab-browse";
 import { PhoneFrame, SearchBox, Sheet } from "@/components/phone14/chrome";
 import { findPhoneAd, phoneAds, phoneLabs } from "@/data/phone14";
@@ -91,7 +91,7 @@ export function PhoneLabs() {
 
 export function PhoneAds() {
   const [q, setQ] = useState("");
-  const [seg, setSeg] = useState<"sotiladi" | "ijara" | "ish">("sotiladi");
+  const [seg, setSeg] = useState<"all" | "sotiladi" | "ijara" | "ish">("all");
   const [chip, setChip] = useState("Barchasi");
   const [city, setCity] = useState("");
   const [open, setOpen] = useState(false);
@@ -103,7 +103,7 @@ export function PhoneAds() {
     try { setExtra(JSON.parse(window.localStorage.getItem(ADS_KEY) || "[]") as Listing[]); } catch { /* ignore */ }
   }, []);
   const items = useMemo(() => [...extra, ...phoneAds].filter((item) => {
-    if (item.type !== seg) return false;
+    if (seg !== "all" && item.type !== seg) return false;
     if (chip !== "Barchasi" && item.category !== chip) return false;
     if (city && item.city !== city) return false;
     const blob = `${item.title} ${item.description} ${item.category} ${item.city}`.toLowerCase();
@@ -142,31 +142,41 @@ export function PhoneAds() {
         </div>
         <button type="button" className="p14-chip on" onClick={() => setAdd(true)}><Plus size={14} /> E’lon joylash</button>
       </div>
-      <div className="p14-head">
+      <div className="tool-row">
         <SearchBox value={q} onChange={setQ} label="E’lon qidirish" placeholder="Kalit so‘z, kategoriya yoki shahar bo‘yicha qidirish..." />
         <button type="button" className="p14-filter" onClick={() => setOpen(true)}><SlidersHorizontal /> Filtr</button>
       </div>
       <div className="seg">
-        <button type="button" className={seg === "sotiladi" ? "on" : undefined} onClick={() => setSeg("sotiladi")}>Sotiladi (128)</button>
-        <button type="button" className={seg === "ijara" ? "on" : undefined} onClick={() => setSeg("ijara")}>Ijaraga (36)</button>
-        <button type="button" className={seg === "ish" ? "on" : undefined} onClick={() => setSeg("ish")}>Ish o‘rni (24)</button>
+        {([["sotiladi", "Sotiladi (128)"], ["ijara", "Ijaraga (36)"], ["ish", "Ish o‘rni (24)"]] as const).map(([key, label]) => (
+          <button key={key} type="button" className={seg === key ? "on" : undefined} onClick={() => setSeg(seg === key ? "all" : key)}>{label}</button>
+        ))}
       </div>
       <div className="p14-row">
-        {["Barchasi", "Uskunalar", "Materiallar", "Klinika", "Ish o‘rni"].map((item) => (
-          <button key={item} type="button" className={chip === item ? "p14-chip on" : "p14-chip"} onClick={() => setChip(item)}>{item}</button>
+        {([
+          ["Barchasi", LayoutGrid],
+          ["Uskunalar", Wrench],
+          ["Materiallar", Package],
+          ["Klinika", Building2],
+          ["Ish o‘rni", Briefcase],
+        ] as const).map(([item, Icon]) => (
+          <button key={item} type="button" className={chip === item ? "p14-chip on" : "p14-chip"} onClick={() => setChip(item)}><Icon size={14} />{item}</button>
         ))}
       </div>
       <div className="list">
         {items.length === 0 ? <p className="p14-empty">E’lon topilmadi</p> : items.map((item) => (
-          <Link key={item.id} href={`/elonlar/${item.id}`} className="p14-card" style={{ display: "grid", gridTemplateColumns: "96px 1fr", gap: 10 }}>
-            <img src={item.image} alt="" style={{ width: 96, height: 96, objectFit: "cover", borderRadius: 12 }} />
-            <span>
+          <Link key={item.id} href={`/elonlar/${item.id}`} className="ad-card">
+            <span className="ad-photo">
+              <img src={item.image} alt="" />
               <span className={`pill ${item.type === "sotiladi" ? "green" : item.type === "ijara" ? "purple" : "violet"}`}>{item.typeLabel}</span>
-              <button type="button" className={saved.includes(item.id) ? "icon-btn on" : "icon-btn"} style={{ float: "right" }} aria-label="Sevimli" onClick={(event) => { event.preventDefault(); setSaved((prev) => prev.includes(item.id) ? prev.filter((id) => id !== item.id) : [...prev, item.id]); }}><Heart size={16} fill={saved.includes(item.id) ? "currentColor" : "none"} /></button>
-              <b style={{ display: "block", marginTop: 4 }}>{item.title}</b>
-              <span className="spec" style={{ display: "block" }}>{item.description}</span>
-              <b style={{ color: "#0066ff" }}>{item.priceLabel}</b>
-              <span className="spec" style={{ display: "block" }}>{item.city} · {item.dateLabel}</span>
+            </span>
+            <span className="ad-copy">
+              <span className="ad-title">
+                <b>{item.title}</b>
+                <button type="button" className={saved.includes(item.id) ? "icon-btn on" : "icon-btn"} aria-label="Sevimli" onClick={(event) => { event.preventDefault(); setSaved((prev) => prev.includes(item.id) ? prev.filter((id) => id !== item.id) : [...prev, item.id]); }}><Heart size={16} fill={saved.includes(item.id) ? "currentColor" : "none"} /></button>
+              </span>
+              <span className="spec">{item.description}</span>
+              <b className="ad-price">{item.priceLabel}</b>
+              <span className="meta-line"><span><MapPin size={12} /> {item.city}</span><span><CalendarDays size={12} /> {item.dateLabel}</span></span>
             </span>
           </Link>
         ))}

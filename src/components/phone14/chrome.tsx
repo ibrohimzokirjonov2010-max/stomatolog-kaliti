@@ -33,20 +33,25 @@ export function PhoneFrame({
         <button type="button" className="p14-ico" aria-label="Menyu" onClick={() => setOpen(true)}>
           <Menu />
         </button>
-        <Link href="/" className="p14-logo">STOMAHUB</Link>
-        <Link href="/savat" className="p14-ico" aria-label="Savat">
-          <ShoppingCart />
-          <span className="p14-badge" data-testid="phone-cart-badge">{badge > 9 ? "9+" : badge}</span>
+        <Link href="/" className="p14-logo" aria-label="STOMAHUB">
+          <img src="/img/phone14/logo-wordmark.png" alt="STOMAHUB" />
         </Link>
-        <NotificationBell variant="mobile" buttonClassName="!size-10 text-[#1a2438]" />
+        <span className="p14-end">
+          <Link href="/savat" className="p14-ico" aria-label="Savat">
+            <ShoppingCart />
+            <span className="p14-badge" data-testid="phone-cart-badge">{badge > 9 ? "9+" : badge}</span>
+          </Link>
+          <NotificationBell variant="mobile" buttonClassName="!size-10 text-[#1a2438]" />
+        </span>
       </header>
       <div className="p14-body">{children}</div>
       <nav className="p14-tabs" aria-label="Mobil menyu">
         {TABS.map((item) => {
           const Icon = item.icon;
+          const on = tab === item.key;
           return (
-            <Link key={item.key} href={item.href} className={tab === item.key ? "on" : undefined}>
-              <Icon strokeWidth={tab === item.key ? 2.4 : 1.8} />
+            <Link key={item.key} href={item.href} className={on ? "on" : undefined}>
+              <span className="tab-ico"><Icon strokeWidth={2} fill={on ? "currentColor" : "none"} /></span>
               {item.label}
             </Link>
           );

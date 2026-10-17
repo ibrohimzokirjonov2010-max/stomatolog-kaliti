@@ -2,22 +2,27 @@
 
 import { useEffect, useMemo, useState } from "react";
 import Link from "next/link";
-import { ArrowRight, ChevronRight, Heart, ShoppingCart, SlidersHorizontal, Star } from "lucide-react";
+import { Armchair, ArrowRight, CalendarDays, ChevronRight, Cog, Droplets, FlaskConical, Handshake, Heart, LayoutGrid, Package, Plus, Shirt, ShoppingCart, SlidersHorizontal, Smile, Star, Wrench, type LucideIcon } from "lucide-react";
 import { PhoneFrame, SearchBox, Sheet } from "@/components/phone14/chrome";
 import { letterInRange, letterRanges, phoneBrands, phoneCategories, phoneSales } from "@/data/phone14";
 import { useCart } from "@/components/cart-provider";
 import { formatGroupedNumber } from "@/lib/format";
 import type { Product } from "@/data/products";
 
-const ICONS = ["grid", "plus", "tool", "chair", "drop", "smile", "flask", "shirt", "cal", "cog", "hands", "more"];
-
-function Mini({ id }: { id: string }) {
-  const common = { width: 18, height: 18, viewBox: "0 0 24 24", fill: "none", stroke: "currentColor", strokeWidth: 1.8 };
-  if (id === "plus") return <svg {...common}><path d="M12 5v14M5 12h14" /></svg>;
-  if (id === "tool") return <svg {...common}><path d="M14 6.5 17.5 10M7 13.5l6-6" /></svg>;
-  if (id === "smile") return <svg {...common}><circle cx="12" cy="12" r="8" /><path d="M8 13c1.2 2 6.8 2 8 0" /></svg>;
-  return <svg {...common}><rect x="4" y="4" width="7" height="7" rx="1.5" /><rect x="13" y="13" width="7" height="7" rx="1.5" /></svg>;
-}
+const CAT_ICONS: Record<string, LucideIcon> = {
+  materiallar: Package,
+  implantlar: Plus,
+  instrumentlar: Wrench,
+  uskunalar: Armchair,
+  endo: Droplets,
+  orto: Smile,
+  lab: FlaskConical,
+  forma: Shirt,
+  seminar: CalendarDays,
+  ehtiyot: Cog,
+  xizmat: Handshake,
+  boshqa: LayoutGrid,
+};
 
 export function PhoneCategories() {
   const [q, setQ] = useState("");
@@ -31,17 +36,20 @@ export function PhoneCategories() {
       <SearchBox value={q} onChange={setQ} label="Kategoriya qidirish" placeholder="Mahsulot, brend yoki kategoriya qidirish..." />
       {items.length === 0 ? <p className="p14-empty">Kategoriya topilmadi</p> : (
         <div className="p14-grid">
-          {items.map((item, index) => (
+          {items.map((item) => {
+            const Icon = CAT_ICONS[item.id] ?? LayoutGrid;
+            return (
             <Link key={item.id} href={item.href} className="p14-card cat-card">
               <span className="meta">
-                <span className="cat-ico" style={{ background: item.tint, color: item.color }}><Mini id={ICONS[index] ?? "grid"} /></span>
+                <span className="cat-ico" style={{ background: item.tint, color: item.color }}><Icon /></span>
                 <b>{item.title}</b>
                 <small>{item.count}</small>
                 <span className="cat-go"><ArrowRight /></span>
               </span>
               <img className="cat-photo" src={item.image} alt="" />
             </Link>
-          ))}
+            );
+          })}
         </div>
       )}
     </PhoneFrame>

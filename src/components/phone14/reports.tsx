@@ -2,7 +2,7 @@
 
 import { useMemo, useState } from "react";
 import Link from "next/link";
-import { Bell, CalendarRange, ChevronDown, ChevronRight, Home, MoreHorizontal, Stethoscope, TrendingUp, Users, Wallet } from "lucide-react";
+import { Bell, CalendarRange, ChevronDown, ChevronRight, FileSpreadsheet, FileText, Home, MapPin, MoreHorizontal, Stethoscope, TrendingUp, Users, Wallet } from "lucide-react";
 import { Sheet } from "@/components/phone14/chrome";
 import { formatGroupedNumber } from "@/lib/format";
 
@@ -77,8 +77,8 @@ function series(period: Period) {
 
 function AreaChart({ values, labels, max }: { values: number[]; labels: string[]; max: number }) {
   const w = 340;
-  const h = 132;
-  const left = 28;
+  const h = 168;
+  const left = 32;
   const bottom = 18;
   const pts = values.map((value, index) => {
     const x = left + (index / Math.max(1, values.length - 1)) * (w - left - 6);
@@ -93,7 +93,7 @@ function AreaChart({ values, labels, max }: { values: number[]; labels: string[]
     <svg className="rpt-chart" viewBox={`0 0 ${w} ${h}`} role="img" aria-label="Daromad dinamikasi">
       {ticks.map((tick) => {
         const y = 8 + (1 - tick / max) * (h - bottom - 8);
-        const label = tick >= 1_000_000_000 ? `${Math.round(tick / 1_000_000_000)}mlrd` : `${Math.round(tick / 1_000_000)}M`;
+        const label = tick === 0 ? "0" : tick >= 1_000_000_000 ? `${Math.round(tick / 1_000_000_000)}mlrd` : `${Math.round(tick / 1_000_000)}M`;
         return (
           <g key={tick}>
             <line x1={left} x2={w - 4} y1={y} y2={y} stroke="#e6edf5" />
@@ -102,7 +102,8 @@ function AreaChart({ values, labels, max }: { values: number[]; labels: string[]
         );
       })}
       <path d={area} fill="rgba(14,143,148,.18)" />
-      <path d={line} fill="none" stroke="#0E8F94" strokeWidth="2" />
+      <path d={line} fill="none" stroke="#0E8F94" strokeWidth="2.4" />
+      {pts.map((point, index) => <circle key={index} cx={point[0]} cy={point[1]} r="2.2" fill="#fff" stroke="#0E8F94" strokeWidth="1.4" />)}
       {labelIdx.map((index, n) => (
         <text key={labels[n] ?? index} x={pts[index][0]} y={h - 4} fontSize="7" fill="#64748b" textAnchor="middle">{labels[n]}</text>
       ))}
@@ -111,7 +112,7 @@ function AreaChart({ values, labels, max }: { values: number[]; labels: string[]
 }
 
 function Donut({ total }: { total: string }) {
-  const r = 38;
+  const r = 42;
   const c = 2 * Math.PI * r;
   let offset = 0;
   return (
@@ -119,13 +120,13 @@ function Donut({ total }: { total: string }) {
       {METHODS.map((part) => {
         const len = (c * part.pct) / 100;
         const node = (
-          <circle key={part.name} cx="60" cy="60" r={r} fill="none" stroke={part.color} strokeWidth="12" strokeDasharray={`${len} ${c - len}`} strokeDashoffset={-offset} transform="rotate(-90 60 60)" />
+          <circle key={part.name} cx="60" cy="60" r={r} fill="none" stroke={part.color} strokeWidth="16" strokeDasharray={`${len} ${c - len}`} strokeDashoffset={-offset} transform="rotate(-90 60 60)" />
         );
         offset += len;
         return node;
       })}
-      <text x="60" y="58" textAnchor="middle" fontSize="7.5" fontWeight="800" fill="#16324f">{total}</text>
-      <text x="60" y="68" textAnchor="middle" fontSize="6" fill="#64748b">so‘m</text>
+      <text x="60" y="58" textAnchor="middle" fontSize="9" fontWeight="800" fill="#16324f">{total}</text>
+      <text x="60" y="70" textAnchor="middle" fontSize="7" fontWeight="700" fill="#64748b">so‘m</text>
     </svg>
   );
 }
@@ -187,12 +188,13 @@ export function PhoneReports() {
           </span>
           <span><b>StomaHub</b><small>Mening klinikam</small></span>
         </Link>
-        <span className="crm-select" style={{ width: "auto", height: "calc(2.8 * var(--u))" }}>
+        <label className="rpt-city">
+          <MapPin size={14} />
           <select aria-label="Shahar" value={city} onChange={(event) => setCity(event.target.value)}>
             {Object.keys(CITY_FACTOR).map((item) => <option key={item}>{item}</option>)}
           </select>
           <ChevronDown size={14} />
-        </span>
+        </label>
         <button type="button" className="rpt-ico rpt-bell" aria-label="Bildirishnomalar" onClick={() => setOpen("bell")}>
           <Bell />
           <i className="dot" />
@@ -210,10 +212,10 @@ export function PhoneReports() {
         ))}
       </div>
       <div className="rpt-kpis">
-        <article><span className="ico"><Wallet size={14} /></span><small>Daromad</small><b>{money(income)} so‘m</b><em>+{pct[0]}%</em><small> o‘tgan oyga nisbatan</small></article>
-        <article><span className="ico"><Users size={14} /></span><small>Bemorlar</small><b>{money(patients)}</b><em>+{pct[1]}%</em><small> o‘tgan oyga nisbatan</small></article>
-        <article><span className="ico"><Stethoscope size={14} /></span><small>Qabullar</small><b>{money(visits)}</b><em>+{pct[2]}%</em><small> o‘tgan oyga nisbatan</small></article>
-        <article><span className="ico"><TrendingUp size={14} /></span><small>O‘rtacha chek</small><b>{money(avg)} so‘m</b><em>+{pct[3]}%</em><small> o‘tgan oyga nisbatan</small></article>
+        <article><span className="ico"><Wallet size={18} /></span><span><small>Daromad</small><b>{money(income)} so‘m</b><em>↗ +{pct[0]}% <span>o‘tgan oyga nisbatan</span></em></span></article>
+        <article><span className="ico"><Users size={18} /></span><span><small>Bemorlar</small><b>{money(patients)}</b><em>↗ +{pct[1]}% <span>o‘tgan oyga nisbatan</span></em></span></article>
+        <article><span className="ico"><Stethoscope size={18} /></span><span><small>Qabullar</small><b>{money(visits)}</b><em>↗ +{pct[2]}% <span>o‘tgan oyga nisbatan</span></em></span></article>
+        <article><span className="ico"><TrendingUp size={18} /></span><span><small>O‘rtacha chek</small><b>{money(avg)} so‘m</b><em>↗ +{pct[3]}% <span>o‘tgan oyga nisbatan</span></em></span></article>
       </div>
       <section className="p14-card">
         <div className="rpt-sec"><b>Daromad dinamikasi</b><button type="button" className="rpt-link" onClick={() => setOpen("chart")}>Batafsil <ChevronRight size={14} /></button></div>
@@ -250,15 +252,15 @@ export function PhoneReports() {
         </div>
       </section>
       <div className="rpt-actions">
-        <button type="button" className="xls" onClick={downloadExcel}>Excel yuklab olish</button>
-        <button type="button" className="pdf" onClick={() => window.print()}>PDF yuklab olish</button>
+        <button type="button" className="xls" onClick={downloadExcel}><FileSpreadsheet size={16} /> Excel yuklab olish</button>
+        <button type="button" className="pdf" onClick={() => window.print()}><FileText size={16} /> PDF yuklab olish</button>
       </div>
       <nav className="rpt-tabs" aria-label="CRM menyu">
-        <Link href="/"><Home />Bosh sahifa</Link>
-        <Link href="/crm/bemorlar"><Users />Bemorlar</Link>
-        <Link href="/crm/uchrashuvlar"><CalendarRange />Uchrashuvlar</Link>
-        <Link href="/crm/hisobotlar" className="on"><TrendingUp />Hisobotlar</Link>
-        <button type="button" onClick={() => setOpen("more")}><MoreHorizontal />Boshqa</button>
+        <Link href="/"><span className="tab-ico"><Home fill="none" /></span>Bosh sahifa</Link>
+        <Link href="/crm/bemorlar"><span className="tab-ico"><Users fill="none" /></span>Bemorlar</Link>
+        <Link href="/crm/uchrashuvlar"><span className="tab-ico"><CalendarRange fill="none" /></span>Uchrashuvlar</Link>
+        <Link href="/crm/hisobotlar" className="on"><span className="tab-ico"><TrendingUp fill="currentColor" /></span>Hisobotlar</Link>
+        <button type="button" onClick={() => setOpen("more")}><span className="tab-ico"><MoreHorizontal /></span>Boshqa</button>
       </nav>
       {open === "range" ? (
         <Sheet title="Sana oralig‘i" onClose={() => setOpen(null)}>
