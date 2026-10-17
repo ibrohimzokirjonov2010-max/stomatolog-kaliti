@@ -72,7 +72,7 @@ function BrandDirectory() {
         ) : (
           <div className="brd-grid">
             {items.map((item) => (
-              <Link key={item.slug} className="brd-card" href={`/marketplace/brendlar/${item.slug}`} data-testid="brand-card">
+              <Link key={item.slug} className="brd-card" href={`/marketplace?brand=${item.brandKey}`} data-testid="brand-card">
                 <div className="brd-mark">
                   <BrandMark slug={item.slug} />
                 </div>

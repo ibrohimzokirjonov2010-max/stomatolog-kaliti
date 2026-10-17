@@ -33,7 +33,7 @@ export type HeaderLink = { href: string; label: string; key?: string };
 
 const mainNav: { key: MarketNavKey; label: string; href: string; icon: LucideIcon }[] = [
   { key: "home", label: "Bosh sahifa", href: "/", icon: Home },
-  { key: "cats", label: "Kategoriyalar", href: "/marketplace", icon: LayoutGrid },
+  { key: "cats", label: "Kategoriyalar", href: "/kategoriyalar", icon: LayoutGrid },
   { key: "brands", label: "Brendlar", href: "/marketplace/brendlar", icon: Tag },
   { key: "all", label: "Barcha mahsulotlar", href: "/marketplace", icon: Package },
   { key: "new", label: "Yangi mahsulotlar", href: "/marketplace?sort=yangi", icon: Sparkles },
@@ -58,7 +58,7 @@ const headerNav = [
 
 export function MarketFrame({
   active,
-  promoTitle = "Rasmiy brendlar bir joyda",
+  promoTitle = "Rasmiy brendlar bir joyda!",
   promoText = "Dunyoning yetakchi stomatologiya brendlari",
   promoCta = "Barcha brendlar",
   promoHref = "/marketplace/brendlar",
@@ -144,7 +144,7 @@ export function MarketFrame({
         <div className="brd-actions">
           <Link className="brd-ic" href="/savat" aria-label="Savat">
             <ShoppingCart className="i" />
-            {count > 0 ? <em className="badge">{count}</em> : null}
+            <em className="badge" data-testid="mf-cart-badge">{count + 3}</em>
           </Link>
           <span style={{ position: "relative" }}>
             <button className="brd-ic" type="button" aria-label="Bildirishnomalar" aria-expanded={notes} onClick={() => setNotes((value) => !value)}>

@@ -6,7 +6,7 @@ import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
 import { BadgeCheck, MapPin, Phone, Star } from "lucide-react";
 import { getSpecialist } from "@/data/desktop-specialists";
-import { SpecialistsFrame } from "./MutaxassislarDesktop";
+import { SpecChat, SpecialistsFrame } from "./MutaxassislarDesktop";
 import "@/components/ustalar/desktop/usta.css";
 import "./mutaxassislar.css";
 
@@ -15,7 +15,8 @@ export function MutaxassisProfileDesktop({ id }: { id: string }) {
   const router = useRouter();
   const params = useSearchParams();
   const [query, setQuery] = useState("");
-  const [note, setNote] = useState(params.get("aloqa") === "1" && person ? `So‘rov yuborildi. ${person.name} tez orada bog‘lanadi. Tel: ${person.phone}` : "");
+  const [note, setNote] = useState("");
+  const [chat, setChat] = useState(params.get("aloqa") === "1");
 
   if (!person) {
     return (
@@ -58,7 +59,7 @@ export function MutaxassisProfileDesktop({ id }: { id: string }) {
               <Star className="i" style={{ color: "#f5b400", fill: "#f5b400" }} /> <b>{person.rating.toFixed(1)}</b> ({person.reviews} ta sharh)
             </p>
             <div className="ut-cta">
-              <button type="button" className="ut-order" data-testid="spec-profile-contact" onClick={() => setNote(`So‘rov yuborildi. ${person.name} tez orada bog‘lanadi. Tel: ${person.phone}`)}>
+              <button type="button" className="ut-order" data-testid="spec-profile-contact" onClick={() => setChat(true)}>
                 Bog‘lanish
               </button>
               <button type="button" className="ut-call" onClick={() => setNote(`Qo‘ng‘iroq: ${person.phone}`)}>
@@ -119,6 +120,7 @@ export function MutaxassisProfileDesktop({ id }: { id: string }) {
             <p className="ut-meta">{person.reviews} ta sharh asosida</p>
           </section>
         </div>
+        {chat ? <SpecChat person={person} onClose={() => setChat(false)} /> : null}
       </div>
     </SpecialistsFrame>
   );

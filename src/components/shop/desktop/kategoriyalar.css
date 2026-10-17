@@ -1,0 +1,28 @@
+.sh .kat-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: calc(.55 * var(--u)); }
+.sh .kat-card {
+  background: #fff;
+  border: 1px solid #e8eef6;
+  border-radius: calc(.6 * var(--u));
+  overflow: hidden;
+  min-width: 0;
+  box-shadow: 0 calc(.06 * var(--u)) calc(.3 * var(--u)) rgba(20, 40, 80, .04);
+}
+.sh .kat-card:hover { border-color: #c5d9ff; box-shadow: 0 calc(.15 * var(--u)) calc(.5 * var(--u)) rgba(0, 102, 255, .08); }
+.sh .kat-ph { height: calc(7.2 * var(--u)); background: #eef3f8; overflow: hidden; }
+.sh .kat-ph img { width: 100%; height: 100%; object-fit: cover; }
+.sh .kat-body { display: flex; align-items: flex-start; gap: calc(.45 * var(--u)); padding: calc(.5 * var(--u)) calc(.55 * var(--u)) calc(.55 * var(--u)); }
+.sh .kat-ic {
+  width: calc(2.1 * var(--u));
+  height: calc(2.1 * var(--u));
+  border-radius: calc(.45 * var(--u));
+  background: #eef5ff;
+  color: #0066ff;
+  display: grid;
+  place-items: center;
+  flex: none;
+}
+.sh .kat-ic .i { width: calc(1.05 * var(--u)); height: calc(1.05 * var(--u)); }
+.sh .kat-body h2 { margin: 0; font-size: calc(.72 * var(--u)); font-weight: 800; }
+.sh .kat-body p { margin: calc(.1 * var(--u)) 0 0; color: #6a7c93; font-size: calc(.56 * var(--u)); line-height: 1.35; min-height: calc(1.5 * var(--u)); }
+.sh .kat-body em { display: block; margin-top: calc(.18 * var(--u)); color: #0066ff; font-style: normal; font-weight: 750; font-size: calc(.58 * var(--u)); }
+.sh .kat-body .brd-go { margin-left: auto; align-self: center; }
