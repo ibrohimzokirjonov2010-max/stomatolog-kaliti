@@ -243,6 +243,29 @@ function CartButton({ count, blue }: { count: number; blue?: boolean }) {
 }
 
 /** Section roots that render the shared MobileSectionHeader instead of this top bar. */
+const PHONE14 = new Set([
+  "/kategoriyalar",
+  "/marketplace/brendlar",
+  "/marketplace/aksiyalar",
+  "/talim",
+  "/mutaxassislar",
+  "/sertifikatlar",
+  "/crm/bemorlar",
+  "/crm/uchrashuvlar",
+  "/crm/davolash-rejalari",
+  "/crm/tolovlar",
+  "/crm/ombor",
+  "/crm/hisobotlar",
+  "/ustalar",
+  "/elonlar",
+]);
+
+function isPhone14(pathname: string) {
+  const path = pathname.replace(/\/$/, "") || "/";
+  if (PHONE14.has(path)) return true;
+  return /^\/crm\/(bemorlar|uchrashuvlar|davolash-rejalari|tolovlar)\/[^/]+$/.test(path) || /^\/elonlar\/[^/]+$/.test(path);
+}
+
 const SECTION_ROOTS = new Set([
   "/",
   "/seminarlar",
@@ -271,7 +294,7 @@ export function MobileTopbar() {
   const onKlinika = pathname === "/klinika" || pathname.startsWith("/klinika/");
   const { open, setOpen } = useMobileNav();
   const { count } = useCart();
-  if (onKlinika) return null;
+  if (onKlinika || isPhone14(pathname)) return null;
   // Main section pages draw the unified MobileSectionHeader (title · search · cart · bell) themselves.
   if (SECTION_ROOTS.has(pathname.replace(/\/$/, "") || "/")) return null;
   // Seminar detail page draws its own hero header (back / bookmark / share).
@@ -547,7 +570,7 @@ const homeTabs = [
 export function MobileTabBar() {
   const pathname = usePathname();
   const onKlinika = pathname === "/klinika" || pathname.startsWith("/klinika/");
-  if (onKlinika || /\/oqish\/?$/.test(pathname) || /\/talim\/[^/]+\/video\/?$/.test(pathname) || /\/seminarlar\/[^/]+\/royxat\/?$/.test(pathname)) return null;
+  if (onKlinika || isPhone14(pathname) || /\/oqish\/?$/.test(pathname) || /\/talim\/[^/]+\/video\/?$/.test(pathname) || /\/seminarlar\/[^/]+\/royxat\/?$/.test(pathname)) return null;
   if (pathname === "/" || pathname === "/talim" || pathname === "/kitoblar" || pathname === "/foydali-kanallar" || pathname === "/community" || pathname === "/mening-klinikam" || pathname === "/profil" || pathname.startsWith("/profil/") || formaMobilePath(pathname) || jihozMobilePath(pathname) || ustaMobilePath(pathname) || newsMobilePath(pathname) || surplusMobilePath(pathname) || marketMobilePath(pathname) || seminarMobilePath(pathname) || pathname === "/savat" || pathname === "/buyurtma" || pathname.startsWith("/buyurtma/") || pathname === "/buyurtmalarim" || pathname.startsWith("/buyurtmalarim/")) {
     return (
       <nav aria-label="Mobil menyu" className="mh-tabs lg:hidden">
@@ -593,6 +616,7 @@ function isProductDetailPath(path: string) {
 }
 
 function showCartBar(path: string) {
+  if (path === "/marketplace/brendlar" || path === "/marketplace/aksiyalar") return false;
   return (
     shopPath(path) &&
     !isProductDetailPath(path) &&
