@@ -17,6 +17,7 @@ import {
   type ClinicXray,
   type ToothStatus,
 } from "@/data/phone-records";
+import { relDateLabel } from "@/data/phone14";
 import { elapsedLabel, findQueueItem, type QueueAppt } from "@/data/phone-queue";
 
 const TABS = ["Umumiy", "Tish kartasi", "Rejalar", "Tashriflar", "To‘lovlar", "Rentgen"] as const;
@@ -110,7 +111,7 @@ export function PhonePatientProfile({ id }: { id: string }) {
         saveXray({
           id: `xr-${Date.now()}`,
           patientId: patient.id,
-          date: new Date().toLocaleDateString("uz-UZ", { day: "numeric", month: "short", year: "numeric" }),
+          date: relDateLabel(0),
           type: "Periapikal",
           tooth: "—",
           src,
@@ -230,16 +231,13 @@ export function PhonePatientProfile({ id }: { id: string }) {
         <div className="list">
           {visits.length === 0 ? <p className="p14-empty">Tashriflar yo‘q</p> : visits.map((item) => (
             <button key={item.id} type="button" className="p14-card visit-card" aria-expanded={openVisit === item.id} onClick={() => setOpenVisit(openVisit === item.id ? null : item.id)}>
-              <span><b>{item.procedure}</b><small>{item.date} · {item.time}</small></span>
-              <span className="pat-status yangi">{item.status}</span>
-              {openVisit === item.id ? (
-                <span className="visit-more">
-                  <small>Shifokor: {item.doctor}</small>
-                  <small>Tish: {item.tooth}</small>
-                  <small>Izoh: {item.notes}</small>
-                  <small>Narx: {money(item.cost)}</small>
-                </span>
-              ) : null}
+              <span className="visit-copy">
+                <b>{item.procedure}</b>
+                <span>{item.date} · {item.time} · {item.doctor}</span>
+                <span>Tish {item.tooth} · {money(item.cost)}</span>
+                {openVisit === item.id ? <span className="visit-more">{item.notes}</span> : null}
+              </span>
+              <span className={`pat-status ${item.unpaid ? "bekor" : "yangi"}`}>{item.status}</span>
             </button>
           ))}
         </div>
@@ -316,9 +314,16 @@ export function PhonePatientProfile({ id }: { id: string }) {
       {finish ? <VisitFinishSheet appt={finish} onClose={() => setFinish(null)} /> : null}
       {viewer ? (
         <div className="xray-view" role="dialog" aria-label="Rentgen">
-          <header>
-            <b>{viewer.type} · {viewer.date}</b>
-            <button type="button" aria-label="Yopish" onClick={() => setViewer(null)}><X /></button>
+          <header className="xray-bar">
+            <div>
+              <b>{viewer.type}</b>
+              <p>{viewer.date} · {viewer.tooth === "—" ? "umumiy" : `tish ${viewer.tooth}`}</p>
+            </div>
+            <span className="xray-tools">
+              <button type="button" aria-label="Kichraytirish" onClick={() => setScale((value) => Math.max(1, Number((value - 0.25).toFixed(2))))}>−</button>
+              <button type="button" aria-label="Kattalashtirish" onClick={() => setScale((value) => Math.min(4, Number((value + 0.25).toFixed(2))))}>+</button>
+              <button type="button" aria-label="Yopish" onClick={() => setViewer(null)}><X /></button>
+            </span>
           </header>
           <div
             className="xray-stage"
@@ -338,7 +343,7 @@ export function PhonePatientProfile({ id }: { id: string }) {
               setScale(Math.min(4, Math.max(1, next)));
             }}
           >
-            <img src={viewer.src} alt="" style={{ transform: `scale(${scale})` }} />
+            <img src={viewer.src} alt={`${viewer.type}, ${viewer.date}`} style={{ transform: `scale(${scale})` }} />
           </div>
           <button type="button" className="crm-save danger" onClick={() => { deleteXray(viewer.id); setViewer(null); setRev((value) => value + 1); }}><Trash2 size={16} /> O‘chirish</button>
         </div>

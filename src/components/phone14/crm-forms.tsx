@@ -10,6 +10,7 @@ import {
   PHONE_PAYS_KEY,
   PHONE_PLANS_KEY,
   phonePatients,
+  relDateLabel,
   readPhoneStore,
   writePhoneStore,
   type PhonePatient,
@@ -246,6 +247,7 @@ export function PhoneAddPatient() {
         <textarea maxLength={500} placeholder="Bemor haqida qo‘shimcha ma’lumot" value={form.note} onChange={(event) => setForm({ ...form, note: event.target.value })} />
       </Field>
       <p className="crm-count">{form.note.length}/500</p>
+      <div className="save-spacer" aria-hidden="true" />
       <button type="button" className="crm-save sticky-save" data-testid="patient-save" onClick={save}>Saqlash</button>
     </FormScreen>
   );
@@ -403,7 +405,7 @@ export function PhoneAddPlan() {
       patientId,
       name: title.trim(),
       doctor,
-      date: new Date().toLocaleDateString("uz-UZ", { day: "numeric", month: "short", year: "numeric" }),
+      date: relDateLabel(0),
       status: "Rejalashtirilgan",
       done: 0,
       stages: Math.max(1, rows.length),

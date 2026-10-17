@@ -3,6 +3,7 @@ import {
   PHONE_PATIENTS_KEY,
   findPhonePatient,
   phonePatients,
+  relDateLabel,
   readPhoneStore,
   writePhoneStore,
   type PhonePatient,
@@ -104,16 +105,16 @@ const SEED_TEETH: Record<string, { adult: Record<string, ToothStatus>; child: Re
 };
 
 const SEED_VISITS: ClinicVisit[] = [
-  { id: "v1", patientId: "b-0012", date: "14 okt 2024", time: "10:24", procedure: "Endodontik davolash", doctor: "Dr. Ibrohim", tooth: "11", notes: "Kanal tozalash va vaqtinchalik plomba", cost: 1_200_000, status: "Yakunlangan" },
-  { id: "v2", patientId: "b-0012", date: "28 sen 2024", time: "15:10", procedure: "Konsultatsiya", doctor: "Dr. Aziza", tooth: "11", notes: "Shikoyat: og‘riq, sovuqqa sezgirlik", cost: 150_000, status: "Yakunlangan" },
-  { id: "v3", patientId: "b-0012", date: "12 avg 2024", time: "11:40", procedure: "Professional gigiyena", doctor: "Dr. Ibrohim", tooth: "—", notes: "Tozalash va Air Flow", cost: 250_000, status: "Yakunlangan" },
-  { id: "v4", patientId: "b-0012", date: "3 may 2024", time: "09:20", procedure: "Reja tuzish", doctor: "Dr. Kamron", tooth: "16", notes: "Implant rejasini muhokama qilish", cost: 0, status: "Rejalashtirilgan" },
-  { id: "v5", patientId: "b-0013", date: "5 okt 2024", time: "11:00", procedure: "Implant nazorati", doctor: "Dr. Ibrohim", tooth: "16", notes: "Yumshoq to‘qima tinch, shish yo‘q", cost: 200_000, status: "Yakunlangan" },
-  { id: "v6", patientId: "b-0013", date: "18 sen 2024", time: "14:30", procedure: "Krona namunasi", doctor: "Dr. Kamron", tooth: "26", notes: "Rang va tishlash tekshirildi", cost: 0, status: "Davom etmoqda" },
-  { id: "v7", patientId: "b-0014", date: "11 okt 2024", time: "16:45", procedure: "Birinchi konsultatsiya", doctor: "Dr. Aziza", tooth: "11", notes: "Og‘riq, rentgen tavsiya etildi", cost: 150_000, status: "Yakunlangan" },
-  { id: "v8", patientId: "b-0015", date: "10 okt 2024", time: "14:00", procedure: "Ortodontik ko‘rik", doctor: "Dr. Aziza", tooth: "55", notes: "Breket oldidan gigiyena", cost: 180_000, status: "Yakunlangan" },
-  { id: "v9", patientId: "b-0016", date: "1 okt 2024", time: "12:15", procedure: "Veneer topshirish", doctor: "Dr. Kamron", tooth: "11", notes: "Bemor natijadan mamnun", cost: 2_400_000, status: "Yakunlangan" },
-  { id: "v10", patientId: "b-0017", date: "8 okt 2024", time: "10:40", procedure: "Krona sementlash", doctor: "Dr. Ibrohim", tooth: "26", notes: "Okklyuziya tuzatildi", cost: 1_100_000, status: "Yakunlangan" },
+  { id: "v1", patientId: "b-0012", date: relDateLabel(-3), time: "10:24", procedure: "Endodontik davolash", doctor: "Dr. Ibrohim", tooth: "11", notes: "Kanal tozalash va vaqtinchalik plomba", cost: 1_200_000, status: "Yakunlangan" },
+  { id: "v2", patientId: "b-0012", date: relDateLabel(-18), time: "15:10", procedure: "Konsultatsiya", doctor: "Dr. Aziza", tooth: "11", notes: "Shikoyat: og‘riq, sovuqqa sezgirlik", cost: 150_000, status: "Yakunlangan" },
+  { id: "v3", patientId: "b-0012", date: relDateLabel(-40), time: "11:40", procedure: "Professional gigiyena", doctor: "Dr. Ibrohim", tooth: "—", notes: "Tozalash va Air Flow", cost: 250_000, status: "Yakunlangan" },
+  { id: "v4", patientId: "b-0012", date: relDateLabel(-70), time: "09:20", procedure: "Reja tuzish", doctor: "Dr. Kamron", tooth: "16", notes: "Implant rejasini muhokama qilish", cost: 0, status: "Rejalashtirilgan" },
+  { id: "v5", patientId: "b-0013", date: relDateLabel(-12), time: "11:00", procedure: "Implant nazorati", doctor: "Dr. Ibrohim", tooth: "16", notes: "Yumshoq to‘qima tinch, shish yo‘q", cost: 200_000, status: "Yakunlangan" },
+  { id: "v6", patientId: "b-0013", date: relDateLabel(-29), time: "14:30", procedure: "Krona namunasi", doctor: "Dr. Kamron", tooth: "26", notes: "Rang va tishlash tekshirildi", cost: 0, status: "Davom etmoqda" },
+  { id: "v7", patientId: "b-0014", date: relDateLabel(-6), time: "16:45", procedure: "Birinchi konsultatsiya", doctor: "Dr. Aziza", tooth: "11", notes: "Og‘riq, rentgen tavsiya etildi", cost: 150_000, status: "Yakunlangan" },
+  { id: "v8", patientId: "b-0015", date: relDateLabel(-7), time: "14:00", procedure: "Ortodontik ko‘rik", doctor: "Dr. Aziza", tooth: "55", notes: "Breket oldidan gigiyena", cost: 180_000, status: "Yakunlangan" },
+  { id: "v9", patientId: "b-0016", date: relDateLabel(-16), time: "12:15", procedure: "Veneer topshirish", doctor: "Dr. Kamron", tooth: "11", notes: "Bemor natijadan mamnun", cost: 2_400_000, status: "Yakunlangan" },
+  { id: "v10", patientId: "b-0017", date: relDateLabel(-9), time: "10:40", procedure: "Krona sementlash", doctor: "Dr. Ibrohim", tooth: "26", notes: "Okklyuziya tuzatildi", cost: 1_100_000, status: "Yakunlangan" },
 ];
 
 const SEED_PLANS: ClinicPlan[] = [
@@ -122,7 +123,7 @@ const SEED_PLANS: ClinicPlan[] = [
     patientId: "b-0012",
     name: "Implant va protetik davolash",
     doctor: "Dr. Ibrohim",
-    date: "12 okt 2024",
+    date: relDateLabel(-5),
     status: "Davom etmoqda",
     done: 2,
     stages: 5,
@@ -141,7 +142,7 @@ const SEED_PLANS: ClinicPlan[] = [
     patientId: "b-0013",
     name: "Implant va krona",
     doctor: "Dr. Kamron",
-    date: "18 sen 2024",
+    date: relDateLabel(-29),
     status: "Davom etmoqda",
     done: 1,
     stages: 3,
@@ -158,7 +159,7 @@ const SEED_PLANS: ClinicPlan[] = [
     patientId: "b-0014",
     name: "Endodontiya va plomba",
     doctor: "Dr. Aziza",
-    date: "11 okt 2024",
+    date: relDateLabel(-6),
     status: "Rejalashtirilgan",
     done: 0,
     stages: 2,
@@ -174,7 +175,7 @@ const SEED_PLANS: ClinicPlan[] = [
     patientId: "b-0015",
     name: "Ortodontik davolash",
     doctor: "Dr. Aziza",
-    date: "10 okt 2024",
+    date: relDateLabel(-7),
     status: "Davom etmoqda",
     done: 1,
     stages: 4,
@@ -192,7 +193,7 @@ const SEED_PLANS: ClinicPlan[] = [
     patientId: "b-0016",
     name: "Estetik veneer",
     doctor: "Dr. Kamron",
-    date: "1 okt 2024",
+    date: relDateLabel(-16),
     status: "Yakunlangan",
     done: 3,
     stages: 3,
@@ -208,7 +209,7 @@ const SEED_PLANS: ClinicPlan[] = [
     patientId: "b-0017",
     name: "Krona va protez",
     doctor: "Dr. Ibrohim",
-    date: "8 okt 2024",
+    date: relDateLabel(-9),
     status: "Davom etmoqda",
     done: 2,
     stages: 3,
@@ -223,19 +224,19 @@ const SEED_PLANS: ClinicPlan[] = [
 ];
 
 const SEED_PAYS: ClinicPayment[] = [
-  { id: "pay-12a", patientId: "b-0012", date: "12 okt 2024", amount: 2_500_000, method: "Karta", plan: "Implant va protetik davolash", receipt: "CHK-1042" },
-  { id: "pay-12b", patientId: "b-0012", date: "28 sen 2024", amount: 1_500_000, method: "Naqd", plan: "Implant va protetik davolash", receipt: "CHK-0988" },
-  { id: "pay-13", patientId: "b-0013", date: "5 okt 2024", amount: 1_800_000, method: "Click", plan: "Implant va krona", receipt: "CHK-1101" },
-  { id: "pay-14", patientId: "b-0014", date: "11 okt 2024", amount: 150_000, method: "Payme", plan: "Endodontiya va plomba", receipt: "CHK-1114" },
-  { id: "pay-15", patientId: "b-0015", date: "10 okt 2024", amount: 1_500_000, method: "Naqd", plan: "Ortodontik davolash", receipt: "CHK-1090" },
-  { id: "pay-16", patientId: "b-0016", date: "1 okt 2024", amount: 4_800_000, method: "Karta", plan: "Estetik veneer", receipt: "CHK-1004" },
-  { id: "pay-17", patientId: "b-0017", date: "8 okt 2024", amount: 1_100_000, method: "Click", plan: "Krona va protez", receipt: "CHK-1077" },
+  { id: "pay-12a", patientId: "b-0012", date: relDateLabel(-5), amount: 2_500_000, method: "Karta", plan: "Implant va protetik davolash", receipt: "CHK-1042" },
+  { id: "pay-12b", patientId: "b-0012", date: relDateLabel(-18), amount: 1_500_000, method: "Naqd", plan: "Implant va protetik davolash", receipt: "CHK-0988" },
+  { id: "pay-13", patientId: "b-0013", date: relDateLabel(-12), amount: 1_800_000, method: "Click", plan: "Implant va krona", receipt: "CHK-1101" },
+  { id: "pay-14", patientId: "b-0014", date: relDateLabel(-6), amount: 150_000, method: "Payme", plan: "Endodontiya va plomba", receipt: "CHK-1114" },
+  { id: "pay-15", patientId: "b-0015", date: relDateLabel(-7), amount: 1_500_000, method: "Naqd", plan: "Ortodontik davolash", receipt: "CHK-1090" },
+  { id: "pay-16", patientId: "b-0016", date: relDateLabel(-16), amount: 4_800_000, method: "Karta", plan: "Estetik veneer", receipt: "CHK-1004" },
+  { id: "pay-17", patientId: "b-0017", date: relDateLabel(-9), amount: 1_100_000, method: "Click", plan: "Krona va protez", receipt: "CHK-1077" },
 ];
 
 const SEED_XRAYS: ClinicXray[] = [
-  { id: "xr1", patientId: "b-0012", date: "12 okt 2024", type: "Panoramik", tooth: "—", src: xraySvg("Panoramik · Malika", "#bdbdbd") },
-  { id: "xr2", patientId: "b-0012", date: "28 sen 2024", type: "Periapikal", tooth: "11", src: xraySvg("Periapikal · 11", "#c8c8c8") },
-  { id: "xr3", patientId: "b-0012", date: "3 may 2024", type: "KT", tooth: "16", src: xraySvg("KT · 16", "#a3a3a3") },
+  { id: "xr1", patientId: "b-0012", date: relDateLabel(-5), type: "Panoramik", tooth: "—", src: xraySvg("Panoramik · Malika", "#d0d0d0") },
+  { id: "xr2", patientId: "b-0012", date: relDateLabel(-18), type: "Periapikal", tooth: "11", src: xraySvg("Periapikal · 11", "#c8c8c8") },
+  { id: "xr3", patientId: "b-0012", date: relDateLabel(-40), type: "KT", tooth: "16", src: xraySvg("KT · 16", "#b5b5b5") },
 ];
 
 const DESK_TOOTH: Record<ToothState, ToothStatus> = {

@@ -24,20 +24,12 @@ function molar(front: boolean) {
 
 export function ToothMark({ id, kind, selected }: { id: string; kind?: string; selected?: boolean }) {
   const front = /1[123]|2[123]|3[123]|4[123]|5[12]|6[12]|7[12]|8[12]/.test(id);
-  const gid = `enamel-${id}`;
   return (
     <svg viewBox="0 0 40 56" aria-hidden="true">
-      <defs>
-        <linearGradient id={gid} x1="0" y1="0" x2="1" y2="1">
-          <stop offset="0" stopColor="#ffffff" />
-          <stop offset="0.55" stopColor="#f3f6fb" />
-          <stop offset="1" stopColor="#d5deea" />
-        </linearGradient>
-      </defs>
-      <path d={molar(!front ? false : id.endsWith("1") || id.endsWith("2") || id.endsWith("3"))} fill={`url(#${gid})`} stroke={selected ? "#0E8F94" : "#c5d0dc"} strokeWidth={selected ? 1.8 : 1} />
-      {kind === "plomba" ? <ellipse cx="20" cy="18" rx="6" ry="4" fill="#3b82f6" /> : null}
-      {kind === "endo" ? <path d="M20 16 v22" stroke="#ef4444" strokeWidth="2.4" strokeLinecap="round" /> : null}
-      {kind === "krona" ? <path d="M8 12c3-6 21-6 24 0 1 4-1 7-4 8H12c-3-1-5-4-4-8z" fill="#e0b044" stroke="#b8892b" /> : null}
+      <path d={molar(!front ? false : id.endsWith("1") || id.endsWith("2") || id.endsWith("3"))} fill={selected ? "#e7f7f6" : "#ffffff"} stroke={selected ? "#0e8f94" : "#3d4f66"} strokeWidth={selected ? 2.6 : 1.8} />
+      {kind === "plomba" ? <ellipse cx="20" cy="18" rx="8" ry="6" fill="#2563eb" /> : null}
+      {kind === "endo" ? <path d="M20 14 v24" stroke="#dc2626" strokeWidth="3.2" strokeLinecap="round" /> : null}
+      {kind === "krona" ? <path d="M7 12c3-7 23-7 26 0 1 5-1 8-5 9H12c-4-1-6-4-5-9z" fill="#e0b044" stroke="#8a6418" strokeWidth="1.2" /> : null}
       {kind === "implant" ? (
         <>
           <path d="M16 28h8l-1 16h-6z" fill="#9aa7b8" />
@@ -45,7 +37,7 @@ export function ToothMark({ id, kind, selected }: { id: string; kind?: string; s
         </>
       ) : null}
       {kind === "gone" ? <path d="M12 14l16 20M28 14L12 34" stroke="#94a3b8" strokeWidth="2" /> : null}
-      {kind === "karies" ? <ellipse cx="20" cy="20" rx="5" ry="4" fill="#6b4f3a" /> : null}
+      {kind === "karies" ? <ellipse cx="20" cy="20" rx="7" ry="5" fill="#6b3f24" /> : null}
     </svg>
   );
 }

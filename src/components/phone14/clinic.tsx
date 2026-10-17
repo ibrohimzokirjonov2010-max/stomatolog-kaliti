@@ -7,7 +7,7 @@ import QRCode from "qrcode";
 import { PhoneFrame, SearchBox, Sheet } from "@/components/phone14/chrome";
 import { hidePhonePatient, listPhonePatients } from "@/data/phone-records";
 import { ToothChart, ToothLegend } from "@/components/phone14/teeth";
-import { PHONE_PAYS_KEY, PHONE_PLANS_KEY, phoneCerts, phoneLate, phonePatients, phonePayments, phoneStock, planStages, readPhoneStore, type PhonePatient } from "@/data/phone14";
+import { PHONE_PAYS_KEY, PHONE_PLANS_KEY, phoneCerts, phoneLate, phonePatients, phonePayments, phoneStock, planStages, readPhoneStore, relDateLabel, type PhonePatient } from "@/data/phone14";
 import { certificatesFromTickets } from "@/data/certificates";
 import { loadSeminarTickets } from "@/lib/seminar-tickets";
 import { useCart } from "@/components/cart-provider";
@@ -279,7 +279,7 @@ export function PhonePlans() {
           </article>
           <article className="p14-card">
             <div className="p14-head"><b>Implant va protetik davolash</b><span className="pill blue">Davom etmoqda</span></div>
-            <p className="spec">Reja raqami DP-2024-001 · 12 okt 2024</p>
+            <p className="spec">Reja raqami DP-{new Date().getFullYear()}-001 · {relDateLabel(-5)}</p>
             <ToothChart palette />
             <ToothLegend />
           </article>
