@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import Image from "next/image";
 import { Play } from "lucide-react";
-import { PhoneCourses } from "@/components/phone14/learn";
+import { TalimMobile } from "@/components/education/mobile/TalimMobile";
 import { videoLessons } from "@/data/education";
 
 export const metadata: Metadata = {
@@ -12,7 +12,7 @@ export const metadata: Metadata = {
 export default function TalimPage() {
   return (
     <>
-      <PhoneCourses />
+      <TalimMobile />
       <div className="hidden lg:block">
         <header className="mb-4">
           <h1 className="text-[26px] font-bold tracking-tight text-[#1a1d26]">Ta’lim</h1>

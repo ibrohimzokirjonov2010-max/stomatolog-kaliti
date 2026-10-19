@@ -1,13 +1,13 @@
 "use client";
 /* eslint-disable @next/next/no-img-element -- lesson photos are sized by the fluid unit */
 
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { BookOpen, Eye, LayoutGrid, MoreVertical, Play, Search, ShoppingCart, SlidersHorizontal } from "lucide-react";
-import { useCart } from "@/components/cart-provider";
-import { MobileMenuButton } from "@/components/dashboard/mobile-chrome";
-import { NotificationBell } from "@/components/notification-bell";
+import { BookOpen, Eye, LayoutGrid, MoreVertical, Play, Search, SlidersHorizontal } from "lucide-react";
+import { useFavorites } from "@/components/favorites-provider";
+import { MobileBrandBar } from "@/components/mobile/MobileBrandBar";
+import { readLessonProgress } from "@/lib/lesson-progress";
 import {
   continueLesson,
   lessonSorts,
@@ -30,15 +30,34 @@ function Tooth() {
 
 export function TalimMobile() {
   const router = useRouter();
-  const { count } = useCart();
+  const favorites = useFavorites();
+  const [progress, setProgress] = useState<Record<string, number>>({});
+  const [paid, setPaid] = useState<MobileLesson | null>(null);
   const [query, setQuery] = useState("");
   const [topic, setTopic] = useState<"all" | LessonTopic>("all");
   const [level, setLevel] = useState("");
   const [sort, setSort] = useState<LessonSort>("yangi");
   const [filters, setFilters] = useState(false);
   const [menu, setMenu] = useState<string | null>(null);
-  const [saved, setSaved] = useState<string[]>([]);
   const [note, setNote] = useState("");
+
+  useEffect(() => {
+    setProgress(readLessonProgress());
+  }, []);
+
+  /** "Davom ettirish" shows only a lesson the user really started on this device. */
+  const resume = useMemo(() => {
+    const started = [continueLesson, ...mobileLessons].filter((item) => (progress[item.id] ?? 0) > 0 && (progress[item.id] ?? 0) < 100);
+    return started.sort((a, b) => (progress[b.id] ?? 0) - (progress[a.id] ?? 0))[0] ?? null;
+  }, [progress]);
+
+  function open(item: MobileLesson) {
+    if (item.price > 0) {
+      setPaid(item);
+      return;
+    }
+    router.push(`/talim/${item.id}/video`);
+  }
 
   const list = useMemo(() => {
     const q = query.trim().toLowerCase();
@@ -53,10 +72,7 @@ export function TalimMobile() {
     return rows;
   }, [level, query, sort, topic]);
 
-  const showContinue =
-    (topic === "all" || topic === continueLesson.topic) &&
-    (!level || continueLesson.level === level) &&
-    (!query.trim() || `${continueLesson.title} ${continueLesson.author} ${continueLesson.topicLabel}`.toLowerCase().includes(query.trim().toLowerCase()));
+  const showContinue = Boolean(resume) && (topic === "all" || topic === resume?.topic);
 
   async function share(item: MobileLesson) {
     const url = `${window.location.origin}/talim/${item.id}/video`;
@@ -78,22 +94,8 @@ export function TalimMobile() {
 
   return (
     <div className="tl lg:hidden" data-testid="mobile-talim">
-      <header className="mh-bar">
-        <MobileMenuButton />
-        <Link href="/" className="mh-logo">
-          STOMAHUB
-        </Link>
-        <button type="button" className="mh-ic" aria-label="Qidirish" onClick={() => document.querySelector<HTMLInputElement>("[data-talim-search]")?.focus()}>
-          <Search />
-        </button>
-        <Link href="/savat" className="mh-ic" aria-label="Savat">
-          <ShoppingCart />
-          {count > 0 ? <span className="mh-badge">{count > 9 ? "9+" : count}</span> : null}
-        </Link>
-        <NotificationBell variant="mobile" minBadge={2} buttonClassName="size-10 text-[#1a1d26]" />
-      </header>
-
       <div className="tl-body">
+        <MobileBrandBar search />
         <h1 className="tl-title">Ta’lim</h1>
         <p className="tl-sub">Stomatologlar uchun video darslar kutubxonasi</p>
 
@@ -121,19 +123,19 @@ export function TalimMobile() {
           ))}
         </div>
 
-        {showContinue ? (
-          <article className="tl-go">
-            <Thumb lesson={continueLesson} onPlay={() => router.push(`/talim/${continueLesson.id}/video`)} />
+        {showContinue && resume ? (
+          <article className="tl-go" data-testid="tl-continue">
+            <Thumb lesson={resume} onPlay={() => router.push(`/talim/${resume.id}/video`)} />
             <div>
               <p className="tl-kicker">Davom ettirish</p>
-              <h3>{continueLesson.title}</h3>
+              <h3>{resume.title}</h3>
               <p className="tl-prog">
                 <i>
-                  <span style={{ width: `${continueLesson.progress}%` }} />
+                  <span style={{ width: `${progress[resume.id]}%` }} />
                 </i>
-                {continueLesson.progress}%
+                {progress[resume.id]}%
               </p>
-              <button type="button" className="tl-resume" onClick={() => router.push(`/talim/${continueLesson.id}/video`)}>
+              <button type="button" className="tl-resume" onClick={() => router.push(`/talim/${resume.id}/video`)}>
                 <Play fill="currentColor" /> Davom ettirish
               </button>
             </div>
@@ -158,8 +160,8 @@ export function TalimMobile() {
         {list.length === 0 ? <p className="tl-note">Mos dars topilmadi</p> : null}
 
         {list.map((item) => (
-          <article key={item.id} className="tl-row" id={item.id}>
-            <Thumb lesson={item} onPlay={() => router.push(`/talim/${item.id}/video`)} />
+          <article key={item.id} className="tl-row" id={item.id} data-testid="tl-row">
+            <Thumb lesson={item} onPlay={() => open(item)} />
             <div className="tl-main">
               <button type="button" className="tl-kebab" aria-label="Yana" aria-expanded={menu === item.id} onClick={() => setMenu((current) => (current === item.id ? null : item.id))}>
                 <MoreVertical />
@@ -169,11 +171,11 @@ export function TalimMobile() {
                   <button
                     type="button"
                     onClick={() => {
-                      setSaved((current) => (current.includes(item.id) ? current.filter((id) => id !== item.id) : [...current, item.id]));
+                      favorites.toggle(`lesson-${item.id}`);
                       setMenu(null);
                     }}
                   >
-                    {saved.includes(item.id) ? "Saqlangan" : "Saqlash"}
+                    {favorites.has(`lesson-${item.id}`) ? "Saqlangan" : "Saqlash"}
                   </button>
                   <button
                     type="button"
@@ -186,7 +188,7 @@ export function TalimMobile() {
                   </button>
                 </div>
               ) : null}
-              <h3>{item.title}</h3>
+              <h3><button type="button" className="tl-open" onClick={() => open(item)}>{item.title}</button></h3>
               <p className="tl-author">
                 <img src={item.avatar} alt="" />
                 {item.author}
@@ -237,6 +239,25 @@ export function TalimMobile() {
         </div>
       ) : null}
 
+      {paid ? (
+        <div className="mb-sheet" role="dialog" aria-label="Pullik dars" data-testid="tl-paid">
+          <button type="button" aria-label="Yopish" className="bg" onClick={() => setPaid(null)} />
+          <div className="mb-panel">
+            <h3>{paid.title}</h3>
+            <p>
+              Bu pullik dars ({formatMoney(paid.price, "UZS")}). Darslarni sotish hozircha ulanmagan — to‘lov olinmaydi. Birinchi qismini namuna sifatida ko‘rishingiz mumkin.
+            </p>
+            <div className="row">
+              <button type="button" onClick={() => setPaid(null)}>
+                Yopish
+              </button>
+              <Link className="go" href={`/talim/${paid.id}/video`}>
+                <Play /> Namunani ko‘rish
+              </Link>
+            </div>
+          </div>
+        </div>
+      ) : null}
     </div>
   );
 }

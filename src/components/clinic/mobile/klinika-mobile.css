@@ -67,3 +67,14 @@
 .kl-panel h3 { margin: 0; }
 .kl-mapbox { min-height: calc(10 * var(--u)); border-radius: calc(.8 * var(--u)); background: linear-gradient(160deg, #d7efe4, #e8f1ff); display: grid; place-items: center; font-weight: 800; color: #0f9f75; text-align: center; padding: calc(.6 * var(--u)); }
 .kl-panel .go { height: calc(3.1 * var(--u)); border-radius: calc(.8 * var(--u)); background: #12b981; color: #fff; font-weight: 800; }
+/* design tuning */
+.kl { --u: calc(100vw / 34); }
+.kl-body { padding-left: calc(34 * var(--m)) !important; padding-right: calc(34 * var(--m)) !important; gap: calc(.6 * var(--u)) !important; }
+.kl-title { font-size: calc(2.1 * var(--u)) !important; color: #0b1f4d; font-weight: 800; }
+.kl-days button.on, .kl-save, .kl-steps button.on i, .kl-track span { background: #14a394 !important; border-color: #14a394 !important; }
+.kl-save:disabled { opacity: .7; }
+a.kl-save { display: flex; align-items: center; justify-content: center; gap: 6px; color: #fff; }
+.kl-crm { display: inline-flex; align-items: center; gap: 4px; margin-top: 10px; color: #1d6bff; font-weight: 600; }
+.kl-crm svg { width: 16px; height: 16px; }
+.kl-error a { font-weight: 700; text-decoration: underline; }
+.kl-panel a.go { display: flex; align-items: center; justify-content: center; }

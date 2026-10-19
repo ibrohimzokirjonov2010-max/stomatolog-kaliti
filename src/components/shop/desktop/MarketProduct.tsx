@@ -4,7 +4,7 @@ import { useMemo, useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { ChevronLeft, ChevronRight, Download, FileText, Heart, MapPin, RefreshCw, ShoppingCart, Star, Store } from "lucide-react";
-import { useCart } from "@/components/cart-provider";
+import { cartLineKey, useCart } from "@/components/cart-provider";
 import type { Product } from "@/data/products";
 import { getMarketProduct, marketHref, marketSeed, pdpSimilar } from "@/data/desktop-shop";
 import { shopAdd, shopToggleFav, som, useShopCart, useShopFavs } from "./shop-cart";
@@ -43,7 +43,6 @@ export function MarketProduct({ id }: { id: string }) {
   }
 
   function checkout(amount = qty) {
-    push(amount);
     const extra: Product = {
       id: product!.id,
       name: product!.name,
@@ -59,6 +58,7 @@ export function MarketProduct({ id }: { id: string }) {
       stockQty: 40,
     };
     real.add(product!.id, extra, amount);
+    real.selectOnly(cartLineKey(product!.id));
     router.push("/checkout");
   }
 
@@ -238,7 +238,7 @@ export function MarketProduct({ id }: { id: string }) {
             ) : null}
             {tab === "Yetkazib berish" ? (
               <p>
-                <MapPin className="i" /> {product.city}. {product.delivery}. 500 000 so‘m dan yuqori buyurtmalarda yetkazish bepul. Viloyatlarga 2–3 ish kuni.
+                <MapPin className="i" /> {product.city}. {product.delivery}. Kuryer orqali yetkazish — 25 000 so‘m. Viloyatlarga 2–3 ish kuni.
               </p>
             ) : null}
             {tab === "Qayta buyurtma" ? (

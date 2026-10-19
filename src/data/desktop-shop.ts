@@ -26,6 +26,10 @@ export type MarketProduct = {
   stock: StockKind;
   official: boolean;
   isNew?: boolean;
+  /** Short card title, e.g. "Filtek Z350 XT" (falls back to `name`). */
+  cardTitle?: string;
+  /** Card second line, e.g. "Kompozit (4 g)". */
+  cardSub?: string;
   image: string;
   popularity: number;
   subtitle: string;
@@ -58,6 +62,8 @@ const bondSpecs = [
 export const marketProducts: MarketProduct[] = [
   {
     id: "filtek-z350-xt",
+    cardTitle: "Filtek Z350 XT",
+    cardSub: "Kompozit (4 g)",
     name: "Filtek Z350 XT Kompozit (4 g)",
     brand: "3M",
     brandKey: "3m",
@@ -104,6 +110,8 @@ export const marketProducts: MarketProduct[] = [
   },
   {
     id: "optibond-solo-plus",
+    cardTitle: "OptiBond Solo Plus",
+    cardSub: "Bonding (5 ml)",
     name: "OptiBond Solo Plus Bonding (5 ml)",
     brand: "Kerr",
     brandKey: "kerr",
@@ -139,6 +147,8 @@ export const marketProducts: MarketProduct[] = [
   },
   {
     id: "sdr-flow-plus",
+    cardTitle: "SDR flow+",
+    cardSub: "Bulk fill kompozit (2 g)",
     name: "SDR flow+ Kompozit (2 g)",
     brand: "Dentsply Sirona",
     brandKey: "dentsply",
@@ -181,6 +191,8 @@ export const marketProducts: MarketProduct[] = [
   },
   {
     id: "protaper-gold",
+    cardTitle: "ProTaper Gold",
+    cardSub: "Endodontik fayllar (6 dona)",
     name: "ProTaper Gold Endodontik fayllar (6 dona)",
     brand: "Dentsply",
     brandKey: "dentsply",
@@ -217,6 +229,8 @@ export const marketProducts: MarketProduct[] = [
   },
   {
     id: "timax-x95l",
+    cardTitle: "Ti-Max X95L",
+    cardSub: "Uchlik (turbina)",
     name: "Ti-Max X95L Uchlik (turbina)",
     brand: "NSK",
     brandKey: "nsk",
@@ -254,6 +268,9 @@ export const marketProducts: MarketProduct[] = [
   },
   {
     id: "synea-fusion",
+    cardTitle: "Synea Fusion",
+    cardSub: "Uchlik (turbina)",
+    isNew: true,
     name: "Synea Fusion Uchlik (turbina)",
     brand: "W&H",
     brandKey: "wh",
@@ -289,6 +306,8 @@ export const marketProducts: MarketProduct[] = [
   },
   {
     id: "endo-radar-pro",
+    cardTitle: "Endo Radar Pro",
+    cardSub: "Apeks lokator",
     name: "Endo Radar Pro Apeks lokator",
     brand: "Woodpecker",
     brandKey: "woodpecker",
@@ -326,6 +345,9 @@ export const marketProducts: MarketProduct[] = [
   },
   {
     id: "surgic-pro2",
+    cardTitle: "Surgic Pro2",
+    cardSub: "Implant motor",
+    isNew: true,
     name: "Surgic Pro2 Implant motor",
     brand: "NSK",
     brandKey: "nsk",
@@ -361,6 +383,8 @@ export const marketProducts: MarketProduct[] = [
   },
   {
     id: "fuji-plus",
+    cardTitle: "Fuji PLUS",
+    cardSub: "Sement (15 g)",
     name: "Fuji PLUS Sement (15 g)",
     brand: "GC",
     brandKey: "gc",
@@ -399,6 +423,9 @@ export const marketProducts: MarketProduct[] = [
   },
   {
     id: "tetric-n-ceram",
+    cardTitle: "Tetric N-Ceram",
+    cardSub: "Kompozit (4 g)",
+    isNew: true,
     name: "Tetric N-Ceram Kompozit (4 g)",
     brand: "Ivoclar",
     brandKey: "ivoclar",
@@ -435,6 +462,8 @@ export const marketProducts: MarketProduct[] = [
   },
   {
     id: "relyx-u200",
+    cardTitle: "RelyX U200",
+    cardSub: "Sement (11 g)",
     name: "RelyX U200 Sement (11 g)",
     brand: "3M",
     brandKey: "3m",
@@ -472,6 +501,9 @@ export const marketProducts: MarketProduct[] = [
   },
   {
     id: "woodpecker-uds-e",
+    cardTitle: "Woodpecker UDS-E",
+    cardSub: "Ultrasonik skaler",
+    isNew: true,
     name: "UD-S-E Ultrasonik skaler",
     brand: "Woodpecker",
     brandKey: "woodpecker",
@@ -907,7 +939,7 @@ export const filtekSimilar = [
 ];
 
 export const pdpSimilar = [
-  { id: "optibond-fl", name: "OptiBond FL Bonding (8 ml)", brand: "Kerr", price: 1_100_000, oldPrice: 1_250_000, discount: 12, rating: 4.8, reviews: 84, image: "/img/shop/m-optibond.jpg", href: "/ortiqcha-material/optibond-fl" },
+  { id: "optibond-fl", name: "OptiBond FL Bonding (8 ml)", brand: "Kerr", price: 1_100_000, oldPrice: 1_250_000, discount: 12, rating: 4.8, reviews: 84, image: "/img/shop/m-optibond.jpg", href: "/marketplace/optibond-fl" },
   { id: "clearfil-se-bond-2", name: "Clearfil SE Bond 2 Bonding to‘plami", brand: "Kuraray", price: 1_520_000, rating: 4.9, reviews: 67, image: "/img/shop/m-tetric.jpg", href: "/marketplace/clearfil-se-bond-2" },
   { id: "single-bond-universal", name: "Single Bond Universal Bonding (5 ml)", brand: "3M", price: 800_000, oldPrice: 975_000, discount: 18, rating: 4.7, reviews: 112, image: "/img/shop/m-optibond.jpg", href: "/marketplace/single-bond-universal" },
   { id: "prime-bond-nt", name: "Prime&Bond NT Bonding (5 ml)", brand: "Dentsply", price: 750_000, rating: 4.6, reviews: 49, image: "/img/shop/pdp-main.jpg", href: "/marketplace/prime-bond-nt" },

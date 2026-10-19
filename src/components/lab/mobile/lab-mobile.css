@@ -1,0 +1,86 @@
+/* Mobile Laboratoriya (design 97eca249). 1 --m = 1px of the 853px mock. */
+.lm { width: calc(100% + 2rem); margin: -1rem -1rem 0; background: #f6f8fc; color: #1f2a44; min-width: 0; }
+.lm * { min-width: 0; }
+.lm-body { display: flex; flex-direction: column; gap: calc(18 * var(--m)); padding: 0 calc(24 * var(--m)); }
+.lm .mb-bar { padding-left: calc(6 * var(--m)); padding-right: calc(6 * var(--m)); }
+.lm .mb-head { margin-top: calc(10 * var(--m)); padding: 0 calc(6 * var(--m)); }
+.lm .mb-head h1 { font-size: calc(52 * var(--m)); }
+.lm .mb-head p { font-size: calc(24 * var(--m)); color: #6b7487; }
+.lm-orders { display: inline-flex; align-items: center; gap: calc(8 * var(--m)); align-self: flex-start; margin: calc(-6 * var(--m)) calc(6 * var(--m)) 0; color: #1d6bff; font-weight: 600; font-size: calc(21 * var(--m)); }
+.lm-orders svg { width: calc(24 * var(--m)); height: calc(24 * var(--m)); }
+
+.lm-search { position: relative; display: flex; align-items: center; gap: calc(14 * var(--m)); height: calc(66 * var(--m)); margin: 0 calc(6 * var(--m)); padding: 0 calc(10 * var(--m)) 0 calc(24 * var(--m)); background: #fff; border: 1px solid #e6ebf3; border-radius: calc(33 * var(--m)); box-shadow: 0 2px calc(14 * var(--m)) rgba(15,27,61,.04); }
+.lm-search > svg { width: calc(30 * var(--m)); height: calc(30 * var(--m)); color: #5f6b85; flex: none; }
+.lm-search input { flex: 1; border: 0; outline: 0; background: none; font: inherit; font-size: calc(23 * var(--m)); color: #0f1b3d; }
+.lm-search input::placeholder { color: #9aa3b5; }
+.lm-search button { position: relative; width: calc(52 * var(--m)); height: calc(52 * var(--m)); border-radius: 50%; background: #eaf2ff; color: #1d6bff; display: grid; place-items: center; flex: none; }
+.lm-search button svg { width: calc(28 * var(--m)); height: calc(28 * var(--m)); }
+.lm-search button em { position: absolute; top: -4px; right: -4px; min-width: 16px; height: 16px; border-radius: 99px; background: #1d6bff; color: #fff; font-style: normal; font-size: 10px; font-weight: 700; display: grid; place-items: center; }
+
+.lm-tiles { display: flex; gap: calc(15 * var(--m)); overflow-x: auto; scrollbar-width: none; margin: 0 calc(-24 * var(--m)); padding: 0 calc(30 * var(--m)) 2px; }
+.lm-tiles::-webkit-scrollbar { display: none; }
+.lm-tiles button { flex: none; width: calc(120 * var(--m)); height: calc(130 * var(--m)); border-radius: calc(20 * var(--m)); background: #fff; border: 1px solid #e6ebf3; display: flex; flex-direction: column; align-items: center; justify-content: flex-start; padding: calc(4 * var(--m)) calc(4 * var(--m)) 0; gap: 0; color: #5f6b85; }
+.lm-tiles img { width: calc(100 * var(--m)); height: calc(72 * var(--m)); object-fit: contain; mix-blend-mode: multiply; }
+.lm-tiles span { font-size: calc(18 * var(--m)); line-height: 1.2; text-align: center; padding: 0 2px; }
+.lm-tiles button.on { border: 1.5px solid #3cc3b4; background: #effbf9; color: #0b1f4d; font-weight: 600; }
+
+.lm-drops { display: grid; grid-template-columns: 203fr 195fr 168fr 193fr; gap: calc(16 * var(--m)); }
+.lm-drops label { position: relative; height: calc(68 * var(--m)); border-radius: calc(16 * var(--m)); background: #fff; border: 1px solid #e3e9f2; display: flex; align-items: center; gap: calc(10 * var(--m)); padding: 0 calc(14 * var(--m)) 0 calc(22 * var(--m)); }
+.lm-drops svg { width: calc(26 * var(--m)); height: calc(26 * var(--m)); flex: none; color: #1f2a44; }
+.lm-drops label > svg:last-child { width: calc(22 * var(--m)); height: calc(22 * var(--m)); color: #4f5b75; }
+.lm-drops select { flex: 1; width: 100%; border: 0; background: none; outline: 0; appearance: none; -webkit-appearance: none; font: inherit; font-size: calc(20 * var(--m)); color: #1f2a44; font-weight: 500; text-overflow: ellipsis; }
+.lm-count { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); }
+
+.lm-list { display: flex; flex-direction: column; gap: calc(22 * var(--m)); }
+.lm-card { position: relative; display: grid; grid-template-columns: calc(287 * var(--m)) minmax(0, 1fr); gap: calc(25 * var(--m)); background: #fff; border-radius: calc(22 * var(--m)); padding: calc(12 * var(--m)); border: 1px solid #edf1f6; box-shadow: 0 calc(4 * var(--m)) calc(20 * var(--m)) rgba(15,27,61,.05); }
+.lm-photo { position: relative; display: block; width: 100%; min-height: calc(330 * var(--m)); border-radius: calc(18 * var(--m)); overflow: hidden; background: #eef2f8; padding: 0; }
+.lm-photo img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+.lm-ph-empty { position: absolute; inset: 0; display: grid; place-items: center; color: #9aa3b5; }
+.lm-ph-empty svg { width: 30%; height: 30%; }
+.lm-tag { position: absolute; left: calc(12 * var(--m)); top: calc(12 * var(--m)); padding: calc(6 * var(--m)) calc(16 * var(--m)); border-radius: calc(12 * var(--m)); font-size: calc(18 * var(--m)); font-weight: 600; }
+.lm-tag.sample { background: rgba(255,255,255,.94); color: #4f5b75; }
+.lm-main { display: flex; flex-direction: column; gap: calc(14 * var(--m)); padding: calc(4 * var(--m)) calc(4 * var(--m)) calc(2 * var(--m)) 0; }
+.lm-copy { display: flex; flex-direction: column; gap: calc(8 * var(--m)); color: inherit; text-align: left; }
+.lm-top { display: flex; align-items: flex-start; justify-content: space-between; gap: calc(10 * var(--m)); }
+.lm-top h2 { margin: 0; font-size: calc(29 * var(--m)); line-height: 1.15; font-weight: 700; color: #0b1f4d; }
+.lm-ok { flex: none; display: inline-flex; align-items: center; gap: calc(8 * var(--m)); height: calc(42 * var(--m)); padding: 0 calc(16 * var(--m)); border-radius: calc(12 * var(--m)); background: #e9f8f2; color: #0d8a63; font-size: calc(19 * var(--m)); font-weight: 600; }
+.lm-ok svg { width: calc(24 * var(--m)); height: calc(24 * var(--m)); fill: #12b981; color: #fff; }
+.lm-rate { margin: 0; display: flex; align-items: center; gap: calc(8 * var(--m)); font-size: calc(20 * var(--m)); color: #1f2a44; }
+.lm-rate svg { width: calc(26 * var(--m)); height: calc(26 * var(--m)); color: #f5a623; fill: #f5a623; }
+.lm-rate span { color: #1d6bff; }
+.lm-rate.none { color: #8b93a7; }
+.lm-meta { margin: 0; display: flex; flex-wrap: wrap; gap: calc(6 * var(--m)) calc(44 * var(--m)); font-size: calc(19 * var(--m)); color: #4f5b75; }
+.lm-meta span { display: inline-flex; align-items: center; gap: calc(10 * var(--m)); }
+.lm-meta svg { width: calc(24 * var(--m)); height: calc(24 * var(--m)); color: #6b7487; }
+.lm-thumbs { display: grid; grid-template-columns: repeat(3, calc(120 * var(--m))) 1fr; gap: calc(12 * var(--m)); align-items: center; }
+.lm-thumbs img { width: calc(120 * var(--m)); height: calc(62 * var(--m)); object-fit: cover; border-radius: calc(10 * var(--m)); background: #eef2f8; }
+.lm-thumbs a, .lm-thumbs button { justify-self: end; color: #4f5b75; display: grid; place-items: center; width: calc(40 * var(--m)); height: calc(40 * var(--m)); padding: 0; }
+.lm-thumbs svg { width: calc(30 * var(--m)); height: calc(30 * var(--m)); }
+.lm-noport { display: inline-flex; align-items: center; gap: calc(6 * var(--m)); font-size: calc(18 * var(--m)); color: #1d6bff; font-weight: 600; }
+.lm-noport svg { width: calc(22 * var(--m)); height: calc(22 * var(--m)); }
+.lm-prices { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: calc(10 * var(--m)); }
+.lm-prices span { background: #f3f6fa; border-radius: calc(10 * var(--m)); padding: calc(10 * var(--m)) calc(10 * var(--m)); display: flex; flex-direction: column; gap: calc(6 * var(--m)); }
+.lm-prices small { font-size: calc(15 * var(--m)); color: #6b7487; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.lm-prices b { font-size: calc(19 * var(--m)); font-weight: 600; color: #0b1f4d; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.lm-acts { display: grid; grid-template-columns: 186fr 265fr; gap: calc(14 * var(--m)); margin-top: calc(6 * var(--m)); }
+.lm-acts a, .lm-acts button { height: calc(64 * var(--m)); border-radius: calc(14 * var(--m)); display: inline-flex; align-items: center; justify-content: center; gap: calc(10 * var(--m)); font-size: calc(21 * var(--m)); font-weight: 600; white-space: nowrap; }
+.lm-acts svg { width: calc(28 * var(--m)); height: calc(28 * var(--m)); }
+.lm-call { background: #fff; border: 1.5px solid #bcd0f5; color: #1d6bff; }
+.lm-order { background: #14a394; color: #fff; }
+.lm-save { position: absolute; left: calc(240 * var(--m)); top: calc(24 * var(--m)); width: calc(48 * var(--m)); height: calc(48 * var(--m)); border-radius: 50%; background: rgba(255,255,255,.92); color: #4f5b75; display: grid; place-items: center; }
+.lm-save svg { width: calc(24 * var(--m)); height: calc(24 * var(--m)); }
+.lm-save.on { color: #14a394; }
+.lm-empty { background: #fff; border-radius: calc(22 * var(--m)); padding: calc(40 * var(--m)); text-align: center; color: #6b7487; font-size: calc(21 * var(--m)); }
+.lm-empty svg { width: calc(48 * var(--m)); height: calc(48 * var(--m)); color: #1d6bff; margin: 0 auto calc(10 * var(--m)); display: block; }
+.lm-own { display: flex; align-items: center; justify-content: center; gap: calc(6 * var(--m)); color: #1d6bff; font-weight: 600; font-size: calc(21 * var(--m)); padding: calc(10 * var(--m)) 0; }
+.lm-own svg { width: calc(24 * var(--m)); height: calc(24 * var(--m)); }
+.lm-pad { height: calc(110 * var(--m) + 20px); }
+.lm-find { position: fixed; z-index: 35; left: calc(22 * var(--m)); right: calc(22 * var(--m)); bottom: calc(80px + env(safe-area-inset-bottom)); height: calc(76 * var(--m)); border-radius: calc(18 * var(--m)); background: #14a394; color: #fff; display: flex; align-items: center; justify-content: center; gap: calc(14 * var(--m)); font-size: calc(25 * var(--m)); font-weight: 600; box-shadow: 0 calc(10 * var(--m)) calc(24 * var(--m)) rgba(20,163,148,.28); text-decoration: none; }
+.lm-find svg { width: calc(30 * var(--m)); height: calc(30 * var(--m)); }
+.lm-check { display: flex; align-items: center; gap: calc(12 * var(--m)); font-size: calc(21 * var(--m)); }
+.lm-check input { width: auto !important; min-height: 0 !important; }
+.lm-check svg { width: calc(24 * var(--m)); height: calc(24 * var(--m)); }
+@media (min-width: 640px) { .lm-find { left: 16px; right: 16px; } }
+.lm-prices span { padding: calc(10 * var(--m)) calc(8 * var(--m)); }
+.lm-prices b { font-size: calc(17.5 * var(--m)); text-overflow: clip; }
+.lm-prices small { font-size: calc(14 * var(--m)); }

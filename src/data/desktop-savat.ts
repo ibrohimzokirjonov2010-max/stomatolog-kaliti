@@ -1,8 +1,9 @@
 import type { ShopLine } from "@/components/shop/desktop/shop-cart";
 
-export const SAVAT_DISCOUNT = 350_000;
-export const SAVAT_DELIVERY = 35_000;
-export const SAVAT_PROMO = "STOMAHUB10";
+import { DELIVERY_COURIER, PROMO_CODE } from "@/data/checkout-pricing";
+
+export const SAVAT_DELIVERY = DELIVERY_COURIER;
+export const SAVAT_PROMO = PROMO_CODE;
 
 export const savatSeed: ShopLine[] = [
   {
@@ -71,8 +72,8 @@ export const savatPicks: ShopLine[] = [
     official: true,
     price: 1_420_000,
     qty: 1,
-    image: "/img/shop/m-fuji.jpg",
-    href: "/marketplace",
+    image: "/img/shop/d-pick-fuji.jpg",
+    href: "/marketplace/fuji-plus",
   },
   {
     id: "pick-scaler",
@@ -82,19 +83,19 @@ export const savatPicks: ShopLine[] = [
     official: true,
     price: 3_250_000,
     qty: 1,
-    image: "/img/shop/m-uds.jpg",
-    href: "/marketplace",
+    image: "/img/shop/d-pick-scaler.jpg",
+    href: "/marketplace/woodpecker-uds-e",
   },
   {
     id: "pick-masks",
-    name: "Nitril niqoblar (50 dona)",
+    name: "Dental niqoblar (50 dona)",
     variant: "3 qatlamli, ko‘k",
     seller: "Dental Pro",
     official: true,
     price: 90_000,
     qty: 1,
-    image: "/img/cart/masks.jpg",
-    href: "/marketplace",
+    image: "/img/shop/d-pick-masks.jpg",
+    href: "/marketplace?q=niqob",
   },
   {
     id: "pick-alginate",
@@ -104,7 +105,7 @@ export const savatPicks: ShopLine[] = [
     official: true,
     price: 320_000,
     qty: 1,
-    image: "/img/cart/alginate.jpg",
-    href: "/marketplace",
+    image: "/img/shop/d-pick-cavex.jpg",
+    href: "/marketplace?q=alginat",
   },
 ];

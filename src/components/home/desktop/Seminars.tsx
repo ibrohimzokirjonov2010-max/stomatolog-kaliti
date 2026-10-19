@@ -1,7 +1,13 @@
+"use client";
 /* eslint-disable @next/next/no-img-element -- home design CSS sizes raw img elements */
+import { useMemo } from "react";
 import Link from "next/link";
 import { ArrowRight, MapPin, User } from "lucide-react";
-import { seminars } from "@/lib/bosh-sahifa-data";
+import { useSeminarRegs } from "@/components/seminar-provider";
+import { formatGroupedNumber } from "@/lib/format";
+import { getSeminarSpeakers, isDateTbd, isSeminarUpcoming, seminarHref, seminars as catalog, specialtyLabels } from "@/data/seminars";
+
+const MONTHS_SHORT = ["Yan", "Fev", "Mar", "Apr", "May", "Iyn", "Iyl", "Avg", "Sen", "Okt", "Noy", "Dek"];
 
 export function SectionHead({ title, link = "Barchasini ko‘rish", href, extra }: { title: string; link?: string; href: string; extra?: boolean }) {
   return (
@@ -13,21 +19,50 @@ export function SectionHead({ title, link = "Barchasini ko‘rish", href, extra 
   );
 }
 
+/** Nearest upcoming seminars from the shared catalog — same dates/prices as /seminarlar. */
 export default function Seminars() {
+  const { catalogVersion, liveSeminar } = useSeminarRegs();
+  const items = useMemo(() => {
+    void catalogVersion;
+    return catalog
+      .map(liveSeminar)
+      .filter((s) => isSeminarUpcoming(s))
+      .sort((a, b) => Number(isDateTbd(a)) - Number(isDateTbd(b)) || a.date.localeCompare(b.date) || a.time.localeCompare(b.time))
+      .slice(0, 4);
+  }, [catalogVersion, liveSeminar]);
+
   return (
     <section className="sh-sem">
       <SectionHead title="Yaqin seminarlar" href="/seminarlar" extra />
       <div className="grid">
-        {seminars.map((s) => (
-          <article className="card" key={s.title}>
-            <div className="ph"><img src={s.img} alt="" /><span className="date"><b>{s.d}</b>{s.m}</span></div>
-            <div className="bd">
-              <h5>{s.title}</h5><p>{s.sub}</p>
-              <div className="meta"><span><MapPin className="i" />{s.city}</span><span><User className="i" />{s.doc}</span></div>
-              <div className="ft"><strong>{s.price}</strong><Link className="btn-teal sm" href="/seminarlar">Batafsil</Link></div>
-            </div>
-          </article>
-        ))}
+        {items.map((s) => {
+          const tbd = isDateTbd(s);
+          const [, m, d] = s.date.split("-").map(Number);
+          const speaker = getSeminarSpeakers(s)[0]?.name ?? "Ma’ruzachi aniqlanmoqda";
+          return (
+            <article className="card" key={s.id}>
+              <div className="ph">
+                <img src={s.image} alt="" />
+                <span className="date">
+                  <b>{tbd ? "—" : String(d).padStart(2, "0")}</b>
+                  {tbd ? "Sana" : MONTHS_SHORT[m - 1]}
+                </span>
+              </div>
+              <div className="bd">
+                <h5>{specialtyLabels[s.specialty].toUpperCase()}</h5>
+                <p>{s.title}</p>
+                <div className="meta">
+                  <span><MapPin className="i" />{s.city === "Online" ? "Onlayn" : s.city}</span>
+                  <span><User className="i" />{speaker}</span>
+                </div>
+                <div className="ft">
+                  <strong>{s.price > 0 ? `${formatGroupedNumber(s.price)} so‘m` : "Bepul"}</strong>
+                  <Link className="btn-teal sm" href={seminarHref(s.id)}>Batafsil</Link>
+                </div>
+              </div>
+            </article>
+          );
+        })}
       </div>
     </section>
   );

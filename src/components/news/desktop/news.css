@@ -1,0 +1,119 @@
+/* Desktop Yangiliklar (.yn2) + article page (.yn2-article). Lengths use .sh's --u (1u = 12.5px at 1280px). */
+.sh .yn2, .sh .yn2-article {
+  --t: #0a9a96;
+  --t-ink: #08807d;
+  --t-soft: #dff5f1;
+  --ink: #101833;
+  --txt: #36405a;
+  --sub: #5d6680;
+  --mut: #8a93a7;
+  --ln: #e5eaf1;
+  color: var(--ink);
+}
+.sh .yn2 .i, .sh .yn2-article .i { width: 1em; height: 1em; flex: none; }
+.sh .yn2 a:focus-visible, .sh .yn2 button:focus-visible, .sh .yn2-article a:focus-visible, .sh .yn2-article button:focus-visible { outline: 2px solid var(--t); outline-offset: 2px; }
+.sh .yn2 { display: grid; grid-template-columns: minmax(0, 1fr) calc(22 * var(--u)); gap: calc(1.2 * var(--u)); align-items: start; }
+.sh .yn2-main { min-width: 0; }
+.sh .yn2-head h1 { margin: calc(.3 * var(--u)) 0 0; font-size: calc(1.95 * var(--u)); font-weight: 800; letter-spacing: -.03em; line-height: 1.1; color: #0e1a3d; }
+.sh .yn2-head p { margin: calc(.3 * var(--u)) 0 0; color: var(--sub); font-size: calc(.8 * var(--u)); }
+.sh .yn2-tabs { display: flex; gap: calc(.55 * var(--u)); margin: calc(.95 * var(--u)) 0 calc(.95 * var(--u)); flex-wrap: wrap; }
+.sh .yn2-tabs button { height: calc(1.8 * var(--u)); padding: 0 calc(1 * var(--u)); border-radius: 99px; background: #fff; border: 1px solid var(--ln); font-size: calc(.64 * var(--u)); font-weight: 550; color: #1b2340; display: inline-flex; align-items: center; gap: calc(.3 * var(--u)); }
+.sh .yn2-tabs button:hover { border-color: #b9e4e1; }
+.sh .yn2-tabs button.on { background: var(--t); border-color: var(--t); color: #fff; font-weight: 650; }
+.sh .yn2-badge { display: inline-flex; align-items: center; height: calc(1.3 * var(--u)); padding: 0 calc(.6 * var(--u)); border-radius: 99px; background: var(--t-soft); color: var(--t-ink); font-size: calc(.58 * var(--u)); font-weight: 650; white-space: nowrap; }
+.sh .yn2-save { width: calc(1.65 * var(--u)); height: calc(1.65 * var(--u)); border-radius: calc(.35 * var(--u)); background: #fff; display: grid; place-items: center; color: #1d2540; font-size: calc(.8 * var(--u)); box-shadow: 0 1px calc(.3 * var(--u)) rgba(15, 30, 60, .14); }
+.sh .yn2-save:hover { color: var(--t-ink); }
+.sh .yn2-save.on { color: #fff; background: var(--t); }
+.sh .yn2-save.on .i { fill: currentColor; }
+.sh .yn2-meta { display: flex; align-items: center; gap: calc(.8 * var(--u)); font-size: calc(.58 * var(--u)); color: var(--sub); white-space: nowrap; }
+.sh .yn2-meta span { display: inline-flex; align-items: center; gap: calc(.3 * var(--u)); }
+.sh .yn2-meta .i { font-size: calc(.75 * var(--u)); color: #4a5470; }
+
+.sh .yn2-hero { position: relative; display: grid; grid-template-columns: minmax(0, 1.04fr) minmax(0, 1fr); gap: calc(1.2 * var(--u)); background: #fff; border: 1px solid var(--ln); border-radius: calc(.75 * var(--u)); padding: calc(.3 * var(--u)); }
+.sh .yn2-hero .ph { display: block; height: calc(12.7 * var(--u)); border-radius: calc(.55 * var(--u)); overflow: hidden; background: #e7edf3; }
+.sh .yn2-hero .ph img { width: 100%; height: 100%; object-fit: cover; transition: transform .3s; }
+.sh .yn2-hero:hover .ph img { transform: scale(1.03); }
+.sh .yn2-hero .txt { padding: calc(.35 * var(--u)) calc(1 * var(--u)) calc(.4 * var(--u)) 0; display: flex; flex-direction: column; align-items: flex-start; min-width: 0; }
+.sh .yn2-hero h2 { margin: calc(.45 * var(--u)) 0 0; font-size: calc(1.3 * var(--u)); font-weight: 800; letter-spacing: -.02em; line-height: 1.3; }
+.sh .yn2-hero h2 a:hover { color: var(--t-ink); }
+.sh .yn2-hero p { margin: calc(.55 * var(--u)) 0 0; color: var(--sub); font-size: calc(.68 * var(--u)); line-height: 1.55; display: -webkit-box; -webkit-line-clamp: 4; -webkit-box-orient: vertical; overflow: hidden; }
+.sh .yn2-hero .foot { margin-top: auto; padding-top: calc(.6 * var(--u)); display: flex; align-items: center; gap: calc(1.4 * var(--u)); width: 100%; flex-wrap: wrap; }
+.sh .yn2-hero > .yn2-save { position: absolute; top: calc(.8 * var(--u)); right: calc(.8 * var(--u)); box-shadow: none; border: 1px solid var(--ln); }
+.sh .yn2-author { display: inline-flex; align-items: center; gap: calc(.5 * var(--u)); }
+.sh .yn2-author img { width: calc(2 * var(--u)); height: calc(2 * var(--u)); border-radius: 50%; object-fit: cover; }
+.sh .yn2-author > span { display: flex; flex-direction: column; }
+.sh .yn2-author b { font-size: calc(.62 * var(--u)); font-weight: 700; }
+.sh .yn2-author small { font-size: calc(.54 * var(--u)); color: var(--mut); }
+
+.sh .yn2-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: calc(.9 * var(--u)); margin-top: calc(.9 * var(--u)); }
+.sh .yn2-card { background: #fff; border: 1px solid var(--ln); border-radius: calc(.7 * var(--u)); padding: calc(.45 * var(--u)) calc(.45 * var(--u)) calc(.7 * var(--u)); min-width: 0; display: flex; flex-direction: column; transition: box-shadow .15s, border-color .15s; }
+.sh .yn2-card:hover { border-color: #b9e4e1; box-shadow: 0 calc(.3 * var(--u)) calc(1 * var(--u)) rgba(15, 30, 60, .07); }
+.sh .yn2-card .ph { position: relative; height: calc(6.2 * var(--u)); border-radius: calc(.45 * var(--u)); overflow: hidden; background: #e7edf3; }
+.sh .yn2-card .ph > a { display: block; width: 100%; height: 100%; }
+.sh .yn2-card .ph img { width: 100%; height: 100%; object-fit: cover; transition: transform .3s; }
+.sh .yn2-card:hover .ph img { transform: scale(1.04); }
+.sh .yn2-card .yn2-badge { position: absolute; top: calc(.35 * var(--u)); left: calc(.35 * var(--u)); background: var(--t); color: #fff; }
+.sh .yn2-card .yn2-save { position: absolute; top: calc(.35 * var(--u)); right: calc(.35 * var(--u)); }
+.sh .yn2-card h3 { margin: calc(.5 * var(--u)) calc(.2 * var(--u)) 0; font-size: calc(.8 * var(--u)); font-weight: 750; line-height: 1.35; min-height: calc(2.16 * var(--u)); display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+.sh .yn2-card h3 a:hover { color: var(--t-ink); }
+.sh .yn2-card .yn2-meta { margin: calc(.45 * var(--u)) calc(.2 * var(--u)) 0; }
+.sh .yn2-empty { background: #fff; border: 1px dashed #b9e4e1; border-radius: calc(.7 * var(--u)); padding: calc(2.6 * var(--u)) calc(1 * var(--u)); text-align: center; display: flex; flex-direction: column; align-items: center; gap: calc(.5 * var(--u)); }
+.sh .yn2-empty b { font-size: calc(1 * var(--u)); }
+.sh .yn2-empty p { margin: 0 0 calc(.4 * var(--u)); color: var(--sub); font-size: calc(.76 * var(--u)); }
+.sh .yn2-empty button { height: calc(2.1 * var(--u)); padding: 0 calc(1.1 * var(--u)); border-radius: calc(.4 * var(--u)); background: var(--t); color: #fff; font-weight: 650; font-size: calc(.72 * var(--u)); }
+
+.sh .yn2-rail { display: flex; flex-direction: column; gap: calc(.9 * var(--u)); min-width: 0; }
+.sh .yn2-box { background: #fff; border: 1px solid var(--ln); border-radius: calc(.75 * var(--u)); padding: calc(.9 * var(--u)); min-width: 0; }
+.sh .yn2-box h3 { margin: 0; font-size: calc(.86 * var(--u)); font-weight: 750; }
+.sh .yn2-box-hd { display: flex; align-items: center; justify-content: space-between; gap: calc(.5 * var(--u)); margin-bottom: calc(.7 * var(--u)); }
+.sh .yn2-box-hd button, .sh .yn2-box-hd a { display: inline-flex; align-items: center; gap: calc(.25 * var(--u)); color: #1b6fb8; font-size: calc(.58 * var(--u)); font-weight: 650; white-space: nowrap; }
+.sh .yn2-pop { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: calc(.65 * var(--u)); }
+.sh .yn2-pop li { display: grid; grid-template-columns: calc(1.6 * var(--u)) calc(5.5 * var(--u)) minmax(0, 1fr); gap: calc(.65 * var(--u)); align-items: center; }
+.sh .yn2-pop em { width: calc(1.6 * var(--u)); height: calc(1.6 * var(--u)); border-radius: 50%; background: #f1f4f8; display: grid; place-items: center; font-style: normal; font-size: calc(.66 * var(--u)); font-weight: 750; }
+.sh .yn2-pop .ph { display: block; height: calc(3.5 * var(--u)); border-radius: calc(.45 * var(--u)); overflow: hidden; }
+.sh .yn2-pop .ph img { width: 100%; height: 100%; object-fit: cover; }
+.sh .yn2-pop li > span { display: flex; flex-direction: column; gap: calc(.3 * var(--u)); min-width: 0; }
+.sh .yn2-pop li > span > a { font-size: calc(.64 * var(--u)); font-weight: 700; line-height: 1.35; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+.sh .yn2-pop li > span > a:hover { color: var(--t-ink); }
+.sh .yn2-pop small { display: flex; align-items: center; gap: calc(.3 * var(--u)); font-size: calc(.54 * var(--u)); color: var(--sub); }
+.sh .yn2-pop small .i:last-of-type { margin-left: calc(.45 * var(--u)); }
+.sh .yn2-events { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: calc(.7 * var(--u)); }
+.sh .yn2-events li { display: grid; grid-template-columns: calc(2.6 * var(--u)) calc(4.3 * var(--u)) minmax(0, 1fr); gap: calc(.7 * var(--u)); align-items: center; }
+.sh .yn2-events .ev-date { height: calc(3.2 * var(--u)); border: 1px solid var(--ln); border-radius: calc(.45 * var(--u)); display: flex; flex-direction: column; align-items: center; justify-content: center; }
+.sh .yn2-events .ev-date b { font-size: calc(1.05 * var(--u)); font-weight: 800; line-height: 1; }
+.sh .yn2-events .ev-date small { font-size: calc(.52 * var(--u)); color: var(--t-ink); font-weight: 750; margin-top: calc(.15 * var(--u)); }
+.sh .yn2-events img { width: 100%; height: calc(3.2 * var(--u)); border-radius: calc(.4 * var(--u)); object-fit: cover; }
+.sh .yn2-events .txt { display: flex; flex-direction: column; gap: calc(.2 * var(--u)); min-width: 0; }
+.sh .yn2-events .txt a { font-size: calc(.64 * var(--u)); font-weight: 650; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.sh .yn2-events .txt a:hover { color: var(--t-ink); }
+.sh .yn2-events small { display: flex; align-items: center; gap: calc(.25 * var(--u)); font-size: calc(.54 * var(--u)); color: var(--sub); }
+.sh .yn2-events strong { font-size: calc(.74 * var(--u)); font-weight: 800; color: var(--t-ink); }
+.sh .yn2-tg { display: grid; grid-template-columns: calc(3 * var(--u)) minmax(0, 1fr); gap: calc(.9 * var(--u)); align-items: start; background: linear-gradient(135deg, #0a9a96, #0b8a87); color: #fff; border-radius: calc(.75 * var(--u)); padding: calc(1.1 * var(--u)) calc(1.2 * var(--u)) calc(1.2 * var(--u)); }
+.sh .yn2-tg .plane { width: calc(2.6 * var(--u)); height: calc(2.6 * var(--u)); color: #fff; fill: rgba(255, 255, 255, .25); margin-top: calc(.2 * var(--u)); }
+.sh .yn2-tg h3 { margin: 0; font-size: calc(.9 * var(--u)); font-weight: 750; color: #fff; }
+.sh .yn2-tg p { margin: calc(.35 * var(--u)) 0 calc(.8 * var(--u)); font-size: calc(.6 * var(--u)); color: rgba(255, 255, 255, .88); line-height: 1.45; }
+.sh .yn2-tg a { display: inline-flex; align-items: center; justify-content: center; gap: calc(.35 * var(--u)); height: calc(2 * var(--u)); padding: 0 calc(2.6 * var(--u)); border-radius: 99px; background: #fff; color: var(--t-ink); font-size: calc(.66 * var(--u)); font-weight: 700; }
+.sh .yn2-tg a:hover { background: #effaf8; }
+
+/* article page */
+.sh .yn2-article { display: grid; grid-template-columns: minmax(0, 1fr) calc(20 * var(--u)); grid-template-areas: "crumbs crumbs" "read rel"; gap: calc(1 * var(--u)) calc(1.2 * var(--u)); align-items: start; }
+.sh .yn2-crumbs { grid-area: crumbs; display: flex; align-items: center; gap: calc(.4 * var(--u)); font-size: calc(.66 * var(--u)); color: var(--sub); margin-top: calc(.3 * var(--u)); }
+.sh .yn2-crumbs a:hover { color: var(--t-ink); }
+.sh .yn2-crumbs .i { font-size: calc(.6 * var(--u)); color: #a3abbd; }
+.sh .yn2-read { grid-area: read; padding: calc(1.4 * var(--u)) calc(1.6 * var(--u)); }
+.sh .yn2-read h1 { margin: calc(.6 * var(--u)) 0 0; font-size: calc(1.8 * var(--u)); font-weight: 800; letter-spacing: -.02em; line-height: 1.25; }
+.sh .yn2-read .yn2-mrow { display: flex; align-items: center; gap: calc(1.4 * var(--u)); margin-top: calc(.9 * var(--u)); flex-wrap: wrap; }
+.sh .yn2-read .yn2-mrow .yn2-save { margin-left: auto; box-shadow: none; border: 1px solid var(--ln); }
+.sh .yn2-read .cover { width: 100%; height: calc(24 * var(--u)); object-fit: cover; border-radius: calc(.6 * var(--u)); margin-top: calc(1.1 * var(--u)); }
+.sh .yn2-read .lead { margin: calc(1.1 * var(--u)) 0 0; font-size: calc(.95 * var(--u)); line-height: 1.7; color: var(--txt); }
+.sh .yn2-read .share { display: flex; gap: calc(.6 * var(--u)); margin-top: calc(1.3 * var(--u)); flex-wrap: wrap; }
+.sh .yn2-read .share a, .sh .yn2-read .share button { height: calc(2.1 * var(--u)); padding: 0 calc(1 * var(--u)); border-radius: calc(.45 * var(--u)); border: 1px solid var(--ln); display: inline-flex; align-items: center; gap: calc(.4 * var(--u)); font-size: calc(.68 * var(--u)); font-weight: 650; color: var(--txt); background: #fff; }
+.sh .yn2-read .share a:first-child { background: var(--t); border-color: var(--t); color: #fff; }
+.sh .yn2-read .back { display: inline-flex; align-items: center; gap: calc(.35 * var(--u)); margin-top: calc(1.4 * var(--u)); color: var(--t-ink); font-size: calc(.7 * var(--u)); font-weight: 650; }
+.sh .yn2-related { grid-area: rel; display: flex; flex-direction: column; gap: calc(.7 * var(--u)); }
+.sh .yn2-related .rel { display: grid; grid-template-columns: calc(5.5 * var(--u)) minmax(0, 1fr); gap: calc(.6 * var(--u)); align-items: center; }
+.sh .yn2-related .rel img { width: 100%; height: calc(3.6 * var(--u)); border-radius: calc(.45 * var(--u)); object-fit: cover; }
+.sh .yn2-related .rel span { display: flex; flex-direction: column; gap: calc(.2 * var(--u)); min-width: 0; }
+.sh .yn2-related .rel b { font-size: calc(.66 * var(--u)); line-height: 1.35; }
+.sh .yn2-related .rel:hover b { color: var(--t-ink); }
+.sh .yn2-related .rel small { font-size: calc(.56 * var(--u)); color: var(--mut); }

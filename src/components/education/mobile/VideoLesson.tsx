@@ -5,6 +5,7 @@ import { useEffect, useMemo, useRef, useState, type FormEvent } from "react";
 import Link from "next/link";
 import { Bookmark, Check, ChevronDown, ChevronLeft, Clock, Download, Eye, Lock, Maximize, Pause, Play, Share2 } from "lucide-react";
 import { resolveVideoCourse, type CourseComment } from "@/data/video-course";
+import { saveLessonProgress } from "@/lib/lesson-progress";
 import "./video-lesson.css";
 
 const SPEEDS = [1, 1.25, 1.5, 2] as const;
@@ -77,6 +78,13 @@ export function VideoLesson({ id }: { id: string }) {
   useEffect(() => {
     if (playing && seconds >= duration) setPlaying(false);
   }, [playing, seconds, duration]);
+
+  // Real "Davom ettirish": remember how far this lesson was watched on this device.
+  useEffect(() => {
+    if (!playing || seconds <= 0) return;
+    const total = Math.max(1, course.lessons.length);
+    saveLessonProgress(course.id, ((index + Math.min(1, seconds / duration)) / total) * 100);
+  }, [course, duration, index, playing, seconds]);
 
   useEffect(() => {
     if (!note) return;

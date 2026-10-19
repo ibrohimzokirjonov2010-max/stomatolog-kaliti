@@ -108,8 +108,11 @@
 .sh .dk-cart { padding: calc(.75 * var(--u)); position: sticky; top: calc(4.2 * var(--u)); }
 .sh .dk-cart .hd { display: flex; align-items: center; justify-content: space-between; margin-bottom: calc(.4 * var(--u)); }
 .sh .dk-cart h3 { margin: 0; font-size: calc(.9 * var(--u)); }
-.sh .dk-line { display: grid; grid-template-columns: calc(2.3 * var(--u)) minmax(0, 1fr) auto; gap: calc(.4 * var(--u)); padding: calc(.45 * var(--u)) 0; border-top: 1px solid #f0f3f8; align-items: center; }
-.sh .dk-line img { width: calc(2.3 * var(--u)); height: calc(2.3 * var(--u)); object-fit: contain; background: #f6f8fb; border-radius: calc(.3 * var(--u)); }
+.sh .dk-line { display: grid; grid-template-columns: calc(2.6 * var(--u)) minmax(0, 1fr) auto auto; gap: calc(.45 * var(--u)); padding: calc(.5 * var(--u)) 0; border-top: 1px solid #f0f3f8; align-items: center; }
+.sh .dk-line .info { min-width: 0; }
+.sh .dk-line .var { display: block; color: #7c859b; font-size: calc(.58 * var(--u)); margin: calc(.08 * var(--u)) 0 calc(.12 * var(--u)); }
+.sh .dk-line .dk-step { margin-top: 0; }
+.sh .dk-line img { width: calc(2.6 * var(--u)); height: calc(2.6 * var(--u)); object-fit: contain; background: #f6f8fb; border-radius: calc(.3 * var(--u)); }
 .sh .dk-line b { display: block; font-size: calc(.62 * var(--u)); line-height: 1.25; font-weight: 650; }
 .sh .dk-line small { color: #1497a8; font-size: calc(.62 * var(--u)); font-weight: 700; }
 .sh .dk-step { display: inline-flex; align-items: center; border: 1px solid #e6edf5; border-radius: calc(.3 * var(--u)); height: calc(1.35 * var(--u)); margin-top: calc(.2 * var(--u)); }
@@ -120,13 +123,14 @@
 .sh .dk-sum { margin-top: calc(.4 * var(--u)); padding-top: calc(.4 * var(--u)); border-top: 1px solid #eef2f7; font-size: calc(.66 * var(--u)); }
 .sh .dk-sum div { display: flex; justify-content: space-between; margin: calc(.2 * var(--u)) 0; color: #52637c; }
 .sh .dk-sum .tot { font-weight: 800; color: var(--ink); font-size: calc(.78 * var(--u)); }
-.sh .dk-checko { width: 100%; height: calc(2.15 * var(--u)); margin-top: calc(.45 * var(--u)); background: #1497a8; color: #fff; border-radius: calc(.45 * var(--u)); font-weight: 750; font-size: calc(.72 * var(--u)); }
+.sh .dk-checko { width: 100%; height: calc(2.15 * var(--u)); margin-top: calc(.45 * var(--u)); background: #1497a8; color: #fff; border-radius: calc(.45 * var(--u)); font-weight: 750; font-size: calc(.72 * var(--u)); display: inline-flex; align-items: center; justify-content: center; gap: calc(.4 * var(--u)); }
+.sh .dk-checko:disabled { opacity: .55; cursor: not-allowed; }
 .sh .dk-perks { margin-top: calc(.7 * var(--u)); display: flex; flex-direction: column; gap: calc(.45 * var(--u)); }
 .sh .dk-perk { display: flex; gap: calc(.45 * var(--u)); align-items: flex-start; }
 .sh .dk-perk .ic { width: calc(1.45 * var(--u)); height: calc(1.45 * var(--u)); border-radius: 50%; background: #e7f7f4; color: #1497a8; display: grid; place-items: center; flex: none; font-size: calc(.72 * var(--u)); }
 .sh .dk-perk b { display: block; font-size: calc(.62 * var(--u)); }
 .sh .dk-perk small { color: #7d8da3; font-size: calc(.55 * var(--u)); }
-.sh .dk-help { margin-top: calc(.7 * var(--u)); padding: calc(.7 * var(--u)); display: flex; gap: calc(.5 * var(--u)); align-items: center; }
+.sh .dk-help { margin-top: calc(.7 * var(--u)); padding: calc(.7 * var(--u)); display: flex; gap: calc(.5 * var(--u)); align-items: center; justify-content: space-between; }
 .sh .dk-help img { width: calc(2.6 * var(--u)); height: calc(2.6 * var(--u)); border-radius: 50%; object-fit: cover; object-position: top; background: #e7f3f8; }
 .sh .dk-help b { font-size: calc(.7 * var(--u)); display: block; }
 .sh .dk-help small { color: #6a7c93; font-size: calc(.58 * var(--u)); display: block; margin: calc(.1 * var(--u)) 0 calc(.35 * var(--u)); }

@@ -1,0 +1,138 @@
+/* Desktop Savat (.sv2). Lengths use .sh's --u (1u = 12.5px at 1280px). Avoids global .sh .row/.box/.tile/.date/.meta. */
+.sh .sv2 {
+  --t: #0a9a96;
+  --t-ink: #08807d;
+  --t-soft: #e8f7f6;
+  --ink: #101833;
+  --txt: #36405a;
+  --sub: #5d6680;
+  --mut: #8a93a7;
+  --ln: #e5eaf1;
+  --grn: #14864a;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) calc(23.4 * var(--u));
+  gap: calc(1.2 * var(--u));
+  align-items: start;
+  color: var(--ink);
+}
+.sh .sv2 .i { width: 1em; height: 1em; flex: none; }
+.sh .sv2 button:focus-visible, .sh .sv2 a:focus-visible, .sh .sv2 input:focus-visible { outline: 2px solid var(--t); outline-offset: 2px; }
+.sh .sv2-main { min-width: 0; }
+.sh .sv2-head { display: flex; align-items: center; justify-content: space-between; gap: calc(1 * var(--u)); margin: calc(.5 * var(--u)) 0 calc(1 * var(--u)); }
+.sh .sv2-head h1 { margin: 0; font-size: calc(2 * var(--u)); font-weight: 800; letter-spacing: -.03em; color: #0e1a3d; white-space: nowrap; }
+.sh .sv2-head h1 span { font-size: calc(1.35 * var(--u)); font-weight: 500; color: var(--txt); letter-spacing: -.01em; }
+.sh .sv2-steps { list-style: none; margin: 0; padding: 0; display: flex; align-items: center; gap: calc(.6 * var(--u)); }
+.sh .sv2-steps li { display: flex; align-items: center; gap: calc(.55 * var(--u)); font-size: calc(.7 * var(--u)); color: var(--sub); white-space: nowrap; }
+.sh .sv2-steps li + li::before { content: ""; width: calc(4.2 * var(--u)); height: 1px; background: #d3dae4; margin-right: calc(.1 * var(--u)); }
+.sh .sv2-steps i { width: calc(1.5 * var(--u)); height: calc(1.5 * var(--u)); border-radius: 50%; border: 1px solid #c9d1dd; display: grid; place-items: center; font-style: normal; font-size: calc(.66 * var(--u)); font-weight: 650; color: var(--txt); background: #fff; }
+.sh .sv2-steps li.on { color: var(--ink); font-weight: 650; }
+.sh .sv2-steps li.on i { background: var(--t); border-color: var(--t); color: #fff; }
+
+.sh .sv2-cb { display: inline-flex; align-items: center; gap: calc(.55 * var(--u)); font-size: calc(.66 * var(--u)); color: var(--ink); }
+.sh .sv2-cb i { width: calc(.95 * var(--u)); height: calc(.95 * var(--u)); border-radius: calc(.2 * var(--u)); border: 1.5px solid #c1c9d6; background: #fff; display: grid; place-items: center; color: #fff; font-size: calc(.7 * var(--u)); flex: none; transition: background .12s, border-color .12s; }
+.sh .sv2-cb.on i { background: var(--t); border-color: var(--t); }
+.sh .sv2-cb:disabled { opacity: .5; cursor: default; }
+.sh .sv2-panel { background: #fff; border: 1px solid var(--ln); border-radius: calc(.7 * var(--u)); overflow: hidden; }
+.sh .sv2-tools { display: flex; align-items: center; justify-content: space-between; padding: calc(.75 * var(--u)) calc(.95 * var(--u)); border-bottom: 1px solid var(--ln); font-size: calc(.66 * var(--u)); color: var(--sub); }
+.sh .sv2-tools b { color: var(--t-ink); }
+.sh .sv2-seller { display: flex; align-items: center; gap: calc(.6 * var(--u)); padding: calc(.55 * var(--u)) calc(.95 * var(--u)); background: #f3f6f9; border-bottom: 1px solid var(--ln); font-size: calc(.82 * var(--u)); }
+.sh .sv2-seller .store { font-size: calc(1.3 * var(--u)); color: var(--t); stroke-width: 1.7; }
+.sh .sv2-seller b { font-weight: 750; }
+.sh .sv2-line { display: grid; grid-template-columns: calc(1.3 * var(--u)) calc(4.7 * var(--u)) minmax(0, 1fr) calc(6.6 * var(--u)) calc(6 * var(--u)) calc(7.6 * var(--u)) calc(5.6 * var(--u)); gap: calc(.85 * var(--u)); align-items: center; padding: calc(.55 * var(--u)) calc(.95 * var(--u)); border-bottom: 1px solid #eef1f6; }
+.sh .sv2-group:last-of-type .sv2-line:last-child { border-bottom: 0; }
+.sh .sv2-line .ph { display: block; width: calc(4.7 * var(--u)); height: calc(4.7 * var(--u)); border-radius: calc(.45 * var(--u)); overflow: hidden; border: 1px solid #eef1f6; background: #f6f8fb; }
+.sh .sv2-line .ph img { width: 100%; height: 100%; object-fit: cover; }
+.sh .sv2-line .info { min-width: 0; }
+.sh .sv2-line h3 { margin: 0; font-size: calc(.72 * var(--u)); font-weight: 700; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.sh .sv2-line h3 a:hover { color: var(--t-ink); }
+.sh .sv2-line .info p { margin: calc(.25 * var(--u)) 0 0; font-size: calc(.6 * var(--u)); color: var(--sub); }
+.sh .sv2-line .by { display: flex; align-items: center; gap: calc(.3 * var(--u)); margin-top: calc(.4 * var(--u)); font-size: calc(.52 * var(--u)); color: var(--sub); white-space: nowrap; overflow: hidden; }
+.sh .sv2-line .by > .i { color: var(--t); font-size: calc(.75 * var(--u)); }
+.sh .sv2-line .by em { display: inline-flex; align-items: center; gap: calc(.2 * var(--u)); margin-left: calc(.3 * var(--u)); font-style: normal; background: #e6f7ee; color: var(--grn); border-radius: calc(.25 * var(--u)); padding: calc(.12 * var(--u)) calc(.35 * var(--u)); font-size: calc(.5 * var(--u)); font-weight: 600; }
+.sh .sv2-line .unit { font-size: calc(.66 * var(--u)); color: var(--txt); white-space: nowrap; text-align: right; }
+.sh .sv2-qty { height: calc(2.1 * var(--u)); border: 1px solid var(--ln); border-radius: calc(.45 * var(--u)); display: flex; align-items: center; justify-content: space-between; padding: 0 calc(.3 * var(--u)); }
+.sh .sv2-qty button { width: calc(1.4 * var(--u)); height: calc(1.4 * var(--u)); display: grid; place-items: center; border-radius: calc(.3 * var(--u)); color: var(--txt); font-size: calc(.75 * var(--u)); }
+.sh .sv2-qty button:hover:not(:disabled) { background: var(--t-soft); color: var(--t); }
+.sh .sv2-qty button:disabled { opacity: .35; cursor: not-allowed; }
+.sh .sv2-qty b { font-size: calc(.72 * var(--u)); font-weight: 650; }
+.sh .sv2-line .sum { font-size: calc(.82 * var(--u)); font-weight: 800; text-align: right; white-space: nowrap; }
+.sh .sv2-line .acts { display: flex; flex-direction: column; gap: calc(.45 * var(--u)); padding-left: calc(.4 * var(--u)); }
+.sh .sv2-line .acts button { display: inline-flex; align-items: center; gap: calc(.4 * var(--u)); font-size: calc(.58 * var(--u)); color: var(--txt); white-space: nowrap; }
+.sh .sv2-line .acts .i { font-size: calc(.8 * var(--u)); color: #4a5470; }
+.sh .sv2-line .acts button:hover { color: var(--t-ink); }
+.sh .sv2-line .acts button:last-child:hover, .sh .sv2-line .acts button:last-child:hover .i { color: #e5394a; }
+.sh .sv2-line .acts button.on, .sh .sv2-line .acts button.on .i { color: #e5394a; }
+.sh .sv2-line .acts button.on .i { fill: currentColor; }
+.sh .sv2-empty { display: flex; flex-direction: column; align-items: center; gap: calc(.45 * var(--u)); padding: calc(2.6 * var(--u)) calc(1 * var(--u)); text-align: center; }
+.sh .sv2-empty > .i { font-size: calc(2.2 * var(--u)); color: #b9c1cf; }
+.sh .sv2-empty b { font-size: calc(1 * var(--u)); }
+.sh .sv2-empty p { margin: 0; color: var(--sub); font-size: calc(.74 * var(--u)); }
+.sh .sv2-empty a { margin-top: calc(.4 * var(--u)); display: inline-flex; align-items: center; gap: calc(.35 * var(--u)); height: calc(2.1 * var(--u)); padding: 0 calc(1.1 * var(--u)); border-radius: calc(.45 * var(--u)); background: var(--t); color: #fff; font-size: calc(.72 * var(--u)); font-weight: 650; }
+
+.sh .sv2-picks { margin-top: calc(1.2 * var(--u)); }
+.sh .sv2-picks .hd { display: flex; align-items: center; justify-content: space-between; margin-bottom: calc(.6 * var(--u)); }
+.sh .sv2-picks h2 { margin: 0; font-size: calc(.98 * var(--u)); font-weight: 750; }
+.sh .sv2-picks .hd a { display: inline-flex; align-items: center; gap: calc(.3 * var(--u)); color: #1b6fb8; font-size: calc(.66 * var(--u)); font-weight: 650; }
+.sh .sv2-picks .grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: calc(.85 * var(--u)); }
+.sh .sv2-pick { position: relative; display: grid; grid-template-columns: calc(7.4 * var(--u)) minmax(0, 1fr); grid-template-rows: auto auto; gap: calc(.5 * var(--u)) calc(.75 * var(--u)); background: #fff; border: 1px solid var(--ln); border-radius: calc(.7 * var(--u)); padding: calc(.55 * var(--u)); min-width: 0; }
+.sh .sv2-pick .ph { grid-row: 1 / span 2; display: block; height: calc(6.9 * var(--u)); border-radius: calc(.45 * var(--u)); overflow: hidden; background: #f6f8fb; }
+.sh .sv2-pick .ph img { width: 100%; height: 100%; object-fit: cover; }
+.sh .sv2-pick .txt { display: flex; flex-direction: column; gap: calc(.25 * var(--u)); min-width: 0; padding: calc(.35 * var(--u)) calc(1.6 * var(--u)) 0 0; }
+.sh .sv2-pick .txt b { font-size: calc(.62 * var(--u)); font-weight: 700; line-height: 1.3; }
+.sh .sv2-pick .txt span { font-size: calc(.54 * var(--u)); color: var(--sub); }
+.sh .sv2-pick .txt strong { margin-top: calc(.55 * var(--u)); font-size: calc(.8 * var(--u)); font-weight: 800; }
+.sh .sv2-pick .heart { position: absolute; top: calc(.55 * var(--u)); right: calc(.55 * var(--u)); color: #36405a; font-size: calc(.95 * var(--u)); }
+.sh .sv2-pick .heart:hover, .sh .sv2-pick .heart.on { color: #e5394a; }
+.sh .sv2-pick .heart.on .i { fill: currentColor; }
+.sh .sv2-pick .add { align-self: end; height: calc(2.1 * var(--u)); border: 1px solid var(--t); border-radius: calc(.45 * var(--u)); color: var(--t-ink); background: #fff; font-size: calc(.66 * var(--u)); font-weight: 650; display: inline-flex; align-items: center; justify-content: center; gap: calc(.4 * var(--u)); }
+.sh .sv2-pick .add:hover { background: var(--t-soft); }
+.sh .sv2-pick .add.done { background: var(--t-soft); }
+
+.sh .sv2-rail { display: flex; flex-direction: column; gap: calc(.9 * var(--u)); min-width: 0; }
+.sh .sv2-box { background: #fff; border: 1px solid var(--ln); border-radius: calc(.7 * var(--u)); padding: calc(1 * var(--u)) calc(1 * var(--u)); }
+.sh .sv2-box h3 { margin: 0; font-size: calc(1.02 * var(--u)); font-weight: 750; }
+.sh .sv2-sum { margin: calc(.9 * var(--u)) 0 0; display: flex; flex-direction: column; gap: calc(.65 * var(--u)); }
+.sh .sv2-sum div { display: flex; justify-content: space-between; font-size: calc(.7 * var(--u)); }
+.sh .sv2-sum dt { color: var(--sub); }
+.sh .sv2-sum dd { margin: 0; font-weight: 600; }
+.sh .sv2-sum .minus dd { color: var(--grn); }
+.sh .sv2-promo { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: calc(.6 * var(--u)); margin-top: calc(1.1 * var(--u)); }
+.sh .sv2-promo label { position: relative; display: flex; flex-direction: column; justify-content: center; height: calc(2.5 * var(--u)); border: 1px solid var(--ln); border-radius: calc(.5 * var(--u)); padding: 0 calc(1.8 * var(--u)) 0 calc(.7 * var(--u)); }
+.sh .sv2-promo label:focus-within { border-color: var(--t); }
+.sh .sv2-promo small { font-size: calc(.5 * var(--u)); color: var(--mut); }
+.sh .sv2-promo input { border: 0; padding: 0; font: inherit; font-size: calc(.72 * var(--u)); font-weight: 600; color: var(--ink); background: transparent; min-width: 0; }
+.sh .sv2-promo input:focus { outline: none; }
+.sh .sv2-promo .x { position: absolute; right: calc(.55 * var(--u)); top: 50%; transform: translateY(-50%); color: #4a5470; font-size: calc(.8 * var(--u)); }
+.sh .sv2-promo > button { height: calc(2.5 * var(--u)); padding: 0 calc(1.1 * var(--u)); border-radius: calc(.5 * var(--u)); background: var(--t); color: #fff; font-size: calc(.72 * var(--u)); font-weight: 650; }
+.sh .sv2-ok { display: flex; align-items: center; gap: calc(.35 * var(--u)); margin: calc(.45 * var(--u)) 0 0; color: var(--grn); font-size: calc(.6 * var(--u)); font-weight: 600; }
+.sh .sv2-ok .i { fill: var(--grn); color: #fff; font-size: calc(.85 * var(--u)); }
+.sh .sv2-bad { margin: calc(.45 * var(--u)) 0 0; color: #e5394a; font-size: calc(.6 * var(--u)); font-weight: 600; }
+.sh .sv2-total { display: flex; justify-content: space-between; align-items: baseline; margin-top: calc(1.2 * var(--u)); }
+.sh .sv2-total span { font-size: calc(.98 * var(--u)); font-weight: 800; }
+.sh .sv2-total b { font-size: calc(1.6 * var(--u)); font-weight: 800; color: var(--t); letter-spacing: -.02em; white-space: nowrap; }
+.sh .sv2-go { width: 100%; margin-top: calc(.75 * var(--u)); height: calc(2.85 * var(--u)); border-radius: calc(.55 * var(--u)); background: var(--t); color: #fff; font-size: calc(.9 * var(--u)); font-weight: 700; display: flex; align-items: center; justify-content: center; gap: calc(.5 * var(--u)); transition: filter .15s; }
+.sh .sv2-go:hover:not(:disabled) { filter: brightness(1.07); }
+.sh .sv2-go:disabled { opacity: .45; cursor: not-allowed; }
+.sh .sv2-pays { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: calc(.45 * var(--u)); margin-top: calc(.8 * var(--u)); }
+.sh .sv2-pays button { height: calc(2.3 * var(--u)); border: 1px solid var(--ln); border-radius: calc(.5 * var(--u)); display: inline-flex; align-items: center; justify-content: center; gap: calc(.35 * var(--u)); font-size: calc(.62 * var(--u)); font-weight: 650; color: var(--ink); background: #fff; }
+.sh .sv2-pays button.on { border-color: var(--t); background: var(--t-soft); }
+.sh .sv2-pays .logo { width: calc(1.05 * var(--u)); height: calc(1.05 * var(--u)); border-radius: 50%; display: grid; place-items: center; font-style: normal; font-size: calc(.55 * var(--u)); font-weight: 800; color: #fff; flex: none; }
+.sh .sv2-pays .logo.click { background: radial-gradient(circle at 50% 50%, #fff 0 28%, #01c3d8 30%); }
+.sh .sv2-pays .logo.payme { background: #2fb6d9; border-radius: calc(.25 * var(--u)); }
+.sh .sv2-pays .logo.uzum { background: radial-gradient(circle at 50% 50%, #fff 0 26%, #7a2cf4 28%); }
+.sh .sv2-pays .logo.naqd { background: transparent; color: var(--grn); font-size: calc(1.05 * var(--u)); }
+.sh .sv2-install { width: 100%; margin-top: calc(.75 * var(--u)); display: flex; align-items: center; gap: calc(.7 * var(--u)); border: 1px solid var(--ln); border-radius: calc(.55 * var(--u)); padding: calc(.6 * var(--u)) calc(.8 * var(--u)); text-align: left; background: #fff; }
+.sh .sv2-install.on { border-color: var(--t); background: var(--t-soft); }
+.sh .sv2-install .dot { width: calc(1.15 * var(--u)); height: calc(1.15 * var(--u)); border-radius: 50%; border: 1.5px solid #9aa3b5; flex: none; position: relative; }
+.sh .sv2-install.on .dot { border-color: var(--t); }
+.sh .sv2-install.on .dot::after { content: ""; position: absolute; inset: 22%; border-radius: 50%; background: var(--t); }
+.sh .sv2-install > span { display: flex; flex-direction: column; flex: 1; min-width: 0; }
+.sh .sv2-install b { font-size: calc(.66 * var(--u)); font-weight: 650; }
+.sh .sv2-install small { font-size: calc(.56 * var(--u)); color: var(--sub); margin-top: calc(.1 * var(--u)); }
+.sh .sv2-install em { font-style: normal; color: #1b6fb8; font-size: calc(.6 * var(--u)); font-weight: 650; }
+.sh .sv2-trust { display: grid; grid-template-columns: 1fr 1fr; gap: calc(.5 * var(--u)); margin-top: calc(.75 * var(--u)); }
+.sh .sv2-trust > div { display: flex; align-items: center; gap: calc(.5 * var(--u)); background: #f5f8fa; border-radius: calc(.5 * var(--u)); padding: calc(.6 * var(--u)); min-width: 0; }
+.sh .sv2-trust .ic { width: calc(1.9 * var(--u)); height: calc(1.9 * var(--u)); border-radius: 50%; background: #dff3ea; color: var(--grn); display: grid; place-items: center; font-size: calc(.95 * var(--u)); flex: none; }
+.sh .sv2-trust > div > span:last-child { display: flex; flex-direction: column; min-width: 0; }
+.sh .sv2-trust b { font-size: calc(.56 * var(--u)); font-weight: 700; }
+.sh .sv2-trust small { font-size: calc(.5 * var(--u)); color: var(--sub); }

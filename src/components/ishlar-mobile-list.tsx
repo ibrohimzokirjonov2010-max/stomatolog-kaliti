@@ -1,347 +1,248 @@
 "use client";
+/* eslint-disable @next/next/no-img-element -- photos are sized by the design unit */
 
 import { useMemo, useState, type ReactNode } from "react";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
-import {
-  ArrowUpDown,
-  Bookmark,
-  Briefcase,
-  BriefcaseMedical,
-  ChevronDown,
-  ChevronRight,
-  ClipboardList,
-  MapPin,
-  GraduationCap,
-  Plus,
-  Search,
-  SlidersHorizontal,
-  Stethoscope,
-  Upload,
-  Wallet,
-  Wrench,
-  X,
-} from "lucide-react";
+import { ArrowRight, ArrowUpDown, Bookmark, Briefcase, BriefcaseBusiness, CalendarDays, ChevronDown, ChevronRight, ClipboardList, Coins, MapPin, Plus, Search, SlidersHorizontal, Upload } from "lucide-react";
 import { useJobsWork } from "@/components/jobs-provider";
-import { IshlarMobileHero } from "@/components/ishlar-mobile-hero";
-import { MobileSectionHeader, mobileHeaderActionCls } from "@/components/mobile-section-header";
-import { CategoryBadge, JobPhoto, placeText, salaryText, timeAgo, useSavedJobs } from "@/components/ishlar-ui";
-import { experienceFilters, jobCategoryOf, jobCities, jobTypeLabels, salaryFilters, type Job, type JobCategory, type JobType } from "@/data/jobs";
-import { cn } from "@/lib/utils";
-
-type Sort = "new" | "old" | "salary";
-const sortLabels: Record<Sort, string> = { new: "Eng yangi", old: "Eng eski", salary: "Maosh yuqori" };
-
-const segments: { id: JobCategory; label: string; icon: ReactNode }[] = [
-  { id: "klinika", label: "Klinikalar", icon: <BriefcaseMedical className="size-[22px]" /> },
-  { id: "texnik", label: "Texniklar", icon: <Wrench className="size-[22px]" /> },
-  { id: "shifokor", label: "Shifokorlar", icon: <Stethoscope className="size-[22px]" /> },
-];
-
-const typeChips: { id: JobType | ""; label: string; icon?: string }[] = [
-  { id: "", label: "Barchasi", icon: "barchasi" },
-  { id: "full", label: "To‘liq stavka", icon: "toliq-stavka" },
-  { id: "part", label: "Yarim stavka", icon: "yarim-stavka" },
-  { id: "freelance", label: "Freelance", icon: "freelance" },
-  { id: "amaliyot", label: "Amaliyot" },
-];
+import { MobileBrandBar } from "@/components/mobile/MobileBrandBar";
+import { placeText, timeAgo, useSavedJobs } from "@/components/ishlar-ui";
+import { experienceFilters, jobCities, jobTypeLabels, salaryFilters, type Job, type JobType } from "@/data/jobs";
+import { jobTiles, mobileJobSamples, type JobTile, type MobileJobSample } from "@/data/mobile-jobs";
+import "@/components/mobile/mobile-ui.css";
+import "@/components/ishlar/mobile/ishlar-mobile.css";
 
 export const mobileTypeText: Record<JobType, string> = { ...jobTypeLabels, full: "To‘liq stavka" };
 
-/** Mobile Ishlar list (mock 1). Real vacancies only; counts come from the published catalog. */
-export function IshlarMobileList({ onPost, onResume, hasResume }: { onPost: () => void; onResume: () => void; hasResume: boolean }) {
-  const router = useRouter();
-  const { catalog, myJobs, ready } = useJobsWork();
+type Row = {
+  id: string;
+  job?: Job;
+  sample?: MobileJobSample;
+  title: string;
+  clinic: string;
+  place: string;
+  city: string;
+  type: JobType;
+  typeTone: "green" | "blue";
+  salaryMin: number;
+  salaryMax: number;
+  exp: string;
+  ago: string;
+  image: string | null;
+  text: string;
+  ts: number;
+  rank: number;
+};
+
+const sum = (n: number) => n.toLocaleString("ru-RU").replace(/,/g, " ");
+function salaryLine(row: Row) {
+  if (row.salaryMin && row.salaryMax) return `${sum(row.salaryMin)} – ${sum(row.salaryMax)} so‘m`;
+  if (row.salaryMin) return `${sum(row.salaryMin)} so‘mdan`;
+  if (row.salaryMax) return `${sum(row.salaryMax)} so‘mgacha`;
+  return "Maosh kelishiladi";
+}
+
+function fromJob(job: Job, index: number): Row {
+  return {
+    id: job.id,
+    job,
+    title: job.title,
+    clinic: job.clinic,
+    place: placeText(job),
+    city: job.city,
+    type: job.type,
+    typeTone: job.type === "full" ? "green" : "blue",
+    salaryMin: job.salaryMin || 0,
+    salaryMax: job.salaryMax || 0,
+    exp: job.experienceYears > 0 ? `${job.experienceYears}+ yil tajriba` : "Tajriba talab qilinmaydi",
+    ago: timeAgo(job),
+    image: job.photos?.[0] ?? null,
+    text: [job.title, job.clinic, job.city, job.district ?? "", job.description].join(" ").toLowerCase(),
+    ts: job.createdAt ? new Date(job.createdAt).getTime() : -job.postedDaysAgo,
+    rank: index,
+  };
+}
+
+const samples: Row[] = mobileJobSamples.map((s) => ({
+  id: s.id,
+  sample: s,
+  title: s.title,
+  clinic: s.clinic,
+  place: s.place,
+  city: s.city,
+  type: s.type,
+  typeTone: s.typeTone,
+  salaryMin: s.salaryMin,
+  salaryMax: s.salaryMax,
+  exp: s.exp,
+  ago: s.ago,
+  image: s.image,
+  text: `${s.title} ${s.clinic} ${s.place}`.toLowerCase(),
+  ts: -1e15 - s.rank,
+  rank: 1000 + s.rank,
+}));
+
+/** Mobile Ishlar (design 66db21d4): real vacancies first, design samples labelled "Namuna". */
+export function IshlarMobileList({ onPost, onResume, onApply, hasResume }: { onPost: () => void; onResume: () => void; onApply: (job: Job) => void; hasResume: boolean }) {
+  const { catalog, myJobs, ready, hasApplied } = useJobsWork();
   const saved = useSavedJobs();
   const [query, setQuery] = useState("");
-  const [segment, setSegment] = useState<JobCategory | "">("");
-  const [type, setType] = useState<JobType | "">("");
-  const [city, setCity] = useState("");
-  const [sort, setSort] = useState<Sort>("new");
+  const [tile, setTile] = useState<"" | JobTile>("");
+  const [city, setCity] = useState("Toshkent");
+  const [type, setType] = useState<"" | JobType>("");
   const [salary, setSalary] = useState("");
+  const [sort, setSort] = useState("");
   const [experience, setExperience] = useState("");
   const [onlySaved, setOnlySaved] = useState(false);
-  const [sheet, setSheet] = useState(false);
-
-  const counts = useMemo(() => {
-    const c: Record<JobCategory, number> = { klinika: 0, texnik: 0, shifokor: 0 };
-    for (const j of catalog) c[jobCategoryOf(j)] += 1;
-    return c;
-  }, [catalog]);
+  const [filters, setFilters] = useState(false);
+  const [sample, setSample] = useState(false);
 
   const cities = useMemo(() => Array.from(new Set([...jobCities, ...catalog.map((j) => j.city)])), [catalog]);
 
-  const visible = useMemo(() => {
+  const list = useMemo(() => {
     const q = query.trim().toLowerCase();
-    const minSalary = salary ? Number(salary) : 0;
+    const minSalary = Number(salary) || 0;
     const minExp = experience === "" ? null : Number(experience);
-    const list = catalog.filter((j) => {
-      if (segment && jobCategoryOf(j) !== segment) return false;
-      if (type && j.type !== type) return false;
-      if (city && j.city !== city) return false;
-      if (onlySaved && !saved.has(j.id)) return false;
-      if (minSalary && Math.max(j.salaryMin || 0, j.salaryMax || 0) < minSalary) return false;
-      if (minExp !== null && (minExp === 0 ? j.experienceYears !== 0 : j.experienceYears < minExp)) return false;
-      if (!q) return true;
-      return [j.title, j.clinic, j.city, j.district ?? "", j.description].join(" ").toLowerCase().includes(q);
+    const pattern = jobTiles.find((t) => t.id === tile)?.match;
+    const rows = [...catalog.map(fromJob), ...samples].filter((row) => {
+      if (pattern && !pattern.test(row.text)) return false;
+      if (city !== "all" && row.city !== city) return false;
+      if (type && row.type !== type) return false;
+      if (minSalary && Math.max(row.salaryMin, row.salaryMax) < minSalary) return false;
+      if (minExp !== null) {
+        if (!row.job) return false;
+        if (minExp === 0 ? row.job.experienceYears !== 0 : row.job.experienceYears < minExp) return false;
+      }
+      if (onlySaved && !(row.job && saved.has(row.id))) return false;
+      return !q || row.text.includes(q);
     });
-    const ts = (j: Job) => (j.createdAt ? new Date(j.createdAt).getTime() : -j.postedDaysAgo);
-    if (sort === "new") list.sort((a, b) => ts(b) - ts(a));
-    if (sort === "old") list.sort((a, b) => ts(a) - ts(b));
-    if (sort === "salary") list.sort((a, b) => Math.max(b.salaryMin || 0, b.salaryMax || 0) - Math.max(a.salaryMin || 0, a.salaryMax || 0));
-    return list;
-  }, [catalog, city, experience, onlySaved, query, salary, saved, segment, sort, type]);
+    const real = (r: Row) => Number(Boolean(r.job));
+    if (sort === "salary") rows.sort((a, b) => real(b) - real(a) || Math.max(b.salaryMin, b.salaryMax) - Math.max(a.salaryMin, a.salaryMax));
+    else if (sort === "old") rows.sort((a, b) => real(b) - real(a) || a.ts - b.ts);
+    else rows.sort((a, b) => real(b) - real(a) || b.ts - a.ts || a.rank - b.rank);
+    return rows;
+  }, [catalog, city, experience, onlySaved, query, salary, saved, sort, tile, type]);
 
-  const extraFilters = (salary ? 1 : 0) + (experience ? 1 : 0) + (onlySaved ? 1 : 0);
-  const anyFilter = Boolean(segment || type || city || query || extraFilters);
-
-  function clearAll() {
-    setSegment("");
-    setType("");
-    setCity("");
-    setQuery("");
-    setSalary("");
-    setExperience("");
-    setOnlySaved(false);
-  }
+  const extra = (experience ? 1 : 0) + (onlySaved ? 1 : 0);
 
   return (
-    <div data-testid="ishlar-mobile">
-      <MobileSectionHeader
-        title="Ishlar"
-        subtitle="Klinikalar, texniklar va shifokorlar uchun ish o‘rinlari"
-        extra={
-          <button type="button" onClick={onPost} aria-label="E’lon berish" data-testid="ishlar-post" className={mobileHeaderActionCls}>
-            <Plus className="size-5" strokeWidth={2.4} />
+    <div className="im" data-testid="ishlar-mobile">
+      <div className="im-body">
+        <MobileBrandBar search />
+        <div className="mb-head">
+          <h1>Ishlar</h1>
+          <p>Stomatologiya sohasidagi vakansiyalar va ish e’lonlari</p>
+        </div>
+        <div className="im-search">
+          <Search />
+          <input data-section-search value={query} onChange={(e) => setQuery(e.target.value)} type="search" placeholder="Lavozim, klinika yoki shaharni qidiring..." aria-label="Qidiruv" data-testid="ishlar-search" />
+          <button type="button" aria-label="Filtrlar" data-testid="ishlar-filter-btn" onClick={() => setFilters(true)}>
+            <SlidersHorizontal />
+            {extra ? <em>{extra}</em> : null}
           </button>
-        }
-      />
-
-      <IshlarMobileHero
-        onSegment={(c) => {
-          setSegment(c);
-          document.querySelector('[data-testid="ishlar-segments"]')?.scrollIntoView({ behavior: "smooth", block: "start" });
-        }}
-        onPost={onPost}
-      />
-
-      <div className="relative mb-3.5">
-        <Search className="pointer-events-none absolute top-1/2 left-4 size-[19px] -translate-y-1/2 text-[#6b7487]" />
-        <input
-          data-section-search
-          value={query}
-          onChange={(e) => setQuery(e.target.value)}
-          type="search"
-          placeholder="Lavozim, soha, shahar..."
-          className="h-[50px] w-full rounded-2xl border border-[#e6ebf3] bg-white pr-14 pl-11 text-[14.5px] text-[#1a1d26] shadow-[0_4px_14px_rgba(15,23,42,0.04)] outline-none placeholder:text-[#8b93a7] focus:border-[#0066FF]"
-          data-testid="ishlar-search"
-        />
-        <button
-          type="button"
-          onClick={() => setSheet(true)}
-          className="absolute top-1/2 right-2 grid size-9 -translate-y-1/2 place-items-center rounded-xl bg-[#eef3fb] text-[#4b5568]"
-          aria-label="Filtrlar"
-          data-testid="ishlar-filter-btn"
-        >
-          <SlidersHorizontal className="size-[18px]" />
-          {extraFilters ? <span className="absolute -top-1 -right-1 grid size-4 place-items-center rounded-full bg-[#0066FF] text-[9px] font-bold text-white">{extraFilters}</span> : null}
-        </button>
-      </div>
-
-      {/* Segments */}
-      <div className="mb-3 grid grid-cols-3 gap-2" data-testid="ishlar-segments">
-        {segments.map((s) => {
-          const on = segment === s.id;
-          return (
-            <button
-              key={s.id}
-              type="button"
-              onClick={() => setSegment(on ? "" : s.id)}
-              aria-pressed={on}
-              className={cn(
-                "flex h-[58px] min-w-0 items-center gap-2 rounded-2xl border px-2.5 text-left",
-                on ? "border-[#0066FF] bg-[#0066FF] text-white shadow-[0_8px_18px_rgba(0,102,255,0.3)]" : "border-[#e6ebf3] bg-white text-[#0066FF]",
-              )}
-            >
-              <span className="shrink-0">{s.icon}</span>
-              <span className="min-w-0 leading-tight">
-                <span className={cn("block truncate text-[12.5px] font-semibold", on ? "text-white" : "text-[#0B1220]")}>{s.label}</span>
-                <span className={cn("block text-[11.5px]", on ? "text-white/85" : "text-[#8b93a7]")} data-testid={`ishlar-count-${s.id}`}>
-                  ({ready ? counts[s.id] : "…"})
-                </span>
-              </span>
+        </div>
+        <div className="im-tiles" data-testid="ishlar-segments">
+          {jobTiles.map((t) => (
+            <button key={t.id || "all"} type="button" className={tile === t.id ? "on" : undefined} aria-pressed={tile === t.id} data-chip={t.id || "all"} onClick={() => setTile(t.id)}>
+              <img src={t.icon} alt="" />
+              <span>{t.label}</span>
             </button>
-          );
-        })}
-      </div>
-
-      {/* Employment type chips */}
-      <div className="-mx-4 mb-3 overflow-x-auto px-4 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden" data-testid="ishlar-type-chips">
-        <div className="flex w-max gap-2">
-          {typeChips.map((c) => {
-            const on = type === c.id;
-            return (
-              <button
-                key={c.id || "all"}
-                type="button"
-                onClick={() => setType(c.id)}
-                aria-pressed={on}
-                className={cn(
-                  "inline-flex h-9 shrink-0 items-center gap-1.5 rounded-full px-4 text-[13px] font-medium",
-                  c.icon || c.id === "amaliyot" ? "pl-3" : "",
-                  on ? "bg-[#0066FF] font-semibold text-white shadow-[0_4px_12px_rgba(0,102,255,0.28)]" : "border border-[#e6ebf3] bg-white text-[#1a1d26]",
-                )}
-                data-chip={c.id || "all"}
-              >
-                {c.icon ? (
-                  // eslint-disable-next-line @next/next/no-img-element
-                  <img
-                    src={`/icons/ishlar/${c.icon}-64.png`}
-                    srcSet={`/icons/ishlar/${c.icon}-64.png 1x, /icons/ishlar/${c.icon}-128.png 2x`}
-                    alt=""
-                    aria-hidden
-                    width={19}
-                    height={19}
-                    className="size-[19px] shrink-0 object-contain"
-                    style={on ? { filter: "brightness(0) invert(1)" } : undefined}
-                  />
-                ) : c.id === "amaliyot" ? (
-                  <GraduationCap className={cn("size-[19px] shrink-0", on ? "text-white" : "text-[#0066FF]")} strokeWidth={2.1} aria-hidden />
-                ) : null}
-                {c.label}
-              </button>
-            );
-          })}
-        </div>
-      </div>
-
-      {/* City + sort */}
-      <div className="mb-3 flex items-center gap-2">
-        <label className="relative inline-flex h-9 items-center gap-1.5 rounded-xl border border-[#e6ebf3] bg-white pr-2.5 pl-3 text-[12.5px] font-medium text-[#1a1d26]">
-          <MapPin className="size-3.5 text-[#0066FF]" />
-          {city || "Barcha shaharlar"}
-          <ChevronDown className="size-3.5 text-[#8b93a7]" />
-          <select value={city} onChange={(e) => setCity(e.target.value)} className="absolute inset-0 cursor-pointer opacity-0" aria-label="Shahar" data-testid="ishlar-city">
-            <option value="">Barcha shaharlar</option>
-            {cities.map((c) => (
-              <option key={c} value={c}>
-                {c}
-              </option>
-            ))}
-          </select>
-        </label>
-        <span className="ml-1 text-[12px] text-[#8b93a7]" data-testid="ishlar-count">
-          {visible.length} ta
-        </span>
-        <label className="relative ml-auto inline-flex h-9 items-center gap-1.5 rounded-xl border border-[#e6ebf3] bg-white pr-2.5 pl-3 text-[12.5px] font-medium text-[#1a1d26]">
-          <ArrowUpDown className="size-3.5 text-[#4b5568]" />
-          {sortLabels[sort]}
-          <ChevronDown className="size-3.5 text-[#8b93a7]" />
-          <select value={sort} onChange={(e) => setSort(e.target.value as Sort)} className="absolute inset-0 cursor-pointer opacity-0" aria-label="Saralash">
-            {(Object.keys(sortLabels) as Sort[]).map((k) => (
-              <option key={k} value={k}>
-                {sortLabels[k]}
-              </option>
-            ))}
-          </select>
-        </label>
-      </div>
-
-      {/* List */}
-      {!ready ? (
-        <ul className="space-y-2.5">
-          {[0, 1, 2].map((i) => (
-            <li key={i} className="h-[132px] animate-pulse rounded-[20px] bg-white" />
           ))}
-        </ul>
-      ) : visible.length === 0 ? (
-        <div className="rounded-[20px] bg-white px-5 py-10 text-center" data-testid="ishlar-empty">
-          <span className="mx-auto grid size-12 place-items-center rounded-2xl bg-[#e9f1fd] text-[#0066FF]">
-            <Briefcase className="size-6" />
-          </span>
-          <p className="mt-3 text-[15px] font-semibold text-[#1a1d26]">{catalog.length === 0 ? "Hali vakansiya yo‘q" : "Mos vakansiya topilmadi"}</p>
-          <p className="mt-1 text-[12.5px] text-[#8b93a7]">
-            {catalog.length === 0 ? "Birinchi bo‘lib e’lon bering — admin tasdiqlagach hamma ko‘radi." : "Filtrlarni o‘zgartiring yoki tozalang."}
-          </p>
-          <button
-            type="button"
-            onClick={catalog.length === 0 ? onPost : clearAll}
-            className="mt-4 inline-flex h-10 items-center rounded-xl bg-[#0066FF] px-5 text-[13.5px] font-semibold text-white"
-          >
-            {catalog.length === 0 ? "E’lon berish" : "Filtrlarni tozalash"}
-          </button>
         </div>
-      ) : (
-        <ul className="space-y-2.5">
-          {visible.map((job, i) => (
-            <li key={job.id}>
-              <JobCard job={job} priority={i < 2} saved={saved.has(job.id)} onSave={() => saved.toggle(job.id)} onOpen={() => router.push(`/ishlar/${job.id}`)} />
-            </li>
+        <div className="im-drops">
+          <label>
+            <MapPin />
+            <select aria-label="Shahar" data-testid="ishlar-city" value={city} onChange={(e) => setCity(e.target.value)}>
+              {cities.map((c) => <option key={c} value={c}>{c}</option>)}
+              <option value="all">Barcha shaharlar</option>
+            </select>
+            <ChevronDown />
+          </label>
+          <label>
+            <BriefcaseBusiness />
+            <select aria-label="Bandlik turi" value={type} onChange={(e) => setType(e.target.value as "" | JobType)}>
+              <option value="">Bandlik turi</option>
+              {(Object.keys(jobTypeLabels) as JobType[]).map((t) => <option key={t} value={t}>{mobileTypeText[t]}</option>)}
+            </select>
+            <ChevronDown />
+          </label>
+          <label>
+            <Coins />
+            <select aria-label="Maosh" value={salary} onChange={(e) => setSalary(e.target.value)}>
+              <option value="">Maosh</option>
+              {salaryFilters.filter((s) => s.value).map((s) => <option key={s.value} value={s.value}>{s.label}</option>)}
+            </select>
+            <ChevronDown />
+          </label>
+          <label>
+            <ArrowUpDown />
+            <select aria-label="Saralash" value={sort} onChange={(e) => setSort(e.target.value)}>
+              <option value="">Saralash</option>
+              <option value="new">Eng yangi</option>
+              <option value="old">Eng eski</option>
+              <option value="salary">Maosh yuqori</option>
+            </select>
+            <ChevronDown />
+          </label>
+        </div>
+        <span className="im-count" data-testid="ishlar-count">{ready ? `${list.length} ta` : "…"}</span>
+        {ready && list.length === 0 ? (
+          <div className="im-empty" data-testid="ishlar-empty">
+            <Briefcase />
+            <p>Mos vakansiya topilmadi — filtrlarni o‘zgartiring.</p>
+          </div>
+        ) : null}
+        <div className="im-list">
+          {list.map((row) => (
+            <JobCard
+              key={row.id}
+              row={row}
+              saved={saved.has(row.id)}
+              applied={row.job ? hasApplied(row.id) : false}
+              onSave={() => (row.job ? saved.toggle(row.id) : setSample(true))}
+              onApply={() => (row.job ? onApply(row.job) : setSample(true))}
+              onSample={() => setSample(true)}
+            />
           ))}
-        </ul>
-      )}
-      {anyFilter && visible.length > 0 ? (
-        <button type="button" onClick={clearAll} className="mt-3 w-full text-center text-[12.5px] font-semibold text-[#0066FF]">
-          Filtrlarni tozalash
-        </button>
-      ) : null}
-
-      {/* Existing flows */}
-      <div className="mt-5 space-y-2.5">
-        <button type="button" onClick={onResume} className="flex h-12 w-full items-center justify-center gap-2 rounded-2xl border border-[#dbe7ff] bg-white text-[14px] font-semibold text-[#0066FF]">
-          <Upload className="size-4" />
-          {hasResume ? "Rezyumeni tahrirlash" : "Rezyume joylash"}
-        </button>
-        <NavRow href="/ishlar/vakansiyalarim" icon={<Briefcase className="size-[18px]" />} title="Mening vakansiyalarim" sub={myJobs.length ? `${myJobs.length} ta vakansiya · kelgan arizalar` : "Vakansiyalar va kelgan arizalar"} />
-        <NavRow href="/ishlar/arizalarim" icon={<ClipboardList className="size-[18px]" />} title="Mening arizalarim" sub="Yuborilgan arizalarni kuzating" />
-        <p className="pt-1 text-center text-[11px] text-[#8b93a7]">Vakansiyalar admin tasdig‘idan o‘tadi. Telefon raqamlar yopiq.</p>
+        </div>
+        <div className="im-links">
+          <button type="button" onClick={onResume} data-testid="ishlar-resume"><Upload /> {hasResume ? "Rezyumeni tahrirlash" : "Rezyume joylash"}</button>
+          <NavRow href="/ishlar/vakansiyalarim" icon={<Briefcase />} title="Mening vakansiyalarim" sub={myJobs.length ? `${myJobs.length} ta vakansiya · kelgan arizalar` : "Vakansiyalar va kelgan arizalar"} />
+          <NavRow href="/ishlar/arizalarim" icon={<ClipboardList />} title="Mening arizalarim" sub="Yuborilgan arizalarni kuzating" />
+        </div>
+        <div className="im-pad" />
       </div>
-
-      {sheet ? (
-        <div className="fixed inset-0 z-[60] lg:hidden" role="dialog" aria-modal="true" aria-label="Filtrlar">
-          <button type="button" className="absolute inset-0 bg-[#0B1220]/45" aria-label="Yopish" onClick={() => setSheet(false)} />
-          <div className="absolute inset-x-0 bottom-0 max-h-[85dvh] overflow-y-auto rounded-t-[26px] bg-white p-5 pb-8">
-            <div className="mb-4 flex items-center justify-between">
-              <h2 className="text-[18px] font-bold text-[#0B1220]">Filtrlar</h2>
-              <button type="button" onClick={() => setSheet(false)} className="grid size-9 place-items-center rounded-full bg-[#f4f6fa]" aria-label="Yopish">
-                <X className="size-4" />
-              </button>
+      <button type="button" className="im-post" data-testid="ishlar-post" onClick={onPost}>
+        <Plus /> E’lon joylash <ArrowRight />
+      </button>
+      {sample ? (
+        <div className="mb-sheet" role="dialog" aria-label="Namuna vakansiya" data-testid="ishlar-info-sample">
+          <button type="button" aria-label="Yopish" className="bg" onClick={() => setSample(false)} />
+          <div className="mb-panel">
+            <h3>Namuna vakansiya</h3>
+            <p>Bu kartochka bo‘lim qanday ko‘rinishini ko‘rsatish uchun qo‘yilgan — u haqiqiy vakansiya emas, unga ariza topshirib bo‘lmaydi.</p>
+            <p>Admin tasdiqlagan vakansiyalar ro‘yxat boshida chiqadi. Xodim kerak bo‘lsa, e’lon joylang.</p>
+            <div className="row">
+              <button type="button" onClick={() => setSample(false)}>Yopish</button>
+              <button type="button" className="go" onClick={() => { setSample(false); onPost(); }}>E’lon joylash</button>
             </div>
-            <SheetBlock label="Maosh" icon={<Wallet className="size-4" />}>
-              {salaryFilters.map((s) => (
-                <SheetChip key={s.value || "any"} on={salary === s.value} onClick={() => setSalary(s.value)} label={s.label} />
-              ))}
-            </SheetBlock>
-            <SheetBlock label="Tajriba" icon={<Briefcase className="size-4" />}>
-              {experienceFilters.map((s) => (
-                <SheetChip key={s.value || "all"} on={experience === s.value} onClick={() => setExperience(s.value)} label={s.label} />
-              ))}
-            </SheetBlock>
-            <SheetBlock label="Ish turi" icon={<Briefcase className="size-4" />}>
-              <SheetChip on={!type} onClick={() => setType("")} label="Barchasi" />
-              {(Object.keys(jobTypeLabels) as JobType[]).map((t) => (
-                <SheetChip key={t} on={type === t} onClick={() => setType(t)} label={mobileTypeText[t]} />
-              ))}
-            </SheetBlock>
-            <SheetBlock label="Saqlanganlar" icon={<Bookmark className="size-4" />}>
-              <SheetChip on={!onlySaved} onClick={() => setOnlySaved(false)} label="Hammasi" />
-              <SheetChip on={onlySaved} onClick={() => setOnlySaved(true)} label="Faqat saqlanganlar" />
-            </SheetBlock>
-            <div className="mt-5 flex gap-2">
-              <button
-                type="button"
-                onClick={() => {
-                  setSalary("");
-                  setExperience("");
-                  setOnlySaved(false);
-                }}
-                className="h-12 flex-1 rounded-2xl border border-[#dbe3f0] text-[14px] font-semibold text-[#1a1d26]"
-              >
-                Tozalash
-              </button>
-              <button type="button" onClick={() => setSheet(false)} className="h-12 flex-[2] rounded-2xl bg-[#0066FF] text-[14px] font-semibold text-white">
-                Ko‘rsatish ({visible.length})
-              </button>
+          </div>
+        </div>
+      ) : null}
+      {filters ? (
+        <div className="mb-sheet" role="dialog" aria-label="Filtrlar">
+          <button type="button" aria-label="Yopish" className="bg" onClick={() => setFilters(false)} />
+          <div className="mb-panel">
+            <h3>Filtrlar</h3>
+            <select aria-label="Tajriba" value={experience} onChange={(e) => setExperience(e.target.value)}>
+              {experienceFilters.map((s) => <option key={s.value || "all"} value={s.value}>{s.label}</option>)}
+            </select>
+            <label className="im-check">
+              <input type="checkbox" checked={onlySaved} onChange={(e) => setOnlySaved(e.target.checked)} /> <Bookmark /> Faqat saqlanganlar
+            </label>
+            <div className="row">
+              <button type="button" onClick={() => { setExperience(""); setOnlySaved(false); }}>Tozalash</button>
+              <button type="button" className="go" onClick={() => setFilters(false)}>Ko‘rsatish ({list.length})</button>
             </div>
           </div>
         </div>
@@ -350,81 +251,53 @@ export function IshlarMobileList({ onPost, onResume, hasResume }: { onPost: () =
   );
 }
 
-function JobCard({ job, priority, saved, onSave, onOpen }: { job: Job; priority: boolean; saved: boolean; onSave: () => void; onOpen: () => void }) {
+function JobCard({ row, saved, applied, onSave, onApply, onSample }: { row: Row; saved: boolean; applied: boolean; onSave: () => void; onApply: () => void; onSample: () => void }) {
+  const href = row.job ? `/ishlar/${row.id}` : null;
+  const photo = (
+    <>
+      {row.image ? <img src={row.image} alt="" /> : <span className="im-ph-empty"><Briefcase /></span>}
+      {row.job ? null : <span className="im-tag">Namuna</span>}
+    </>
+  );
+  const body = (
+    <>
+      <h2>{row.title}</h2>
+      <p className="im-clinic">{row.clinic}</p>
+      <p className="im-place">
+        {row.place ? <span><MapPin /> {row.place}</span> : null}
+        <em className={row.typeTone}>{row.sample?.typeText ?? mobileTypeText[row.type]}</em>
+      </p>
+      <p className={row.salaryMin || row.salaryMax ? "im-salary" : "im-salary none"}>{salaryLine(row)}</p>
+    </>
+  );
   return (
-    <article className="relative flex gap-3 rounded-[20px] bg-white p-2.5 shadow-[0_4px_16px_rgba(15,23,42,0.05)]" data-testid="job-card">
-      <button type="button" onClick={onOpen} className="relative shrink-0" aria-label={`${job.title} — batafsil`}>
-        <JobPhoto job={job} sizes="120px" priority={priority} className="h-[112px] w-[112px] rounded-[14px]" iconClass="size-8" />
-        <CategoryBadge job={job} className="absolute top-1.5 left-1.5" />
-      </button>
-      <div className="min-w-0 flex-1 py-0.5">
-        <div className="flex items-start gap-1.5">
-          <button type="button" onClick={onOpen} className="min-w-0 flex-1 text-left">
-            <h3 className="line-clamp-2 text-[14.5px] leading-snug font-bold text-[#0B1220]">{job.title}</h3>
-          </button>
-          <span className="shrink-0 rounded-full bg-[#f1f4f9] px-2 py-0.5 text-[10px] font-medium whitespace-nowrap text-[#6b7487]" data-testid="job-time">
-            {timeAgo(job)}
-          </span>
+    <article className="im-card" data-testid="job-card" data-real={row.job ? "1" : undefined}>
+      {href ? <Link href={href} className="im-photo" aria-label={`${row.title} — batafsil`}>{photo}</Link> : <button type="button" className="im-photo" aria-label={`${row.title} — namuna`} onClick={onSample}>{photo}</button>}
+      <div className="im-main">
+        {href ? <Link href={href} className="im-copy" data-testid="job-open">{body}</Link> : <div className="im-copy">{body}</div>}
+        <div className="im-foot">
+          <span><BriefcaseBusiness /> {row.exp}</span>
+          <span data-testid="job-time"><CalendarDays /> {row.ago}</span>
         </div>
-        <p className="mt-0.5 truncate text-[12.5px] font-medium text-[#0066FF]">{job.clinic}</p>
-        <ul className="mt-1 space-y-0.5 text-[11.5px] text-[#4b5568]">
-          <li className="flex items-center gap-1.5 truncate">
-            <MapPin className="size-3 shrink-0 text-[#8b93a7]" />
-            <span className="truncate">{placeText(job)}</span>
-          </li>
-          <li className="flex items-center gap-1.5">
-            <Briefcase className="size-3 shrink-0 text-[#8b93a7]" />
-            {mobileTypeText[job.type]}
-            {job.remote ? " · Masofaviy" : ""}
-          </li>
-          <li className="flex items-center gap-1.5">
-            <Wallet className="size-3 shrink-0 text-[#8b93a7]" />
-            <span className={cn(salaryText(job) === "Kelishiladi" ? "text-[#8b93a7]" : "font-semibold text-[#0B1220]")}>{salaryText(job)}</span>
-          </li>
-        </ul>
-        <div className="mt-1 flex items-center justify-end gap-2">
-          <button type="button" onClick={onSave} className="grid size-8 place-items-center rounded-full text-[#4b5568]" aria-label={saved ? "Saqlanganlardan olib tashlash" : "Saqlash"} aria-pressed={saved} data-testid="job-save">
-            <Bookmark className={cn("size-[19px]", saved && "fill-[#0066FF] text-[#0066FF]")} />
-          </button>
-          <button type="button" onClick={onOpen} className="inline-flex h-8 items-center gap-0.5 rounded-xl bg-[#e9f1fd] px-3 text-[12.5px] font-semibold text-[#0066FF]" data-testid="job-open">
-            Batafsil
-            <ChevronRight className="size-3.5" />
-          </button>
-        </div>
+        {applied && href ? (
+          <Link href="/ishlar/arizalarim" className="im-apply done" data-testid="job-applied">Ariza yuborilgan <ChevronRight /></Link>
+        ) : (
+          <button type="button" className="im-apply" data-testid="job-apply" onClick={onApply}>Ariza topshirish <ArrowRight /></button>
+        )}
       </div>
+      <button type="button" className={saved ? "im-save on" : "im-save"} aria-label={saved ? "Saqlanganlardan olib tashlash" : "Saqlash"} aria-pressed={saved} data-testid="job-save" onClick={onSave}>
+        <Bookmark fill={saved ? "currentColor" : "none"} />
+      </button>
     </article>
   );
 }
 
 function NavRow({ href, icon, title, sub }: { href: string; icon: ReactNode; title: string; sub: string }) {
   return (
-    <Link href={href} className="flex items-center gap-3 rounded-2xl border border-[#dbe7ff] bg-[#f5f8ff] px-3.5 py-3">
-      <span className="grid size-10 shrink-0 place-items-center rounded-xl bg-[#0066FF] text-white">{icon}</span>
-      <span className="min-w-0 flex-1 leading-tight">
-        <span className="block text-[14px] font-bold text-[#1a1d26]">{title}</span>
-        <span className="mt-0.5 block text-[12px] text-[#8b93a7]">{sub}</span>
-      </span>
-      <ChevronRight className="size-5 shrink-0 text-[#8b93a7]" />
+    <Link href={href} className="im-nav">
+      <i>{icon}</i>
+      <span><b>{title}</b>{sub}</span>
+      <ChevronRight />
     </Link>
-  );
-}
-
-function SheetBlock({ label, icon, children }: { label: string; icon: ReactNode; children: ReactNode }) {
-  return (
-    <div className="mb-4">
-      <p className="mb-2 flex items-center gap-1.5 text-[13px] font-semibold text-[#4b5568]">
-        <span className="text-[#0066FF]">{icon}</span>
-        {label}
-      </p>
-      <div className="flex flex-wrap gap-2">{children}</div>
-    </div>
-  );
-}
-
-function SheetChip({ on, onClick, label }: { on: boolean; onClick: () => void; label: string }) {
-  return (
-    <button type="button" onClick={onClick} aria-pressed={on} className={cn("h-9 rounded-full px-3.5 text-[13px] font-medium", on ? "bg-[#0066FF] text-white" : "border border-[#e6ebf3] bg-white text-[#1a1d26]")}>
-      {label}
-    </button>
   );
 }

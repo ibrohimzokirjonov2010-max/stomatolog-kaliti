@@ -1,8 +1,36 @@
 "use client";
-import { createContext, useContext, useState } from "react";
-const Ctx = createContext<{ count: number; add: () => void }>({ count: 0, add: () => {} });
-export function CartProvider({ children }: { children: React.ReactNode }) {
-  const [count, setCount] = useState(3);
-  return <Ctx.Provider value={{ count, add: () => setCount((c) => c + 1) }}>{children}</Ctx.Provider>;
+/**
+ * Homepage cart hooks — a thin wrapper over the ONE real cart
+ * (`@/components/cart-provider` via `shop-cart`). It used to be a fake counter
+ * starting at 3 that never added the product.
+ */
+import type { ReactNode } from "react";
+import { shopAdd, useShopLineCount, type ShopLine } from "@/components/shop/desktop/shop-cart";
+
+export type HomeCartItem = Omit<ShopLine, "qty" | "key">;
+
+/** Kept so existing markup does not change; the real provider lives in the root layout. */
+export function CartProvider({ children }: { children: ReactNode }) {
+  return <>{children}</>;
 }
-export const useCart = () => useContext(Ctx);
+
+/** "2 450 000 so‘m" → 2450000 */
+export function parseSom(label: string) {
+  return Number(label.replace(/\D/g, "")) || 0;
+}
+
+export function slugify(text: string) {
+  return (
+    "home-" +
+    text
+      .toLowerCase()
+      .replace(/[‘’'`]/g, "")
+      .replace(/[^a-z0-9]+/g, "-")
+      .replace(/^-|-$/g, "")
+  );
+}
+
+export const useCart = () => {
+  const count = useShopLineCount();
+  return { count, add: (item: HomeCartItem) => shopAdd(item) };
+};

@@ -141,7 +141,7 @@ export function IshlarBrowse() {
           MOBILE LAYOUT (≤768px phone / lg shell)
           ════════════════════════════════════════════════ */}
       <div className="lg:hidden">
-        <IshlarMobileList onPost={() => setModal("post")} onResume={() => setModal("resume")} hasResume={Boolean(resume)} />
+        <IshlarMobileList onPost={() => setModal("post")} onResume={() => setModal("resume")} onApply={openApply} hasResume={Boolean(resume)} />
       </div>
 
       {/* ════════════════════════════════════════════════

@@ -1,6 +1,6 @@
 import { Suspense } from "react";
 import type { Metadata } from "next";
-import { PhoneLabs } from "@/components/phone14/more";
+import { UstalarMobileList } from "@/components/ustalar/mobile/UstalarMobileList";
 import { UstaBrowse } from "@/components/usta-browse";
 
 export const metadata: Metadata = {
@@ -11,7 +11,7 @@ export const metadata: Metadata = {
 export default function UstalarPage() {
   return (
     <>
-      <PhoneLabs />
+      <UstalarMobileList />
       <div className="hidden lg:block">
         <Suspense>
           <UstaBrowse />

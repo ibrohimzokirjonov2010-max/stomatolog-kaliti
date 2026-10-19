@@ -352,3 +352,7 @@
 .sm-card span { display: block; margin-top: 3px; color: #5c6b82; font-size: 12px; }
 .sm-empty { background: #fff; border-radius: 14px; padding: 28px 16px; text-align: center; }
 .sm-empty a { color: #0066ff; font-weight: 700; }
+
+.rg-honest { margin: 0; font-size: 14px; line-height: 1.5; color: #4f5b75; background: #fff8eb; border: 1px solid #fde3b0; border-radius: 12px; padding: 10px 12px; }
+.rg-error a { font-weight: 700; text-decoration: underline; }
+.rg-go:disabled { opacity: .7; }
