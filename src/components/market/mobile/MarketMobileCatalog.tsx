@@ -56,7 +56,7 @@ export function MarketMobileCatalog() {
   const [filters, setFilters] = useState(false);
   const [brand, setBrand] = useState("");
   /** Real seller (DB) products first, then the platform catalog. */
-  const all = useMemo(() => [...catalog.filter((item) => item.listedBySeller && item.active !== false && item.category !== "forma").map(fromProduct), ...mobileMarketCatalog], [catalog]);
+  const all = useMemo<CardItem[]>(() => [...catalog.filter((item) => item.listedBySeller && item.active !== false && item.category !== "forma").map(fromProduct), ...mobileMarketCatalog], [catalog]);
   const brands = [...new Set(all.map((item) => item.brand).filter(Boolean))];
 
   const list = useMemo(() => {
