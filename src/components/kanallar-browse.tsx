@@ -462,7 +462,7 @@ export function KanallarBrowse() {
           ))}
           {list.length === 0 ? (
             <p className="rounded-2xl border border-dashed border-[#eceff5] bg-white py-10 text-center text-[14px] text-[#8b93a7]">
-              Kanallar topilmadi
+              Hozircha kanal yo‘q
             </p>
           ) : null}
         </div>

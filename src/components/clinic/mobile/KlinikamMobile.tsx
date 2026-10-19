@@ -57,7 +57,7 @@ export function KlinikamMobile() {
       <header className="mh-bar">
         <MobileMenuButton />
         <Link href="/" className="mh-logo">STOMAHUB</Link>
-        <NotificationBell variant="mobile" minBadge={2} buttonClassName="size-10 text-[#1a1d26]" />
+        <NotificationBell variant="mobile" buttonClassName="size-10 text-[#1a1d26]" />
       </header>
       <div className="kl-body">
         <h1 className="kl-title">Mening klinikam</h1>

@@ -51,7 +51,7 @@ export function SavatMobile() {
             <ShoppingCart />
             {lines > 0 ? <span className="mh-badge" data-testid="sv-cart-badge">{lines > 9 ? "9+" : lines}</span> : null}
           </Link>
-          <NotificationBell variant="mobile" minBadge={3} buttonClassName="size-10 text-[#1a1d26]" />
+          <NotificationBell variant="mobile" buttonClassName="size-10 text-[#1a1d26]" />
         </div>
       </header>
       <div className="sv-body">

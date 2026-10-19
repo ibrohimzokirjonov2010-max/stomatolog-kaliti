@@ -3,7 +3,7 @@ import { KitoblarBrowse } from "@/components/kitoblar-browse";
 
 export const metadata: Metadata = {
   title: "Kitoblar",
-  description: "Stomatologiya qo‘llanmalari — namuna katalog.",
+  description: "Stomatologiya kitoblari — katalog bazadan.",
 };
 
 export default function KitoblarPage() {

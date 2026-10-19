@@ -11,6 +11,7 @@ import {
   currentAppointment,
   dayKey,
   loadQueue,
+  refreshQueueFromServer,
   saveQueueItem,
   startVisit,
   type QueueAppt,
@@ -44,6 +45,7 @@ export function PhoneAppointments() {
     const id = window.setInterval(tick, 30_000);
     const bump = () => setRev((value) => value + 1);
     window.addEventListener("sk-queue", bump);
+    void refreshQueueFromServer();
     return () => {
       window.clearInterval(id);
       window.removeEventListener("sk-queue", bump);

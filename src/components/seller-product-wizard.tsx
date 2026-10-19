@@ -247,6 +247,15 @@ export function SellerProductWizard({ product, onDone }: { product?: Product; on
     show: product ? product.active !== false : true,
     recommended: A.recommended ?? false,
     limited: A.limited ?? false,
+    specLine: A.specLine ?? "",
+    warrantyMonths: A.warrantyMonths ? String(A.warrantyMonths) : "12",
+    year: A.year ? String(A.year) : String(new Date().getFullYear()),
+    installmentMonths: A.installmentMonths ? String(A.installmentMonths) : "",
+    leasing: A.leasing ?? false,
+    installService: A.installService ?? false,
+    official: A.official ?? false,
+    condition: (A.condition ?? "yangi") as "yangi" | "ishlatilgan",
+    city: A.city ?? "",
     kind: (product?.kind ?? "scrub") as ApparelKind,
     gender: (product?.gender ?? "unisex") as ApparelGender,
     sizes: (product?.sizes ?? ["M", "L"]) as string[],
@@ -258,6 +267,7 @@ export function SellerProductWizard({ product, onDone }: { product?: Product; on
   };
 
   const isForma = form.category === "forma";
+  const isJihoz = form.category === "jihozlar";
   const digits = (v: string) => Number(v.replace(/\D/g, "")) || 0;
   const priceNum = digits(form.price); // base price (before discount)
   const discountNum = digits(form.discount);
@@ -519,6 +529,16 @@ export function SellerProductWizard({ product, onDone }: { product?: Product; on
       isNew: form.isNew,
       recommended: form.recommended,
       limited: form.limited,
+      specLine: isJihoz ? form.specLine.trim() || undefined : undefined,
+      warrantyMonths: isJihoz ? digits(form.warrantyMonths) || undefined : undefined,
+      year: isJihoz ? digits(form.year) || undefined : undefined,
+      installmentMonths: isJihoz ? digits(form.installmentMonths) || undefined : undefined,
+      installmentMonthly: isJihoz && digits(form.installmentMonths) > 0 ? Math.round(salePrice / digits(form.installmentMonths)) : undefined,
+      leasing: isJihoz ? form.leasing || digits(form.installmentMonths) > 0 : undefined,
+      installService: isJihoz ? form.installService : undefined,
+      official: isJihoz ? form.official : undefined,
+      condition: isJihoz ? form.condition : undefined,
+      city: isJihoz ? form.city.trim() || undefined : undefined,
     };
     const input: SellerProductInput = {
       name: form.name,
@@ -1082,6 +1102,36 @@ export function SellerProductWizard({ product, onDone }: { product?: Product; on
                       </div>
                       {errs.colors ? <p data-field-error className="mt-1.5 flex items-center gap-1 text-[12px] font-medium text-[#dc2626]"><AlertCircle className="size-3.5" />{errs.colors}</p> : null}
                     </div>
+                  </Card>
+                ) : null}
+
+                {isJihoz ? (
+                  <Card title="Jihoz: xususiyat va bo‘lib to‘lash">
+                    <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
+                      <F label="Qisqa xususiyat">
+                        <input className={inputCls()} value={form.specLine} maxLength={80} onChange={(e) => set("specLine", e.target.value)} placeholder="Masalan: 4 shlang, LED lampa" />
+                      </F>
+                      <F label="Holati">
+                        <select className={inputCls()} value={form.condition} onChange={(e) => set("condition", e.target.value as "yangi" | "ishlatilgan")}>
+                          <option value="yangi">Yangi</option>
+                          <option value="ishlatilgan">Ishlatilgan</option>
+                        </select>
+                      </F>
+                      <F label="Ishlab chiqarilgan yil">
+                        <input className={inputCls()} inputMode="numeric" value={form.year} onChange={(e) => set("year", e.target.value)} />
+                      </F>
+                      <F label="Kafolat, oy">
+                        <input className={inputCls()} inputMode="numeric" value={form.warrantyMonths} onChange={(e) => set("warrantyMonths", e.target.value)} />
+                      </F>
+                      <F label="Bo‘lib to‘lash, oy">
+                        <input className={inputCls()} inputMode="numeric" value={form.installmentMonths} onChange={(e) => set("installmentMonths", e.target.value)} placeholder="Bo‘sh qoldirilsa, lizing yo‘q" />
+                      </F>
+                      <F label="Shahar">
+                        <input className={inputCls()} value={form.city} onChange={(e) => set("city", e.target.value)} />
+                      </F>
+                    </div>
+                    <label className="mt-3 flex items-center gap-2 text-[13px]"><input type="checkbox" checked={form.installService} onChange={(e) => set("installService", e.target.checked)} /> O‘rnatish xizmati</label>
+                    <label className="mt-2 flex items-center gap-2 text-[13px]"><input type="checkbox" checked={form.official} onChange={(e) => set("official", e.target.checked)} /> Rasmiy distribyutor</label>
                   </Card>
                 ) : null}
 

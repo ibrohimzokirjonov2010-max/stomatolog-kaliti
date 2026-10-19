@@ -9,13 +9,13 @@ import { MobileMenuButton } from "@/components/dashboard/mobile-chrome";
 import { NotificationBell } from "@/components/notification-bell";
 import { formatMoney } from "@/lib/format";
 import {
-  loadPlacedOrders,
-  mobileOrders,
   orderChips,
   orderStatusMeta,
   type MobileOrder,
   type MobileOrderStatus,
 } from "@/data/mobile-orders";
+import { loadOrders, syncOrders } from "@/lib/orders";
+import { toMobileOrder } from "@/lib/order-present";
 import type { Product } from "@/data/products";
 import "./orders-mobile.css";
 
@@ -119,12 +119,12 @@ export function OrdersMobileList() {
   const [supportId, setSupportId] = useState<string | null>(null);
   const [placed, setPlaced] = useState<MobileOrder[]>([]);
   useEffect(() => {
-    const load = () => setPlaced(loadPlacedOrders());
-    load();
-    window.addEventListener("sk-placed-orders", load);
-    return () => window.removeEventListener("sk-placed-orders", load);
+    const load = () => setPlaced(loadOrders().map(toMobileOrder));
+    void syncOrders(true).then(load);
+    window.addEventListener("sk-orders-changed", load);
+    return () => window.removeEventListener("sk-orders-changed", load);
   }, []);
-  const orders = useMemo(() => [...placed, ...mobileOrders], [placed]);
+  const orders = placed;
   const counts = useMemo(() => {
     const next: Record<string, number> = { all: orders.length };
     for (const order of orders) next[order.status] = (next[order.status] ?? 0) + 1;
@@ -152,7 +152,7 @@ export function OrdersMobileList() {
           <ShoppingCart />
           {lines > 0 ? <span className="mh-badge" data-testid="od-cart-badge">{lines > 9 ? "9+" : lines}</span> : null}
         </Link>
-        <NotificationBell variant="mobile" minBadge={3} buttonClassName="size-10 text-[#1a1d26]" />
+        <NotificationBell variant="mobile" buttonClassName="size-10 text-[#1a1d26]" />
       </header>
       <div className="od-body">
         <div>

@@ -1,14 +1,14 @@
 "use client";
 /* eslint-disable @next/next/no-img-element -- book covers are sized by the fluid unit */
 
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import Link from "next/link";
 import { BookOpen, FileText, Heart, LayoutGrid, Search, ShoppingCart, SlidersHorizontal, Star } from "lucide-react";
 import { useCart } from "@/components/cart-provider";
 import { MobileMenuButton } from "@/components/dashboard/mobile-chrome";
 import { NotificationBell } from "@/components/notification-bell";
-import { bookSorts, bookTopics, mobileBooks, type BookFormat, type BookSort, type BookTopic, type MobileBook } from "@/data/mobile-books";
-import type { Product } from "@/data/products";
+import { bookSorts, bookTopics, type BookFormat, type BookSort, type BookTopic, type MobileBook } from "@/data/mobile-books";
+import { fetchBooks, toMobileBook } from "@/lib/live-content";
 import { formatMoney } from "@/lib/format";
 import "./books-mobile.css";
 
@@ -20,23 +20,8 @@ function Tooth() {
   );
 }
 
-function asProduct(book: MobileBook): Product {
-  return {
-    id: book.id,
-    name: book.title,
-    brand: book.author,
-    category: "materiallar",
-    price: book.price,
-    rating: book.rating,
-    reviews: book.reviews,
-    inStock: true,
-    delivery: "1–3 kun",
-    image: book.image,
-  };
-}
-
 export function KitoblarMobile() {
-  const { count, add } = useCart();
+  const { count } = useCart();
   const [query, setQuery] = useState("");
   const [topic, setTopic] = useState<"all" | BookTopic>("all");
   const [format, setFormat] = useState<BookFormat | "">("");
@@ -44,7 +29,19 @@ export function KitoblarMobile() {
   const [saved, setSaved] = useState<string[]>([]);
   const [filters, setFilters] = useState(false);
   const [maxPrice, setMaxPrice] = useState("");
-  const [note, setNote] = useState("");
+  const [mobileBooks, setMobileBooks] = useState<MobileBook[]>([]);
+  const [ready, setReady] = useState(false);
+  useEffect(() => {
+    let stop = false;
+    void fetchBooks().then((rows) => {
+      if (stop) return;
+      setMobileBooks(rows.map(toMobileBook));
+      setReady(true);
+    });
+    return () => {
+      stop = true;
+    };
+  }, []);
 
   const list = useMemo(() => {
     const q = query.trim().toLowerCase();
@@ -60,7 +57,7 @@ export function KitoblarMobile() {
     if (sort === "narx") rows.sort((a, b) => a.price - b.price);
     if (sort === "yangi") rows.sort((a, b) => Number(b.fresh) - Number(a.fresh));
     return rows;
-  }, [format, maxPrice, query, sort, topic]);
+  }, [format, maxPrice, mobileBooks, query, sort, topic]);
 
   return (
     <div className="kb lg:hidden" data-testid="mobile-kitoblar">
@@ -74,7 +71,7 @@ export function KitoblarMobile() {
           <ShoppingCart />
           {count > 0 ? <span className="mh-badge" data-testid="kb-cart-badge">{count > 9 ? "9+" : count}</span> : null}
         </Link>
-        <NotificationBell variant="mobile" minBadge={2} buttonClassName="size-10 text-[#1a1d26]" />
+        <NotificationBell variant="mobile" buttonClassName="size-10 text-[#1a1d26]" />
       </header>
       <div className="kb-body">
         <h1 className="kb-title">Kitoblar</h1>
@@ -110,8 +107,7 @@ export function KitoblarMobile() {
             </select>
           </label>
         </div>
-        {note ? <p className="kb-note">{note}</p> : null}
-        {list.length === 0 ? <p className="kb-note">Mos kitob topilmadi</p> : null}
+        {list.length === 0 ? <p className="kb-note">{!ready ? "Yuklanmoqda..." : mobileBooks.length === 0 ? "Hozircha kitob yo‘q" : "Mos kitob topilmadi"}</p> : null}
         <div className="kb-grid">
           {list.map((book) => (
             <article key={book.id} className="kb-card">
@@ -129,16 +125,9 @@ export function KitoblarMobile() {
               </p>
               <span className="kb-chip">{book.format === "bosma" ? "Bosma kitob" : "PDF kitob"}</span>
               <p className="kb-price">{formatMoney(book.price, "UZS")}</p>
-              <button
-                type="button"
-                className="kb-cart"
-                onClick={() => {
-                  add(book.id, asProduct(book));
-                  setNote("Savatga qo‘shildi");
-                }}
-              >
-                <ShoppingCart /> Savatga
-              </button>
+              <Link href={`/kitoblar/${book.id}/oqish`} className="kb-cart">
+                <BookOpen /> O‘qish
+              </Link>
             </article>
           ))}
         </div>

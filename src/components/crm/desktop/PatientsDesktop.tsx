@@ -7,20 +7,18 @@ import { ChevronRight, Download, MoreHorizontal, Plus, Search, Upload } from "lu
 import { CrmFrame, CrmModal, CrmPager } from "@/components/crm/desktop/CrmFrame";
 import { ADULT_LOWER, ADULT_UPPER, BABY_LOWER, BABY_UPPER, ToothChart, cycleTooth } from "@/components/crm/desktop/ToothChart";
 import {
-  buildPatients,
   patientCities,
   patientStatuses,
   type Patient,
   type PatientStatus,
   type ToothState,
 } from "@/data/crm";
-import { useStoredList } from "@/lib/stored-list";
+import { useCrmPatients } from "@/lib/use-crm-list";
 import { downloadText } from "@/lib/simple-pdf";
 import { formatGroupedNumber } from "@/lib/format";
 import { NewPatientModal, patientFromDraft, type NewPatientDraft } from "@/components/crm/NewPatientModal";
 
 const PATIENT_STATES: ToothState[] = ["soglom", "davolanmoqda", "davolangan", "muammo"];
-const SEED = buildPatients();
 
 function norm(value: string) {
   return value.toLowerCase().replaceAll("‘", "'");
@@ -33,7 +31,7 @@ function csv(items: Patient[]) {
 }
 
 export function PatientsDesktop() {
-  const [items, setItems] = useStoredList("sk-crm-patients-v1", SEED);
+  const [items, setItems] = useCrmPatients<Patient>();
   const [q, setQ] = useState("");
   const [status, setStatus] = useState<PatientStatus | "">("");
   const [city, setCity] = useState("");

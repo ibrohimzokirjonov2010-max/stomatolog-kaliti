@@ -7,7 +7,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { Check, Package, X } from "lucide-react";
 import { useDoctorProfile } from "@/components/doctor-profile-provider";
-import { demoSurplusListings, type SurplusListing } from "@/data/surplus";
+import type { SurplusListing } from "@/data/surplus";
 import { listingFromDb, type DbSurplus, type InterestStatus, type PublishSurplusInput, type SurplusInterest } from "@/lib/surplus-work";
 import { api } from "@/lib/work-client";
 
@@ -48,8 +48,7 @@ export function SurplusWorkProvider({ children }: { children: ReactNode }) {
   const loadFeed = useCallback(async () => {
     const res = await api<{ listings: DbSurplus[] }>("/api/work/surplus");
     const rows = res.ok ? (res.data.listings ?? []).map(listingFromDb) : [];
-    // The work API is unconfigured in production ("Server sozlanmagan"). Keep the design filled.
-    setFeed(rows.length ? rows : demoSurplusListings);
+    setFeed(rows);
     setReady(true);
   }, []);
 

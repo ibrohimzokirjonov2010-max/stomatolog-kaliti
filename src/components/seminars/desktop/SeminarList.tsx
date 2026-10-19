@@ -20,9 +20,9 @@ import {
 import { shopToggleFav, som, useShopFavs, useShopLineCount } from "@/components/shop/desktop/shop-cart";
 import { ShopShell } from "@/components/shop/desktop/ShopShell";
 import { Drop } from "@/components/shop/desktop/parts";
+import { useSeminarRegs } from "@/components/seminar-provider";
+import { getSeminar, seminars, specialtyLabels, type Seminar } from "@/data/seminars";
 import {
-  desktopSeminars,
-  mySeminars,
   seminarCategories,
   seminarHref,
   whyAttend,
@@ -62,11 +62,50 @@ function iso(year: number, month: number, day: number) {
   return `${year}-${String(month + 1).padStart(2, "0")}-${String(day).padStart(2, "0")}`;
 }
 
+const DAY_NAMES = ["Yakshanba", "Dushanba", "Seshanba", "Chorshanba", "Payshanba", "Juma", "Shanba"];
+
+function viewOf(item: Seminar) {
+  const [year, month, day] = (item.date || "").split("-");
+  const idx = Math.max(0, Number(month) - 1);
+  const date = item.date ? new Date(Number(year), idx, Number(day) || 1) : null;
+  const categoryKey = (item.specialty === "kongress" ? "boshqa" : item.specialty) as SeminarCategory;
+  return {
+    id: item.id,
+    title: item.title,
+    category: specialtyLabels[item.specialty] ?? item.specialty,
+    categoryKey,
+    summary: (item.description ?? "").slice(0, 180),
+    city: item.city,
+    venue: item.venue,
+    start: item.time,
+    end: item.timeEnd,
+    hours: "",
+    date: item.date || "",
+    dayLabel: date ? DAY_NAMES[date.getDay()] : "",
+    monthShort: (MONTHS[idx] ?? "").slice(0, 3),
+    monthTitle: item.date ? `${MONTHS[idx]} ${year}` : "Sana yo‘q",
+    dayNum: day ? String(Number(day)) : "—",
+    speaker: item.speaker || "Tashkilotchi",
+    speakerRole: item.speakerRole,
+    speakerImage: item.speakerAvatar || "",
+    seatsLeft: Math.max(0, item.seatsTotal - item.seatsTaken),
+    seatsTotal: Math.max(item.seatsTotal, 0),
+    price: item.price,
+    image: item.image,
+    format: (item.city === "Online" ? "online" : "offline") as SeminarFormat,
+  };
+}
+
 export function SeminarList() {
   const params = useSearchParams();
   const q = (params.get("q") ?? "").trim().toLowerCase();
   const favs = useShopFavs();
   const cartCount = useShopLineCount();
+  const { catalogVersion, registrations } = useSeminarRegs();
+  const source = useMemo(() => {
+    void catalogVersion;
+    return seminars.map(viewOf);
+  }, [catalogVersion]);
   const [cat, setCat] = useState<SeminarCategory | "all">("all");
   const [city, setCity] = useState("Barchasi");
   const [format, setFormat] = useState<SeminarFormat | "all">("all");
@@ -81,7 +120,7 @@ export function SeminarList() {
   const [onlyMonth, setOnlyMonth] = useState<string | null>(null);
 
   const items = useMemo(() => {
-    const rows = desktopSeminars.filter((item) => {
+    const rows = source.filter((item) => {
       if (cat !== "all" && item.categoryKey !== cat) return false;
       if (city !== "Barchasi" && item.city !== city) return false;
       if (format !== "all" && item.format !== format) return false;
@@ -102,7 +141,7 @@ export function SeminarList() {
       return a.date.localeCompare(b.date);
     });
     return rows;
-  }, [cat, city, filtering, format, from, onlyMonth, price, q, selected, sort, to]);
+  }, [cat, city, filtering, format, from, onlyMonth, price, q, selected, sort, source, to]);
 
   const groups = useMemo(() => {
     const map = new Map<string, typeof items>();
@@ -114,7 +153,7 @@ export function SeminarList() {
     return [...map.entries()];
   }, [items]);
 
-  const marked = new Set(desktopSeminars.map((item) => item.date));
+  const marked = new Set(source.map((item) => item.date));
   const cells = monthCells(cursor.year, cursor.month);
   const sortLabel = { near: "Sana bo‘yicha (eng yaqin)", far: "Sana bo‘yicha (uzoq)", cheap: "Narx (arzon)", rich: "Narx (qimmat)" }[sort];
   const priceLabel = { all: "Barchasi", low: "1 mln gacha", mid: "1–2 mln", high: "2 mln dan" }[price];
@@ -195,7 +234,7 @@ export function SeminarList() {
           </div>
           {groups.length === 0 ? (
             <div className="dk-empty">
-              <b>Mos seminar topilmadi</b>
+              <b>{source.length === 0 ? "Hozircha seminar yo‘q" : "Mos seminar topilmadi"}</b>
               <p>Filtrlarni o‘zgartiring.</p>
               <button
                 type="button"
@@ -253,19 +292,22 @@ export function SeminarList() {
                       </div>
                       <div>
                         <div className="sem-who">
-                          <img src={item.speakerImage} alt="" />
+                          {item.speakerImage ? <img src={item.speakerImage} alt="" /> : <span className="sem-who" />}
                           <span>
                             <b>{item.speaker}</b>
                             <small>{item.speakerRole}</small>
                           </span>
                         </div>
-                        <div className="sem-cme">CME {item.cme} ball</div>
-                        <div className="sem-bar" aria-hidden>
-                          <i style={{ width: `${Math.round((item.seatsLeft / item.seatsTotal) * 100)}%` }} />
-                        </div>
-                        <div className="sem-left">
-                          {item.seatsLeft}/{item.seatsTotal} joy qoldi
-                        </div>
+                        {item.seatsTotal > 0 ? (
+                          <>
+                            <div className="sem-bar" aria-hidden>
+                              <i style={{ width: `${Math.round((item.seatsLeft / item.seatsTotal) * 100)}%` }} />
+                            </div>
+                            <div className="sem-left">
+                              {item.seatsLeft}/{item.seatsTotal} joy qoldi
+                            </div>
+                          </>
+                        ) : null}
                       </div>
                       <div className="sem-buy">
                         <div className="sem-price">{som(item.price)}</div>
@@ -323,19 +365,29 @@ export function SeminarList() {
                 Barchasini ko‘rish
               </Link>
             </div>
-            {mySeminars.map((item) => (
-              <Link className="sem-mine" key={item.id} href={seminarHref(item.id)}>
-                <span className="d">
-                  <b>{item.day}</b>
-                  <span>{item.month}</span>
-                </span>
-                <span>
-                  <b>{item.title}</b>
-                  <small>{item.place}</small>
-                </span>
-                <ChevronRight className="i" />
-              </Link>
-            ))}
+            {registrations.length === 0 ? (
+              <p className="sem-why">
+                <small>Hali yozilgan seminar yo‘q</small>
+              </p>
+            ) : (
+              registrations.slice(0, 4).map((item) => {
+                const seminar = getSeminar(item.seminarId);
+                const when = seminar?.date?.split("-") ?? [];
+                return (
+                  <Link className="sem-mine" key={item.id} href={seminarHref(item.seminarId)}>
+                    <span className="d">
+                      <b>{when[2] ? String(Number(when[2])) : "—"}</b>
+                      <span>{when[1] ? (MONTHS[Number(when[1]) - 1] ?? "").slice(0, 3) : ""}</span>
+                    </span>
+                    <span>
+                      <b>{item.seminarTitle || seminar?.title || "Seminar"}</b>
+                      <small>{seminar?.city ?? ""}</small>
+                    </span>
+                    <ChevronRight className="i" />
+                  </Link>
+                );
+              })
+            )}
           </section>
           <section className="sem-box">
             <h3>Nega seminarlarga qatnashish kerak?</h3>

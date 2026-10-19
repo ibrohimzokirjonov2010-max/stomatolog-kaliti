@@ -1,6 +1,5 @@
 import {
   MIN_CHANNEL_BID,
-  seedChannels,
   type Channel,
   type ChannelCategory,
 } from "@/data/channels";
@@ -89,21 +88,14 @@ function sortByBid(list: Channel[]) {
   );
 }
 
-/** Seed + foydalanuvchi qo‘shgan kanallar, auksion bo‘yicha saralangan. */
+/** Database channels plus optimistic adds, sorted by auction bid. */
 export function mergeChannels(overlay: ChannelsOverlay): Channel[] {
   const overrides = overlay.bidOverrides;
-  const seeds = seedChannels.map((c) => ({
-    ...c,
-    bidSum: overrides[c.id] ?? c.bidSum,
-  }));
   const added = overlay.added.map((c) => ({
     ...c,
     bidSum: overrides[c.id] ?? c.bidSum,
   }));
-  const byId = new Map<string, Channel>();
-  for (const c of [...seeds, ...added]) byId.set(c.id, c);
-  for (const c of added) byId.set(c.id, c);
-  return sortByBid([...byId.values()]);
+  return sortByBid(added);
 }
 
 /** `rank`-o‘rinni olish uchun minimal taklif. */

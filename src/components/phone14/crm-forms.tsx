@@ -195,6 +195,37 @@ export function PhoneAddPatient() {
       : [patient, ...extra];
     try { writePhoneStore(PHONE_PATIENTS_KEY, stored); }
     catch { writePhoneStore(PHONE_PATIENTS_KEY, stored.map((item) => item.id === patient.id ? { ...item, avatar: "/img/phone14/pat-0.png" } : item)); }
+    const record = {
+      id: patient.id,
+      num: Date.now() % 100000,
+      name: patient.name,
+      age: patient.age,
+      gender: patient.gender === "Erkak" ? "Erkak" as const : "Ayol" as const,
+      phone: patient.phone,
+      city: patient.city || "Toshkent",
+      status: "yangi" as const,
+      lastVisit: "",
+      nextVisit: "",
+      avatar: patient.avatar.startsWith("data:") ? "/img/phone14/pat-0.png" : patient.avatar,
+      email: patient.email || "",
+      created: new Date().toISOString(),
+      addedAt: Date.now(),
+      birth: patient.birth,
+      address: patient.address,
+      source: patient.source,
+      note: patient.note,
+      conditions: patient.conditions,
+      teeth: {},
+      visits: [],
+      payments: [],
+      docs: [],
+    };
+    void import("@/lib/crm-client").then(async ({ loadCrm, upsertCrm }) => {
+      await upsertCrm("patients", record);
+      const items = await loadCrm<typeof record>("patients");
+      const { writePatientCache } = await import("@/data/phone-records");
+      writePatientCache(items.length ? items : [record]);
+    });
     router.push(`/crm/bemorlar/${patient.id}`);
   }
 
@@ -414,6 +445,7 @@ export function PhoneAddPlan() {
       services: rows.map((row) => ({ name: row.name, tooth: row.tooth, price: row.qty * row.price, done: false })),
     };
     writePhoneStore(CLINIC_PLANS_KEY, [plan, ...readPhoneStore<ClinicPlan>(CLINIC_PLANS_KEY)]);
+    void import("@/data/phone-records").then(({ syncPatientClinic }) => syncPatientClinic(plan.patientId));
     writePhoneStore(PHONE_PLANS_KEY, [{ id, title: title.trim(), status: "Rejalashtirilgan", patient: patient?.name || "" }, ...readPhoneStore<{ id: string; title: string; status: string }>(PHONE_PLANS_KEY)]);
     router.push(patientId ? `/crm/bemorlar/${patientId}` : "/crm/davolash-rejalari");
   }
@@ -553,6 +585,7 @@ export function PhoneAddPayment() {
       receipt: receipt ? `CHK-${Date.now().toString().slice(-4)}` : "—",
     };
     writePhoneStore(CLINIC_PAYS_KEY, [pay, ...readPhoneStore<ClinicPayment>(CLINIC_PAYS_KEY)]);
+    void import("@/data/phone-records").then(({ syncPatientClinic }) => syncPatientClinic(pay.patientId));
     writePhoneStore(PHONE_PAYS_KEY, [{ id: pay.id, name: patient?.name || "Bemor", amount: money(value), note: note || pay.plan, date, status: "To‘langan", avatar: patient?.avatar || "/img/phone14/pat-0.png", late: false }, ...readPhoneStore<{ id: string }>(PHONE_PAYS_KEY)]);
     router.push(patientId ? `/crm/bemorlar/${patientId}` : "/crm/tolovlar");
   }

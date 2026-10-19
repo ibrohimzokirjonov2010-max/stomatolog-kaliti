@@ -1,6 +1,6 @@
 import type { Master, RequestServiceV2, UstaService as MasterService } from "@/data/masters";
 import { serviceTagLabels } from "@/data/masters";
-import { desktopUstalar, type DesktopUsta, type UstaService } from "@/data/desktop-ustalar";
+import { type DesktopUsta, type UstaService } from "@/data/desktop-ustalar";
 
 /** One row in the desktop Ustalar UI: a moderated master from the database, or a design sample. */
 export type UstaView = DesktopUsta & { master?: Master };
@@ -67,9 +67,9 @@ export function masterToView(master: Master): UstaView {
   };
 }
 
-/** Database masters first (they can really receive requests), then the design samples. */
+/** Moderated masters from the database. Design samples are not mixed in. */
 export function ustaList(masters: Master[]): UstaView[] {
-  return [...masters.map(masterToView), ...desktopUstalar];
+  return masters.map(masterToView);
 }
 
 export function initials(name: string) {

@@ -31,6 +31,8 @@ export type Product = {
   shopId?: string;
   shopName?: string;
   shopSlug?: string;
+  /** Catalog page for this line. Kept on cart snapshots so /savat can link back. */
+  href?: string;
   description?: string;
   stockQty?: number;
   active?: boolean;
@@ -72,6 +74,17 @@ export type ProductAttrs = {
   isNew?: boolean;
   recommended?: boolean;
   limited?: boolean;
+  /** Jihozlar: short spec line, warranty, year, and installment. */
+  specLine?: string;
+  warrantyMonths?: number;
+  year?: number;
+  installmentMonths?: number;
+  installmentMonthly?: number;
+  leasing?: boolean;
+  installService?: boolean;
+  official?: boolean;
+  condition?: "yangi" | "ishlatilgan";
+  city?: string;
 };
 
 export type ProductCondition = "yangi" | "ishlatilgan" | "ochilgan";

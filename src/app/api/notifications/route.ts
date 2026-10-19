@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { dbErrorJson, rpc } from "@/lib/server/db";
+import { dbErrorJson, privateCache, rpc } from "@/lib/server/db";
 import { getSession } from "@/lib/server/session";
 import { readJson, requireUser } from "@/lib/server/user";
 
@@ -10,10 +10,10 @@ type ListResult = { unread: number; items: unknown[] };
 /** My in-app notifications (newest first) + unread count. Anonymous → empty list. */
 export async function GET() {
   const session = await getSession();
-  if (!session) return NextResponse.json({ ok: true, auth: false, unread: 0, items: [] });
+  if (!session) return NextResponse.json({ ok: true, auth: false, unread: 0, items: [] }, { headers: privateCache() });
   try {
     const res = await rpc<ListResult>("sh_notifs_list", { p_user: session.uid, p_limit: 40 });
-    return NextResponse.json({ ok: true, auth: true, unread: res.unread, items: res.items });
+    return NextResponse.json({ ok: true, auth: true, unread: res.unread, items: res.items }, { headers: privateCache() });
   } catch (e) {
     return dbErrorJson(e, "Bildirishnomalarni yuklab bo‘lmadi.");
   }

@@ -4,10 +4,11 @@
 import { useEffect, useMemo, useState } from "react";
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
-import { BookOpen, Check, ImageIcon, Plus, ShoppingCart, Star, X } from "lucide-react";
+import { BookOpen, Check, ImageIcon, Star, X } from "lucide-react";
 import { ShopShell } from "@/components/shop/desktop/ShopShell";
-import { shopAdd, som, useShopLineCount, useShopLines } from "@/components/shop/desktop/shop-cart";
-import { bookCategories, books as seedBooks, featuredBook, library, publishers, type Book, type BookFormat, type BookLang } from "@/data/desktop-hub";
+import { som, useShopLineCount } from "@/components/shop/desktop/shop-cart";
+import { bookCategories, type Book, type BookFormat, type BookLang } from "@/data/desktop-hub";
+import { fetchBooks, toHubBook } from "@/lib/live-content";
 import "./hub.css";
 
 const sorts = [
@@ -18,17 +19,14 @@ const sorts = [
   { id: "new", label: "Yangi" },
 ];
 
-function qtyOf(lines: { id: string; qty: number }[], id: string) {
-  return lines.find((line) => line.id === `book-${id}`)?.qty ?? 0;
-}
-
 export function KitoblarDesktop() {
   const cartCount = useShopLineCount();
-  const lines = useShopLines();
   const params = useSearchParams();
   const paramQ = params.get("q") ?? "";
   const [q, setQ] = useState(paramQ);
-  const [catalog, setCatalog] = useState<Book[]>(seedBooks);
+  const [catalog, setCatalog] = useState<Book[]>([]);
+  const [library, setLibrary] = useState<{ id: string; title: string; author: string; meta: string; image: string }[]>([]);
+  const [ready, setReady] = useState(false);
   const [category, setCategory] = useState("Barchasi");
   const [formats, setFormats] = useState<BookFormat[]>([]);
   const [bothOnly, setBothOnly] = useState(false);
@@ -42,15 +40,32 @@ export function KitoblarDesktop() {
   const [sort, setSort] = useState("pop");
   const [sortOpen, setSortOpen] = useState(false);
   const [sample, setSample] = useState<Book | null>(null);
-  const [addOpen, setAddOpen] = useState(false);
   const [askOpen, setAskOpen] = useState(false);
   const [asked, setAsked] = useState("");
-  const [draft, setDraft] = useState({ title: "", authors: "", price: "300000" });
   const [libOpen, setLibOpen] = useState(false);
 
   useEffect(() => {
     setQ(paramQ);
   }, [paramQ]);
+
+  useEffect(() => {
+    let stop = false;
+    void fetchBooks().then((rows) => {
+      if (stop) return;
+      setCatalog(rows.map(toHubBook));
+      setLibrary(rows.filter((item) => item.progress).map((item) => ({
+        id: item.id,
+        title: item.title,
+        author: item.author,
+        image: item.cover,
+        meta: `${item.progress?.percent ?? 0}% o‘qilgan`,
+      })));
+      setReady(true);
+    });
+    return () => {
+      stop = true;
+    };
+  }, []);
 
   const filtering = category !== "Barchasi" || formats.length > 0 || bothOnly || langs.length > 0 || yearOn || priceOn || stock.length > 0 || pubs.length > 0 || q.trim().length > 0;
 
@@ -82,10 +97,6 @@ export function KitoblarDesktop() {
     set(list.includes(value) ? list.filter((item) => item !== value) : [...list, value]);
   }
 
-  function addToCart(book: Book) {
-    shopAdd({ id: `book-${book.id}`, name: book.title, price: book.price, image: book.image, href: "/kitoblar" });
-  }
-
   function reset() {
     setCategory("Barchasi");
     setFormats([]);
@@ -101,7 +112,13 @@ export function KitoblarDesktop() {
   }
 
   const sortLabel = sorts.find((item) => item.id === sort)?.label ?? "Eng ommabop";
-  const countLabel = filtering ? `${shown.length} ta kitob topildi` : "179 ta kitob topildi";
+  const countLabel = !ready ? "Yuklanmoqda..." : filtering ? `${shown.length} ta kitob topildi` : `${catalog.length} ta kitob`;
+  const featuredBook = catalog[0];
+  const publishers = useMemo(() => {
+    const counts = new Map<string, number>();
+    for (const book of catalog) counts.set(book.publisher, (counts.get(book.publisher) ?? 0) + 1);
+    return [...counts].map(([id, count]) => ({ id, count }));
+  }, [catalog]);
 
   return (
     <ShopShell searchPath="/kitoblar" cartCount={cartCount} placeholder="Kitob, muallif yoki ISBN bo‘yicha qidiring..." showCamera={false}>
@@ -111,9 +128,7 @@ export function KitoblarDesktop() {
             <h1>Kitoblar</h1>
             <p className="hub-sub">Stomatologik kitoblar, atlaslar va qo‘llanmalar. Bosma yoki elektron formatda.</p>
           </div>
-          <button type="button" className="hub-btn" onClick={() => setAddOpen(true)}>
-            <Plus className="i" /> Kitob qo‘shish
-          </button>
+          <p className="hub-sub">Yangi kitobni admin kutubxonadan qo‘shadi.</p>
         </div>
         <div className="hub-frow">
           {bookCategories.map((item) => (
@@ -234,12 +249,12 @@ export function KitoblarDesktop() {
             <button type="button" className={stock.length === 0 ? "hub-check on" : "hub-check"} onClick={() => setStock([])}>
               <span className="hub-boxi">{stock.length === 0 ? <Check className="i" /> : null}</span>
               Barchasi
-              <em>(179)</em>
+              <em>({catalog.length})</em>
             </button>
             {(
               [
-                ["ombor", "Omborda", 142],
-                ["preorder", "Oldindan buyurtma", 12],
+                ["ombor", "Omborda", catalog.filter((book) => book.stock === "ombor").length],
+                ["preorder", "Oldindan buyurtma", catalog.filter((book) => book.stock === "preorder").length],
               ] as const
             ).map(([id, label, count]) => (
               <button key={id} type="button" className={stock.includes(id) ? "hub-check on" : "hub-check"} onClick={() => toggle(stock, id, setStock)}>
@@ -285,11 +300,10 @@ export function KitoblarDesktop() {
               </div>
             </div>
             {shown.length === 0 ? (
-              <div className="hub-empty">Filtr bo‘yicha kitob topilmadi.</div>
+              <div className="hub-empty">{!ready ? "Yuklanmoqda..." : catalog.length === 0 ? "Hozircha kitob yo‘q" : "Filtr bo‘yicha kitob topilmadi."}</div>
             ) : (
               <div className="hub-grid">
                 {shown.map((book) => {
-                  const qty = qtyOf(lines, book.id);
                   return (
                     <article className="hub-card hub-book" key={book.id}>
                       <div className="ph">
@@ -314,9 +328,9 @@ export function KitoblarDesktop() {
                         <strong>{som(book.price)}</strong>
                         {book.oldPrice ? <s>{som(book.oldPrice)}</s> : null}
                       </div>
-                      <button type="button" className="hub-btn" onClick={() => addToCart(book)}>
-                        <ShoppingCart className="i" /> {qty > 0 ? `Savatda (${qty})` : "Savatga"}
-                      </button>
+                      <Link href={`/kitoblar/${book.id}/oqish`} className="hub-btn">
+                        <BookOpen className="i" /> O‘qish
+                      </Link>
                       <button type="button" className="hub-btn ghost" onClick={() => setSample(book)}>
                         <BookOpen className="i" /> Namuna o‘qish
                       </button>
@@ -330,6 +344,7 @@ export function KitoblarDesktop() {
           <aside className="hub-rail">
             <section className="hub-box hub-feat">
               <h3>Haftaning tanlovi</h3>
+              {featuredBook ? (<>
               <div className="cover">
                 <img src={featuredBook.image} alt="" />
               </div>
@@ -340,11 +355,10 @@ export function KitoblarDesktop() {
               </p>
               <div className="hub-price">
                 <strong>{som(featuredBook.price)}</strong>
-                <s className="hub-old">{som(featuredBook.oldPrice ?? 0)}</s>
               </div>
-              <button type="button" className="hub-btn block" onClick={() => addToCart(featuredBook)}>
-                <ShoppingCart className="i" /> {qtyOf(lines, featuredBook.id) > 0 ? "Savatda" : "Savatga qo‘shish"}
-              </button>
+              <Link href={`/kitoblar/${featuredBook.id}/oqish`} className="hub-btn block">
+                <BookOpen className="i" /> O‘qish
+              </Link>
               <button type="button" className="hub-btn ghost block" onClick={() => setSample(featuredBook)}>
                 Namuna o‘qish
               </button>
@@ -359,6 +373,7 @@ export function KitoblarDesktop() {
                   <Check className="i" /> Bosqichma-bosqich protokollar
                 </div>
               </div>
+              </>) : <p className="by">Hozircha kitob yo‘q</p>}
             </section>
             <section className="hub-box">
               <h3>
@@ -367,6 +382,7 @@ export function KitoblarDesktop() {
                   {libOpen ? "Yig‘ish" : "Barchasini ko‘rish"}
                 </button>
               </h3>
+              {library.length === 0 ? <p className="by">Hozircha o‘qilayotgan kitob yo‘q</p> : null}
               {(libOpen ? library : library.slice(0, 3)).map((item) => (
                 <div className="hub-lib" key={item.id}>
                   <img src={item.image} alt="" />
@@ -377,9 +393,9 @@ export function KitoblarDesktop() {
                       {libOpen ? ` · ${item.meta}` : ""}
                     </small>
                   </div>
-                  <button type="button" onClick={() => setSample(featuredBook)}>
+                  <Link href={`/kitoblar/${item.id}/oqish`}>
                     O‘qish
-                  </button>
+                  </Link>
                 </div>
               ))}
               <div className="hub-ask">
@@ -407,64 +423,14 @@ export function KitoblarDesktop() {
             <p>{sample.authors}</p>
             <p>{sample.sample}</p>
             <div className="hub-actions">
-              <button type="button" className="hub-btn" onClick={() => addToCart(sample)}>
-                Savatga
-              </button>
+              <Link href={`/kitoblar/${sample.id}/oqish`} className="hub-btn">
+                O‘qish
+              </Link>
               <button type="button" className="hub-btn ghost" onClick={() => setSample(null)}>
                 Yopish
               </button>
             </div>
           </div>
-        </div>
-      ) : null}
-
-      {addOpen ? (
-        <div className="hub-modal" onClick={() => setAddOpen(false)}>
-          <form
-            className="hub-dialog"
-            onClick={(event) => event.stopPropagation()}
-            onSubmit={(event) => {
-              event.preventDefault();
-              if (!draft.title.trim()) return;
-              const book: Book = {
-                id: `user-${Date.now()}`,
-                title: draft.title.trim(),
-                authors: draft.authors.trim() || "Noma’lum",
-                year: 2026,
-                pages: "120 sahifa",
-                lang: "O‘zbek",
-                rating: 5,
-                reviews: 1,
-                price: Number(draft.price) || 0,
-                formats: ["pdf"],
-                stock: "ombor",
-                publisher: "StomaMedia",
-                category: category === "Barchasi" ? "Terapiya" : category,
-                image: "/img/hub/book-5.jpg",
-                popularity: 110,
-                sample: "Siz qo‘shgan kitobning namuna sahifasi keyinroq yuklanadi.",
-              };
-              setCatalog((prev) => [book, ...prev]);
-              setAddOpen(false);
-              setDraft({ title: "", authors: "", price: "300000" });
-            }}
-          >
-            <h3>Kitob qo‘shish</h3>
-            <label>Nomi</label>
-            <input value={draft.title} onChange={(event) => setDraft({ ...draft, title: event.target.value })} required />
-            <label>Muallif</label>
-            <input value={draft.authors} onChange={(event) => setDraft({ ...draft, authors: event.target.value })} />
-            <label>Narx</label>
-            <input value={draft.price} onChange={(event) => setDraft({ ...draft, price: event.target.value })} />
-            <div className="hub-actions">
-              <button type="submit" className="hub-btn">
-                Qo‘shish
-              </button>
-              <button type="button" className="hub-btn ghost" onClick={() => setAddOpen(false)}>
-                Bekor
-              </button>
-            </div>
-          </form>
         </div>
       ) : null}
 

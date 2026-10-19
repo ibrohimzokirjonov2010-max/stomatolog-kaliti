@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { dbErrorJson, publicObjectUrl, rpc } from "@/lib/server/db";
+import { dbErrorJson, publicObjectUrl, readCache, rpc } from "@/lib/server/db";
 import { getSessionUserId, jsonError, sameOrigin } from "@/lib/server/session";
 
 export const dynamic = "force-dynamic";
@@ -16,7 +16,7 @@ export async function GET(request: Request) {
       p_limit: 50,
       p_before: before && !Number.isNaN(Date.parse(before)) ? before : null,
     });
-    return NextResponse.json({ ok: true, posts, viewerId: userId });
+    return NextResponse.json({ ok: true, posts, viewerId: userId }, { headers: readCache(Boolean(userId)) });
   } catch {
     return jsonError("Postlarni yuklab bo‘lmadi.", 502);
   }

@@ -10,11 +10,10 @@ import {
   apptDoctors,
   apptRooms,
   apptStatusLabel,
-  seedAppointments,
   type Appointment,
   type ApptStatus,
 } from "@/data/crm";
-import { useStoredList } from "@/lib/stored-list";
+import { useCrmAppointments } from "@/lib/use-crm-list";
 
 const HOURS = ["08:00", "09:00", "10:00", "11:00", "12:00", "13:00", "14:00", "15:00", "16:00", "17:00", "18:00"];
 const WEEK_NAMES = ["Dush", "Sesh", "Chor", "Pay", "Jum", "Shan", "Yak"];
@@ -53,7 +52,7 @@ function labelFor(value: string) {
 }
 
 export function AppointmentsDesktop() {
-  const [items, setItems] = useStoredList("sk-crm-appointments-v1", seedAppointments);
+  const [items, setItems] = useCrmAppointments<Appointment>();
   const [q, setQ] = useState("");
   const [cursor, setCursor] = useState(CLINIC_TODAY);
   const [view, setView] = useState<"kun" | "hafta" | "oy">("hafta");
@@ -76,7 +75,7 @@ export function AppointmentsDesktop() {
   const shownToday = todayItems.filter((item) => item.grid !== false);
   const avg = shownToday.length ? Math.round(shownToday.reduce((sum, item) => sum + (minutes(item.end) - minutes(item.start)), 0) / shownToday.length) : 0;
   const load = Math.min(100, Math.round((shownToday.reduce((sum, item) => sum + (minutes(item.end) - minutes(item.start)), 0) / (10 * 60)) * 100));
-  const seedDay = cursor === CLINIC_TODAY && !items.some((item) => item.id.startsWith("user-"));
+  const seedDay = false;
 
   const monthStart = `${cursor.slice(0, 8)}01`;
   const monthDays = Array.from({ length: 31 }, (_, index) => addDays(monthStart, index)).filter((item) => item.slice(5, 7) === cursor.slice(5, 7));
@@ -162,6 +161,12 @@ export function AppointmentsDesktop() {
                   <img src={item.avatar} alt="" />
                   <span style={{ flex: 1 }}><b>{item.patient}</b><small className="crm-muted">{item.service} · {item.room}</small></span>
                   <span className={`crm-pill ${item.status}`}>{apptStatusLabel[item.status]}</span>
+                  {item.status !== "davol" && item.status !== "yakun" && item.status !== "bekor" ? (
+                    <button type="button" className="crm-btn blue" data-testid="appt-start" onClick={() => setItems((prev) => prev.map((row) => (row.id === item.id ? { ...row, status: "davol" } : row)))}>Boshlash</button>
+                  ) : null}
+                  {item.status === "davol" ? (
+                    <button type="button" className="crm-btn" data-testid="appt-finish" onClick={() => setItems((prev) => prev.map((row) => (row.id === item.id ? { ...row, status: "yakun" } : row)))}>Yakunlash</button>
+                  ) : null}
                 </div>
               ))}
             </div>

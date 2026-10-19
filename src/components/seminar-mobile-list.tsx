@@ -540,7 +540,7 @@ export function SeminarListMobile() {
         />
         {upcoming.length === 0 ? (
           <div className="rounded-2xl bg-white px-4 py-10 text-center text-[13px] text-[#8b93a7] ring-1 ring-[#edf0f6]">
-            Bu filtrlar bo‘yicha yaqin seminar yo‘q.
+            {seminars.length === 0 && !q && extraFilters === 0 ? "Hozircha seminar yo‘q." : "Bu filtrlar bo‘yicha yaqin seminar yo‘q."}
             <button type="button" onClick={resetAll} className="mt-2 block w-full font-semibold text-[#0066FF]">
               Filtrlarni tozalash
             </button>

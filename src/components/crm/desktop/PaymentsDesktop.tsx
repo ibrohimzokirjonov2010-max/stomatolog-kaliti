@@ -5,11 +5,11 @@ import { useMemo, useState } from "react";
 import { ChevronRight, Plus, Search } from "lucide-react";
 import { CrmFrame, CrmPager } from "@/components/crm/desktop/CrmFrame";
 import { NewPaymentModal } from "@/components/crm/CrmCreateModals";
-import { buildPayments, debtors, revenueBars, type ClinicPayment, type PayMethod } from "@/data/crm";
+import { revenueBars, type ClinicPayment, type PayMethod } from "@/data/crm";
 import { formatGroupedNumber, formatMoney } from "@/lib/format";
 import { useStoredList } from "@/lib/stored-list";
 
-const SEED = buildPayments();
+const SEED: ClinicPayment[] = [];
 const METHODS: PayMethod[] = ["Click", "Payme", "Karta", "Naqd"];
 
 function parseDate(value: string) {
@@ -41,7 +41,7 @@ export function PaymentsDesktop() {
   const pages = Math.max(1, Math.ceil(filtered.length / size));
   const safe = Math.min(page, pages);
   const slice = filtered.slice((safe - 1) * size, safe * size);
-  const pristine = from === "2026-10-01" && to === "2026-10-31" && !q && !method && !status && items.length === SEED.length;
+  const pristine = false;
   const sum = filtered.reduce((total, item) => total + item.amount, 0);
   const by = (name: PayMethod) => filtered.filter((item) => item.method === name).reduce((total, item) => total + item.amount, 0);
   const donut = pristine
@@ -51,7 +51,7 @@ export function PaymentsDesktop() {
   const radius = 42;
   const circ = 2 * Math.PI * radius;
   let offset = 0;
-  const bars = chart === "kun" ? revenueBars : chart === "hafta" ? [8, 14, 18, 16, 12] : [22, 28, 31, 26, 34, 40];
+  const bars = sum > 0 ? (chart === "kun" ? revenueBars : chart === "hafta" ? [8, 14, 18, 16, 12] : [22, 28, 31, 26, 34, 40]) : [0];
 
   return (
     <CrmFrame active="payments" placeholder="Bemor, telefon, to‘lov raqami yoki xizmat nomi..." headerQuery={q} onHeaderQuery={(value) => { setQ(value); setPage(1); }}>
@@ -70,15 +70,15 @@ export function PaymentsDesktop() {
           </div>
         </div>
         <div className="pay-kpis">
-          <article><small>Jami tushum</small><b>{pristine ? "52 400 000 so‘m" : formatMoney(sum, "UZS")}</b><em className="money-plus">+12% o‘tgan oyga nisbatan</em></article>
-          <article><small>Naqd tushum</small><b>{pristine ? "8 700 000 so‘m" : formatMoney(by("Naqd"), "UZS")}</b><em className="money-plus">+5% o‘tgan oyga nisbatan</em></article>
-          <article><small>Karta to‘lovlari</small><b>{pristine ? "28 300 000 so‘m" : formatMoney(by("Karta"), "UZS")}</b><em className="money-plus">+18% o‘tgan oyga nisbatan</em></article>
-          <article><small>Qolgan qarzdorlik</small><b className="money-minus">{pristine ? "14 600 000 so‘m" : formatMoney(14600000, "UZS")}</b><em className="money-minus">-8% o‘tgan oyga nisbatan</em></article>
+          <article><small>Jami tushum</small><b>{formatMoney(sum, "UZS")}</b></article>
+          <article><small>Naqd tushum</small><b>{formatMoney(by("Naqd"), "UZS")}</b></article>
+          <article><small>Karta to‘lovlari</small><b>{formatMoney(by("Karta"), "UZS")}</b></article>
+          <article><small>Qolgan qarzdorlik</small><b className="money-minus">{formatMoney(0, "UZS")}</b></article>
         </div>
         <div className="pay-charts">
           <div className="crm-card" style={{ padding: "calc(.5 * var(--u))" }}>
             <div style={{ display: "flex", justifyContent: "space-between" }}><b>Tushum dinamikasi</b><div className="ap-view">{(["kun", "hafta", "oy"] as const).map((item) => <button key={item} type="button" className={chart === item ? "on" : undefined} data-testid={`chart-${item}`} onClick={() => setChart(item)}>{item === "kun" ? "Kunlik" : item === "hafta" ? "Haftalik" : "Oylik"}</button>)}</div></div>
-            <div className="bars" data-testid="pay-bars">{bars.map((value, index) => <i key={index} style={{ height: `${(value / Math.max(...bars)) * 100}%` }} />)}</div>
+            <div className="bars" data-testid="pay-bars">{sum === 0 ? <p className="crm-muted">Tushum yo‘q</p> : bars.map((value, index) => <i key={index} style={{ height: `${(value / Math.max(...bars, 1)) * 100}%` }} />)}</div>
           </div>
           <div className="crm-card" style={{ padding: "calc(.5 * var(--u))", display: "flex", gap: "calc(.4 * var(--u))" }}>
             <svg className="donut" viewBox="0 0 120 120" aria-label="To‘lov usullari">
@@ -128,9 +128,7 @@ export function PaymentsDesktop() {
           <aside>
             <div className="pl-box">
               <b>Qarzdor bemorlar</b>
-              {debtors.map((item) => (
-                <div key={item.name} className="visit"><span className="crm-person"><img src={item.avatar} alt="" /><span><b>{item.name}</b><small>{item.note} · {item.date}</small></span></span><b className="money-minus">{formatMoney(item.amount, "UZS")}</b></div>
-              ))}
+              <p className="crm-muted">Qarzdor bemor yo‘q</p>
             </div>
             <div className="pl-box" style={{ marginTop: "calc(.4 * var(--u))" }}>
               <b>Tezkor to‘lov</b>

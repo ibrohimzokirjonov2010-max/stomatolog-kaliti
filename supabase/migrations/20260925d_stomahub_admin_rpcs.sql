@@ -18,6 +18,7 @@ end $$;
 -- commission: from orders released that day; ads: contract value prorated per day (monthly price/30 or total/duration);
 -- channels: auction bids placed that day; subs: active subscriptions price/30 per day; refunds: platform-borne refunds
 -- (commission of orders refunded after release — 0 by construction, kept for the formula).
+drop function if exists private.revenue_day(date) cascade;
 create or replace function private.revenue_day(p_day date)
 returns table (commission bigint, ads bigint, channels bigint, subs bigint, refunds bigint, gmv bigint, orders bigint)
 language sql stable security definer set search_path = '' as $$

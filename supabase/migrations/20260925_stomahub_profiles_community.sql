@@ -293,11 +293,11 @@ create policy "community public read" on storage.objects for select to anon, aut
 revoke all on all functions in schema private from public, anon, authenticated;
 revoke execute on function public.sh_upsert_social, public.sh_register_phone, public.sh_phone_credentials,
   public.sh_get_profile, public.sh_update_profile, public.sh_community_feed, public.sh_community_post,
-  public.sh_community_create_post, public.sh_community_delete_post, public.sh_community_toggle_like,
+  public.sh_community_create_post(text, uuid, text, text, text[], text[]), public.sh_community_delete_post, public.sh_community_toggle_like,
   public.sh_community_add_comment, public.sh_community_delete_comment, public.sh_create_upload_ticket,
   public.sh_can_upload from public;
 grant execute on function public.sh_upsert_social, public.sh_register_phone, public.sh_phone_credentials,
   public.sh_get_profile, public.sh_update_profile, public.sh_community_feed, public.sh_community_post,
-  public.sh_community_create_post, public.sh_community_delete_post, public.sh_community_toggle_like,
+  public.sh_community_create_post(text, uuid, text, text, text[], text[]), public.sh_community_delete_post, public.sh_community_toggle_like,
   public.sh_community_add_comment, public.sh_community_delete_comment, public.sh_create_upload_ticket,
   public.sh_can_upload to anon, authenticated;

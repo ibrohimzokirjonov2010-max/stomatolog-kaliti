@@ -70,7 +70,7 @@ export function KanallarMobile() {
           <ShoppingCart />
           {count > 0 ? <span className="mh-badge">{count > 9 ? "9+" : count}</span> : null}
         </Link>
-        <NotificationBell variant="mobile" minBadge={2} buttonClassName="size-10 text-[#1a1d26]" />
+        <NotificationBell variant="mobile" buttonClassName="size-10 text-[#1a1d26]" />
       </header>
       <div className="fk-body">
         <h1 className="fk-title">Foydali kanallar</h1>

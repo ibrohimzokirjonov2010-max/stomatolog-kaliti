@@ -6,7 +6,10 @@ import Link from "next/link";
 import { BadgeCheck, CalendarDays, ChevronLeft, ChevronRight, MapPin, Plus, Settings, Users, Wallet, Armchair } from "lucide-react";
 import { ShopShell } from "@/components/shop/desktop/ShopShell";
 import { som, useShopLineCount } from "@/components/shop/desktop/shop-cart";
-import { chairs as seedChairs, clinicDate, inventory, labOrders, patients as seedPatients, revenueMonths, staff, type PatientRow, type Slot } from "@/data/desktop-hub";
+import { chairs as seedChairs, type Slot } from "@/data/desktop-hub";
+import { useCrmAppointments, useCrmPatients } from "@/lib/use-crm-list";
+import { useDoctorProfile } from "@/components/doctor-profile-provider";
+import type { Appointment, Patient } from "@/data/crm";
 import "./hub.css";
 
 const MONTHS = ["yanvar", "fevral", "mart", "aprel", "may", "iyun", "iyul", "avgust", "sentabr", "oktabr", "noyabr", "dekabr"];
@@ -23,29 +26,48 @@ function labelOf(date: Date) {
 
 export function KlinikaDesktop() {
   const cartCount = useShopLineCount();
-  const [date, setDate] = useState(() => new Date(`${clinicDate}T00:00:00`));
-  const [chairState, setChairState] = useState(seedChairs);
-  const [patients, setPatients] = useState<PatientRow[]>(seedPatients);
+  const { profile, updateProfile } = useDoctorProfile();
+  const [storedPatients, setStoredPatients] = useCrmPatients<Patient>();
+  const [appointments, setAppointments] = useCrmAppointments<Appointment>();
+  const [date, setDate] = useState(() => new Date());
+  const [chairState, setChairState] = useState(() => seedChairs.map((chair) => ({
+    ...chair,
+    slots: chair.slots.map((slot) => (slot.kind === "lunch" ? slot : { ...slot, kind: "free" as const, name: undefined, note: undefined, avatar: undefined })),
+  })));
+  const patients = storedPatients.map((item) => ({
+    id: item.id,
+    name: item.name,
+    phone: item.phone,
+    last: item.lastVisit || "—",
+    next: item.nextVisit || "—",
+    debt: item.payments?.reduce((sum, pay) => sum + pay.amount, 0) ?? 0,
+    avatar: item.avatar || "/img/jobs/doctor.jpg",
+  }));
   const [range, setRange] = useState<"6" | "3">("6");
   const [filter, setFilter] = useState<"all" | "busy" | "free">("all");
   const [filterOpen, setFilterOpen] = useState(false);
   const [patientOpen, setPatientOpen] = useState(false);
   const [bookOpen, setBookOpen] = useState<{ chair: string; time: string } | null>(null);
   const [settings, setSettings] = useState(false);
-  const [clinicName, setClinicName] = useState("Smile Dental Clinic");
-  const [ordered, setOrdered] = useState<string | null>(null);
-
+  const clinicName = profile?.clinic?.trim() || "Mening klinikam";
+  const clinicCity = profile?.city?.trim() || "Shahar tanlanmagan";
   const day = iso(date);
-  const isDesignDay = day === clinicDate;
-  const bars = range === "6" ? revenueMonths : revenueMonths.slice(3);
+  const todayCount = appointments.filter((item) => item.date === day).length;
+  const income = patients.reduce((sum, item) => sum + (item.debt || 0), 0);
+  const bars = range === "6" ? [] : [];
 
   const view = useMemo(() => {
     return chairState.map((chair) => {
-      const slots = isDesignDay ? chair.slots : chair.slots.map((slot) => (slot.kind === "lunch" ? slot : { time: slot.time, kind: "free" as const }));
+      const slots = chair.slots.map((slot) => {
+        if (slot.kind === "lunch") return slot;
+        const appt = appointments.find((item) => item.date === day && item.start === slot.time && item.status !== "bekor");
+        if (!appt) return { time: slot.time, kind: "free" as const };
+        return { time: slot.time, kind: "visit" as const, name: appt.patient, note: appt.service, avatar: appt.avatar };
+      });
       const busy = slots.filter((slot) => slot.kind === "visit").length;
-      return { ...chair, slots, busy, total: 8 };
+      return { ...chair, slots, busy, total: slots.length };
     });
-  }, [chairState, isDesignDay]);
+  }, [appointments, chairState, day]);
 
   function shift(delta: number) {
     setDate((prev) => {
@@ -66,9 +88,6 @@ export function KlinikaDesktop() {
         };
       }),
     );
-    if (!isDesignDay) {
-      setDate(new Date(`${clinicDate}T00:00:00`));
-    }
     setBookOpen(null);
   }
 
@@ -90,7 +109,7 @@ export function KlinikaDesktop() {
                 {clinicName} <BadgeCheck className="i" />
               </h1>
               <small>
-                <MapPin className="i" /> Toshkent, Chilonzor
+                <MapPin className="i" /> {clinicCity}
                 <button type="button" className="hub-more" onClick={() => setSettings(true)}>
                   <Settings className="i" /> Sozlamalar
                 </button>
@@ -122,10 +141,8 @@ export function KlinikaDesktop() {
             </span>
             <div>
               <div className="lab">Bugungi qabullar</div>
-              <b>
-                14 <span className="up">+27%</span>
-              </b>
-              <small>Jami 18 ta slotdan</small>
+              <b>{todayCount}</b>
+              <small>Shu kundagi qabullar</small>
             </div>
           </article>
           <article className="hub-kpi">
@@ -134,10 +151,8 @@ export function KlinikaDesktop() {
             </span>
             <div>
               <div className="lab">Yangi bemorlar</div>
-              <b>
-                {5 + Math.max(0, patients.length - seedPatients.length)} <span className="up">+67%</span>
-              </b>
-              <small>Bu hafta: {12 + Math.max(0, patients.length - seedPatients.length)} ta</small>
+              <b>{patients.length}</b>
+              <small>Hisobdagi bemorlar</small>
             </div>
           </article>
           <article className="hub-kpi">
@@ -147,9 +162,9 @@ export function KlinikaDesktop() {
             <div>
               <div className="lab">Oylik daromad</div>
               <b>
-                86 400 000 so‘m <span className="up">+12%</span>
+                {som(income)}
               </b>
-              <small>O‘tgan oy: 77 100 000 so‘m</small>
+              <small>Bemor to‘lovlari yig‘indisi</small>
             </div>
           </article>
           <article className="hub-kpi">
@@ -158,8 +173,8 @@ export function KlinikaDesktop() {
             </span>
             <div>
               <div className="lab">Kreslo bandligi</div>
-              <b>78%</b>
-              <small>3 ta kreslodan</small>
+              <b>{todayCount ? Math.min(100, todayCount * 10) : 0}%</b>
+              <small>Bugungi qabullardan</small>
             </div>
           </article>
         </div>
@@ -209,7 +224,7 @@ export function KlinikaDesktop() {
                 </div>
               </span>
             </h3>
-            {!isDesignDay ? <div className="hub-note">Bu kunda jadval bo‘sh. 24-oktabr qabullari saqlanadi — yangi qabul yozish uchun slotni bosing.</div> : null}
+            {todayCount === 0 ? <div className="hub-note">Bu kunda qabul yo‘q. Yangi qabul yozish uchun bo‘sh slotni bosing.</div> : null}
             <div className="hub-chairs">
               {view.map((chair) => (
                 <div className="hub-chair" key={chair.id}>
@@ -245,29 +260,12 @@ export function KlinikaDesktop() {
                   </button>
                 </div>
               </h3>
-              <b>86 400 000 so‘m</b>
-              <div className="hub-bars">
-                {bars.map((bar, index) => (
-                  <div key={bar.m}>
-                    <i className={index === bars.length - 1 ? "on" : ""} style={{ height: `${bar.v}%` }} />
-                    <span>{bar.m}</span>
-                  </div>
-                ))}
-              </div>
+              <b>{som(income)}</b>
+              {bars.length === 0 ? <p className="hub-note">Oylik grafik uchun to‘lovlar hali yo‘q.</p> : null}
             </section>
             <section className="hub-box">
               <h3>Ombor ogohlantirishlari <Link className="hub-more" href="/crm/ombor">Omborga o‘tish →</Link></h3>
-              {inventory.map((item) => (
-                <button key={item.id} type="button" className="hub-alert" onClick={() => setOrdered(item.name)}>
-                  <span className={item.tone === "red" ? "hub-dot" : "hub-dot amber"} />
-                  <div>
-                    <b>{item.name}</b>
-                    <small>{item.brand}</small>
-                  </div>
-                  <em className={item.tone}>{item.note}</em>
-                </button>
-              ))}
-              {ordered ? <div className="hub-note">{ordered} marketplace savatiga qo‘shish uchun katalog ochiladi.</div> : null}
+              <p className="hub-note">Ombor ogohlantirishi yo‘q.</p>
               <Link className="hub-btn block" href="/marketplace" style={{ marginTop: "calc(.5 * var(--u))" }}>
                 Marketplacedan buyurtma qilish →
               </Link>
@@ -314,15 +312,7 @@ export function KlinikaDesktop() {
           </section>
           <section className="hub-box">
             <h3>Xodimlar</h3>
-            <div className="hub-staff">
-              {staff.map((person) => (
-                <div key={person.name}>
-                  <img src={person.avatar} alt="" />
-                  <b>{person.name}</b>
-                  <small>{person.role}</small>
-                </div>
-              ))}
-            </div>
+            <p className="hub-note">Xodimlar ro‘yxati bo‘sh.</p>
           </section>
           <section className="hub-box">
             <h3>Faol laboratoriya buyurtmalari</h3>
@@ -339,19 +329,7 @@ export function KlinikaDesktop() {
                 </tr>
               </thead>
               <tbody>
-                {labOrders.map((order) => (
-                  <tr key={order.id}>
-                    <td>{order.id}</td>
-                    <td>{order.patient}</td>
-                    <td>{order.fdi}</td>
-                    <td>{order.work}</td>
-                    <td>{order.material}</td>
-                    <td>
-                      <span className={`st ${order.tone}`}>{order.status}</span>
-                    </td>
-                    <td>{order.due}</td>
-                  </tr>
-                ))}
+                <tr><td colSpan={7}>Faol laboratoriya buyurtmasi yo‘q</td></tr>
               </tbody>
             </table>
           </section>
@@ -366,16 +344,29 @@ export function KlinikaDesktop() {
             onSubmit={(event) => {
               event.preventDefault();
               const data = new FormData(event.currentTarget);
-              const row: PatientRow = {
-                id: `pt-${Date.now()}`,
-                name: String(data.get("name") || ""),
-                phone: String(data.get("phone") || ""),
-                last: "15.10.2026",
-                next: "—",
-                debt: 0,
-                avatar: "/images/avatar-azizbek.png",
+              const name = String(data.get("name") || "").trim();
+              const phone = String(data.get("phone") || "").trim();
+              const row: Patient = {
+                id: `p-${Date.now()}`,
+                num: storedPatients.length + 1,
+                name: name || "Bemor",
+                age: 0,
+                gender: "Ayol",
+                phone,
+                city: clinicCity === "Shahar tanlanmagan" ? "" : clinicCity,
+                status: "yangi",
+                lastVisit: "",
+                nextVisit: "",
+                avatar: "/img/jobs/doctor.jpg",
+                email: "",
+                created: iso(new Date()),
+                addedAt: Date.now(),
+                teeth: {},
+                visits: [],
+                payments: [],
+                docs: [],
               };
-              setPatients((prev) => [row, ...prev]);
+              setStoredPatients((prev) => [row, ...prev]);
               setPatientOpen(false);
             }}
           >
@@ -404,7 +395,23 @@ export function KlinikaDesktop() {
             onSubmit={(event) => {
               event.preventDefault();
               const data = new FormData(event.currentTarget);
-              book(String(data.get("name") || "Bemor"), String(data.get("note") || "Qabul"));
+              const name = String(data.get("name") || "Bemor");
+              const note = String(data.get("note") || "Qabul");
+              const appt: Appointment = {
+                id: `user-${Date.now()}`,
+                date: day,
+                start: bookOpen.time,
+                end: bookOpen.time,
+                patient: name,
+                avatar: "/img/jobs/doctor.jpg",
+                service: note,
+                doctor: profile?.fullName || "Shifokor",
+                doctorId: "self",
+                room: bookOpen.chair,
+                status: "tasdiq",
+              };
+              setAppointments((prev) => [appt, ...prev]);
+              book(name, note);
             }}
           >
             <h3>
@@ -434,7 +441,7 @@ export function KlinikaDesktop() {
             onSubmit={(event) => {
               event.preventDefault();
               const data = new FormData(event.currentTarget);
-              setClinicName(String(data.get("name") || clinicName));
+              void updateProfile({ clinic: String(data.get("name") || clinicName).trim() });
               setSettings(false);
             }}
           >

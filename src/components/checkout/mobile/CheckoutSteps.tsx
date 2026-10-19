@@ -31,7 +31,7 @@ import { useCart } from "@/components/cart-provider";
 import { MobileMenuButton } from "@/components/dashboard/mobile-chrome";
 import { useDoctorProfile } from "@/components/doctor-profile-provider";
 import { NotificationBell } from "@/components/notification-bell";
-import { loadPlacedOrders, rememberPlacedOrder, type MobileOrder } from "@/data/mobile-orders";
+import { type MobileOrder } from "@/data/mobile-orders";
 import { formatMoney } from "@/lib/format";
 import { createOrder, type PaymentMethod } from "@/lib/orders";
 import "./checkout-steps.css";
@@ -131,7 +131,7 @@ export function CheckoutSteps() {
   const [saved, setSaved] = useState<string>(SAVED[0].id);
   const [comment, setComment] = useState("");
   const [delivery, setDelivery] = useState<ShipId>("courier");
-  const [pay, setPay] = useState<PayId>("click");
+  const [pay, setPay] = useState<PayId>("naqd");
   const [promo, setPromo] = useState("");
   const [promoOn, setPromoOn] = useState(false);
   const [promoError, setPromoError] = useState("");
@@ -212,35 +212,13 @@ export function CheckoutSteps() {
     setPromoOn(true);
   }
 
-  function confirm() {
+  async function confirm() {
     if (!oferta) {
       setError("Ofertani tasdiqlang");
       return;
     }
-    const seq = 10080 + loadPlacedOrders().length;
-    const order: MobileOrder = {
-      id: `sk-${seq}`,
-      number: `SK-${seq}`,
-      date: stamp(new Date()),
-      seller: items[0]?.product.shopName || items[0]?.product.brand || "StomaHub Market",
-      status: "jarayonda",
-      itemCount: items.reduce((sum, item) => sum + item.qty, 0),
-      total,
-      images: items.slice(0, 3).map((item) => item.product.image),
-      extra: Math.max(0, items.length - 3),
-      place: [district, city].filter(Boolean).join(", "),
-      delivery,
-      items: items.map((item) => ({
-        id: item.product.id,
-        name: item.product.name,
-        price: item.product.price,
-        image: item.product.image,
-        qty: item.qty,
-      })),
-    };
-    rememberPlacedOrder(order);
     const note = [comment.trim(), delivery === "pickup" ? "Olib ketaman" : ""].filter(Boolean).join(". ");
-    void createOrder({
+    const result = await createOrder({
       name: name.trim(),
       phone: phone.trim(),
       city,
@@ -255,7 +233,31 @@ export function CheckoutSteps() {
         source: item.source,
         expiryMonths: item.expiryMonths,
       })),
-    }).catch(() => undefined);
+    });
+    if (!result.ok) {
+      setError(result.reason);
+      return;
+    }
+    const order: MobileOrder = {
+      id: result.order.id,
+      number: result.order.id,
+      date: stamp(new Date(result.order.createdAt)),
+      seller: result.order.shopName || items[0]?.product.shopName || "StomaHub Market",
+      status: "jarayonda",
+      itemCount: items.reduce((sum, item) => sum + item.qty, 0),
+      total: result.order.total,
+      images: items.slice(0, 3).map((item) => item.product.image),
+      extra: Math.max(0, items.length - 3),
+      place: [district, city].filter(Boolean).join(", "),
+      delivery,
+      items: items.map((item) => ({
+        id: item.product.id,
+        name: item.product.name,
+        price: item.product.price,
+        image: item.product.image,
+        qty: item.qty,
+      })),
+    };
     clear();
     setPlaced(order);
     setError("");
@@ -280,7 +282,7 @@ export function CheckoutSteps() {
           <ShoppingCart />
           {lines > 0 ? <span className="mh-badge" data-testid="ck-cart-badge">{lines > 9 ? "9+" : lines}</span> : null}
         </Link>
-        <NotificationBell variant="mobile" minBadge={3} buttonClassName="size-10 text-[#1a1d26]" />
+        <NotificationBell variant="mobile" buttonClassName="size-10 text-[#1a1d26]" />
       </header>
 
       <div className="ck-body">

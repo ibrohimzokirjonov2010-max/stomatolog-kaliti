@@ -16,18 +16,31 @@ alter table public.jobs
 
 alter table public.jobs drop constraint if exists jobs_job_type_check;
 alter table public.jobs add constraint jobs_job_type_check check (job_type in ('full', 'part', 'shift', 'freelance', 'amaliyot'));
+alter table public.jobs drop constraint if exists jobs_category_check;
 alter table public.jobs add constraint jobs_category_check check (category is null or category in ('klinika', 'texnik', 'shifokor'));
+alter table public.jobs drop constraint if exists jobs_photos_check;
 alter table public.jobs add constraint jobs_photos_check check (cardinality(photos) <= 8);
+alter table public.jobs drop constraint if exists jobs_video_check;
 alter table public.jobs add constraint jobs_video_check check (video is null or char_length(video) <= 400);
+alter table public.jobs drop constraint if exists jobs_logo_check;
 alter table public.jobs add constraint jobs_logo_check check (logo is null or char_length(logo) <= 400);
+alter table public.jobs drop constraint if exists jobs_district_check;
 alter table public.jobs add constraint jobs_district_check check (district is null or char_length(district) <= 60);
+alter table public.jobs drop constraint if exists jobs_address_check;
 alter table public.jobs add constraint jobs_address_check check (address is null or char_length(address) <= 200);
+alter table public.jobs drop constraint if exists jobs_work_days_check;
 alter table public.jobs add constraint jobs_work_days_check check (work_days is null or char_length(work_days) <= 60);
+alter table public.jobs drop constraint if exists jobs_work_hours_check;
 alter table public.jobs add constraint jobs_work_hours_check check (work_hours is null or char_length(work_hours) <= 40);
+alter table public.jobs drop constraint if exists jobs_benefits_check;
 alter table public.jobs add constraint jobs_benefits_check check (cardinality(benefits) <= 6 and benefits <@ array['rasmiy','oqim','malaka','jamoa','sharoit','avtoturargoh','tushlik','bonus']::text[]);
+alter table public.jobs drop constraint if exists jobs_requirements_check;
 alter table public.jobs add constraint jobs_requirements_check check (cardinality(requirements) <= 8);
+alter table public.jobs drop constraint if exists jobs_employer_about_check;
 alter table public.jobs add constraint jobs_employer_about_check check (employer_about is null or char_length(employer_about) <= 160);
+alter table public.jobs drop constraint if exists jobs_staff_count_check;
 alter table public.jobs add constraint jobs_staff_count_check check (staff_count is null or staff_count between 1 and 5000);
+alter table public.jobs drop constraint if exists jobs_founded_year_check;
 alter table public.jobs add constraint jobs_founded_year_check check (founded_year is null or founded_year between 1950 and 2100);
 
 create or replace function private.job_json(j public.jobs, p_viewer uuid)

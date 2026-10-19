@@ -11,7 +11,7 @@ import {
 } from "react";
 import Link from "next/link";
 import { Check, X } from "lucide-react";
-import { MIN_CHANNEL_BID, seedChannels, type Channel, type ChannelCategory } from "@/data/channels";
+import { MIN_CHANNEL_BID, type Channel, type ChannelCategory } from "@/data/channels";
 import { useDoctorProfile } from "@/components/doctor-profile-provider";
 import { minBidToOutrank, normalizeUsername, type AddChannelInput, type BidResult } from "@/lib/channels-work";
 
@@ -38,10 +38,9 @@ function sortByBid(list: Channel[]) {
   );
 }
 
-/** Seed channels (in code) + community channels from the DB, with DB auction bids applied. */
+/** Community channels from the database, with auction bids applied. */
 function merge(data: ChannelsData): Channel[] {
   const bids = data.bids ?? {};
-  const seeds = seedChannels.map((c) => ({ ...c, bidSum: Math.max(c.bidSum, Number(bids[c.id]) || 0) }));
   const added: Channel[] = data.channels.map((c) => ({
     id: c.id,
     username: c.username,
@@ -52,7 +51,7 @@ function merge(data: ChannelsData): Channel[] {
     mine: Boolean(c.mine),
     bidSum: Math.max(MIN_CHANNEL_BID, Number(bids[c.id]) || 0),
   }));
-  return sortByBid([...seeds, ...added]);
+  return sortByBid(added);
 }
 
 export function ChannelsProvider({ children }: { children: ReactNode }) {

@@ -5,7 +5,9 @@ import Link from "next/link";
 import { Calendar, ChevronRight, Download, Eye, Filter, MessageCircle, Phone, Plus, QrCode, Share2, SlidersHorizontal } from "lucide-react";
 import QRCode from "qrcode";
 import { PhoneFrame, SearchBox, Sheet } from "@/components/phone14/chrome";
-import { hidePhonePatient, listPhonePatients } from "@/data/phone-records";
+import { hidePhonePatient, listPhonePatients, writePatientCache } from "@/data/phone-records";
+import { loadPatientsWithImport } from "@/lib/crm-client";
+import type { Patient } from "@/data/crm";
 import { ToothChart, ToothLegend } from "@/components/phone14/teeth";
 import { PHONE_PAYS_KEY, PHONE_PLANS_KEY, phoneCerts, phoneLate, phonePatients, phonePayments, phoneStock, planStages, readPhoneStore, relDateLabel, type PhonePatient } from "@/data/phone14";
 import { certificatesFromTickets } from "@/data/certificates";
@@ -148,8 +150,16 @@ export function PhonePatients() {
   const [city, setCity] = useState("");
   const [open, setOpen] = useState(false);
   const [menu, setMenu] = useState<PhonePatient | null>(null);
-  useEffect(() => { setReady(true); }, [rev]);
-  const all = ready ? listPhonePatients() : phonePatients;
+  useEffect(() => {
+    const bump = () => setRev((value) => value + 1);
+    window.addEventListener("sk-crm-patients", bump);
+    void loadPatientsWithImport<Patient>().then((items) => {
+      writePatientCache(items);
+      setReady(true);
+    });
+    return () => window.removeEventListener("sk-crm-patients", bump);
+  }, []);
+  const all = ready ? listPhonePatients() : [];
   const filteredCity = all.filter((item) => !city || (item.city || "Toshkent") === city);
   const counts = {
     "": filteredCity.length,

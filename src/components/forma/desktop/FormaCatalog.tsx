@@ -1,7 +1,7 @@
 "use client";
 /* eslint-disable @next/next/no-img-element -- desktop shell sizes raw images with --u */
 
-import { useMemo, useState, type ReactNode } from "react";
+import { useEffect, useMemo, useState, type ReactNode } from "react";
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
 import {
@@ -24,8 +24,6 @@ import { shopAdd, shopToggleFav, som, somPlain, useShopFavs, useShopLineCount } 
 import {
   FORMA_PRICE_MAX,
   LOGO_PRICE,
-  desktopForma,
-  formaBrands,
   formaCats,
   formaGenders,
   formaMaterials,
@@ -38,6 +36,7 @@ import {
   type FormaGender,
   type FormaMaterial,
 } from "@/data/desktop-forma";
+import { fetchSectionProducts, toDesktopForma } from "@/lib/live-content";
 import "./forma.css";
 
 const sorts = [
@@ -86,7 +85,7 @@ export function FormaCatalog() {
   const [materials, setMaterials] = useState<FormaMaterial[]>([]);
   const [brands, setBrands] = useState<string[]>(() => {
     const raw = params.get("brand");
-    return raw && formaBrands.some((item) => item.id === raw) ? [raw] : [];
+    return raw ? [raw] : [];
   });
   const [moreBrands, setMoreBrands] = useState(false);
   const [price, setPrice] = useState<[number, number]>([0, FORMA_PRICE_MAX]);
@@ -97,13 +96,31 @@ export function FormaCatalog() {
   const [note, setNote] = useState("");
   const [chart, setChart] = useState(false);
   const [bulk, setBulk] = useState(false);
+  const [source, setSource] = useState<DesktopForma[]>([]);
+  const [ready, setReady] = useState(false);
+  useEffect(() => {
+    let stop = false;
+    void fetchSectionProducts("forma").then((rows) => {
+      if (stop) return;
+      setSource(rows.map(toDesktopForma));
+      setReady(true);
+    });
+    return () => {
+      stop = true;
+    };
+  }, []);
 
-  const shownBrands = moreBrands ? formaBrands : formaBrands.slice(0, 5);
+  const liveBrands = useMemo(() => {
+    const map = new Map<string, string>();
+    for (const item of source) map.set(item.brandKey, item.brand);
+    return [...map].map(([id, label]) => ({ id, label }));
+  }, [source]);
+  const shownBrands = moreBrands ? liveBrands : liveBrands.slice(0, 5);
   const priceOn = price[0] > 0 || price[1] < FORMA_PRICE_MAX;
 
   const items = useMemo(() => {
     const families = formaSwatches.filter((sw) => colors.includes(sw.id)).flatMap((sw) => sw.family);
-    const rows = desktopForma.filter((item) => {
+    const rows = source.filter((item) => {
       if (cat !== "all" && item.cat !== cat) return false;
       if (genders.length && !genders.includes(item.gender) && !(item.gender === "uniseks" && genders.length < 3)) return false;
       if (sizes.length && !item.sizes.some((size) => sizes.includes(size === "XXL" ? "2XL" : size))) return false;
@@ -121,7 +138,7 @@ export function FormaCatalog() {
       if (sort === "new") return Number(Boolean(b.isNew)) - Number(Boolean(a.isNew)) || b.popularity - a.popularity;
       return b.popularity - a.popularity;
     });
-  }, [brands, cat, colors, genders, materials, price, priceOn, q, sizes, sort]);
+  }, [brands, cat, colors, genders, materials, price, priceOn, q, sizes, sort, source]);
 
   function toggle<T>(current: T[], value: T, set: (next: T[]) => void) {
     set(current.includes(value) ? current.filter((item) => item !== value) : [...current, value]);
@@ -278,8 +295,8 @@ export function FormaCatalog() {
 
             {items.length === 0 ? (
               <div className="fx-empty">
-                <b>Mos mahsulot topilmadi</b>
-                <p>Filtrlarni o‘zgartirib ko‘ring.</p>
+                <b>{!ready ? "Yuklanmoqda..." : source.length === 0 ? "Hozircha mahsulot yo‘q" : "Mos mahsulot topilmadi"}</b>
+                <p>{source.length === 0 ? "Tasdiqlangan do‘kon egasi Forma toifasida mahsulot qo‘shganda shu yerda chiqadi." : "Filtrlarni o‘zgartirib ko‘ring."}</p>
                 <button type="button" onClick={reset}>Filtrlarni tozalash</button>
               </div>
             ) : (
@@ -398,7 +415,7 @@ export function FormaCatalog() {
           </Modal>
         ) : null}
 
-        {bulk ? <BulkModal onClose={() => setBulk(false)} onDone={setNote} /> : null}
+        {bulk ? <BulkModal source={source} onClose={() => setBulk(false)} onDone={setNote} /> : null}
 
         {note ? <p className="fx-toast" role="status" onAnimationEnd={() => setNote("")}>{note}</p> : null}
       </div>
@@ -406,10 +423,17 @@ export function FormaCatalog() {
   );
 }
 
-function BulkModal({ onClose, onDone }: { onClose: () => void; onDone: (text: string) => void }) {
-  const [slug, setSlug] = useState(desktopForma[0].slug);
+function BulkModal({ source, onClose, onDone }: { source: DesktopForma[]; onClose: () => void; onDone: (text: string) => void }) {
+  const [slug, setSlug] = useState(source[0]?.slug ?? "");
   const [qty, setQty] = useState(10);
-  const item = desktopForma.find((entry) => entry.slug === slug) ?? desktopForma[0];
+  const item = source.find((entry) => entry.slug === slug) ?? source[0];
+  if (!item) {
+    return (
+      <Modal title="Klinika uchun ulgurji buyurtma" onClose={onClose}>
+        <p className="fx-muted">Hozircha mahsulot yo‘q</p>
+      </Modal>
+    );
+  }
   const rate = wholesaleRate(qty);
   const unit = Math.round(item.price * (1 - rate));
   return (
@@ -417,7 +441,7 @@ function BulkModal({ onClose, onDone }: { onClose: () => void; onDone: (text: st
       <p className="fx-muted">10 donadan boshlab chegirma qo‘llanadi. 100+ dona uchun maxsus narxni menejer kelishadi.</p>
       <label className="fx-field">Mahsulot
         <select value={slug} onChange={(event) => setSlug(event.target.value)}>
-          {desktopForma.map((entry) => <option key={entry.slug} value={entry.slug}>{entry.brand} — {entry.name}</option>)}
+          {source.map((entry) => <option key={entry.slug} value={entry.slug}>{entry.brand} — {entry.name}</option>)}
         </select>
       </label>
       <label className="fx-field">Soni (dona)

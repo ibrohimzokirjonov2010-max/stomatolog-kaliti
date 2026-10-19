@@ -144,7 +144,7 @@ export function MobileHome() {
           <ShoppingCart />
           <span className="mh-badge" data-testid="home-cart-badge">{cartBadge > 9 ? "9+" : cartBadge}</span>
         </Link>
-        <NotificationBell variant="mobile" minBadge={2} buttonClassName="size-10 text-[#1a1d26]" />
+        <NotificationBell variant="mobile" buttonClassName="size-10 text-[#1a1d26]" />
       </header>
 
       <div className="mh-body">

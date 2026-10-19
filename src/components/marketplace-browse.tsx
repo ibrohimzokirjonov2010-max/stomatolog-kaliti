@@ -179,8 +179,7 @@ export function MarketplaceBrowse({
   }
 
   const tabsLocked = Boolean(forcedCategory);
-  const defaultView = !forcedCategory && checkedCats.length === 0 && !checkedBrands.length && !inStockOnly && !q && !priceDirty;
-  const resultCount = defaultView ? 248 : visible.length;
+  const resultCount = visible.length;
   const mobileTabs = categoryTabs.filter((item) => item.id !== "forma");
   const mobileActive = forcedCategory ? forcedCategory : tab;
   const mobileList = useMemo(() => visible, [visible]);

@@ -1,31 +1,36 @@
 "use client";
 
-import { useSyncExternalStore } from "react";
+import { useEffect, useState } from "react";
 import Link from "next/link";
 import { useParams } from "next/navigation";
 import { MyOrderDetail } from "@/components/my-orders";
 import { TrackMobile } from "@/components/orders/mobile/TrackMobile";
-import { getMobileOrder, mobileOrders, type MobileOrder } from "@/data/mobile-orders";
-
-function useTrackedOrder(id: string): MobileOrder | undefined {
-  return useSyncExternalStore(
-    (onChange) => {
-      window.addEventListener("sk-placed-orders", onChange);
-      return () => window.removeEventListener("sk-placed-orders", onChange);
-    },
-    () => (id ? getMobileOrder(id) : undefined),
-    () => (id ? mobileOrders.find((order) => order.id === id) : undefined),
-  );
-}
+import type { MobileOrder } from "@/data/mobile-orders";
+import { toMobileOrder } from "@/lib/order-present";
+import { loadOrders, syncOrders } from "@/lib/orders";
 
 export default function BuyurtmaDetailPage() {
   const params = useParams();
   const id = typeof params.id === "string" ? decodeURIComponent(params.id) : "";
-  const order = useTrackedOrder(id);
+  const [order, setOrder] = useState<MobileOrder | undefined>();
+  const [ready, setReady] = useState(false);
+
+  useEffect(() => {
+    let cancel = false;
+    void syncOrders(true).finally(() => {
+      if (cancel) return;
+      const found = loadOrders().find((item) => item.id === id);
+      setOrder(found ? toMobileOrder(found) : undefined);
+      setReady(true);
+    });
+    return () => {
+      cancel = true;
+    };
+  }, [id]);
 
   return (
     <>
-      <TrackMobile order={order} />
+      {ready ? <TrackMobile order={order} /> : <p className="p-6 text-sm text-slate-500 lg:hidden">Yuklanmoqda</p>}
       <div className="hidden lg:block">
         <header className="mb-4">
           <p className="text-[13px] text-[#8b93a7]">

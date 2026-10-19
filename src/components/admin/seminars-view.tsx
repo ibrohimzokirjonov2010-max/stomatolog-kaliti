@@ -4,7 +4,6 @@ import { useState } from "react";
 import Link from "next/link";
 import { Check, ExternalLink, GraduationCap, UserCog, X } from "lucide-react";
 import { Card, Empty, ErrorBox, Loading, PageHead, Pill, adminPost, btn, fmtDate, useAdminData, useToast, type Tone } from "@/components/admin/ui";
-import { seminars as catalog } from "@/data/seminars";
 import { SEMINAR_STATUS_LABEL, type SeminarRow } from "@/lib/seminar-remote";
 import { cn } from "@/lib/utils";
 
@@ -105,11 +104,6 @@ export function SeminarsView() {
               <div className="mt-3 space-y-2">
                 <select value={assign.seminarId} onChange={(e) => setAssign({ ...assign, seminarId: e.target.value })} className="h-10 w-full rounded-lg border border-[#e2e8f0] bg-white px-3 text-[13px]" aria-label="Seminar">
                   <option value="">Seminarni tanlang…</option>
-                  <optgroup label="Katalog (namuna)">
-                    {catalog.filter((s) => !s.remote).map((s) => (
-                      <option key={s.id} value={s.id}>{s.title}{organizerOf(s.id) ? ` — ${organizerOf(s.id)}` : ""}</option>
-                    ))}
-                  </optgroup>
                   {data.seminars.length ? (
                     <optgroup label="Tashkilotchilar seminarlari">
                       {data.seminars.map((s) => <option key={s.id} value={s.id}>{s.title}</option>)}
@@ -119,13 +113,6 @@ export function SeminarsView() {
                 <input value={assign.phone} onChange={(e) => setAssign({ ...assign, phone: e.target.value })} inputMode="tel" placeholder="+998 90 123 45 67" className="h-10 w-full rounded-lg border border-[#e2e8f0] bg-white px-3 text-[13px]" aria-label="Tashkilotchi telefoni" />
                 <button type="button" className={btn.primary} disabled={busy === "assign"} onClick={doAssign}>Saqlash</button>
               </div>
-              {data.organizers.filter((o) => catalog.some((c) => c.id === o.seminarId && !c.remote)).length ? (
-                <ul className="mt-4 space-y-1 border-t border-[#f1f5f9] pt-3 text-[12.5px] text-slate-600">
-                  {data.organizers.filter((o) => catalog.some((c) => c.id === o.seminarId && !c.remote)).map((o) => (
-                    <li key={o.seminarId}>{catalog.find((c) => c.id === o.seminarId)?.title}: <b>{o.organizerName ?? "—"}</b></li>
-                  ))}
-                </ul>
-              ) : null}
             </Card>
           </div>
 

@@ -3,12 +3,12 @@
 import { useState } from "react";
 import Link from "next/link";
 import { Plus } from "lucide-react";
-import { buildPatients, patientStatuses } from "@/data/crm";
-import { useStoredList } from "@/lib/stored-list";
+import { patientStatuses, type Patient } from "@/data/crm";
+import { useCrmPatients } from "@/lib/use-crm-list";
 import { NewPatientModal, patientFromDraft, type NewPatientDraft } from "@/components/crm/NewPatientModal";
 
 export function PatientsPhone() {
-  const [items, setItems] = useStoredList("sk-crm-patients-v1", buildPatients());
+  const [items, setItems] = useCrmPatients<Patient>();
   const [open, setOpen] = useState(false);
   const [toast, setToast] = useState("");
 

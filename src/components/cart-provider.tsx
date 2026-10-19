@@ -130,8 +130,27 @@ export function CartProvider({ children }: { children: ReactNode }) {
 
   useEffect(() => {
     if (!ready) return;
-    window.localStorage.setItem(STORAGE_KEY, JSON.stringify({ lines, extras }));
+    const payload = JSON.stringify({ lines, extras });
+    if (window.localStorage.getItem(STORAGE_KEY) !== payload) {
+      window.localStorage.setItem(STORAGE_KEY, payload);
+      window.dispatchEvent(new Event("sk-cart-changed"));
+    }
   }, [extras, lines, ready]);
+
+  useEffect(() => {
+    if (!ready) return;
+    const reload = () => {
+      const stored = readStored();
+      setLines(stored.lines);
+      setExtras(stored.extras);
+    };
+    window.addEventListener("sk-cart-changed", reload);
+    window.addEventListener("storage", reload);
+    return () => {
+      window.removeEventListener("sk-cart-changed", reload);
+      window.removeEventListener("storage", reload);
+    };
+  }, [ready]);
 
   useEffect(() => {
     if (!ready) return;

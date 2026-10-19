@@ -1,7 +1,7 @@
 "use client";
 
 import { Suspense, useEffect, type ReactNode } from "react";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { DashboardShell } from "@/components/dashboard/shell";
 import DesktopHomePage from "@/components/home/desktop/HomePage";
 import { MarketCatalog } from "@/components/shop/desktop/MarketCatalog";
@@ -21,11 +21,7 @@ import { KanallarDesktop } from "@/components/hub/desktop/KanallarDesktop";
 import { CommunityDesktop } from "@/components/hub/desktop/CommunityDesktop";
 import { KlinikaDesktop } from "@/components/hub/desktop/KlinikaDesktop";
 import { FormaCatalog } from "@/components/forma/desktop/FormaCatalog";
-import { FormaProduct } from "@/components/forma/desktop/FormaProduct";
-import { getDesktopForma } from "@/data/desktop-forma";
 import { JihozCatalog } from "@/components/jihoz/desktop/JihozCatalog";
-import { JihozProduct } from "@/components/jihoz/desktop/JihozProduct";
-import { getDesktopJihoz } from "@/data/desktop-jihozlar";
 import { JobsDesktop } from "@/components/jobs/desktop/JobsDesktop";
 import { NewsDesktop } from "@/components/news/desktop/NewsDesktop";
 import { MutaxassislarDesktop } from "@/components/specialists/desktop/MutaxassislarDesktop";
@@ -61,9 +57,18 @@ function isBarePath(pathname: string | null) {
   return BARE_PREFIXES.some((p) => pathname === p || pathname.startsWith(`${p}/`));
 }
 
+function needsAccount(pathname: string) {
+  if (pathname === "/profil" || pathname === "/buyurtmalarim" || pathname.startsWith("/buyurtmalarim/")) return true;
+  if (pathname === "/buyurtma" || pathname === "/checkout") return true;
+  if (pathname.startsWith("/crm/")) return true;
+  return false;
+}
+
 export function AppChrome({ children }: { children: ReactNode }) {
   const pathname = usePathname();
+  const router = useRouter();
   const { ready, profile } = useDoctorProfile();
+  const gated = Boolean(pathname && needsAccount(pathname));
   /** Guests on `/` get landing without app chrome; avoid chrome flash while hydrating. */
   const guestHome = pathname === "/" && (!ready || !profile);
   const bare = isBarePath(pathname) || guestHome;
@@ -85,7 +90,16 @@ export function AppChrome({ children }: { children: ReactNode }) {
     };
   }, [bare]);
 
+  useEffect(() => {
+    if (!ready || profile || !pathname || !gated) return;
+    router.replace(`/kirish?next=${encodeURIComponent(pathname)}`);
+  }, [gated, pathname, profile, ready, router]);
+
   const shop = desktopShop(pathname) ?? desktopSeminar(pathname) ?? desktopHub(pathname) ?? desktopForma(pathname) ?? desktopJihoz(pathname) ?? desktopJobs(pathname) ?? desktopNews(pathname) ?? desktopSpec(pathname) ?? desktopUsta(pathname) ?? desktopCart(pathname) ?? desktopFlow(pathname) ?? desktopCrm(pathname);
+
+  if (gated && ready && !profile) {
+    return <div className="grid min-h-[50vh] place-items-center text-sm text-slate-500">Hisobga kirish kerak.</div>;
+  }
 
   if (loggedInHome) {
     return (
@@ -153,19 +167,13 @@ function desktopHub(pathname: string | null): ReactNode | null {
 function desktopForma(pathname: string | null): ReactNode | null {
   if (!pathname) return null;
   if (pathname === "/forma") return <FormaCatalog />;
-  const match = pathname.match(/^\/forma\/([^/]+)$/);
-  if (!match || match[1] === "buyurtmalarim") return null;
-  if (!getDesktopForma(match[1])) return null;
-  return <FormaProduct slug={match[1]} />;
+  return null;
 }
 
 function desktopJihoz(pathname: string | null): ReactNode | null {
   if (!pathname) return null;
   if (pathname === "/jihozlar") return <JihozCatalog />;
-  const match = pathname.match(/^\/jihozlar\/([^/]+)$/);
-  if (!match) return null;
-  if (!getDesktopJihoz(match[1])) return null;
-  return <JihozProduct slug={match[1]} />;
+  return null;
 }
 
 function desktopJobs(pathname: string | null): ReactNode | null {

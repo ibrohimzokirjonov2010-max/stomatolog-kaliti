@@ -6,7 +6,7 @@ import { ChevronRight, Download, Plus, Printer, Search } from "lucide-react";
 import { CrmFrame, CrmModal } from "@/components/crm/desktop/CrmFrame";
 import { NewPlanModal } from "@/components/crm/CrmCreateModals";
 import { ADULT_LOWER, ADULT_UPPER, ToothChart, cycleTooth } from "@/components/crm/desktop/ToothChart";
-import { buildPatients, seedPlans, type PlanStep, type ToothState, type TreatmentPlan } from "@/data/crm";
+import { type PlanStep, type ToothState, type TreatmentPlan } from "@/data/crm";
 import { downloadPdf } from "@/lib/simple-pdf";
 import { useStoredList } from "@/lib/stored-list";
 import { formatGroupedNumber, formatMoney } from "@/lib/format";
@@ -21,12 +21,12 @@ const LEGEND: { id: ToothState; label: string }[] = [
   { id: "koronka", label: "Koronka" },
   { id: "ekstraksiya", label: "Ekstraksiya" },
 ];
-const PATIENTS = buildPatients().slice(0, 10);
+const PATIENTS: { id: string; name: string; teeth: Record<string, ToothState> }[] = [];
 const statusLabel = { davom: "Davom etmoqda", yakun: "Yakunlangan", reja: "Rejada" };
 const stepLabel = { bajarildi: "Bajarildi", davom: "Davom etmoqda", kutil: "Kutilmoqda" };
 
 export function PlansDesktop() {
-  const [plans, setPlans] = useStoredList("sk-crm-plans-v1", seedPlans);
+  const [plans, setPlans] = useStoredList<TreatmentPlan>("sk-crm-plans-v1", []);
   const [q, setQ] = useState("");
   const [status, setStatus] = useState("");
   const [doctor, setDoctor] = useState("");
@@ -48,7 +48,17 @@ export function PlansDesktop() {
     return true;
   }), [doctor, plans, q, status]);
   const plan = plans.find((item) => item.id === selected) ?? filtered[0] ?? plans[0];
-  const patient = PATIENTS.find((item) => item.id === plan?.patientId) ?? PATIENTS[0];
+  const foundPatient = PATIENTS.find((item) => item.id === plan?.patientId);
+  const patient = {
+    id: foundPatient?.id ?? plan?.patientId ?? "",
+    name: foundPatient?.name ?? "Bemor",
+    avatar: "/img/jobs/doctor.jpg",
+    age: 0,
+    gender: "",
+    phone: "",
+    city: "",
+    teeth: foundPatient?.teeth ?? {},
+  };
   const total = plan?.steps.reduce((sum, item) => sum + item.price, 0) ?? 0;
   const paid = plan?.payments.reduce((sum, item) => sum + item.amount, 0) ?? 0;
   const left = Math.max(0, total - paid);
@@ -58,7 +68,20 @@ export function PlansDesktop() {
     setPlans((prev) => prev.map((item) => (item.id === id ? change(item) : item)));
   }
 
-  if (!plan) return null;
+  if (!plan) {
+    return (
+      <CrmFrame active="plans" placeholder="Bemor, telefon, ID yoki xizmat bo‘yicha qidiring..." headerQuery={q} onHeaderQuery={setQ}>
+        <div data-testid="plans-desktop">
+          <div className="crm-head">
+            <div>
+              <h1>Davolash rejalari</h1>
+              <p>Hali reja yo‘q</p>
+            </div>
+          </div>
+        </div>
+      </CrmFrame>
+    );
+  }
 
   return (
     <CrmFrame active="plans" placeholder="Bemor, telefon, ID yoki xizmat bo‘yicha qidiring..." headerQuery={q} onHeaderQuery={setQ}>

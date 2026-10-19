@@ -1,13 +1,14 @@
 "use client";
 /* eslint-disable @next/next/no-img-element -- news photos are sized by the card layout */
 
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import Link from "next/link";
 import { Bell, Calendar, ChevronRight, Clock, Eye, Flame, Search, ShoppingCart, SlidersHorizontal } from "lucide-react";
 import { useCart } from "@/components/cart-provider";
 import { MobileMenuButton } from "@/components/dashboard/mobile-chrome";
 import { NotificationBell } from "@/components/notification-bell";
-import { formatNewsViews, mobileNews, newsKinds, type NewsKind } from "@/data/mobile-news";
+import { formatNewsViews, newsKinds, type MobileNews, type NewsKind } from "@/data/mobile-news";
+import { fetchNews, toMobileNews } from "@/lib/live-content";
 import "./yangiliklar-mobile.css";
 
 function KindIcon({ id }: { id: "all" | NewsKind }) {
@@ -71,6 +72,19 @@ export function YangiliklarMobileList() {
   const [kind, setKind] = useState<"all" | NewsKind>("all");
   const [filters, setFilters] = useState(false);
   const [subscribed, setSubscribed] = useState(false);
+  const [mobileNews, setMobileNews] = useState<MobileNews[]>([]);
+  const [ready, setReady] = useState(false);
+  useEffect(() => {
+    let stop = false;
+    void fetchNews().then((rows) => {
+      if (stop) return;
+      setMobileNews(rows.map(toMobileNews));
+      setReady(true);
+    });
+    return () => {
+      stop = true;
+    };
+  }, []);
 
   const rows = useMemo(() => {
     const q = query.trim().toLowerCase();
@@ -81,7 +95,7 @@ export function YangiliklarMobileList() {
         return `${item.title} ${item.excerpt}`.toLowerCase().includes(q);
       })
       .sort((a, b) => a.rank - b.rank);
-  }, [kind, query]);
+  }, [kind, mobileNews, query]);
 
   const featured = rows.find((item) => item.featured) ?? null;
   const list = rows.filter((item) => item.id !== featured?.id);
@@ -98,7 +112,7 @@ export function YangiliklarMobileList() {
           <ShoppingCart />
           {count > 0 ? <span className="mh-badge">{count > 9 ? "9+" : count}</span> : null}
         </Link>
-        <NotificationBell variant="mobile" minBadge={2} buttonClassName="size-10 text-[#1a1d26]" />
+        <NotificationBell variant="mobile" buttonClassName="size-10 text-[#1a1d26]" />
       </header>
       <div className="nw-body">
         <h1 className="nw-title">Yangiliklar</h1>
@@ -132,7 +146,7 @@ export function YangiliklarMobileList() {
           </Link>
         ) : null}
         <div className="nw-list">
-          {list.length === 0 && !featured ? <p className="nw-empty">Yangilik topilmadi</p> : null}
+          {list.length === 0 && !featured ? <p className="nw-empty">{!ready ? "Yuklanmoqda..." : mobileNews.length === 0 ? "Hozircha yangilik yo‘q" : "Yangilik topilmadi"}</p> : null}
           {list.map((item) => (
             <Link key={item.id} href={`/yangiliklar/${item.id}`} className="nw-card" data-testid={`nw-card-${item.id}`}>
               <img src={item.image} alt="" />

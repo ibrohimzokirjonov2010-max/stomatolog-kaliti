@@ -1,7 +1,7 @@
 "use client";
 /* eslint-disable @next/next/no-img-element -- catalog photos are sized by the fluid unit */
 
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
 import {
@@ -23,14 +23,8 @@ import { useCart } from "@/components/cart-provider";
 import { useFavorites } from "@/components/favorites-provider";
 import { MobileMenuButton } from "@/components/dashboard/mobile-chrome";
 import { NotificationBell } from "@/components/notification-bell";
-import {
-  MOBILE_MARKET_TOTAL,
-  mobileMarketCatalog,
-  mobileMarketChips,
-  mobileMarketProduct,
-  type MobileMarketChip,
-  type MobileMarketItem,
-} from "@/data/mobile-market";
+import { mobileMarketChips, type MobileMarketChip } from "@/data/mobile-market";
+import { fetchCatalogProducts, productFromCatalog, type CatalogCard } from "@/lib/catalog-client";
 import { formatMoney } from "@/lib/format";
 import "./market-mobile.css";
 
@@ -54,24 +48,36 @@ export function MarketMobileCatalog() {
   const [view, setView] = useState<"grid" | "list">("grid");
   const [filters, setFilters] = useState(false);
   const [brand, setBrand] = useState("");
-  const cartBadge = count > 0 ? count : 3;
-  const brands = [...new Set(mobileMarketCatalog.map((item) => item.brand))];
+  const cartBadge = count;
+  const [rows, setRows] = useState<CatalogCard[]>([]);
+  const [ready, setReady] = useState(false);
+  useEffect(() => {
+    let stop = false;
+    void fetchCatalogProducts().then((items) => {
+      if (stop) return;
+      setRows(items);
+      setReady(true);
+    });
+    return () => {
+      stop = true;
+    };
+  }, []);
+  const brands = [...new Set(rows.map((item) => item.brand))];
 
   const list = useMemo(() => {
     const q = query.trim().toLowerCase();
-    const items = mobileMarketCatalog.filter((item) => {
-      if (item.chip !== chip) return false;
+    const items = rows.filter((item) => {
+      if (item.category !== chip) return false;
       if (brand && item.brand !== brand) return false;
       if (!q) return true;
-      return `${item.brand} ${item.name} ${item.spec}`.toLowerCase().includes(q);
+      return `${item.brand} ${item.name} ${item.category}`.toLowerCase().includes(q);
     });
     if (sort === "dear") return [...items].sort((a, b) => b.price - a.price);
     if (sort === "rating") return [...items].sort((a, b) => b.rating - a.rating);
-    return items;
-  }, [brand, chip, query, sort]);
+    return [...items].sort((a, b) => a.price - b.price);
+  }, [brand, chip, query, rows, sort]);
 
-  const narrowed = chip !== "materiallar" || Boolean(query.trim()) || Boolean(brand);
-  const shown = narrowed ? list.length : MOBILE_MARKET_TOTAL;
+  const shown = list.length;
   const badge = 1 + (brand ? 1 : 0);
 
   return (
@@ -86,11 +92,13 @@ export function MarketMobileCatalog() {
         </button>
         <Link href="/savat" className="mh-ic" aria-label="Savat">
           <ShoppingCart />
-          <span className="mh-badge" data-testid="mk-cart-badge">
-            {cartBadge > 9 ? "9+" : cartBadge}
-          </span>
+          {cartBadge > 0 ? (
+            <span className="mh-badge" data-testid="mk-cart-badge">
+              {cartBadge > 9 ? "9+" : cartBadge}
+            </span>
+          ) : null}
         </Link>
-        <NotificationBell variant="mobile" minBadge={2} buttonClassName="size-10 text-[#1a1d26]" />
+        <NotificationBell variant="mobile" buttonClassName="size-10 text-[#1a1d26]" />
       </header>
 
       <div className="mk-body">
@@ -157,8 +165,8 @@ export function MarketMobileCatalog() {
           </div>
         </div>
 
-        {list.length === 0 ? (
-          <p className="mk-note">Mos mahsulot topilmadi</p>
+        {!ready || list.length === 0 ? (
+          <p className="mk-note">{!ready ? "Yuklanmoqda..." : rows.length === 0 ? "Hozircha mahsulot yo‘q" : "Mos mahsulot topilmadi"}</p>
         ) : (
           <div className={view === "list" ? "mk-grid list" : "mk-grid"}>
             {list.map((item) => (
@@ -167,7 +175,7 @@ export function MarketMobileCatalog() {
                 item={item}
                 saved={favorites.has(item.id)}
                 onSave={() => favorites.toggle(item.id)}
-                onAdd={() => add(item.id, mobileMarketProduct(item))}
+                onAdd={() => add(item.id, productFromCatalog(item))}
               />
             ))}
           </div>
@@ -222,7 +230,7 @@ function MarketCard({
   onSave,
   onAdd,
 }: {
-  item: MobileMarketItem;
+  item: CatalogCard;
   saved: boolean;
   onSave: () => void;
   onAdd: () => void;
@@ -231,9 +239,9 @@ function MarketCard({
     <article className="mk-card">
       <div className="mk-ph">
         <Link href={`/marketplace/${item.id}`} aria-label={item.name}>
-          <img src={item.image} alt="" />
+          {item.image ? <img src={item.image} alt="" /> : null}
         </Link>
-        <span className="mk-off">-{item.discount}%</span>
+        {item.discount ? <span className="mk-off">-{item.discount}%</span> : null}
         <button type="button" className={saved ? "mk-heart on" : "mk-heart"} aria-label="Sevimlilar" aria-pressed={saved} onClick={onSave}>
           <Heart fill={saved ? "currentColor" : "none"} />
         </button>
@@ -241,14 +249,14 @@ function MarketCard({
       <Link href={`/marketplace/${item.id}`}>
         <p className="brand">{item.brand}</p>
         <h3>{item.name}</h3>
-        <p className="spec">{item.spec}</p>
+        <p className="spec">{item.category}</p>
         <p className="mk-rate">
           <Star /> {item.rating} ({item.reviews} ta baho)
         </p>
         <div className="mk-price">
           <div>
             <b>{formatMoney(item.price, "UZS")}</b>
-            <s>{formatMoney(item.oldPrice, "UZS")}</s>
+            {item.oldPrice ? <s>{formatMoney(item.oldPrice, "UZS")}</s> : null}
           </div>
           <span className="mk-live">Sotuvda</span>
         </div>
