@@ -31,7 +31,6 @@ import type { Candidate, Job } from "@/data/jobs";
 import {
   SALARY_MAX,
   SALARY_MIN,
-  desktopJobs,
   expTag,
   jobCities,
   jobExps,
@@ -155,7 +154,7 @@ export function JobsDesktop() {
     });
   }
 
-  const all = useMemo<JobView[]>(() => [...work.catalog.filter((job) => !job.mine).map(fromDb), ...desktopJobs.map((item, index) => ({ ...item, top: index === 0 }))], [work.catalog]);
+  const all = useMemo<JobView[]>(() => work.catalog.filter((job) => !job.mine).map(fromDb), [work.catalog]);
   const salaryOn = salary[0] > SALARY_MIN || salary[1] < SALARY_MAX;
 
   const matches = (item: JobView, skip?: "city" | "spec" | "type" | "exp") => {
@@ -305,7 +304,7 @@ export function JobsDesktop() {
                 </div>
                 {items.length === 0 ? (
                   <div className="ij-empty">
-                    <b>{tab === "saved" ? "Saqlangan vakansiya yo‘q" : "Mos vakansiya topilmadi"}</b>
+                    <b>{tab === "saved" ? "Saqlangan vakansiya yo‘q" : work.catalog.length === 0 ? "Hozircha vakansiya yo‘q" : "Mos vakansiya topilmadi"}</b>
                     <p>{tab === "saved" ? "Vakansiyadagi “Saqlash” tugmasini bosing — u shu yerda turadi." : "Filtrlarni o‘zgartirib ko‘ring."}</p>
                     {tab === "saved" ? <button type="button" className="ij-apply" onClick={() => setTab("jobs")}>Vakansiyalar</button> : <button type="button" className="ij-apply" onClick={reset}>Filtrlarni tozalash</button>}
                   </div>

@@ -8,15 +8,12 @@ import { ShopShell } from "@/components/shop/desktop/ShopShell";
 import { useShopLineCount } from "@/components/shop/desktop/shop-cart";
 import {
   channelTopics,
-  channels as seedChannels,
-  editorPickIds,
-  officialChannels,
-  savedChannelIds,
   subsFull,
   subsK,
   type Channel,
   type Platform,
 } from "@/data/desktop-hub";
+import { channelCategoryLabel, type ChannelCategory } from "@/data/channels";
 import "./hub.css";
 
 const platforms: { id: "all" | Platform; label: string }[] = [
@@ -41,20 +38,52 @@ export function KanallarDesktop() {
   const params = useSearchParams();
   const paramQ = params.get("q") ?? "";
   const [q, setQ] = useState(paramQ);
-  const [list, setList] = useState<Channel[]>(seedChannels);
+  const [list, setList] = useState<Channel[]>([]);
   const [platform, setPlatform] = useState<"all" | Platform>("all");
   const [topic, setTopic] = useState("Barchasi");
   const [lang, setLang] = useState<(typeof langs)[number]>("Barchasi");
   const [sort, setSort] = useState("pop");
   const [sortOpen, setSortOpen] = useState(false);
   const [subs, setSubs] = useState<string[]>([]);
-  const [saved, setSaved] = useState<string[]>(savedChannelIds);
+  const [saved, setSaved] = useState<string[]>([]);
   const [savedOpen, setSavedOpen] = useState(false);
   const [offer, setOffer] = useState(false);
 
   useEffect(() => {
     setQ(paramQ);
   }, [paramQ]);
+
+  useEffect(() => {
+    let stop = false;
+    void fetch("/api/channels", { credentials: "same-origin" })
+      .then((res) => res.json())
+      .then((json: { ok?: boolean; channels?: { id: string; username: string; name: string; category: ChannelCategory }[] }) => {
+        if (stop || !json.ok) return;
+        const topicOf = (category: string) => channelCategoryLabel[category as ChannelCategory] ?? "Umumiy";
+        setList(
+          (json.channels ?? []).map((item, index) => ({
+            id: item.id,
+            name: item.name,
+            handle: item.username,
+            platform: "telegram" as const,
+            topic: topicOf(item.category),
+            lang: "O‘zbek" as const,
+            subscribers: 0,
+            rating: 0,
+            reviews: 0,
+            about: item.username,
+            tags: [topicOf(item.category), "Telegram"] as [string, string],
+            verified: false,
+            image: "",
+            popularity: 1000 - index,
+          })),
+        );
+      })
+      .catch(() => undefined);
+    return () => {
+      stop = true;
+    };
+  }, []);
 
   const shown = useMemo(() => {
     const query = q.trim().toLowerCase();
@@ -75,7 +104,7 @@ export function KanallarDesktop() {
     setSaved((prev) => (prev.includes(id) ? prev.filter((item) => item !== id) : [...prev, id]));
   }
 
-  const picks = editorPickIds.map((id) => list.find((item) => item.id === id)).filter((item): item is Channel => Boolean(item));
+  const picks = list.slice(0, 4);
   const savedRows = list.filter((item) => saved.includes(item.id));
 
   return (
@@ -146,13 +175,13 @@ export function KanallarDesktop() {
             </div>
           </div>
           {shown.length === 0 ? (
-            <div className="hub-empty">Bu filtrda kanal yo‘q.</div>
+            <div className="hub-empty">{list.length === 0 ? "Hozircha kanal yo‘q" : "Bu filtrda kanal yo‘q."}</div>
           ) : (
             <div className="hub-grid">
               {shown.map((item) => (
                 <article className="hub-ch" key={item.id}>
-                  <div className="ph">
-                    <img src={item.image} alt="" />
+                    <div className="ph">
+                    {item.image ? <img src={item.image} alt="" /> : null}
                     {item.verified ? <span className="hub-ver">Tasdiqlangan</span> : null}
                     <button type="button" className={saved.includes(item.id) ? "hub-heart on" : "hub-heart"} onClick={() => toggleSave(item.id)} aria-label="Saqlash">
                       <Heart className="i" />
@@ -220,23 +249,7 @@ export function KanallarDesktop() {
           </section>
           <section className="hub-box">
             <h3>StomaHub rasmiy kanallari</h3>
-            <p className="by">Yangiliklar, aksiyalar va foydali kontentlar.</p>
-            {officialChannels.map((item) => (
-              <div className="hub-off" key={item.id}>
-                <span className="hub-tg">
-                  <Send className="i" />
-                </span>
-                <div>
-                  <b>{item.name}</b>
-                  <small className="hub-handle">
-                    {item.handle} · {subsK(item.subscribers)} obunachi
-                  </small>
-                </div>
-                <button type="button" className={subs.includes(item.id) ? "hub-subbtn on" : "hub-subbtn"} onClick={() => toggleSub(item.id)}>
-                  {subs.includes(item.id) ? "Obuna" : "Obuna bo‘lish"}
-                </button>
-              </div>
-            ))}
+            <p className="by">Hozircha rasmiy kanal yo‘q.</p>
           </section>
         </aside>
       </div>
@@ -249,26 +262,14 @@ export function KanallarDesktop() {
               event.preventDefault();
               const data = new FormData(event.currentTarget);
               const name = String(data.get("name") || "").trim();
-              if (!name) return;
-              setList((prev) => [
-                {
-                  id: `new-${Date.now()}`,
-                  name,
-                  handle: String(data.get("handle") || "@kanal"),
-                  platform: "telegram",
-                  topic: "Endodontiya",
-                  lang: "O‘zbek",
-                  subscribers: 120,
-                  rating: 5,
-                  reviews: 1,
-                  about: "Taklif qilingan kanal.",
-                  tags: ["Umumiy", "Yangiliklar"],
-                  verified: false,
-                  image: "/img/hub/channel-1.jpg",
-                  popularity: 120,
-                },
-                ...prev,
-              ]);
+              const username = String(data.get("handle") || "").trim();
+              if (!name || !username) return;
+              void fetch("/api/channels", {
+                method: "POST",
+                credentials: "same-origin",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ name, username, category: "umumiy" }),
+              }).then(() => window.location.assign("/foydali-kanallar"));
               setOffer(false);
             }}
           >

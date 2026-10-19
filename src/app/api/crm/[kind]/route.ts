@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { dbErrorJson, rpc } from "@/lib/server/db";
+import { dbErrorJson, privateCache, rpc } from "@/lib/server/db";
 import { readJson, requireUser } from "@/lib/server/user";
 import { getSessionUserId } from "@/lib/server/session";
 
@@ -16,10 +16,10 @@ export async function GET(_request: Request, { params }: { params: Promise<{ kin
   const kind = kindOf(raw);
   if (!kind) return NextResponse.json({ ok: false, error: "Topilmadi." }, { status: 404 });
   const userId = await getSessionUserId();
-  if (!userId) return NextResponse.json({ ok: true, items: [] });
+  if (!userId) return NextResponse.json({ ok: true, items: [] }, { headers: privateCache() });
   try {
     const items = await rpc<unknown[]>("sh_crm_list", { p_user: userId, p_kind: kind });
-    return NextResponse.json({ ok: true, items: Array.isArray(items) ? items : [] });
+    return NextResponse.json({ ok: true, items: Array.isArray(items) ? items : [] }, { headers: privateCache() });
   } catch (error) {
     return dbErrorJson(error, "Klinika ma’lumotlarini yuklab bo‘lmadi.");
   }

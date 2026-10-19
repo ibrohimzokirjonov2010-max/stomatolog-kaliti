@@ -1,5 +1,5 @@
 import { after, NextResponse } from "next/server";
-import { dbErrorJson, rpc } from "@/lib/server/db";
+import { dbErrorJson, privateCache, rpc } from "@/lib/server/db";
 import { normalizeOrderItems } from "@/lib/server/order-items";
 import { readJson, requireUser, str } from "@/lib/server/user";
 import { getSessionUserId } from "@/lib/server/session";
@@ -12,10 +12,10 @@ const PAYMENTS = new Set(["click", "payme", "naqd"]);
 /** My orders as buyer, plus orders to my store as seller. */
 export async function GET() {
   const userId = await getSessionUserId();
-  if (!userId) return NextResponse.json({ ok: true, buyer: [], seller: [], shopId: null });
+  if (!userId) return NextResponse.json({ ok: true, buyer: [], seller: [], shopId: null }, { headers: privateCache() });
   try {
     const data = await rpc<Record<string, unknown>>("sh_my_orders", { p_user: userId });
-    return NextResponse.json({ ok: true, ...data });
+    return NextResponse.json({ ok: true, ...data }, { headers: privateCache() });
   } catch (e) {
     return dbErrorJson(e, "Buyurtmalarni yuklab bo‘lmadi.");
   }

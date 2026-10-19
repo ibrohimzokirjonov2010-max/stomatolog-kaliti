@@ -736,9 +736,9 @@ end $$;
 revoke all on all functions in schema private from public, anon, authenticated;
 revoke execute on function public.sh_otp_create, public.sh_otp_set_delivery, public.sh_otp_delivery_report, public.sh_otp_attempt,
   public.sh_register_verified, public.sh_verify_phone, public.sh_reset_password, public.sh_my_bonus, public.sh_create_order,
-  public.sh_admin_bonus, public.sh_session_ping, public.sh_update_profile, public.sh_seller_order_update,
+  public.sh_admin_bonus, public.sh_session_ping(text, uuid, text[], text[], text[]), public.sh_update_profile, public.sh_seller_order_update,
   public.sh_admin_dashboard, public.sh_admin_users from public;
 grant execute on function public.sh_otp_create, public.sh_otp_set_delivery, public.sh_otp_delivery_report, public.sh_otp_attempt,
   public.sh_register_verified, public.sh_verify_phone, public.sh_reset_password, public.sh_my_bonus, public.sh_create_order,
-  public.sh_admin_bonus, public.sh_session_ping, public.sh_update_profile, public.sh_seller_order_update,
+  public.sh_admin_bonus, public.sh_session_ping(text, uuid, text[], text[], text[]), public.sh_update_profile, public.sh_seller_order_update,
   public.sh_admin_dashboard, public.sh_admin_users to anon, authenticated;

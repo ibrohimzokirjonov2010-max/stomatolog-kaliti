@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { rpc } from "@/lib/server/db";
+import { readCache, rpc } from "@/lib/server/db";
 import type { SeminarRow } from "@/lib/seminar-remote";
 
 export const dynamic = "force-dynamic";
@@ -8,8 +8,8 @@ export const dynamic = "force-dynamic";
 export async function GET() {
   try {
     const seminars = await rpc<SeminarRow[]>("sh_sem_catalog", {});
-    return NextResponse.json({ ok: true, seminars: seminars ?? [] });
+    return NextResponse.json({ ok: true, seminars: seminars ?? [] }, { headers: readCache(false) });
   } catch {
-    return NextResponse.json({ ok: true, seminars: [] });
+    return NextResponse.json({ ok: true, seminars: [] }, { headers: readCache(true) });
   }
 }

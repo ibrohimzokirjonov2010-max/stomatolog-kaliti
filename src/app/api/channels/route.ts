@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 import { channelCategories } from "@/data/channels";
-import { dbErrorJson, rpc } from "@/lib/server/db";
+import { dbErrorJson, readCache, rpc } from "@/lib/server/db";
 import { getSessionUserId } from "@/lib/server/session";
 import { readJson, requireUser, str } from "@/lib/server/user";
 
@@ -13,7 +13,7 @@ export async function GET() {
   const viewer = await getSessionUserId();
   try {
     const data = await rpc<Record<string, unknown>>("sh_channels", { p_viewer: viewer ?? null });
-    return NextResponse.json({ ok: true, ...data });
+    return NextResponse.json({ ok: true, ...data }, { headers: readCache(Boolean(viewer)) });
   } catch {
     return NextResponse.json({ ok: false, channels: [], bids: {}, myBidKeys: [] }, { status: 502 });
   }

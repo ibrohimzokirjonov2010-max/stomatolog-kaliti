@@ -1,10 +1,8 @@
 "use client";
 import Topbar from "./Topbar"; import Sidebar from "./Sidebar"; import Hero from "./Hero";
 import Seminars from "./Seminars"; import Categories from "./Categories"; import Products from "./Products"; import RightRail from "./RightRail";
-import { CartProvider } from "./CartContext";
 export default function HomePage() {
   return (
-    <CartProvider>
       <div className="sh dh">
         <Topbar />
         <div className="sh-body">
@@ -17,6 +15,5 @@ export default function HomePage() {
           </main>
         </div>
       </div>
-    </CartProvider>
   );
 }

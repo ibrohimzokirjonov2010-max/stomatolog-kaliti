@@ -450,7 +450,7 @@ export function MarketplaceDesktop({
 
           {visible.length === 0 ? (
             <div className="rounded-xl border border-[#eceff5] bg-white px-6 py-16 text-center shadow-[0_2px_10px_rgba(15,23,42,0.04)]">
-              <p className="font-semibold text-[#1a1d26]">Mos mahsulot topilmadi.</p>
+              <p className="font-semibold text-[#1a1d26]">{catalog.length === 0 ? "Hozircha mahsulot yo‘q" : "Mos mahsulot topilmadi."}</p>
               <p className="mt-1 text-sm text-[#8b93a7]">Filtrlarni o‘zgartiring yoki tozalang.</p>
               <button
                 type="button"

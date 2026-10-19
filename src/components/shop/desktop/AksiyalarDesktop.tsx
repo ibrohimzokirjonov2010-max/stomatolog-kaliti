@@ -2,29 +2,59 @@
 /* eslint-disable @next/next/no-img-element -- sale photos are fixed-size cards */
 
 import { useEffect, useMemo, useState } from "react";
-import { ChevronRight, Clock, Heart, Search, ShoppingCart, Star } from "lucide-react";
+import Link from "next/link";
+import { ChevronRight, Heart, Search, ShoppingCart, Star } from "lucide-react";
 import { useCart } from "@/components/cart-provider";
-import {
-  filterSales,
-  formatCountdown,
-  saleCategories,
-  saleProducts,
-  sortSales,
-  type SaleCategory,
-  type SaleProduct,
-  type SaleSort,
-} from "@/data/desktop-sales";
+import { fetchCatalogProducts, productFromCatalog, type CatalogCard } from "@/lib/catalog-client";
 import { formatMoney } from "@/lib/format";
-import type { Product } from "@/data/products";
 import { MarketFrame } from "./MarketFrame";
 import "./aksiyalar.css";
 
+type SaleSort = "mashhurlik" | "chegirma" | "arzon" | "qimmat";
+
+const chips = [
+  { id: "materiallar", label: "Materiallar" },
+  { id: "implantlar", label: "Implantlar" },
+  { id: "asboblar", label: "Asboblar" },
+  { id: "jihozlar", label: "Jihozlar" },
+  { id: "laboratoriya", label: "Laboratoriya" },
+  { id: "forma", label: "Forma" },
+] as const;
+
+function onSale(item: CatalogCard) {
+  return (item.discount ?? 0) > 0 && Boolean(item.oldPrice);
+}
+
 export function AksiyalarDesktop() {
   const [q, setQ] = useState("");
-  const [category, setCategory] = useState<SaleCategory | "">("");
+  const [category, setCategory] = useState("");
   const [sort, setSort] = useState<SaleSort>("mashhurlik");
   const [saved, setSaved] = useState<string[]>([]);
-  const items = useMemo(() => sortSales(filterSales(saleProducts, { q, category }), sort), [q, category, sort]);
+  const [rows, setRows] = useState<CatalogCard[] | null>(null);
+
+  useEffect(() => {
+    let stop = false;
+    void fetchCatalogProducts().then((items) => {
+      if (!stop) setRows(items.filter(onSale));
+    });
+    return () => {
+      stop = true;
+    };
+  }, []);
+
+  const items = useMemo(() => {
+    const query = q.trim().toLowerCase();
+    const list = (rows ?? []).filter((item) => {
+      if (category && item.category !== category) return false;
+      if (query && !`${item.name} ${item.brand}`.toLowerCase().includes(query)) return false;
+      return true;
+    });
+    if (sort === "chegirma") list.sort((a, b) => (b.discount ?? 0) - (a.discount ?? 0));
+    else if (sort === "arzon") list.sort((a, b) => a.price - b.price);
+    else if (sort === "qimmat") list.sort((a, b) => b.price - a.price);
+    else list.sort((a, b) => b.reviews - a.reviews || b.rating - a.rating);
+    return list;
+  }, [category, q, rows, sort]);
 
   function reset() {
     setQ("");
@@ -72,18 +102,20 @@ export function AksiyalarDesktop() {
           <button type="button" className={category === "" ? "on" : undefined} data-testid="sale-chip-all" onClick={() => setCategory("")}>
             Barchasi
           </button>
-          {saleCategories.map((item) => (
+          {chips.map((item) => (
             <button key={item.id} type="button" className={category === item.id ? "on" : undefined} data-testid={`sale-chip-${item.id}`} onClick={() => setCategory(item.id)}>
               {item.label}
             </button>
           ))}
         </div>
-        {items.length === 0 ? (
+        {rows === null || items.length === 0 ? (
           <div className="ax-empty" data-testid="sale-empty">
-            <p>Aksiya topilmadi</p>
-            <button type="button" onClick={reset}>
-              Tozalash
-            </button>
+            <p>{rows === null ? "Yuklanmoqda..." : rows.length === 0 ? "Hozircha aksiya yo‘q" : "Aksiya topilmadi"}</p>
+            {rows && rows.length > 0 ? (
+              <button type="button" onClick={reset}>
+                Tozalash
+              </button>
+            ) : null}
           </div>
         ) : (
           <div className="ax-grid">
@@ -97,33 +129,12 @@ export function AksiyalarDesktop() {
   );
 }
 
-function SaleCard({ item, saved, onSave }: { item: SaleProduct; saved: boolean; onSave: () => void }) {
+function SaleCard({ item, saved, onSave }: { item: CatalogCard; saved: boolean; onSave: () => void }) {
   const { add } = useCart();
-  const [left, setLeft] = useState(item.seconds);
   const [pulse, setPulse] = useState(false);
 
-  useEffect(() => {
-    const id = window.setInterval(() => setLeft((value) => (value > 0 ? value - 1 : 0)), 1000);
-    return () => window.clearInterval(id);
-  }, []);
-
   function addToCart() {
-    const product: Product = {
-      id: item.id,
-      name: item.name,
-      brand: item.brand,
-      category: "materiallar",
-      price: item.price,
-      oldPrice: item.oldPrice,
-      discount: item.discount,
-      rating: item.rating,
-      reviews: item.reviews,
-      inStock: true,
-      delivery: "Toshkent 24 soat",
-      image: item.image,
-      stockQty: 20,
-    };
-    add(item.id, product);
+    add(item.id, productFromCatalog(item));
     setPulse(true);
     window.setTimeout(() => setPulse(false), 280);
   }
@@ -131,29 +142,26 @@ function SaleCard({ item, saved, onSave }: { item: SaleProduct; saved: boolean; 
   return (
     <article className="ax-card" data-testid="sale-card">
       <div className="ax-ph">
-        <img src={item.image} alt="" />
-        <span className="ax-off">-{item.discount}%</span>
+        <Link href={`/marketplace/${item.id}`}>{item.image ? <img src={item.image} alt="" /> : null}</Link>
+        {item.discount ? <span className="ax-off">-{item.discount}%</span> : null}
         <button type="button" className={saved ? "ax-heart on" : "ax-heart"} data-testid="sale-heart" aria-label="Sevimlilar" aria-pressed={saved} onClick={onSave}>
           <Heart className="i" />
         </button>
       </div>
-      <p className="ax-time">
-        <Clock className="i" />
-        <span data-testid="sale-timer">{formatCountdown(left)}</span>
-      </p>
-      <h3>{item.name}</h3>
+      <h3>
+        <Link href={`/marketplace/${item.id}`}>{item.name}</Link>
+      </h3>
       <p className="ax-brand">{item.brand}</p>
       <p className="ax-meta">
         <Star className="star i" />
         <b>
           {item.rating} ({item.reviews})
         </b>
-        <span className="sold">{item.sold}+ sotilgan</span>
       </p>
       <div className="ax-buy">
         <span>
           <b>{formatMoney(item.price, "UZS")}</b>
-          <s>{formatMoney(item.oldPrice, "UZS")}</s>
+          {item.oldPrice ? <s>{formatMoney(item.oldPrice, "UZS")}</s> : null}
         </span>
         <button type="button" className={pulse ? "ax-cart pulse" : "ax-cart"} data-testid="sale-cart" aria-label={`${item.name} savatga`} onClick={addToCart}>
           <ShoppingCart className="i" />

@@ -7,7 +7,6 @@ import {
   type Shop,
 } from "@/data/shops";
 import {
-  products as seedProducts,
   type ProductAttrs,
   type ApparelGender,
   type ApparelKind,
@@ -201,10 +200,7 @@ export function saveSessionId(id: string | null) {
 }
 
 export function mergeShops(posted: Shop[]) {
-  const ids = new Set(posted.map((item) => item.id));
-  const slugs = new Set(posted.map((item) => item.slug));
-  const seeds = [catalogShop].filter((item) => !ids.has(item.id) && !slugs.has(item.slug));
-  return [...posted, ...seeds];
+  return posted;
 }
 
 export function mergeMarketplaceCatalog(listed: Product[], shops?: Shop[]) {
@@ -213,20 +209,10 @@ export function mergeMarketplaceCatalog(listed: Product[], shops?: Shop[]) {
       .filter((s) => s.verified === "active")
       .map((s) => s.id),
   );
-  approvedIds.add(catalogShop.id);
   const live = listed.filter(
     (item) => item.active !== false && (!item.shopId || approvedIds.has(item.shopId)),
   );
-  const seed = seedProducts.map((item) => {
-    if (item.category === "forma" || item.id.startsWith("surplus-")) return item;
-    return {
-      ...item,
-      shopId: catalogShop.id,
-      shopName: catalogShop.name,
-      shopSlug: catalogShop.slug,
-    };
-  });
-  return [...live, ...seed];
+  return live;
 }
 
 export function uniqueSlug(name: string, existing: Shop[], keepId?: string) {

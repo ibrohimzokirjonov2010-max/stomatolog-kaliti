@@ -24,7 +24,8 @@ import { useCommunityWork } from "@/components/community-provider";
 import { communityHref } from "@/data/community";
 import { videoLessonHref, videoLessons } from "@/data/education";
 import { quickCategories } from "@/data/home";
-import { productHref, productOldPrice, specialOfferProducts, type Product } from "@/data/products";
+import { productHref, productOldPrice, type Product } from "@/data/products";
+import { useSellerWork } from "@/components/seller-provider";
 import { seminarDayMonth, seminarHref, upcomingSeminars } from "@/data/seminars";
 import { formatMoney } from "@/lib/format";
 import { cn } from "@/lib/utils";
@@ -169,6 +170,7 @@ function HomeSeminars() {
   return (
     <section className={cn(panel, "h-full p-4")}>
       <SectionHead title="Bugungi seminarlar" href="/seminarlar" />
+      {items.length === 0 ? <p className="text-sm text-muted-foreground">Hozircha seminar yo‘q</p> : null}
       <div className="grid grid-cols-3 gap-3">
         {items.map((seminar) => (
           <article key={seminar.id} className="overflow-hidden rounded-xl bg-[#f4f6fa]">
@@ -254,16 +256,22 @@ function CategoryIcon({ name }: { name: string }) {
 }
 
 function HomeOffers() {
-  const offers = specialOfferProducts(3);
+  const { catalog } = useSellerWork();
+  const discounted = catalog.filter((item) => item.discount);
+  const offers = (discounted.length ? discounted : catalog).slice(0, 3);
 
   return (
     <section className={cn(panel, "flex-1 p-4")}>
       <SectionHead title="Maxsus takliflar" href="/marketplace" />
-      <div className="grid grid-cols-3 gap-2.5">
-        {offers.map((product) => (
-          <OfferCard key={product.id} product={product} />
-        ))}
-      </div>
+      {offers.length === 0 ? (
+        <p className="text-sm text-muted-foreground">Hozircha mahsulot yo‘q</p>
+      ) : (
+        <div className="grid grid-cols-3 gap-2.5">
+          {offers.map((product) => (
+            <OfferCard key={product.id} product={product} />
+          ))}
+        </div>
+      )}
     </section>
   );
 }

@@ -392,7 +392,7 @@ export const demoSurplusListings: SurplusListing[] = [
   },
 ];
 
-/** Public list. Empty until the database responds; the provider falls back to `demoSurplusListings`. */
+/** Public list stays empty. The surplus screen reads `/api/work/surplus` and does not fill in demo rows. */
 export const surplusListings: SurplusListing[] = [];
 
 export const statusLabel: Record<PackageStatus, string> = {

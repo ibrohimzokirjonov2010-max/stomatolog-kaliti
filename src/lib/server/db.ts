@@ -11,16 +11,42 @@ export class DbError extends Error {
   }
 }
 
+type SupabaseConfig = { url: string; key: string; secret: string };
+
+/** One config object for the life of the isolate. rpc() does not build a new client per request. */
+let cached: SupabaseConfig | null = null;
+
+function supabaseConfig(): SupabaseConfig {
+  const url = process.env.NEXT_PUBLIC_SUPABASE_URL?.trim().replace(/\/$/, "") ?? "";
+  const key = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY?.trim() ?? "";
+  const secret = process.env.STOMAHUB_DB_SECRET?.trim() ?? "";
+  if (!cached || cached.url !== url || cached.key !== key || cached.secret !== secret) {
+    cached = { url, key, secret };
+  }
+  return cached;
+}
+
 export function supabaseUrl() {
-  const url = process.env.NEXT_PUBLIC_SUPABASE_URL?.trim();
+  const { url } = supabaseConfig();
   if (!url) throw new DbError("Supabase sozlanmagan.");
-  return url.replace(/\/$/, "");
+  return url;
 }
 
 export function supabaseAnonKey() {
-  const key = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY?.trim();
+  const { key } = supabaseConfig();
   if (!key) throw new DbError("Supabase sozlanmagan.");
   return key;
+}
+
+/** Public catalogs may be cached briefly. Anything tied to a session stays private. */
+export function readCache(personalized: boolean) {
+  return {
+    "Cache-Control": personalized ? "private, no-store" : "public, s-maxage=15, stale-while-revalidate=60",
+  };
+}
+
+export function privateCache() {
+  return { "Cache-Control": "private, no-store" };
 }
 
 export const COMMUNITY_BUCKET = "community";
@@ -30,10 +56,9 @@ export function publicObjectUrl(path: string) {
 }
 
 export async function rpc<T>(fn: string, args: Record<string, unknown>): Promise<T> {
-  const secret = process.env.STOMAHUB_DB_SECRET?.trim();
-  if (!secret) throw new DbError("Server sozlanmagan.");
-  const key = supabaseAnonKey();
-  const response = await fetch(`${supabaseUrl()}/rest/v1/rpc/${fn}`, {
+  const { url, key, secret } = supabaseConfig();
+  if (!secret || !url || !key) throw new DbError("Server sozlanmagan.");
+  const response = await fetch(`${url}/rest/v1/rpc/${fn}`, {
     method: "POST",
     headers: {
       apikey: key,

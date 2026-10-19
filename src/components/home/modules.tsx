@@ -1,36 +1,48 @@
+"use client";
+
 import Image from "next/image";
 import Link from "next/link";
 import { Heart, MessageCircle, Play } from "lucide-react";
 import { SectionHeader } from "@/components/dashboard/ui";
 import { ProductCard } from "@/components/product-card";
 import { SeminarCard } from "@/components/seminar-card";
+import { useSellerWork } from "@/components/seller-provider";
 import { buttonVariants } from "@/components/ui/button";
 import { communityPosts, videos } from "@/data/feed";
-import { specialOfferProducts } from "@/data/products";
 import { seminars } from "@/data/seminars";
 import { cn } from "@/lib/utils";
 
 export function SeminarsAndOffers() {
+  const { catalog } = useSellerWork();
+  const offers = catalog.slice(0, 3);
   return (
     <section className="grid grid-cols-[1.15fr_0.85fr] gap-4">
       <div>
         <SectionHeader title="Bugungi seminarlar" href="/seminarlar" />
-        <div className="grid grid-cols-3 gap-3">
-          {seminars
-            .filter((item) => !item.featured)
-            .slice(0, 3)
-            .map((seminar) => (
-              <SeminarCard key={seminar.id} seminar={seminar} />
-            ))}
-        </div>
+        {seminars.filter((item) => !item.featured).length === 0 ? (
+          <p className="text-sm text-muted-foreground">Hozircha seminar yo‘q</p>
+        ) : (
+          <div className="grid grid-cols-3 gap-3">
+            {seminars
+              .filter((item) => !item.featured)
+              .slice(0, 3)
+              .map((seminar) => (
+                <SeminarCard key={seminar.id} seminar={seminar} />
+              ))}
+          </div>
+        )}
       </div>
       <div>
         <SectionHeader title="Maxsus takliflar" href="/marketplace" />
-        <div className="grid grid-cols-3 gap-3">
-          {specialOfferProducts(3).map((product) => (
-            <ProductCard key={product.id} product={product} />
-          ))}
-        </div>
+        {offers.length === 0 ? (
+          <p className="text-sm text-muted-foreground">Hozircha mahsulot yo‘q</p>
+        ) : (
+          <div className="grid grid-cols-3 gap-3">
+            {offers.map((product) => (
+              <ProductCard key={product.id} product={product} />
+            ))}
+          </div>
+        )}
       </div>
     </section>
   );

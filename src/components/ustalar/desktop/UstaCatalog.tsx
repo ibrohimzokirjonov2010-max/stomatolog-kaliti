@@ -153,7 +153,7 @@ export function UstaCatalog() {
     setNote(
       real.length
         ? `Sizga mos ${real.length} ta tasdiqlangan usta topildi. Ustani tanlab “Buyurtma berish” ni bosing — so‘rov ma’lumotlaringiz bilan ochiladi.`
-        : "Hozircha bu yo‘nalishda moderatsiyadan o‘tgan usta yo‘q. Ro‘yxatdagi profillar namuna — ularga so‘rov yuborilmaydi.",
+        : "Hozircha bu yo‘nalishda usta yo‘q.",
     );
     listRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
   }
@@ -213,7 +213,7 @@ export function UstaCatalog() {
 
             {items.length === 0 ? (
               <div className="us-empty">
-                <b>Mos usta topilmadi</b>
+                <b>{all.length === 0 ? "Hozircha usta yo‘q" : "Mos usta topilmadi"}</b>
                 <p>Filtrlarni o‘zgartirib ko‘ring.</p>
                 <button type="button" onClick={() => { setService("all"); setCity("Barchasi"); setDistrict("Barchasi"); setBrand("Barchasi"); setFree("Barchasi"); setRating("Barchasi"); }}>Filtrlarni tozalash</button>
               </div>
