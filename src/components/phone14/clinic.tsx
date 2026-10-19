@@ -9,8 +9,9 @@ import { hidePhonePatient, listPhonePatients, writePatientCache } from "@/data/p
 import { loadPatientsWithImport } from "@/lib/crm-client";
 import type { Patient } from "@/data/crm";
 import { ToothChart, ToothLegend } from "@/components/phone14/teeth";
-import { PHONE_PAYS_KEY, PHONE_PLANS_KEY, phoneCerts, phoneLate, phonePatients, phonePayments, phoneStock, planStages, readPhoneStore, relDateLabel, type PhonePatient } from "@/data/phone14";
+import { PHONE_PAYS_KEY, PHONE_PLANS_KEY, phoneLate, phonePatients, phonePayments, phoneStock, planStages, readPhoneStore, relDateLabel, type PhonePatient } from "@/data/phone14";
 import { certificatesFromTickets } from "@/data/certificates";
+import { fetchCourses } from "@/lib/live-content";
 import { loadSeminarTickets } from "@/lib/seminar-tickets";
 import { useCart } from "@/components/cart-provider";
 import { formatGroupedNumber } from "@/lib/format";
@@ -20,13 +21,15 @@ export function PhoneCerts() {
   const [q, setQ] = useState("");
   const [tab, setTab] = useState("Barchasi");
   const [earned, setEarned] = useState<ReturnType<typeof certificatesFromTickets>>([]);
-  const [open, setOpen] = useState<(typeof phoneCerts)[number] | null>(null);
+  const [open, setOpen] = useState<{ id: string; title: string; type: string; typeLabel: string; date: string; cme: number; image: string } | null>(null);
   const [qr, setQr] = useState("");
   const [note, setNote] = useState("");
+  const [coursesDone, setCoursesDone] = useState(0);
   useEffect(() => {
     const read = () => setEarned(certificatesFromTickets(loadSeminarTickets()));
     read();
     window.addEventListener("sk-seminar-tickets", read);
+    void fetchCourses().then((rows) => setCoursesDone(rows.filter((row) => row.enrolled && row.progress >= 100).length));
     return () => window.removeEventListener("sk-seminar-tickets", read);
   }, []);
   const earnedCards = earned.map((item, index) => ({
@@ -36,11 +39,11 @@ export function PhoneCerts() {
     typeLabel: "Seminar",
     date: item.dateLabel,
     cme: item.cme,
-    image: "/img/phone14/cert-0.png",
+    image: "",
     earned: true,
     index,
   }));
-  const all = [...earnedCards, ...phoneCerts.map((item) => ({ ...item, earned: false }))];
+  const all = earnedCards;
   const counts = {
     Barchasi: all.length,
     Seminarlar: all.filter((item) => item.type === "seminar").length,
@@ -104,7 +107,7 @@ export function PhoneCerts() {
       <div className="kpis">
         <article><b>{counts.Barchasi}</b><small>Sertifikatlar soni</small></article>
         <article><b>{hours}</b><small>CME soat (jami)</small></article>
-        <article><b>5</b><small>Tugallangan kurslar</small></article>
+        <article><b data-testid="cert-courses">{coursesDone}</b><small>Tugallangan kurslar</small></article>
       </div>
       <SearchBox value={q} onChange={setQ} label="Sertifikat qidirish" placeholder="Sertifikat nomi bo‘yicha qidirish..." />
       <div className="p14-row">

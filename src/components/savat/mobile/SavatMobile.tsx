@@ -1,7 +1,6 @@
 "use client";
 /* eslint-disable @next/next/no-img-element -- cart photos are content images */
 
-import { useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { ArrowLeft, Heart, ShoppingCart, Store, Trash2, Truck } from "lucide-react";
@@ -9,26 +8,19 @@ import { useCart } from "@/components/cart-provider";
 import { useFavorites } from "@/components/favorites-provider";
 import { MobileMenuButton } from "@/components/dashboard/mobile-chrome";
 import { NotificationBell } from "@/components/notification-bell";
+import { shopDeliveryFee } from "@/lib/cart-totals";
 import { formatMoney } from "@/lib/format";
 import "./savat-mobile.css";
-
-const DISCOUNT = 500_000;
-const REGION_FEE = 30_000;
 
 export function SavatMobile() {
   const router = useRouter();
   const cart = useCart();
   const favorites = useFavorites();
   const { items, setQty, remove, clear } = cart;
-  const [code, setCode] = useState("");
-  const [applied, setApplied] = useState(false);
-  const [promoError, setPromoError] = useState("");
-  const [ship, setShip] = useState<"toshkent" | "viloyat">("toshkent");
   const lines = items.length;
   const goods = items.reduce((sum, item) => sum + item.lineTotal, 0);
-  const discount = applied ? DISCOUNT : 0;
-  const delivery = ship === "viloyat" ? REGION_FEE : 0;
-  const total = Math.max(0, goods - discount + delivery);
+  const delivery = shopDeliveryFee(items.map((item) => item.product));
+  const total = goods + delivery;
 
   return (
     <div className="sv lg:hidden" data-testid="mobile-savat">
@@ -105,57 +97,14 @@ export function SavatMobile() {
                 </article>
               );
             })}
-            <section className="sv-box sv-promo">
-              <div className="sv-promo-top">
-                <i>%</i>
-                <div>
-                  <b>Promo-kod</b>
-                  <span>Chegirma olish uchun promo-kod kiriting</span>
-                </div>
-                <button type="button" className="sv-apply" onClick={() => {
-                  if (!code.trim()) {
-                    setApplied(false);
-                    setPromoError("Promo-kod kiriting");
-                    return;
-                  }
-                  setPromoError("");
-                  setApplied(true);
-                }}>Qo‘llash</button>
-              </div>
-              <form onSubmit={(event) => {
-                event.preventDefault();
-                if (!code.trim()) {
-                  setApplied(false);
-                  setPromoError("Promo-kod kiriting");
-                  return;
-                }
-                setPromoError("");
-                setApplied(true);
-              }}>
-                <input aria-label="Promo-kod" placeholder="Promo-kod kiriting..." value={code} onChange={(event) => setCode(event.target.value)} />
-              </form>
-              {promoError ? <p className="sv-err">{promoError}</p> : null}
-            </section>
             <section className="sv-box">
               <h3><Truck /> Yetkazib berish</h3>
-              <label className="sv-ship">
-                <input type="radio" name="ship" checked={ship === "toshkent"} onChange={() => setShip("toshkent")} />
-                <b>Toshkent bo‘ylab</b>
-                <span className="sv-eta">1–2 kun</span>
-                <em>Bepul</em>
-              </label>
-              <label className="sv-ship">
-                <input type="radio" name="ship" checked={ship === "viloyat"} onChange={() => setShip("viloyat")} />
-                <b>Boshqa viloyatlar</b>
-                <span className="sv-eta">2–4 kun</span>
-                <em className="pay">{formatMoney(REGION_FEE, "UZS")}</em>
-              </label>
+              <p className="sv-line"><span>Sotuvchi belgilagan haq</span>{delivery ? <b>{formatMoney(delivery, "UZS")}</b> : <b className="free">Bepul</b>}</p>
             </section>
             <section className="sv-box" data-testid="sv-summary">
               <h3>Buyurtma xulosasi</h3>
               <p className="sv-line"><span>Mahsulotlar ({lines} ta)</span><b>{formatMoney(goods, "UZS")}</b></p>
-              <p className="sv-line"><span>Chegirma</span><b className="off">{discount ? `-${formatMoney(discount, "UZS")}` : formatMoney(0, "UZS")}</b></p>
-              <p className="sv-line"><span>Yetkazib berish</span>{delivery ? <b>{formatMoney(delivery, "UZS")}</b> : <b className="free">Bepul</b>}</p>
+              <p className="sv-line"><span>Yetkazib berish</span>{delivery ? <b data-testid="sv-delivery">{formatMoney(delivery, "UZS")}</b> : <b className="free" data-testid="sv-delivery">Bepul</b>}</p>
               <p className="sv-jami"><span>Jami</span><b data-testid="sv-total">{formatMoney(total, "UZS")}</b></p>
             </section>
             <div className="sv-pad" />

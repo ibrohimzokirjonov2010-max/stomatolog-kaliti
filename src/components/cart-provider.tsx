@@ -193,8 +193,8 @@ export function CartProvider({ children }: { children: ReactNode }) {
       items,
       add: (productId, extra, qty = 1, meta) => {
         const product = extra ?? lookup(productId, extras);
-        if (extra && !lookup(productId, extras)) {
-          setExtras((current) => [...current, extra]);
+        if (extra) {
+          setExtras((current) => [...current.filter((item) => item.id !== extra.id), extra]);
         }
         const max = product ? productMaxQty(product) : 99;
         const addQty = clampQty(qty, max);

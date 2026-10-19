@@ -5,15 +5,17 @@ import { useMemo, useState } from "react";
 import { ChevronLeft, ChevronRight, Plus } from "lucide-react";
 import { CrmFrame } from "@/components/crm/desktop/CrmFrame";
 import { NewAppointmentModal } from "@/components/crm/CrmCreateModals";
+import { useDoctorProfile } from "@/components/doctor-profile-provider";
 import {
   CLINIC_TODAY,
-  apptDoctors,
   apptRooms,
   apptStatusLabel,
   type Appointment,
   type ApptStatus,
 } from "@/data/crm";
 import { useCrmAppointments } from "@/lib/use-crm-list";
+
+const DEMO_DOCTOR_IDS = new Set(["ibrohim", "karimov", "aliyeva", "toxtayev", "saidova"]);
 
 const HOURS = ["08:00", "09:00", "10:00", "11:00", "12:00", "13:00", "14:00", "15:00", "16:00", "17:00", "18:00"];
 const WEEK_NAMES = ["Dush", "Sesh", "Chor", "Pay", "Jum", "Shan", "Yak"];
@@ -52,6 +54,7 @@ function labelFor(value: string) {
 }
 
 export function AppointmentsDesktop() {
+  const { profile } = useDoctorProfile();
   const [items, setItems] = useCrmAppointments<Appointment>();
   const [q, setQ] = useState("");
   const [cursor, setCursor] = useState(CLINIC_TODAY);
@@ -59,7 +62,18 @@ export function AppointmentsDesktop() {
   const [doctor, setDoctor] = useState("");
   const [room, setRoom] = useState("");
   const [adding, setAdding] = useState(false);
-  const [form, setForm] = useState({ patient: "", service: "Konsultatsiya", doctorId: "karimov", room: "Xona 1", date: CLINIC_TODAY, start: "09:00", end: "10:00", status: "tasdiq" as ApptStatus, note: "" });
+  const [form, setForm] = useState({ patient: "", service: "Konsultatsiya", doctorId: "self", room: "Xona 1", date: CLINIC_TODAY, start: "09:00", end: "10:00", status: "tasdiq" as ApptStatus, note: "" });
+  const doctors = useMemo(() => {
+    const map = new Map<string, string>();
+    const self = profile?.fullName?.trim();
+    if (self) map.set("self", self);
+    for (const item of items) {
+      if (!item.doctorId || DEMO_DOCTOR_IDS.has(item.doctorId)) continue;
+      if (!item.doctor || /karimov|aliyeva|to['’]xtayev|saidova/i.test(item.doctor)) continue;
+      map.set(item.doctorId, item.doctor);
+    }
+    return [...map.entries()].map(([id, name]) => ({ id, name }));
+  }, [items, profile?.fullName]);
 
   const weekStart = weekOf(cursor);
   const days = Array.from({ length: 7 }, (_, index) => addDays(weekStart, index));
@@ -102,15 +116,14 @@ export function AppointmentsDesktop() {
               <button key={item} type="button" className={view === item ? "on" : undefined} data-testid={`appt-${item}`} onClick={() => setView(item)}>{item === "kun" ? "Kun" : item === "hafta" ? "Hafta" : "Oy"}</button>
             ))}
           </div>
-          <label className="crm-select"><select data-testid="appt-doctor" aria-label="Shifokor" value={doctor} onChange={(event) => setDoctor(event.target.value)}><option value="">Barcha shifokorlar</option>{apptDoctors.map((item) => <option key={item.id} value={item.id}>{item.name}</option>)}</select></label>
+          <label className="crm-select"><select data-testid="appt-doctor" aria-label="Shifokor" value={doctor} onChange={(event) => setDoctor(event.target.value)}><option value="">Barcha shifokorlar</option>{doctors.map((item) => <option key={item.id} value={item.id}>{item.name}</option>)}</select></label>
           <label className="crm-select"><select data-testid="appt-room" aria-label="Xona" value={room} onChange={(event) => setRoom(event.target.value)}><option value="">Barcha xonalar</option>{apptRooms.map((item) => <option key={item}>{item}</option>)}</select></label>
         </div>
         <div className="ap-docs">
           <button type="button" className={doctor === "" ? "on" : undefined} onClick={() => setDoctor("")}>Barchasi</button>
-          {apptDoctors.map((item) => (
+          {doctors.map((item) => (
             <button key={item.id} type="button" className={doctor === item.id ? "on" : undefined} onClick={() => setDoctor(item.id)}>
-              <img src={item.id === "aliyeva" || item.id === "saidova" ? "/img/profil/dilnoza.jpg" : "/img/jobs/doctor.jpg"} alt="" />
-              {item.name} {item.role}
+              {item.name}
             </button>
           ))}
           <div className="ap-legend">
@@ -193,7 +206,7 @@ export function AppointmentsDesktop() {
             onSave={(draft) => {
               setForm((current) => ({ ...current, ...draft }));
               if (!draft.patient.trim()) return;
-              const doc = apptDoctors.find((item) => item.id === draft.doctorId) ?? apptDoctors[0];
+              const doc = doctors.find((item) => item.id === draft.doctorId) ?? { id: "self", name: profile?.fullName?.trim() || "Shifokor" };
               const next: Appointment = {
                 id: `user-${Date.now()}`,
                 date: draft.date,

@@ -1,25 +1,19 @@
 "use client";
 /* eslint-disable @next/next/no-img-element -- mobile home sizes photos with the fluid unit */
 
-import { useState, type FormEvent } from "react";
+import { useEffect, useState, type FormEvent } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import {
-  Award,
   BookOpen,
-  Clock,
   Filter,
   FlaskConical,
   GraduationCap,
-  MapPin,
-  MoreHorizontal,
   Package,
   Search,
   ShoppingBag,
   ShoppingCart,
   Shirt,
-  Star,
-  UserRound,
   Wrench,
   CalendarDays,
   Heart,
@@ -29,9 +23,8 @@ import { useFavorites } from "@/components/favorites-provider";
 import { useDoctorProfile } from "@/components/doctor-profile-provider";
 import { MobileMenuButton } from "@/components/dashboard/mobile-chrome";
 import { NotificationBell } from "@/components/notification-bell";
-import { seminarHref } from "@/data/seminars";
+import { catalogHref, fetchCatalogProducts, productFromCatalog, type CatalogCard } from "@/lib/catalog-client";
 import { formatMoney } from "@/lib/format";
-import type { Product } from "@/data/products";
 import "./mobile-home.css";
 
 const tiles = [
@@ -45,76 +38,6 @@ const tiles = [
   { href: "/laboratoriya", label: "Laboratoriya", icon: FlaskConical, bg: "#f3e8ff", color: "#7c3aed" },
 ] as const;
 
-const seminars = [
-  {
-    id: "implantologiya-implantdan-tojgacha",
-    date: "21/10",
-    image: "/img/mobile/implant.jpg",
-    title: "Implantologiya: Implantdan tojgacha",
-    doctor: "Dr. Sardorbek Rahimov",
-    city: "Toshkent",
-    hours: "8 soat",
-    price: 1_800_000,
-  },
-  {
-    id: "endo-complex",
-    date: "22/10",
-    image: "/img/mobile/dilnoza.jpg",
-    title: "Endodontiyada zamonaviy yondashuvlar",
-    doctor: "Dr. Dilnoza Karimova",
-    city: "Toshkent",
-    hours: "6 soat",
-    price: 1_200_000,
-  },
-] as const;
-
-const sdrProduct: Product = {
-  id: "home-sdr-flow",
-  name: "SDR flow+",
-  brand: "Dentsply Sirona",
-  category: "materiallar",
-  price: 920_000,
-  oldPrice: 1_150_000,
-  discount: 20,
-  rating: 4.9,
-  reviews: 124,
-  inStock: true,
-  delivery: "Toshkent 24 soat",
-  image: "/img/mobile/sdr.jpg",
-  description: "SDR flow+ kompozit, 2 × 1 g",
-};
-
-const deals = [
-  {
-    id: "kerr-optibond",
-    brand: "Kerr",
-    name: "OptiBond Solo Plus",
-    size: "5 ml",
-    discount: 15,
-    rating: 4.8,
-    reviews: 96,
-    price: 275_000,
-    old: 323_500,
-    image: "/img/mobile/optibond.jpg",
-    href: "/marketplace/kerr-optibond",
-    extra: undefined as Product | undefined,
-  },
-  {
-    id: sdrProduct.id,
-    brand: "Dentsply Sirona",
-    name: "SDR flow+",
-    size: "2 × 1 g",
-    discount: 20,
-    rating: 4.9,
-    reviews: 124,
-    price: 920_000,
-    old: 1_150_000,
-    image: "/img/mobile/sdr.jpg",
-    href: "/marketplace/sdr-flow",
-    extra: sdrProduct,
-  },
-];
-
 export function MobileHome() {
   const { profile } = useDoctorProfile();
   const { count, add } = useCart();
@@ -122,9 +45,16 @@ export function MobileHome() {
   const router = useRouter();
   const [query, setQuery] = useState("");
   const [filters, setFilters] = useState(false);
-  const [menu, setMenu] = useState(false);
-  const first = (profile?.fullName ?? "Ibrohim").replace(/^Dr\.?\s*/i, "").split(/\s+/)[0] || "Ibrohim";
-  const cartBadge = count > 0 ? count : 3;
+  const [deals, setDeals] = useState<CatalogCard[]>([]);
+  const first = profile?.fullName?.replace(/^Dr\.?\s*/i, "").split(/\s+/).filter(Boolean)[0] || "";
+  const cartBadge = count;
+
+  useEffect(() => {
+    void fetchCatalogProducts().then((rows) => {
+      const sale = rows.filter((item) => (item.discount ?? 0) > 0);
+      setDeals((sale.length ? sale : rows).slice(0, 4));
+    });
+  }, []);
 
   function onSearch(event: FormEvent) {
     event.preventDefault();
@@ -140,18 +70,18 @@ export function MobileHome() {
         <button type="button" className="mh-ic" aria-label="Qidirish" onClick={() => document.querySelector<HTMLInputElement>("[data-section-search]")?.focus()}>
           <Search />
         </button>
-        <Link href="/savat" className="mh-ic" aria-label="Savat">
+          <Link href="/savat" className="mh-ic" aria-label="Savat">
           <ShoppingCart />
-          <span className="mh-badge" data-testid="home-cart-badge">{cartBadge > 9 ? "9+" : cartBadge}</span>
+          {cartBadge > 0 ? <span className="mh-badge" data-testid="home-cart-badge">{cartBadge > 9 ? "9+" : cartBadge}</span> : null}
         </Link>
         <NotificationBell variant="mobile" buttonClassName="size-10 text-[#1a1d26]" />
       </header>
 
       <div className="mh-body">
         <div className="mh-hello">
-          <img src={profile?.avatarUrl || "/img/mobile/avatar.jpg"} alt="" />
+          {profile?.avatarUrl ? <img src={profile.avatarUrl} alt="" /> : <span className="mh-ava" aria-hidden="true" />}
           <div>
-            <b>Salom, {first}!</b>
+            <b>{first ? `Salom, ${first}!` : "Salom!"}</b>
             <span>Stomatologlar uchun barcha narsa bir joyda</span>
           </div>
         </div>
@@ -196,29 +126,7 @@ export function MobileHome() {
             <h2>Bugungi seminarlar</h2>
             <Link className="mh-more" href="/seminarlar">Barchasi &gt;</Link>
           </div>
-          <div className="mh-list" style={{ marginTop: "calc(.7 * var(--u))" }}>
-            {seminars.map((seminar) => (
-              <article className="mh-sem" key={seminar.id}>
-                <div className="mh-thumb">
-                  <img src={seminar.image} alt="" />
-                  <span className="mh-date">{seminar.date}</span>
-                </div>
-                <div>
-                  <h3>{seminar.title}</h3>
-                  <div className="mh-meta">
-                    <span><UserRound /> {seminar.doctor}</span>
-                    <span><MapPin /> {seminar.city}</span>
-                    <span><Clock /> {seminar.hours}</span>
-                    <span><Award /> Sertifikat</span>
-                  </div>
-                </div>
-                <div className="mh-side">
-                  <b>{formatMoney(seminar.price, "UZS")}</b>
-                  <Link className="mh-reg" href={seminarHref(seminar.id)}>Ro‘yxatdan o‘tish</Link>
-                </div>
-              </article>
-            ))}
-          </div>
+          <p className="mh-empty" data-testid="home-seminars-empty">Hozircha seminar yo‘q.</p>
         </section>
 
         <section>
@@ -226,14 +134,16 @@ export function MobileHome() {
             <h2>Chegirmadagi mahsulotlar</h2>
             <Link className="mh-more" href="/marketplace">Barchasi &gt;</Link>
           </div>
+          {deals.length === 0 ? <p className="mh-empty" data-testid="home-deals-empty">Hozircha mahsulot yo‘q.</p> : (
           <div className="mh-deals" style={{ marginTop: "calc(.7 * var(--u))" }}>
             {deals.map((deal) => {
               const saved = favorites.has(deal.id);
+              const href = catalogHref(deal.category, deal.id);
               return (
                 <article className="mh-deal" key={deal.id}>
                   <div className="mh-ph">
-                    <Link href={deal.href}><img src={deal.image} alt={deal.name} /></Link>
-                    <span className="mh-off">-{deal.discount}%</span>
+                    <Link href={href}>{deal.image ? <img src={deal.image} alt={deal.name} /> : null}</Link>
+                    {deal.discount ? <span className="mh-off">-{deal.discount}%</span> : null}
                     <button
                       type="button"
                       className={saved ? "mh-heart on" : "mh-heart"}
@@ -244,22 +154,20 @@ export function MobileHome() {
                       <Heart fill={saved ? "currentColor" : "none"} />
                     </button>
                   </div>
-                  <Link href={deal.href}>
+                  <Link href={href}>
                     <p className="brand">{deal.brand}</p>
                     <h3>{deal.name}</h3>
-                    <p className="size">{deal.size}</p>
                   </Link>
-                  <p className="mh-rate"><Star /> {deal.rating} ({deal.reviews} ta baho)</p>
                   <div className="mh-price">
                     <div>
                       <b>{formatMoney(deal.price, "UZS")}</b>
-                      <s>{formatMoney(deal.old, "UZS")}</s>
+                      {deal.oldPrice ? <s>{formatMoney(deal.oldPrice, "UZS")}</s> : null}
                     </div>
                     <button
                       type="button"
                       className="mh-add"
                       aria-label={`${deal.name} savatga`}
-                      onClick={() => add(deal.id, deal.extra)}
+                      onClick={() => add(deal.id, productFromCatalog(deal))}
                     >
                       <ShoppingCart />
                     </button>
@@ -268,6 +176,7 @@ export function MobileHome() {
               );
             })}
           </div>
+          )}
         </section>
 
         <section>
@@ -275,27 +184,7 @@ export function MobileHome() {
             <h2>Community</h2>
             <Link className="mh-more" href="/community">Barchasi &gt;</Link>
           </div>
-          <article className="mh-post" style={{ marginTop: "calc(.7 * var(--u))" }}>
-            <div>
-              <div className="top">
-                <div className="who">
-                  <img src="/img/mobile/dilnoza.jpg" alt="" />
-                  <div>
-                    <h3>Dr. Nigora Saidova</h3>
-                    <p className="role">Stomatolog · 2 soat oldin</p>
-                  </div>
-                </div>
-                <button type="button" className="mh-dots" aria-label="Yana" aria-expanded={menu} onClick={() => setMenu((open) => !open)}>
-                  <MoreHorizontal />
-                </button>
-              </div>
-              <p>Klinikada raqamli skaner bilan ishlash tajribam. Juda qulay va aniq natijalar beradi. Sizlarda qanday tajriba?</p>
-              {menu ? (
-                <Link href="/community" className="mh-more">Muhokamani ochish</Link>
-              ) : null}
-            </div>
-            <img className="shot" src="/img/mobile/aligner.jpg" alt="" />
-          </article>
+          <p className="mh-empty" data-testid="home-community-empty">Hozircha post yo‘q. <Link href="/community">Community</Link></p>
         </section>
       </div>
 

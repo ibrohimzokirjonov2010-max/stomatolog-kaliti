@@ -38,7 +38,7 @@ export function PatientsDesktop() {
   const [sort, setSort] = useState<"yangi" | "eski" | "ism">("yangi");
   const [page, setPage] = useState(1);
   const [size, setSize] = useState(10);
-  const [selected, setSelected] = useState("p-0001");
+  const [selected, setSelected] = useState("");
   const [checked, setChecked] = useState<string[]>([]);
   const [tab, setTab] = useState<"umumiy" | "davolash" | "tolov" | "hujjat">("umumiy");
   const [dentition, setDentition] = useState<"doimiy" | "sut">("doimiy");
@@ -46,7 +46,7 @@ export function PatientsDesktop() {
   const [adding, setAdding] = useState(false);
   const [visit, setVisit] = useState(false);
   const [toast, setToast] = useState("");
-  const [visitForm, setVisitForm] = useState({ date: "22.10.2026", kind: "Maslahat", note: "", doctor: "Dr. Karimov" });
+  const [visitForm, setVisitForm] = useState({ date: "", kind: "Maslahat", note: "", doctor: "" });
 
   const filtered = useMemo(() => {
     const query = norm(q.trim());

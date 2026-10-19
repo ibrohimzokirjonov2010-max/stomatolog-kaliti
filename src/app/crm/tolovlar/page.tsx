@@ -1,8 +1,8 @@
-import type { Metadata } from "next";
-import { PhonePayments } from "@/components/phone14/clinic";
-
-export const metadata: Metadata = { title: "To‘lovlar", description: "Klinika tushumlari va bemor to‘lovlari." };
-
 export default function Page() {
-  return <PhonePayments />;
+  return (
+    <section className="px-4 py-8 lg:hidden" data-testid="pays-empty">
+      <h1 className="text-[22px] font-extrabold text-[#0f1e3d]">To‘lovlar</h1>
+      <p className="mt-2 text-sm text-[#6b7590]">Hozircha to‘lov yo‘q.</p>
+    </section>
+  );
 }

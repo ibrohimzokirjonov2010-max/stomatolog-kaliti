@@ -81,118 +81,19 @@ export function SpecialistsFrame({
 export function MutaxassislarDesktop() {
   const params = useSearchParams();
   const [q, setQ] = useState(() => params.get("q") ?? "");
-  const [specialty, setSpecialty] = useState<Specialty | "">("");
-  const [city, setCity] = useState("");
-  const [sort, setSort] = useState<SpecSort>("reyting");
-  const [saved, setSaved] = useState<string[]>([]);
-  const [chat, setChat] = useState<Specialist | null>(null);
-  const items = useMemo(() => sortSpecialists(filterSpecialists(specialists, { q, specialty, city }), sort), [q, specialty, city, sort]);
-
-  function reset() {
-    setQ("");
-    setSpecialty("");
-    setCity("");
-    setSort("reyting");
-  }
-
-  function toggleSave(id: string) {
-    setSaved((current) => (current.includes(id) ? current.filter((item) => item !== id) : [...current, id]));
-  }
 
   return (
-    <SpecialistsFrame headerQuery={q} onHeaderQuery={setQ} onPromo={reset}>
+    <SpecialistsFrame headerQuery={q} onHeaderQuery={setQ}>
       <div data-testid="specs-desktop">
         <div className="mx-head">
           <div>
             <h1>Mutaxassislar</h1>
-            <p>Tajribali stomatolog mutaxassislar bilan bog‘laning</p>
-          </div>
-          <div className="mx-badges">
-            <div className="brd-badge">
-              <span className="medal">
-                <BadgeCheck className="i" />
-              </span>
-              <span>
-                <b>500+ mutaxassis</b>
-                <span>O‘zbekiston bo‘ylab</span>
-              </span>
-            </div>
-            <div className="brd-badge">
-              <span className="medal">
-                <Star className="i" />
-              </span>
-              <span>
-                <b>Tekshirilgan profillar</b>
-                <span>Haqiqiy mutaxassislar</span>
-              </span>
-            </div>
+            <p>Ro‘yxat hali ochilmagan</p>
           </div>
         </div>
-        <div className="mx-tools">
-          <label className="mx-search">
-            <Search className="i" />
-            <input data-testid="spec-search" aria-label="Mutaxassis qidirish" value={q} placeholder="Mutaxassis yoki mutaxassislik bo‘yicha qidiring..." onChange={(event) => setQ(event.target.value)} />
-          </label>
-          <label className="mx-select">
-            <MapPin className="i" />
-            <select data-testid="spec-city" aria-label="Shahar" value={city} onChange={(event) => setCity(event.target.value)}>
-              <option value="">Shahar</option>
-              {specialistCities.map((item) => (
-                <option key={item} value={item}>
-                  {item}
-                </option>
-              ))}
-            </select>
-            <ChevronRight className="i" style={{ transform: "rotate(90deg)" }} />
-          </label>
-          <label className="mx-select">
-            <Stethoscope className="i" />
-            <select data-testid="spec-specialty" aria-label="Mutaxassislik" value={specialty} onChange={(event) => setSpecialty(event.target.value as Specialty | "")}>
-              <option value="">Mutaxassislik</option>
-              {specialties.map((item) => (
-                <option key={item.id} value={item.id}>
-                  {item.label}
-                </option>
-              ))}
-            </select>
-            <ChevronRight className="i" style={{ transform: "rotate(90deg)" }} />
-          </label>
-          <label className="mx-select">
-            <ArrowUpDown className="i" />
-            <select data-testid="spec-sort" aria-label="Saralash" value={sort} onChange={(event) => setSort(event.target.value as SpecSort)}>
-              <option value="reyting">Reyting bo‘yicha</option>
-              <option value="yuqori">Yuqori reyting</option>
-              <option value="tajriba">Tajriba bo‘yicha</option>
-              <option value="bemor">Bemorlar bo‘yicha</option>
-            </select>
-            <ChevronRight className="i" style={{ transform: "rotate(90deg)" }} />
-          </label>
+        <div className="mx-empty" data-testid="spec-empty">
+          <p>Hozircha mutaxassislar ro‘yxati yo‘q.</p>
         </div>
-        <div className="mx-chips" role="tablist" aria-label="Mutaxassislik">
-          <button type="button" className={specialty === "" ? "on" : undefined} data-testid="spec-chip-all" onClick={() => setSpecialty("")}>
-            Barchasi
-          </button>
-          {specialties.map((item) => (
-            <button key={item.id} type="button" className={specialty === item.id ? "on" : undefined} data-testid={`spec-chip-${item.id}`} onClick={() => setSpecialty(item.id)}>
-              {item.label}
-            </button>
-          ))}
-        </div>
-        {items.length === 0 ? (
-          <div className="mx-empty" data-testid="spec-empty">
-            <p>Mutaxassis topilmadi</p>
-            <button type="button" onClick={reset}>
-              Tozalash
-            </button>
-          </div>
-        ) : (
-          <div className="mx-grid">
-            {items.map((person) => (
-              <SpecCard key={person.id} person={person} saved={saved.includes(person.id)} onSave={() => toggleSave(person.id)} onContact={() => setChat(person)} />
-            ))}
-          </div>
-        )}
-        {chat ? <SpecChat person={chat} onClose={() => setChat(null)} /> : null}
       </div>
     </SpecialistsFrame>
   );

@@ -1,40 +1,27 @@
 "use client";
 /* eslint-disable @next/next/no-img-element -- category photos are fixed card crops */
 
+import { useEffect, useState } from "react";
 import Link from "next/link";
 import { ChevronRight, Gem, } from "lucide-react";
 import { CATEGORIES } from "@/components/catalog-pages/kategoriyalar";
+import { fetchCatalogProducts, type CatalogCard } from "@/lib/catalog-client";
 import { formatGroupedNumber } from "@/lib/format";
 import { MarketFrame, } from "./MarketFrame";
 import "./kategoriyalar.css";
 
-const COUNTS: Record<string, number> = {
-  terapiya: 1240,
-  ortopediya: 980,
-  jarrohlik: 860,
-  implantologiya: 1320,
-  endodontiya: 910,
-  ortodontiya: 740,
-  gigiyena: 680,
-  asboblar: 1560,
-  uskunalar: 640,
-};
-
-/** Desktop catalog chips. Clinical names map onto the shop categories that actually filter the grid. */
-const HREFS: Record<string, string> = {
-  terapiya: "/marketplace?cat=kompozitlar",
-  ortopediya: "/marketplace?cat=bondlar",
-  jarrohlik: "/marketplace?cat=uchliklar",
-  implantologiya: "/marketplace?cat=implantlar",
-  endodontiya: "/marketplace?cat=endodontiya",
-  ortodontiya: "/marketplace?q=ortodont",
-  gigiyena: "/marketplace?cat=gigiyena",
-  asboblar: "/marketplace?cat=asboblar",
-  uskunalar: "/marketplace?cat=uskunalar",
-};
-
+function countFor(item: (typeof CATEGORIES)[number], products: CatalogCard[]) {
+  if (item.cat) return products.filter((product) => product.category === item.cat).length;
+  const q = (item.q ?? "").toLowerCase();
+  if (!q) return 0;
+  return products.filter((product) => `${product.name} ${product.brand} ${product.description}`.toLowerCase().includes(q)).length;
+}
 
 export function KategoriyalarDesktop() {
+  const [products, setProducts] = useState<CatalogCard[]>([]);
+  useEffect(() => {
+    void fetchCatalogProducts().then(setProducts);
+  }, []);
   return (
     <MarketFrame
       active="cats"
@@ -55,17 +42,18 @@ export function KategoriyalarDesktop() {
               <Gem className="i" />
             </span>
             <span>
-              <b>9 ta kategoriya</b>
-              <span>10 000+ mahsulot</span>
+              <b>{CATEGORIES.length} ta kategoriya</b>
+              <span>{formatGroupedNumber(products.length)} ta mahsulot</span>
             </span>
           </div>
         </div>
         <div className="kat-grid">
           {CATEGORIES.map((item) => {
             const Icon = item.icon;
-            const count = COUNTS[item.id] ?? 0;
+            const count = countFor(item, products);
+            const href = item.cat ? `/marketplace?cat=${item.cat}` : `/marketplace?q=${encodeURIComponent(item.q ?? item.name)}`;
             return (
-              <Link key={item.id} className="kat-card" href={HREFS[item.id] ?? `/marketplace?q=${encodeURIComponent(item.name)}`} data-testid={`kat-${item.id}`}>
+              <Link key={item.id} className="kat-card" href={href} data-testid={`kat-${item.id}`}>
                 <div className="kat-ph">
                   <img src={`/img/design-pr13/categories/${item.id}.png`} alt="" />
                 </div>

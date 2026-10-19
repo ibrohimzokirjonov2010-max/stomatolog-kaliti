@@ -1,11 +1,11 @@
 import type { Metadata } from "next";
-import { PhoneSales } from "@/components/phone14/shop";
+import { SalesMobile } from "@/components/shop/SalesMobile";
 
 export const metadata: Metadata = {
   title: "Aksiyalar",
-  description: "Maxsus takliflar va chegirmalar. Stomatologiya mahsulotlari.",
+  description: "Chegirmadagi stomatologiya mahsulotlari.",
 };
 
 export default function SalesPage() {
-  return <PhoneSales />;
+  return <SalesMobile />;
 }

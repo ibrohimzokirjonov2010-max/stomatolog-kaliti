@@ -15,7 +15,10 @@ import {
   writePhoneStore,
   type PhonePatient,
 } from "@/data/phone14";
+import { useDoctorProfile } from "@/components/doctor-profile-provider";
+import type { Patient } from "@/data/crm";
 import { CLINIC_PAYS_KEY, CLINIC_PLANS_KEY, loadClinic, patientPlans, type ClinicPayment, type ClinicPlan } from "@/data/phone-records";
+import { useCrmPatients } from "@/lib/use-crm-list";
 import { findQueueItem, finishPaid, saveQueueItem } from "@/data/phone-queue";
 import { formatGroupedNumber } from "@/lib/format";
 
@@ -65,9 +68,23 @@ function nextNum(extra: PhonePatient[]) {
 }
 
 function useClinicPatients() {
-  const [people, setPeople] = useState(phonePatients);
-  useEffect(() => { setPeople(allPatients()); }, []);
-  return people;
+  const [rows] = useCrmPatients<Patient>();
+  return rows.map((item) => ({
+    id: item.id,
+    name: item.name,
+    num: String(item.num || item.id),
+    age: item.age,
+    gender: item.gender,
+    phone: item.phone,
+    status: "davolanishda" as const,
+    statusLabel: "Davolanishda",
+    last: item.lastVisit || "—",
+    next: item.nextVisit || "—",
+    tags: item.conditions ?? [],
+    online: false,
+    avatar: item.avatar || "/img/jobs/doctor.jpg",
+    city: item.city,
+  }));
 }
 
 function FormScreen({ title, subtitle, back, testId, children }: { title: string; subtitle: string; back: string; testId: string; children: ReactNode }) {
@@ -301,6 +318,11 @@ export function PhoneAddAppointment() {
   const [note, setNote] = useState("");
   const [errors, setErrors] = useState<Record<string, string>>({});
   const people = useClinicPatients();
+  const { profile } = useDoctorProfile();
+  const doctorName = profile?.fullName?.trim() || "";
+  useEffect(() => {
+    if (doctorName) setDoctor(doctorName);
+  }, [doctorName]);
   useEffect(() => {
     if (!preset) return;
     setPatient(people.find((item) => item.id === preset) ?? null);
@@ -363,7 +385,7 @@ export function PhoneAddAppointment() {
           <button type="button" aria-label="Tozalash" onClick={() => setPatient(null)}><X /></button>
         </article>
       ) : null}
-      <Field label="Shifokor" required error={errors.doctor}><SelectBox label="Shifokor" value={doctor} onChange={setDoctor} options={[{ value: "", label: "Shifokorni tanlang" }, ...DOCTORS.map((item) => ({ value: item, label: item }))]} icon={<UserRound />} /></Field>
+      <Field label="Shifokor" required error={errors.doctor}><SelectBox label="Shifokor" value={doctor} onChange={setDoctor} options={doctorName ? [{ value: doctorName, label: doctorName }] : [{ value: "", label: "Shifokor" }]} icon={<UserRound />} /></Field>
       <Field label="Kreslo" required error={errors.chair}><SelectBox label="Kreslo" value={chair} onChange={setChair} options={[{ value: "", label: "Kresloni tanlang" }, ...["Kreslo 1", "Kreslo 2", "Kreslo 3"].map((item) => ({ value: item, label: item }))]} /></Field>
       <Field label="Xizmat" required error={errors.service}>
         <SelectBox label="Xizmat" value={service} onChange={setService} options={[{ value: "", label: "Xizmatni tanlang" }, ...SERVICES.map((item) => ({ value: item, label: item }))]} icon={<Wallet />} />
@@ -404,8 +426,11 @@ export function PhoneAddPlan() {
   const params = useSearchParams();
   const preset = params.get("patient") || "";
   const people = useClinicPatients();
+  const { profile } = useDoctorProfile();
+  const doctorName = profile?.fullName?.trim() || "";
   const [patientId, setPatientId] = useState(preset);
   const [doctor, setDoctor] = useState("");
+  useEffect(() => { if (doctorName) setDoctor(doctorName); }, [doctorName]);
   const [title, setTitle] = useState("");
   const [dent, setDent] = useState<"katta" | "bola">("katta");
   const [picked, setPicked] = useState<string[]>([]);
@@ -456,7 +481,7 @@ export function PhoneAddPlan() {
         <SelectBox label="Bemor" value={patientId} onChange={setPatientId} avatar={chosen?.avatar} options={[{ value: "", label: "Bemorni tanlang" }, ...people.map((item) => ({ value: item.id, label: item.name }))]} />
       </Field>
       {chosen ? <p className="spec">ID: #{chosen.num} · {chosen.phone}</p> : null}
-      <Field label="Shifokor" required error={errors.doctor}><SelectBox label="Shifokor" value={doctor} onChange={setDoctor} options={[{ value: "", label: "Shifokorni tanlang" }, ...DOCTORS.map((item) => ({ value: item, label: item }))]} icon={<UserRound />} /></Field>
+      <Field label="Shifokor" required error={errors.doctor}><SelectBox label="Shifokor" value={doctor} onChange={setDoctor} options={doctorName ? [{ value: doctorName, label: doctorName }] : [{ value: "", label: "Shifokor" }]} icon={<UserRound />} /></Field>
       <Field label="Reja nomi" required error={errors.title}><input value={title} placeholder="Reja nomi" onChange={(event) => setTitle(event.target.value)} /></Field>
       <div className="p14-head">
         <b>Tishlar (FDI)</b>

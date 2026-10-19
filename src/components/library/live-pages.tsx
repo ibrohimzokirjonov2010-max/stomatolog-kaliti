@@ -4,7 +4,8 @@
 import { useEffect, useState, type ReactNode } from "react";
 import Link from "next/link";
 import { useCart } from "@/components/cart-provider";
-import { productFromCatalog, type CatalogCard } from "@/lib/catalog-client";
+import { catalogCardFrom, catalogHref, fetchCatalogProducts, productFromCatalog, type CatalogCard } from "@/lib/catalog-client";
+import { colorLabel, formaColors, formaGenders, formaKinds } from "@/data/forma";
 import { enrollCourse, fetchBooks, fetchCourses, fetchNews, saveLessonDone, type LiveBook, type LiveCourse, type LiveNews } from "@/lib/live-content";
 import { formatMoney } from "@/lib/format";
 
@@ -17,71 +18,182 @@ function Shell({ title, children }: { title: string; children: ReactNode }) {
   );
 }
 
-export function CatalogDetail({ id, expect }: { id: string; expect: "forma" | "jihozlar" }) {
+function textAttr(attrs: Record<string, unknown>, key: string) {
+  const value = attrs[key];
+  return typeof value === "string" ? value.trim() : "";
+}
+
+function deliveryLabel(card: CatalogCard) {
+  if (card.attrs.freeDelivery === true) return "Bepul yetkazib berish";
+  const fee = Number(card.attrs.deliveryPrice);
+  if (Number.isFinite(fee) && fee > 0) return `Yetkazib berish: ${formatMoney(fee, "UZS")}`;
+  return "";
+}
+
+export function CatalogDetail({ id, expect }: { id: string; expect?: "forma" | "jihozlar" }) {
   const { add } = useCart();
   const [card, setCard] = useState<CatalogCard | null | undefined>(undefined);
+  const [related, setRelated] = useState<CatalogCard[]>([]);
+  const [size, setSize] = useState("");
+  const [color, setColor] = useState("");
+  const [photo, setPhoto] = useState(0);
+  const [error, setError] = useState("");
+
   useEffect(() => {
     let stop = false;
+    setCard(undefined);
+    setSize("");
+    setColor("");
+    setPhoto(0);
+    setError("");
     void fetch(`/api/catalog/${id}`, { credentials: "same-origin" })
       .then((res) => res.json())
       .then((json: { ok?: boolean; product?: Record<string, unknown> }) => {
         if (stop) return;
-        if (!json.ok || !json.product || json.product.category !== expect) {
+        const next = json.ok && json.product ? catalogCardFrom(json.product) : null;
+        if (!next || (expect && next.category !== expect)) {
           setCard(null);
           return;
         }
-        const raw = json.product;
-        setCard({
-          id: String(raw.id),
-          name: String(raw.name ?? ""),
-          brand: String(raw.brand ?? ""),
-          brandKey: "",
-          category: String(raw.category ?? ""),
-          price: Number(raw.price) || 0,
-          oldPrice: Number(raw.oldPrice) || undefined,
-          discount: Number(raw.discount) || undefined,
-          rating: Number(raw.rating) || 0,
-          reviews: Number(raw.reviews) || 0,
-          inStock: raw.inStock !== false,
-          image: typeof raw.image === "string" ? raw.image : "",
-          createdAt: "",
-          shopId: typeof raw.shopId === "string" ? raw.shopId : "",
-          shopName: typeof raw.shopName === "string" ? raw.shopName : "",
-          shopSlug: typeof raw.shopSlug === "string" ? raw.shopSlug : "",
-          description: typeof raw.description === "string" ? raw.description : "",
-          kind: typeof raw.kind === "string" ? raw.kind : "",
-          gender: typeof raw.gender === "string" ? raw.gender : "",
-          sizes: Array.isArray(raw.sizes) ? raw.sizes.filter((item): item is string => typeof item === "string") : [],
-          colors: Array.isArray(raw.colors) ? raw.colors.filter((item): item is string => typeof item === "string") : [],
-          images: Array.isArray(raw.images) ? raw.images.filter((item): item is string => typeof item === "string") : [],
-          attrs: raw.attrs && typeof raw.attrs === "object" ? (raw.attrs as Record<string, unknown>) : {},
-        });
+        setCard(next);
+        if (next.sizes.length === 1) setSize(next.sizes[0]);
+        if (next.colors.length === 1) setColor(next.colors[0]);
       })
       .catch(() => {
         if (!stop) setCard(null);
       });
+    void fetchCatalogProducts().then((rows) => {
+      if (stop) return;
+      setRelated(rows.filter((item) => item.id !== id));
+    });
     return () => {
       stop = true;
     };
   }, [expect, id]);
 
+  const back = expect === "forma" ? "/forma" : expect === "jihozlar" ? "/jihozlar" : "/marketplace";
+  const missing = expect === "forma" ? "Forma topilmadi" : expect === "jihozlar" ? "Jihoz topilmadi" : "Mahsulot topilmadi";
   if (card === undefined) return <Shell title="Yuklanmoqda...">{null}</Shell>;
-  if (!card) return <Shell title={expect === "forma" ? "Forma topilmadi" : "Jihoz topilmadi"}><Link href={expect === "forma" ? "/forma" : "/jihozlar"} className="text-[#0066FF]">Orqaga</Link></Shell>;
+  if (!card) return <Shell title={missing}><Link href={back} className="text-[#0066FF]">Orqaga</Link></Shell>;
+
+  const gallery = [card.image, ...card.images].filter((src, index, all) => src && all.indexOf(src) === index);
+  const shot = gallery[photo] || gallery[0] || "";
+  const short = textAttr(card.attrs, "shortDescription");
+  const kind = formaKinds.find((item) => item.id === card.kind)?.label || "";
+  const gender = formaGenders.find((item) => item.id === card.gender)?.label || "";
+  const delivery = deliveryLabel(card);
   const months = Number(card.attrs.installmentMonths) || 0;
+  const specs = [
+    ["Ishlab chiqaruvchi", textAttr(card.attrs, "manufacturer")],
+    ["Turi", textAttr(card.attrs, "type")],
+    ["Rang (material)", textAttr(card.attrs, "color")],
+    ["Hajm", textAttr(card.attrs, "volume")],
+    ["Qo‘llanish", textAttr(card.attrs, "usage")],
+    ["Model", textAttr(card.attrs, "model")],
+    ["Xususiyat", textAttr(card.attrs, "specLine")],
+  ].filter((row) => row[1]);
+  const same = related.filter((item) => item.category === card.category).slice(0, 4);
+
+  function addLine() {
+    if (!card) return;
+    if (card.sizes.length && !size) {
+      setError("O‘lchamni tanlang");
+      return;
+    }
+    if (card.colors.length && !color) {
+      setError("Rangni tanlang");
+      return;
+    }
+    setError("");
+    add(card.id, productFromCatalog(card), 1, { size: size || undefined, color: color || undefined });
+  }
+
   return (
-    <Shell title={card.name}>
-      <p className="mt-1 text-[14px] text-[#6b7280]">{card.brand}{card.shopName ? ` · ${card.shopName}` : ""}</p>
-      {card.image ? <img src={card.image} alt="" className="mt-4 max-h-80 rounded-2xl object-contain" /> : null}
-      <p className="mt-4 text-[22px] font-extrabold text-[#0066FF]">{formatMoney(card.price, "UZS")}</p>
-      {card.description ? <p className="mt-3 text-[15px] leading-relaxed text-[#24344d]">{card.description}</p> : null}
-      {card.sizes.length ? <p className="mt-2 text-[14px]">O‘lcham: {card.sizes.join(", ")}</p> : null}
-      {card.colors.length ? <p className="mt-1 text-[14px]">Rang: {card.colors.join(", ")}</p> : null}
-      {typeof card.attrs.specLine === "string" && card.attrs.specLine ? <p className="mt-2 text-[14px]">{card.attrs.specLine}</p> : null}
-      {months > 0 ? <p className="mt-2 text-[14px]">{months} oyga bo‘lib to‘lash</p> : null}
-      <button type="button" className="mt-5 inline-flex h-11 items-center rounded-xl bg-[#0066FF] px-4 text-[14px] font-bold text-white" onClick={() => add(card.id, productFromCatalog(card))}>
-        Savatga
-      </button>
-    </Shell>
+    <article className="mx-auto max-w-5xl px-4 py-6" data-testid="product-live">
+      <Link href={back} className="text-[13px] font-semibold text-[#0066FF]">Orqaga</Link>
+      <div className="mt-3 grid gap-6 lg:grid-cols-[minmax(0,1fr)_minmax(0,1fr)]">
+        <div>
+          {shot ? <img src={shot} alt="" className="max-h-[420px] w-full rounded-2xl bg-[#f4f7fc] object-contain" /> : <div className="grid h-64 place-items-center rounded-2xl bg-[#f4f7fc] text-sm text-[#6b7280]">Rasm yo‘q</div>}
+          {gallery.length > 1 ? (
+            <div className="mt-3 flex gap-2 overflow-x-auto">
+              {gallery.map((src, index) => (
+                <button key={src} type="button" className={index === photo ? "rounded-xl ring-2 ring-[#0066FF]" : "rounded-xl"} onClick={() => setPhoto(index)}>
+                  <img src={src} alt="" className="h-16 w-16 rounded-xl object-cover" />
+                </button>
+              ))}
+            </div>
+          ) : null}
+        </div>
+        <div>
+          <p className="text-[13px] font-semibold text-[#52637c]" data-testid="product-brand">{card.brand}</p>
+          <h1 className="mt-1 text-[26px] font-extrabold tracking-tight text-[#0B1F4D]">{card.name}</h1>
+          {card.shopName ? <p className="mt-1 text-[14px] text-[#6b7280]">{card.shopName}</p> : null}
+          <p className="mt-3 text-[22px] font-extrabold text-[#0066FF]">{formatMoney(card.price, "UZS")}</p>
+          {short ? <p className="mt-3 text-[15px] leading-relaxed text-[#24344d]" data-testid="product-short">{short}</p> : null}
+          <dl className="mt-4 grid grid-cols-2 gap-2 text-[14px]">
+            {card.sku ? <div data-testid="product-sku"><dt className="text-[#6b7280]">SKU</dt><dd className="font-semibold">{card.sku}</dd></div> : null}
+            <div data-testid="product-stock"><dt className="text-[#6b7280]">Omborda</dt><dd className="font-semibold">{card.stockQty > 0 ? `${card.stockQty} ta` : "Tugagan"}</dd></div>
+            {delivery ? <div data-testid="product-delivery"><dt className="text-[#6b7280]">Yetkazish</dt><dd className="font-semibold">{delivery}</dd></div> : null}
+            {kind ? <div data-testid="product-kind"><dt className="text-[#6b7280]">Turi</dt><dd className="font-semibold">{kind}</dd></div> : null}
+            {gender ? <div data-testid="product-gender"><dt className="text-[#6b7280]">Kim uchun</dt><dd className="font-semibold">{gender}</dd></div> : null}
+          </dl>
+          {card.sizes.length ? (
+            <div className="mt-4">
+              <p className="text-[13px] font-semibold text-[#52637c]">O‘lcham</p>
+              <div className="mt-2 flex flex-wrap gap-2">
+                {card.sizes.map((item) => (
+                  <button key={item} type="button" data-testid={`size-${item}`} className={size === item ? "h-9 rounded-lg bg-[#0066FF] px-3 text-[13px] font-bold text-white" : "h-9 rounded-lg border border-[#d7e0ee] px-3 text-[13px] font-semibold"} onClick={() => setSize(item)}>{item}</button>
+                ))}
+              </div>
+            </div>
+          ) : null}
+          {card.colors.length ? (
+            <div className="mt-4">
+              <p className="text-[13px] font-semibold text-[#52637c]">Rang</p>
+              <div className="mt-2 flex flex-wrap gap-2">
+                {card.colors.map((item) => {
+                  const hex = formaColors.find((entry) => entry.id === item)?.hex ?? "#d1d5db";
+                  return (
+                    <button key={item} type="button" data-testid={`color-${item}`} className={color === item ? "inline-flex h-9 items-center gap-2 rounded-lg bg-[#0066FF] px-3 text-[13px] font-bold text-white" : "inline-flex h-9 items-center gap-2 rounded-lg border border-[#d7e0ee] px-3 text-[13px] font-semibold"} onClick={() => setColor(item)}>
+                      <i className="inline-block size-3 rounded-full border border-black/10" style={{ background: hex }} />
+                      {colorLabel(item)}
+                    </button>
+                  );
+                })}
+              </div>
+            </div>
+          ) : null}
+          {specs.length ? (
+            <ul className="mt-4 space-y-1 text-[14px] text-[#24344d]">
+              {specs.map(([label, value]) => <li key={label}><span className="text-[#6b7280]">{label}: </span>{value}</li>)}
+            </ul>
+          ) : null}
+          {months > 0 ? <p className="mt-2 text-[14px]">{months} oyga bo‘lib to‘lash</p> : null}
+          {error ? <p className="mt-3 text-[13px] font-semibold text-[#dc2626]">{error}</p> : null}
+          <button type="button" className="mt-5 inline-flex h-11 items-center rounded-xl bg-[#0066FF] px-4 text-[14px] font-bold text-white disabled:opacity-50" data-testid="product-add" disabled={card.stockQty < 1} onClick={addLine}>
+            Savatga
+          </button>
+        </div>
+      </div>
+      {card.description ? <p className="mt-6 whitespace-pre-wrap text-[15px] leading-relaxed text-[#24344d]" data-testid="product-description">{card.description}</p> : null}
+      {same.length ? (
+        <section className="mt-8" data-testid="product-related">
+          <h2 className="text-[18px] font-extrabold text-[#0B1F4D]">Shu turkumdagi mahsulotlar</h2>
+          <ul className="mt-3 grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
+            {same.map((item) => (
+              <li key={item.id}>
+                <Link href={catalogHref(item.category, item.id)} className="block rounded-2xl border border-[#eceff5] bg-white p-3">
+                  {item.image ? <img src={item.image} alt="" className="h-28 w-full rounded-xl object-contain" /> : null}
+                  <p className="mt-2 text-[12px] text-[#6b7280]">{item.brand}</p>
+                  <p className="text-[14px] font-semibold text-[#0B1F4D]">{item.name}</p>
+                  <p className="text-[14px] font-bold text-[#0066FF]">{formatMoney(item.price, "UZS")}</p>
+                </Link>
+              </li>
+            ))}
+          </ul>
+        </section>
+      ) : null}
+    </article>
   );
 }
 

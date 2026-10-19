@@ -38,7 +38,7 @@ export function PlansDesktop() {
   const [templates, setTemplates] = useState(false);
   const [step, setStep] = useState({ name: "", teeth: "", price: "300000" });
   const [pay, setPay] = useState({ amount: "200000", method: "Naqd", note: "To‘lov" });
-  const [draft, setDraft] = useState({ title: "", doctor: "Dr. Sardor Karimov", patientId: "p-0002", date: "2026-10-22", teeth: "", amount: "", note: "" });
+  const [draft, setDraft] = useState({ title: "", doctor: "", patientId: "", date: "", teeth: "", amount: "", note: "" });
 
   const filtered = useMemo(() => plans.filter((plan) => {
     const patient = PATIENTS.find((item) => item.id === plan.patientId);

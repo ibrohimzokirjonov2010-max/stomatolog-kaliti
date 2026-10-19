@@ -4,16 +4,16 @@
 import { useMemo, useState } from "react";
 import { ChevronRight, Plus, Search } from "lucide-react";
 import { CrmFrame, CrmModal, CrmPager } from "@/components/crm/desktop/CrmFrame";
-import { buildStock, stockCategories, stockSuppliers, type StockItem, type StockStatus } from "@/data/crm";
+import { stockCategories, stockSuppliers, type StockItem, type StockStatus } from "@/data/crm";
 import { downloadText } from "@/lib/simple-pdf";
 import { formatMoney } from "@/lib/format";
 import { useStoredList } from "@/lib/stored-list";
 
-const SEED = buildStock();
+const SEED: StockItem[] = [];
 const statusLabel: Record<StockStatus, string> = { kam: "Kam zaxira", mavjud: "Mavjud", tugash: "Tugash arafasida" };
 
 export function StockDesktop() {
-  const [items, setItems] = useStoredList("sk-crm-stock-v1", SEED);
+  const [items, setItems] = useStoredList("sk-crm-stock-v2", SEED);
   const [q, setQ] = useState("");
   const [category, setCategory] = useState("");
   const [status, setStatus] = useState<StockStatus | "">("");
@@ -33,7 +33,6 @@ export function StockDesktop() {
   const pages = Math.max(1, Math.ceil(filtered.length / size));
   const safe = Math.min(page, pages);
   const slice = filtered.slice((safe - 1) * size, safe * size);
-  const pristine = !q && !category && !status && !supplier && items.length === SEED.length;
   const value = items.reduce((sum, item) => sum + item.price * item.qty, 0);
   const low = items.filter((item) => item.status === "kam");
   const soon = items.filter((item) => item.expiry.endsWith("2026") && (item.expiry.startsWith("05.01") || item.expiry.startsWith("12.03") || item.expiry.startsWith("20.12") || item.expiry.includes(".02."))).slice(0, 4);
@@ -60,9 +59,9 @@ export function StockDesktop() {
           </div>
         </div>
         <div className="pay-kpis" style={{ gridTemplateColumns: "repeat(3, minmax(0,1fr))" }}>
-          <article><small>Jami mahsulotlar</small><b>{pristine ? 248 : filtered.length}</b><em className="money-plus">+12% o‘tgan oyga nisbatan</em></article>
-          <article><small>Ombordagi qiymat</small><b>{pristine ? "125 600 000 so‘m" : formatMoney(value, "UZS")}</b><em className="money-plus">+8% o‘tgan oyga nisbatan</em></article>
-          <article><small>Kam zaxira</small><b className="money-minus">{pristine ? 18 : low.length}</b><em>Diqqat talab qiladi</em></article>
+          <article><small>Jami mahsulotlar</small><b>{filtered.length}</b></article>
+          <article><small>Ombordagi qiymat</small><b>{formatMoney(value, "UZS")}</b></article>
+          <article><small>Kam zaxira</small><b className="money-minus">{low.length}</b></article>
         </div>
         <div className="crm-split">
           <div className="crm-card">
