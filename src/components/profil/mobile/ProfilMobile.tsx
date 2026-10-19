@@ -5,7 +5,6 @@ import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import {
-  BadgeCheck,
   Bell,
   Briefcase,
   Building2,
@@ -33,6 +32,7 @@ import { useFavorites } from "@/components/favorites-provider";
 import { MobileMenuButton } from "@/components/dashboard/mobile-chrome";
 import { NotificationBell } from "@/components/notification-bell";
 import { uploadImage } from "@/lib/image-upload";
+import { useSavedPlaces } from "@/lib/saved-addresses";
 import { loadOrders, syncOrders } from "@/lib/orders";
 import { getBonusSnapshot, refreshBonus, subscribeBonus } from "@/lib/bonus";
 import "./profil-mobile.css";
@@ -40,7 +40,7 @@ import "./profil-mobile.css";
 type Sheet = "edit" | "plus" | "fav" | "addr" | "pay" | "notes" | "lang" | "help" | "out";
 
 const LANGUAGES = ["O‘zbekcha", "Ruscha", "English"];
-const DEFAULT_AVATAR = "/img/mobile/pf-avatar.jpg";
+const EMPTY_FIELD = "Ko‘rsatilmagan — tahrirlash orqali yozing";
 
 const groupOne = [
   { id: "orders", title: "Mening buyurtmalarim", subtitle: "Buyurtmalar tarixi va holati", icon: ClipboardList, tint: "#e8f1ff", color: "#2f6bff", href: "/buyurtmalarim" },
@@ -63,7 +63,8 @@ export function ProfilMobile() {
   const router = useRouter();
   const cart = useCart();
   const favorites = useFavorites();
-  const { profile, updateProfile, logout } = useDoctorProfile();
+  const { profile, updateProfile, logout, ready } = useDoctorProfile();
+  const places = useSavedPlaces(Boolean(profile), ready);
   const fileRef = useRef<HTMLInputElement>(null);
   const lines = cart.items.length;
   const [searchOpen, setSearchOpen] = useState(false);
@@ -75,13 +76,12 @@ export function ProfilMobile() {
   const [city, setCity] = useState("");
   const [orderCount, setOrderCount] = useState(0);
   const [bonus, setBonus] = useState(0);
-  const [avatar, setAvatar] = useState(DEFAULT_AVATAR);
+  const [avatar, setAvatar] = useState("");
   const [lang, setLang] = useState(LANGUAGES[0]);
   const [draft, setDraft] = useState({ name, specialty, clinic, city });
   const [error, setError] = useState("");
   const [note, setNote] = useState("");
   const [help, setHelp] = useState("");
-  const [address, setAddress] = useState("Toshkent, Chilonzor tumani");
   const [addressDraft, setAddressDraft] = useState("");
   const [card, setCard] = useState("");
   const [cardDraft, setCardDraft] = useState("");
@@ -121,9 +121,9 @@ export function ProfilMobile() {
     }
     const next = {
       name: draft.name.trim(),
-      specialty: draft.specialty.trim() || "Stomatolog",
-      clinic: draft.clinic.trim() || "Smile Dental Clinic",
-      city: draft.city.trim() || "Toshkent, Chilonzor",
+      specialty: draft.specialty.trim(),
+      clinic: draft.clinic.trim(),
+      city: draft.city.trim(),
     };
     setName(next.name);
     setSpecialty(next.specialty);
@@ -163,11 +163,9 @@ export function ProfilMobile() {
           </label>
         ) : null}
         <article className="pm-hero">
-          <img className="pm-bg" src="/img/mobile/pf-clinic.jpg" alt="" />
-          <div className="pm-fade" />
           <div className="pm-hero-row">
             <div className="pm-ava">
-              <img src={avatar} alt="" />
+              {avatar ? <img src={avatar} alt="" /> : <span className="pm-ava-empty" aria-hidden />}
               <button type="button" className="pm-cam" aria-label="Rasm yuklash" onClick={() => fileRef.current?.click()}>
                 <Camera />
               </button>
@@ -189,10 +187,10 @@ export function ProfilMobile() {
               />
             </div>
             <div className="pm-id">
-              <h1>{name} <BadgeCheck /></h1>
-              <p className="pm-role">{specialty}</p>
-              <p className="pm-meta"><Building2 /> {clinic}</p>
-              <p className="pm-meta"><MapPin /> {city}</p>
+              <h1>{name.trim() || "Ism ko‘rsatilmagan"}</h1>
+              <p className="pm-role">{specialty.trim() || EMPTY_FIELD}</p>
+              <p className="pm-meta"><Building2 /> {clinic.trim() || EMPTY_FIELD}</p>
+              <p className="pm-meta"><MapPin /> {city.trim() || EMPTY_FIELD}</p>
               <button type="button" className="pm-pill" data-testid="pf-edit-pill" onClick={() => openSheet("edit")}>Profilni tahrirlash →</button>
             </div>
           </div>
@@ -257,9 +255,9 @@ export function ProfilMobile() {
             {sheet === "addr" ? (
               <>
                 <h3>Manzillarim</h3>
-                <p>{address}</p>
+                {places.places.length === 0 ? <p>Manzil yo‘q — qo‘shish orqali yozing.</p> : places.places.map((place) => <p key={place.id}>{place.label}: {place.address}</p>)}
                 <input value={addressDraft} aria-label="Yangi manzil" placeholder="Yangi manzil" onChange={(event) => setAddressDraft(event.target.value)} />
-                <button type="button" className="pm-save" onClick={() => { if (!addressDraft.trim()) { setError("Manzilni kiriting"); return; } setAddress(addressDraft.trim()); setAddressDraft(""); setError(""); setNote("Saqlangan"); }}>Saqlash</button>
+                <button type="button" className="pm-save" onClick={() => { if (!addressDraft.trim()) { setError("Manzilni kiriting"); return; } void places.save({ label: "Manzil", address: addressDraft.trim(), city: city || undefined }).then((result) => { if (!result.ok) { setError(result.error); return; } setAddressDraft(""); setError(""); setNote("Saqlangan"); }); }}>Saqlash</button>
                 {error ? <p>{error}</p> : null}
                 {note ? <p className="pm-note">{note}</p> : null}
               </>

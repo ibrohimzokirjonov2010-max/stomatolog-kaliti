@@ -37,7 +37,6 @@ import {
   jobSpecs,
   jobTips,
   jobTypes,
-  popularClinics,
   typeLabel,
   type DesktopJob,
   type JobExp,
@@ -187,9 +186,14 @@ export function JobsDesktop() {
     }).length;
 
   const clinics = useMemo(() => {
-    const byName = new Map<string, number>();
-    all.forEach((item) => byName.set(item.clinic, (byName.get(item.clinic) ?? 0) + 1));
-    return popularClinics.map((row) => ({ ...row, openings: byName.get(row.name) ?? 0 }));
+    const byName = new Map<string, { openings: number; city: string }>();
+    all.forEach((item) => {
+      const name = item.clinic.trim();
+      if (!name) return;
+      const cur = byName.get(name);
+      byName.set(name, { openings: (cur?.openings ?? 0) + 1, city: item.city });
+    });
+    return [...byName.entries()].map(([name, row]) => ({ name, ...row }));
   }, [all]);
 
   function toggle<T>(current: T[], value: T, set: (next: T[]) => void) {
@@ -333,11 +337,11 @@ export function JobsDesktop() {
 
           <section className="ij-box">
             <div className="ij-box-hd"><h3>Mashhur klinikalar</h3><button type="button" onClick={() => { setClinic(""); setTab("jobs"); }}>Barchasini ko‘rish <ArrowRight className="i" /></button></div>
+            {clinics.length === 0 ? <p className="by">Hozircha klinika yo‘q.</p> : null}
             <ul className="ij-clinics">
               {clinics.map((row) => (
                 <li key={row.name}>
                   <button type="button" className={clinic === row.name ? "on" : ""} onClick={() => { setTab("jobs"); setClinic(clinic === row.name ? "" : row.name); }}>
-                    <img src={row.image} alt="" />
                     <span><b>{row.name}</b><small>{row.city}</small></span>
                     <em>{row.openings} ta vakansiya</em>
                   </button>

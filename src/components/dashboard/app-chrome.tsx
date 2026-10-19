@@ -35,7 +35,6 @@ import { CrmStubDesktop } from "@/components/crm/desktop/CrmStubDesktop";
 import { PatientProfileDesktop } from "@/components/crm/desktop/PatientProfileDesktop";
 import { ReportsDesktop } from "@/components/crm/desktop/ReportsDesktop";
 import { CheckoutDesktop } from "@/components/checkout/desktop/CheckoutDesktop";
-import { TrackDesktop } from "@/components/orders/desktop/TrackDesktop";
 import { BookProductDesktop } from "@/components/books/desktop/BookProductDesktop";
 import { ReaderDesktop } from "@/components/books/desktop/ReaderDesktop";
 import { ListingDetailDesktop, ListingsDesktop } from "@/components/crm/desktop/ListingsDesktop";
@@ -214,8 +213,6 @@ function desktopCrm(pathname: string | null): ReactNode | null {
 function desktopFlow(pathname: string | null): ReactNode | null {
   if (!pathname) return null;
   if (pathname === "/buyurtma" || pathname === "/checkout") return <CheckoutDesktop />;
-  const track = pathname.match(/^\/buyurtmalarim\/([^/]+)$/);
-  if (track) return <TrackDesktop id={decodeURIComponent(track[1])} />;
   const read = pathname.match(/^\/kitoblar\/([^/]+)\/oqish$/);
   if (read) return <ReaderDesktop id={decodeURIComponent(read[1])} />;
   const book = pathname.match(/^\/kitoblar\/([^/]+)$/);

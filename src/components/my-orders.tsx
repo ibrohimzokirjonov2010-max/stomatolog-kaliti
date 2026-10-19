@@ -2,6 +2,7 @@
 
 import { useCallback, useEffect, useState } from "react";
 import Link from "next/link";
+import { notFound } from "next/navigation";
 import {
   Bell,
   CheckCircle2,
@@ -19,10 +20,12 @@ import { OrderTimeline, OrderTrackMap } from "@/components/order-timeline";
 import { OrderCourierCard } from "@/components/order-courier-card";
 import { OrderTrackMobile } from "@/components/order-track-mobile";
 import { apparelMetaLabel } from "@/data/forma";
+import { DELIVERY_LINE_ID } from "@/lib/cart-totals";
 import { formatMoney } from "@/lib/format";
 import {
   confirmOrderReceipt,
   ensureDemoOrderSeed,
+  getOrder,
   loadOrders,
   openOrderDispute,
   startOrdersPolling,
@@ -246,9 +249,13 @@ export function MyOrdersList() {
   );
 }
 
-export function MyOrderDetail({ orderId }: { orderId: string }) {
+function isDeliveryLine(item: Order["items"][number]) {
+  return item.productId === DELIVERY_LINE_ID || item.name === "Yetkazib berish";
+}
+
+export function MyOrderDetail({ orderId, initialOrder }: { orderId: string; initialOrder?: Order }) {
   const { ready, refresh } = useOrdersLive();
-  const [order, setOrder] = useState<Order | null | undefined>(undefined);
+  const [order, setOrder] = useState<Order | null | undefined>(initialOrder);
   const [msg, setMsg] = useState("");
   const [busy, setBusy] = useState(false);
   const [disputeOpen, setDisputeOpen] = useState(false);
@@ -257,16 +264,16 @@ export function MyOrderDetail({ orderId }: { orderId: string }) {
   useEffect(() => {
     if (!ready) return;
     // eslint-disable-next-line react-hooks/set-state-in-effect -- syncing from a server-backed external cache
-    setOrder(loadOrders().find((o) => o.id === orderId) ?? null);
-  }, [ready, orderId]);
+    setOrder(getOrder(orderId) ?? initialOrder ?? null);
+  }, [ready, orderId, initialOrder]);
 
   useEffect(() => {
-    const onChange = () => setOrder(loadOrders().find((o) => o.id === orderId) ?? null);
+    const onChange = () => setOrder(getOrder(orderId) ?? initialOrder ?? null);
     window.addEventListener("sk-orders-changed", onChange);
     return () => window.removeEventListener("sk-orders-changed", onChange);
-  }, [orderId]);
+  }, [initialOrder, orderId]);
 
-  if (!ready || order === undefined) {
+  if (order === undefined) {
     return (
       <div className="rounded-[20px] border border-[#eceff5] bg-white px-6 py-14 text-center text-sm text-[#8b93a7]">
         Yuklanmoqda...
@@ -274,16 +281,7 @@ export function MyOrderDetail({ orderId }: { orderId: string }) {
     );
   }
 
-  if (!order) {
-    return (
-      <div className="rounded-[20px] border border-[#eceff5] bg-white px-6 py-16 text-center">
-        <p className="text-[16px] font-semibold text-[#1a1d26]">Buyurtma topilmadi</p>
-        <Link href="/buyurtmalarim" className={cn(buttonVariants(), "mt-5 h-10 !rounded-xl")}>
-          Buyurtmalarim
-        </Link>
-      </div>
-    );
-  }
+  if (!order) notFound();
 
   async function onConfirm() {
     setBusy(true);
@@ -321,6 +319,9 @@ export function MyOrderDetail({ orderId }: { orderId: string }) {
     (order.paymentState === "escrow_held" || order.paymentState === "awaiting_payment") && order.dispute?.status !== "open";
 
   const payLabel = paymentMethods.find((p) => p.id === order.payment)?.label ?? order.payment;
+  const goods = order.items.filter((item) => !isDeliveryLine(item));
+  const deliverySum = order.items.filter(isDeliveryLine).reduce((sum, item) => sum + item.price * item.qty, 0);
+  const goodsSum = goods.reduce((sum, item) => sum + item.price * item.qty, 0);
 
   const reviewForm =
     order.status === "yetkazildi" && order.paymentState !== "refunded" ? <OrderReviewForm orderId={order.id} items={order.items} /> : null;
@@ -527,7 +528,7 @@ export function MyOrderDetail({ orderId }: { orderId: string }) {
       <section className="rounded-[20px] border border-[#eceff5] bg-white p-4 shadow-[0_1px_3px_rgba(15,23,42,0.04)] sm:p-5">
         <h2 className="text-[15px] font-semibold text-[#1a1d26]">Mahsulotlar</h2>
         <ul className="mt-3 space-y-0">
-          {order.items.map((item, index) => (
+          {goods.map((item, index) => (
             <li
               key={`${item.productId}-${index}`}
               className="flex items-center justify-between gap-3 border-b border-[#f0f3f8] py-3 last:border-0"
@@ -545,11 +546,19 @@ export function MyOrderDetail({ orderId }: { orderId: string }) {
             </li>
           ))}
         </ul>
-        <div className="mt-1 flex items-center justify-between border-t border-[#eceff5] pt-3.5">
-          <span className="text-[14px] font-semibold text-[#1a1d26]">Jami</span>
-          <span className="text-[16px] font-bold text-[#0066FF]">
-            {formatMoney(order.total, "UZS")}
-          </span>
+        <div className="mt-1 space-y-1.5 border-t border-[#eceff5] pt-3.5" data-testid="order-totals">
+          <div className="flex items-center justify-between text-[13px] text-[#4b5568]">
+            <span>Mahsulotlar</span>
+            <span>{formatMoney(goodsSum, "UZS")}</span>
+          </div>
+          <div className="flex items-center justify-between text-[13px] text-[#4b5568]">
+            <span>Yetkazib berish</span>
+            <span>{deliverySum > 0 ? formatMoney(deliverySum, "UZS") : "0 so‘m"}</span>
+          </div>
+          <div className="flex items-center justify-between">
+            <span className="text-[14px] font-semibold text-[#1a1d26]">Jami</span>
+            <span className="text-[16px] font-bold text-[#0066FF]">{formatMoney(order.total, "UZS")}</span>
+          </div>
         </div>
         {order.bonusUsed ? (
           <div className="mt-1.5 flex items-center justify-between text-[13px]">

@@ -2,13 +2,15 @@
 
 import { AdBanner } from "@/components/ad-banner";
 import { SeminarDesktop } from "@/components/seminar-desktop";
-import { SeminarMobileList } from "@/components/seminars/mobile/SeminarMobileList";
+import { SeminarListMobile } from "@/components/seminar-mobile-list";
 
 export function SeminarBrowse() {
   return (
     <div>
       <AdBanner placement="seminar" className="hidden lg:block" />
-      <SeminarMobileList />
+      <div className="lg:hidden">
+        <SeminarListMobile />
+      </div>
 
       {/* ── DESKTOP ── */}
       <div className="hidden lg:block">
