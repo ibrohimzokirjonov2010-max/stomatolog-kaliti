@@ -8,11 +8,9 @@ import {
   ArrowRight,
   Banknote,
   BookOpen,
-  Briefcase,
   Check,
   ChevronDown,
   CreditCard,
-  Home,
   Map,
   MapPin,
   MessageSquare,
@@ -31,9 +29,11 @@ import { useCart } from "@/components/cart-provider";
 import { MobileMenuButton } from "@/components/dashboard/mobile-chrome";
 import { useDoctorProfile } from "@/components/doctor-profile-provider";
 import { NotificationBell } from "@/components/notification-bell";
+import { apparelMetaLabel } from "@/data/forma";
 import { type MobileOrder } from "@/data/mobile-orders";
 import { formatMoney } from "@/lib/format";
 import { shopDeliveryFee } from "@/lib/cart-totals";
+import { useSavedPlaces } from "@/lib/saved-addresses";
 import { createOrder, type PaymentMethod } from "@/lib/orders";
 import "./checkout-steps.css";
 
@@ -41,16 +41,8 @@ type Step = 1 | 2 | 3 | "success";
 type PayId = "click" | "payme" | "uzum" | "card" | "naqd" | "installment";
 type ShipId = "courier" | "pickup";
 
-const DESIGN_NAME = "Ibrohim Zokirjonov";
-const DESIGN_PHONE = "+998 90 123 45 67";
-
 const CITIES = ["Toshkent", "Samarqand", "Buxoro", "Andijon", "Farg‘ona", "Namangan", "Nukus", "Qarshi"];
 const TASHKENT = ["Yunusobod", "Chilonzor", "Shayxontohur", "Mirzo Ulug‘bek", "Yakkasaroy", "Sergeli", "Uchtepa", "Olmazor", "Mirobod", "Yashnobod", "Bektemir"];
-
-const SAVED = [
-  { id: "uy", title: "Uy", city: "Toshkent", district: "Yunusobod", address: "Yunusobod tumani, Amir Temur ko‘chasi, 25-uy" },
-  { id: "klinika", title: "Klinika", city: "Toshkent", district: "Shayxontohur", address: "Shayxontohur tumani, Navoiy ko‘chasi, 12-uy" },
-] as const;
 
 const PAYS: { id: PayId; title: string; hint: string; mark: string; color: string }[] = [
   { id: "click", title: "Click", hint: "Click ilovasi orqali", mark: "C", color: "#00b4d8" },
@@ -116,19 +108,21 @@ function PayMark({ mark, color }: { mark: string; color: string }) {
 export function CheckoutSteps() {
   const cart = useCart();
   const { items, clear } = cart;
-  const { profile } = useDoctorProfile();
+  const { profile, ready: profileReady } = useDoctorProfile();
+  const { places, loaded: placesLoaded } = useSavedPlaces(Boolean(profile), profileReady);
   const seeded = useRef(false);
   const [booted, setBooted] = useState(false);
   const [step, setStep] = useState<Step>(1);
   const [searchOpen, setSearchOpen] = useState(false);
   const [query, setQuery] = useState("");
   const [cartOpen, setCartOpen] = useState(true);
-  const [name, setName] = useState(DESIGN_NAME);
-  const [phone, setPhone] = useState(DESIGN_PHONE);
+  const [name, setName] = useState("");
+  const [phone, setPhone] = useState("");
   const [city, setCity] = useState("Toshkent");
   const [district, setDistrict] = useState("Yunusobod");
-  const [address, setAddress] = useState<string>(SAVED[0].address);
-  const [saved, setSaved] = useState<string>(SAVED[0].id);
+  const [address, setAddress] = useState("");
+  const [saved, setSaved] = useState("");
+  const [allPlaces, setAllPlaces] = useState(false);
   const [comment, setComment] = useState("");
   const [delivery, setDelivery] = useState<ShipId>("courier");
   const [pay, setPay] = useState<PayId>("naqd");
@@ -174,11 +168,11 @@ export function CheckoutSteps() {
   }
 
   function chooseSaved(id: string) {
-    const place = SAVED.find((item) => item.id === id);
+    const place = places.find((item) => item.id === id);
     if (!place) return;
     setSaved(id);
-    setCity(place.city);
-    setDistrict(place.district);
+    if (place.city) setCity(place.city);
+    if (place.district) setDistrict(place.district);
     setAddress(place.address);
     setError("");
   }
@@ -393,10 +387,16 @@ export function CheckoutSteps() {
 
                 <div className="ck-label">
                   <span>Saqlangan manzillar</span>
-                  <button type="button" data-testid="ck-places-all">Barchasini ko‘rish</button>
+                  {places.length > 2 ? (
+                    <button type="button" data-testid="ck-places-all" onClick={() => setAllPlaces((value) => !value)}>
+                      {allPlaces ? "Yig‘ish" : "Barchasini ko‘rish"}
+                    </button>
+                  ) : null}
                 </div>
                 <div role="radiogroup" aria-label="Saqlangan manzillar">
-                  {SAVED.map((place) => (
+                  {placesLoaded && places.length === 0 ? (
+                    <p className="ck-sub">Hozircha saqlangan manzil yo‘q. Manzilni yuqoridagi maydonga yozing.</p>
+                  ) : (allPlaces ? places : places.slice(0, 2)).map((place) => (
                     <button
                       key={place.id}
                       type="button"
@@ -406,10 +406,10 @@ export function CheckoutSteps() {
                       className={saved === place.id ? "ck-place on" : "ck-place"}
                       onClick={() => chooseSaved(place.id)}
                     >
-                      <span className="ck-ico">{place.id === "uy" ? <Home /> : <Briefcase />}</span>
+                      <span className="ck-ico"><MapPin /></span>
                       <span>
-                        <b>{place.title}</b>
-                        <small>{place.address}</small>
+                        <b>{place.label}</b>
+                        <small>{[place.district, place.address].filter(Boolean).join(", ")}</small>
                       </span>
                       <i className="ck-radio" />
                     </button>
@@ -534,7 +534,7 @@ export function CheckoutSteps() {
                       <img src={item.product.image} alt="" />
                       <div>
                         <b>{item.product.name}</b>
-                        <small>{item.size || item.product.description || item.product.brand}</small>
+                        <small>{apparelMetaLabel(item.size, item.color) || item.product.brand}</small>
                       </div>
                       <div>
                         <em>{item.qty} dona</em>
@@ -647,8 +647,10 @@ export function CheckoutSteps() {
         <div className="ck-sheet" role="dialog" aria-label="Xaritadan tanlash" data-testid="ck-map-sheet">
           <button type="button" aria-label="Yopish" data-testid="ck-map-close" className="absolute inset-0" onClick={() => setMapOpen(false)} />
           <div className="ck-box">
-            <h3>Xaritadan tanlash</h3>
-            {SAVED.map((place) => (
+            <h3>Saqlangan manzillar</h3>
+            {places.length === 0 ? (
+              <p className="ck-sub">Hozircha saqlangan manzil yo‘q. Manzilni maydonga yozing.</p>
+            ) : places.map((place) => (
               <button
                 key={place.id}
                 type="button"
@@ -659,7 +661,7 @@ export function CheckoutSteps() {
                   setMapOpen(false);
                 }}
               >
-                {place.address}
+                {[place.label, place.address].filter(Boolean).join(" — ")}
               </button>
             ))}
           </div>

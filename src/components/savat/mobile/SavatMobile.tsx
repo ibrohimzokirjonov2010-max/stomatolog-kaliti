@@ -8,6 +8,7 @@ import { useCart } from "@/components/cart-provider";
 import { useFavorites } from "@/components/favorites-provider";
 import { MobileMenuButton } from "@/components/dashboard/mobile-chrome";
 import { NotificationBell } from "@/components/notification-bell";
+import { colorLabel } from "@/data/forma";
 import { shopDeliveryFee } from "@/lib/cart-totals";
 import { formatMoney } from "@/lib/format";
 import "./savat-mobile.css";
@@ -81,7 +82,7 @@ export function SavatMobile() {
                     </div>
                     {item.size ? <p className="sv-variant">{item.size}</p> : null}
                     <p className="sv-seller"><Store /> {item.product.shopName || item.product.brand}</p>
-                    {item.color ? <p className="sv-color"><i className="sv-dot" /> Rang: {item.color}</p> : null}
+                    {item.color ? <p className="sv-color"><i className="sv-dot" /> Rang: {colorLabel(item.color)}</p> : null}
                     <div className="sv-buy">
                       <div className="sv-step">
                         <button type="button" aria-label="Kamaytirish" onClick={() => setQty(item.key, item.qty - 1)} disabled={item.qty <= 1}>−</button>

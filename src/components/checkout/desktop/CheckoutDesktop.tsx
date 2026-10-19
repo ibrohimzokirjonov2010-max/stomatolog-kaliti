@@ -11,6 +11,7 @@ import { useDoctorProfile } from "@/components/doctor-profile-provider";
 import { formatPhoneDisplay } from "@/lib/doctor-profile";
 import { createOrder, type PaymentMethod } from "@/lib/orders";
 import { shopDeliveryFee } from "@/lib/cart-totals";
+import { useSavedPlaces } from "@/lib/saved-addresses";
 import { formatGroupedNumber } from "@/lib/format";
 import "./checkout-desktop.css";
 
@@ -29,7 +30,8 @@ function som(n: number) {
 export function CheckoutDesktop() {
   const router = useRouter();
   const cart = useCart();
-  const { profile } = useDoctorProfile();
+  const { profile, ready: profileReady } = useDoctorProfile();
+  const { places, loaded: placesLoaded } = useSavedPlaces(Boolean(profile), profileReady);
   const [step, setStep] = useState<Step>(1);
   const [name, setName] = useState("");
   const [phone, setPhone] = useState("");
@@ -126,10 +128,12 @@ export function CheckoutDesktop() {
                 </div>
                 <button type="button" className="ckx-mapbtn" onClick={() => setMap((value) => !value)}>Xaritada manzilni tanlang</button>
                 {map ? <img className="ckx-map" src="/img/designs/toshkent-map.png" alt="Toshkent xaritasi" /> : null}
-                <div className="ckx-saved-head"><b>Saqlangan manzillarim</b><button type="button" onClick={() => setMore((value) => !value)}>Barchasini ko‘rish ›</button></div>
-                {[{ id: "uy", title: "Uy", line: "Amir Temur ko‘chasi, 25-uy, 3-xonadon" }, { id: "klinika", title: "Klinika", line: "Shota Rustaveli ko‘chasi, 15-uy" }].slice(0, more ? 2 : 2).map((item) => (
-                  <button key={item.id} type="button" className={saved === item.id ? "ckx-addr on" : "ckx-addr"} onClick={() => { setSaved(item.id); setAddress(item.id === "uy" ? "Amir Temur ko‘chasi, 25-uy, 3-xonadon, 5-qavat" : "Shota Rustaveli ko‘chasi, 15-uy"); }}>
-                    <b>{item.title}</b><span>{item.line}</span><em>Tahrirlash</em>
+                <div className="ckx-saved-head"><b>Saqlangan manzillarim</b>{places.length > 2 ? <button type="button" onClick={() => setMore((value) => !value)}>{more ? "Yig‘ish" : "Barchasini ko‘rish ›"}</button> : null}</div>
+                {placesLoaded && places.length === 0 ? (
+                  <p className="ckx-sub">Hozircha saqlangan manzil yo‘q. Manzilni yuqoridagi maydonga yozing.</p>
+                ) : (more ? places : places.slice(0, 2)).map((item) => (
+                  <button key={item.id} type="button" className={saved === item.id ? "ckx-addr on" : "ckx-addr"} onClick={() => { setSaved(item.id); setAddress(item.address); if (item.city) setCity(item.city); if (item.district) setDistrict(item.district); }}>
+                    <b>{item.label}</b><span>{[item.district, item.address].filter(Boolean).join(", ")}</span>
                   </button>
                 ))}
                 <h2>Yetkazish usuli</h2>

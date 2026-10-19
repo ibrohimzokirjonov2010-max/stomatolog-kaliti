@@ -2,7 +2,6 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { useState } from "react";
 import {
   ArrowRight,
   Check,
@@ -12,10 +11,9 @@ import {
   Plus,
   PlusCircle,
   ShoppingBag,
-  Ticket,
   Trash2,
-  Truck,
 } from "lucide-react";
+import { shopDeliveryFee } from "@/lib/cart-totals";
 import { useCart } from "@/components/cart-provider";
 import { useFavorites } from "@/components/favorites-provider";
 import { useBonusUse } from "@/components/bonus/bonus";
@@ -53,9 +51,8 @@ export function CartMobile() {
   const { items, count, setQty, remove, clear, isSelected, toggleSelected } = cart;
   const { selectedItems, selectedCount, selectedSubtotal } = cart;
   const bonus = useBonusUse(selectedItems.map((i) => ({ productId: i.product.id, qty: i.qty })));
-  const [promo, setPromo] = useState("");
-  const [promoMsg, setPromoMsg] = useState("");
-  const total = Math.max(0, selectedSubtotal - bonus.applied);
+  const delivery = shopDeliveryFee(selectedItems.map((item) => item.product));
+  const total = Math.max(0, selectedSubtotal + delivery - bonus.applied);
 
   if (count === 0) {
     return (
@@ -223,33 +220,6 @@ export function CartMobile() {
         <ChevronRight className="ml-auto size-4 text-[#9aa3b5]" />
       </Link>
 
-      {/* Promo */}
-      <form
-        className="mt-2.5 rounded-[14px] bg-white p-1.5 shadow-[0_1px_3px_rgba(15,23,42,0.06)]"
-        onSubmit={(e) => {
-          e.preventDefault();
-          setPromoMsg(promo.trim() ? "Bu promokod topilmadi" : "Promokodni kiriting");
-        }}
-      >
-        <div className="flex items-center gap-2">
-          <Ticket className="ml-2.5 size-5 shrink-0 text-[#1f6bff]" />
-          <input
-            value={promo}
-            onChange={(e) => {
-              setPromo(e.target.value);
-              setPromoMsg("");
-            }}
-            placeholder="Promokod kiriting"
-            className="h-10 min-w-0 flex-1 bg-transparent text-[14px] text-[#0B1220] outline-none placeholder:text-[#9aa3b5]"
-            aria-label="Promokod"
-          />
-          <button type="submit" className="h-10 shrink-0 rounded-[10px] bg-[#1f6bff] px-5 text-[14px] font-semibold text-white">
-            Qo‘llash
-          </button>
-        </div>
-        {promoMsg ? <p className="px-3 pt-1.5 pb-1 text-[12.5px] text-[#7a8397]">{promoMsg}</p> : null}
-      </form>
-
       {/* Summary */}
       <section className="mt-2.5 rounded-[16px] bg-white p-3.5 shadow-[0_1px_3px_rgba(15,23,42,0.06)]">
         <div className="flex items-baseline justify-between">
@@ -262,12 +232,8 @@ export function CartMobile() {
             <dd className="text-[#0B1220]">{som(selectedSubtotal)}</dd>
           </div>
           <div className="flex justify-between">
-            <dt>Yetkazib berish (Toshkent)</dt>
-            <dd className="font-medium text-[#16a34a]">Bepul</dd>
-          </div>
-          <div className="flex justify-between">
-            <dt>Chegirma (promokod)</dt>
-            <dd className="text-[#0B1220]">- 0 so‘m</dd>
+            <dt>Yetkazib berish</dt>
+            <dd className={delivery > 0 ? "font-medium text-[#0B1220]" : "font-medium text-[#16a34a]"}>{delivery > 0 ? som(delivery) : "Bepul"}</dd>
           </div>
           {bonus.applied > 0 ? (
             <div className="flex justify-between text-[#1f6bff]">
@@ -304,14 +270,6 @@ export function CartMobile() {
         </Link>
       </section>
 
-      {/* Free delivery banner */}
-      <div className="mt-2.5 flex items-center gap-3 rounded-[14px] bg-white px-3.5 py-3 shadow-[0_1px_3px_rgba(15,23,42,0.06)]">
-        <Truck className="size-7 shrink-0 text-[#1f6bff]" />
-        <div className="min-w-0 flex-1">
-          <p className="text-[13.5px] font-bold text-[#0B1220]">Bepul yetkazib berish</p>
-          <p className="text-[12px] text-[#7a8397]">Toshkent bo‘ylab buyurtmalar uchun</p>
-        </div>
-      </div>
     </div>
   );
 }

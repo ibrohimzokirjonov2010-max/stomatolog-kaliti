@@ -240,7 +240,7 @@ export function OrdersDesktop() {
               {help ? <p className="bo-note" style={{ marginTop: "calc(.35 * var(--u))" }}>{help}</p> : null}
             </section>
             <section className="bo-box bo-chat">
-              <img src="/img/cart/support.jpg" alt="" />
+              <span className="bo-chat-ico" aria-hidden="true"><MessageCircle className="i" /></span>
               <div>
                 <h3>Savollaringiz bormi?</h3>
                 <p>Biz yordam berishga tayyormiz!</p>
