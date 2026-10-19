@@ -6,6 +6,7 @@ import { DesktopHeader } from "@/components/desktop/desktop-header";
 export default function Topbar({
   searchPath = "/marketplace",
   placeholder,
+  showCamera,
 }: {
   variant?: "home" | "shop";
   searchPath?: string;
@@ -13,5 +14,5 @@ export default function Topbar({
   placeholder?: string;
   showCamera?: boolean;
 }) {
-  return <DesktopHeader searchPath={searchPath} searchPlaceholder={placeholder} />;
+  return <DesktopHeader searchPath={searchPath} searchPlaceholder={placeholder} showCamera={showCamera} />;
 }

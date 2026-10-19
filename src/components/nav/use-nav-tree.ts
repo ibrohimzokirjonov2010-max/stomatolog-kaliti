@@ -2,7 +2,7 @@
 
 import { useCallback, useEffect, useState } from "react";
 import { usePathname } from "next/navigation";
-import { activeNavGroup, activeNavHref } from "@/data/nav";
+import { activeDesktopGroup, activeNavGroup, activeNavHref, desktopNavGroups } from "@/data/nav";
 
 const STORAGE_KEY = "stomahub.nav.openGroup";
 
@@ -25,16 +25,30 @@ function writeStored(id: string | null) {
 
 /**
  * Shared state for the grouped navigation (desktop sidebars and the mobile drawer).
- * The group holding the active route is always opened on navigation; the last group
- * the user opened is remembered in localStorage.
+ * Mobile keeps the previous behaviour: the active group starts open, and the last
+ * group the user opened is remembered. Desktop starts with every group open so the
+ * design's chevrons are visible without changing the phone drawer.
  */
-export function useNavTree() {
+export function useNavTree(mode: "mobile" | "desktop" = "mobile") {
   const pathname = usePathname() ?? "/";
   const activeHref = activeNavHref(pathname);
-  const activeGroup = activeNavGroup(pathname);
-  const [open, setOpen] = useState<Set<string>>(() => new Set(activeGroup ? [activeGroup] : []));
+  const activeGroup = mode === "desktop" ? activeDesktopGroup(pathname) : activeNavGroup(pathname);
+  const [open, setOpen] = useState<Set<string>>(() =>
+    mode === "desktop" ? new Set(desktopNavGroups.map((group) => group.id)) : new Set(activeGroup ? [activeGroup] : []),
+  );
 
   useEffect(() => {
+    if (mode === "desktop") {
+      if (!activeGroup) return;
+      // eslint-disable-next-line react-hooks/set-state-in-effect -- keep the active group open after navigation
+      setOpen((prev) => {
+        if (prev.has(activeGroup)) return prev;
+        const next = new Set(prev);
+        next.add(activeGroup);
+        return next;
+      });
+      return;
+    }
     const stored = readStored();
     // eslint-disable-next-line react-hooks/set-state-in-effect -- sync with localStorage + route after mount
     setOpen((prev) => {
@@ -43,7 +57,7 @@ export function useNavTree() {
       if (stored) next.add(stored);
       return next;
     });
-  }, [activeGroup]);
+  }, [activeGroup, mode]);
 
   const toggle = useCallback((id: string) => {
     setOpen((prev) => {

@@ -1,5 +1,5 @@
 .sh .od-head { display: flex; align-items: flex-start; justify-content: space-between; gap: calc(.6 * var(--u)); }
-.sh .od-head h1 { margin: 0; font-size: calc(3.05 * var(--u)); line-height: 1.15; letter-spacing: -.02em; }
+.sh .od-head h1 { margin: 0; font-size: calc(1.35 * var(--fs)); line-height: 1.15; letter-spacing: -.02em; }
 .sh .od-head p { margin: calc(.1 * var(--u)) 0 0; color: #6a7c93; font-size: calc(.92 * var(--u)); font-weight: 500; }
 .sh .od-badges { display: flex; gap: calc(.4 * var(--u)); flex: none; }
 .sh .od-badges .brd-badge { padding: calc(.35 * var(--u)) calc(.55 * var(--u)); }

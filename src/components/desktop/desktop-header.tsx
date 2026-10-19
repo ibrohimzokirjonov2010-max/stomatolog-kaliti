@@ -3,7 +3,7 @@
 import { useEffect, useRef, useState, type FormEvent } from "react";
 import Link from "next/link";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
-import { ChevronDown, Search, ShoppingCart } from "lucide-react";
+import { Camera, ChevronDown, Heart, MapPin, Search, ShoppingCart } from "lucide-react";
 import { useCart } from "@/components/cart-provider";
 import { useDoctorProfile } from "@/components/doctor-profile-provider";
 import { NotificationBell } from "@/components/notification-bell";
@@ -12,28 +12,19 @@ import "./desktop-chrome.css";
 
 export const DESKTOP_LOGO_SRC = "/brand/stomahub-mark.svg";
 
-const NAV = [
-  { href: "/", label: "Bosh sahifa", test: (path: string) => path === "/" || path.startsWith("/bosh-sahifa") },
-  {
-    href: "/marketplace",
-    label: "Marketplace",
-    test: (path: string) =>
-      path.startsWith("/marketplace") ||
-      path.startsWith("/kategoriyalar") ||
-      path.startsWith("/ortiqcha-material") ||
-      path.startsWith("/product") ||
-      path.startsWith("/savat") ||
-      path.startsWith("/cart") ||
-      path.startsWith("/checkout") ||
-      path.startsWith("/buyurtma"),
-  },
-  { href: "/seminarlar", label: "Seminarlar", test: (path: string) => path.startsWith("/seminarlar") },
-  { href: "/ustalar", label: "Ustalar", test: (path: string) => path.startsWith("/ustalar") },
-  { href: "/forma", label: "Forma", test: (path: string) => path.startsWith("/forma") },
-  { href: "/kitoblar", label: "Kitoblar", test: (path: string) => path.startsWith("/kitoblar") },
-] as const;
-
 const DEMO_AVATAR = "/img/design-pr13/ui/avatar.png";
+
+const CITIES = ["Toshkent", "Samarqand", "Buxoro", "Andijon", "Namangan", "Farg‘ona", "Nukus"];
+
+const SEARCH_CATS = [
+  { href: "/kategoriyalar", label: "Barcha kategoriyalar" },
+  { href: "/marketplace", label: "Marketplace" },
+  { href: "/marketplace/brendlar", label: "Brendlar" },
+  { href: "/marketplace/aksiyalar", label: "Aksiyalar" },
+  { href: "/ortiqcha-material", label: "Ortiqcha material" },
+  { href: "/forma", label: "Tibbiy forma" },
+  { href: "/jihozlar", label: "Jihozlar" },
+];
 
 export type DesktopHeaderProps = {
   searchPlaceholder?: string;
@@ -41,7 +32,15 @@ export type DesktopHeaderProps = {
   headerQuery?: string;
   onHeaderQuery?: (value: string) => void;
   onHeaderSubmit?: (value: string) => void;
+  /** Force the camera pill off (kitoblar). Marketplace paths show it unless this is false. */
+  showCamera?: boolean;
 };
+
+function isMarketplacePath(pathname: string) {
+  if (pathname === "/marketplace" || pathname.startsWith("/product/")) return true;
+  if (pathname.startsWith("/marketplace/") && !pathname.startsWith("/marketplace/sotuvchi")) return true;
+  return false;
+}
 
 export function DesktopHeader({
   searchPlaceholder = "Mahsulot, brend yoki kategoriya qidiring...",
@@ -49,6 +48,7 @@ export function DesktopHeader({
   headerQuery,
   onHeaderQuery,
   onHeaderSubmit,
+  showCamera,
 }: DesktopHeaderProps) {
   const pathname = usePathname() ?? "/";
   const router = useRouter();
@@ -56,8 +56,14 @@ export function DesktopHeader({
   const { profile, logout } = useDoctorProfile();
   const [localQuery, setLocalQuery] = useState("");
   const [menu, setMenu] = useState(false);
+  const [catsOpen, setCatsOpen] = useState(false);
+  const [cityOpen, setCityOpen] = useState(false);
+  const [city, setCity] = useState(profile?.city || "Toshkent");
+  const fileRef = useRef<HTMLInputElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
   const value = onHeaderQuery ? (headerQuery ?? "") : localQuery;
+  const market = isMarketplacePath(pathname);
+  const camera = market && showCamera !== false;
 
   useEffect(() => {
     function onKey(event: KeyboardEvent) {
@@ -88,14 +94,28 @@ export function DesktopHeader({
     <header className="dh-top" data-testid="desktop-header">
       <Link className="dh-logo" href="/" aria-label="StomaHub">
         <img src={DESKTOP_LOGO_SRC} alt="" data-testid="desktop-logo" data-logo-src={DESKTOP_LOGO_SRC} />
-        <span>
-          <span className="dh-word">
-            Stoma<b>Hub</b>
-          </span>
-          <span className="dh-tag">Stomatologlar uchun yagona platforma</span>
+        <span className="dh-word">
+          Stoma<b>Hub</b>
         </span>
       </Link>
-      <form className="dh-search" onSubmit={onSearch} role="search">
+      <form className={market ? "dh-search dh-search-market" : "dh-search"} onSubmit={onSearch} role="search">
+        {market ? (
+          <div className="dh-cats">
+            <button type="button" aria-expanded={catsOpen} aria-haspopup="listbox" data-testid="header-cats" onClick={() => setCatsOpen((open) => !open)}>
+              Barcha kategoriyalar
+              <ChevronDown className="i" />
+            </button>
+            {catsOpen ? (
+              <div className="dh-menu dh-cat-menu" role="listbox">
+                {SEARCH_CATS.map((item) => (
+                  <Link key={item.href + item.label} href={item.href} role="option" onClick={() => setCatsOpen(false)}>
+                    {item.label}
+                  </Link>
+                ))}
+              </div>
+            ) : null}
+          </div>
+        ) : null}
         <Search className="i" />
         <input
           ref={inputRef}
@@ -104,18 +124,51 @@ export function DesktopHeader({
           placeholder={searchPlaceholder}
           aria-label="Qidiruv"
         />
+        <button type="submit" className="dh-go" aria-label="Qidirish">
+          <Search className="i" />
+        </button>
       </form>
-      <nav className="dh-nav" aria-label="Bo‘limlar" data-testid="desktop-nav">
-        {NAV.map((item) => {
-          const on = item.test(pathname);
-          return (
-            <Link key={item.href} href={item.href} className={on ? "on" : undefined} aria-current={on ? "page" : undefined}>
-              {item.label}
-            </Link>
-          );
-        })}
-      </nav>
+      {camera ? (
+        <>
+          <button type="button" className="dh-cam" data-testid="header-camera" onClick={() => fileRef.current?.click()}>
+            <Camera className="i" />
+            Rasm orqali qidirish
+          </button>
+          <input ref={fileRef} type="file" accept="image/*" hidden aria-hidden="true" tabIndex={-1} />
+        </>
+      ) : null}
       <div className="dh-actions">
+        <div className="dh-city">
+          <button type="button" aria-expanded={cityOpen} aria-haspopup="listbox" data-testid="header-city" onClick={() => setCityOpen((open) => !open)}>
+            <MapPin className="i" />
+            <span>{city}</span>
+            <ChevronDown className="i chev" />
+          </button>
+          {cityOpen ? (
+            <div className="dh-menu" role="listbox" aria-label="Shahar">
+              {CITIES.map((item) => (
+                <button
+                  key={item}
+                  type="button"
+                  role="option"
+                  aria-selected={item === city}
+                  onClick={() => {
+                    setCity(item);
+                    setCityOpen(false);
+                  }}
+                >
+                  {item}
+                </button>
+              ))}
+            </div>
+          ) : null}
+        </div>
+        <span className="dh-bell">
+          <NotificationBell variant="desktop" buttonClassName="dh-icon-btn" minBadge={profile ? 3 : 0} />
+        </span>
+        <Link className="dh-ic" href="/profil" aria-label="Sevimlilar" data-testid="desktop-heart">
+          <Heart className="i" />
+        </Link>
         <Link className="dh-ic" href="/savat" aria-label="Savat" data-testid="desktop-cart">
           <ShoppingCart className="i" />
           {count > 0 ? (
@@ -124,9 +177,6 @@ export function DesktopHeader({
             </em>
           ) : null}
         </Link>
-        <span className="dh-bell">
-          <NotificationBell variant="desktop" buttonClassName="dh-icon-btn" />
-        </span>
         <div className="dh-user">
           <button type="button" aria-label="Profil" aria-expanded={menu} aria-haspopup="menu" data-testid="desktop-profile" onClick={() => setMenu((open) => !open)}>
             <img src={avatar} alt="" />

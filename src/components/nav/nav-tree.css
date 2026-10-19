@@ -1,9 +1,9 @@
 .sh .nt .nt-head {
-  display: flex; align-items: center; gap: calc(.5 * var(--u)); width: 100%;
+  display: flex; align-items: center; gap: 8px; width: 100%;
   background: none; border: 0; cursor: pointer; text-align: left;
-  padding: calc(.25 * var(--u)) calc(.55 * var(--u)) calc(.25 * var(--u)) calc(.6 * var(--u));
-  border-radius: calc(.45 * var(--u)); color: var(--ink, #0f1e3d);
-  font: inherit; font-size: calc(.66 * var(--u)); font-weight: 700; letter-spacing: .01em;
+  padding: 6px 8px 6px 10px;
+  border-radius: 8px; color: var(--ink, #0f1e3d);
+  font: inherit; font-size: 13.5px; font-weight: 700; letter-spacing: .01em;
 }
 .sh .nt .nt-head:hover { background: #eef3f9; }
 .sh .nt .nt-head span { flex: 1; min-width: 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }

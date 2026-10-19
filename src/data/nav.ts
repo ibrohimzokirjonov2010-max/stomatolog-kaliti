@@ -7,6 +7,7 @@ import {
   BriefcaseBusiness,
   Building2,
   CalendarDays,
+  CircleHelp,
   ClipboardList,
   Cpu,
   FlaskConical,
@@ -41,6 +42,8 @@ export type NavItem = {
   hint?: string;
   /** Extra route prefixes that also make this item active. */
   match?: string[];
+  /** When several desktop items share an href, this one owns the active pill. */
+  primary?: boolean;
 };
 
 export type NavGroup = {
@@ -124,8 +127,79 @@ export const navGroups: NavGroup[] = [
   },
 ];
 
+/**
+ * Desktop sidebar (design variant A). Mobile keeps `navGroups` so the drawer
+ * stays as it is. Every href from `navGroups` is still listed here.
+ */
+export const desktopNavGroups: NavGroup[] = [
+  {
+    id: "dokon",
+    title: "Do’kon",
+    icon: Store,
+    items: [
+      { href: "/marketplace", label: "Barcha mahsulotlar", icon: LayoutGrid },
+      { href: "/marketplace", label: "Marketplace", icon: ShoppingBag, primary: true, match: ["/product", "/savat", "/cart", "/checkout", "/buyurtma"] },
+      { href: "/ortiqcha-material", label: "Ortiqcha material", icon: Package },
+      { href: "/kategoriyalar", label: "Kategoriyalar", icon: LayoutGrid },
+      { href: "/marketplace/brendlar", label: "Brendlar", icon: Tag },
+      { href: "/marketplace/aksiyalar", label: "Aksiyalar", icon: BadgePercent },
+      { href: "/buyurtmalarim", label: "Buyurtmalarim", icon: Receipt },
+      { href: "/marketplace/sotuvchi", label: "Sotuvchi kabineti", icon: Store, match: ["/sotuvchi"] },
+    ],
+  },
+  {
+    id: "talim",
+    title: "Ta’lim",
+    icon: GraduationCap,
+    items: [
+      { href: "/talim", label: "Ta’lim", icon: GraduationCap },
+      { href: "/seminarlar", label: "Seminarlar va kurslar", icon: Presentation },
+      { href: "/talim", label: "Onlayn darslar", icon: MonitorPlay, primary: true },
+      { href: "/mutaxassislar", label: "Mutaxassislar", icon: Users, primary: true },
+      { href: "/sertifikatlar", label: "Sertifikatlar", icon: Award },
+      { href: "/kitoblar", label: "Kitoblar", icon: BookOpen },
+    ],
+  },
+  {
+    id: "klinika",
+    title: "Klinika",
+    icon: Building2,
+    items: [
+      { href: "/mening-klinikam", label: "Mening klinikam", icon: Building2, match: ["/klinika"] },
+      { href: "/crm/bemorlar", label: "Bemorlar CRM", icon: UserRound, match: ["/crm"] },
+      { href: "/crm/uchrashuvlar", label: "Uchrashuvlar", icon: CalendarDays },
+      { href: "/crm/davolash-rejalari", label: "Davolash rejalari", icon: ClipboardList },
+      { href: "/crm/tolovlar", label: "To‘lovlar", icon: Wallet },
+      { href: "/crm/ombor", label: "Ombor (Inventar)", icon: Warehouse },
+      { href: "/crm/xizmatlar", label: "Xizmatlar", icon: Stethoscope },
+      { href: "/crm/hisobotlar", label: "Hisobotlar", icon: BarChart3 },
+    ],
+  },
+  {
+    id: "xizmatlar",
+    title: "Xizmatlar",
+    icon: HeartHandshake,
+    items: [
+      { href: "/ustalar", label: "Ustalar va laboratoriyalar", icon: Wrench },
+      { href: "/laboratoriya", label: "Laboratoriya", icon: FlaskConical },
+      { href: "/mutaxassislar", label: "Konsultatsiyalar", icon: Stethoscope },
+      { href: "/foydali-kanallar", label: "Foydali kanallar", icon: Radio, match: ["/kanallar"] },
+      { href: "/community", label: "Community", icon: Users, primary: true },
+      { href: "/elonlar", label: "E’lonlar", icon: Megaphone },
+      { href: "/marketing", label: "Marketing", icon: Megaphone },
+      { href: "/forma", label: "Forma", icon: Shirt },
+      { href: "/jihozlar", label: "Jihozlar", icon: Cpu },
+      { href: "/ishlar", label: "Ishlar", icon: BriefcaseBusiness },
+      { href: "/yangiliklar", label: "Yangiliklar", icon: Newspaper },
+      { href: "/community", label: "FAQ", icon: CircleHelp },
+    ],
+  },
+];
+
 /** Every nav item in display order (top, grouped items, bottom). */
 export const navItems: NavItem[] = [navTop, ...navGroups.flatMap((group) => group.items), navBottom];
+
+const desktopItems: NavItem[] = [navTop, ...desktopNavGroups.flatMap((group) => group.items)];
 
 function prefixMatch(pathname: string, prefix: string) {
   if (prefix === "/") return pathname === "/";
@@ -143,9 +217,25 @@ export function activeNavHref(pathname: string): string | null {
   return best?.href ?? null;
 }
 
-/** Id of the group that contains the active route. */
+/** Id of the mobile group that contains the active route. */
 export function activeNavGroup(pathname: string): string | null {
   const href = activeNavHref(pathname);
   if (!href) return null;
   return navGroups.find((group) => group.items.some((item) => item.href === href))?.id ?? null;
+}
+
+/** Id of the desktop group that contains the active route. */
+export function activeDesktopGroup(pathname: string): string | null {
+  const href = activeNavHref(pathname);
+  if (!href) return null;
+  return desktopNavGroups.find((group) => group.items.some((item) => item.href === href))?.id ?? null;
+}
+
+/** Desktop items that share an href: only the primary label (else the first) is active. */
+export function desktopItemActive(item: NavItem, activeHref: string | null): boolean {
+  if (!activeHref || item.href !== activeHref) return false;
+  const peers = desktopItems.filter((entry) => entry.href === activeHref);
+  if (peers.length <= 1) return true;
+  const winner = peers.find((entry) => entry.primary) ?? peers[0];
+  return winner.label === item.label;
 }

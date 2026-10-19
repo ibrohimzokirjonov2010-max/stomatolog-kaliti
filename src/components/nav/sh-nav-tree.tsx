@@ -2,21 +2,21 @@
 
 import Link from "next/link";
 import { ChevronDown } from "lucide-react";
-import { navGroups, navTop, type NavItem } from "@/data/nav";
+import { desktopItemActive, desktopNavGroups, navTop, type NavItem } from "@/data/nav";
 import { useNavTree } from "@/components/nav/use-nav-tree";
 import "./nav-tree.css";
 
-/** Grouped, collapsible nav for the desktop `.sh` shells (Bosh sahifa + groups). Profil is rendered by the shell. */
+/** Grouped, collapsible nav for the desktop `.sh` shells (Bosh sahifa + four design groups). */
 export function ShNavTree({ variant = "sh" }: { variant?: "sh" | "brd" }) {
   const base = variant === "brd" ? "brd-item" : "sh-nav";
   const on = variant === "brd" ? " on" : " active";
-  const { activeHref, isOpen, toggle } = useNavTree();
+  const { activeHref, isOpen, toggle } = useNavTree("desktop");
   const link = (item: NavItem, sub = false) => {
     const Icon = item.icon;
-    const active = activeHref === item.href;
+    const active = desktopItemActive(item, activeHref);
     return (
       <Link
-        key={item.href}
+        key={`${item.href}-${item.label}`}
         className={`${base}${sub ? " nt-sub" : ""}${active ? on : ""}`}
         href={item.href}
         title={item.label}
@@ -30,7 +30,7 @@ export function ShNavTree({ variant = "sh" }: { variant?: "sh" | "brd" }) {
   return (
     <nav className={variant === "brd" ? "brd-navlist nt nt-brd" : "sh-side-nav nt"} aria-label="Asosiy menyu">
       {link(navTop)}
-      {navGroups.map((group) => {
+      {desktopNavGroups.map((group) => {
         const open = isOpen(group.id);
         const GroupIcon = group.icon;
         return (
