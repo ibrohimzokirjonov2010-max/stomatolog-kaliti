@@ -1,55 +1,86 @@
 "use client";
 
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { usePathname } from "next/navigation";
-import { activeDesktopGroup, activeNavGroup, activeNavHref, desktopNavGroups } from "@/data/nav";
+import { activeDesktopGroup, activeDesktopMoreGroup, activeNavGroup, activeNavHref } from "@/data/nav";
 
-const STORAGE_KEY = "stomahub.nav.openGroup";
+const MOBILE_KEY = "stomahub.nav.openGroup";
+const DESKTOP_KEY = "stomahub.nav.desktop";
 
-function readStored(): string | null {
+function readMobile(): string | null {
   try {
-    return window.localStorage.getItem(STORAGE_KEY);
+    return window.localStorage.getItem(MOBILE_KEY);
   } catch {
     return null;
   }
 }
 
-function writeStored(id: string | null) {
+function writeMobile(id: string | null) {
   try {
-    if (id) window.localStorage.setItem(STORAGE_KEY, id);
-    else window.localStorage.removeItem(STORAGE_KEY);
+    if (id) window.localStorage.setItem(MOBILE_KEY, id);
+    else window.localStorage.removeItem(MOBILE_KEY);
+  } catch {
+    /* storage unavailable */
+  }
+}
+
+type DesktopSaved = { groups: string[]; yana: string[] };
+
+function readDesktop(): DesktopSaved | null {
+  try {
+    const raw = window.localStorage.getItem(DESKTOP_KEY);
+    if (!raw) return null;
+    const parsed = JSON.parse(raw) as DesktopSaved;
+    if (!parsed || !Array.isArray(parsed.groups)) return null;
+    return {
+      groups: parsed.groups.filter((id) => typeof id === "string"),
+      yana: Array.isArray(parsed.yana) ? parsed.yana.filter((id) => typeof id === "string") : [],
+    };
+  } catch {
+    return null;
+  }
+}
+
+function writeDesktop(groups: Set<string>, yana: Set<string>) {
+  try {
+    const saved: DesktopSaved = { groups: [...groups], yana: [...yana] };
+    window.localStorage.setItem(DESKTOP_KEY, JSON.stringify(saved));
   } catch {
     /* storage unavailable */
   }
 }
 
 /**
- * Shared state for the grouped navigation (desktop sidebars and the mobile drawer).
- * Mobile keeps the previous behaviour: the active group starts open, and the last
- * group the user opened is remembered. Desktop starts with every group open so the
- * design's chevrons are visible without changing the phone drawer.
+ * Shared state for the grouped navigation.
+ * Mobile: the active group starts open, and the last group the user opened is remembered.
+ * Desktop: only the group for the current route starts open. Other groups stay collapsed
+ * until clicked. Open groups and "Yana..." rows are remembered separately from the phone drawer.
  */
 export function useNavTree(mode: "mobile" | "desktop" = "mobile") {
   const pathname = usePathname() ?? "/";
   const activeHref = activeNavHref(pathname);
   const activeGroup = mode === "desktop" ? activeDesktopGroup(pathname) : activeNavGroup(pathname);
-  const [open, setOpen] = useState<Set<string>>(() =>
-    mode === "desktop" ? new Set(desktopNavGroups.map((group) => group.id)) : new Set(activeGroup ? [activeGroup] : []),
-  );
+  const moreGroup = mode === "desktop" ? activeDesktopMoreGroup(pathname) : null;
+  const [open, setOpen] = useState<Set<string>>(() => new Set(activeGroup ? [activeGroup] : []));
+  const [yana, setYana] = useState<Set<string>>(() => new Set(moreGroup ? [moreGroup] : []));
+  const openRef = useRef(open);
+  const yanaRef = useRef(yana);
+  openRef.current = open;
+  yanaRef.current = yana;
 
   useEffect(() => {
     if (mode === "desktop") {
-      if (!activeGroup) return;
-      // eslint-disable-next-line react-hooks/set-state-in-effect -- keep the active group open after navigation
-      setOpen((prev) => {
-        if (prev.has(activeGroup)) return prev;
-        const next = new Set(prev);
-        next.add(activeGroup);
-        return next;
-      });
+      const stored = readDesktop();
+      const groups = new Set(stored?.groups ?? []);
+      if (activeGroup) groups.add(activeGroup);
+      const extras = new Set(stored?.yana ?? []);
+      if (moreGroup) extras.add(moreGroup);
+      // eslint-disable-next-line react-hooks/set-state-in-effect -- restore the remembered desktop sidebar after mount
+      setOpen(groups);
+      setYana(extras);
       return;
     }
-    const stored = readStored();
+    const stored = readMobile();
     // eslint-disable-next-line react-hooks/set-state-in-effect -- sync with localStorage + route after mount
     setOpen((prev) => {
       const next = new Set(prev);
@@ -57,21 +88,43 @@ export function useNavTree(mode: "mobile" | "desktop" = "mobile") {
       if (stored) next.add(stored);
       return next;
     });
-  }, [activeGroup, mode]);
+  }, [activeGroup, moreGroup, mode]);
 
-  const toggle = useCallback((id: string) => {
-    setOpen((prev) => {
+  const toggle = useCallback(
+    (id: string) => {
+      setOpen((prev) => {
+        const next = new Set(prev);
+        if (next.has(id)) {
+          next.delete(id);
+          if (mode === "mobile" && readMobile() === id) writeMobile(null);
+        } else {
+          next.add(id);
+          if (mode === "mobile") writeMobile(id);
+        }
+        if (mode === "desktop") writeDesktop(next, yanaRef.current);
+        return next;
+      });
+    },
+    [mode],
+  );
+
+  const toggleYana = useCallback((id: string) => {
+    setYana((prev) => {
       const next = new Set(prev);
-      if (next.has(id)) {
-        next.delete(id);
-        if (readStored() === id) writeStored(null);
-      } else {
-        next.add(id);
-        writeStored(id);
-      }
+      if (next.has(id)) next.delete(id);
+      else next.add(id);
+      writeDesktop(openRef.current, next);
       return next;
     });
   }, []);
 
-  return { pathname, activeHref, activeGroup, isOpen: (id: string) => open.has(id), toggle };
+  return {
+    pathname,
+    activeHref,
+    activeGroup,
+    isOpen: (id: string) => open.has(id),
+    toggle,
+    isYanaOpen: (id: string) => yana.has(id),
+    toggleYana,
+  };
 }
