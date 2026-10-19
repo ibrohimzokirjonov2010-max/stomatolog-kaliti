@@ -74,12 +74,12 @@ export const formats: { id: "all" | CourseFormat; label: string }[] = [
 const A = {
   kamola: "/images/usta-featured.png",
   sardor: "/images/usta-sardor.png",
-  malika: "/images/forma-banner-doctor.png",
+  malika: "/img/seminars/speaker.jpg",
   javohir: "/images/usta-jamshid.png",
   dilshod: "/images/usta-akbar.png",
-  aziza: "/images/hero-dentist.png",
+  aziza: "/img/design-pr13/ui/avatar.png",
   farukh: "/images/avatar-azizbek.png",
-  nodirbek: "/img/seminars/speaker.jpg",
+  nodirbek: "/images/usta-sardor.png",
   aziz: "/images/avatar-azizbek.png",
 };
 

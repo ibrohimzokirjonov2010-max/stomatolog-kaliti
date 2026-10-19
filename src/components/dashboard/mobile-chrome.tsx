@@ -29,7 +29,7 @@ import {
   X,
   } from "lucide-react";
 import { useCart } from "@/components/cart-provider";
-import { navBottom, navGroups, navTop, type NavItem } from "@/data/nav";
+import { desktopItemActive, desktopNavGroups, navBottom, navTop, type NavItem } from "@/data/nav";
 import { useNavTree } from "@/components/nav/use-nav-tree";
 import { useDoctorProfile } from "@/components/doctor-profile-provider";
 import { initialsFromName } from "@/lib/doctor-profile";
@@ -467,11 +467,10 @@ const APP_VERSION = "0.1.0";
 
 const GROUP_TONES: Record<string, { bg: string; color: string }> = {
   top: { bg: "#e8f1ff", color: "#0066ff" },
-  xaridlar: { bg: "#e8f1ff", color: "#2563eb" },
+  dokon: { bg: "#e8f1ff", color: "#2563eb" },
   talim: { bg: "#ffe8ee", color: "#e11d48" },
   klinika: { bg: "#e7f6f4", color: "#0d9488" },
-  hamkorlar: { bg: "#fff1e6", color: "#ea580c" },
-  hamjamiyat: { bg: "#f3e8ff", color: "#7c3aed" },
+  xizmatlar: { bg: "#fff1e6", color: "#ea580c" },
 };
 
 function DrawerLink({ item, tone, active, sub = false }: { item: NavItem; tone: { bg: string; color: string }; active: boolean; sub?: boolean }) {
@@ -498,11 +497,12 @@ function DrawerNav() {
   return (
     <nav className="min-h-0 flex-1 overflow-y-auto overscroll-contain px-3 py-2" aria-label="Bo‘limlar" data-testid="drawer-nav">
       <ul>
-        <DrawerLink item={navTop} tone={GROUP_TONES.top} active={activeHref === navTop.href} />
+        <DrawerLink item={navTop} tone={GROUP_TONES.top} active={desktopItemActive(navTop, activeHref)} />
       </ul>
-      {navGroups.map((group) => {
+      {desktopNavGroups.map((group) => {
         const open = isOpen(group.id);
         const tone = GROUP_TONES[group.id] ?? GROUP_TONES.top;
+        const links = [...group.items, ...(group.more ?? [])];
         return (
           <section key={group.id} className="border-t border-[#f1f3f8] pt-1" data-group={group.id}>
             <button
@@ -516,8 +516,8 @@ function DrawerNav() {
             </button>
             {open ? (
               <ul className="pb-1">
-                {group.items.map((item) => (
-                  <DrawerLink key={item.href} item={item} tone={tone} active={activeHref === item.href} sub />
+                {links.map((item) => (
+                  <DrawerLink key={`${item.href}-${item.label}`} item={item} tone={tone} active={desktopItemActive(item, activeHref)} sub />
                 ))}
               </ul>
             ) : null}
@@ -525,7 +525,7 @@ function DrawerNav() {
         );
       })}
       <ul className="border-t border-[#f1f3f8] pt-1">
-        <DrawerLink item={navBottom} tone={GROUP_TONES.hamjamiyat} active={activeHref === navBottom.href} />
+        <DrawerLink item={navBottom} tone={GROUP_TONES.top} active={activeHref === navBottom.href} />
       </ul>
     </nav>
   );

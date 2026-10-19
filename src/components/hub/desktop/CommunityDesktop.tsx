@@ -77,7 +77,7 @@ export function CommunityDesktop() {
       author: "Dr. Ibrohim",
       role: "Stomatolog",
       city: "Toshkent",
-      avatar: "/img/shop/avatar.jpg",
+      avatar: "/img/design-pr13/ui/avatar.png",
       title: body.slice(0, 80),
       body,
       kind,
@@ -109,7 +109,7 @@ export function CommunityDesktop() {
             </button>
           </div>
           <section className="hub-box hub-compose">
-            <img src="/img/shop/avatar.jpg" alt="" />
+            <img src="/img/design-pr13/ui/avatar.png" alt="" />
             <div style={{ flex: 1 }}>
               <textarea id="hub-composer" value={text} onChange={(event) => setText(event.target.value)} placeholder="Keys yoki savolingizni yozing..." />
               <div className="hub-kinds">

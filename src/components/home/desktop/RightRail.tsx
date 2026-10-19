@@ -35,7 +35,7 @@ export default function RightRail() {
       </section>
       <section className="box sellers">
         <div className="hd"><h3>Top sotuvchilar</h3><Link href="/marketplace">Barchasi <ArrowRight className="i" /></Link></div>
-        {sellers.map(([n, c, r], k) => (
+        {sellers.slice(0, 3).map(([n, c, r], k) => (
           <div className="row" key={n}>
             <img src={`/img/s${k}.png`} alt="" />
             <div className="nm"><b>{n}</b><small>{c}</small></div>

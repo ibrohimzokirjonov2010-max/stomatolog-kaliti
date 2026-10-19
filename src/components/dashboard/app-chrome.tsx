@@ -9,13 +9,13 @@ import { KategoriyalarDesktop } from "@/components/shop/desktop/KategoriyalarDes
 import { BrandsDesktop } from "@/components/shop/desktop/BrandsDesktop";
 import { AksiyalarDesktop } from "@/components/shop/desktop/AksiyalarDesktop";
 import { MarketProduct } from "@/components/shop/desktop/MarketProduct";
-import { SurplusCatalog } from "@/components/shop/desktop/SurplusCatalog";
-import { SurplusDetail } from "@/components/shop/desktop/SurplusDetail";
-import { isMarketId, isSurplusId } from "@/data/desktop-shop";
+import { SurplusDesktopCatalog } from "@/components/shop/desktop/SurplusDesktopCatalog";
+import { SurplusDesktopDetail } from "@/components/shop/desktop/SurplusDesktopDetail";
+import { isMarketId } from "@/data/desktop-shop";
 import { SeminarList } from "@/components/seminars/desktop/SeminarList";
 import { SeminarDetail } from "@/components/seminars/desktop/SeminarDetail";
 import { isDesktopSeminarId } from "@/data/desktop-seminars";
-import { OnlaynDarslarDesktop } from "@/components/education/desktop/OnlaynDarslarDesktop";
+import { TalimDesktop } from "@/components/hub/desktop/TalimDesktop";
 import { KitoblarDesktop } from "@/components/hub/desktop/KitoblarDesktop";
 import { KanallarDesktop } from "@/components/hub/desktop/KanallarDesktop";
 import { CommunityDesktop } from "@/components/hub/desktop/CommunityDesktop";
@@ -132,17 +132,17 @@ function desktopShop(pathname: string | null): ReactNode | null {
   if (pathname === "/marketplace/aksiyalar") return <AksiyalarDesktop />;
   const brandPage = pathname.match(/^\/marketplace\/brendlar\/([^/]+)$/);
   if (brandPage) return <BrandsDesktop slug={decodeURIComponent(brandPage[1])} />;
-  if (pathname === "/ortiqcha-material") return <SurplusCatalog />;
+  if (pathname === "/ortiqcha-material") return <SurplusDesktopCatalog />;
   const market = pathname.match(/^\/marketplace\/([^/]+)$/);
   if (market && market[1] !== "sotuvchi" && isMarketId(market[1])) return <MarketProduct id={market[1]} />;
   const surplus = pathname.match(/^\/ortiqcha-material\/([^/]+)$/);
-  if (surplus && surplus[1] !== "elonlarim" && isSurplusId(surplus[1])) return <SurplusDetail id={surplus[1]} />;
+  if (surplus && surplus[1] !== "elonlarim") return <SurplusDesktopDetail id={decodeURIComponent(surplus[1])} />;
   return null;
 }
 
 function desktopHub(pathname: string | null): ReactNode | null {
   if (!pathname) return null;
-  if (pathname === "/talim") return <OnlaynDarslarDesktop />;
+  if (pathname === "/talim") return <TalimDesktop />;
   if (pathname === "/kitoblar") return <KitoblarDesktop />;
   if (pathname === "/foydali-kanallar") return <KanallarDesktop />;
   if (pathname === "/community") return <CommunityDesktop />;

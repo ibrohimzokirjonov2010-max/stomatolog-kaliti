@@ -2,7 +2,7 @@
 
 import { useCallback, useEffect, useRef, useState } from "react";
 import { usePathname } from "next/navigation";
-import { activeDesktopGroup, activeDesktopMoreGroup, activeNavGroup, activeNavHref } from "@/data/nav";
+import { activeDesktopGroup, activeDesktopMoreGroup, activeNavHref } from "@/data/nav";
 
 const MOBILE_KEY = "stomahub.nav.openGroup";
 const DESKTOP_KEY = "stomahub.nav.desktop";
@@ -59,7 +59,7 @@ function writeDesktop(groups: Set<string>, yana: Set<string>) {
 export function useNavTree(mode: "mobile" | "desktop" = "mobile") {
   const pathname = usePathname() ?? "/";
   const activeHref = activeNavHref(pathname);
-  const activeGroup = mode === "desktop" ? activeDesktopGroup(pathname) : activeNavGroup(pathname);
+  const activeGroup = activeDesktopGroup(pathname);
   const moreGroup = mode === "desktop" ? activeDesktopMoreGroup(pathname) : null;
   const [open, setOpen] = useState<Set<string>>(() => new Set(activeGroup ? [activeGroup] : []));
   const [yana, setYana] = useState<Set<string>>(() => new Set(moreGroup ? [moreGroup] : []));
