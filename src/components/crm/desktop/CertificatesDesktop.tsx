@@ -15,8 +15,9 @@ import {
   } from "lucide-react";
 import QRCode from "qrcode";
 import { MarketFrame, type HeaderLink } from "@/components/shop/desktop/MarketFrame";
-import { certTypes, certificatesFromTickets, designCertificates, type CertType, type Certificate } from "@/data/certificates";
+import { certTypes, certificatesFromTickets, type CertType, type Certificate } from "@/data/certificates";
 import { downloadPdf } from "@/lib/simple-pdf";
+import { fetchCourses } from "@/lib/live-content";
 import { loadSeminarTickets } from "@/lib/seminar-tickets";
 import "./crm.css";
 
@@ -155,6 +156,7 @@ export function CertificatesDesktop() {
   const [open, setOpen] = useState<Certificate | null>(null);
   const [mode, setMode] = useState<"full" | "qr">("full");
   const [qr, setQr] = useState("");
+  const [coursesDone, setCoursesDone] = useState(0);
 
   useEffect(() => {
     const read = () => setTickets(loadSeminarTickets());
@@ -168,7 +170,13 @@ export function CertificatesDesktop() {
   }, []);
 
   const earned = useMemo(() => certificatesFromTickets(tickets), [tickets]);
-  const all = useMemo(() => [...earned, ...designCertificates], [earned]);
+  const all = earned;
+
+  useEffect(() => {
+    void fetchCourses().then((rows) => {
+      setCoursesDone(rows.filter((row) => row.enrolled && row.progress >= 100).length);
+    });
+  }, []);
   const items = useMemo(() => {
     const query = norm(q.trim());
     const next = all.filter((item) => {
@@ -184,7 +192,7 @@ export function CertificatesDesktop() {
     return next;
   }, [all, q, sort, type]);
 
-  const cme = 320 + earned.reduce((sum, item) => sum + item.cme, 0);
+  const cme = earned.reduce((sum, item) => sum + item.cme, 0);
 
   useEffect(() => {
     if (!open) return;
@@ -217,9 +225,9 @@ export function CertificatesDesktop() {
             <p>Siz olgan barcha sertifikatlar va yutuqlar</p>
           </div>
           <div className="cert-stats">
-            <div className="brd-badge"><span className="medal"><Award className="i" /></span><span><b>{12 + earned.length} ta sertifikat</b></span></div>
-            <div className="brd-badge"><span className="medal"><Award className="i" /></span><span><b>{cme} CME ballari</b></span></div>
-            <div className="brd-badge"><span className="medal"><Clock className="i" /></span><span><b>4 ta kurs yakunlangan</b></span></div>
+            <div className="brd-badge"><span className="medal"><Award className="i" /></span><span><b data-testid="cert-count">{earned.length} ta sertifikat</b></span></div>
+            <div className="brd-badge"><span className="medal"><Award className="i" /></span><span><b data-testid="cert-cme">{cme} CME ballari</b></span></div>
+            <div className="brd-badge"><span className="medal"><Clock className="i" /></span><span><b data-testid="cert-courses">{coursesDone} ta kurs yakunlangan</b></span></div>
           </div>
         </div>
         <div className="crm-tools">

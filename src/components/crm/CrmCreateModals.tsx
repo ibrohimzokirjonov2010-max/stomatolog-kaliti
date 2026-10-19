@@ -1,9 +1,11 @@
 "use client";
 /* eslint-disable @next/next/no-img-element */
 
-import { useEffect, useMemo, useState, type ReactNode } from "react";
+import { useEffect, useState, type ReactNode } from "react";
 import { createPortal } from "react-dom";
-import type { PayMethod } from "@/data/crm";
+import { useDoctorProfile } from "@/components/doctor-profile-provider";
+import type { Patient, PayMethod } from "@/data/crm";
+import { useCrmPatients } from "@/lib/use-crm-list";
 import { formatGroupedNumber } from "@/lib/format";
 import "./new-patient.css";
 import "./crm-create.css";
@@ -71,37 +73,38 @@ export type ApptDraft = {
   note: string;
 };
 
+function todayIso() {
+  const date = new Date();
+  return `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, "0")}-${String(date.getDate()).padStart(2, "0")}`;
+}
+
 export function NewAppointmentModal({ initial, onClose, onSave }: { initial: ApptDraft; onClose: () => void; onSave: (draft: ApptDraft) => void }) {
-  const [patient, setPatient] = useState(initial.patient || "Malika Karimova");
-  const [picked, setPicked] = useState(true);
-  const [query, setQuery] = useState("");
+  const [patients] = useCrmPatients<Patient>();
+  const { profile } = useDoctorProfile();
+  const doctorName = profile?.fullName?.trim() || "Shifokor";
+  const matched = patients.find((item) => item.name === initial.patient);
+  const [patientId, setPatientId] = useState(matched?.id ?? "");
   const [service, setService] = useState(initial.service || "Konsultatsiya");
-  const [room, setRoom] = useState("Kreslo 1");
-  const [day, setDay] = useState(16);
-  const [start, setStart] = useState("10:00");
+  const [room, setRoom] = useState(initial.room || "Kreslo 1");
+  const [date, setDate] = useState(/^\d{4}-\d{2}-\d{2}$/.test(initial.date) ? initial.date : todayIso());
+  const [start, setStart] = useState(initial.start || "10:00");
   const [duration, setDuration] = useState(30);
   const [sms, setSms] = useState(true);
   const [note, setNote] = useState(initial.note || "");
   const [error, setError] = useState("");
-  const cells = useMemo(() => {
-    const first = new Date(2024, 9, 1).getDay();
-    const lead = (first + 6) % 7;
-    const days = Array.from({ length: 31 }, (_, index) => index + 1);
-    return [...Array.from({ length: lead }, (_, index) => -(30 - lead + index + 1)), ...days, ...Array.from({ length: (7 - ((lead + 31) % 7)) % 7 }, (_, index) => 100 + index)];
-  }, []);
 
   function save() {
-    const name = patient.trim();
-    if (!name) { setError("Bemorni tanlang"); return; }
+    const person = patients.find((item) => item.id === patientId);
+    if (!person) { setError("Bemorni tanlang"); return; }
     onSave({
-      patient: name,
+      patient: person.name,
       service,
-      doctorId: "ibrohim",
+      doctorId: "self",
       room,
-      date: `2024-10-${String(day).padStart(2, "0")}`,
+      date,
       start,
       end: addMinutes(start, duration),
-      note: sms ? note : `${note}`.trim(),
+      note: sms ? note : note.trim(),
     });
   }
 
@@ -109,21 +112,17 @@ export function NewAppointmentModal({ initial, onClose, onSave }: { initial: App
     <Overlay testId="appt-modal" title="Yangi uchrashuv" onClose={onClose}>
       <Head title="Yangi uchrashuv" subtitle="Uchrashuv ma’lumotlarini kiriting" onClose={onClose} />
       <div className="px-grid">
-        <div>
+        <label>
           <span className="px-label">Bemor</span>
-          {picked ? (
-            <div className="px-card">
-              <img src="/img/designs/malika.png" alt="" />
-              <div><b>Malika Karimova</b><small>+998 90 123 45 67 · 28 yosh</small></div>
-              <button type="button" aria-label="Olib tashlash" onClick={() => setPicked(false)}>×</button>
-            </div>
-          ) : (
-            <input className="px-field" data-testid="appt-patient" placeholder="Bemorni qidirish..." value={query} onChange={(event) => { setQuery(event.target.value); setPatient(event.target.value); }} />
-          )}
-        </div>
+          <select className="px-select" data-testid="appt-patient" aria-label="Bemor" value={patientId} onChange={(event) => setPatientId(event.target.value)}>
+            <option value="">Bemorni tanlang</option>
+            {patients.map((item) => <option key={item.id} value={item.id}>{item.name}{item.phone ? ` · ${item.phone}` : ""}</option>)}
+          </select>
+          {patients.length === 0 ? <p className="px-note">Avval bemor qo‘shing. Namuna bemorlar yo‘q.</p> : null}
+        </label>
         <div>
           <span className="px-label">Shifokor</span>
-          <div className="px-card"><div><b>Dr. Ibrohim</b><small>Stomatolog</small></div></div>
+          <div className="px-card"><div><b>{doctorName}</b></div></div>
         </div>
         <label><span className="px-label">Kreslo</span>
           <select className="px-select" aria-label="Kreslo" value={room} onChange={(event) => setRoom(event.target.value)}>
@@ -135,16 +134,10 @@ export function NewAppointmentModal({ initial, onClose, onSave }: { initial: App
             {SERVICES.map((item) => <option key={item}>{item}</option>)}
           </select>
         </label>
-        <div>
+        <label>
           <span className="px-label">Sana</span>
-          <div style={{ display: "flex", justifyContent: "space-between", marginBottom: "calc(.3 * var(--u))", fontWeight: 800, fontSize: "calc(.72 * var(--u))" }}><span>‹</span> Oktabr 2024 <span>›</span></div>
-          <div className="px-cal">
-            {DOW.map((item) => <span key={item} className="dow">{item}</span>)}
-            {cells.map((item) => item < 1 || item > 31
-              ? <span key={item} className="mute">{item < 0 ? Math.abs(item) : item - 99}</span>
-              : <button key={item} type="button" className={item === day ? "on" : undefined} onClick={() => setDay(item)}>{item}</button>)}
-          </div>
-        </div>
+          <input className="px-field" type="date" aria-label="Sana" data-testid="appt-date" value={date} onChange={(event) => setDate(event.target.value)} />
+        </label>
         <div>
           <span className="px-label">Vaqt</span>
           <div className="px-times">
@@ -169,7 +162,7 @@ export function NewAppointmentModal({ initial, onClose, onSave }: { initial: App
       {error ? <p className="px-error">{error}</p> : null}
       <div className="px-foot">
         <button type="button" className="ghost" onClick={onClose}>Bekor qilish</button>
-        <button type="button" className="go" data-testid="appt-save" onClick={save}>Saqlash</button>
+        <button type="button" className="go" data-testid="appt-save" disabled={patients.length === 0} onClick={save}>Saqlash</button>
       </div>
     </Overlay>
   );
@@ -196,15 +189,22 @@ const PLAN_ROWS: ServiceRow[] = [
 const PLAN_TEETH: Record<number, string> = { 11: "end", 14: "sht", 31: "imp", 16: "plo", 26: "plo" };
 
 export function NewPlanModal({ patients, initial, onClose, onSave }: { patients: { id: string; name: string }[]; initial: PlanDraft; onClose: () => void; onSave: (draft: PlanDraft) => void }) {
-  const [title, setTitle] = useState(initial.title || "Implant va protez davolash rejasi");
-  const [patientId, setPatientId] = useState(initial.patientId || patients[0]?.id || "");
-  const [doctor, setDoctor] = useState("Dr. Ibrohim");
+  const [crmPatients] = useCrmPatients<Patient>();
+  const { profile } = useDoctorProfile();
+  const people = crmPatients.length ? crmPatients.map((item) => ({ id: item.id, name: item.name })) : patients.filter((item) => item.name && !/malika/i.test(item.name));
+  const [title, setTitle] = useState(initial.title || "");
+  const [patientId, setPatientId] = useState(people.some((item) => item.id === initial.patientId) ? initial.patientId : "");
+  const [doctor, setDoctor] = useState(profile?.fullName?.trim() || "");
   const [status, setStatus] = useState("Reja qilingan");
-  const [date, setDate] = useState("14.10.2024");
-  const [rows, setRows] = useState(PLAN_ROWS);
-  const [discount, setDiscount] = useState(5);
-  const [split, setSplit] = useState(true);
-  const [picked, setPicked] = useState<number[]>([11, 14, 31]);
+  const [date, setDate] = useState(() => {
+    const iso = todayIso();
+    const [y, m, d] = iso.split("-");
+    return `${d}.${m}.${y}`;
+  });
+  const [rows, setRows] = useState<ServiceRow[]>([]);
+  const [discount, setDiscount] = useState(0);
+  const [split, setSplit] = useState(false);
+  const [picked, setPicked] = useState<number[]>([]);
   const [error, setError] = useState("");
   const [template, setTemplate] = useState(false);
   const gross = rows.reduce((sum, row) => sum + row.price * row.qty, 0);
@@ -218,8 +218,8 @@ export function NewPlanModal({ patients, initial, onClose, onSave }: { patients:
     onSave({
       title: title.trim(),
       patientId,
-      doctor,
-      date: y && m && d ? `${y}-${m}-${d}` : "2024-10-14",
+      doctor: doctor.trim() || profile?.fullName?.trim() || "Shifokor",
+      date: y && m && d ? `${y}-${m}-${d}` : todayIso(),
       teeth: picked.join(", "),
       amount: String(net),
       note: template ? "Shablon sifatida saqlandi" : status,
@@ -230,17 +230,13 @@ export function NewPlanModal({ patients, initial, onClose, onSave }: { patients:
     <Overlay testId="plan-modal" title="Yangi davolash rejasi" wide onClose={onClose}>
       <Head title="Yangi davolash rejasi" subtitle="Bemorga davolash rejasi tuzing va xizmatlarni qo‘shing" onClose={onClose} />
       <div className="px-grid">
-        <div>
+        <label>
           <span className="px-label">Bemor *</span>
-          <div className="px-card">
-            <img src="/img/designs/malika.png" alt="" />
-            <div><b>Malika Karimova</b><small>+998 90 123 45 67 · 28 yosh</small></div>
-            <select aria-label="Bemor" value={patientId} onChange={(event) => setPatientId(event.target.value)} style={{ marginLeft: "auto" }}>
-              <option value={patientId}>Malika Karimova</option>
-              {patients.filter((item) => item.id !== patientId).map((item) => <option key={item.id} value={item.id}>{item.name}</option>)}
-            </select>
-          </div>
-        </div>
+          <select className="px-select" aria-label="Bemor" value={patientId} onChange={(event) => setPatientId(event.target.value)}>
+            <option value="">Bemorni tanlang</option>
+            {people.map((item) => <option key={item.id} value={item.id}>{item.name}</option>)}
+          </select>
+        </label>
         <div>
           <span className="px-label">Shifokor *</span>
           <input className="px-field" aria-label="Shifokor" value={doctor} onChange={(event) => setDoctor(event.target.value)} />
@@ -319,8 +315,7 @@ export function NewPlanModal({ patients, initial, onClose, onSave }: { patients:
         {split ? (
           <div>
             <span className="px-label">Reja bosqichlari (ixtiyoriy)</span>
-            <article className="px-card" style={{ marginBottom: "calc(.35 * var(--u))" }}><div><b>Bosqich 1 · {money(1050000)}</b><small>Endo davolash · Tishlar: 11, 14 · 1–2 hafta</small></div></article>
-            <article className="px-card"><div><b>Bosqich 2 · {money(7547500)}</b><small>Implant va protez · Tishlar: 31</small></div></article>
+            <p className="px-note">Bosqichlar saqlangan xizmatlardan keyin ko‘rinadi.</p>
           </div>
         ) : null}
       </div>
@@ -344,24 +339,31 @@ export type PayDraft = {
 };
 
 export function NewPaymentModal({ initial, onClose, onSave }: { initial: PayDraft; onClose: () => void; onSave: (draft: PayDraft) => void }) {
-  const [patient, setPatient] = useState(initial.patient || "Malika Karimova");
-  const [amount, setAmount] = useState(initial.amount && initial.amount !== "200000" ? initial.amount : "1050000");
-  const [date, setDate] = useState("14.10.2024");
+  const [patients] = useCrmPatients<Patient>();
+  const preset = patients.find((item) => item.name === initial.patient);
+  const [patientId, setPatientId] = useState(preset?.id ?? "");
+  const [amount, setAmount] = useState(initial.amount && initial.amount !== "200000" && initial.amount !== "1050000" ? initial.amount : "");
+  const [date, setDate] = useState(() => {
+    const iso = todayIso();
+    const [y, m, d] = iso.split("-");
+    return `${d}.${m}.${y}`;
+  });
   const [method, setMethod] = useState<PayMethod>(PAYS.includes(initial.method) ? initial.method : "Click");
   const [receipt, setReceipt] = useState(true);
   const [note, setNote] = useState(initial.note || "");
   const [error, setError] = useState("");
 
   function save() {
-    if (!patient.trim()) { setError("Bemorni kiriting"); return; }
+    const person = patients.find((item) => item.id === patientId);
+    if (!person) { setError("Bemorni tanlang"); return; }
     if (!Number(amount)) { setError("Summani kiriting"); return; }
     const [d, m, y] = date.split(".");
     onSave({
-      patient: patient.trim(),
-      service: receipt ? "Implant va protez rejasi · chek" : "Implant va protez rejasi",
+      patient: person.name,
+      service: receipt ? "To‘lov · chek" : "To‘lov",
       amount: amount.replace(/\D/g, ""),
       method,
-      date: y && m && d ? `${y}-${m}-${d}` : "2024-10-14",
+      date: y && m && d ? `${y}-${m}-${d}` : todayIso(),
       note,
     });
   }
@@ -370,23 +372,13 @@ export function NewPaymentModal({ initial, onClose, onSave }: { initial: PayDraf
     <Overlay testId="pay-modal" title="Yangi to‘lov qo‘shish" onClose={onClose}>
       <Head title="Yangi to‘lov qo‘shish" subtitle="Bemor to‘lovini kiriting" onClose={onClose} />
       <div className="px-grid">
-        <div>
+        <label>
           <span className="px-label">Bemor</span>
-          <div className="px-card">
-            <img src="/img/designs/malika.png" alt="" />
-            <div><b>Malika Karimova</b><small>+998 90 123 45 67 · 28 yosh</small></div>
-          </div>
-          <input className="px-field" data-testid="pay-patient" aria-label="Bemor" value={patient} onChange={(event) => setPatient(event.target.value)} style={{ marginTop: "calc(.3 * var(--u))" }} />
-        </div>
-        <div>
-          <span className="px-label">Davolash rejasi</span>
-          <div className="px-card"><div><b>Implant va protez rejasi</b><small>14.10.2024 · {money(8597500)}</small></div></div>
-        </div>
-      </div>
-      <div className="px-kpis" style={{ marginTop: "calc(.55 * var(--u))" }}>
-        <article><small>Reja summasi</small><b>{money(9050000)}</b></article>
-        <article><small>To‘langan</small><b>{money(8000000)}</b></article>
-        <article className="debt"><small>Qarz</small><b>{money(1050000)}</b></article>
+          <select className="px-select" data-testid="pay-patient" aria-label="Bemor" value={patientId} onChange={(event) => setPatientId(event.target.value)}>
+            <option value="">Bemorni tanlang</option>
+            {patients.map((item) => <option key={item.id} value={item.id}>{item.name}</option>)}
+          </select>
+        </label>
       </div>
       <div className="px-grid" style={{ marginTop: "calc(.55 * var(--u))" }}>
         <label><span className="px-label">Summa</span>

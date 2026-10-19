@@ -47,5 +47,5 @@ export const seedListings: Listing[] = [
 ];
 
 export function getListing(id: string, extra: Listing[] = []) {
-  return [...extra, ...seedListings].find((item) => item.id === id) ?? null;
+  return extra.find((item) => item.id === id) ?? null;
 }

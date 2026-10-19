@@ -1,6 +1,11 @@
 import type { DesktopOrder, OrderStatus, PayMethod } from "@/data/desktop-orders";
 import type { MobileOrder, MobileOrderStatus } from "@/data/mobile-orders";
-import type { Order } from "@/lib/orders";
+import { DELIVERY_LINE_ID } from "@/lib/cart-totals";
+import type { Order, OrderItem } from "@/lib/orders";
+
+function productLines(items: OrderItem[]) {
+  return items.filter((item) => item.productId !== DELIVERY_LINE_ID && item.name !== "Yetkazib berish");
+}
 
 function desktopStatus(order: Order): OrderStatus {
   if (order.paymentState === "refunded") return "cancelled";
@@ -17,17 +22,18 @@ function payLabel(payment: Order["payment"]): PayMethod {
 }
 
 export function toDesktopOrder(order: Order): DesktopOrder {
+  const lines = productLines(order.items);
   return {
     id: order.id,
     number: order.id,
     kind: "product",
     status: desktopStatus(order),
-    title: order.items.map((item) => item.name).filter(Boolean).join(", ") || "Buyurtma",
-    seller: order.shopName || order.items[0]?.shopName || "StomaHub Market",
+    title: lines.map((item) => item.name).filter(Boolean).join(", ") || "Buyurtma",
+    seller: order.shopName || lines[0]?.shopName || "StomaHub Market",
     total: order.total,
     pay: payLabel(order.payment),
-    count: order.items.reduce((sum, item) => sum + item.qty, 0) || order.items.length,
-    images: order.items.map((item) => item.image).filter(Boolean),
+    count: lines.reduce((sum, item) => sum + item.qty, 0) || lines.length,
+    images: lines.map((item) => item.image).filter(Boolean),
     sortKey: order.createdAt.slice(0, 10),
     when: new Date(order.createdAt).toLocaleString("uz-UZ"),
     note: order.paymentState === "awaiting_payment" ? "To‘lov kutilmoqda" : undefined,
@@ -48,20 +54,21 @@ function mobileStatus(order: Order): MobileOrderStatus {
 }
 
 export function toMobileOrder(order: Order): MobileOrder {
-  const images = order.items.map((item) => item.image).filter(Boolean);
+  const lines = productLines(order.items);
+  const images = lines.map((item) => item.image).filter(Boolean);
   return {
     id: order.id,
     number: order.id,
     date: new Date(order.createdAt).toLocaleString("uz-UZ"),
     seller: order.shopName || "StomaHub Market",
     status: mobileStatus(order),
-    itemCount: order.items.reduce((sum, item) => sum + item.qty, 0),
+    itemCount: lines.reduce((sum, item) => sum + item.qty, 0),
     total: order.total,
     images: images.slice(0, 3),
     extra: Math.max(0, images.length - 3),
     place: [order.city, order.address].filter(Boolean).join(", "),
     delivery: /olib ketaman/i.test(order.note) ? "pickup" : "courier",
-    items: order.items.map((item) => ({
+    items: lines.map((item) => ({
       id: item.productId,
       name: item.name,
       price: item.price,

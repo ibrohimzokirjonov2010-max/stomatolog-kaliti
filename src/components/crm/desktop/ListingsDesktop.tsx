@@ -6,7 +6,7 @@ import Link from "next/link";
 import { useSearchParams } from "next/navigation";
 import { ChevronRight, Eye, Heart, MapPin, Plus, Search } from "lucide-react";
 import { CrmFrame, CrmModal } from "@/components/crm/desktop/CrmFrame";
-import { listingCities, listingTypes, seedListings, getListing, type Listing, type ListingType } from "@/data/listings";
+import { listingCities, listingTypes, getListing, type Listing, type ListingType } from "@/data/listings";
 import { formatGroupedNumber } from "@/lib/format";
 import { useStoredList } from "@/lib/stored-list";
 
@@ -36,7 +36,7 @@ export function ListingsDesktop() {
     } catch { /* ignore */ }
   }, []);
 
-  const all = useMemo(() => [...extra, ...seedListings], [extra]);
+  const all = extra;
   const items = useMemo(() => {
     const next = all.filter((item) => {
       if (type && item.type !== type) return false;

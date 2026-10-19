@@ -9,6 +9,7 @@ import { apparelMetaLabel } from "@/data/forma";
 import { isRemoteImage, surplusCartMeta } from "@/data/surplus";
 import { productHref } from "@/data/products";
 import { productShop, shopHref } from "@/data/shops";
+import { shopDeliveryFee } from "@/lib/cart-totals";
 import { formatMoney } from "@/lib/format";
 import { BonusUseCard, useBonusUse } from "@/components/bonus/bonus";
 import { cn } from "@/lib/utils";
@@ -17,6 +18,8 @@ import { CartMobile } from "@/components/cart-mobile";
 export function CartBrowse() {
   const { items, count, subtotal, setQty, remove, clear } = useCart();
   const bonus = useBonusUse(items.map((i) => ({ productId: i.product.id, qty: i.qty })));
+  const delivery = shopDeliveryFee(items.map((item) => item.product));
+  const payable = Math.max(0, subtotal + delivery - bonus.applied);
 
   return (
     <>
@@ -28,7 +31,7 @@ export function CartBrowse() {
         <header>
           <h1 className="text-[26px] font-bold tracking-tight text-[#1a1d26]">Savat</h1>
           <p className="mt-1 text-sm text-[#8b93a7]">
-            {count ? `${count} ta mahsulot · namuna buyurtma` : "Savat hozircha bo‘sh"}
+            {count ? `${count} ta mahsulot` : "Savat hozircha bo‘sh"}
           </p>
         </header>
         {count ? (
@@ -136,8 +139,8 @@ export function CartBrowse() {
                 <dd>{formatMoney(subtotal, "UZS")}</dd>
               </div>
               <div className="flex justify-between text-[#4b5568]">
-                <dt>Yetkazib berish (Toshkent)</dt>
-                <dd className="font-medium text-[#16a34a]">Bepul</dd>
+                <dt>Yetkazib berish</dt>
+                <dd className={delivery > 0 ? "font-medium text-[#1a1d26]" : "font-medium text-[#16a34a]"}>{delivery > 0 ? formatMoney(delivery, "UZS") : "Bepul"}</dd>
               </div>
               {bonus.applied > 0 ? (
                 <div className="flex justify-between text-[#0066FF]">
@@ -147,7 +150,7 @@ export function CartBrowse() {
               ) : null}
               <div className="flex justify-between border-t border-[#eceff5] pt-2 text-[16px] font-bold text-[#1a1d26]">
                 <dt>{bonus.applied > 0 ? "To‘lanadi" : "Jami"}</dt>
-                <dd>{formatMoney(subtotal - bonus.applied, "UZS")}</dd>
+                <dd>{formatMoney(payable, "UZS")}</dd>
               </div>
             </dl>
             <BonusUseCard use={bonus} className="mt-3" />
@@ -164,7 +167,7 @@ export function CartBrowse() {
               Forma katalogi
             </Link>
             <p className="mt-3 text-[12px] leading-relaxed text-[#8b93a7]">
-              To‘lov Click / Payme / naqd — namuna. Haqiqiy to‘lov shlyuzi yo‘q.
+              To‘lov Click, Payme yoki naqd. Haqiqiy to‘lov shlyuzi yo‘q, pul yechilmaydi.
             </p>
           </aside>
         </div>

@@ -10,6 +10,8 @@ import { useCart } from "@/components/cart-provider";
 import { useDoctorProfile } from "@/components/doctor-profile-provider";
 import { formatPhoneDisplay } from "@/lib/doctor-profile";
 import { createOrder, type PaymentMethod } from "@/lib/orders";
+import { shopDeliveryFee } from "@/lib/cart-totals";
+import { useSavedPlaces } from "@/lib/saved-addresses";
 import { formatGroupedNumber } from "@/lib/format";
 import "./checkout-desktop.css";
 
@@ -28,7 +30,8 @@ function som(n: number) {
 export function CheckoutDesktop() {
   const router = useRouter();
   const cart = useCart();
-  const { profile } = useDoctorProfile();
+  const { profile, ready: profileReady } = useDoctorProfile();
+  const { places, loaded: placesLoaded } = useSavedPlaces(Boolean(profile), profileReady);
   const [step, setStep] = useState<Step>(1);
   const [name, setName] = useState("");
   const [phone, setPhone] = useState("");
@@ -41,17 +44,14 @@ export function CheckoutDesktop() {
   const [ship, setShip] = useState<"courier" | "pickup">("courier");
   const [note, setNote] = useState("");
   const [pay, setPay] = useState("naqd");
-  const [promo, setPromo] = useState("");
-  const [promoOn, setPromoOn] = useState(false);
   const [invoice, setInvoice] = useState(false);
   const [oferta, setOferta] = useState(false);
   const [error, setError] = useState("");
   const [busy, setBusy] = useState(false);
   const lines = cart.selectedItems.length ? cart.selectedItems : cart.items;
   const goods = lines.reduce((sum, item) => sum + item.lineTotal, 0);
-  const delivery = 0;
-  const discount = 0;
-  const total = goods + delivery - discount;
+  const delivery = shopDeliveryFee(lines.map((item) => item.product));
+  const total = goods + delivery;
 
   useEffect(() => {
     if (!profile) return;
@@ -76,7 +76,7 @@ export function CheckoutDesktop() {
       phone: phone.trim(),
       city,
       address: [district, address].filter(Boolean).join(", "),
-      note: [note.trim(), ship === "pickup" ? "Olib ketaman" : "", invoice ? "Hisob-faktura" : "", promoOn && promo.trim() ? `Promokod: ${promo.trim()}` : ""].filter(Boolean).join(". "),
+      note: [note.trim(), ship === "pickup" ? "Olib ketaman" : "", invoice ? "Hisob-faktura" : ""].filter(Boolean).join(". "),
       payment: apiPayment(pay),
       items: lines.map((item) => ({
         productId: item.product.id,
@@ -128,17 +128,19 @@ export function CheckoutDesktop() {
                 </div>
                 <button type="button" className="ckx-mapbtn" onClick={() => setMap((value) => !value)}>Xaritada manzilni tanlang</button>
                 {map ? <img className="ckx-map" src="/img/designs/toshkent-map.png" alt="Toshkent xaritasi" /> : null}
-                <div className="ckx-saved-head"><b>Saqlangan manzillarim</b><button type="button" onClick={() => setMore((value) => !value)}>Barchasini ko‘rish ›</button></div>
-                {[{ id: "uy", title: "Uy", line: "Amir Temur ko‘chasi, 25-uy, 3-xonadon" }, { id: "klinika", title: "Klinika", line: "Shota Rustaveli ko‘chasi, 15-uy" }].slice(0, more ? 2 : 2).map((item) => (
-                  <button key={item.id} type="button" className={saved === item.id ? "ckx-addr on" : "ckx-addr"} onClick={() => { setSaved(item.id); setAddress(item.id === "uy" ? "Amir Temur ko‘chasi, 25-uy, 3-xonadon, 5-qavat" : "Shota Rustaveli ko‘chasi, 15-uy"); }}>
-                    <b>{item.title}</b><span>{item.line}</span><em>Tahrirlash</em>
+                <div className="ckx-saved-head"><b>Saqlangan manzillarim</b>{places.length > 2 ? <button type="button" onClick={() => setMore((value) => !value)}>{more ? "Yig‘ish" : "Barchasini ko‘rish ›"}</button> : null}</div>
+                {placesLoaded && places.length === 0 ? (
+                  <p className="ckx-sub">Hozircha saqlangan manzil yo‘q. Manzilni yuqoridagi maydonga yozing.</p>
+                ) : (more ? places : places.slice(0, 2)).map((item) => (
+                  <button key={item.id} type="button" className={saved === item.id ? "ckx-addr on" : "ckx-addr"} onClick={() => { setSaved(item.id); setAddress(item.address); if (item.city) setCity(item.city); if (item.district) setDistrict(item.district); }}>
+                    <b>{item.label}</b><span>{[item.district, item.address].filter(Boolean).join(", ")}</span>
                   </button>
                 ))}
                 <h2>Yetkazish usuli</h2>
                 <p>Sizga qulay yetkazish usulini tanlang</p>
                 <div className="ckx-ship">
-                  <button type="button" className={ship === "courier" ? "on" : undefined} onClick={() => setShip("courier")}><b>Kuryer orqali</b><span>1–2 kun</span><em>25 000 so‘m</em></button>
-                  <button type="button" className={ship === "pickup" ? "on" : undefined} onClick={() => setShip("pickup")}><b>Olib ketish</b><span>Bepul</span><em>Bugun</em></button>
+                  <button type="button" className={ship === "courier" ? "on" : undefined} onClick={() => setShip("courier")}><b>Kuryer orqali</b><span>1–2 kun</span><em>{delivery > 0 ? som(delivery) : "Bepul"}</em></button>
+                  <button type="button" className={ship === "pickup" ? "on" : undefined} onClick={() => setShip("pickup")}><b>Olib ketish</b><span>Do‘kondan</span><em>Bugun</em></button>
                 </div>
                 <label className="wide">Qo‘shimcha ma’lumot
                   <textarea maxLength={300} placeholder="Kuryer uchun izoh (masalan: qo‘ng‘iroq qiling, darvozada kutaman va h.k.)" value={note} onChange={(event) => setNote(event.target.value)} />
@@ -165,15 +167,10 @@ export function CheckoutDesktop() {
                   ))}
                 </div>
                 <p className="ckx-safe">To‘lovlar xavfsiz. Barcha to‘lovlar shifrlangan va to‘liq himoyalangan.</p>
-                <div className="ckx-promo">
-                  <input aria-label="Promokod" placeholder="Promokodni kiriting" value={promo} onChange={(event) => setPromo(event.target.value)} />
-                  <button type="button" data-testid="ckd-promo" onClick={() => setPromoOn(Boolean(promo.trim()))}>Qo‘llash</button>
-                </div>
                 <label className="ckx-check"><input type="checkbox" checked={invoice} onChange={(event) => setInvoice(event.target.checked)} /> Menga elektron hisob-faktura (PDF) yuborilsin</label>
                 <div className="ckx-mini">
                   <span>Mahsulotlar ({lines.length} ta)<b>{som(goods)}</b></span>
-                  <span>Yetkazish<b>{som(delivery)}</b></span>
-                  <span>Chegirma (promokod)<b>{som(discount)}</b></span>
+                  <span>Yetkazish<b>{delivery ? som(delivery) : "Bepul"}</b></span>
                   <span>Jami to‘lov<b>{som(total)}</b></span>
                 </div>
               </section>
@@ -187,7 +184,7 @@ export function CheckoutDesktop() {
                 <div className="ckx-saved-head"><h2>Yetkazish manzili</h2><button type="button" onClick={() => setStep(1)}>O‘zgartirish</button></div>
                 <p><b>{name}</b><br />{phone}<br />{city}, {district}<br />{address}</p>
                 <div className="ckx-saved-head"><h2>Yetkazish vaqti</h2><button type="button" onClick={() => setStep(1)}>O‘zgartirish</button></div>
-                <p>{ship === "courier" ? "Kuryer orqali · 15 okt 2024, Seshanba · 10:00–18:00" : "Olib ketish · Bugun"}</p>
+                <p>{ship === "courier" ? "Kuryer orqali" : "Olib ketish"}</p>
                 <div className="ckx-saved-head"><h2>To‘lov usuli</h2><button type="button" onClick={() => setStep(2)}>O‘zgartirish</button></div>
                 <p>{pay === "click" ? "Click · Click orqali to‘lov" : pay}</p>
                 <label className="ckx-check"><input type="checkbox" checked={oferta} data-testid="ckd-oferta" onChange={(event) => setOferta(event.target.checked)} /> Men oferta shartlari bilan tanishib chiqdim va roziman</label>
@@ -207,8 +204,7 @@ export function CheckoutDesktop() {
             ))}
             <div className="ckx-mini">
               <span>Mahsulotlar ({lines.length} ta)<b>{som(goods)}</b></span>
-              <span>Yetkazish<b>{som(delivery)}</b></span>
-              <span>Promokod <button type="button" onClick={() => setPromoOn(Boolean(promo.trim()))}>Qo‘llash</button></span>
+              <span>Yetkazish<b>{delivery ? som(delivery) : "Bepul"}</b></span>
               <span className="total">Jami<b>{som(total)}</b></span>
             </div>
             <p className="ckx-safe">{step === 3 ? "Xavfsiz xarid. To‘lov ma’lumotlaringiz himoyalangan. Barcha operatsiyalar shifrlangan." : "Xavfsiz to‘lov va ma’lumotlaringiz himoyalangan"}</p>

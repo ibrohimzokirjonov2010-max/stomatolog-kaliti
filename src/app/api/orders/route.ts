@@ -1,6 +1,6 @@
 import { after, NextResponse } from "next/server";
 import { dbErrorJson, privateCache, rpc } from "@/lib/server/db";
-import { normalizeOrderItems } from "@/lib/server/order-items";
+import { normalizeOrderItems, withDeliveryFee } from "@/lib/server/order-items";
 import { readJson, requireUser, str } from "@/lib/server/user";
 import { getSessionUserId } from "@/lib/server/session";
 import { flushTelegramOutbox } from "@/lib/server/telegram-notify";
@@ -43,9 +43,10 @@ export async function POST(request: Request) {
 
   const normalized = normalizeOrderItems(rawItems);
   if (!normalized.ok) return NextResponse.json({ ok: false, error: normalized.error }, { status: 400 });
-  const items = normalized.items;
+  if (!normalized.items.length) return NextResponse.json({ ok: false, error: "Savat bo‘sh." }, { status: 400 });
 
   try {
+    const items = await withDeliveryFee(normalized.items);
     const res = await rpc<{ order?: { id: string }; error?: string }>("sh_create_order", {
       p_user: guard.userId,
       p_order: { name, phone, city: str(order.city, 60), address, note: str(order.note, 500), payment },

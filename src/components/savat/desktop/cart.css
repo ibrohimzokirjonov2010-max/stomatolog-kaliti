@@ -128,7 +128,9 @@
 .sh .bo-help span { color: #7d8da3; font-size: calc(.5 * var(--u)); }
 .sh .bo-center { width: 100%; margin-top: calc(.35 * var(--u)); height: calc(1.8 * var(--u)); border-radius: calc(.4 * var(--u)); border: 1px solid var(--teal); color: var(--teal); font-weight: 800; font-size: calc(.58 * var(--u)); }
 .sh .bo-chat { background: linear-gradient(180deg, #f3fbfd, #fff); display: flex; gap: calc(.4 * var(--u)); align-items: center; }
-.sh .bo-chat img { width: calc(4.2 * var(--u)); height: calc(4.2 * var(--u)); object-fit: cover; border-radius: calc(.4 * var(--u)); object-position: top; flex: none; }
+.sh .bo-chat img, .sh .bo-chat .bo-chat-ico { width: calc(4.2 * var(--u)); height: calc(4.2 * var(--u)); object-fit: cover; border-radius: calc(.4 * var(--u)); object-position: top; flex: none; }
+.sh .bo-chat .bo-chat-ico { display: grid; place-items: center; background: #e7f6f4; color: var(--teal); }
+.sh .bo-chat .bo-chat-ico .i { width: calc(1.8 * var(--u)); height: calc(1.8 * var(--u)); }
 .sh .bo-chat h3 { display: block; margin-bottom: calc(.15 * var(--u)); }
 .sh .bo-chat p { margin: 0 0 calc(.3 * var(--u)); color: #5d6e86; font-size: calc(.55 * var(--u)); }
 .sh .bo-chat button { height: calc(1.6 * var(--u)); padding: 0 calc(.5 * var(--u)); border-radius: calc(.4 * var(--u)); background: var(--teal); color: #fff; font-weight: 800; font-size: calc(.56 * var(--u)); }

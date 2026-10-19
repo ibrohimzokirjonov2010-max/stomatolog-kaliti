@@ -8,13 +8,9 @@ import { MarketCatalog } from "@/components/shop/desktop/MarketCatalog";
 import { KategoriyalarDesktop } from "@/components/shop/desktop/KategoriyalarDesktop";
 import { BrandsDesktop } from "@/components/shop/desktop/BrandsDesktop";
 import { AksiyalarDesktop } from "@/components/shop/desktop/AksiyalarDesktop";
-import { MarketProduct } from "@/components/shop/desktop/MarketProduct";
 import { SurplusDesktopCatalog } from "@/components/shop/desktop/SurplusDesktopCatalog";
 import { SurplusDesktopDetail } from "@/components/shop/desktop/SurplusDesktopDetail";
-import { isMarketId } from "@/data/desktop-shop";
 import { SeminarList } from "@/components/seminars/desktop/SeminarList";
-import { SeminarDetail } from "@/components/seminars/desktop/SeminarDetail";
-import { isDesktopSeminarId } from "@/data/desktop-seminars";
 import { TalimDesktop } from "@/components/hub/desktop/TalimDesktop";
 import { KitoblarDesktop } from "@/components/hub/desktop/KitoblarDesktop";
 import { KanallarDesktop } from "@/components/hub/desktop/KanallarDesktop";
@@ -25,11 +21,7 @@ import { JihozCatalog } from "@/components/jihoz/desktop/JihozCatalog";
 import { JobsDesktop } from "@/components/jobs/desktop/JobsDesktop";
 import { NewsDesktop } from "@/components/news/desktop/NewsDesktop";
 import { MutaxassislarDesktop } from "@/components/specialists/desktop/MutaxassislarDesktop";
-import { MutaxassisProfileDesktop } from "@/components/specialists/desktop/MutaxassisProfileDesktop";
-import { getSpecialist } from "@/data/desktop-specialists";
 import { UstaCatalog } from "@/components/ustalar/desktop/UstaCatalog";
-import { UstaProfileDesktop } from "@/components/ustalar/desktop/UstaProfileDesktop";
-import { getDesktopUsta } from "@/data/desktop-ustalar";
 import { SavatDesktop } from "@/components/savat/desktop/SavatDesktop";
 import { OrdersDesktop } from "@/components/savat/desktop/OrdersDesktop";
 import { ProfilDesktop } from "@/components/profil/desktop/ProfilDesktop";
@@ -147,8 +139,6 @@ function desktopShop(pathname: string | null): ReactNode | null {
   const brandPage = pathname.match(/^\/marketplace\/brendlar\/([^/]+)$/);
   if (brandPage) return <BrandsDesktop slug={decodeURIComponent(brandPage[1])} />;
   if (pathname === "/ortiqcha-material") return <SurplusDesktopCatalog />;
-  const market = pathname.match(/^\/marketplace\/([^/]+)$/);
-  if (market && market[1] !== "sotuvchi" && isMarketId(market[1])) return <MarketProduct id={market[1]} />;
   const surplus = pathname.match(/^\/ortiqcha-material\/([^/]+)$/);
   if (surplus && surplus[1] !== "elonlarim") return <SurplusDesktopDetail id={decodeURIComponent(surplus[1])} />;
   return null;
@@ -187,22 +177,13 @@ function desktopNews(pathname: string | null): ReactNode | null {
 }
 
 function desktopSpec(pathname: string | null): ReactNode | null {
-  if (!pathname) return null;
   if (pathname === "/mutaxassislar") return <MutaxassislarDesktop />;
-  const match = pathname.match(/^\/mutaxassislar\/([^/]+)$/);
-  if (!match) return null;
-  const id = decodeURIComponent(match[1]);
-  if (!getSpecialist(id)) return null;
-  return <MutaxassisProfileDesktop id={id} />;
+  return null;
 }
 
 function desktopUsta(pathname: string | null): ReactNode | null {
-  if (!pathname) return null;
   if (pathname === "/ustalar") return <UstaCatalog />;
-  const match = pathname.match(/^\/ustalar\/([^/]+)$/);
-  if (!match || match[1] === "mening" || match[1] === "sorovlarim") return null;
-  if (!getDesktopUsta(match[1])) return null;
-  return <UstaProfileDesktop slug={match[1]} />;
+  return null;
 }
 
 function desktopCart(pathname: string | null): ReactNode | null {
@@ -243,12 +224,6 @@ function desktopFlow(pathname: string | null): ReactNode | null {
 }
 
 function desktopSeminar(pathname: string | null): ReactNode | null {
-  if (!pathname) return null;
   if (pathname === "/seminarlar") return <SeminarList />;
-  const match = pathname.match(/^\/seminarlar\/([^/]+)$/);
-  if (!match) return null;
-  const id = match[1];
-  if (id === "yozuvlarim" || id === "tashkilotchi" || id === "chiptalarim") return null;
-  if (isDesktopSeminarId(id)) return <SeminarDetail id={id} />;
   return null;
 }

@@ -1,5 +1,7 @@
 /** Public marketplace rows from GET /api/catalog. */
 
+import type { ApparelGender, ApparelKind, Product, ProductAttrs, ProductCategory } from "@/data/products";
+
 export type CatalogCard = {
   id: string;
   name: string;
@@ -23,6 +25,8 @@ export type CatalogCard = {
   sizes: string[];
   colors: string[];
   images: string[];
+  sku: string;
+  stockQty: number;
   attrs: Record<string, unknown>;
 };
 
@@ -35,26 +39,49 @@ export type CatalogShop = {
 };
 
 const PRODUCT_CATEGORIES = ["materiallar", "implantlar", "asboblar", "jihozlar", "laboratoriya", "forma"] as const;
+const KINDS = ["xalat", "scrub", "qalpoq", "poyabzal"] as const;
+const GENDERS = ["erkak", "ayol", "unisex"] as const;
 
-export function productFromCatalog(item: CatalogCard) {
-  const category = (PRODUCT_CATEGORIES as readonly string[]).includes(item.category) ? item.category : "materiallar";
+export function catalogHref(category: string, id: string) {
+  if (category === "forma") return `/forma/${id}`;
+  if (category === "jihozlar") return `/jihozlar/${id}`;
+  return `/marketplace/${id}`;
+}
+
+export function productFromCatalog(item: CatalogCard): Product {
+  const category = ((PRODUCT_CATEGORIES as readonly string[]).includes(item.category) ? item.category : "materiallar") as ProductCategory;
+  const attrs = item.attrs as ProductAttrs;
+  const free = attrs.freeDelivery === true;
+  const deliveryPrice = Number(attrs.deliveryPrice) || 0;
+  const kind = (KINDS as readonly string[]).includes(item.kind) ? (item.kind as ApparelKind) : undefined;
+  const gender = (GENDERS as readonly string[]).includes(item.gender) ? (item.gender as ApparelGender) : undefined;
   return {
     id: item.id,
     name: item.name,
     brand: item.brand,
-    category: category as (typeof PRODUCT_CATEGORIES)[number],
+    category,
     price: item.price,
     oldPrice: item.oldPrice,
     discount: item.discount,
     rating: item.rating,
     reviews: item.reviews,
-    inStock: item.inStock,
-    delivery: "",
+    inStock: item.inStock && item.stockQty > 0,
+    delivery: free ? "Bepul yetkazib berish" : deliveryPrice > 0 ? `${deliveryPrice}` : "",
     image: item.image,
-    description: "",
+    images: item.images,
+    description: item.description,
     shopId: item.shopId || undefined,
     shopName: item.shopName || undefined,
     shopSlug: item.shopSlug || undefined,
+    sku: item.sku || undefined,
+    stockQty: item.stockQty,
+    kind,
+    gender,
+    sizes: item.sizes,
+    colors: item.colors,
+    href: catalogHref(category, item.id),
+    attrs,
+    listedBySeller: true,
   };
 }
 
@@ -62,7 +89,7 @@ export function brandKeyOf(brand: string) {
   return brand.trim().toLowerCase().replace(/[^a-z0-9]+/gi, "-").replace(/^-|-$/g, "") || "boshqa";
 }
 
-function cardFrom(raw: Record<string, unknown>): CatalogCard | null {
+export function catalogCardFrom(raw: Record<string, unknown>): CatalogCard | null {
   const id = typeof raw.id === "string" ? raw.id : "";
   const name = typeof raw.name === "string" ? raw.name : "";
   if (!id || !name) return null;
@@ -93,6 +120,8 @@ function cardFrom(raw: Record<string, unknown>): CatalogCard | null {
     sizes: Array.isArray(raw.sizes) ? raw.sizes.filter((item): item is string => typeof item === "string") : [],
     colors: Array.isArray(raw.colors) ? raw.colors.filter((item): item is string => typeof item === "string") : [],
     images: Array.isArray(raw.images) ? raw.images.filter((item): item is string => typeof item === "string") : [],
+    sku: typeof raw.sku === "string" ? raw.sku : "",
+    stockQty: Number.isFinite(Number(raw.stockQty)) ? Math.max(0, Math.floor(Number(raw.stockQty))) : 0,
     attrs: raw.attrs && typeof raw.attrs === "object" && !Array.isArray(raw.attrs) ? (raw.attrs as Record<string, unknown>) : {},
   };
 }
@@ -102,7 +131,7 @@ export async function fetchCatalog(): Promise<{ products: CatalogCard[]; shops: 
     const res = await fetch("/api/catalog", { credentials: "same-origin" });
     const json = (await res.json()) as { ok?: boolean; products?: Record<string, unknown>[]; shops?: Record<string, unknown>[] };
     if (!json.ok) return { products: [], shops: [] };
-    const products = Array.isArray(json.products) ? json.products.map(cardFrom).filter((item): item is CatalogCard => Boolean(item)) : [];
+    const products = Array.isArray(json.products) ? json.products.map(catalogCardFrom).filter((item): item is CatalogCard => Boolean(item)) : [];
     const shops: CatalogShop[] = [];
     if (Array.isArray(json.shops)) {
       for (const raw of json.shops) {

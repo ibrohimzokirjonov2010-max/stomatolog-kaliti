@@ -198,6 +198,8 @@ export function SellerProductWizard({ product, onDone }: { product?: Product; on
   const docRef = useRef<HTMLInputElement>(null);
   const shortRef = useRef<HTMLTextAreaElement>(null);
   const fullRef = useRef<HTMLTextAreaElement>(null);
+  const galleryRef = useRef({ image: "", images: [] as string[] });
+  const uploadChain = useRef(Promise.resolve());
   const [step, setStep] = useState(0);
   const [maxStep, setMaxStep] = useState(0);
   const [errs, setErrs] = useState<Errs>({});
@@ -318,56 +320,69 @@ export function SellerProductWizard({ product, onDone }: { product?: Product; on
     return { urls: urls.filter((u): u is string => Boolean(u)), error };
   }
 
+  function enqueueUpload(task: () => Promise<void>) {
+    const run = uploadChain.current.then(task, task);
+    uploadChain.current = run.then(() => undefined, () => undefined);
+    return run;
+  }
+
   /**
-   * Main picker / drop zone: accepts many photos. With no cover yet (or when replacing it) the first photo becomes
-   * the cover and the rest are appended as extra photos — nothing the seller picked is silently dropped.
+   * Photos are applied one batch at a time against galleryRef, so a second file
+   * input cannot overwrite the cover and drop the first photo.
    */
-  async function addMain(files: File[], replaceCover = false) {
-    if (!files.length) return;
-    const coverSlot = replaceCover || !form.image ? 1 : 0;
-    const room = MAX_IMAGES - form.images.length - (form.image && !replaceCover ? 1 : 0);
-    if (room <= 0) return setUploadErr("Eng ko‘pi bilan 10 ta rasm (asosiy rasm bilan birga).");
+  async function applyFiles(files: File[], replaceCover: boolean) {
+    const snap = galleryRef.current.image || galleryRef.current.images.length
+      ? galleryRef.current
+      : { image: form.image, images: form.images };
+    const keepCover = Boolean(snap.image) && !replaceCover;
+    const room = MAX_IMAGES - snap.images.length - (keepCover ? 1 : 0);
+    if (room <= 0) {
+      setUploadErr("Eng ko‘pi bilan 10 ta rasm (asosiy rasm bilan birga).");
+      return;
+    }
     const list = files.slice(0, room);
-    setUpload(coverSlot ? "main" : "extra");
+    setUpload(keepCover ? "extra" : "main");
     setUploadErr("");
     const { urls, error } = await sendAll(list);
-    setForm((p) => {
-      if (!urls.length) return p;
-      if (coverSlot) {
-        const [cover, ...rest] = urls;
-        return { ...p, image: cover, images: [...p.images, ...rest].slice(0, MAX_IMAGES - 1) };
-      }
-      return { ...p, images: [...p.images, ...urls].slice(0, MAX_IMAGES - 1) };
-    });
-    if (urls.length && coverSlot) setErrs((e) => (e.image ? { ...e, image: "" } : e));
+    if (urls.length) {
+      const next = keepCover
+        ? { image: snap.image, images: [...snap.images, ...urls].slice(0, MAX_IMAGES - 1) }
+        : { image: urls[0], images: [...snap.images, ...urls.slice(1)].slice(0, MAX_IMAGES - 1) };
+      galleryRef.current = next;
+      setForm((current) => ({ ...current, image: next.image, images: next.images }));
+      if (!keepCover) setErrs((errs) => (errs.image ? { ...errs, image: "" } : errs));
+    }
     setUploadErr(error || (files.length > room ? `Faqat ${room} ta rasm qo‘shildi — limit ${MAX_IMAGES} ta.` : ""));
     setUpload("");
+  }
+
+  async function addMain(files: File[], replaceCover = false) {
+    if (!files.length) return;
+    await enqueueUpload(() => applyFiles(files, replaceCover));
   }
 
   async function addExtras(files: FileList | null) {
     const list = Array.from(files ?? []);
     if (!list.length) return;
-    if (!form.image) return addMain(list);
-    const room = MAX_IMAGES - totalImgs;
-    if (room <= 0) return setUploadErr("Eng ko‘pi bilan 10 ta rasm (asosiy rasm bilan birga).");
-    setUpload("extra");
-    setUploadErr("");
-    const { urls, error } = await sendAll(list.slice(0, room));
-    if (urls.length) setForm((p) => ({ ...p, images: [...p.images, ...urls].slice(0, MAX_IMAGES - 1) }));
-    setUploadErr(error || (list.length > room ? `Faqat ${room} ta rasm qo‘shildi — limit ${MAX_IMAGES} ta.` : ""));
-    setUpload("");
+    await enqueueUpload(() => applyFiles(list, false));
   }
 
   /** Remove the cover: the next photo (if any) becomes the new cover so the gallery never loses its first image. */
   function removeCover() {
     setForm((p) => {
       const [next, ...rest] = p.images;
-      return { ...p, image: next ?? "", images: rest };
+      const image = next ?? "";
+      galleryRef.current = { image, images: rest };
+      return { ...p, image, images: rest };
     });
     setSlide(0);
   }
   function removeExtra(j: number) {
-    setForm((p) => ({ ...p, images: p.images.filter((_, k) => k !== j) }));
+    setForm((p) => {
+      const images = p.images.filter((_, k) => k !== j);
+      galleryRef.current = { image: p.image, images };
+      return { ...p, images };
+    });
     setSlide((s) => (s > j ? s - 1 : s));
   }
   /** Make extra photo j the cover; the old cover takes its place among the extra photos. */
@@ -378,6 +393,7 @@ export function SellerProductWizard({ product, onDone }: { product?: Product; on
       const images = [...p.images];
       if (p.image) images[j] = p.image;
       else images.splice(j, 1);
+      galleryRef.current = { image: picked, images };
       return { ...p, image: picked, images };
     });
     setSlide(0);
@@ -390,6 +406,7 @@ export function SellerProductWizard({ product, onDone }: { product?: Product; on
       if (i < 0 || j < 0 || i >= all.length || j >= all.length) return p;
       [all[i], all[j]] = [all[j], all[i]];
       const [cover, ...rest] = all;
+      galleryRef.current = { image: cover, images: rest };
       return { ...p, image: cover, images: rest };
     });
     setSlide(i + dir);
