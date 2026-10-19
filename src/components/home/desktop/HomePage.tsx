@@ -10,9 +10,8 @@ export default function HomePage() {
         <div className="sh-body">
           <Sidebar />
           <main className="sh-main">
-            <Hero />
             <div className="sh-cols">
-              <div className="sh-left"><Seminars /><Categories /><Products /></div>
+              <div className="sh-left"><Hero /><Seminars /><Categories /><Products /></div>
               <RightRail />
             </div>
           </main>
