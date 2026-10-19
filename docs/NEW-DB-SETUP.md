@@ -44,6 +44,9 @@ Migrations in `supabase/migrations`, in filename order, including:
 - `site_settings` for contact email / phone / Telegram (empty until an admin saves them; the in-app form is the fallback)
 - `20261019a` unpaid orders (`payment_state = awaiting_payment`, no `escrow_held` without a payment callback) and `crm_records`
 - hot-query indexes (orders by buyer and seller, products by shop / category / `created_at`, community posts / comments / likes, CRM by doctor and kind, notifications by user and unread, surplus / masters / jobs / labs by status and `created_at`, profile phone / email / provider lookups, OTP and Telegram link tokens)
+- books, courses, news, per-user book progress and course enrollment (`20261019b_books_courses_news.sql`), plus the public `library` storage bucket (covers, PDF, lesson video)
+
+If `bootstrap.sql` was already applied, paste `supabase/migrations/20261019b_books_courses_news.sql` into the SQL editor as-is. It has no psql variables. Do not paste `bootstrap.sql` again unless you intend to reset the secret hash.
 
 There is no sessions table. The browser cookie is an HMAC of `STOMAHUB_SESSION_SECRET`. Login lookups use `profiles`, `otp_codes`, and `telegram_link_tokens`.
 
