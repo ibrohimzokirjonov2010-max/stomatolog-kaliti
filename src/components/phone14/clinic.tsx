@@ -8,13 +8,11 @@ import { PhoneFrame, SearchBox, Sheet } from "@/components/phone14/chrome";
 import { hidePhonePatient, listPhonePatients, writePatientCache } from "@/data/phone-records";
 import { loadPatientsWithImport } from "@/lib/crm-client";
 import type { Patient } from "@/data/crm";
-import { ToothChart, ToothLegend } from "@/components/phone14/teeth";
-import { PHONE_PAYS_KEY, PHONE_PLANS_KEY, phoneLate, phonePatients, phonePayments, phoneStock, planStages, readPhoneStore, relDateLabel, type PhonePatient } from "@/data/phone14";
+import { PHONE_PAYS_KEY, phoneLate, phonePayments, phoneStock, readPhoneStore, type PhonePatient } from "@/data/phone14";
 import { certificatesFromTickets } from "@/data/certificates";
 import { fetchCourses } from "@/lib/live-content";
 import { loadSeminarTickets } from "@/lib/seminar-tickets";
 import { useCart } from "@/components/cart-provider";
-import { formatGroupedNumber } from "@/lib/format";
 import type { Product } from "@/data/products";
 
 export function PhoneCerts() {
@@ -250,74 +248,6 @@ export function PhonePatients() {
 }
 
 export { PhoneAppointments } from "@/components/phone14/appointments-phone";
-
-export function PhonePlans() {
-  const [q, setQ] = useState("");
-  const [tab, setTab] = useState("");
-  const [open, setOpen] = useState<string | null>("s2");
-  const [filter, setFilter] = useState(false);
-  const [extra, setExtra] = useState<{ id: string; title: string; status: string }[]>([]);
-  useEffect(() => { setExtra(readPhoneStore<{ id: string; title: string; status: string }>(PHONE_PLANS_KEY)); }, []);
-  const showMain = (tab === "" || tab === "Davom etmoqda") && (!q.trim() || "malika implant protetik".includes(q.trim().toLowerCase()) || "implant va protetik davolash".includes(q.trim().toLowerCase()));
-  return (
-    <PhoneFrame testId="phone-reja" tab="none">
-      <div className="p14-head">
-        <div>
-          <h1>Davolash rejalari</h1>
-          <p className="sub">Bemorlar uchun davolash rejalari va bosqichlar</p>
-        </div>
-        <Link href="/crm/davolash-rejalari/yangi" className="p14-chip on" data-testid="plan-add"><Plus size={14} /> Yangi reja</Link>
-      </div>
-      <div className="p14-head">
-        <SearchBox value={q} onChange={setQ} label="Reja qidirish" placeholder="Bemor ismi yoki reja nomi bo‘yicha qidirish..." />
-        <button type="button" className="p14-filter" onClick={() => setFilter(true)}><SlidersHorizontal /> Filtr</button>
-      </div>
-      <div className="p14-row">
-        {[
-          ["Rejalashtirilgan", "4"],
-          ["Davom etmoqda", "5"],
-          ["Yakunlangan", "3"],
-        ].map(([label, count]) => (
-          <button key={label} type="button" className={tab === label ? "p14-chip on" : "p14-chip"} onClick={() => setTab(tab === label ? "" : label)}>{label} ({count})</button>
-        ))}
-      </div>
-      {showMain ? (
-        <>
-          <article className="p14-card">
-            <div className="who">
-              <img src="/img/phone14/pat-0.png" alt="" />
-              <span><b>Malika Karimova</b><small>#B-0012 · 28 yosh · Ayol</small><small>+998 90 123 45 67</small></span>
-            </div>
-            <Link href="/crm/bemorlar/b-0012" className="ghost" style={{ display: "inline-flex", alignItems: "center", marginTop: 8, padding: "0 12px" }}>Bemor kartasi</Link>
-          </article>
-          <article className="p14-card">
-            <div className="p14-head"><b>Implant va protetik davolash</b><span className="pill blue">Davom etmoqda</span></div>
-            <p className="spec">Reja raqami DP-{new Date().getFullYear()}-001 · {relDateLabel(-5)}</p>
-            <ToothChart palette />
-            <ToothLegend />
-          </article>
-          <section>
-            <div className="p14-head"><h2 style={{ margin: 0, fontSize: "1.05rem" }}>Davolash bosqichlari</h2><b>Umumiy summa 12 500 000 so‘m</b></div>
-            <div className="list">
-              {planStages.map((stage, index) => (
-                <button key={stage.id} type="button" className="p14-card stage" onClick={() => setOpen(open === stage.id ? null : stage.id)} aria-expanded={open === stage.id}>
-                  <div className="top">
-                    <b>{index + 1}. {stage.name}</b>
-                    <span className={`pill ${stage.status === "Yakunlangan" ? "green" : stage.status === "Davom etmoqda" ? "blue" : stage.status === "Rejalashtirilgan" ? "amber" : "gray"}`}>{stage.status}</span>
-                  </div>
-                  <p>{formatGroupedNumber(stage.price)} so‘m</p>
-                  {open === stage.id ? <p className="spec">{stage.date ? `${stage.date}. ` : ""}{stage.note}</p> : null}
-                </button>
-              ))}
-            </div>
-          </section>
-        </>
-      ) : <p className="p14-empty">Bu bo‘limda reja tanlanmadi</p>}
-      {extra.map((item) => <article key={item.id} className="p14-card"><b>{item.title}</b><p className="pill blue">{item.status}</p></article>)}
-      {filter ? <Sheet title="Filtr" onClose={() => setFilter(false)}><button type="button" className="p14-go" onClick={() => { setTab("Davom etmoqda"); setFilter(false); }}>Davom etmoqda</button></Sheet> : null}
-    </PhoneFrame>
-  );
-}
 
 const WEEK = [
   { label: "7", h: 40 },

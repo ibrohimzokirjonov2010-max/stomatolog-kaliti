@@ -14,6 +14,7 @@ import { site } from "@/data/site";
 import { productShop } from "@/data/shops";
 import { formatMoney } from "@/lib/format";
 import { useDoctorProfile } from "@/components/doctor-profile-provider";
+import { shopDeliveryFee } from "@/lib/cart-totals";
 import { createOrder, paymentMethods, type PaymentMethod } from "@/lib/orders";
 import { BonusUseCard, useBonusUse } from "@/components/bonus/bonus";
 import { cn } from "@/lib/utils";
@@ -49,6 +50,8 @@ export function CheckoutForm() {
     payment: "click",
   });
 
+  const delivery = shopDeliveryFee(items.map((item) => item.product));
+  const payable = Math.max(0, subtotal + delivery - bonus.applied);
   const empty = count === 0;
   const payHint = useMemo(
     () => paymentMethods.find((item) => item.id === form.payment)?.hint ?? "",
@@ -223,6 +226,10 @@ export function CheckoutForm() {
           ))}
         </ul>
         <BonusUseCard use={bonus} className="mt-3" />
+        <p className="mt-3 flex justify-between text-[13px] text-[#4b5568]">
+          <span>Yetkazib berish</span>
+          <span className="font-medium text-[#1a1d26]">{delivery > 0 ? formatMoney(delivery, "UZS") : "Bepul"}</span>
+        </p>
         {bonus.applied > 0 ? (
           <p className="mt-3 flex justify-between text-[13px] text-[#0066FF]">
             <span>Bonus</span>
@@ -231,7 +238,7 @@ export function CheckoutForm() {
         ) : null}
         <p className="mt-3 flex justify-between border-t border-[#eceff5] pt-3 text-[16px] font-bold text-[#1a1d26]">
           <span>To‘lov</span>
-          <span>{formatMoney(subtotal - bonus.applied, "UZS")}</span>
+          <span>{formatMoney(payable, "UZS")}</span>
         </p>
         <Button type="submit" className="mt-4 h-11 w-full !rounded-xl" disabled={busy}>
           {busy ? "Yuborilmoqda..." : "Buyurtmani tasdiqlash"}

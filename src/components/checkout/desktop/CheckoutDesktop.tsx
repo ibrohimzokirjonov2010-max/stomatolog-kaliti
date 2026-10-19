@@ -135,8 +135,8 @@ export function CheckoutDesktop() {
                 <h2>Yetkazish usuli</h2>
                 <p>Sizga qulay yetkazish usulini tanlang</p>
                 <div className="ckx-ship">
-                  <button type="button" className={ship === "courier" ? "on" : undefined} onClick={() => setShip("courier")}><b>Kuryer orqali</b><span>1–2 kun</span><em>25 000 so‘m</em></button>
-                  <button type="button" className={ship === "pickup" ? "on" : undefined} onClick={() => setShip("pickup")}><b>Olib ketish</b><span>Bepul</span><em>Bugun</em></button>
+                  <button type="button" className={ship === "courier" ? "on" : undefined} onClick={() => setShip("courier")}><b>Kuryer orqali</b><span>1–2 kun</span><em>{delivery > 0 ? som(delivery) : "Bepul"}</em></button>
+                  <button type="button" className={ship === "pickup" ? "on" : undefined} onClick={() => setShip("pickup")}><b>Olib ketish</b><span>Do‘kondan</span><em>Bugun</em></button>
                 </div>
                 <label className="wide">Qo‘shimcha ma’lumot
                   <textarea maxLength={300} placeholder="Kuryer uchun izoh (masalan: qo‘ng‘iroq qiling, darvozada kutaman va h.k.)" value={note} onChange={(event) => setNote(event.target.value)} />

@@ -1,10 +1,12 @@
 import "server-only";
-import { products as staticProducts, type Product, type ProductCategory } from "@/data/products";
+import { products as staticProducts, type Product, type ProductAttrs, type ProductCategory } from "@/data/products";
 import { surplusProducts } from "@/data/surplus";
 import { marketProducts, type ShopCategory } from "@/data/desktop-shop";
 import { desktopForma } from "@/data/desktop-forma";
 import { desktopJihoz } from "@/data/desktop-jihozlar";
 import { catalogShop } from "@/data/shops";
+import { DELIVERY_LINE_ID, shopDeliveryFee } from "@/lib/cart-totals";
+import { rpc } from "@/lib/server/db";
 import { safeImage } from "@/lib/server/seller";
 import { UUID_RE, str } from "@/lib/server/user";
 
@@ -66,6 +68,7 @@ export function normalizeOrderItems(
       source: str(it.source, 40),
       expiryMonths: Number.isFinite(Number(it.expiryMonths)) && it.expiryMonths != null ? String(Math.floor(Number(it.expiryMonths))) : "",
     };
+    if (productId === DELIVERY_LINE_ID) continue;
     if (UUID_RE.test(productId)) {
       items.push({ productId, qty, ...meta });
       continue;
@@ -87,4 +90,58 @@ export function normalizeOrderItems(
     });
   }
   return { ok: true, items };
+}
+
+function feeProduct(id: string, shopId: string, shopName: string, attrs: ProductAttrs): Product {
+  return {
+    id,
+    name: "",
+    brand: "",
+    category: "materiallar",
+    price: 0,
+    rating: 0,
+    reviews: 0,
+    inStock: true,
+    delivery: "",
+    image: "",
+    shopId: shopId || undefined,
+    shopName: shopName || undefined,
+    attrs,
+  };
+}
+
+/** Same per-shop fee the cart shows, taken from stored product attrs. A client-sent fee is ignored. */
+export async function withDeliveryFee(items: Record<string, unknown>[]): Promise<Record<string, unknown>[]> {
+  const lines = items.filter((item) => item.productId !== DELIVERY_LINE_ID);
+  const priced: Product[] = [];
+  await Promise.all(lines.map(async (item) => {
+    const productId = String(item.productId ?? "");
+    if (UUID_RE.test(productId)) {
+      const raw = await rpc<Record<string, unknown> | null>("sh_product_public", { p_id: productId });
+      if (!raw) return;
+      const attrs = raw.attrs && typeof raw.attrs === "object" ? (raw.attrs as ProductAttrs) : {};
+      priced.push(feeProduct(
+        productId,
+        typeof raw.shopId === "string" ? raw.shopId : "",
+        typeof raw.shopName === "string" ? raw.shopName : "",
+        attrs,
+      ));
+      return;
+    }
+    const known = STATIC.get(productId);
+    if (known) priced.push(known);
+  }));
+  const fee = Math.round(shopDeliveryFee(priced));
+  if (fee <= 0) return lines;
+  return [...lines, {
+    productId: DELIVERY_LINE_ID,
+    qty: 1,
+    price: fee,
+    name: "Yetkazib berish",
+    brand: "",
+    image: "",
+    category: "yetkazish",
+    shopName: "Yetkazib berish",
+    shopSlug: "",
+  }];
 }

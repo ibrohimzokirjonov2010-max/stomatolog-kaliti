@@ -33,6 +33,7 @@ import { useDoctorProfile } from "@/components/doctor-profile-provider";
 import { NotificationBell } from "@/components/notification-bell";
 import { type MobileOrder } from "@/data/mobile-orders";
 import { formatMoney } from "@/lib/format";
+import { shopDeliveryFee } from "@/lib/cart-totals";
 import { createOrder, type PaymentMethod } from "@/lib/orders";
 import "./checkout-steps.css";
 
@@ -42,7 +43,6 @@ type ShipId = "courier" | "pickup";
 
 const DESIGN_NAME = "Ibrohim Zokirjonov";
 const DESIGN_PHONE = "+998 90 123 45 67";
-const DISCOUNT = 100_000;
 
 const CITIES = ["Toshkent", "Samarqand", "Buxoro", "Andijon", "Farg‘ona", "Namangan", "Nukus", "Qarshi"];
 const TASHKENT = ["Yunusobod", "Chilonzor", "Shayxontohur", "Mirzo Ulug‘bek", "Yakkasaroy", "Sergeli", "Uchtepa", "Olmazor", "Mirobod", "Yashnobod", "Bektemir"];
@@ -133,7 +133,6 @@ export function CheckoutSteps() {
   const [delivery, setDelivery] = useState<ShipId>("courier");
   const [pay, setPay] = useState<PayId>("naqd");
   const [promo, setPromo] = useState("");
-  const [promoOn, setPromoOn] = useState(false);
   const [promoError, setPromoError] = useState("");
   const [oferta, setOferta] = useState(false);
   const [error, setError] = useState("");
@@ -151,8 +150,8 @@ export function CheckoutSteps() {
 
   const lines = items.length;
   const goods = items.reduce((sum, item) => sum + item.lineTotal, 0);
-  const discount = promoOn ? Math.min(DISCOUNT, goods) : 0;
-  const total = Math.max(0, goods - discount);
+  const deliveryFee = shopDeliveryFee(items.map((item) => item.product));
+  const total = goods + deliveryFee;
   const payMeta = PAYS.find((item) => item.id === pay) ?? PAYS[0];
   const eta = useMemo(() => etaLabel(), []);
   const districts = districtsOf(city);
@@ -203,13 +202,7 @@ export function CheckoutSteps() {
   }
 
   function applyPromo() {
-    if (!promo.trim()) {
-      setPromoOn(false);
-      setPromoError("Promokod kiriting");
-      return;
-    }
-    setPromoError("");
-    setPromoOn(true);
+    setPromoError(promo.trim() ? "Promokod mavjud emas" : "Promokod kiriting");
   }
 
   async function confirm() {
@@ -444,7 +437,7 @@ export function CheckoutSteps() {
                         <b>Kuryer orqali</b>
                         <small>Toshkent bo‘ylab yetkazib berish</small>
                       </span>
-                      <span className="ck-eta">Bugun / Ertaga<em>Bepul</em></span>
+                      <span className="ck-eta">Bugun / Ertaga</span>
                       <i className="ck-radio" />
                     </button>
                     <button type="button" role="radio" aria-checked={delivery === "pickup"} data-testid="ck-ship-pickup" className={delivery === "pickup" ? "ck-ship on" : "ck-ship"} onClick={() => setDelivery("pickup")}>
@@ -453,7 +446,7 @@ export function CheckoutSteps() {
                         <b>Olib ketish</b>
                         <small>Do‘kondan o‘zingiz olib ketasiz</small>
                       </span>
-                      <span className="ck-eta">Bugun<em>Bepul</em></span>
+                      <span className="ck-eta">Bugun</span>
                       <i className="ck-radio" />
                     </button>
                   </div>
@@ -514,7 +507,7 @@ export function CheckoutSteps() {
                   {promoError ? <p className="ck-promo-err" data-testid="ck-promo-error">{promoError}</p> : null}
                 </section>
 
-                <Summary goods={goods} lines={lines} city={city} delivery={delivery} discount={discount} total={total} />
+                <Summary goods={goods} lines={lines} city={city} delivery={delivery} fee={deliveryFee} total={total} />
                 <div className="ck-safe">
                   <ShieldCheck />
                   <div>
@@ -576,7 +569,7 @@ export function CheckoutSteps() {
                       <b>{delivery === "courier" ? "Kuryer orqali" : "Olib ketish"}</b>
                       <small>{delivery === "courier" ? "Toshkent bo‘ylab yetkazib berish" : "Do‘kondan o‘zingiz olib ketasiz"}</small>
                     </span>
-                    <span className="ck-eta">{delivery === "courier" ? eta : "Bugun"}<em>Bepul</em></span>
+                    <span className="ck-eta">{delivery === "courier" ? eta : "Bugun"}</span>
                   </div>
                 </section>
 
@@ -595,7 +588,7 @@ export function CheckoutSteps() {
                   </div>
                 </section>
 
-                <Summary goods={goods} lines={lines} city={city} delivery={delivery} discount={discount} total={total} />
+                <Summary goods={goods} lines={lines} city={city} delivery={delivery} fee={deliveryFee} total={total} />
                 <label className="ck-offer">
                   <input type="checkbox" data-testid="ck-oferta" checked={oferta} onChange={(event) => { setOferta(event.target.checked); setError(""); }} />
                   Ommaviy oferta bilan tanishdim va roziman
@@ -681,14 +674,14 @@ function Summary({
   lines,
   city,
   delivery,
-  discount,
+  fee,
   total,
 }: {
   goods: number;
   lines: number;
   city: string;
   delivery: ShipId;
-  discount: number;
+  fee: number;
   total: number;
 }) {
   const ship = delivery === "courier" ? `Yetkazish (${city}, kuryer)` : "Olib ketish";
@@ -702,8 +695,7 @@ function Summary({
         </div>
       </div>
       <p className="ck-line"><span>Mahsulotlar ({lines} ta)</span><b>{formatMoney(goods, "UZS")}</b></p>
-      <p className="ck-line"><span>{ship}</span><b className="free">Bepul</b></p>
-      {discount > 0 ? <p className="ck-line"><span>Chegirma (promokod)</span><b className="off">- {formatMoney(discount, "UZS")}</b></p> : null}
+      <p className="ck-line"><span>{ship}</span><b className={fee > 0 ? undefined : "free"}>{fee > 0 ? formatMoney(fee, "UZS") : "Bepul"}</b></p>
       <p className="ck-jami"><span>Jami</span><b data-testid="ck-total">{formatMoney(total, "UZS")}</b></p>
     </section>
   );

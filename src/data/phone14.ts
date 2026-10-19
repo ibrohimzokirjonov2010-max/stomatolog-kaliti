@@ -139,13 +139,6 @@ export const phoneAppts = [
   { id: "u5", time: "15:30", end: "16:10", name: "Nilufar Ismoilova", service: "Estetik restoratsiya", age: 31, gender: "Ayol", tooth: "Veneer konsultatsiya", note: "Rang tanlash", status: "keladi", statusLabel: "Kelmoqda", phone: "+998915504455", avatar: "/img/phone14/pat-4.png" },
 ];
 
-export const planStages = [
-  { id: "s1", name: "Diagnostika va rejalashtirish", status: "Yakunlangan", price: 500000, date: relDateLabel(-5), note: "Konsultatsiya, OPG, KT" },
-  { id: "s2", name: "Endodontik davolash (14)", status: "Davom etmoqda", price: 1500000, date: relDateLabel(3), note: "Kanal davolash" },
-  { id: "s3", name: "Implant qo‘yish (16, 31)", status: "Rejalashtirilgan", price: 8000000, date: relDateLabel(19), note: "Implant + abutment" },
-  { id: "s4", name: "Protetik bosqich", status: "Kutilmoqda", price: 2500000, date: "", note: "Krona va protez" },
-];
-
 export const phonePayments = [
   { id: "p1", name: "Malika Karimova", amount: "2 500 000 so‘m", note: "Davolash (Implant)", date: `${relDateLabel(-5)} · 14:30`, status: "To‘langan", avatar: "/img/phone14/pat-0.png", late: false },
   { id: "p2", name: "Jahongir Rahimov", amount: "1 800 000 so‘m", note: "Davolash (Proteziya)", date: `${relDateLabel(-5)} · 11:20`, status: "To‘langan", avatar: "/img/phone14/pat-1.png", late: false },

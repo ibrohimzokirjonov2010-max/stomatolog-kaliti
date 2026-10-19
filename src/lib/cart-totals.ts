@@ -1,5 +1,8 @@
 import type { Product } from "@/data/products";
 
+/** Order line the API appends so the saved payable includes this fee. Clients cannot set it. */
+export const DELIVERY_LINE_ID = "delivery-fee";
+
 /** Delivery for the selected lines: one fee per shop.
  *  A shop is free when every line is marked free. Otherwise the fee is the
  *  highest stated delivery price among the paid lines. A missing price is 0.

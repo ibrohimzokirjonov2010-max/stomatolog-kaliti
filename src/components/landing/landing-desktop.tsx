@@ -155,7 +155,6 @@ export function ProfilePhone({ width, height, className = "" }: { width?: string
 }
 
 export function CrmMock({ compact = false }: { compact?: boolean }) {
-  const bars = [36, 48, 42, 62, 54, 78, 66];
   return (
     <div className="overflow-hidden rounded-[24px] border border-[#e6ebf3] bg-white shadow-[0_22px_50px_rgba(15,23,42,0.1)]">
       <div className={compact ? "grid grid-cols-[104px_minmax(0,1fr)]" : "grid grid-cols-[168px_minmax(0,1fr)]"}>
@@ -171,8 +170,8 @@ export function CrmMock({ compact = false }: { compact?: boolean }) {
           <p className="text-[15px] font-extrabold text-[#16324f]">Bosh sahifa</p>
           <div className={compact ? "mt-2.5 grid grid-cols-2 gap-2" : "mt-2.5 grid grid-cols-3 gap-2"}>
             {(compact
-              ? [["Bemorlar", "128"], ["Qabul", "5"], ["Daromad", "4.2 mln"], ["Qarz", "850"]]
-              : [["Bemorlar", "128"], ["Bugungi qabul", "5"], ["Daromad", "4.2 mln"]]
+              ? [["Bemorlar", "0"], ["Qabul", "0"], ["Daromad", "0"], ["Qarz", "0"]]
+              : [["Bemorlar", "0"], ["Bugungi qabul", "0"], ["Daromad", "0"]]
             ).map(([label, value]) => (
               <div key={label} className="rounded-xl bg-[#f4f8ff] px-2.5 py-2.5">
                 <p className="text-[12px] text-[#64748b]">{label}</p>
@@ -184,39 +183,16 @@ export function CrmMock({ compact = false }: { compact?: boolean }) {
             <div className="grid grid-cols-[58px_1fr_1fr] bg-[#f8fafc] px-2.5 py-2 text-[12px] font-bold text-[#64748b]">
               <span>Vaqt</span><span>Bemor</span><span>Xizmat</span>
             </div>
-            {[
-              ["09:00", "Malika Karimova", "Profilaktik ko‘rik"],
-              ["10:30", "Jahongir Rahimov", "Plomba"],
-              ["12:00", "Oysa Abdurahmonova", "Endodontiya"],
-            ].map((row) => (
-              <div key={row[0]} className="grid grid-cols-[58px_1fr_1fr] border-t border-[#f1f5f9] px-2.5 py-2 text-[12px] text-[#16324f]">
-                {row.map((cell) => <span key={cell} className="truncate">{cell}</span>)}
-              </div>
-            ))}
+            <p className="border-t border-[#f1f5f9] px-2.5 py-3 text-[12px] text-[#64748b]">Hozircha uchrashuv yo‘q</p>
           </div>
           <div className={compact ? "mt-2.5 grid gap-2" : "mt-2.5 grid grid-cols-[minmax(0,1fr)_148px] gap-2"}>
             <div>
               <p className="mb-1.5 text-[12px] font-bold text-[#64748b]">Bemorlar</p>
-              <div className="space-y-1.5">
-                {[
-                  ["/img/phone14/pat-0.png", "Malika Karimova"],
-                  ["/img/phone14/pat-1.png", "Jahongir Rahimov"],
-                  ["/img/phone14/pat-2.png", "Oysa Abdurahmonova"],
-                ].map(([src, name]) => (
-                  <div key={name} className="flex items-center gap-2 rounded-lg bg-[#f7f9fc] px-2 py-1.5">
-                    <img src={src} alt="" className="size-7 rounded-full object-cover" />
-                    <span className="truncate text-[12px] font-semibold text-[#16324f]">{name}</span>
-                  </div>
-                ))}
-              </div>
+              <p className="rounded-lg bg-[#f7f9fc] px-2 py-3 text-[12px] text-[#64748b]">Hozircha bemor yo‘q</p>
             </div>
             <div>
               <p className="mb-1.5 text-[12px] font-bold text-[#64748b]">Tahlil</p>
-              <svg viewBox="0 0 148 96" className="h-[96px] w-full rounded-xl bg-[#f7f9fc]" aria-hidden="true">
-                {bars.map((h, i) => (
-                  <rect key={i} x={10 + i * 20} y={86 - h} width="12" height={h} rx="3" fill={i === bars.length - 2 ? "#0066FF" : "#c5d9ff"} />
-                ))}
-              </svg>
+              <p className="flex h-[96px] items-center rounded-xl bg-[#f7f9fc] px-2 text-[12px] text-[#64748b]">Hozircha tahlil yo‘q</p>
             </div>
           </div>
         </div>
