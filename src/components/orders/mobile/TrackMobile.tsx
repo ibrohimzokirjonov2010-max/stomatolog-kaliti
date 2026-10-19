@@ -3,7 +3,7 @@
 
 import { useState } from "react";
 import Link from "next/link";
-import { Calendar, Check, ChevronRight, FileText, Headphones, Home, MessageCircle, Phone, ShoppingBag, ShoppingCart, Star, Store, Truck } from "lucide-react";
+import { Calendar, Check, ChevronRight, FileText, Headphones, Home, ShoppingBag, ShoppingCart, Store, Truck } from "lucide-react";
 import { useCart } from "@/components/cart-provider";
 import { MobileMenuButton } from "@/components/dashboard/mobile-chrome";
 import { NotificationBell } from "@/components/notification-bell";
@@ -13,15 +13,6 @@ import { OrderSupportSheet } from "./OrdersMobileList";
 import "./track-mobile.css";
 
 const MONTHS = ["yan", "fev", "mar", "apr", "may", "iyn", "iyl", "avg", "sen", "okt", "noy", "dek"];
-const COURIER = {
-  name: "Azizbek Nurmatov",
-  role: "StomaHub kuryeri",
-  rating: "4.9",
-  reviews: 320,
-  phone: "+998901234567",
-  photo: "/img/mobile/ut-aziz-face.jpg",
-};
-
 const STEP_COPY = [
   { title: "Qabul qilindi", text: "Buyurtmangiz qabul qilindi." },
   { title: "Tayyorlanmoqda", text: "Sotuvchi mahsulotlarni tayyorlamoqda." },
@@ -59,9 +50,6 @@ function headline(order: MobileOrder) {
 export function TrackMobile({ order }: { order: MobileOrder | undefined }) {
   const lines = useCart().items.length;
   const [help, setHelp] = useState(false);
-  const [chat, setChat] = useState(false);
-  const [sent, setSent] = useState(false);
-  const [note, setNote] = useState("");
   const [itemsOpen, setItemsOpen] = useState(false);
 
   return (
@@ -80,7 +68,7 @@ export function TrackMobile({ order }: { order: MobileOrder | undefined }) {
           <h1 className="tr-title">Buyurtmani kuzatish</h1>
           <p className="tr-sub">Buyurtma holatini real vaqtda kuzating.</p>
         </div>
-        {order ? <TrackBody order={order} itemsOpen={itemsOpen} onItems={() => setItemsOpen((value) => !value)} onChat={() => setChat(true)} /> : (
+        {order ? <TrackBody order={order} itemsOpen={itemsOpen} onItems={() => setItemsOpen((value) => !value)} /> : (
           <div className="tr-empty" data-testid="tr-missing">
             <h2>Buyurtma topilmadi</h2>
             <Link href="/buyurtmalarim">Buyurtmalarim</Link>
@@ -99,20 +87,6 @@ export function TrackMobile({ order }: { order: MobileOrder | undefined }) {
         </div>
       ) : null}
       {help && order ? <OrderSupportSheet order={order} onClose={() => setHelp(false)} /> : null}
-      {chat ? (
-        <div className="tr-sheet" role="dialog" aria-label="Chat" data-testid="tr-chat-sheet">
-          <button type="button" className="absolute inset-0" aria-label="Yopish" data-testid="tr-chat-close" onClick={() => setChat(false)} />
-          <div className="tr-box">
-            <h3>{COURIER.name}</h3>
-            {sent ? <p data-testid="tr-chat-sent">Xabar yuborildi</p> : (
-              <>
-                <textarea aria-label="Xabar" value={note} placeholder="Kuryerga yozing" onChange={(event) => setNote(event.target.value)} />
-                <button type="button" className="send" onClick={() => { if (note.trim()) setSent(true); }}>Yuborish</button>
-              </>
-            )}
-          </div>
-        </div>
-      ) : null}
     </div>
   );
 }
@@ -121,12 +95,10 @@ function TrackBody({
   order,
   itemsOpen,
   onItems,
-  onChat,
 }: {
   order: MobileOrder;
   itemsOpen: boolean;
   onItems: () => void;
-  onChat: () => void;
 }) {
   const when = parseWhen(order.date);
   const head = headline(order);
@@ -190,15 +162,9 @@ function TrackBody({
 
       {order.delivery !== "pickup" ? (
         <section className="tr-card tr-courier">
-          <img src={COURIER.photo} alt="" />
           <div>
-            <b>{COURIER.name}</b>
-            <small>{COURIER.role}</small>
-            <em><Star fill="currentColor" /> {COURIER.rating} ({COURIER.reviews} ta reyting)</em>
-          </div>
-          <div className="tr-actions">
-            <a href={`tel:${COURIER.phone}`} data-testid="tr-call"><Phone /> Qo‘ng‘iroq</a>
-            <button type="button" data-testid="tr-chat" onClick={onChat}><MessageCircle /> Chat</button>
+            <b>Kuryer biriktirilmagan</b>
+            <small>Yetkazib berish holati to‘lovdan keyin yangilanadi</small>
           </div>
         </section>
       ) : null}
