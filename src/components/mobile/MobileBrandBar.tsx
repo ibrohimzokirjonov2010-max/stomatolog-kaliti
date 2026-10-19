@@ -5,6 +5,7 @@ import Link from "next/link";
 import { Search, ShoppingCart } from "lucide-react";
 import { useCart } from "@/components/cart-provider";
 import { NotificationBell } from "@/components/notification-bell";
+import { MobileMenuButton } from "@/components/dashboard/mobile-chrome";
 import "./mobile-ui.css";
 
 function focusSearch() {
@@ -32,9 +33,12 @@ export function MobileBrandBar({
   const { count } = useCart();
   return (
     <header className="mb-bar lg:hidden" data-testid="mobile-brand-bar">
-      <Link href="/" className="mb-logo" aria-label="StomaHub — bosh sahifa">
-        STOMA<span>HUB</span>
-      </Link>
+      <div className="flex min-w-0 items-center gap-1">
+        <MobileMenuButton variant="brand" />
+        <Link href="/" className="mb-logo" aria-label="StomaHub — bosh sahifa">
+          STOMA<span>HUB</span>
+        </Link>
+      </div>
       <div className="mb-acts">
         {extra}
         {search ? (

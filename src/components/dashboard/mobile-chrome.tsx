@@ -531,8 +531,11 @@ function DrawerNav() {
   );
 }
 
-export function MobileMenuButton({ variant = "bar" }: { variant?: "bar" | "top" }) {
-  const { open, setOpen } = useMobileNav();
+export function MobileMenuButton({ variant = "bar" }: { variant?: "bar" | "top" | "brand" }) {
+  // Optional context: render nothing (instead of crashing) if a page is ever shown outside the app shell.
+  const nav = useContext(MobileNavContext);
+  if (!nav) return null;
+  const { open, setOpen } = nav;
   return (
     <button
       type="button"
@@ -540,14 +543,16 @@ export function MobileMenuButton({ variant = "bar" }: { variant?: "bar" | "top" 
       className={
         variant === "top"
           ? "grid size-11 shrink-0 place-items-center rounded-xl text-[#1a1d26]"
-          : "mh-ic"
+          : variant === "brand"
+            ? "-ml-2 grid size-10 shrink-0 place-items-center rounded-xl text-[#0f1b3d] lg:hidden"
+            : "mh-ic"
       }
       aria-label={open ? "Menyuni yopish" : "Menyu"}
       aria-expanded={open}
       aria-controls="mobile-app-menu"
       onClick={() => setOpen(!open)}
     >
-      <Menu className={variant === "top" ? "size-5" : undefined} strokeWidth={2} aria-hidden="true" />
+      <Menu className={variant === "bar" ? undefined : "size-5"} strokeWidth={2} aria-hidden="true" />
     </button>
   );
 }
