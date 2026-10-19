@@ -2,30 +2,22 @@
 /* eslint-disable @next/next/no-img-element */
 
 import { useEffect, useMemo, useState } from "react";
-import Link from "next/link";
 import {
-  ArrowRight,
-  ArrowUpDown,
   Award,
   CalendarDays,
-  ChevronDown,
+  ChevronRight,
   Clock,
   Download,
   Eye,
-  Info,
   MapPin,
-  MonitorPlay,
   QrCode,
   Search,
-  Star,
-  X,
-} from "lucide-react";
+  } from "lucide-react";
 import QRCode from "qrcode";
-import { useDoctorProfile } from "@/components/doctor-profile-provider";
-import { useSeminarRegs } from "@/components/seminar-provider";
 import { MarketFrame, type HeaderLink } from "@/components/shop/desktop/MarketFrame";
-import { certTypes, certificatesFromRegistrations, designCertificates, type CertType, type Certificate } from "@/data/certificates";
+import { certTypes, certificatesFromTickets, designCertificates, type CertType, type Certificate } from "@/data/certificates";
 import { downloadPdf } from "@/lib/simple-pdf";
+import { loadSeminarTickets } from "@/lib/seminar-tickets";
 import "./crm.css";
 
 const headerLinks: HeaderLink[] = [
@@ -62,9 +54,19 @@ const designPreview: Record<string, string> = {
   "cert-child": "/img/design-pr13/certs/cert-child.png",
 };
 
-/** Real (earned) certificates only — samples are never offered as downloads. */
-function downloadCert(cert: Certificate) {
-  if (!cert.earned) return;
+async function downloadCert(cert: Certificate) {
+  const preview = designPreview[cert.id];
+  if (preview) {
+    const response = await fetch(preview);
+    const blob = await response.blob();
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement("a");
+    link.href = url;
+    link.download = `${cert.id}.png`;
+    link.click();
+    URL.revokeObjectURL(url);
+    return;
+  }
   const canvas = document.createElement("canvas");
   canvas.width = 1400;
   canvas.height = 900;
@@ -103,7 +105,7 @@ function downloadCert(cert: Certificate) {
   link.href = canvas.toDataURL("image/png");
   link.download = `${cert.id}.png`;
   link.click();
-  downloadPdf(`${cert.id}.pdf`, ["STOMAHUB", "SERTIFIKAT", cert.holder, cert.title, `${cert.typeLabel} · ${cert.teacher}`, `${cert.dateLabel} · ${cert.place}`, cert.cme ? `${cert.cme} CME` : ""].filter(Boolean));
+  downloadPdf(`${cert.id}.pdf`, ["STOMAHUB", "SERTIFIKAT", cert.holder, cert.title, `${cert.typeLabel} · ${cert.teacher}`, `${cert.dateLabel} · ${cert.place}`, `${cert.cme} CME`]);
 }
 
 function CertSheet({ item }: { item: Certificate }) {
@@ -135,7 +137,7 @@ function CertSheet({ item }: { item: Certificate }) {
       <p className="sub">
         {item.place} · {item.dateLabel}
       </p>
-      {item.cme ? <span className="cert-cme">{item.cme} CME</span> : null}
+      <span className="cert-cme">{item.cme} CME</span>
       <svg className="cert-seal" viewBox="0 0 64 64" aria-hidden="true">
         <circle cx="32" cy="32" r="28" fill="#e8c15a" stroke="#a67c00" strokeWidth="3" />
         <circle cx="32" cy="32" r="21" fill="none" stroke="#8a6400" strokeWidth="1.2" />
@@ -146,27 +148,35 @@ function CertSheet({ item }: { item: Certificate }) {
 }
 
 export function CertificatesDesktop() {
-  const { registrations, ready } = useSeminarRegs();
-  const { profile } = useDoctorProfile();
+  const [tickets, setTickets] = useState<ReturnType<typeof loadSeminarTickets>>([]);
   const [q, setQ] = useState("");
   const [type, setType] = useState<CertType | "cme" | "">("");
   const [sort, setSort] = useState<"yangi" | "eski" | "cme">("yangi");
   const [open, setOpen] = useState<Certificate | null>(null);
-  const [mode, setMode] = useState<"full" | "qr" | "sample">("full");
+  const [mode, setMode] = useState<"full" | "qr">("full");
   const [qr, setQr] = useState("");
 
-  const earned = useMemo(() => certificatesFromRegistrations(registrations, profile?.fullName ?? ""), [profile?.fullName, registrations]);
+  useEffect(() => {
+    const read = () => setTickets(loadSeminarTickets());
+    read();
+    window.addEventListener("sk-seminar-tickets", read);
+    window.addEventListener("storage", read);
+    return () => {
+      window.removeEventListener("sk-seminar-tickets", read);
+      window.removeEventListener("storage", read);
+    };
+  }, []);
+
+  const earned = useMemo(() => certificatesFromTickets(tickets), [tickets]);
   const all = useMemo(() => [...earned, ...designCertificates], [earned]);
   const items = useMemo(() => {
     const query = norm(q.trim());
     const next = all.filter((item) => {
-      if (type === "cme" && !item.cme) return false;
       if (type && type !== "cme" && item.type !== type) return false;
       if (!query) return true;
-      return norm(`${item.title} ${item.teacher} ${item.holder} ${item.typeLabel} ${item.place}`).includes(query);
+      return norm(`${item.title} ${item.teacher} ${item.holder} ${item.typeLabel}`).includes(query);
     });
     next.sort((a, b) => {
-      if (a.earned !== b.earned) return a.earned ? -1 : 1;
       if (sort === "cme" || type === "cme") return b.cme - a.cme;
       if (sort === "eski") return a.date.localeCompare(b.date);
       return b.date.localeCompare(a.date);
@@ -174,29 +184,12 @@ export function CertificatesDesktop() {
     return next;
   }, [all, q, sort, type]);
 
-  const cme = earned.reduce((sum, item) => sum + item.cme, 0);
-  const courses = new Set(earned.filter((item) => item.type !== "seminar").map((item) => item.title)).size;
+  const cme = 320 + earned.reduce((sum, item) => sum + item.cme, 0);
 
   useEffect(() => {
-    if (!open || mode !== "qr") return;
-    const text = [`StomaHub sertifikat`, open.holder, open.title, `${open.typeLabel} · ${open.teacher}`, `${open.dateLabel} · ${open.place}`, open.cme ? `${open.cme} CME` : "", `ID: ${open.id}`].filter(Boolean).join("\n");
-    void QRCode.toDataURL(text, { width: 320, margin: 1 }).then(setQr, (error: unknown) => console.warn("qr", error));
-  }, [open, mode]);
-
-  function act(item: Certificate, next: "full" | "qr" | "down") {
-    if (!item.earned && next !== "full") {
-      setMode("sample");
-      setOpen(item);
-      return;
-    }
-    if (next === "down") {
-      downloadCert(item);
-      return;
-    }
-    setQr("");
-    setMode(next);
-    setOpen(item);
-  }
+    if (!open) return;
+    void QRCode.toDataURL(`stoma://sertifikat/${open.id}/${open.holder}`, { width: 320, margin: 1 }).then(setQr);
+  }, [open]);
 
   return (
     <MarketFrame
@@ -217,111 +210,72 @@ export function CertificatesDesktop() {
         setSort("yangi");
       }}
     >
-      <div data-testid="certs-desktop" className="ct2">
-        <div className="ct2-head">
+      <div data-testid="certs-desktop">
+        <div className="crm-head">
           <div>
             <h1>Sertifikatlar</h1>
             <p>Siz olgan barcha sertifikatlar va yutuqlar</p>
           </div>
-          <div className="ct2-stats" data-testid="cert-stats">
-            <span><Award className="i" /><b>{earned.length}</b><small>ta sertifikat</small></span>
-            <span><Star className="i" /><b>{cme}</b><small>CME ballari</small></span>
-            <span><Clock className="i" /><b>{courses}</b><small>ta kurs yakunlangan</small></span>
+          <div className="cert-stats">
+            <div className="brd-badge"><span className="medal"><Award className="i" /></span><span><b>{12 + earned.length} ta sertifikat</b></span></div>
+            <div className="brd-badge"><span className="medal"><Award className="i" /></span><span><b>{cme} CME ballari</b></span></div>
+            <div className="brd-badge"><span className="medal"><Clock className="i" /></span><span><b>4 ta kurs yakunlangan</b></span></div>
           </div>
         </div>
-        <div className="ct2-tools">
-          <div className="ct2-chips" role="tablist" aria-label="Sertifikat turi">
-            <button type="button" role="tab" aria-selected={type === ""} className={type === "" ? "on" : undefined} data-testid="cert-all" onClick={() => setType("")}>Barchasi</button>
+        <div className="crm-tools">
+          <div className="cert-chips" role="tablist">
+            <button type="button" className={type === "" ? "on" : undefined} data-testid="cert-all" onClick={() => setType("")}>Barchasi</button>
             {certTypes.map((item) => (
-              <button key={item.id} type="button" role="tab" aria-selected={type === item.id} className={type === item.id ? "on" : undefined} data-testid={`cert-${item.id}`} onClick={() => setType(item.id)}>{item.label}</button>
+              <button key={item.id} type="button" className={type === item.id ? "on" : undefined} data-testid={`cert-${item.id}`} onClick={() => setType(item.id)}>{item.label}</button>
             ))}
           </div>
-          <label className="ct2-search">
+          <label className="crm-search" style={{ flex: "0 0 calc(16 * var(--u))" }}>
             <Search className="i" />
             <input data-testid="cert-search" aria-label="Sertifikat qidirish" value={q} placeholder="Sertifikat nomi yoki tashkilot bo‘yicha..." onChange={(event) => setQ(event.target.value)} />
           </label>
-          <label className="ct2-sort">
-            <ArrowUpDown className="i" />
+          <label className="crm-select">
             <select data-testid="cert-sort" aria-label="Saralash" value={sort} onChange={(event) => setSort(event.target.value as typeof sort)}>
               <option value="yangi">Yangidan eskiga</option>
               <option value="eski">Eskidan yangiga</option>
               <option value="cme">CME bo‘yicha</option>
             </select>
-            <ChevronDown className="i" />
+            <ChevronRight className="i" style={{ transform: "rotate(90deg)" }} />
           </label>
         </div>
-        {ready && earned.length === 0 ? (
-          <div className="ct2-note" data-testid="cert-note">
-            <Info className="i" />
-            <span>
-              {profile ? "Sizda hali sertifikat yo‘q." : "Sertifikatlaringizni ko‘rish uchun hisobingizga kiring."} Seminarda qatnashganingizni tashkilotchi tasdiqlagach, sertifikat shu yerda ismingiz bilan chiqadi. Pastdagilar — namuna.
-            </span>
-            {profile ? <Link href="/seminarlar">Seminarlar <ArrowRight className="i" /></Link> : <Link href="/kirish?next=/sertifikatlar">Kirish <ArrowRight className="i" /></Link>}
-          </div>
-        ) : null}
         {items.length === 0 ? (
-          <div className="ct2-empty" data-testid="cert-empty">
-            <b>Sertifikat topilmadi</b>
-            <button type="button" onClick={() => { setQ(""); setType(""); }}>Filtrlarni tozalash</button>
-          </div>
+          <div className="crm-empty" data-testid="cert-empty"><p>Sertifikat topilmadi</p></div>
         ) : (
-          <div className="ct2-grid">
+          <div className="cert-grid">
             {items.map((item) => (
-              <article key={item.id} className="ct2-card" data-testid="cert-card" data-earned={item.earned ? "1" : undefined}>
-                <button type="button" className="sheet" aria-label={`${item.title} — ko‘rish`} onClick={() => act(item, "full")}>
-                  <CertSheet item={item} />
-                  {!item.earned ? <span className="ct2-sample">Namuna</span> : null}
-                </button>
+              <article key={item.id} className="cert-card" data-testid="cert-card">
+                <CertSheet item={item} />
                 <h2>{item.title}</h2>
-                <p className="who">{item.typeLabel} • {item.teacher}</p>
-                <p className="when">
-                  <span><CalendarDays className="i" /> {item.dateLabel}</span>
-                  <span>{item.place === "Onlayn" ? <MonitorPlay className="i" /> : <MapPin className="i" />} {item.place}</span>
-                </p>
-                <div className="ops">
-                  <button type="button" data-testid={`cert-view-${item.id}`} onClick={() => act(item, "full")}><Eye className="i" /> Ko‘rish</button>
-                  <button type="button" data-testid={`cert-down-${item.id}`} onClick={() => act(item, "down")}><Download className="i" /> Yuklab olish</button>
-                  <button type="button" className="sq" data-testid={`cert-qr-${item.id}`} aria-label="QR kod" onClick={() => act(item, "qr")}><QrCode className="i" /></button>
+                <p className="meta">{item.typeLabel} · {item.teacher}</p>
+                <p className="when"><span><CalendarDays className="i" style={{ width: "1em" }} /> {item.dateLabel}</span><span><MapPin className="i" style={{ width: "1em" }} /> {item.place}</span></p>
+                <div className="cert-ops">
+                  <button type="button" data-testid={`cert-view-${item.id}`} onClick={() => { setMode("full"); setOpen(item); }}><Eye className="i" /> Ko‘rish</button>
+                  <button type="button" data-testid={`cert-down-${item.id}`} onClick={() => void downloadCert(item)}><Download className="i" /> Yuklab olish</button>
+                  <button type="button" data-testid={`cert-qr-${item.id}`} aria-label="QR" onClick={() => { setMode("qr"); setOpen(item); }}><QrCode className="i" /></button>
                 </div>
               </article>
             ))}
           </div>
         )}
         {open && mode === "full" ? (
-          <div className="cert-full" role="dialog" aria-label="Sertifikat" data-testid="cert-modal" onMouseDown={(event) => event.target === event.currentTarget && setOpen(null)}>
+          <div className="cert-full" role="dialog" aria-label="Sertifikat" data-testid="cert-modal">
             <button type="button" className="cert-close" onClick={() => setOpen(null)} aria-label="Yopish">×</button>
             <CertSheet item={open} />
-            {open.earned ? (
-              <button type="button" className="go" onClick={() => downloadCert(open)}>Yuklab olish</button>
-            ) : (
-              <p className="ct2-full-note">Namuna sertifikat — sizning sertifikatingiz shu ko‘rinishda, ismingiz bilan beriladi.</p>
-            )}
+            <button type="button" className="go" onClick={() => void downloadCert(open)}>Yuklab olish</button>
           </div>
         ) : null}
         {open && mode === "qr" ? (
-          <div className="crm-modal" role="dialog" aria-label="QR kod" data-testid="cert-qr-modal" onMouseDown={(event) => event.target === event.currentTarget && setOpen(null)}>
+          <div className="crm-modal" role="dialog" aria-label="QR" data-testid="cert-qr-modal">
             <div className="crm-dialog cert-view">
               <header>
                 <b>{open.title}</b>
                 <button type="button" onClick={() => setOpen(null)} aria-label="Yopish">×</button>
               </header>
-              <div className="cert-qr">{qr ? <img src={qr} alt="QR kod" data-testid="cert-qr-img" /> : null}<p>{open.holder} · {open.dateLabel}</p><small>QR kodda sertifikat ma’lumotlari yozilgan.</small></div>
-            </div>
-          </div>
-        ) : null}
-        {open && mode === "sample" ? (
-          <div className="crm-modal" role="dialog" aria-label="Namuna sertifikat" data-testid="cert-sample-modal" onMouseDown={(event) => event.target === event.currentTarget && setOpen(null)}>
-            <div className="crm-dialog ct2-dlg">
-              <header>
-                <b>Namuna sertifikat</b>
-                <button type="button" onClick={() => setOpen(null)} aria-label="Yopish"><X className="i" /></button>
-              </header>
-              <p>Bu sertifikat sahifa qanday ko‘rinishini ko‘rsatish uchun qo‘yilgan, uni yuklab olib yoki QR orqali tasdiqlab bo‘lmaydi.</p>
-              <p>Seminarda qatnashganingiz tasdiqlangach, o‘z sertifikatingizni shu yerdan yuklab olasiz.</p>
-              <div className="act">
-                <button type="button" onClick={() => setOpen(null)}>Yopish</button>
-                <Link className="go" href="/seminarlar">Seminarlarni ko‘rish</Link>
-              </div>
+              <div className="cert-qr">{qr ? <img src={qr} alt="QR kod" data-testid="cert-qr-img" /> : null}<p>{open.holder}</p></div>
             </div>
           </div>
         ) : null}

@@ -133,30 +133,3 @@
 .se-panelbox .row { display: flex; gap: calc(.4 * var(--u)); }
 .se-panelbox .go { flex: 1; height: calc(3.2 * var(--u)); border-radius: calc(.8 * var(--u)); background: #12b981; color: #fff; font-weight: 800; }
 .se-play { background: #0b1f4d; color: #fff; border-radius: calc(.8 * var(--u)); min-height: calc(10 * var(--u)); display: grid; place-items: center; font-weight: 800; }
-/* design tuning */
-.se { --u: calc(100vw / 38); }
-.se-cover { margin: 0 !important; min-height: calc(17 * var(--u)) !important; }
-.se-cover .copy { padding-top: calc(2.6 * var(--u)) !important; }
-.se-hero { min-height: calc(12.5 * var(--u)); }
-.se-cats i { background: #fff !important; border: 1px solid #e3e9f2; }
-.se-cats button.on i { background: #eef4ff !important; color: #1d6bff !important; border-color: #1d6bff; }
-.se-body { padding-left: calc(34 * var(--m)) !important; padding-right: calc(34 * var(--m)) !important; gap: calc(.7 * var(--u)) !important; }
-.se-sample { position: absolute; left: calc(.4 * var(--u)); bottom: calc(.4 * var(--u)); background: rgba(15, 27, 61, .72); color: #fff; border-radius: 99px; padding: calc(.1 * var(--u)) calc(.5 * var(--u)); font-size: calc(.8 * var(--u)); font-weight: 600; }
-.se-left.muted { color: #8b93a7; font-weight: 500; }
-.se-hero img, .se-cover img.photo { object-position: 70% 30%; }
-.se-hero img { left: auto !important; width: 52% !important; object-position: center top !important; }
-.se-hero { background: #0b3b86; }
-.se-hero .veil { background: linear-gradient(90deg, #0a3a8c 0%, #0a3a8c 46%, rgba(10,58,140,.55) 60%, rgba(10,58,140,0) 80%) !important; }
-.se-cover > img.photo { width: 48% !important; object-position: center top !important; }
-.se-cover .veil { background: linear-gradient(90deg, rgba(8,40,110,0) 30%, rgba(10,50,130,.85) 50%, #0a3a8c 62%) !important; }
-.se-cover { background: radial-gradient(circle at 85% 70%, #2a6fd6, #0a3a8c 60%) !important; }
-.se-card { align-items: start; }
-.se-ph { aspect-ratio: 268 / 200; min-height: 0 !important; }
-.se-cover { min-height: calc(21.5 * var(--u)) !important; }
-.se-cover .copy { padding-top: calc(3.4 * var(--u)) !important; gap: calc(.4 * var(--u)) !important; }
-.se-cover h1 { font-size: calc(1.6 * var(--u)) !important; }
-.se-cover p { font-size: calc(1 * var(--u)) !important; }
-.se-card { grid-template-columns: calc(10.6 * var(--u)) minmax(0, 1fr) !important; }
-.se-go, .se-go.reg { background: #14a394 !important; }
-.se-tabs button.on { background: #14a394 !important; }
-.se-bar span { background: #14a394 !important; }

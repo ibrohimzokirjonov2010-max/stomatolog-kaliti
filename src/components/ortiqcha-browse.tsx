@@ -14,7 +14,7 @@ export function OrtiqchaBrowse() {
   const params = useSearchParams();
   const q = (params.get("q") ?? "").trim().toLowerCase();
   const { feed } = useSurplusWork();
-  const [modal, setModal] = useState<ModalKind>(() => (params.get("joylash") === "1" ? "post" : null));
+  const [modal, setModal] = useState<ModalKind>(null);
   const [active, setActive] = useState<SurplusListing | null>(null);
   const [added, setAdded] = useState<string | null>(null);
 

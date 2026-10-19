@@ -22,8 +22,7 @@ import {
   Menu,
   MessageSquare,
   ShieldCheck,
-  Presentation,
-  Shirt,
+  MonitorPlay,
   ShoppingBag,
   ShoppingCart,
   User,
@@ -39,7 +38,6 @@ import { formatMoney } from "@/lib/format";
 import { cn } from "@/lib/utils";
 import { useSoonToast } from "@/components/soon-toast";
 import "@/components/home/mobile-home.css";
-import "@/components/mobile/mobile-ui.css";
 
 const MobileNavContext = createContext<{
   open: boolean;
@@ -199,6 +197,7 @@ const PHONE14 = new Set([
   "/kategoriyalar",
   "/marketplace/brendlar",
   "/marketplace/aksiyalar",
+  "/talim",
   "/mutaxassislar",
   "/sertifikatlar",
   "/crm/bemorlar",
@@ -207,6 +206,7 @@ const PHONE14 = new Set([
   "/crm/tolovlar",
   "/crm/ombor",
   "/crm/hisobotlar",
+  "/ustalar",
   "/elonlar",
 ]);
 
@@ -531,11 +531,8 @@ function DrawerNav() {
   );
 }
 
-export function MobileMenuButton({ variant = "bar" }: { variant?: "bar" | "top" | "brand" }) {
-  // Optional context: render nothing (instead of crashing) if a page is ever shown outside the app shell.
-  const nav = useContext(MobileNavContext);
-  if (!nav) return null;
-  const { open, setOpen } = nav;
+export function MobileMenuButton({ variant = "bar" }: { variant?: "bar" | "top" }) {
+  const { open, setOpen } = useMobileNav();
   return (
     <button
       type="button"
@@ -543,16 +540,14 @@ export function MobileMenuButton({ variant = "bar" }: { variant?: "bar" | "top" 
       className={
         variant === "top"
           ? "grid size-11 shrink-0 place-items-center rounded-xl text-[#1a1d26]"
-          : variant === "brand"
-            ? "-ml-2 grid size-10 shrink-0 place-items-center rounded-xl text-[#0f1b3d] lg:hidden"
-            : "mh-ic"
+          : "mh-ic"
       }
       aria-label={open ? "Menyuni yopish" : "Menyu"}
       aria-expanded={open}
       aria-controls="mobile-app-menu"
       onClick={() => setOpen(!open)}
     >
-      <Menu className={variant === "bar" ? undefined : "size-5"} strokeWidth={2} aria-hidden="true" />
+      <Menu className={variant === "top" ? "size-5" : undefined} strokeWidth={2} aria-hidden="true" />
     </button>
   );
 }
@@ -707,12 +702,11 @@ export function MobileDrawer() {
   );
 }
 
-/** Mobile design tab bar: Bosh sahifa · Seminarlar · Marketplace · Forma · Profil (active = filled teal icon). */
 const homeTabs = [
-  { href: "/", label: "Bosh sahifa", icon: Home, match: (path: string) => path === "/" || path.startsWith("/bosh-sahifa") || path === "/talim" || path.startsWith("/talim/") || path.startsWith("/ustalar") || path.startsWith("/laboratoriya") || path.startsWith("/ishlar") },
-  { href: "/seminarlar", label: "Seminarlar", icon: Presentation, match: (path: string) => path === "/seminarlar" || path.startsWith("/seminarlar/") },
-  { href: "/marketplace", label: "Marketplace", icon: ShoppingBag, match: (path: string) => (marketplacePath(path) && !path.startsWith("/forma")) || path === "/savat" || path === "/buyurtma" || path.startsWith("/buyurtma/") || /^\/buyurtmalarim\/[^/]+/.test(path) || surplusMobilePath(path) || jihozMobilePath(path) },
-  { href: "/forma", label: "Forma", icon: Shirt, match: (path: string) => path === "/forma" || path.startsWith("/forma/") },
+  { href: "/", label: "Bosh sahifa", icon: Home, match: (path: string) => path === "/" || path.startsWith("/bosh-sahifa") || path === "/kitoblar" || path === "/foydali-kanallar" },
+  { href: "/marketplace", label: "Marketplace", icon: ShoppingBag, match: (path: string) => marketplacePath(path) || path === "/savat" || path === "/buyurtma" || path.startsWith("/buyurtma/") || /^\/buyurtmalarim\/[^/]+/.test(path) || surplusMobilePath(path) || jihozMobilePath(path) },
+  { href: "/seminarlar", label: "Seminarlar", icon: CalendarDays, match: (path: string) => path === "/seminarlar" || path.startsWith("/seminarlar/") },
+  { href: "/talim", label: "Onlayn darslar", icon: MonitorPlay, match: (path: string) => path === "/talim" || path.startsWith("/talim/") },
   { href: "/profil", label: "Profil", icon: User, match: (path: string) => path === "/profil" || path.startsWith("/profil/") || path === "/community" || path === "/mening-klinikam" || path === "/buyurtmalarim" },
 ] as const;
 
@@ -727,7 +721,7 @@ export function MobileTabBar() {
         const active = tab.match(pathname);
         return (
           <Link key={tab.href} href={tab.href} className={active ? "on" : undefined}>
-            <Icon strokeWidth={1.7} fill={active ? "currentColor" : "none"} fillOpacity={active ? 0.16 : 0} />
+            <Icon strokeWidth={active ? 2.4 : 1.8} />
             {tab.label}
           </Link>
         );

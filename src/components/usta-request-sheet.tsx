@@ -44,18 +44,15 @@ function prettyDate(iso: string) {
 }
 
 /** "Xizmat so‘rovi yuborish" — 4-step bottom sheet (mock 3). Submits through POST /api/work/masters/requests (v2 fields). */
-/** Optional prefill (e.g. from the desktop "Ta’mir so‘rovi" form). Files are uploaded when the sheet opens. */
-export type UstaRequestDraft = { services?: RequestServiceV2[]; note?: string; district?: string; address?: string; date?: string; timeRange?: string; files?: File[] };
-
-export function UstaRequestSheet({ master, onClose, onProfile, initial }: { master: Master; onClose: () => void; onProfile?: () => void; initial?: UstaRequestDraft }) {
+export function UstaRequestSheet({ master, onClose, onProfile }: { master: Master; onClose: () => void; onProfile?: () => void }) {
   const { submitRequest } = useUstaWork();
   const { profile, ready } = useDoctorProfile();
-  const [services, setServices] = useState<RequestServiceV2[]>(initial?.services ?? []);
-  const [note, setNote] = useState(initial?.note ?? "");
-  const [district, setDistrict] = useState(initial?.district ?? "");
-  const [address, setAddress] = useState(initial?.address ?? "");
-  const [date, setDate] = useState(initial?.date ?? "");
-  const [timeRange, setTimeRange] = useState(initial?.timeRange ?? "");
+  const [services, setServices] = useState<RequestServiceV2[]>([]);
+  const [note, setNote] = useState("");
+  const [district, setDistrict] = useState("");
+  const [address, setAddress] = useState("");
+  const [date, setDate] = useState("");
+  const [timeRange, setTimeRange] = useState("");
   const [media, setMedia] = useState<Media[]>([]);
   const [uploading, setUploading] = useState(0);
   const [extra, setExtra] = useState("");
@@ -98,15 +95,7 @@ export function UstaRequestSheet({ master, onClose, onProfile, initial }: { mast
     document.getElementById(`ureq-${section}`)?.scrollIntoView({ behavior: "smooth", block: "start" });
   }
 
-  const prefilled = useRef(false);
-  useEffect(() => {
-    if (prefilled.current || !initial?.files?.length) return;
-    prefilled.current = true;
-    void addFiles(initial.files);
-    // eslint-disable-next-line react-hooks/exhaustive-deps -- upload the draft files once, on open
-  }, []);
-
-  async function addFiles(files: FileList | File[] | null) {
+  async function addFiles(files: FileList | null) {
     const list = [...(files ?? [])].slice(0, MAX_FILES - media.length - uploading);
     if (!list.length) return;
     setErrors((e) => ({ ...e, media: "" }));

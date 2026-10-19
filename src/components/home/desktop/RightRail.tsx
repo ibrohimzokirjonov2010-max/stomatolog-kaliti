@@ -40,7 +40,7 @@ export default function RightRail() {
         <div className="in">
           <img src="/img/endo.jpg" alt="" />
           <div><h4>Endomotor Pro-X</h4><span className="pct">-25%</span><s>28 500 000 so‘m</s><strong>21 250 000 so‘m</strong>
-            <button className="btn-teal cart" aria-label="Savatga" onClick={() => add({ id: "home-endomotor-pro-x", name: "Endomotor Pro-X", price: 21_250_000, image: "/img/endo.jpg", href: "/marketplace?q=Endomotor" })}><ShoppingCart className="i" /></button></div>
+            <button className="btn-teal cart" aria-label="Savatga" onClick={add}><ShoppingCart className="i" /></button></div>
         </div>
       </section>
       <section className="box sellers">

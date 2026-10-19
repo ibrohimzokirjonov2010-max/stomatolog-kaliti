@@ -26,23 +26,3 @@
 .sh .kat-body p { margin: calc(.1 * var(--u)) 0 0; color: #6a7c93; font-size: calc(.86 * var(--u)); font-weight: 500; line-height: 1.35; min-height: calc(2.2 * var(--u)); }
 .sh .kat-body em { display: block; margin-top: calc(.18 * var(--u)); color: #0066ff; font-style: normal; font-weight: 700; font-size: calc(.92 * var(--u)); }
 .sh .kat-body .brd-go { margin-left: auto; align-self: center; }
-
-/* Tuned to the design */
-.sh [data-testid="cats-desktop"] .brd-head { margin-bottom: calc(1.25 * var(--u)); }
-.sh .kat-grid { gap: calc(1.1 * var(--u)) calc(1.05 * var(--u)); }
-.sh .kat-card { border-color: #edf1f7; border-radius: calc(.6 * var(--u)); box-shadow: 0 calc(.1 * var(--u)) calc(.6 * var(--u)) rgba(15, 27, 61, .05); transition: box-shadow .15s, transform .15s; display: flex; flex-direction: column; }
-.sh .kat-card:hover { transform: translateY(-1px); box-shadow: 0 calc(.5 * var(--u)) calc(1.4 * var(--u)) rgba(15, 27, 61, .1); }
-.sh .kat-ph { height: auto; aspect-ratio: 320 / 112; }
-.sh .kat-ph img { transition: transform .3s; }
-.sh .kat-card:hover .kat-ph img { transform: scale(1.03); }
-.sh .kat-body { align-items: flex-start; gap: calc(1.05 * var(--u)); padding: calc(.9 * var(--u)) calc(1.1 * var(--u)) calc(1 * var(--u)); }
-.sh .kat-ic { width: calc(3.8 * var(--u)); height: calc(3.8 * var(--u)); border-radius: calc(.65 * var(--u)); background: #eef4fd; color: #0b63f6; }
-.sh .kat-ic .i { width: calc(1.85 * var(--u)); height: calc(1.85 * var(--u)); stroke-width: 1.6; }
-.sh .kat-body > div { min-width: 0; flex: 1; }
-.sh .kat-body h2 { font-size: calc(1.05 * var(--u)); font-weight: 700; color: #0f1b3d; }
-.sh .kat-body p { margin-top: calc(.3 * var(--u)); font-size: calc(.84 * var(--u)); color: #7b879e; line-height: 1.45; min-height: calc(2.45 * var(--u)); max-width: calc(14 * var(--u)); }
-.sh .kat-body em { margin-top: calc(.35 * var(--u)); font-size: calc(.84 * var(--u)); font-weight: 500; color: #0b63f6; }
-.sh .kat-body em.soon { color: #9aa6bd; }
-.sh .kat-body .brd-go { width: calc(2.25 * var(--u)); height: calc(2.25 * var(--u)); border: 0; background: #eef4fd; color: #0b63f6; font-size: calc(1 * var(--u)); align-self: flex-start; margin-top: calc(.6 * var(--u)); }
-.sh .kat-card:hover .brd-go { background: #0b63f6; color: #fff; }
-.sh [data-testid="cats-desktop"] .brd-badge { background: #eaf2fd; padding: calc(.75 * var(--u)) calc(1.4 * var(--u)) calc(.75 * var(--u)) calc(1 * var(--u)); }

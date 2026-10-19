@@ -9,13 +9,6 @@ import { marketHref, marketProducts } from "@/data/desktop-shop";
 import { formatMoney } from "@/lib/format";
 import { BrandMark, CountrySelect, MarketFrame } from "./MarketFrame";
 
-/** Products actually in the catalog per brand key (no invented totals). */
-function brandStock() {
-  const map: Record<string, number> = {};
-  for (const item of marketProducts) if (item.brandKey) map[item.brandKey] = (map[item.brandKey] ?? 0) + 1;
-  return map;
-}
-
 export function BrandsDesktop({ slug }: { slug?: string }) {
   if (slug) return <BrandDetail slug={slug} />;
   return <BrandDirectory />;
@@ -27,7 +20,6 @@ function BrandDirectory() {
   const [letter, setLetter] = useState("");
   const countries = useMemo(() => brandCountries(), []);
   const items = useMemo(() => filterDeskBrands(deskBrands, { q, country, letter }), [q, country, letter]);
-  const stock = useMemo(() => brandStock(), []);
 
   function reset() {
     setQ("");
@@ -48,7 +40,7 @@ function BrandDirectory() {
               <Award className="i" />
             </span>
             <span>
-              <b>{deskBrands.length} ta brend</b>
+              <b>100+ brend</b>
               <span>Rasmiy yetkazib beruvchilar</span>
             </span>
           </div>
@@ -80,21 +72,19 @@ function BrandDirectory() {
         ) : (
           <div className="brd-grid">
             {items.map((item) => (
-              <Link key={item.slug} className="brd-card" href={stock[item.brandKey] ? `/marketplace?brand=${item.brandKey}` : `/marketplace/brendlar/${item.slug}`} data-testid="brand-card">
+              <Link key={item.slug} className="brd-card" href={`/marketplace?brand=${item.brandKey}`} data-testid="brand-card">
                 <div className="brd-mark">
                   <BrandMark slug={item.slug} />
                 </div>
-                <div className="brd-info">
-                  <span>
-                    <h2>{item.name}</h2>
-                    <p className="where">
-                      <span aria-hidden="true">{item.flag}</span>
-                      {item.country}
-                    </p>
-                    <em className={stock[item.brandKey] ? undefined : "soon"} data-testid="brand-count">
-                      {stock[item.brandKey] ? `${stock[item.brandKey]} ta mahsulot` : "Tez orada"}
-                    </em>
-                  </span>
+                <h2>{item.name}</h2>
+                <p className="where">
+                  <span aria-hidden="true">{item.flag}</span>
+                  {item.country}
+                </p>
+                <div className="brd-foot">
+                  <em>
+                    {item.count} ta mahsulot
+                  </em>
                   <span className="brd-go" aria-hidden="true">
                     <ChevronRight className="i" />
                   </span>
@@ -134,7 +124,7 @@ function BrandDetail({ slug }: { slug: string }) {
               <div>
                 <h1>{brand.name}</h1>
                 <p>
-                  {brand.flag} {brand.country} · {products.length ? `${products.length} ta mahsulot` : "mahsulotlar tez orada"}
+                  {brand.flag} {brand.country} · {brand.count} ta mahsulot
                 </p>
               </div>
             </article>

@@ -5,7 +5,8 @@ import { useMemo, useState } from "react";
 import Link from "next/link";
 import { BookOpen, FileText, Heart, LayoutGrid, Search, ShoppingCart, SlidersHorizontal, Star } from "lucide-react";
 import { useCart } from "@/components/cart-provider";
-import { MobileBrandBar } from "@/components/mobile/MobileBrandBar";
+import { MobileMenuButton } from "@/components/dashboard/mobile-chrome";
+import { NotificationBell } from "@/components/notification-bell";
 import { bookSorts, bookTopics, mobileBooks, type BookFormat, type BookSort, type BookTopic, type MobileBook } from "@/data/mobile-books";
 import type { Product } from "@/data/products";
 import { formatMoney } from "@/lib/format";
@@ -35,7 +36,7 @@ function asProduct(book: MobileBook): Product {
 }
 
 export function KitoblarMobile() {
-  const { add } = useCart();
+  const { count, add } = useCart();
   const [query, setQuery] = useState("");
   const [topic, setTopic] = useState<"all" | BookTopic>("all");
   const [format, setFormat] = useState<BookFormat | "">("");
@@ -63,8 +64,19 @@ export function KitoblarMobile() {
 
   return (
     <div className="kb lg:hidden" data-testid="mobile-kitoblar">
+      <header className="mh-bar">
+        <MobileMenuButton />
+        <Link href="/" className="mh-logo">STOMAHUB</Link>
+        <button type="button" className="mh-ic" aria-label="Qidirish" onClick={() => document.querySelector<HTMLInputElement>("[data-book-search]")?.focus()}>
+          <Search />
+        </button>
+        <Link href="/savat" className="mh-ic" aria-label="Savat">
+          <ShoppingCart />
+          {count > 0 ? <span className="mh-badge" data-testid="kb-cart-badge">{count > 9 ? "9+" : count}</span> : null}
+        </Link>
+        <NotificationBell variant="mobile" minBadge={2} buttonClassName="size-10 text-[#1a1d26]" />
+      </header>
       <div className="kb-body">
-        <MobileBrandBar search />
         <h1 className="kb-title">Kitoblar</h1>
         <p className="kb-sub">Stomatologiya bo‘yicha eng yaxshi adabiyotlar</p>
         <form className="kb-search" onSubmit={(event) => event.preventDefault()}>

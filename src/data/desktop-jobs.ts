@@ -69,8 +69,7 @@ export function expTag(id: JobExp) {
   return expLabel(id);
 }
 
-const photos = ["d-smile", "d-dentacare", "d-family", "d-implant", "d-city", "d-newsmile"].map((name) => `/img/jobs/${name}.jpg`);
-const logos = [1, 2, 3, 4, 5].map((n) => `/img/jobs/d-logo-${n}.jpg`);
+const photos = ["/img/jobs/c1.jpg", "/img/jobs/c2.jpg", "/img/jobs/c3.jpg", "/img/jobs/c4.jpg", "/img/jobs/c5.jpg", "/img/jobs/c6.jpg", "/img/jobs/c7.jpg"];
 
 const featured: DesktopJob[] = [
   { id: "ortoped-smile", title: "Ortoped stomatolog", clinic: "Smile Dental Clinic", city: "Toshkent", district: "Yunusobod", spec: "ortoped", type: "toliq", exp: "y3", salaryMin: 12_000_000, salaryMax: 18_000_000, posted: "2 kun oldin", fresh: 100, blurb: "Zamonaviy klinikada ortoped stomatolog kerak. Implant va protetik yo‘nalishda tajribali shifokor.", image: photos[0], verified: true },
@@ -134,11 +133,10 @@ const expBag: JobExp[] = [
 
 const extras: DesktopJob[] = [];
 for (let i = 0; i < 242; i += 1) {
-  // Strided picks spread specialities/types/experience across cities (no long runs of one value).
-  const spec = specBag[(i * 37) % specBag.length] ?? "terapevt";
-  const type = typeBag[(i * 53) % typeBag.length] ?? "toliq";
-  const exp = expBag[(i * 29) % expBag.length] ?? "y1";
-  const city = cityBag[(i * 17) % cityBag.length] ?? "Toshkent";
+  const spec = specBag[i] ?? "terapevt";
+  const type = typeBag[i] ?? "toliq";
+  const exp = expBag[i] ?? "y1";
+  const city = cityBag[i] ?? "Toshkent";
   const min = 4_000_000 + (i % 8) * 1_500_000;
   extras.push({
     id: `job-${i + 1}`,
@@ -154,7 +152,7 @@ for (let i = 0; i < 242; i += 1) {
     posted: i % 4 === 0 ? "2 hafta oldin" : "3 hafta oldin",
     fresh: 40 - i * 0.01,
     blurb: `${titles[spec]} lavozimi. ${city}dagi klinikada doimiy ish va o‘sish imkoniyati.`,
-    image: photos[(i % clinics.length) % photos.length],
+    image: photos[i % photos.length],
     verified: i % 3 !== 2,
   });
 }
@@ -162,11 +160,11 @@ for (let i = 0; i < 242; i += 1) {
 export const desktopJobs: DesktopJob[] = [...featured, ...extras];
 
 export const popularClinics = [
-  { name: "Smile Dental Clinic", city: "Toshkent", openings: 12, image: logos[0] },
-  { name: "DentaCare", city: "Toshkent", openings: 8, image: logos[1] },
-  { name: "Family Dental", city: "Toshkent", openings: 6, image: logos[2] },
-  { name: "Implant Plus", city: "Toshkent", openings: 5, image: logos[3] },
-  { name: "City Dental", city: "Toshkent", openings: 5, image: logos[4] },
+  { name: "Smile Dental Clinic", city: "Toshkent", openings: 12, image: photos[0] },
+  { name: "DentaCare", city: "Toshkent", openings: 8, image: photos[1] },
+  { name: "Family Dental", city: "Toshkent", openings: 6, image: photos[2] },
+  { name: "Implant Plus", city: "Toshkent", openings: 5, image: photos[3] },
+  { name: "City Dental", city: "Toshkent", openings: 5, image: photos[4] },
 ];
 
 export const jobTips = [

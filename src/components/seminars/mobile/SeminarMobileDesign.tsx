@@ -5,8 +5,6 @@ import { useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { BookOpen, Briefcase, CalendarDays, ChevronRight, Clock, FileCheck2, GraduationCap, Heart, MapPin, Play, Share2, Stethoscope, Users } from "lucide-react";
-import { useFavorites } from "@/components/favorites-provider";
-import { useSeminarRegs } from "@/components/seminar-provider";
 import { type MobileSeminar } from "@/data/mobile-seminars";
 import { formatMoney } from "@/lib/format";
 import "./seminar-mobile.css";
@@ -24,31 +22,12 @@ const featureIcons = [BookOpen, Users, Stethoscope, FileCheck2];
 
 export function SeminarMobileDesign({ item }: { item: MobileSeminar }) {
   const router = useRouter();
-  const favorites = useFavorites();
-  const { occupancyOf, isRegistered } = useSeminarRegs();
   const [tab, setTab] = useState<TabId>("umumiy");
+  const [saved, setSaved] = useState(false);
   const [more, setMore] = useState(false);
-  const [sheet, setSheet] = useState<"" | "video" | "sample">("");
+  const [video, setVideo] = useState(false);
   const [note, setNote] = useState("");
-  const favId = `seminar-${item.id}`;
-  const saved = favorites.has(favId);
-  const real = item.realId;
-  /** Seats left come from real registrations; design samples show only the seat count. */
-  const left = real ? Math.max(0, item.seats - occupancyOf(real).active) : null;
-  const taken = left === null ? 0 : Math.max(0, Math.min(100, Math.round(((item.seats - left) / item.seats) * 100)));
-  const registered = real ? isRegistered(real) : false;
-
-  function onRegister() {
-    if (!real) {
-      setSheet("sample");
-      return;
-    }
-    if (registered) {
-      router.push("/seminarlar/yozuvlarim");
-      return;
-    }
-    router.push(`/seminarlar/${item.id}/royxat`);
-  }
+  const taken = Math.max(0, Math.min(100, Math.round(((item.seats - item.seatsLeft) / item.seats) * 100)));
 
   async function onShare() {
     const url = window.location.href;
@@ -71,18 +50,18 @@ export function SeminarMobileDesign({ item }: { item: MobileSeminar }) {
   return (
     <div className="se lg:hidden" data-testid="mobile-seminar-detail">
       <div className="se-cover">
-        <img className="photo" src={item.cover ?? item.image} alt="" />
+        <img className="photo" src={item.image} alt="" />
         <span className="veil" />
         <Link href="/seminarlar" className="se-float back" aria-label="Orqaga">
           <ChevronRight style={{ transform: "rotate(180deg)" }} />
         </Link>
-        <button type="button" className={saved ? "se-float heart on" : "se-float heart"} aria-label="Sevimlilar" aria-pressed={saved} onClick={() => favorites.toggle(favId)}>
+        <button type="button" className={saved ? "se-float heart on" : "se-float heart"} aria-label="Sevimlilar" aria-pressed={saved} onClick={() => setSaved((value) => !value)}>
           <Heart fill={saved ? "currentColor" : "none"} />
         </button>
         <button type="button" className="se-float share" aria-label="Ulashish" onClick={() => void onShare()}>
           <Share2 />
         </button>
-        <button type="button" className="se-video" onClick={() => setSheet("video")}>
+        <button type="button" className="se-video" onClick={() => setVideo(true)}>
           <Play /> Video ko‘rish
         </button>
         <div className="copy">
@@ -119,22 +98,18 @@ export function SeminarMobileDesign({ item }: { item: MobileSeminar }) {
               <s>{formatMoney(item.oldPrice, "UZS")}</s>
             </span>
           </div>
-          <button type="button" className="se-go reg" onClick={onRegister}>
-            {registered ? "Yozilgansiz" : "Ro‘yxatdan o‘tish"} <ChevronRight />
+          <button type="button" className="se-go reg" onClick={() => router.push(`/seminarlar/${item.id}/royxat`)}>
+            Ro‘yxatdan o‘tish <ChevronRight />
           </button>
         </section>
-        {left !== null ? (
-          <div>
-            <p className="se-left" data-testid="se-left">
-              {item.seats} o‘rindan {left} ta qoldi
-            </p>
-            <div className="se-bar" aria-hidden="true">
-              <span style={{ width: `${taken}%` }} />
-            </div>
+        <div>
+          <p className="se-left">
+            {item.seats} o‘rindan {item.seatsLeft} ta qoldi
+          </p>
+          <div className="se-bar" aria-hidden="true">
+            <span style={{ width: `${taken}%` }} />
           </div>
-        ) : (
-          <p className="se-left muted" data-testid="se-sample">Namuna seminar — ro‘yxat hali ochilmagan</p>
-        )}
+        </div>
 
         <div className="se-tabs" role="tablist">
           {tabs.map((entry) => (
@@ -211,37 +186,22 @@ export function SeminarMobileDesign({ item }: { item: MobileSeminar }) {
             <s>{formatMoney(item.oldPrice, "UZS")}</s>
           </span>
         </div>
-        <button type="button" className="se-go reg" data-testid="se-register" onClick={onRegister}>
-          {registered ? "Yozilgansiz" : "Ro‘yxatdan o‘tish"} <ChevronRight />
+        <button type="button" className="se-go reg" data-testid="se-register" onClick={() => router.push(`/seminarlar/${item.id}/royxat`)}>
+          Ro‘yxatdan o‘tish <ChevronRight />
         </button>
       </div>
 
-      {sheet ? (
-        <div className="mb-sheet" role="dialog" aria-label={sheet === "video" ? "Video" : "Namuna seminar"} data-testid={`se-sheet-${sheet}`}>
-          <button type="button" aria-label="Yopish" className="bg" onClick={() => setSheet("")} />
-          <div className="mb-panel">
-            {sheet === "video" ? (
-              <>
-                <h3>Video obzor</h3>
-                <p>Bu seminar uchun video hali joylanmagan. Tashkilotchi videoni qo‘shganda shu yerda ko‘rasiz.</p>
-              </>
-            ) : (
-              <>
-                <h3>Namuna seminar</h3>
-                <p>Bu kartochka bo‘lim qanday ko‘rinishini ko‘rsatish uchun qo‘yilgan — unga ro‘yxat ochilmagan va to‘lov olinmaydi.</p>
-                <p>Haqiqiy seminarlarga ro‘yxatdan o‘tsangiz, ariza tashkilotchiga boradi va chipta «Seminarlarim»da saqlanadi.</p>
-              </>
-            )}
-            <div className="row">
-              <button type="button" onClick={() => setSheet("")}>
-                Yopish
-              </button>
-              {sheet === "sample" ? (
-                <Link className="go" href="/seminarlar">
-                  Seminarlar
-                </Link>
-              ) : null}
+      {video ? (
+        <div className="se-sheet" role="dialog" aria-label="Video">
+          <button type="button" aria-label="Yopish" className="absolute inset-0" onClick={() => setVideo(false)} />
+          <div className="se-panelbox">
+            <h3>Video ko‘rish</h3>
+            <div className="se-play">
+              <Play /> Video ochildi
             </div>
+            <button type="button" className="go" onClick={() => setVideo(false)}>
+              Yopish
+            </button>
           </div>
         </div>
       ) : null}

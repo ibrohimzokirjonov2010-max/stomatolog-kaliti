@@ -9,7 +9,6 @@ import {
   formatCountdown,
   saleCategories,
   saleProducts,
-  saleSecondsLeft,
   sortSales,
   type SaleCategory,
   type SaleProduct,
@@ -20,23 +19,11 @@ import type { Product } from "@/data/products";
 import { MarketFrame } from "./MarketFrame";
 import "./aksiyalar.css";
 
-const SAVED = "sh-sales-saved-v1";
-
 export function AksiyalarDesktop() {
   const [q, setQ] = useState("");
   const [category, setCategory] = useState<SaleCategory | "">("");
   const [sort, setSort] = useState<SaleSort>("mashhurlik");
   const [saved, setSaved] = useState<string[]>([]);
-
-  useEffect(() => {
-    try {
-      const raw = window.localStorage.getItem(SAVED);
-      if (raw) setSaved(JSON.parse(raw) as string[]);
-    } catch {
-      /* storage unavailable */
-    }
-  }, []);
-
   const items = useMemo(() => sortSales(filterSales(saleProducts, { q, category }), sort), [q, category, sort]);
 
   function reset() {
@@ -46,15 +33,7 @@ export function AksiyalarDesktop() {
   }
 
   function toggleSave(id: string) {
-    setSaved((current) => {
-      const next = current.includes(id) ? current.filter((item) => item !== id) : [...current, id];
-      try {
-        window.localStorage.setItem(SAVED, JSON.stringify(next));
-      } catch {
-        /* storage unavailable */
-      }
-      return next;
-    });
+    setSaved((current) => (current.includes(id) ? current.filter((item) => item !== id) : [...current, id]));
   }
 
   return (
@@ -120,20 +99,15 @@ export function AksiyalarDesktop() {
 
 function SaleCard({ item, saved, onSave }: { item: SaleProduct; saved: boolean; onSave: () => void }) {
   const { add } = useCart();
-  // Fixed deadline (same for everyone, enforced by the order API) — it does not restart on reload.
-  const [left, setLeft] = useState<number | null>(null);
+  const [left, setLeft] = useState(item.seconds);
   const [pulse, setPulse] = useState(false);
-  const ended = left === 0;
 
   useEffect(() => {
-    const tick = () => setLeft(saleSecondsLeft(item));
-    tick();
-    const id = window.setInterval(tick, 1000);
+    const id = window.setInterval(() => setLeft((value) => (value > 0 ? value - 1 : 0)), 1000);
     return () => window.clearInterval(id);
-  }, [item]);
+  }, []);
 
   function addToCart() {
-    if (ended) return;
     const product: Product = {
       id: item.id,
       name: item.name,
@@ -155,7 +129,7 @@ function SaleCard({ item, saved, onSave }: { item: SaleProduct; saved: boolean; 
   }
 
   return (
-    <article className={ended ? "ax-card ended" : "ax-card"} data-testid="sale-card">
+    <article className="ax-card" data-testid="sale-card">
       <div className="ax-ph">
         <img src={item.image} alt="" />
         <span className="ax-off">-{item.discount}%</span>
@@ -165,7 +139,7 @@ function SaleCard({ item, saved, onSave }: { item: SaleProduct; saved: boolean; 
       </div>
       <p className="ax-time">
         <Clock className="i" />
-        <span data-testid="sale-timer">{left === null ? "…" : ended ? "Aksiya tugadi" : formatCountdown(left)}</span>
+        <span data-testid="sale-timer">{formatCountdown(left)}</span>
       </p>
       <h3>{item.name}</h3>
       <p className="ax-brand">{item.brand}</p>
@@ -181,7 +155,7 @@ function SaleCard({ item, saved, onSave }: { item: SaleProduct; saved: boolean; 
           <b>{formatMoney(item.price, "UZS")}</b>
           <s>{formatMoney(item.oldPrice, "UZS")}</s>
         </span>
-        <button type="button" className={pulse ? "ax-cart pulse" : "ax-cart"} data-testid="sale-cart" aria-label={ended ? `${item.name} — aksiya tugagan` : `${item.name} savatga`} disabled={ended} onClick={addToCart}>
+        <button type="button" className={pulse ? "ax-cart pulse" : "ax-cart"} data-testid="sale-cart" aria-label={`${item.name} savatga`} onClick={addToCart}>
           <ShoppingCart className="i" />
         </button>
       </div>

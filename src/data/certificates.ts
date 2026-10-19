@@ -1,6 +1,4 @@
 import { getDesktopSeminar } from "@/data/desktop-seminars";
-import { getSeminar } from "@/data/seminars";
-import type { SeminarRegistration } from "@/lib/seminar-registrations";
 import type { SeminarTicket } from "@/lib/seminar-tickets";
 
 export type CertType = "seminar" | "onlayn" | "vebinar" | "amaliy";
@@ -130,31 +128,4 @@ export function certificatesFromTickets(tickets: SeminarTicket[]): Certificate[]
       earned: true,
     };
   });
-}
-
-const MONTHS = ["yanvar", "fevral", "mart", "aprel", "may", "iyun", "iyul", "avgust", "sentabr", "oktabr", "noyabr", "dekabr"];
-
-/** Certificates actually earned: seminar registrations the organizer marked as attended. */
-export function certificatesFromRegistrations(regs: SeminarRegistration[], holder: string): Certificate[] {
-  return regs
-    .filter((reg) => reg.status === "attended" || Boolean(reg.attendedAt))
-    .map((reg, index) => {
-      const seminar = getSeminar(reg.seminarId);
-      const day = (reg.attendedAt ?? seminar?.date ?? reg.createdAt).slice(0, 10);
-      const [y, m, d] = day.split("-").map(Number);
-      return {
-        id: `reg-${reg.id}`,
-        title: seminar?.title ?? reg.seminarTitle ?? "Seminar",
-        type: "seminar" as const,
-        typeLabel: "Seminar",
-        teacher: seminar?.speaker ?? "StomaHub",
-        date: day,
-        dateLabel: y && m && d ? `${d}-${MONTHS[m - 1]} ${y}` : day,
-        place: seminar?.city ?? "Toshkent",
-        cme: getDesktopSeminar(reg.seminarId)?.cme ?? 0,
-        holder: holder || reg.name,
-        theme: themes[index % themes.length],
-        earned: true,
-      };
-    });
 }

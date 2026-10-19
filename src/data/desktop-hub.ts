@@ -543,12 +543,6 @@ export const featuredBook: Book = {
   sample: "Haftaning tanlovi: implant atlasidagi bosqichma-bosqich protokolning mundarija sahifasi. To‘liq sahifalar xarid qilingach ochiladi.",
 };
 
-/** The book product page sells two editions of the atlas; the order API prices them from here. */
-export const atlasEditions = {
-  paper: { id: "book-atlas-paper", name: "Atlas of Dental Implantology (qog‘oz nashr)", price: 450_000, image: "/img/designs/atlas-cover.png" },
-  pdf: { id: "book-atlas-pdf", name: "Atlas of Dental Implantology (PDF)", price: 295_000, image: "/img/designs/atlas-cover.png" },
-} as const;
-
 export const library = [
   { id: "lib1", title: "Implantologiya asoslari", author: "Dr. S. Raximov", meta: "PDF · 245 MB", image: "/img/hub/book-1.jpg" },
   { id: "lib2", title: "Endodontiya atlasi", author: "Dr. M. Karimova", meta: "PDF · 180 MB", image: "/img/hub/book-2.jpg" },

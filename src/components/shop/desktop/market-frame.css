@@ -387,37 +387,3 @@
 .brd-prod img { width: 100%; height: 100%; object-fit: contain; }
 .brd-prod h3 { margin: calc(.35 * var(--u)) 0 calc(.15 * var(--u)); font-size: calc(.66 * var(--u)); line-height: 1.3; font-weight: 700; min-height: calc(1.7 * var(--u)); }
 .brd-prod b { color: #0066ff; font-size: calc(.78 * var(--u)); }
-
-/* Brendlar — tuned to the design */
-.sh .brd-head { margin-bottom: calc(1.25 * var(--u)); }
-.sh .brd-head h1 { font-size: calc(2.9 * var(--u)); font-weight: 800; }
-.sh .brd-head p { font-size: calc(1.3 * var(--u)); color: #8b98ae; margin-top: calc(.1 * var(--u)); }
-.sh .brd-badge { background: #eaf2fd; padding: calc(.75 * var(--u)) calc(1.4 * var(--u)) calc(.75 * var(--u)) calc(1 * var(--u)); border-radius: calc(.6 * var(--u)); gap: calc(.8 * var(--u)); }
-.sh .brd-badge .medal { background: none; width: auto; height: auto; font-size: calc(1.9 * var(--u)); }
-.sh .brd-badge b { color: #0f1b3d; font-size: calc(1.05 * var(--u)); }
-.sh .brd-badge span { font-size: calc(.88 * var(--u)); color: #7b879e; }
-.sh [data-testid="brands-desktop"] .brd-tools { width: 74%; margin-bottom: calc(1.05 * var(--u)); gap: calc(1.6 * var(--u)); }
-.sh [data-testid="brands-desktop"] .brd-search { height: calc(3.4 * var(--u)); padding: 0 calc(1.15 * var(--u)); gap: calc(.85 * var(--u)); border-radius: calc(.6 * var(--u)); }
-.sh [data-testid="brands-desktop"] .brd-search .i { font-size: calc(1.3 * var(--u)); color: #3a4a66; }
-.sh [data-testid="brands-desktop"] .brd-search input { font-size: calc(1.02 * var(--u)); }
-.sh [data-testid="brands-desktop"] .brd-country { width: calc(20.3 * var(--u)); height: calc(3.4 * var(--u)); padding: 0 calc(1.1 * var(--u)); gap: calc(.7 * var(--u)); border-radius: calc(.6 * var(--u)); }
-.sh [data-testid="brands-desktop"] .brd-country select { font-size: calc(1 * var(--u)); font-weight: 500; }
-.sh [data-testid="brands-desktop"] .brd-country .i { font-size: calc(1.2 * var(--u)); }
-.sh [data-testid="brands-desktop"] .brd-letters { margin-bottom: calc(1.3 * var(--u)); gap: calc(.55 * var(--u)); }
-.sh [data-testid="brands-desktop"] .brd-letters button { height: calc(2.55 * var(--u)); font-size: calc(.9 * var(--u)); font-weight: 500; color: #4a5875; border-radius: calc(.45 * var(--u)); }
-.sh [data-testid="brands-desktop"] .brd-letters button.all { flex: 2.6; font-weight: 600; }
-.sh [data-testid="brands-desktop"] .brd-letters button.on { color: #fff; }
-.sh .brd-grid { gap: calc(1.05 * var(--u)) calc(1 * var(--u)); }
-.sh .brd-card { padding: calc(.9 * var(--u)) calc(1.1 * var(--u)) calc(1 * var(--u)); min-height: calc(10.2 * var(--u)); border-color: #edf1f7; box-shadow: 0 calc(.1 * var(--u)) calc(.6 * var(--u)) rgba(15, 27, 61, .05); transition: border-color .15s, box-shadow .15s, transform .15s; }
-.sh .brd-card:hover { transform: translateY(-1px); box-shadow: 0 calc(.5 * var(--u)) calc(1.4 * var(--u)) rgba(15, 27, 61, .1); }
-.sh .brd-card .brd-mark { height: calc(4.9 * var(--u)); }
-.sh .brd-card .brd-mark .mk-logo { height: calc(4.2 * var(--u)); }
-.sh .brd-info { display: flex; align-items: center; justify-content: space-between; gap: calc(.4 * var(--u)); margin-top: calc(.35 * var(--u)); min-width: 0; }
-.sh .brd-info > span:first-child { min-width: 0; display: flex; flex-direction: column; }
-.sh .brd-card h2 { margin: 0; font-size: calc(.98 * var(--u)); font-weight: 700; color: #0f1b3d; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-.sh .brd-card .where { font-size: calc(.86 * var(--u)); color: #7b879e; gap: calc(.55 * var(--u)); margin-top: calc(.25 * var(--u)); white-space: nowrap; }
-.sh .brd-card .where span { font-size: calc(1 * var(--u)); line-height: 1; }
-.sh .brd-info em { font-style: normal; color: #0b63f6; font-size: calc(.86 * var(--u)); font-weight: 500; margin-top: calc(.3 * var(--u)); padding-left: calc(1.55 * var(--u)); white-space: nowrap; }
-.sh .brd-info em.soon { color: #9aa6bd; }
-.sh .brd-card .brd-go { width: calc(2.25 * var(--u)); height: calc(2.25 * var(--u)); border: 0; background: #eef4fd; color: #0b63f6; font-size: calc(1 * var(--u)); }
-.sh .brd-card:hover .brd-go { background: #0b63f6; color: #fff; }

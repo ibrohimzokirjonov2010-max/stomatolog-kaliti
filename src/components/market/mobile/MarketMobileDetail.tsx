@@ -3,12 +3,10 @@
 
 import { useState } from "react";
 import Link from "next/link";
-import { BadgeCheck, ChevronLeft, ChevronRight, Heart, MapPin, MessageCircle, Minus, Package, Plus, Share2, ShoppingCart, Star, Truck } from "lucide-react";
+import { BadgeCheck, ChevronLeft, ChevronRight, Heart, MapPin, Minus, Package, Plus, Share2, ShoppingCart, Star, Truck } from "lucide-react";
 import { useCart } from "@/components/cart-provider";
 import { useFavorites } from "@/components/favorites-provider";
 import { mobileMarketProduct, type MobileMarketItem } from "@/data/mobile-market";
-import { catalogShop } from "@/data/shops";
-import { site } from "@/data/site";
 import { formatMoney } from "@/lib/format";
 import "./market-mobile.css";
 
@@ -19,6 +17,7 @@ export function MarketMobileDetail({ item }: { item: MobileMarketItem }) {
   const [qty, setQty] = useState(1);
   const [variant, setVariant] = useState(item.variants[0] ?? item.spec);
   const [chat, setChat] = useState(false);
+  const [draft, setDraft] = useState("");
   const [note, setNote] = useState("");
   const saved = favorites.has(item.id);
   const gallery = item.gallery.length > 0 ? item.gallery : [item.image];
@@ -101,7 +100,7 @@ export function MarketMobileDetail({ item }: { item: MobileMarketItem }) {
           <p className="save">Tejaysiz: {formatMoney(savings, "UZS")}</p>
         </section>
 
-        <div className="mk-rows stock">
+        <div className="mk-rows">
           <div className="mk-row">
             <Package /> Omborda bor
           </div>
@@ -152,16 +151,19 @@ export function MarketMobileDetail({ item }: { item: MobileMarketItem }) {
         <section className="mk-box">
           <h2>Sotuvchi</h2>
           <div className="mk-seller">
-            <span className="mk-logo">Stoma<br />Hub</span>
+            <span className="mk-logo">{item.sellerTag}</span>
             <div>
-              <b>{catalogShop.name}</b>
-              <span>Platforma katalogi</span>
+              <b>{item.seller}</b>
+              <span>{item.sellerRole}</span>
               <span>
-                <MapPin /> {catalogShop.city}
+                <Star className="star" /> {item.sellerRating} ({item.sellerReviews} ta baho)
+              </span>
+              <span>
+                <MapPin /> {item.sellerCity}
               </span>
             </div>
-            <button type="button" className="mk-write" data-testid="mk-write" onClick={() => setChat(true)}>
-              <MessageCircle /> Sotuvchiga yozish
+            <button type="button" className="mk-write" onClick={() => setChat(true)}>
+              Sotuvchiga yozish
             </button>
           </div>
         </section>
@@ -178,26 +180,35 @@ export function MarketMobileDetail({ item }: { item: MobileMarketItem }) {
             <em>-{item.discount}%</em>
           </span>
         </div>
-        <button type="button" data-testid="mk-add" onClick={() => { add(item.id, mobileMarketProduct(item), qty, variant ? { size: variant.slice(0, 12) } : undefined); setNote(`Savatga qo‘shildi · ${qty} dona`); }}>
+        <button type="button" data-testid="mk-add" onClick={() => add(item.id, mobileMarketProduct(item), qty)}>
           <ShoppingCart /> Savatga qo‘shish
         </button>
       </div>
 
       {chat ? (
-        <div className="mb-sheet" role="dialog" aria-label="Sotuvchiga yozish" data-testid="mk-contact">
-          <button type="button" aria-label="Yopish" className="bg" onClick={() => setChat(false)} />
-          <div className="mb-panel">
-            <h3>{catalogShop.name} bilan bog‘lanish</h3>
-            <p>Mahsulot, narx yoki yetkazib berish bo‘yicha savollarni Telegram orqali yozing — operator javob beradi.</p>
+        <div className="mk-sheet" role="dialog" aria-label="Sotuvchiga yozish">
+          <button type="button" aria-label="Yopish" className="absolute inset-0" onClick={() => setChat(false)} />
+          <form
+            className="mk-panel"
+            onSubmit={(event) => {
+              event.preventDefault();
+              if (!draft.trim()) return;
+              setChat(false);
+              setDraft("");
+              setNote("Xabar yuborildi");
+            }}
+          >
+            <h3>Sotuvchiga yozish</h3>
+            <textarea aria-label="Xabar" value={draft} onChange={(event) => setDraft(event.target.value)} placeholder="Xabaringiz..." rows={4} />
             <div className="row">
-              <button type="button" onClick={() => setChat(false)}>
+              <button type="button" className="go" style={{ background: "#eef2f6", color: "#24344d" }} onClick={() => setChat(false)}>
                 Yopish
               </button>
-              <a className="go" href={`${site.telegram}?text=${encodeURIComponent(`Savol: ${item.brand} ${item.name}`)}`} target="_blank" rel="noreferrer">
-                <MessageCircle /> Telegram
-              </a>
+              <button type="submit" className="go">
+                Yuborish
+              </button>
             </div>
-          </div>
+          </form>
         </div>
       ) : null}
     </div>

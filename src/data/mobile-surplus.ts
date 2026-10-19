@@ -45,7 +45,13 @@ export const mobileSurplusSorts = [
 
 export type MobileSurplusSort = (typeof mobileSurplusSorts)[number]["id"];
 
-const filtekGallery = ["/img/mobile/d-filtek-hero.jpg", "/img/mobile/d-filtek-t2.jpg", "/img/mobile/d-filtek-t3.jpg", "/img/mobile/d-filtek-t4.jpg", "/img/mobile/d-filtek-t5.jpg"];
+const filtekGallery = [
+  "/img/mobile/om-filtek.jpg",
+  "/img/mobile/om-filtek-box.jpg",
+  "/img/mobile/om-filtek-syr.jpg",
+  "/img/mobile/om-filtek-tip.jpg",
+  "/img/mobile/om-filtek-shade.jpg",
+];
 
 export const mobileSurplusItems: MobileSurplusItem[] = [
   {
@@ -62,7 +68,7 @@ export const mobileSurplusItems: MobileSurplusItem[] = [
     oldPrice: 1_200_000,
     discount: 29,
     city: "Toshkent",
-    image: "/img/mobile/om-filtek.jpg",
+    image: filtekGallery[0],
     gallery: filtekGallery,
     subtitle: "Universal kompozit plomba materiali, 4 g",
     description:

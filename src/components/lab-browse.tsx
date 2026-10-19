@@ -27,7 +27,7 @@ import {
 } from "lucide-react";
 import { useDoctorProfile } from "@/components/doctor-profile-provider";
 import { useLabWork } from "@/components/lab-provider";
-import { LabMobileDesign } from "@/components/lab/mobile/LabMobileDesign";
+import { LabMobileList } from "@/components/lab-mobile-list";
 import { LabMobileHero } from "@/components/lab-mobile-hero";
 import { Button, buttonVariants } from "@/components/ui/button";
 import { FormField, inputCls, textareaCls } from "@/components/work-ui";
@@ -118,7 +118,7 @@ export function LabBrowse() {
   return (
     <>
     <div className="lg:hidden">
-      <LabMobileDesign />
+      <LabMobileList />
     </div>
     <div className="hidden lg:block">
       {/* Same promo slider as on phones (shared PromoSlider). */}

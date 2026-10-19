@@ -4,7 +4,7 @@
 import { useMemo, useState } from "react";
 import { Heart, Search, ShoppingCart } from "lucide-react";
 import { useCart } from "@/components/cart-provider";
-import { filterSales, saleActive, saleCategories, saleProducts, sortSales, type SaleCategory, type SaleSort } from "@/data/desktop-sales";
+import { filterSales, saleCategories, saleProducts, sortSales, type SaleCategory, type SaleSort } from "@/data/desktop-sales";
 import { formatMoney } from "@/lib/format";
 import type { Product } from "@/data/products";
 
@@ -58,8 +58,7 @@ export function SalesMobile() {
               <span className="mt-1 block text-[13px] font-extrabold text-[#0066ff]">{formatMoney(item.price, "UZS")}</span>
               <button
                 type="button"
-                disabled={!saleActive(item)}
-                className="mt-2 inline-flex h-8 w-full items-center justify-center gap-1 rounded-lg bg-[#0066ff] text-[12px] font-bold text-white disabled:bg-[#e3e8ef] disabled:text-[#5d6680]"
+                className="mt-2 inline-flex h-8 w-full items-center justify-center gap-1 rounded-lg bg-[#0066ff] text-[12px] font-bold text-white"
                 onClick={() =>
                   add(item.id, {
                     id: item.id,
@@ -78,7 +77,7 @@ export function SalesMobile() {
                   } satisfies Product)
                 }
               >
-                <ShoppingCart className="size-3.5" /> {saleActive(item) ? "Savatga" : "Aksiya tugagan"}
+                <ShoppingCart className="size-3.5" /> Savatga
               </button>
             </article>
           ))}

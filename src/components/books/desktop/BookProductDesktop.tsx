@@ -5,7 +5,6 @@ import { useState } from "react";
 import Link from "next/link";
 import { ClinicShell } from "@/components/shell/ClinicShell";
 import { shopAdd, som } from "@/components/shop/desktop/shop-cart";
-import { atlasEditions } from "@/data/desktop-hub";
 import "./book-desktop.css";
 
 const RELATED: { title: string; author: string; price: number; image: string }[] = [
@@ -30,11 +29,10 @@ export function BookProductDesktop({ id }: { id: string }) {
   const [more, setMore] = useState(false);
   const [added, setAdded] = useState(false);
   const [openChapter, setOpenChapter] = useState("");
-  const edition = atlasEditions[format];
-  const price = edition.price;
+  const price = format === "paper" ? 450000 : 295000;
 
   function add() {
-    shopAdd({ id: edition.id, name: edition.name, price, image: edition.image, href: `/kitoblar/${id}`, seller: "Quintessence" });
+    shopAdd({ id: `book-${id}`, name: "Atlas of Dental Implantology", price, image: "/img/designs/atlas-cover.png", href: `/kitoblar/${id}`, seller: "Quintessence" });
     setAdded(true);
   }
 
@@ -51,8 +49,8 @@ export function BookProductDesktop({ id }: { id: string }) {
             <p className="bkx-price">{som(price)}</p>
             <div className="bkx-label">Formatni tanlang</div>
             <div className="bkx-formats">
-              <button type="button" className={format === "paper" ? "on" : undefined} onClick={() => setFormat("paper")}><b>Qog‘oz nashr</b><span>{som(atlasEditions.paper.price)}</span></button>
-              <button type="button" className={format === "pdf" ? "on" : undefined} onClick={() => setFormat("pdf")}><b>Elektron nashr (PDF)</b><span>{som(atlasEditions.pdf.price)}</span></button>
+              <button type="button" className={format === "paper" ? "on" : undefined} onClick={() => setFormat("paper")}><b>Qog‘oz nashr</b><span>450 000 so‘m</span></button>
+              <button type="button" className={format === "pdf" ? "on" : undefined} onClick={() => setFormat("pdf")}><b>Elektron nashr (PDF)</b><span>295 000 so‘m</span></button>
             </div>
             <div className="bkx-actions">
               <Link href={`/kitoblar/${id}/oqish`} data-testid="book-read">O‘qib ko‘rish (1-bob)</Link>

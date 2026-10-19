@@ -1,5 +1,4 @@
 import type { Metadata } from "next";
-import { ChannelsProvider } from "@/components/channels-provider";
 import { KanallarMobile } from "@/components/channels/mobile/KanallarMobile";
 
 export const metadata: Metadata = {
@@ -8,9 +7,5 @@ export const metadata: Metadata = {
 };
 
 export default function FoydaliKanallarPage() {
-  return (
-    <ChannelsProvider>
-      <KanallarMobile />
-    </ChannelsProvider>
-  );
+  return <KanallarMobile />;
 }

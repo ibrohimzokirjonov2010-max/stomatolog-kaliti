@@ -5,8 +5,9 @@ import { useMemo, useState } from "react";
 import Link from "next/link";
 import { ArrowUpDown, ChevronDown, Heart, LayoutGrid, List, Search, ShieldCheck, ShoppingCart, SlidersHorizontal, Tag } from "lucide-react";
 import { useCart } from "@/components/cart-provider";
-import { MobileBrandBar } from "@/components/mobile/MobileBrandBar";
-import { jihozKinds, mobileJihoz, type JihozKind, type MobileJihoz } from "@/data/mobile-jihozlar";
+import { MobileMenuButton } from "@/components/dashboard/mobile-chrome";
+import { NotificationBell } from "@/components/notification-bell";
+import { JIZHOZ_RESULT_TOTAL, jihozKinds, mobileJihoz, type JihozKind, type MobileJihoz } from "@/data/mobile-jihozlar";
 import type { Product } from "@/data/products";
 import { formatMoney } from "@/lib/format";
 import "./jihoz-mobile.css";
@@ -87,7 +88,7 @@ function asProduct(item: MobileJihoz): Product {
 }
 
 export function JihozMobileCatalog() {
-  const { add } = useCart();
+  const { count, add } = useCart();
   const [query, setQuery] = useState("");
   const [kind, setKind] = useState<JihozKind>("kreslo");
   const [kindOn, setKindOn] = useState(false);
@@ -101,7 +102,7 @@ export function JihozMobileCatalog() {
   const [saved, setSaved] = useState<string[]>([]);
   const [note, setNote] = useState("");
   const brands = [...new Set(mobileJihoz.map((item) => item.brand))];
-  const filterCount = (brand ? 1 : 0) + (maxPrice ? 1 : 0);
+  const filterCount = 1 + (brand ? 1 : 0) + (maxPrice ? 1 : 0);
 
   const list = useMemo(() => {
     const q = query.trim().toLowerCase();
@@ -122,13 +123,23 @@ export function JihozMobileCatalog() {
   }, [brand, cond, condOn, kind, kindOn, maxPrice, query, sort]);
 
   const quiet = !kindOn && !condOn && !query && !brand && !maxPrice;
-  void quiet;
-  const resultLabel = `${list.length} ta natija`;
+  const resultLabel = quiet ? `${JIZHOZ_RESULT_TOTAL} ta natija` : `${list.length} ta natija`;
 
   return (
     <div className="jz lg:hidden" data-testid="mobile-jihoz">
+      <header className="mh-bar">
+        <MobileMenuButton />
+        <Link href="/" className="mh-logo">STOMAHUB</Link>
+        <button type="button" className="mh-ic" aria-label="Qidirish" onClick={() => document.querySelector<HTMLInputElement>("[data-jihoz-search]")?.focus()}>
+          <Search />
+        </button>
+        <Link href="/savat" className="mh-ic" aria-label="Savat">
+          <ShoppingCart />
+          {count > 0 ? <span className="mh-badge" data-testid="jz-cart-badge">{count > 9 ? "9+" : count}</span> : null}
+        </Link>
+        <NotificationBell variant="mobile" minBadge={2} buttonClassName="size-10 text-[#1a1d26]" />
+      </header>
       <div className="jz-body">
-        <MobileBrandBar search />
         <h1 className="jz-title">Jihozlar</h1>
         <p className="jz-sub">Klinik jihoz va uskunalar — sotuvchilar e‘lonlari ham shu yerda</p>
         <form className="jz-search" onSubmit={(event) => event.preventDefault()}>
@@ -153,7 +164,7 @@ export function JihozMobileCatalog() {
           <button type="button" className={cond === "yangi" ? "on" : undefined} onClick={() => { setCond("yangi"); setCondOn(true); }}>Yangi</button>
           <button type="button" className={cond === "bu" ? "on" : undefined} onClick={() => { setCond("bu"); setCondOn(true); }}>B.U.</button>
           <button type="button" className="count" onClick={() => setFilters(true)}>
-            <SlidersHorizontal /> Filtrlar {filterCount ? <em>{filterCount}</em> : null}
+            <SlidersHorizontal /> Filtrlar <em>{filterCount}</em>
           </button>
           <span className="n">{resultLabel}</span>
           <label>

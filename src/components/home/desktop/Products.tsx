@@ -4,7 +4,7 @@ import { useState } from "react";
 import { Heart, ShoppingCart } from "lucide-react";
 import { products } from "@/lib/bosh-sahifa-data";
 import { SectionHead } from "./Seminars";
-import { parseSom, slugify, useCart } from "./CartContext";
+import { useCart } from "./CartContext";
 export default function Products() {
   const { add } = useCart();
   const [fav, setFav] = useState<Record<number, boolean>>({});
@@ -20,7 +20,7 @@ export default function Products() {
             </div>
             <h6>{t}</h6>
             <div className="ft"><strong>{p}</strong>
-              <button className={"btn-teal cart" + (added === k ? " pulse" : "")} aria-label="Savatga" onClick={() => { add({ id: slugify(t), name: t, price: parseSom(p), image: `/img/p${k}.jpg`, href: `/marketplace?q=${encodeURIComponent(t.split(" ")[0])}` }); setAdded(k); setTimeout(() => setAdded(null), 400); }}><ShoppingCart className="i" /></button>
+              <button className={"btn-teal cart" + (added === k ? " pulse" : "")} aria-label="Savatga" onClick={() => { add(); setAdded(k); setTimeout(() => setAdded(null), 400); }}><ShoppingCart className="i" /></button>
             </div>
           </article>
         ))}

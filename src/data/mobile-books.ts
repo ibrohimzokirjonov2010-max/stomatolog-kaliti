@@ -39,7 +39,7 @@ export const mobileBooks: MobileBook[] = [
     rating: 4.9,
     reviews: 128,
     price: 350_000,
-    image: "/img/mobile/d-kb-misch.jpg",
+    image: "/img/mobile/kb-implant.jpg",
     fresh: true,
   },
   {
@@ -51,7 +51,7 @@ export const mobileBooks: MobileBook[] = [
     rating: 4.8,
     reviews: 96,
     price: 289_000,
-    image: "/img/mobile/d-kb-pulp.jpg",
+    image: "/img/mobile/kb-pulp.jpg",
     fresh: true,
   },
   {
@@ -63,7 +63,7 @@ export const mobileBooks: MobileBook[] = [
     rating: 4.9,
     reviews: 74,
     price: 79_000,
-    image: "/img/mobile/d-kb-esthetic.jpg",
+    image: "/img/mobile/kb-esthetic.jpg",
     fresh: true,
   },
   {
@@ -75,7 +75,7 @@ export const mobileBooks: MobileBook[] = [
     rating: 4.8,
     reviews: 52,
     price: 320_000,
-    image: "/img/mobile/d-kb-perio.jpg",
+    image: "/img/mobile/kb-perio.jpg",
     fresh: true,
   },
 ];

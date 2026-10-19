@@ -75,13 +75,3 @@
 .tl-box .row { display: flex; gap: calc(.4 * var(--u)); }
 .tl-box .go { flex: 1; height: calc(3.2 * var(--u)); border-radius: calc(.8 * var(--u)); background: #12b981; color: #fff; font-weight: 800; }
 .tl-playbox { background: #0b1f4d; color: #fff; border-radius: calc(.8 * var(--u)); min-height: calc(10 * var(--u)); display: grid; place-items: center; font-weight: 800; gap: calc(.3 * var(--u)); }
-/* design tuning */
-.tl-body { padding-left: calc(34 * var(--m)) !important; padding-right: calc(34 * var(--m)) !important; padding-bottom: calc(1.4 * var(--u)) !important; }
-.tl-title { font-size: calc(2.4 * var(--u)) !important; color: #0b1f4d; }
-.tl-open { text-align: left; font: inherit; color: inherit; }
-.tl { --u: calc(100vw / 34) !important; }
-.tl-body { gap: calc(.75 * var(--u)) !important; }
-.tl-title { font-size: calc(2.1 * var(--u)) !important; }
-.tl-row { background: #fff; border-radius: calc(.9 * var(--u)); padding: calc(.45 * var(--u)); box-shadow: 0 2px 10px rgba(15, 27, 61, .04); }
-.tl-chips span { padding: calc(.15 * var(--u)) calc(.55 * var(--u)) !important; border-radius: 99px !important; font-weight: 500 !important; }
-.tl-cats button.on { background: #14a394 !important; border-color: #14a394 !important; }

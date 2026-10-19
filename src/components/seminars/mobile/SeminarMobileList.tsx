@@ -11,15 +11,16 @@ import {
   LayoutGrid,
   MapPin,
   Search,
+  ShoppingCart,
   SlidersHorizontal,
   Users,
   Wifi,
 } from "lucide-react";
-import { useFavorites } from "@/components/favorites-provider";
-import { useSeminarRegs } from "@/components/seminar-provider";
-import { MobileBrandBar } from "@/components/mobile/MobileBrandBar";
-import { isSeminarUpcoming, sortedSeminars, type Seminar } from "@/data/seminars";
+import { useCart } from "@/components/cart-provider";
+import { MobileMenuButton } from "@/components/dashboard/mobile-chrome";
+import { NotificationBell } from "@/components/notification-bell";
 import {
+  MOBILE_SEMINAR_TOTAL,
   mobileSeminarCats,
   mobileSeminars,
   type MobileSeminar,
@@ -29,52 +30,7 @@ import {
 import { formatMoney } from "@/lib/format";
 import "./seminar-mobile.css";
 
-const MONTHS = ["yan", "fev", "mar", "apr", "may", "iyun", "iyul", "avg", "sen", "okt", "noy", "dek"];
-
-function dm(iso: string) {
-  const [, m, d] = iso.split("-");
-  return `${d}/${m}`;
-}
-
-/** An organizer's real seminar (seed catalog or database) drawn with the design card. */
-function fromCatalog(s: Seminar): MobileSeminar {
-  const online = s.city === "Online";
-  const [y, m, d] = s.date.split("-").map(Number);
-  const when = s.dateTbd ? "Sana aniqlanmoqda" : `${d} ${MONTHS[(m || 1) - 1]} ${y}, ${s.time}`;
-  const old = s.oldPrice && s.oldPrice > s.price ? s.oldPrice : s.price;
-  const cat = (["implantologiya", "endodontiya", "ortodontiya", "estetika", "jarrohlik"] as const).find((c) => c === (s.specialty as string)) ?? "implantologiya";
-  return {
-    id: s.id,
-    realId: s.id,
-    title: s.title,
-    category: cat,
-    format: online ? "onlayn" : "oflayn",
-    formatLabel: online ? "Onlayn" : "Oflayn",
-    kind: s.dateEnd && s.dateEnd !== s.date ? "Ko‘p kunlik seminar" : "Bir kunlik seminar",
-    dateBadge: s.dateTbd ? "Tez orada" : s.dateEnd && s.dateEnd !== s.date ? `${dm(s.date)} – ${dm(s.dateEnd)}` : dm(s.date),
-    when,
-    cardWhen: when,
-    time: `${s.time} – ${s.timeEnd}`,
-    place: online ? "Onlayn" : [s.venue, s.city].filter(Boolean).join(", "),
-    seats: s.seatsTotal,
-    seatsLeft: Math.max(0, s.seatsTotal - s.seatsTaken),
-    price: s.price,
-    oldPrice: old,
-    discount: old > s.price ? Math.round((1 - s.price / old) * 100) : 0,
-    image: s.image,
-    speaker: s.speaker || "Ma’ruzachi aniqlanmoqda",
-    speakerRole: s.speakerRole,
-    speakerOrg: "",
-    speakerImage: s.speakerAvatar ?? "",
-    about: s.description ?? "",
-    aboutMore: "",
-    features: [],
-    stats: [],
-    program: s.program ?? [],
-    address: s.venue,
-    day: s.date,
-  };
-}
+const TODAY = new Date("2026-10-16T00:00:00");
 
 function Tooth({ className }: { className?: string }) {
   return (
@@ -94,42 +50,36 @@ const catIcon = {
 } as const;
 
 export function SeminarMobileList() {
-  const favorites = useFavorites();
-  const { catalogVersion } = useSeminarRegs();
+  const { count } = useCart();
   const [query, setQuery] = useState("");
   const [cat, setCat] = useState<MobileSeminarCat>("all");
   const [week, setWeek] = useState(false);
   const [month, setMonth] = useState(false);
   const [formats, setFormats] = useState<MobileSeminarFormat[]>([]);
+  const [saved, setSaved] = useState<string[]>([]);
   const [filters, setFilters] = useState(false);
   const [city, setCity] = useState("");
-  /** Design cards that advertise a real seminar, then other real seminars, then design samples. */
-  const all = useMemo(() => {
-    void catalogVersion;
-    const mapped = new Set(mobileSeminars.map((item) => item.realId).filter(Boolean));
-    const extra = sortedSeminars().filter((s) => !s.demo && !mapped.has(s.id) && isSeminarUpcoming(s)).map(fromCatalog);
-    return [...mobileSeminars.filter((item) => item.realId), ...extra, ...mobileSeminars.filter((item) => !item.realId)];
-  }, [catalogVersion]);
-  const hero = all[0];
-  const today = useMemo(() => new Date(new Date().toISOString().slice(0, 10) + "T00:00:00"), []);
+  const badge = count > 0 ? count : 3;
+  const hero = mobileSeminars[0];
 
   const list = useMemo(() => {
     const q = query.trim().toLowerCase();
-    return all.filter((item) => {
+    return mobileSeminars.filter((item) => {
       if (cat !== "all" && item.category !== cat) return false;
       if (formats.length && !formats.includes(item.format)) return false;
       if (city === "toshkent" && !item.place.toLowerCase().includes("toshkent") && !item.place.toLowerCase().includes("academy")) return false;
       if (city === "onlayn" && item.format !== "onlayn") return false;
       const day = new Date(`${item.day}T00:00:00`);
-      const ahead = (day.getTime() - today.getTime()) / 86400000;
+      const ahead = (day.getTime() - TODAY.getTime()) / 86400000;
       if (week && (ahead < 0 || ahead > 6)) return false;
-      if (month && (day.getMonth() !== today.getMonth() || day.getFullYear() !== today.getFullYear())) return false;
+      if (month && day.getMonth() !== TODAY.getMonth()) return false;
       if (!q) return true;
       return `${item.title} ${item.speaker} ${item.place}`.toLowerCase().includes(q);
     });
-  }, [all, cat, city, formats, month, query, today, week]);
+  }, [cat, city, formats, month, query, week]);
 
-  const shown = list.length;
+  const narrowed = cat !== "all" || formats.length > 0 || week || month || Boolean(query.trim()) || Boolean(city);
+  const shown = narrowed ? list.length : MOBILE_SEMINAR_TOTAL;
 
   function toggleFormat(format: MobileSeminarFormat) {
     setFormats((current) => (current.includes(format) ? current.filter((item) => item !== format) : [...current, format]));
@@ -137,15 +87,27 @@ export function SeminarMobileList() {
 
   return (
     <div className="se lg:hidden" data-testid="mobile-seminars">
+      <header className="mh-bar">
+        <MobileMenuButton />
+        <Link href="/" className="mh-logo">
+          STOMAHUB
+        </Link>
+        <button type="button" className="mh-ic" aria-label="Kalendar" onClick={() => document.getElementById("se-list")?.scrollIntoView({ behavior: "smooth" })}>
+          <CalendarDays />
+        </button>
+        <button type="button" className="mh-ic" aria-label="Qidirish" onClick={() => document.querySelector<HTMLInputElement>("[data-seminar-search]")?.focus()}>
+          <Search />
+        </button>
+        <Link href="/savat" className="mh-ic" aria-label="Savat">
+          <ShoppingCart />
+          <span className="mh-badge" data-testid="se-cart-badge">
+            {badge > 9 ? "9+" : badge}
+          </span>
+        </Link>
+        <NotificationBell variant="mobile" minBadge={2} buttonClassName="size-10 text-[#1a1d26]" />
+      </header>
+
       <div className="se-body">
-        <MobileBrandBar
-          search
-          extra={
-            <Link href="/seminarlar/yozuvlarim" className="mb-ic square" aria-label="Mening seminarlarim" data-testid="seminar-my-calendar">
-              <CalendarDays />
-            </Link>
-          }
-        />
         <form className="se-search" onSubmit={(event) => event.preventDefault()}>
           <Search />
           <input
@@ -162,7 +124,7 @@ export function SeminarMobileList() {
         </form>
 
         <Link href={`/seminarlar/${hero.id}`} className="se-hero">
-          <img src={hero.banner ?? hero.image} alt="" />
+          <img src={hero.image} alt="" />
           <span className="veil" />
           <span className="copy">
             <span className="se-top">
@@ -235,8 +197,8 @@ export function SeminarMobileList() {
           <SeminarRow
             key={item.id}
             item={item}
-            saved={favorites.has(`seminar-${item.id}`)}
-            onSave={() => favorites.toggle(`seminar-${item.id}`)}
+            saved={saved.includes(item.id)}
+            onSave={() => setSaved((current) => (current.includes(item.id) ? current.filter((id) => id !== item.id) : [...current, item.id]))}
           />
         ))}
       </div>
@@ -275,13 +237,12 @@ export function SeminarMobileList() {
 function SeminarRow({ item, saved, onSave }: { item: MobileSeminar; saved: boolean; onSave: () => void }) {
   const href = `/seminarlar/${item.id}`;
   return (
-    <article className="se-card" data-testid="se-card" data-real={item.realId ? "1" : undefined}>
+    <article className="se-card">
       <div className="se-ph">
         <Link href={href} aria-label={item.title}>
           <img src={item.image} alt="" />
         </Link>
         <span className="se-badge">{item.dateBadge}</span>
-        {!item.realId ? <span className="se-sample">Namuna</span> : null}
         <button type="button" className={saved ? "se-mark on" : "se-mark"} aria-label="Saqlash" aria-pressed={saved} onClick={onSave}>
           <Bookmark fill={saved ? "currentColor" : "none"} />
         </button>
@@ -295,7 +256,7 @@ function SeminarRow({ item, saved, onSave }: { item: MobileSeminar; saved: boole
           <h3>{item.title}</h3>
         </Link>
         <div className="se-meta">
-          <p>{item.realId && item.speakerOrg ? `${item.speakerOrg} · Tashkilotchi` : item.speaker}</p>
+          <p>{item.speaker === "Dr. Sardorbek Rahimov" ? `${item.speakerOrg} · Tashkilotchi` : item.speaker}</p>
           <p>
             <CalendarDays /> {item.cardWhen}
           </p>
@@ -308,12 +269,10 @@ function SeminarRow({ item, saved, onSave }: { item: MobileSeminar; saved: boole
         </div>
         <div className="se-price">
           <div>
-            {item.discount > 0 ? (
-              <span>
-                <em>-{item.discount}%</em>
-                <s>{formatMoney(item.oldPrice, "UZS")}</s>
-              </span>
-            ) : null}
+            <span>
+              <em>-{item.discount}%</em>
+              <s>{formatMoney(item.oldPrice, "UZS")}</s>
+            </span>
             <b>{formatMoney(item.price, "UZS")}</b>
           </div>
           <Link href={href} className="se-go">

@@ -6,8 +6,8 @@ import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
 import { BadgeCheck, MapPin, Phone, Star } from "lucide-react";
 import { getSpecialist } from "@/data/desktop-specialists";
-import { SpecContact, SpecialistsFrame } from "./MutaxassislarDesktop";
-import "@/components/ustalar/desktop/ut-legacy.css";
+import { SpecChat, SpecialistsFrame } from "./MutaxassislarDesktop";
+import "@/components/ustalar/desktop/usta.css";
 import "./mutaxassislar.css";
 
 export function MutaxassisProfileDesktop({ id }: { id: string }) {
@@ -15,6 +15,7 @@ export function MutaxassisProfileDesktop({ id }: { id: string }) {
   const router = useRouter();
   const params = useSearchParams();
   const [query, setQuery] = useState("");
+  const [note, setNote] = useState("");
   const [chat, setChat] = useState(params.get("aloqa") === "1");
 
   if (!person) {
@@ -61,10 +62,15 @@ export function MutaxassisProfileDesktop({ id }: { id: string }) {
               <button type="button" className="ut-order" data-testid="spec-profile-contact" onClick={() => setChat(true)}>
                 Bog‘lanish
               </button>
-              <button type="button" className="ut-call" data-testid="spec-profile-call" onClick={() => setChat(true)}>
+              <button type="button" className="ut-call" onClick={() => setNote(`Qo‘ng‘iroq: ${person.phone}`)}>
                 <Phone className="i" /> Qo‘ng‘iroq qilish
               </button>
             </div>
+            {note ? (
+              <p className="ut-note" data-testid="spec-profile-note">
+                {note}
+              </p>
+            ) : null}
             <h3 style={{ fontSize: "calc(.68 * var(--u))", margin: "calc(.35 * var(--u)) 0 calc(.2 * var(--u))" }}>Mutaxassislik</h3>
             <div className="ut-skills">
               {person.skills.map((skill) => (
@@ -87,7 +93,8 @@ export function MutaxassisProfileDesktop({ id }: { id: string }) {
             </section>
             <section className="ut-box">
               <h3>Aloqa</h3>
-              <p className="ut-meta" data-testid="spec-profile-sample">Namuna profil — telefon raqami va hisobi yo‘q.</p>
+              <p>{person.phone}</p>
+              <p className="ut-meta">{person.online ? "Hozir onlayn" : "Qabul bo‘yicha yozing"}</p>
             </section>
           </aside>
         </div>
@@ -113,7 +120,7 @@ export function MutaxassisProfileDesktop({ id }: { id: string }) {
             <p className="ut-meta">{person.reviews} ta sharh asosida</p>
           </section>
         </div>
-        {chat ? <SpecContact person={person} onClose={() => setChat(false)} /> : null}
+        {chat ? <SpecChat person={person} onClose={() => setChat(false)} /> : null}
       </div>
     </SpecialistsFrame>
   );

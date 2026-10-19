@@ -39,7 +39,12 @@ export const mobileMarketChips: { id: MobileMarketChip; label: string }[] = [
   { id: "laboratoriya", label: "Laboratoriya" },
 ];
 
-const optiGallery = ["/img/mobile/d-kerr-hero.jpg", "/img/mobile/d-kerr-t2.jpg", "/img/mobile/d-kerr-t3.jpg", "/img/mobile/d-kerr-t4.jpg"];
+const optiGallery = [
+  "/img/shop/pdp-main.jpg",
+  "/img/shop/pdp-t1.jpg",
+  "/img/mobile/mk-opti-drop.jpg",
+  "/img/mobile/mk-opti-pack.jpg",
+];
 
 export const mobileMarketItems: MobileMarketItem[] = [
   {
@@ -209,7 +214,7 @@ export const mobileMarketItems: MobileMarketItem[] = [
     price: 275_000,
     oldPrice: 323_500,
     discount: 15,
-    image: "/img/mobile/optibond.jpg",
+    image: optiGallery[0],
     gallery: optiGallery,
     official: true,
     shares: 128,
@@ -228,32 +233,6 @@ export const mobileMarketItems: MobileMarketItem[] = [
     sellerRole: "Stomatologik materiallar",
     sellerRating: 4.9,
     sellerReviews: 320,
-    sellerCity: "Toshkent",
-  },
-  {
-    id: "mm-sdr-flow",
-    brand: "Dentsply Sirona",
-    name: "SDR flow+",
-    spec: "2 × 1 g",
-    chip: "materiallar",
-    rating: 4.9,
-    reviews: 124,
-    price: 920_000,
-    oldPrice: 1_150_000,
-    discount: 20,
-    image: "/img/mobile/sdr.jpg",
-    gallery: ["/img/mobile/sdr.jpg"],
-    official: true,
-    shares: 41,
-    delivery: "Toshkent bo‘ylab 1 kunda yetkazib berish",
-    variants: ["2 × 1 g"],
-    description: "SDR flow+ — bulk-fill oquvchan kompozit, 4 mm gacha qatlam bilan ishlash uchun.",
-    features: ["Bulk-fill, 4 mm qatlam", "Past qisqarish kuchlanishi", "O‘z-o‘zidan tekislanadi"],
-    seller: "StomaHub Market",
-    sellerTag: "Stoma",
-    sellerRole: "Platforma katalogi",
-    sellerRating: 0,
-    sellerReviews: 0,
     sellerCity: "Toshkent",
   },
   {
@@ -362,8 +341,7 @@ export const mobileMarketItems: MobileMarketItem[] = [
   },
 ];
 
-/** Kerr OptiBond and SDR are the home page deals; they have product pages but are not repeated in the catalog grid. */
-export const mobileMarketCatalog = mobileMarketItems.filter((item) => item.id !== "kerr-optibond" && item.id !== "mm-sdr-flow");
+export const mobileMarketCatalog = mobileMarketItems.filter((item) => item.id !== "kerr-optibond");
 
 export function getMobileMarket(id: string) {
   return mobileMarketItems.find((item) => item.id === id) ?? null;

@@ -3,13 +3,11 @@
 
 import { useMemo, useState } from "react";
 import Link from "next/link";
-import { ArrowUpDown, BadgeCheck, CalendarDays, ChevronDown, MapPin, Phone, Search, Star } from "lucide-react";
-import { MobileBrandBar } from "@/components/mobile/MobileBrandBar";
-import { ContactSheet } from "@/components/usta-contact";
-import { useUstaWork } from "@/components/usta-provider";
-import { serviceLabels, type Master, type UstaService } from "@/data/masters";
-import { mobileUstalar, ustaKinds, type MobileUsta, type UstaKind } from "@/data/mobile-ustalar";
-import { site } from "@/data/site";
+import { ArrowUpDown, BadgeCheck, CalendarDays, ChevronDown, MapPin, Phone, Search, ShoppingCart, Star } from "lucide-react";
+import { useCart } from "@/components/cart-provider";
+import { MobileMenuButton } from "@/components/dashboard/mobile-chrome";
+import { NotificationBell } from "@/components/notification-bell";
+import { mobileUstalar, ustaKinds, ustaServicesOf, type MobileUsta, type UstaKind } from "@/data/mobile-ustalar";
 import { formatMoney } from "@/lib/format";
 import "./ustalar-mobile.css";
 
@@ -69,51 +67,22 @@ function KindIcon({ id }: { id: "all" | UstaKind }) {
   );
 }
 
-type Row = MobileUsta & { master?: Master };
-
-const KIND: Partial<Record<UstaService, UstaKind>> = { kreslo: "kreslo", rentgen: "rentgen", ornatish: "ornatish", tamirlash: "tamirlash", servis: "tamirlash", konsultatsiya: "konsultatsiya" };
-
-/** An approved master from the database drawn with the design card. */
-function fromMaster(m: Master): Row {
-  return {
-    id: m.id,
-    name: m.name,
-    role: m.title,
-    city: m.city,
-    status: m.online ? "onlayn" : "band",
-    verified: false,
-    rating: 0,
-    reviews: 0,
-    years: m.years,
-    fromPrice: 0,
-    kinds: m.services.map((s) => KIND[s]).filter((k): k is UstaKind => Boolean(k)),
-    skills: m.services.map((s) => serviceLabels[s]).filter(Boolean),
-    extraPhotos: Math.max(0, (m.works?.length ?? 0) - 2),
-    image: m.photo || m.works?.[0] || "",
-    hero: m.works?.[0] || m.photo || "",
-    avatar: m.photo || "",
-    works: m.works ?? [],
-    rank: 0,
-    master: m,
-  };
-}
-
 export function UstalarMobileList() {
-  const { masters } = useUstaWork();
+  const { count } = useCart();
   const [query, setQuery] = useState("");
   const [kind, setKind] = useState<"all" | UstaKind>("all");
   const [city, setCity] = useState("Toshkent");
   const [spec, setSpec] = useState("");
   const [maxPrice, setMaxPrice] = useState("");
   const [sort, setSort] = useState("");
-  const [booking, setBooking] = useState<Master | null>(null);
-  const [info, setInfo] = useState<"" | "sample" | "call">("");
+  const [booking, setBooking] = useState<MobileUsta | null>(null);
+  const [find, setFind] = useState(false);
+  const [note, setNote] = useState("");
 
   const list = useMemo(() => {
     const q = query.trim().toLowerCase();
     const cap = Number(maxPrice);
-    const all: Row[] = [...masters.map(fromMaster), ...mobileUstalar];
-    const rows = all.filter((item) => {
+    const rows = mobileUstalar.filter((item) => {
       if (kind !== "all" && !item.kinds.includes(kind)) return false;
       if (city !== "all" && item.city !== city) return false;
       if (spec && !item.kinds.includes(spec as UstaKind)) return false;
@@ -124,19 +93,30 @@ export function UstalarMobileList() {
     if (sort === "reyting") rows.sort((a, b) => b.rating - a.rating || b.reviews - a.reviews);
     else if (sort === "arzon") rows.sort((a, b) => a.fromPrice - b.fromPrice);
     else if (sort === "tajriba") rows.sort((a, b) => b.years - a.years);
-    else rows.sort((a, b) => Number(Boolean(b.master)) - Number(Boolean(a.master)) || a.rank - b.rank);
+    else rows.sort((a, b) => a.rank - b.rank);
     return rows;
-  }, [city, kind, masters, maxPrice, query, sort, spec]);
+  }, [city, kind, maxPrice, query, sort, spec]);
 
   return (
     <div className="ut lg:hidden" data-testid="mobile-ustalar">
+      <header className="mh-bar">
+        <MobileMenuButton />
+        <Link href="/" className="mh-logo">STOMAHUB</Link>
+        <button type="button" className="mh-ic" aria-label="Qidirish" onClick={() => document.querySelector<HTMLInputElement>("[data-usta-search]")?.focus()}>
+          <Search />
+        </button>
+        <Link href="/savat" className="mh-ic" aria-label="Savat">
+          <ShoppingCart />
+          {count > 0 ? <span className="mh-badge">{count > 9 ? "9+" : count}</span> : null}
+        </Link>
+        <NotificationBell variant="mobile" minBadge={2} buttonClassName="size-10 text-[#1a1d26]" />
+      </header>
       <div className="ut-body">
-        <MobileBrandBar search />
         <h1 className="ut-title">Ustalar</h1>
         <p className="ut-sub">Stomatologik uskunalar ta‘mirlash ustalari</p>
         <form className="ut-search" onSubmit={(event) => event.preventDefault()}>
           <Search />
-          <input data-usta-search data-section-search value={query} onChange={(event) => setQuery(event.target.value)} placeholder="Usta, mutaxassis yoki xizmatni qidiring..." aria-label="Qidiruv" />
+          <input data-usta-search value={query} onChange={(event) => setQuery(event.target.value)} placeholder="Usta, mutaxassis yoki xizmatni qidiring..." aria-label="Qidiruv" />
         </form>
         <div className="ut-cats" aria-label="Kategoriyalar">
           {ustaKinds.map((item) => (
@@ -185,27 +165,22 @@ export function UstalarMobileList() {
             <ChevronDown />
           </label>
         </div>
+        {note ? <p className="ut-note">{note}</p> : null}
         <div className="ut-list">
           {list.length === 0 ? <p className="ut-sub">Usta topilmadi</p> : null}
           {list.map((item) => (
-            <article key={item.id} className="ut-card" data-testid={`ut-card-${item.id}`} data-real={item.master ? "1" : undefined}>
+            <article key={item.id} className="ut-card" data-testid={`ut-card-${item.id}`}>
               <Link href={`/ustalar/${item.id}`} className="ut-photo">
-                {item.image ? <img src={item.image} alt="" /> : <span className="ut-ini">{item.name.split(/\s+/).map((w) => w[0]).slice(0, 2).join("")}</span>}
-                {item.master ? (
-                  item.status === "onlayn" ? <span className="ut-badge on">Onlayn</span> : null
-                ) : (
-                  <span className="ut-badge off">Namuna</span>
-                )}
+                <img src={item.image} alt="" />
+                <span className={item.status === "onlayn" ? "ut-badge on" : "ut-badge off"}>{item.status === "onlayn" ? "Onlayn" : "Band"}</span>
               </Link>
               <div className="ut-main">
                 <Link href={`/ustalar/${item.id}`} className="ut-copy">
                   <h2>{item.name}{item.verified ? <BadgeCheck aria-label="Tasdiqlangan" /> : null}</h2>
                   <p className="ut-role">{item.role}</p>
-                  {item.reviews > 0 ? (
-                    <p className="ut-meta">
-                      <span><Star className="star" /> {item.rating.toFixed(1)} ({item.reviews} ta baho)</span>
-                    </p>
-                  ) : null}
+                  <p className="ut-meta">
+                    <span><Star className="star" /> {item.rating.toFixed(1)} ({item.reviews} ta baho)</span>
+                  </p>
                   <p className="ut-meta">
                     <span>{item.years} yil tajriba</span>
                     <span><MapPin /> {item.city}</span>
@@ -214,18 +189,16 @@ export function UstalarMobileList() {
                     <div className="ut-skills">
                       {item.skills.slice(0, 3).map((skill) => <span key={skill}>{skill}</span>)}
                     </div>
-                    {item.works.length ? (
-                      <div className="ut-thumbs">
-                        {item.works.slice(0, 2).map((src, index) => <img key={`${item.id}-${index}`} src={src} alt="" />)}
-                        {item.extraPhotos > 0 ? <b>+{item.extraPhotos}</b> : null}
-                      </div>
-                    ) : null}
+                    <div className="ut-thumbs">
+                      {item.works.slice(0, 2).map((src, index) => <img key={`${item.id}-${index}`} src={src} alt="" />)}
+                      <b>+{item.extraPhotos}</b>
+                    </div>
                   </div>
-                  <p className="ut-price">{item.fromPrice ? <>Xizmat narxi: <b>{formatMoney(item.fromPrice, "UZS")}</b> dan</> : <>Narx so‘rov bo‘yicha kelishiladi</>}</p>
+                  <p className="ut-price">Xizmat narxi: <b>{formatMoney(item.fromPrice, "UZS")}</b> dan</p>
                 </Link>
                 <div className="ut-actions">
-                  <button type="button" className="ut-call" data-testid="ut-call" onClick={() => setInfo(item.master ? "call" : "sample")}><Phone /> Qo‘ng‘iroq</button>
-                  <button type="button" className="ut-order" data-testid="ut-order" onClick={() => (item.master ? setBooking(item.master) : setInfo("sample"))}><CalendarDays /> Buyurtma berish</button>
+                  <a className="ut-call" href={`tel:${item.phone}`}><Phone /> Qo‘ng‘iroq</a>
+                  <button type="button" className="ut-order" onClick={() => { setBooking(item); setNote(""); }}><CalendarDays /> Buyurtma berish</button>
                 </div>
               </div>
             </article>
@@ -233,33 +206,87 @@ export function UstalarMobileList() {
         </div>
         <div className="ut-pad" />
       </div>
-      <a className="ut-find" data-testid="ut-find" href={`${site.telegram}?text=${encodeURIComponent("Usta kerak: ")}`} target="_blank" rel="noreferrer">
+      <button type="button" className="ut-find" onClick={() => { setFind(true); setNote(""); }}>
         + Usta topish yoki so‘rov qoldirish →
-      </a>
-      {booking ? <ContactSheet master={booking} onClose={() => setBooking(null)} /> : null}
-      {info ? (
-        <div className="mb-sheet" role="dialog" aria-label={info === "call" ? "Qo‘ng‘iroq" : "Namuna usta"} data-testid={`ut-info-${info}`}>
-          <button type="button" aria-label="Yopish" className="bg" onClick={() => setInfo("")} />
-          <div className="mb-panel">
-            {info === "call" ? (
-              <>
-                <h3>Usta bilan bog‘lanish</h3>
-                <p>Ustaning telefoni u so‘rovingizni qabul qilgach «Mening so‘rovlarim»da ko‘rinadi. Avval «Buyurtma berish» orqali so‘rov yuboring.</p>
-              </>
-            ) : (
-              <>
-                <h3>Namuna usta</h3>
-                <p>Bu kartochka bo‘lim qanday ko‘rinishini ko‘rsatish uchun qo‘yilgan — u haqiqiy usta emas, unga qo‘ng‘iroq yoki buyurtma qilib bo‘lmaydi.</p>
-                <p>Tasdiqlangan ustalar ro‘yxat boshida chiqadi. Siz usta bo‘lsangiz, profilingizni qo‘shing.</p>
-              </>
-            )}
-            <div className="row">
-              <button type="button" onClick={() => setInfo("")}>Yopish</button>
-              <Link className="go" href={info === "call" ? "/ustalar/sorovlarim" : "/ustalar/mening"}>{info === "call" ? "So‘rovlarim" : "Usta bo‘lish"}</Link>
-            </div>
-          </div>
-        </div>
+      </button>
+      {booking ? (
+        <BookingSheet
+          item={booking}
+          onClose={() => setBooking(null)}
+          onDone={() => { setBooking(null); setNote("Buyurtma qoldirildi"); }}
+        />
       ) : null}
+      {find ? <FindSheet onClose={() => setFind(false)} onDone={() => { setFind(false); setNote("So‘rov qoldirildi"); }} /> : null}
+    </div>
+  );
+}
+
+function BookingSheet({ item, onClose, onDone }: { item: MobileUsta; onClose: () => void; onDone: () => void }) {
+  const services = ustaServicesOf(item);
+  const [name, setName] = useState("");
+  const [phone, setPhone] = useState("");
+  const [service, setService] = useState(services[0]?.name ?? item.role);
+  const [date, setDate] = useState("");
+  const [text, setText] = useState("");
+  const [error, setError] = useState("");
+
+  return (
+    <div className="ut-sheet" role="dialog" aria-label="Buyurtma berish">
+      <button type="button" aria-label="Yopish" className="absolute inset-0" onClick={onClose} />
+      <form
+        className="ut-box"
+        onSubmit={(event) => {
+          event.preventDefault();
+          if (!name.trim()) {
+            setError("Ismni kiriting");
+            return;
+          }
+          onDone();
+        }}
+      >
+        <h3>Buyurtma berish</h3>
+        <p className="ut-role">{item.name}</p>
+        <input aria-label="Ism" placeholder="Ism" value={name} onChange={(event) => setName(event.target.value)} />
+        <input aria-label="Telefon" placeholder="Telefon" value={phone} onChange={(event) => setPhone(event.target.value)} />
+        <select aria-label="Xizmat" value={service} onChange={(event) => setService(event.target.value)}>
+          {services.map((row) => <option key={row.name}>{row.name}</option>)}
+        </select>
+        <input aria-label="Sana" type="date" value={date} onChange={(event) => setDate(event.target.value)} />
+        <textarea aria-label="Izoh" placeholder="Izoh" rows={3} value={text} onChange={(event) => setText(event.target.value)} />
+        {error ? <p className="ut-err">{error}</p> : null}
+        <button type="submit" className="go">Yuborish</button>
+      </form>
+    </div>
+  );
+}
+
+function FindSheet({ onClose, onDone }: { onClose: () => void; onDone: () => void }) {
+  const [name, setName] = useState("");
+  const [phone, setPhone] = useState("");
+  const [text, setText] = useState("");
+  const [error, setError] = useState("");
+
+  return (
+    <div className="ut-sheet" role="dialog" aria-label="So‘rov qoldirish">
+      <button type="button" aria-label="Yopish" className="absolute inset-0" onClick={onClose} />
+      <form
+        className="ut-box"
+        onSubmit={(event) => {
+          event.preventDefault();
+          if (!name.trim()) {
+            setError("Ismni kiriting");
+            return;
+          }
+          onDone();
+        }}
+      >
+        <h3>So‘rov qoldirish</h3>
+        <input aria-label="Ism" placeholder="Ism" value={name} onChange={(event) => setName(event.target.value)} />
+        <input aria-label="Telefon" placeholder="Telefon" value={phone} onChange={(event) => setPhone(event.target.value)} />
+        <textarea aria-label="Izoh" placeholder="Qanday usta kerak?" rows={3} value={text} onChange={(event) => setText(event.target.value)} />
+        {error ? <p className="ut-err">{error}</p> : null}
+        <button type="submit" className="go">Yuborish</button>
+      </form>
     </div>
   );
 }

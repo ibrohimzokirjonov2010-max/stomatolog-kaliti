@@ -5,7 +5,8 @@ import { useMemo, useState } from "react";
 import Link from "next/link";
 import { ArrowUpDown, ChevronDown, ChevronRight, Heart, Search, ShoppingCart, SlidersHorizontal, Star } from "lucide-react";
 import { useCart } from "@/components/cart-provider";
-import { MobileBrandBar } from "@/components/mobile/MobileBrandBar";
+import { MobileMenuButton } from "@/components/dashboard/mobile-chrome";
+import { NotificationBell } from "@/components/notification-bell";
 import { formaKinds, mobileForma, type FormaColor, type FormaGender, type FormaKind, type MobileForma } from "@/data/mobile-forma";
 import type { Product } from "@/data/products";
 import { formatMoney } from "@/lib/format";
@@ -91,7 +92,7 @@ function asProduct(item: MobileForma): Product {
 }
 
 export function FormaMobileCatalog() {
-  const { add } = useCart();
+  const { count, add } = useCart();
   const [query, setQuery] = useState("");
   const [kind, setKind] = useState<"all" | FormaKind>("all");
   const [size, setSize] = useState("");
@@ -129,8 +130,19 @@ export function FormaMobileCatalog() {
 
   return (
     <div className="fm lg:hidden" data-testid="mobile-forma">
+      <header className="mh-bar">
+        <MobileMenuButton />
+        <Link href="/" className="mh-logo">STOMAHUB</Link>
+        <button type="button" className="mh-ic" aria-label="Qidirish" onClick={() => document.querySelector<HTMLInputElement>("[data-forma-search]")?.focus()}>
+          <Search />
+        </button>
+        <Link href="/savat" className="mh-ic" aria-label="Savat">
+          <ShoppingCart />
+          {count > 0 ? <span className="mh-badge" data-testid="fm-cart-badge">{count > 9 ? "9+" : count}</span> : null}
+        </Link>
+        <NotificationBell variant="mobile" minBadge={2} buttonClassName="size-10 text-[#1a1d26]" />
+      </header>
       <div className="fm-body">
-        <MobileBrandBar search />
         <h1 className="fm-title">Forma</h1>
         <p className="fm-sub">Stomatologlar uchun professional kiyimlar</p>
         <form className="fm-search" onSubmit={(event) => event.preventDefault()}>
@@ -148,7 +160,7 @@ export function FormaMobileCatalog() {
           </button>
         </form>
         <div className="fm-hero">
-          <img src="/img/mobile/d-fm-hero.jpg" alt="" />
+          <img src="/img/mobile/fm-hero.jpg" alt="" />
           <div className="copy">
             <h2>Stomatologlar uchun zamonaviy forma</h2>
             <p>Qulay, sifatli va professional ko‘rinish</p>

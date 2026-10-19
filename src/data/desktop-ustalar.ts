@@ -2,7 +2,7 @@ export type UstaService = "unit" | "hand" | "compressor" | "autoclave" | "rentge
 export type UstaStatus = "online" | "soon" | "offline";
 
 export type UstaPrice = { name: string; price: string };
-export type UstaReview = { name: string; clinic: string; date: string; rating: number; text: string; avatar?: string };
+export type UstaReview = { name: string; clinic: string; date: string; rating: number; text: string };
 
 export type DesktopUsta = {
   slug: string;
@@ -39,7 +39,7 @@ export type DesktopUsta = {
 
 export const ustaServices: { id: "all" | UstaService; label: string }[] = [
   { id: "all", label: "Barchasi" },
-  { id: "unit", label: "Ustanovka ta’miri" },
+  { id: "unit", label: "Ustanova ta’miri" },
   { id: "hand", label: "Uchlik/turbina ta’miri" },
   { id: "compressor", label: "Kompressor" },
   { id: "autoclave", label: "Avtoklav" },
@@ -51,13 +51,13 @@ export const ustaServices: { id: "all" | UstaService; label: string }[] = [
 export const ustaCities = ["Toshkent", "Samarqand", "Buxoro", "Andijon", "Farg‘ona"];
 export const ustaBrandFilters = ["Sirona", "KaVo", "NSK", "W&H", "Planmeca", "Melag", "Fengdan"];
 
-const works = [1, 2, 3, 4, 5, 6].map((n) => `/img/usta/d-work-${n}.jpg`);
+const works = ["/img/jihoz/chair.jpg", "/img/jihoz/unit.jpg", "/img/jihoz/compressor.jpg", "/img/jihoz/autoclave.jpg", "/img/jihoz/cbct.jpg", "/img/jihoz/handpiece.jpg"];
 
 const reviews: UstaReview[] = [
-  { name: "Dr. Sardor Ismoilov", clinic: "Smile Dental Clinic", date: "12.12.2024", rating: 5, text: "Juda professional usta. Kresloni tez va sifatli o‘rnatib berdi. Tavsiya qilaman!", avatar: "/img/usta/d-rev-1.jpg" },
-  { name: "Dr. Dilnoza Karimova", clinic: "DentaCare", date: "28.11.2024", rating: 5, text: "Kompressor ta’mirini qilgan, hozirgacha muammo yo‘q. Ishiga mas’uliyatli.", avatar: "/img/usta/d-rev-2.jpg" },
-  { name: "Dr. Bekzod Nurmatov", clinic: "City Dental", date: "15.11.2024", rating: 5, text: "Rentgen apparati diagnostikasini qilib berdi, muammoni aniq topdi va bartaraf etdi.", avatar: "/img/usta/d-rev-3.jpg" },
-  { name: "Dr. Malika Saidova", clinic: "Dental Plus", date: "02.11.2024", rating: 5, text: "Javob berishi tez, narxlari ham adolatli. Avtoklav profilaktikasini qildik, hammasi zo‘r.", avatar: "/img/usta/d-rev-4.jpg" },
+  { name: "Dr. Sardor Ismoilov", clinic: "Smile Dental Clinic", date: "12.12.2024", rating: 5, text: "Juda professional usta. Kresloni o‘z vaqtida o‘rnatib berdi. Tavsiya qilaman!" },
+  { name: "Dr. Dilnoza Karimova", clinic: "DentaCare", date: "28.11.2024", rating: 5, text: "Kompressor ta’miri o‘tgan, hozirgacha muammo yo‘q. Ishiga mas’uliyatli." },
+  { name: "Dr. Bekzod Nurmatov", clinic: "Dental Plus", date: "15.11.2024", rating: 5, text: "Rentgen apparati diagnostikasini qilib berdi, muammoni aniq topdi va bartaraf etdi." },
+  { name: "Dr. Malika Saidova", clinic: "Implant Plus", date: "02.11.2024", rating: 4, text: "Javob berishi tez, narxlari ham adolatli. Avtoklav profilaktikasini qildik, hammasi zo‘r." },
 ];
 
 function base(partial: DesktopUsta): DesktopUsta {
@@ -74,24 +74,24 @@ const featured: DesktopUsta[] = [
     status: "online",
     statusLabel: "Onlayn",
     services: ["unit", "hand", "compressor", "autoclave"],
-    tags: ["Ustanovka", "Uchlik/turbina", "Kompressor", "Avtoklav"],
+    tags: ["Ustanovka", "Uchlik/Turbina", "Kompressor", "Avtoklav"],
     years: 9,
     jobs: 350,
     rating: 4.9,
-    reviews: 128,
+    reviews: 126,
     response: "~20 daqiqa",
     hours: "09:00–20:00",
     warranty: "3 oy",
     prices: [
       { name: "Chaqiruv (Toshkent)", price: "150 000 so‘m" },
-      { name: "Turbina podshipnik almashtirish", price: "dan 350 000 so‘m" },
+      { name: "Turbina podshipnik, almashtirish", price: "350 000 so‘m" },
       { name: "Ustanovka diagnostika", price: "Bepul" },
     ],
     brands: ["Sirona", "KaVo", "Fengdan", "NSK"],
     skills: ["Kreslo o‘rnatish", "Kompressor ta’miri", "Avtoklav servisi"],
     phone: "+998 90 111 22 33",
     telegram: "sardor_usta",
-    image: "/img/usta/d-sardor.jpg",
+    image: "/img/usta/sardor.jpg",
     works: works.slice(0, 4),
     about: "Ustanovka, uchlik va kompressor bo‘yicha tajribali muhandis.",
     popularity: 100,
@@ -122,20 +122,20 @@ const featured: DesktopUsta[] = [
     years: 7,
     jobs: 280,
     rating: 4.8,
-    reviews: 96,
+    reviews: 95,
     response: "~30 daqiqa",
     hours: "09:00–19:00",
     warranty: "6 oy",
     prices: [
       { name: "Rentgen diagnostika", price: "200 000 so‘m" },
-      { name: "CBCT kalibrovka", price: "dan 500 000 so‘m" },
+      { name: "CBCT kalibrovka", price: "500 000 so‘m" },
       { name: "Skaner o‘rnatish", price: "900 000 so‘m" },
     ],
     brands: ["Planmeca", "Carestream", "Vatech"],
     skills: ["Rentgen apparati", "CBCT", "Skaner o‘rnatish"],
     phone: "+998 90 222 33 44",
     telegram: "dilshod_rentgen",
-    image: "/img/usta/d-dilshod.jpg",
+    image: "/img/usta/dilshod.jpg",
     works: [works[4], works[1], works[0], works[5]],
     about: "Rentgen, CBCT va intraoral skaner o‘rnatish hamda kalibrovka.",
     popularity: 99,
@@ -164,7 +164,7 @@ const featured: DesktopUsta[] = [
     services: ["autoclave"],
     tags: ["Avtoklav", "Melag", "W&H", "Sterilizatsiya"],
     years: 6,
-    jobs: 210,
+    jobs: 190,
     rating: 4.7,
     reviews: 64,
     response: "~1 soat",
@@ -172,14 +172,14 @@ const featured: DesktopUsta[] = [
     warranty: "6 oy",
     prices: [
       { name: "Avtoklav diagnostika", price: "150 000 so‘m" },
-      { name: "Ta’mirlash", price: "dan 400 000 so‘m" },
-      { name: "Profilaktik servis", price: "300 000 so‘m" },
+      { name: "Ta’mirlash", price: "400 000 so‘m" },
+      { name: "Profilaktika servis", price: "300 000 so‘m" },
     ],
     brands: ["Melag", "W&H"],
     skills: ["Avtoklav servisi", "Sterilizatsiya"],
     phone: "+998 90 333 44 55",
     telegram: "azamat_avtoklav",
-    image: "/img/usta/d-azamat.jpg",
+    image: "/img/usta/azamat.jpg",
     works: [works[3], works[2], works[5], works[1]],
     about: "Avtoklav va sterilizatsiya uskunalarini ta’mirlash va profilaktika.",
     popularity: 98,
@@ -212,18 +212,18 @@ const featured: DesktopUsta[] = [
     rating: 4.9,
     reviews: 142,
     response: "~20 daqiqa",
-    hours: "09:00–20:00",
+    hours: "09:00–21:00",
     warranty: "3 oy",
     prices: [
       { name: "Mikroskop diagnostika", price: "300 000 so‘m" },
-      { name: "Uchlik ta’miri", price: "dan 250 000 so‘m" },
-      { name: "Optika tozalash", price: "150 000 so‘m" },
+      { name: "Uchlik ta’miri", price: "250 000 so‘m" },
+      { name: "Optik tozalash", price: "150 000 so‘m" },
     ],
     brands: ["KaVo", "NSK", "W&H"],
     skills: ["Uchliklar", "Turbina ta’miri", "Mikroskop"],
     phone: "+998 90 444 55 66",
     telegram: "bobur_uchlik",
-    image: "/img/usta/d-bobur.jpg",
+    image: "/img/usta/bobur.jpg",
     works: [works[5], works[0], works[4], works[3]],
     about: "Uchlik, turbina va mikroskop optikasini ta’mirlash.",
     popularity: 97,
@@ -267,7 +267,7 @@ const featured: DesktopUsta[] = [
     skills: ["Kreslo o‘rnatish", "Kompressor ta’miri", "Avtoklav servisi", "Rentgen apparati", "Turbina ta’miri", "Uchliklar", "Profilaktik servis"],
     phone: "+998 90 555 66 77",
     telegram: "jasur_rahimov",
-    image: "/img/usta/d-jasur.jpg",
+    image: "/img/usta/jasur.jpg",
     works,
     about: "Dental jihozlarni o‘rnatish, sozlash va ta’mirlash. Rasmiy brendlar bo‘yicha tajriba.",
     popularity: 96,
@@ -305,11 +305,11 @@ const extras: DesktopUsta[] = [
     name,
     role: "Jihozlar bo‘yicha usta",
     city,
-    district: ["Mirobod", "Yakkasaroy", "Olmazor", "Sergeli", "Uchtepa", "Yashnobod", "Bektemir"][index],
+    district: "Markaz",
     status: index % 3 === 0 ? "online" : index % 3 === 1 ? "soon" : "offline",
     statusLabel: index % 3 === 0 ? "Onlayn" : index % 3 === 1 ? "Tez javob" : "Offlayn",
     services: [service],
-    tags: [ustaServices.find((item) => item.id === service)?.label ?? "Servis", brand],
+    tags: [brand],
     years: 4 + index,
     jobs: 80 + index * 15,
     rating: 4.5 + (index % 4) * 0.1,
@@ -319,12 +319,12 @@ const extras: DesktopUsta[] = [
     warranty: "3 oy",
     prices: [{ name: "Chaqiruv", price: "120 000 so‘m" }, { name: "Diagnostika", price: "200 000 so‘m" }],
     brands: [brand],
-    skills: [ustaServices.find((item) => item.id === service)?.label ?? "Servis"],
+    skills: [brand],
     phone: `+998 90 700 0${index} 0${index}`,
     telegram: `usta_${index + 1}`,
-    image: "",
+    image: index % 2 === 0 ? "/img/usta/extra.jpg" : "/img/usta/azamat.jpg",
     works: works.slice(0, 3),
-    about: `${city} bo‘yicha stomatologik jihozlarga texnik xizmat.`,
+    about: `${city}da jihozlarga xizmat.`,
     popularity: 70 - index,
     weekend: "Kelishuv bilan",
     areas: [{ place: city, time: "1 kun" }, { place: "Boshqa viloyatlar", time: "2–4 kun" }],

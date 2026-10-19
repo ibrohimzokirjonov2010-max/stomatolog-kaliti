@@ -3,8 +3,6 @@ export type MobileSeminarFormat = "oflayn" | "onlayn";
 
 export type MobileSeminar = {
   id: string;
-  /** Real catalog seminar this card advertises — registrations go to it. Absent → design sample. */
-  realId?: string;
   title: string;
   category: Exclude<MobileSeminarCat, "all">;
   format: MobileSeminarFormat;
@@ -21,9 +19,6 @@ export type MobileSeminar = {
   oldPrice: number;
   discount: number;
   image: string;
-  /** Wide "TOP SEMINAR" banner photo and detail cover photo (fall back to `image`). */
-  banner?: string;
-  cover?: string;
   speaker: string;
   speakerRole: string;
   speakerOrg: string;
@@ -59,7 +54,6 @@ const features = [
 export const mobileSeminars: MobileSeminar[] = [
   {
     id: "implantdan-tojgacha",
-    realId: "implantologiya-implantdan-tojgacha",
     title: "Implantologiya: Implantdan tojgacha",
     category: "implantologiya",
     format: "oflayn",
@@ -75,9 +69,7 @@ export const mobileSeminars: MobileSeminar[] = [
     price: 1_800_000,
     oldPrice: 2_000_000,
     discount: 10,
-    image: "/img/mobile/d-sem-t1.jpg",
-    banner: "/img/mobile/d-sem-hero.jpg",
-    cover: "/img/mobile/d-sem-cover.jpg",
+    image: "/img/mobile/se-sardor.jpg",
     speaker: "Dr. Sardorbek Rahimov",
     speakerRole: "Oral jarroh, implantolog",
     speakerOrg: "Nucleos",
@@ -117,7 +109,7 @@ export const mobileSeminars: MobileSeminar[] = [
     price: 425_000,
     oldPrice: 500_000,
     discount: 15,
-    image: "/img/mobile/d-sem-t2.jpg",
+    image: "/img/mobile/se-dilnoza.jpg",
     speaker: "Dr. Dilnoza Karimova",
     speakerRole: "Endodontist",
     speakerOrg: "Nucleos",
@@ -160,7 +152,7 @@ export const mobileSeminars: MobileSeminar[] = [
     price: 750_000,
     oldPrice: 900_000,
     discount: 17,
-    image: "/img/mobile/d-sem-t3.jpg",
+    image: "/img/mobile/se-teeth.jpg",
     speaker: "Dr. Azizbek Murodov",
     speakerRole: "Estetik stomatolog",
     speakerOrg: "Tashkent Dental Academy",

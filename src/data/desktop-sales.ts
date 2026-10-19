@@ -24,7 +24,7 @@ export type SaleProduct = {
   sold: number;
   /** Higher stays first on Mashhurlik, matching the design order. */
   popularity: number;
-  /** Sale length in seconds from SALE_START (the deadline is fixed, it does not restart on reload). */
+  /** Seconds remaining when the page opens. */
   seconds: number;
   image: string;
 };
@@ -42,21 +42,6 @@ export const saleCategories: { id: SaleCategory; label: string }[] = [
 ];
 
 const day = 86400;
-
-/** When the current sale wave started. Deadlines are SALE_START + seconds — the same for every visitor and on the server. */
-export const SALE_START = Date.parse("2026-10-18T12:00:00+05:00");
-
-export function saleEndsAt(item: Pick<SaleProduct, "seconds">) {
-  return SALE_START + item.seconds * 1000;
-}
-
-export function saleSecondsLeft(item: Pick<SaleProduct, "seconds">, now = Date.now()) {
-  return Math.max(0, Math.floor((saleEndsAt(item) - now) / 1000));
-}
-
-export function saleActive(item: Pick<SaleProduct, "seconds">, now = Date.now()) {
-  return now >= SALE_START && saleSecondsLeft(item, now) > 0;
-}
 
 export const saleProducts: SaleProduct[] = [
   { id: "sale-filtek", name: "Filtek Universal Composite", brand: "3M", category: "terapiya", price: 350_000, oldPrice: 500_000, discount: 30, rating: 4.8, reviews: 124, sold: 120, popularity: 80, seconds: 2 * day + 12 * 3600 + 30 * 60 + 15, image: "/img/design-pr13/sales/sale-filtek.png" },

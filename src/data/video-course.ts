@@ -197,10 +197,9 @@ function fromLesson(lesson: MobileLesson): VideoCourse {
 
 function fromDesktop(course: DesktopCourse): VideoCourse {
   const total = Math.min(12, Math.max(6, Math.round(course.hours)));
-  // Catalog courses are not sold yet: only the first lesson is an open preview, nothing is "done".
-  const startIndex = 0;
+  const startIndex = Math.min(2, total - 1);
   const lessons = Array.from({ length: total }, (_, index) =>
-    lessonOf(STEP_TITLES[index] ?? `Dars ${index + 1}`, STEP_MINUTES[index] ?? 20, false, index > 0),
+    lessonOf(STEP_TITLES[index] ?? `Dars ${index + 1}`, STEP_MINUTES[index] ?? 20, index < startIndex, index > startIndex),
   );
   return {
     id: course.id,
@@ -219,7 +218,7 @@ function fromDesktop(course: DesktopCourse): VideoCourse {
     startSec: 0,
     about: [
       `${course.title} — ${course.hours} soatlik professional kurs. ${course.teacher} (${course.role}) amaliy bosqichlarni ko‘rsatadi.`,
-      "Kurs hali sotuvga chiqmagan — birinchi dars namuna sifatida ochiq.",
+      "Kurs yakunida sertifikat beriladi. Har bir darsdan keyin qisqa xulosa qoldiriladi.",
     ],
     materials: [
       { name: "Dars bayonnomasi.pdf", detail: "1.1 MB" },

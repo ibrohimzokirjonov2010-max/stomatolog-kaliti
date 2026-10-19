@@ -3,40 +3,25 @@
 
 import { useState } from "react";
 import Link from "next/link";
-import { CalendarDays, Check, ChevronLeft, ChevronRight, Heart, MapPin, MessageCircle, Package, Pencil, Share2, ShieldCheck, ShoppingCart, Star, BadgeCheck } from "lucide-react";
+import { CalendarDays, ChevronLeft, Heart, MapPin, MessageCircle, Package, Share2, ShieldCheck, ShoppingCart, Star } from "lucide-react";
 import { useCart } from "@/components/cart-provider";
 import { useFavorites } from "@/components/favorites-provider";
-import { detailTitle, type MobileSurplusItem } from "@/data/mobile-surplus";
-import { listingToProduct } from "@/data/surplus";
-import { initialsFromName } from "@/lib/doctor-profile";
+import { detailTitle, mobileSurplusProduct, type MobileSurplusItem } from "@/data/mobile-surplus";
 import { formatMoney } from "@/lib/format";
-import type { SurplusView } from "./surplus-view";
 import "./surplus-mobile.css";
 
-export function SurplusMobileDetail({
-  view,
-  modNote,
-  onContact,
-  onEdit,
-}: {
-  view: SurplusView;
-  modNote?: string;
-  onContact?: () => void;
-  onEdit?: () => void;
-}) {
-  const cart = useCart();
+export function SurplusMobileDetail({ item }: { item: MobileSurplusItem }) {
+  const { add } = useCart();
   const favorites = useFavorites();
   const [shot, setShot] = useState(0);
-  const [sheet, setSheet] = useState<"" | "sample" | "safe">("");
+  const [chat, setChat] = useState(false);
   const [note, setNote] = useState("");
-  const saved = favorites.has(view.id);
-  const listing = view.listing;
-  const mine = Boolean(listing?.mine);
-  const title = view.real ? view.name : detailTitle(view as unknown as MobileSurplusItem);
-  const gallery = view.gallery.length > 0 ? view.gallery : [view.image];
+  const [draft, setDraft] = useState("");
+  const saved = favorites.has(item.id);
+  const title = detailTitle(item);
+  const gallery = item.gallery.length > 0 ? item.gallery : [item.image];
   const photo = gallery[Math.min(shot, gallery.length - 1)];
-  const savings = Math.max(0, view.oldPrice - view.price);
-  const inCart = cart.lines.some((line) => line.productId === view.id);
+  const savings = Math.max(0, item.oldPrice - item.price);
 
   async function onShare() {
     const url = window.location.href;
@@ -56,38 +41,25 @@ export function SurplusMobileDetail({
     setNote("Havola nusxalandi");
   }
 
-  function addToCart() {
-    if (!listing) {
-      setSheet("sample");
-      return;
-    }
-    cart.add(listing.id, listingToProduct(listing), 1, { source: "ortiqcha", expiryMonths: listing.expiryMonths });
-    setNote("Savatga qo‘shildi");
-  }
-
-  function write() {
-    if (!listing || !onContact) {
-      setSheet("sample");
-      return;
-    }
-    onContact();
-  }
-
   return (
-    <div className="om om-pdp lg:hidden" data-testid="mobile-surplus-detail" data-real={view.real ? "1" : undefined}>
+    <div className="om lg:hidden" data-testid="mobile-surplus-detail">
       <div className="om-hero">
         <img className="main" src={photo} alt="" />
         <Link href="/ortiqcha-material" className="om-float back" aria-label="Orqaga">
           <ChevronLeft />
         </Link>
-        <button type="button" className={saved ? "om-float heart on" : "om-float heart"} aria-label="Sevimlilar" aria-pressed={saved} onClick={() => favorites.toggle(view.id)}>
+        <button
+          type="button"
+          className={saved ? "om-float heart on" : "om-float heart"}
+          aria-label="Sevimlilar"
+          aria-pressed={saved}
+          onClick={() => favorites.toggle(item.id)}
+        >
           <Heart fill={saved ? "currentColor" : "none"} />
         </button>
         <button type="button" className="om-float share" aria-label="Ulashish" onClick={() => void onShare()}>
           <Share2 />
         </button>
-      </div>
-      {gallery.length > 1 ? (
         <div className="om-thumbs">
           {gallery.map((src, index) => (
             <button key={src} type="button" className={index === shot ? "on" : undefined} aria-label={`Rasm ${index + 1}`} onClick={() => setShot(index)}>
@@ -95,152 +67,114 @@ export function SurplusMobileDetail({
             </button>
           ))}
         </div>
-      ) : null}
+      </div>
 
       <div className="om-body om-detail">
-        {modNote ? <p className="om-note warn">{modNote}</p> : null}
         <div className="om-pills">
-          <span>{view.chipLabel}</span>
-          {view.brand ? <span className="brand">{view.brand}</span> : null}
+          <span>{item.chipLabel}</span>
+          <span className="brand">{item.brand}</span>
         </div>
         <h1>{title}</h1>
-        {view.subtitle ? <p className="sub">{view.subtitle}</p> : null}
+        <p className="sub">{item.subtitle}</p>
         <div className="om-facts">
-          {view.condition ? (
-            <span className="om-fact ok">
-              <BadgeCheck /> {view.condition}
-            </span>
-          ) : null}
-          {view.expiry ? (
-            <span className="om-fact">
-              <CalendarDays /> Yaroqlilik: {view.expiry}
-            </span>
-          ) : null}
-          {view.qty ? (
-            <span className="om-fact">
-              <Package /> Miqdori: {view.qty}
-            </span>
-          ) : null}
+          <span className="om-fact ok">{item.condition}</span>
+          <span className="om-fact">
+            <CalendarDays /> Yaroqlilik: {item.expiry}
+          </span>
+          <span className="om-fact">
+            <Package /> Miqdori: {item.qty}
+          </span>
         </div>
-        <p className="om-pin">
-          <MapPin /> {view.city}
+        <p className="om-pin" style={{ marginTop: "calc(.45 * var(--u))" }}>
+          <MapPin /> {item.city}
         </p>
 
-        <section className="om-box price">
+        <section className="om-box">
           <p className="label">Hozirgi narx</p>
           <div className="om-now">
-            <b>{formatMoney(view.price, "UZS")}</b>
-            {view.discount > 0 ? <em>-{view.discount}%</em> : null}
+            <b>{formatMoney(item.price, "UZS")}</b>
+            <em>-{item.discount}%</em>
           </div>
-          {view.oldPrice > view.price ? (
-            <>
-              <p>
-                Asl narxi (yangi): <s>{formatMoney(view.oldPrice, "UZS")}</s>
-              </p>
-              <p className="save">Tejaysiz: {formatMoney(savings, "UZS")}</p>
-            </>
-          ) : null}
+          <p>
+            Asl narxi (yangi): <s>{formatMoney(item.oldPrice, "UZS")}</s>
+          </p>
+          <p className="save">Tejaysiz: {formatMoney(savings, "UZS")}</p>
         </section>
 
-        {view.description ? (
-          <section className="om-sec">
-            <h2>Tavsif</h2>
-            <p className="copy">{view.description}</p>
-          </section>
-        ) : null}
+        <section className="om-box">
+          <h2>Tavsif</h2>
+          <p className="copy">{item.description}</p>
+        </section>
 
-        <section className="om-sec">
+        <section className="om-box">
           <h2>Sotuvchi</h2>
           <div className="om-seller">
-            {view.real ? <span className="ava">{initialsFromName(view.seller)}</span> : <img src="/img/mobile/dilnoza.jpg" alt="" />}
+            <img src="/img/mobile/dilnoza.jpg" alt="" />
             <div>
-              <b>
-                {mine ? `Siz · ${view.seller}` : view.seller}
-                {!view.real ? <BadgeCheck className="ok" /> : null}
-              </b>
-              {view.rating ? (
-                <span>
-                  <Star className="star" /> {view.rating} ({view.reviews} ta baho)
-                </span>
-              ) : null}
+              <b>{item.seller}</b>
               <span>
-                <MapPin /> {view.city}
+                <Star className="star" /> {item.rating} ({item.reviews} ta baho)
+              </span>
+              <span>
+                <MapPin /> {item.city}
               </span>
             </div>
-            {mine ? (
-              <button type="button" className="om-write" onClick={onEdit}>
-                <Pencil /> Tahrirlash
-              </button>
-            ) : (
-              <button type="button" className="om-write" data-testid="om-write" onClick={write}>
-                <MessageCircle /> Sotuvchiga yozish
-              </button>
-            )}
+            <button type="button" className="om-write" onClick={() => setChat(true)}>
+              Sotuvchiga yozish
+            </button>
           </div>
         </section>
 
-        <button type="button" className="om-safe" onClick={() => setSheet("safe")}>
+        <div className="om-safe">
           <ShieldCheck />
           <div>
             <b>Xavfsiz savdo</b>
             <span>To‘lovni platforma orqali amalga oshiring va o‘zingizni himoya qiling.</span>
           </div>
-          <ChevronRight className="go" />
-        </button>
+        </div>
 
         {note ? <p className="om-note">{note}</p> : null}
         <div className="om-pad" />
       </div>
 
       <div className="om-buy">
-        {mine ? (
-          <button type="button" className="cart" onClick={onEdit}>
-            <Pencil /> Tahrirlash
-          </button>
-        ) : (
-          <button type="button" className={inCart ? "cart done" : "cart"} data-testid="om-add" onClick={inCart ? undefined : addToCart}>
-            {inCart ? <Check /> : <ShoppingCart />} {inCart ? "Savatda" : "Savatga qo‘shish"}
-          </button>
-        )}
-        {inCart ? (
-          <Link href="/savat" className="chat">
-            <ShoppingCart /> Savatga o‘tish
-          </Link>
-        ) : (
-          <button type="button" className="chat" onClick={mine ? () => setNote("Bu sizning e’loningiz") : write}>
-            <MessageCircle /> Sotuvchiga yozish
-          </button>
-        )}
+        <button
+          type="button"
+          className="cart"
+          data-testid="om-add"
+          onClick={() => add(item.id, mobileSurplusProduct(item))}
+        >
+          <ShoppingCart /> Savatga qo‘shish
+        </button>
+        <button type="button" className="chat" onClick={() => setChat(true)}>
+          <MessageCircle /> Sotuvchiga yozish
+        </button>
       </div>
 
-      {sheet ? (
-        <div className="mb-sheet" role="dialog" aria-label={sheet === "safe" ? "Xavfsiz savdo" : "Namuna e’lon"} data-testid={`om-sheet-${sheet}`}>
-          <button type="button" aria-label="Yopish" className="bg" onClick={() => setSheet("")} />
-          <div className="mb-panel">
-            {sheet === "safe" ? (
-              <>
-                <h3>Xavfsiz savdo</h3>
-                <p>Savatga qo‘shib, buyurtmani platforma orqali rasmiylashtirsangiz, buyurtma «Buyurtmalarim»da saqlanadi va yetkazilgach muammo bo‘lsa e’tiroz bildirishingiz mumkin.</p>
-                <p>Sotuvchi bilan to‘g‘ridan-to‘g‘ri kelishsangiz, mahsulotni ko‘rib, yaroqlilik muddatini tekshirib oling va oldindan to‘lov qilmang.</p>
-              </>
-            ) : (
-              <>
-                <h3>Namuna e’lon</h3>
-                <p>Bu e’lon bo‘lim qanday ko‘rinishini ko‘rsatish uchun qo‘yilgan — uning egasi yo‘q, shuning uchun sotib olib yoki yozib bo‘lmaydi.</p>
-                <p>Haqiqiy e’lonlar ro‘yxat boshida chiqadi. O‘zingizdagi ortiqcha materialni ham e’lon qilishingiz mumkin.</p>
-              </>
-            )}
+      {chat ? (
+        <div className="om-sheet" role="dialog" aria-label="Sotuvchiga yozish">
+          <button type="button" aria-label="Yopish" className="absolute inset-0" onClick={() => setChat(false)} />
+          <form
+            className="om-panel"
+            onSubmit={(event) => {
+              event.preventDefault();
+              if (!draft.trim()) return;
+              setChat(false);
+              setDraft("");
+              setNote("Xabar yuborildi");
+            }}
+          >
+            <h3>Sotuvchiga yozish</h3>
+            <textarea aria-label="Xabar" value={draft} onChange={(event) => setDraft(event.target.value)} placeholder="Xabaringiz..." rows={4} />
             <div className="row">
-              <button type="button" onClick={() => setSheet("")}>
+              <button type="button" className="go" style={{ background: "#eef2f6", color: "#24344d" }} onClick={() => setChat(false)}>
                 Yopish
               </button>
-              {sheet === "sample" ? (
-                <Link className="go" href="/ortiqcha-material?joylash=1">
-                  E’lon berish
-                </Link>
-              ) : null}
+              <button type="submit" className="go">
+                Yuborish
+              </button>
             </div>
-          </div>
+          </form>
         </div>
       ) : null}
     </div>
