@@ -6,6 +6,7 @@ import Link from "next/link";
 import { ArrowLeft, BadgeCheck, CalendarDays, ChevronRight, Clock, Heart, MapPin, Phone, Share2, ShieldCheck, Star, Users, Wrench } from "lucide-react";
 import { ustaReviewsOf, ustaServicesOf, type MobileUsta } from "@/data/mobile-ustalar";
 import { formatMoney } from "@/lib/format";
+import "@/components/mobile/mobile-ui.css";
 import "./ustalar-mobile.css";
 
 const tabs = [
@@ -22,8 +23,7 @@ export function UstalarMobileProfile({ item }: { item: MobileUsta }) {
   const reviews = ustaReviewsOf(item);
   const [tab, setTab] = useState<TabId>("xizmat");
   const [saved, setSaved] = useState(false);
-  const [service, setService] = useState(services[0]?.name ?? item.role);
-  const [book, setBook] = useState(false);
+  const [sample, setSample] = useState(false);
   const [note, setNote] = useState("");
   const online = item.status === "onlayn";
 
@@ -69,7 +69,7 @@ export function UstalarMobileProfile({ item }: { item: MobileUsta }) {
           <div className="ut-who">
             <div className="ut-who-top">
               <h1>{item.name}{item.verified ? <BadgeCheck aria-label="Tasdiqlangan" /> : null}</h1>
-              <span className={online ? "ut-live" : "ut-live off"}>{online ? "Onlayn" : "Band"}</span>
+              <span className="ut-live off" data-testid="ut-sample-badge">Namuna</span>
             </div>
             <p className="ut-role">{item.role}</p>
             <p className="ut-meta">
@@ -107,7 +107,7 @@ export function UstalarMobileProfile({ item }: { item: MobileUsta }) {
             <div className="ut-sec"><h2>Xizmatlar va narxlar</h2></div>
             <div className="ut-svc">
               {services.map((row) => (
-                <button key={row.name} type="button" onClick={() => { setService(row.name); setBook(true); setNote(""); }}>
+                <button key={row.name} type="button" data-testid="ut-svc" onClick={() => { setSample(true); setNote(""); }}>
                   <img src={row.image} alt="" />
                   <span><b>{row.name}</b>{row.note}</span>
                   <em>{formatMoney(row.price, "UZS")}</em>
@@ -124,7 +124,6 @@ export function UstalarMobileProfile({ item }: { item: MobileUsta }) {
         {tab === "info" ? (
           <div className="ut-about">
             <p>{item.about}</p>
-            <p>Telefon: <a href={`tel:${item.phone}`}>{item.phone}</a></p>
             <p>Shahar: {item.city}</p>
             <p>Tajriba: {item.years} yil</p>
             <p>Kafolat: {item.warranty ?? "1 yil"}</p>
@@ -133,19 +132,21 @@ export function UstalarMobileProfile({ item }: { item: MobileUsta }) {
         <div className="ut-pad profile" />
       </div>
       <div className="ut-buy" data-testid="ut-buy">
-        <a className="ut-call" href={`tel:${item.phone}`}><Phone /> Qo‘ng‘iroq</a>
-        <button type="button" className="ut-order" onClick={() => { setBook(true); setNote(""); }}><CalendarDays /> Buyurtma berish</button>
+        <button type="button" className="ut-call" data-testid="ut-call" onClick={() => setSample(true)}><Phone /> Qo‘ng‘iroq</button>
+        <button type="button" className="ut-order" data-testid="ut-order" onClick={() => setSample(true)}><CalendarDays /> Buyurtma berish</button>
       </div>
-      {book ? (
-        <div className="ut-sheet" role="dialog" aria-label="Buyurtma berish">
-          <button type="button" aria-label="Yopish" className="absolute inset-0" onClick={() => setBook(false)} />
-          <BookingForm
-            item={item}
-            service={service}
-            onService={setService}
-            onClose={() => setBook(false)}
-            onDone={() => { setBook(false); setNote("Buyurtma qoldirildi"); }}
-          />
+      {sample ? (
+        <div className="mb-sheet" role="dialog" aria-label="Namuna usta" data-testid="ut-info-sample">
+          <button type="button" aria-label="Yopish" className="bg" onClick={() => setSample(false)} />
+          <div className="mb-panel">
+            <h3>Namuna profil</h3>
+            <p>Bu profil bo‘lim qanday ko‘rinishini ko‘rsatish uchun qo‘yilgan — u haqiqiy usta emas, unga qo‘ng‘iroq yoki buyurtma qilib bo‘lmaydi.</p>
+            <p>Tasdiqlangan ustalar «Ustalar» ro‘yxati boshida chiqadi — ularga so‘rov shu yerdan yuboriladi.</p>
+            <div className="row">
+              <button type="button" onClick={() => setSample(false)}>Yopish</button>
+              <Link className="go" href="/ustalar">Ustalar ro‘yxati</Link>
+            </div>
+          </div>
         </div>
       ) : null}
     </div>
@@ -187,50 +188,5 @@ function Reviews({ reviews, onAll }: { reviews: { name: string; date: string; ra
         </article>
       ))}
     </>
-  );
-}
-
-function BookingForm({
-  item,
-  service,
-  onService,
-  onDone,
-}: {
-  item: MobileUsta;
-  service: string;
-  onService: (value: string) => void;
-  onClose: () => void;
-  onDone: () => void;
-}) {
-  const services = ustaServicesOf(item);
-  const [name, setName] = useState("");
-  const [phone, setPhone] = useState("");
-  const [date, setDate] = useState("");
-  const [text, setText] = useState("");
-  const [error, setError] = useState("");
-
-  return (
-    <form
-      className="ut-box"
-      onSubmit={(event) => {
-        event.preventDefault();
-        if (!name.trim()) {
-          setError("Ismni kiriting");
-          return;
-        }
-        onDone();
-      }}
-    >
-      <h3>Buyurtma berish</h3>
-      <input aria-label="Ism" placeholder="Ism" value={name} onChange={(event) => setName(event.target.value)} />
-      <input aria-label="Telefon" placeholder="Telefon" value={phone} onChange={(event) => setPhone(event.target.value)} />
-      <select aria-label="Xizmat" value={service} onChange={(event) => onService(event.target.value)}>
-        {services.map((row) => <option key={row.name}>{row.name}</option>)}
-      </select>
-      <input aria-label="Sana" type="date" value={date} onChange={(event) => setDate(event.target.value)} />
-      <textarea aria-label="Izoh" placeholder="Izoh" rows={3} value={text} onChange={(event) => setText(event.target.value)} />
-      {error ? <p className="ut-err">{error}</p> : null}
-      <button type="submit" className="go">Yuborish</button>
-    </form>
   );
 }

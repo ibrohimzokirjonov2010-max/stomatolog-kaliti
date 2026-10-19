@@ -3,10 +3,10 @@
 import { useState, type ReactNode } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { Check, Headphones, MessageCircle, Minus, Plus, ShieldCheck, Star, Trash2, Truck, Undo2, X } from "lucide-react";
+import { ArrowRight, Check, Headphones, MessageCircle, Minus, Plus, ShieldCheck, Star, Trash2, X } from "lucide-react";
 import { useCart } from "@/components/cart-provider";
-import type { Product } from "@/data/products";
 import { shopClear, shopRemove, shopSetQty, som, type ShopLine } from "./shop-cart";
+import { deliveryFee } from "@/data/checkout-pricing";
 
 export function Stars({ value, reviews }: { value: number; reviews?: number }) {
   return (
@@ -82,27 +82,9 @@ export function RangeSlider({
   );
 }
 
-function asProduct(line: ShopLine): Product {
-  return {
-    id: line.id,
-    name: line.name,
-    brand: "StomaHub",
-    category: "materiallar",
-    price: line.price,
-    rating: 5,
-    reviews: 1,
-    inStock: true,
-    delivery: "Toshkent 24 soat",
-    image: line.image,
-    stockQty: 40,
-  };
-}
-
 const perks = [
-  [Truck, "Bepul yetkazib berish", "500 000 so‘m dan yuqori buyurtmalarda"],
   [ShieldCheck, "Rasmiy distribyutor mahsulotlari", "100% original mahsulotlar"],
   [Check, "Xavfsiz to‘lov", "Click, Payme, Uzum, Paynet"],
-  [Undo2, "7 kun ichida qaytarish", "Sifat kafolati"],
 ] as const;
 
 export function CartRail({ lines }: { lines: ShopLine[] }) {
@@ -115,9 +97,11 @@ export function CartRail({ lines }: { lines: ShopLine[] }) {
   ]);
   const qty = lines.reduce((sum, line) => sum + line.qty, 0);
   const sub = lines.reduce((sum, line) => sum + line.price * line.qty, 0);
+  const fee = deliveryFee(sub);
 
   function checkout() {
-    for (const line of lines) real.add(line.id, asProduct(line), line.qty);
+    // Lines already live in the real cart — just check out all of them.
+    real.setAllSelected(true);
     router.push("/checkout");
   }
 
@@ -132,14 +116,15 @@ export function CartRail({ lines }: { lines: ShopLine[] }) {
         </div>
         {lines.length === 0 ? <p className="dk-sub">Savat bo‘sh. Mahsulot qo‘shing.</p> : null}
         {lines.map((line) => (
-          <div className="dk-line" key={line.id}>
+          <div className="dk-line" key={line.key ?? line.id}>
             <img src={line.image} alt="" />
-            <div>
+            <div className="info">
               <b>{line.name}</b>
+              {line.variant ? <span className="var">{line.variant}</span> : null}
               <small>{som(line.price)}</small>
-              <Stepper qty={line.qty} onChange={(next) => shopSetQty(line.id, next)} />
             </div>
-            <button type="button" className="dk-x" aria-label="O‘chirish" onClick={() => shopRemove(line.id)}>
+            <Stepper qty={line.qty} onChange={(next) => shopSetQty(line.key ?? line.id, next)} />
+            <button type="button" className="dk-x" aria-label="O‘chirish" onClick={() => shopRemove(line.key ?? line.id)}>
               <Trash2 className="i" />
             </button>
           </div>
@@ -151,15 +136,15 @@ export function CartRail({ lines }: { lines: ShopLine[] }) {
           </div>
           <div>
             <span>Yetkazib berish</span>
-            <b>0 so‘m</b>
+            <b>{som(fee)}</b>
           </div>
           <div className="tot">
             <span>Jami summa</span>
-            <span>{som(sub)}</span>
+            <span>{som(sub + fee)}</span>
           </div>
         </div>
         <button type="button" className="dk-checko" onClick={checkout} disabled={lines.length === 0}>
-          Rasmiylashtirish
+          Rasmiylashtirish <ArrowRight className="i" />
         </button>
       </section>
       <div className="dk-perks">
@@ -176,7 +161,6 @@ export function CartRail({ lines }: { lines: ShopLine[] }) {
         ))}
       </div>
       <section className="dk-box dk-help">
-        <img src="/img/shop/support.jpg" alt="" />
         <div>
           <b>Savolingiz bormi?</b>
           <small>Biz yordam berishga tayyormiz!</small>
@@ -184,6 +168,7 @@ export function CartRail({ lines }: { lines: ShopLine[] }) {
             <Headphones className="i" /> Onlayn chat
           </button>
         </div>
+        <img src="/img/shop/support.jpg" alt="" />
       </section>
       {chat ? (
         <div className="dk-chat" role="dialog" aria-label="Onlayn chat">

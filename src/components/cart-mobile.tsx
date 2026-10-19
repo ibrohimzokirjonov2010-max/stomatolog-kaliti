@@ -14,7 +14,6 @@ import {
   ShoppingBag,
   Ticket,
   Trash2,
-  Truck,
 } from "lucide-react";
 import { useCart } from "@/components/cart-provider";
 import { useFavorites } from "@/components/favorites-provider";
@@ -303,15 +302,6 @@ export function CartMobile() {
           Xaridni davom ettirish
         </Link>
       </section>
-
-      {/* Free delivery banner */}
-      <div className="mt-2.5 flex items-center gap-3 rounded-[14px] bg-white px-3.5 py-3 shadow-[0_1px_3px_rgba(15,23,42,0.06)]">
-        <Truck className="size-7 shrink-0 text-[#1f6bff]" />
-        <div className="min-w-0 flex-1">
-          <p className="text-[13.5px] font-bold text-[#0B1220]">Bepul yetkazib berish</p>
-          <p className="text-[12px] text-[#7a8397]">Toshkent bo‘ylab buyurtmalar uchun</p>
-        </div>
-      </div>
     </div>
   );
 }

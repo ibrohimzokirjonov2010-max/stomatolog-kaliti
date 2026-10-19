@@ -1,7 +1,7 @@
 "use client";
 /* eslint-disable @next/next/no-img-element -- course photos are fixed-size cards */
 
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import Link from "next/link";
 import {
   ArrowUpDown,
@@ -12,8 +12,10 @@ import {
   GraduationCap,
   Search,
   Star,
+  PlayCircle,
   UserRound,
   Users,
+  X,
 } from "lucide-react";
 import { MarketFrame, type HeaderLink } from "@/components/shop/desktop/MarketFrame";
 import {
@@ -31,6 +33,7 @@ import {
   type CourseTopic,
   type DesktopCourse,
 } from "@/data/desktop-courses";
+import { site } from "@/data/site";
 import { formatMoney } from "@/lib/format";
 import "./onlayn-darslar.css";
 
@@ -46,6 +49,8 @@ const headerLinks: HeaderLink[] = [
 
 
 
+const SAVED = "sh-courses-saved-v1";
+
 export function OnlaynDarslarDesktop() {
   const [q, setQ] = useState("");
   const [topic, setTopic] = useState<CourseTopic | "">("");
@@ -53,6 +58,17 @@ export function OnlaynDarslarDesktop() {
   const [price, setPrice] = useState<CoursePrice>("");
   const [sort, setSort] = useState<CourseSort>("mashhurlik");
   const [saved, setSaved] = useState<string[]>([]);
+  const [open, setOpen] = useState<DesktopCourse | null>(null);
+
+  useEffect(() => {
+    try {
+      const raw = window.localStorage.getItem(SAVED);
+      if (raw) setSaved(JSON.parse(raw) as string[]);
+    } catch {
+      /* storage unavailable */
+    }
+  }, []);
+
   const items = useMemo(() => sortCourses(filterCourses(desktopCourses, { q, topic, level, price }), sort), [q, topic, level, price, sort]);
 
   function reset() {
@@ -64,7 +80,15 @@ export function OnlaynDarslarDesktop() {
   }
 
   function toggleSave(id: string) {
-    setSaved((current) => (current.includes(id) ? current.filter((item) => item !== id) : [...current, id]));
+    setSaved((current) => {
+      const next = current.includes(id) ? current.filter((item) => item !== id) : [...current, id];
+      try {
+        window.localStorage.setItem(SAVED, JSON.stringify(next));
+      } catch {
+        /* storage unavailable */
+      }
+      return next;
+    });
   }
 
   return (
@@ -95,7 +119,7 @@ export function OnlaynDarslarDesktop() {
                 <GraduationCap className="i" />
               </span>
               <span>
-                <b>100+ kurs</b>
+                <b>{desktopCourses.length} ta kurs</b>
                 <span>Professional darslar</span>
               </span>
             </div>
@@ -188,22 +212,68 @@ export function OnlaynDarslarDesktop() {
         ) : (
           <div className="od-grid">
             {items.map((item) => (
-              <CourseCard key={item.id} item={item} saved={saved.includes(item.id)} onSave={() => toggleSave(item.id)} />
+              <CourseCard key={item.id} item={item} saved={saved.includes(item.id)} onSave={() => toggleSave(item.id)} onOpen={() => setOpen(item)} />
             ))}
           </div>
         )}
+        {open ? <CourseDialog item={open} saved={saved.includes(open.id)} onSave={() => toggleSave(open.id)} onClose={() => setOpen(null)} /> : null}
       </div>
     </MarketFrame>
   );
 }
 
-function CourseCard({ item, saved, onSave }: { item: DesktopCourse; saved: boolean; onSave: () => void }) {
+function CourseDialog({ item, saved, onSave, onClose }: { item: DesktopCourse; saved: boolean; onSave: () => void; onClose: () => void }) {
+  useEffect(() => {
+    const onKey = (event: KeyboardEvent) => event.key === "Escape" && onClose();
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+  }, [onClose]);
+  const level = courseLevels.find((row) => row.id === item.level)?.label ?? "";
+  return (
+    <div className="od-modal" role="dialog" aria-modal="true" aria-label={item.title} data-testid="course-dialog" onMouseDown={(event) => event.target === event.currentTarget && onClose()}>
+      <div className="od-dialog">
+        <button type="button" className="x" aria-label="Yopish" onClick={onClose}>
+          <X className="i" />
+        </button>
+        <img className="cover" src={item.image} alt="" />
+        <div className="body">
+          <h3>{item.title}</h3>
+          <div className="od-teach">
+            <img src={item.avatar} alt="" />
+            <div>
+              <b>{item.teacher}</b>
+              <span>{item.role}</span>
+            </div>
+          </div>
+          <p className="facts">
+            <span><Clock className="i" /> {item.hours} soat</span>
+            {level ? <span><GraduationCap className="i" /> {level}</span> : null}
+            <span><Star className="i" /> {item.rating} ({item.reviews})</span>
+          </p>
+          <p className="od-price">{formatMoney(item.price, "UZS")}</p>
+          <p className="note" data-testid="course-note">Kursga yozilish hozircha ochilmagan — to‘lov qabul qilinmaydi. Birinchi darsni namuna sifatida ko‘rishingiz mumkin; kurs sotuvga chiqqanini Telegram kanalimizda e’lon qilamiz.</p>
+          <div className="act">
+            <Link className="go" href={`/talim/${item.id}/video`} data-testid="course-preview">
+              <PlayCircle className="i" /> Namuna darsni ko‘rish
+            </Link>
+            <button type="button" className={saved ? "on" : undefined} aria-pressed={saved} data-testid="course-dialog-save" onClick={onSave}>
+              <Bookmark className="i" /> {saved ? "Saqlangan" : "Saqlash"}
+            </button>
+            <a href={site.telegram} target="_blank" rel="noreferrer">Telegram</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function CourseCard({ item, saved, onSave, onOpen }: { item: DesktopCourse; saved: boolean; onSave: () => void; onOpen: () => void }) {
   return (
     <article className="od-card" data-testid="course-card">
       <button type="button" className={saved ? "od-mark on" : "od-mark"} data-testid="course-save" aria-label="Saqlash" aria-pressed={saved} onClick={onSave}>
         <Bookmark className="i" />
       </button>
-      <Link className="od-hit" href={`/talim/${item.id}/video`} data-testid={`course-link-${item.id}`}>
+      <button type="button" className="od-hit" data-testid={`course-link-${item.id}`} onClick={onOpen}>
         <div className="od-ph">
           <img src={item.image} alt="" />
           {item.badge ? <span className={`od-flag ${item.badge === "bestseller" ? "best" : item.badge === "yangi" ? "new" : item.badge === "ommabop" ? "pop" : "pro"}`}>{courseBadgeLabel[item.badge]}</span> : null}
@@ -231,7 +301,7 @@ function CourseCard({ item, saved, onSave }: { item: DesktopCourse; saved: boole
           </span>
         </p>
         <p className="od-price">{formatMoney(item.price, "UZS")}</p>
-      </Link>
+      </button>
     </article>
   );
 }

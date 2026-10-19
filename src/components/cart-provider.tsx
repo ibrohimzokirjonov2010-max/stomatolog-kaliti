@@ -33,7 +33,7 @@ function sameLine(line: CartLine, productId: string, meta?: CartLineMeta) {
   );
 }
 
-type CartItem = {
+export type CartItem = {
   product: Product;
   qty: number;
   lineTotal: number;
@@ -57,6 +57,8 @@ type CartContextValue = {
   isSelected: (key: string) => boolean;
   toggleSelected: (key: string) => void;
   setAllSelected: (on: boolean) => void;
+  /** Select only this line for checkout ("Hozir xarid qilish"). */
+  selectOnly: (key: string) => void;
   selectedItems: CartItem[];
   selectedCount: number;
   selectedSubtotal: number;
@@ -76,6 +78,24 @@ function readUnselected(): string[] {
   }
 }
 const CartContext = createContext<CartContextValue | null>(null);
+
+/**
+ * Latest cart value for non-hook callers (the desktop `shop-cart` helpers such as
+ * `shopAdd`). Keeps every page on ONE cart: the one persisted under `sk-cart-v1`.
+ */
+let cartBridge: CartContextValue | null = null;
+
+const pendingCartCalls: ((cart: CartContextValue) => void)[] = [];
+
+export function getCartBridge() {
+  return cartBridge;
+}
+
+/** Run `fn` against the cart now, or as soon as the provider has mounted. */
+export function withCart(fn: (cart: CartContextValue) => void) {
+  if (cartBridge) fn(cartBridge);
+  else pendingCartCalls.push(fn);
+}
 
 function lookup(id: string, extras: Product[]) {
   return (
@@ -175,7 +195,7 @@ export function CartProvider({ children }: { children: ReactNode }) {
       add: (productId, extra, qty = 1, meta) => {
         const product = extra ?? lookup(productId, extras);
         if (extra && !lookup(productId, extras)) {
-          setExtras((current) => [...current, extra]);
+          setExtras((current) => (current.some((item) => item.id === extra.id) ? current : [...current, extra]));
         }
         const max = product ? productMaxQty(product) : 99;
         const addQty = clampQty(qty, max);
@@ -231,6 +251,10 @@ export function CartProvider({ children }: { children: ReactNode }) {
           current.includes(key) ? current.filter((k) => k !== key) : [...current, key],
         ),
       setAllSelected: (on) => setUnselected(on ? [] : items.map((item) => item.key)),
+      selectOnly: (key) =>
+        setUnselected(
+          lines.map((line) => cartLineKey(line.productId, line.size, line.color)).filter((k) => k !== key),
+        ),
       selectedItems,
       selectedCount: selectedItems.reduce((sum, item) => sum + item.qty, 0),
       selectedSubtotal: selectedItems.reduce((sum, item) => sum + item.lineTotal, 0),
@@ -243,6 +267,14 @@ export function CartProvider({ children }: { children: ReactNode }) {
       },
     };
   }, [catalogTick, extras, lines, unselected]);
+
+  useEffect(() => {
+    cartBridge = value;
+    while (pendingCartCalls.length) pendingCartCalls.shift()?.(value);
+    return () => {
+      if (cartBridge === value) cartBridge = null;
+    };
+  }, [value]);
 
   return (
     <CartContext.Provider value={value}>

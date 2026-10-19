@@ -4,8 +4,24 @@
 import { useMemo, useState } from "react";
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
-import { BadgeCheck, Check, Grid3x3, Heart, List, Scale, ShieldCheck, ShoppingCart, Wallet, Wrench, X } from "lucide-react";
-import { RangeSlider } from "@/components/shop/desktop/parts";
+import {
+  ArrowRight,
+  BadgeCheck,
+  CalendarClock,
+  CheckCircle2,
+  FileText,
+  Headphones,
+  Heart,
+  LayoutGrid,
+  List,
+  Plus,
+  Scale,
+  ShieldCheck,
+  ShoppingCart,
+  Wallet,
+  Wrench,
+  X,
+} from "lucide-react";
 import { ShopShell } from "@/components/shop/desktop/ShopShell";
 import { shopAdd, shopToggleFav, som, somPlain, useShopFavs, useShopLineCount } from "@/components/shop/desktop/shop-cart";
 import {
@@ -33,8 +49,38 @@ const sorts = [
 
 type SortId = (typeof sorts)[number]["id"];
 
+/** Card sub-line per category (as in the design). */
+export const cardKind: Record<JihozCat, string> = {
+  ustanovka: "Stomatologik ustanovka",
+  rentgen: "Rentgen va CBCT",
+  skaner: "Intraoral skaner",
+  avtoklav: "Avtoklav",
+  mikroskop: "Stomatologik mikroskop",
+  kompressor: "Kompressor va aspirator",
+  uchlik: "Uchlik",
+  lampa: "Fotopolimer lampa",
+};
+
+/** Brand name as the brand writes it (text, not a logo image). */
+export const brandMark: Record<string, string> = {
+  sirona: "sirona",
+  planmeca: "PLANMECA",
+  shape: "3shape",
+  zeiss: "ZEISS",
+  kavo: "KaVo",
+  melag: "MELAG",
+  cattani: "CATTANI",
+  ivoclar: "ivoclar",
+  nsk: "NSK",
+  wh: "W&H",
+  fengdan: "FENGDAN",
+  runyes: "RUNYES",
+  anthos: "anthos",
+  diplomat: "DIPLOMAT",
+};
+
 function condText(id: JihozCond) {
-  return jihozConds.find((item) => item.id === id)?.label ?? id;
+  return id === "korgazma" ? "Ko‘rgazmali" : jihozConds.find((item) => item.id === id)?.label ?? id;
 }
 
 export function JihozCatalog() {
@@ -42,9 +88,15 @@ export function JihozCatalog() {
   const favs = useShopFavs();
   const params = useSearchParams();
   const q = (params.get("q") ?? "").trim().toLowerCase();
-  const [cat, setCat] = useState<"all" | JihozCat>("all");
+  const [cat, setCat] = useState<"all" | JihozCat>(() => {
+    const raw = params.get("cat");
+    return jihozCats.some((item) => item.id === raw) ? (raw as JihozCat) : "all";
+  });
   const [conds, setConds] = useState<JihozCond[]>([]);
-  const [brands, setBrands] = useState<string[]>([]);
+  const [brands, setBrands] = useState<string[]>(() => {
+    const raw = params.get("brand");
+    return raw && jihozBrands.some((item) => item.id === raw) ? [raw] : [];
+  });
   const [moreBrands, setMoreBrands] = useState(false);
   const [price, setPrice] = useState<[number, number]>([0, JIZOZ_PRICE_MAX]);
   const [warranties, setWarranties] = useState<number[]>([]);
@@ -56,20 +108,16 @@ export function JihozCatalog() {
   const [list, setList] = useState(false);
   const [compare, setCompare] = useState<string[]>(["sirona-intego", "planmeca-promax"]);
   const [note, setNote] = useState("");
-  const [sell, setSell] = useState(false);
   const [offer, setOffer] = useState<DesktopJihoz | null>(null);
+  const [consult, setConsult] = useState(false);
   const [table, setTable] = useState(false);
-  const [sellForm, setSellForm] = useState({ name: "", phone: "", text: "" });
 
   const priceOn = price[0] > 0 || price[1] < JIZOZ_PRICE_MAX;
   const shownBrands = moreBrands ? jihozBrands : jihozBrands.slice(0, 8);
-
-  function countOf(pred: (item: DesktopJihoz) => boolean) {
-    return desktopJihoz.filter(pred).length;
-  }
+  const countOf = (pred: (item: DesktopJihoz) => boolean) => desktopJihoz.filter(pred).length;
 
   const items = useMemo(() => {
-    let rows = desktopJihoz.filter((item) => {
+    const rows = desktopJihoz.filter((item) => {
       if (cat !== "all" && item.cat !== cat) return false;
       if (conds.length && !conds.includes(item.condition)) return false;
       if (brands.length && !brands.includes(item.brandKey)) return false;
@@ -82,18 +130,17 @@ export function JihozCatalog() {
       if (q && !`${item.name} ${item.brand} ${item.spec}`.toLowerCase().includes(q)) return false;
       return true;
     });
-    rows = [...rows].sort((a, b) => {
+    return [...rows].sort((a, b) => {
       if (sort === "cheap") return a.price - b.price;
       if (sort === "rich") return b.price - a.price;
       if (sort === "new") return b.year - a.year || b.popularity - a.popularity;
       if (sort === "rate") return b.rating - a.rating;
       return b.popularity - a.popularity;
     });
-    return rows;
   }, [brands, cat, city, conds, install, leasing, official, price, priceOn, q, sort, warranties]);
 
-  function toggle<T>(list: T[], value: T, set: (next: T[]) => void) {
-    set(list.includes(value) ? list.filter((item) => item !== value) : [...list, value]);
+  function toggle<T>(current: T[], value: T, set: (next: T[]) => void) {
+    set(current.includes(value) ? current.filter((item) => item !== value) : [...current, value]);
   }
 
   function reset() {
@@ -109,8 +156,7 @@ export function JihozCatalog() {
   }
 
   function addCart(item: DesktopJihoz) {
-    shopAdd({ id: `jihoz-${item.slug}`, name: item.name, price: item.price, image: item.image, href: `/jihozlar/${item.slug}` });
-    setNote(`${item.name} savatga qo‘shildi`);
+    shopAdd({ id: `jihoz-${item.slug}`, name: item.name, variant: cardKind[item.cat], price: item.price, image: item.image, href: `/jihozlar/${item.slug}`, seller: item.brand, official: item.official });
   }
 
   function toggleCompare(slug: string) {
@@ -121,198 +167,282 @@ export function JihozCatalog() {
     });
   }
 
+  const setPriceAt = (index: 0 | 1, raw: string) => {
+    const value = Math.min(Number(raw.replace(/\D/g, "")) || 0, JIZOZ_PRICE_MAX);
+    setPrice((current) => (index === 0 ? [Math.min(value, current[1]), current[1]] : [current[0], Math.max(value, current[0])]));
+  };
+
   const compared = compare.map((slug) => desktopJihoz.find((item) => item.slug === slug)).filter((item): item is DesktopJihoz => Boolean(item));
 
   return (
-    <ShopShell searchPath="/jihozlar" cartCount={cartCount} placeholder="Stomatologik jihozlar, brend yoki model qidiring..." showCamera={false}>
-      <div className="jz-page">
-        <div className="jz-head">
-          <div>
-            <h1>Stomatologik jihozlar</h1>
-            <p>Klinikangiz uchun zamonaviy va ishonchli uskunalar. Yangi va ishlatilgan, kafolat va servis bilan.</p>
+    <ShopShell searchPath="/jihozlar" cartCount={cartCount} placeholder="Stomatologik jihozlar, brend yoki model qidirish..." showCamera={false}>
+      <div className="jx" data-testid="jihoz-catalog">
+        <div className="jx-main">
+          <div className="jx-head">
+            <div>
+              <h1>Stomatologik jihozlar</h1>
+              <p>Klinikangiz uchun zamonaviy va ishonchli uskunalar. Yangi va ishlatilgan, kafolat va servis bilan.</p>
+            </div>
+            <ul className="jx-trust">
+              <li><BadgeCheck className="i" /><span>Rasmiy<br />distribyutorlar</span></li>
+              <li><ShieldCheck className="i" /><span>Kafolat<br />va servis</span></li>
+              <li><FileText className="i" /><span>Lizing /<br />bo‘lib to‘lash</span></li>
+              <li><Wrench className="i" /><span>O‘rnatish<br />xizmati</span></li>
+            </ul>
           </div>
-          <div className="jz-trust">
-            <span><BadgeCheck className="i" /> Rasmiy distribyutor</span>
-            <span><ShieldCheck className="i" /> Kafolat va servis</span>
-            <span><Wallet className="i" /> Lizing / bo‘lib to‘lash</span>
-            <span><Wrench className="i" /> O‘rnatish xizmati</span>
+
+          <div className="jx-tabs" role="tablist" aria-label="Kategoriya">
+            {jihozCats.map((item) => (
+              <button key={item.id} type="button" role="tab" aria-selected={cat === item.id} className={cat === item.id ? "jx-tab on" : "jx-tab"} onClick={() => setCat(item.id)}>
+                {item.label}
+              </button>
+            ))}
           </div>
-        </div>
 
-        <div className="jz-tabs">
-          {jihozCats.map((item) => (
-            <button key={item.id} type="button" className={cat === item.id ? "jz-tab on" : "jz-tab"} onClick={() => setCat(item.id)}>{item.label}</button>
-          ))}
-        </div>
-
-        <div className="jz-cols">
-          <aside className="jz-panel">
-            <h3>Filtrlar <button type="button" onClick={reset}>Tozalash</button></h3>
-            <h4>Holati</h4>
-            {jihozConds.map((item) => (
-              <button key={item.id} type="button" className={conds.includes(item.id) ? "jz-check on" : "jz-check"} onClick={() => toggle(conds, item.id, setConds)}>
-                <i className="jz-boxi">{conds.includes(item.id) ? <Check className="i" /> : null}</i>
-                {item.label}
-                <em>{countOf((row) => row.condition === item.id)}</em>
-              </button>
-            ))}
-            <h4>Brend</h4>
-            {shownBrands.map((item) => (
-              <button key={item.id} type="button" className={brands.includes(item.id) ? "jz-check on" : "jz-check"} onClick={() => toggle(brands, item.id, setBrands)}>
-                <i className="jz-boxi">{brands.includes(item.id) ? <Check className="i" /> : null}</i>
-                {item.label}
-                <em>{countOf((row) => row.brandKey === item.id)}</em>
-              </button>
-            ))}
-            <button type="button" className="jz-link" onClick={() => setMoreBrands((open) => !open)}>{moreBrands ? "Yig‘ish" : "Barchasini ko‘rsatish"}</button>
-            <h4>Narx oralig‘i</h4>
-            <RangeSlider min={0} max={JIZOZ_PRICE_MAX} step={1_000_000} value={price} onChange={setPrice} labels={["0 so‘m", "500 000 000"]} />
-            <h4>Kafolat muddati</h4>
-            {jihozWarranties.map((months) => (
-              <button key={months} type="button" className={warranties.includes(months) ? "jz-check on" : "jz-check"} onClick={() => toggle(warranties, months, setWarranties)}>
-                <i className="jz-boxi">{warranties.includes(months) ? <Check className="i" /> : null}</i>
-                {months} oy
-                <em>{countOf((row) => row.warranty === months)}</em>
-              </button>
-            ))}
-            <button type="button" className={leasing ? "jz-switch on" : "jz-switch"} onClick={() => setLeasing((v) => !v)}>Lizing mavjud <i /></button>
-            <button type="button" className={install ? "jz-switch on" : "jz-switch"} onClick={() => setInstall((v) => !v)}>O‘rnatish xizmati <i /></button>
-            <button type="button" className={official ? "jz-switch on" : "jz-switch"} onClick={() => setOfficial((v) => !v)}>Rasmiy distribyutor <i /></button>
-            <h4>Shahar tanlash</h4>
-            <select className="jz-select" value={city} aria-label="Shahar" onChange={(event) => setCity(event.target.value)}>
-              <option>Barchasi</option>
-              {jihozCities.map((name) => <option key={name}>{name}</option>)}
-            </select>
-          </aside>
-
-          <div>
-            <div className="jz-tools">
-              {sorts.map((item) => (
-                <button key={item.id} type="button" className={sort === item.id ? "jz-sort on" : "jz-sort"} onClick={() => setSort(item.id)}>{item.label}</button>
-              ))}
-              <span className="jz-count">{items.length} ta mahsulot</span>
-              <div className="jz-view">
-                <button type="button" className={list ? "" : "on"} aria-label="Katak" onClick={() => setList(false)}><Grid3x3 className="i" /></button>
-                <button type="button" className={list ? "on" : ""} aria-label="Ro‘yxat" onClick={() => setList(true)}><List className="i" /></button>
+          <div className="jx-cols">
+            <aside className="jx-panel" aria-label="Filtrlar">
+              <div className="jx-panel-hd">
+                <h3>Filtrlar</h3>
+                <button type="button" onClick={reset}>Tozalash</button>
               </div>
-            </div>
-            <div className={list ? "jz-grid list" : "jz-grid"} style={{ marginTop: "calc(.45 * var(--u))" }}>
-              {items.map((item) => (
-                <article className="jz-card" key={item.slug}>
-                  <div className="ph">
-                    <span className={item.condition === "ishlatilgan" ? "jz-badge used" : item.condition === "korgazma" ? "jz-badge demo" : "jz-badge"}>{condText(item.condition)}</span>
-                    <button type="button" className={compare.includes(item.slug) ? "jz-cmp on" : "jz-cmp"} aria-label="Solishtirishga qo‘shish" onClick={() => toggleCompare(item.slug)}><Scale className="i" /></button>
-                    <button type="button" className={favs.includes(item.slug) ? "jz-heart on" : "jz-heart"} aria-label="Sevimli" onClick={() => shopToggleFav(item.slug)}><Heart className="i" /></button>
-                    <img src={item.image} alt="" />
-                  </div>
-                  <div className="bd">
-                    <span className="jz-brand">{item.brand}</span>
-                    <h3><Link href={`/jihozlar/${item.slug}`}>{item.name}</Link></h3>
-                    <p className="jz-meta">{catLabel(item.cat)}</p>
-                    <p className="jz-meta">{item.year} yil</p>
-                    <p className="jz-meta">Kafolat: {item.warranty} oy</p>
-                    <p className="jz-spec">{item.spec}</p>
-                    <strong className="jz-price">{som(item.price)}</strong>
-                    <p className="jz-month">{item.months} oyga {somPlain(item.monthly)} so‘m/oy</p>
-                    <div className="jz-acts">
-                      <button type="button" className="jz-add" onClick={() => addCart(item)}><ShoppingCart className="i" /> Savatga</button>
-                      <button type="button" className="jz-ghost" onClick={() => setOffer(item)}>Taklif so‘rash</button>
-                    </div>
-                  </div>
-                </article>
+              <h4>Holati</h4>
+              {jihozConds.map((item) => (
+                <Check key={item.id} on={conds.includes(item.id)} label={condText(item.id)} count={countOf((row) => row.condition === item.id)} onClick={() => toggle(conds, item.id, setConds)} />
               ))}
-            </div>
-            {note ? <p className="jz-note">{note}</p> : null}
-          </div>
+              <h4>Brend</h4>
+              {shownBrands.map((item) => (
+                <Check key={item.id} on={brands.includes(item.id)} label={item.label} count={countOf((row) => row.brandKey === item.id)} onClick={() => toggle(brands, item.id, setBrands)} />
+              ))}
+              <button type="button" className="jx-more" onClick={() => setMoreBrands((open) => !open)}>{moreBrands ? "Yig‘ish" : "Barchasini ko‘rsatish"}</button>
+              <h4>Narx oralig‘i</h4>
+              <div className="jx-price">
+                <label>
+                  <input inputMode="numeric" aria-label="Narx: dan (so‘m)" value={somPlain(price[0])} onChange={(event) => setPriceAt(0, event.target.value)} />
+                  <span>so‘m</span>
+                </label>
+                <i>–</i>
+                <label>
+                  <input inputMode="numeric" aria-label="Narx: gacha (so‘m)" value={somPlain(price[1])} onChange={(event) => setPriceAt(1, event.target.value)} />
+                </label>
+              </div>
+              <h4>Kafolat muddati</h4>
+              {jihozWarranties.map((months) => (
+                <Check key={months} on={warranties.includes(months)} label={`${months} oy`} count={countOf((row) => row.warranty === months)} onClick={() => toggle(warranties, months, setWarranties)} />
+              ))}
+              <div className="jx-switches">
+                <Switch label="Lizing mavjud" on={leasing} onClick={() => setLeasing((v) => !v)} />
+                <Switch label="O‘rnatish xizmati" on={install} onClick={() => setInstall((v) => !v)} />
+                <Switch label="Rasmiy distribyutor" on={official} onClick={() => setOfficial((v) => !v)} />
+              </div>
+              <h4>Shahar tanlash</h4>
+              <select className="jx-select" value={city} aria-label="Shahar" onChange={(event) => setCity(event.target.value)}>
+                <option>Barchasi</option>
+                {jihozCities.map((name) => <option key={name}>{name}</option>)}
+              </select>
+            </aside>
 
-          <aside className="jz-rail">
-            <button type="button" className="jz-sell" onClick={() => setSell(true)}>Jihoz sotish</button>
-            <section className="jz-box">
-              <h3>Jihozlarni solishtirish ({compared.length}) <button type="button" onClick={() => setCompare([])}>Barchasini tozalash</button></h3>
-              {compared.map((item) => (
-                <div className="jz-cmp-row" key={item.slug}>
-                  <img src={item.image} alt="" />
-                  <div>
-                    <b>{item.name}</b>
-                    <span>{catLabel(item.cat)}</span>
-                    <span> · {som(item.price)}</span>
-                  </div>
-                  <button type="button" className="jz-x" aria-label={`${item.name} ni olib tashlash`} onClick={() => toggleCompare(item.slug)}><X className="i" /></button>
+            <div className="jx-list">
+              <div className="jx-tools">
+                <div className="jx-sorts">
+                  {sorts.map((item) => (
+                    <button key={item.id} type="button" className={sort === item.id ? "on" : ""} aria-pressed={sort === item.id} onClick={() => setSort(item.id)}>{item.label}</button>
+                  ))}
                 </div>
-              ))}
-              <button type="button" className="jz-add" style={{ width: "100%", marginTop: "calc(.4 * var(--u))" }} disabled={compared.length < 2} onClick={() => setTable(true)}>Solishtirish</button>
-            </section>
-            <section className="jz-box jz-consult">
-              <h3>Bepul konsultatsiya</h3>
-              <div className="who">
-                <img src="/img/jobs/doctor.jpg" alt="" />
-                <p className="jz-spec">Jihoz tanlashda yordam beramiz. O‘rnatish maslahati, lizing va to‘lov variantlari, klinikangizga mos yechim.</p>
+                <span className="jx-count">{items.length} ta mahsulot</span>
+                <div className="jx-view">
+                  <button type="button" className={list ? "" : "on"} aria-label="Katak" aria-pressed={!list} onClick={() => setList(false)}><LayoutGrid className="i" /></button>
+                  <button type="button" className={list ? "on" : ""} aria-label="Ro‘yxat" aria-pressed={list} onClick={() => setList(true)}><List className="i" /></button>
+                </div>
               </div>
-              <button type="button" className="jz-add" style={{ width: "100%", marginTop: "calc(.4 * var(--u))" }} onClick={() => setNote("Muhandis tez orada bog‘lanadi.")}>Muhandis bilan bog‘lanish →</button>
-            </section>
-            <section className="jz-box">
-              <h3>Nega StomaHub?</h3>
-              {[
-                ["Rasmiy distribyutorlar", "Original mahsulotlar"],
-                ["Kafolat va servis", "Butun O‘zbekiston bo‘ylab"],
-                ["Lizing / bo‘lib to‘lash", "Qulay to‘lov shartlari"],
-                ["O‘rnatish va trening", "Mutaxassislar tomonidan"],
-                ["Texnik qo‘llab-quvvatlash", "24/7 maslahat"],
-              ].map(([title, text]) => (
-                <div className="jz-why" key={title}><ShieldCheck className="i" /><div><b>{title}</b><span>{text}</span></div></div>
-              ))}
-            </section>
-          </aside>
+
+              {items.length === 0 ? (
+                <div className="jx-empty">
+                  <b>Mos jihoz topilmadi</b>
+                  <p>Filtrlarni o‘zgartirib ko‘ring.</p>
+                  <button type="button" onClick={reset}>Filtrlarni tozalash</button>
+                </div>
+              ) : (
+                <div className={list ? "jx-grid list" : "jx-grid"}>
+                  {items.map((item) => {
+                    const fav = favs.includes(item.slug);
+                    const cmp = compare.includes(item.slug);
+                    return (
+                      <article className="jx-card" key={item.slug} data-testid="jihoz-card">
+                        <div className="ph">
+                          <span className={`jx-badge ${item.condition}`}>{condText(item.condition)}</span>
+                          <button type="button" className={fav ? "jx-heart on" : "jx-heart"} aria-pressed={fav} aria-label={fav ? "Sevimlilardan olib tashlash" : "Sevimlilarga qo‘shish"} onClick={() => shopToggleFav(item.slug)}><Heart className="i" /></button>
+                          <button type="button" className={cmp ? "jx-cmp on" : "jx-cmp"} aria-pressed={cmp} aria-label={cmp ? "Solishtirishdan olib tashlash" : "Solishtirishga qo‘shish"} title="Solishtirish" onClick={() => toggleCompare(item.slug)}><Scale className="i" /></button>
+                          <Link href={`/jihozlar/${item.slug}`} aria-label={item.name}><img src={item.image} alt="" loading="lazy" /></Link>
+                        </div>
+                        <div className="bd">
+                          <span className={`jx-mark ${item.brandKey}`}>{brandMark[item.brandKey] ?? item.brand}</span>
+                          <h3><Link href={`/jihozlar/${item.slug}`}>{item.name}</Link></h3>
+                          <p className="kind">{cardKind[item.cat]}</p>
+                          <ul className="jx-dots">
+                            <li>{item.year} yil</li>
+                            <li>Kafolat: {item.warranty} oy</li>
+                            <li>{item.spec}</li>
+                          </ul>
+                          <strong className="jx-sum">{som(item.price)}</strong>
+                          <p className="jx-month"><CalendarClock className="i" /> {item.months} oyga {somPlain(item.monthly)} so‘m/oy</p>
+                          <div className="jx-acts">
+                            <button type="button" className="jx-add" aria-label={`${item.name} — savatga qo‘shish`} onClick={() => addCart(item)}><ShoppingCart className="i" /> Savatga</button>
+                            <button type="button" className="jx-ghost" onClick={() => setOffer(item)}>Taklif so‘rash</button>
+                          </div>
+                        </div>
+                      </article>
+                    );
+                  })}
+                </div>
+              )}
+            </div>
+          </div>
         </div>
+
+        <aside className="jx-rail">
+          <Link href="/marketplace/sotuvchi" className="jx-sell" data-testid="jihoz-sell">
+            <Plus className="i" /> Jihoz sotish
+          </Link>
+
+          <section className="jx-box">
+            <div className="jx-box-hd">
+              <h3>Jihozlarni solishtirish ({compared.length})</h3>
+              <button type="button" onClick={() => setCompare([])}>Barchasini tozalash</button>
+            </div>
+            {compared.length === 0 ? <p className="jx-muted">Kartochkadagi <Scale className="i" /> belgisini bosib, 3 tagacha jihozni solishtiring.</p> : null}
+            {compared.map((item) => (
+              <div className="jx-cmp-row" key={item.slug}>
+                <img src={item.image} alt="" />
+                <div>
+                  <b>{item.name.replace(/^Dentsply /, "")}</b>
+                  <span>{cardKind[item.cat]}</span>
+                  <strong>{som(item.price)}</strong>
+                </div>
+                <button type="button" className="x" aria-label={`${item.name}ni olib tashlash`} onClick={() => toggleCompare(item.slug)}><X className="i" /></button>
+              </div>
+            ))}
+            <button type="button" className="jx-wide" disabled={compared.length < 2} onClick={() => setTable(true)}>Solishtirish <ArrowRight className="i" /></button>
+          </section>
+
+          <section className="jx-box jx-consult">
+            <div className="txt">
+              <h3>Bepul konsultatsiya</h3>
+              <p>Jihoz tanlashda yordam beramiz</p>
+              <ul>
+                <li><CheckCircle2 className="i" /> Mutaxassis maslahati</li>
+                <li><CheckCircle2 className="i" /> Lizing va to‘lov variantlari</li>
+                <li><CheckCircle2 className="i" /> Klinikangizga mos yechim</li>
+              </ul>
+            </div>
+            <img src="/img/jihoz/d-consult.jpg" alt="" />
+            <button type="button" className="jx-dark" onClick={() => setConsult(true)}>Muhandis bilan bog‘lanish <ArrowRight className="i" /></button>
+          </section>
+
+          <section className="jx-box">
+            <h3 className="jx-why-title">Nega StomaHub?</h3>
+            <ul className="jx-why">
+              <li><span className="ic"><BadgeCheck className="i" /></span><span><b>Rasmiy distribyutorlar</b><small>Original mahsulotlar</small></span></li>
+              <li><span className="ic"><ShieldCheck className="i" /></span><span><b>Kafolat va servis</b><small>Butun O‘zbekiston bo‘ylab</small></span></li>
+              <li><span className="ic"><Wallet className="i" /></span><span><b>Lizing / bo‘lib to‘lash</b><small>Qulay to‘lov shartlari</small></span></li>
+              <li><span className="ic"><Wrench className="i" /></span><span><b>O‘rnatish va trening</b><small>Mutaxassislar tomonidan</small></span></li>
+              <li><span className="ic"><Headphones className="i" /></span><span><b>Texnik qo‘llab-quvvatlash</b><small>24/7 maslahat</small></span></li>
+            </ul>
+          </section>
+        </aside>
+
+        {offer || consult ? (
+          <RequestModal
+            title={offer ? "Taklif so‘rash" : "Muhandis bilan bog‘lanish"}
+            subject={offer ? offer.name : "Jihoz tanlash bo‘yicha konsultatsiya"}
+            onClose={() => {
+              setOffer(null);
+              setConsult(false);
+            }}
+            onSent={(text) => setNote(text)}
+          />
+        ) : null}
+
+        {table ? (
+          <div className="jx-modal" role="dialog" aria-modal="true" aria-label="Solishtirish" onMouseDown={(event) => event.target === event.currentTarget && setTable(false)}>
+            <div className="jx-dialog wide">
+              <h3>Jihozlarni solishtirish</h3>
+              <table className="jx-table">
+                <thead><tr><th />{compared.map((item) => <th key={item.slug}><img src={item.image} alt="" />{item.name}</th>)}</tr></thead>
+                <tbody>
+                  <tr><td>Narx</td>{compared.map((item) => <td key={item.slug}><b>{som(item.price)}</b></td>)}</tr>
+                  <tr><td>Kategoriya</td>{compared.map((item) => <td key={item.slug}>{catLabel(item.cat)}</td>)}</tr>
+                  <tr><td>Holati</td>{compared.map((item) => <td key={item.slug}>{condText(item.condition)}</td>)}</tr>
+                  <tr><td>Yil</td>{compared.map((item) => <td key={item.slug}>{item.year}</td>)}</tr>
+                  <tr><td>Kafolat</td>{compared.map((item) => <td key={item.slug}>{item.warranty} oy</td>)}</tr>
+                  <tr><td>Bo‘lib to‘lash</td>{compared.map((item) => <td key={item.slug}>{item.months} oy × {somPlain(item.monthly)}</td>)}</tr>
+                  <tr><td>O‘rnatish</td>{compared.map((item) => <td key={item.slug}>{item.install ? "Bor" : "Yo‘q"}</td>)}</tr>
+                  <tr><td>Rasmiy distribyutor</td>{compared.map((item) => <td key={item.slug}>{item.official ? "Ha" : "Yo‘q"}</td>)}</tr>
+                </tbody>
+              </table>
+              <div className="acts"><button type="button" className="jx-ghost" onClick={() => setTable(false)}>Yopish</button></div>
+            </div>
+          </div>
+        ) : null}
+        {note ? <p className="jx-toast" role="status" onAnimationEnd={() => setNote("")}>{note}</p> : null}
       </div>
-
-      {sell ? (
-        <div className="jz-modal" onClick={() => setSell(false)}>
-          <div className="jz-dialog" onClick={(event) => event.stopPropagation()}>
-            <h3>Jihoz sotish</h3>
-            <label>Ism<input value={sellForm.name} onChange={(event) => setSellForm({ ...sellForm, name: event.target.value })} /></label>
-            <label>Telefon<input value={sellForm.phone} onChange={(event) => setSellForm({ ...sellForm, phone: event.target.value })} /></label>
-            <label>Jihoz haqida<textarea rows={3} value={sellForm.text} onChange={(event) => setSellForm({ ...sellForm, text: event.target.value })} /></label>
-            <div className="acts">
-              <button type="button" className="jz-add" onClick={() => { setSell(false); setNote("Sotish so‘rovi qabul qilindi."); }}>Yuborish</button>
-              <button type="button" className="jz-ghost" onClick={() => setSell(false)}>Bekor qilish</button>
-            </div>
-          </div>
-        </div>
-      ) : null}
-
-      {offer ? (
-        <div className="jz-modal" onClick={() => setOffer(null)}>
-          <div className="jz-dialog" onClick={(event) => event.stopPropagation()}>
-            <h3>Taklif so‘rash</h3>
-            <p>{offer.name}</p>
-            <label>Ism<input /></label>
-            <label>Telefon<input /></label>
-            <div className="acts">
-              <button type="button" className="jz-add" onClick={() => { setNote(`${offer.name} uchun taklif so‘rovi yuborildi.`); setOffer(null); }}>Yuborish</button>
-              <button type="button" className="jz-ghost" onClick={() => setOffer(null)}>Bekor qilish</button>
-            </div>
-          </div>
-        </div>
-      ) : null}
-
-      {table ? (
-        <div className="jz-modal" onClick={() => setTable(false)}>
-          <div className="jz-dialog" onClick={(event) => event.stopPropagation()}>
-            <h3>Solishtirish</h3>
-            <table className="jz-table">
-              <thead><tr><th>Jihoz</th>{compared.map((item) => <th key={item.slug}>{item.name}</th>)}</tr></thead>
-              <tbody>
-                <tr><td>Narx</td>{compared.map((item) => <td key={item.slug}>{som(item.price)}</td>)}</tr>
-                <tr><td>Yil</td>{compared.map((item) => <td key={item.slug}>{item.year}</td>)}</tr>
-                <tr><td>Kafolat</td>{compared.map((item) => <td key={item.slug}>{item.warranty} oy</td>)}</tr>
-                <tr><td>Bo‘lib to‘lash</td>{compared.map((item) => <td key={item.slug}>{item.months} oyga {somPlain(item.monthly)}</td>)}</tr>
-              </tbody>
-            </table>
-            <div className="acts"><button type="button" className="jz-ghost" onClick={() => setTable(false)}>Yopish</button></div>
-          </div>
-        </div>
-      ) : null}
     </ShopShell>
+  );
+}
+
+function Check({ on, label, count, onClick }: { on: boolean; label: string; count: number; onClick: () => void }) {
+  return (
+    <button type="button" className={on ? "jx-check on" : "jx-check"} aria-pressed={on} onClick={onClick}>
+      <i className="cb" aria-hidden />
+      <span>{label}</span>
+      <em>({count})</em>
+    </button>
+  );
+}
+
+function Switch({ label, on, onClick }: { label: string; on: boolean; onClick: () => void }) {
+  return (
+    <button type="button" role="switch" aria-checked={on} className={on ? "jx-switch on" : "jx-switch"} onClick={onClick}>
+      <span>{label}</span>
+      <i aria-hidden />
+    </button>
+  );
+}
+
+/**
+ * Request form (offer / consultation). There is no equipment-sales backend yet, so the form says so
+ * plainly instead of pretending the request reached a seller.
+ */
+export function RequestModal({ title, subject, onClose, onSent }: { title: string; subject: string; onClose: () => void; onSent: (text: string) => void }) {
+  const [name, setName] = useState("");
+  const [phone, setPhone] = useState("");
+  const [text, setText] = useState("");
+  const [error, setError] = useState("");
+  return (
+    <div className="jx-modal" role="dialog" aria-modal="true" aria-label={title} onMouseDown={(event) => event.target === event.currentTarget && onClose()}>
+      <form
+        className="jx-dialog"
+        onSubmit={(event) => {
+          event.preventDefault();
+          if (!name.trim() || phone.replace(/\D/g, "").length < 9) {
+            setError("Ism va telefon raqamini to‘liq kiriting.");
+            return;
+          }
+          onSent("Namuna: so‘rovlar hali sotuvchiga yuborilmaydi — bu funksiya tez orada ishga tushadi.");
+          onClose();
+        }}
+      >
+        <h3>{title}</h3>
+        <p className="sub">{subject}</p>
+        <label>Ism<input value={name} onChange={(event) => setName(event.target.value)} placeholder="Ism Familiya" /></label>
+        <label>Telefon<input value={phone} onChange={(event) => setPhone(event.target.value)} placeholder="+998 90 123 45 67" inputMode="tel" /></label>
+        <label>Izoh (ixtiyoriy)<textarea rows={3} value={text} onChange={(event) => setText(event.target.value)} /></label>
+        {error ? <p className="err">{error}</p> : null}
+        <p className="hint">Hozircha namuna rejimi: so‘rov sotuvchiga yuborilmaydi.</p>
+        <div className="acts">
+          <button type="submit" className="jx-add">Yuborish</button>
+          <button type="button" className="jx-ghost" onClick={onClose}>Bekor qilish</button>
+        </div>
+      </form>
+    </div>
   );
 }

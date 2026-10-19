@@ -46,6 +46,7 @@ import { listingFromDb, type DbSurplus } from "@/lib/surplus-work";
 import { api } from "@/lib/work-client";
 import { cn } from "@/lib/utils";
 import { getMobileSurplus } from "@/data/mobile-surplus";
+import { surplusView } from "@/components/surplus/mobile/surplus-view";
 import { SurplusMobileDetail } from "@/components/surplus/mobile/SurplusMobileDetail";
 
 const EMPTY = "—";
@@ -89,7 +90,7 @@ export function SurplusProductPage({ id }: { id: string }) {
   if (!design) return <SurplusProductBody id={id} />;
   return (
     <>
-      <SurplusMobileDetail item={design} />
+      <SurplusMobileDetail view={surplusView(design)} />
       <div className="hidden lg:block">
         <SurplusProductBody id={id} />
       </div>
@@ -162,27 +163,8 @@ function SurplusProductBody({ id }: { id: string }) {
 
   return (
     <div data-testid="surplus-pdp">
-      {/* ─────────── MOBILE ─────────── */}
-      <div className="pb-2 lg:hidden">
-        <div className="relative">
-          <UzumHero product={product} gallery={gallery} backHref="/ortiqcha-material" />
-          {!l.hasPhoto ? <NoPhotoBadge className="absolute top-[74px] left-0" /> : null}
-        </div>
-        <PriceCard l={l} className="-mx-4 -mt-6 rounded-[24px] shadow-[0_-4px_16px_rgba(15,23,42,0.04)]" />
-        {modNote ? <ModNote text={modNote} className="-mx-4 mt-2.5" /> : null}
-        <TitleCard l={l} className="-mx-4 mt-2.5" />
-        <div className="-mx-4 mt-2.5 space-y-2.5">
-          <VideoCard l={l} />
-          <SpecsCard l={l} />
-          <DescriptionCard l={l} />
-          <LocationCard l={l} />
-          <SellerCard l={l} />
-          <ReviewsCard />
-          <SafetyCard />
-          <SimilarCard items={similar} />
-        </div>
-        <BottomBar l={l} onContact={() => setModal("contact")} onEdit={() => setModal("edit")} />
-      </div>
+      {/* ─────────── MOBILE (design layout, real listing) ─────────── */}
+      <SurplusMobileDetail view={surplusView(l)} modNote={modNote} onContact={() => setModal("contact")} onEdit={() => setModal("edit")} />
 
       {/* ─────────── DESKTOP ─────────── */}
       <div className="hidden lg:block">

@@ -1,42 +1,43 @@
 "use client";
-/* eslint-disable @next/next/no-img-element -- catalog photos are sized by the fluid unit */
+/* eslint-disable @next/next/no-img-element -- catalog photos are fixed card crops */
 
 import { useMemo, useState } from "react";
 import Link from "next/link";
-import { Heart, MapPin, Plus, Search, ShoppingCart, SlidersHorizontal } from "lucide-react";
-import { useCart } from "@/components/cart-provider";
+import { Heart, LayoutGrid, MapPin, Plus, Search, SlidersHorizontal, ChevronDown } from "lucide-react";
 import { useFavorites } from "@/components/favorites-provider";
-import { MobileMenuButton } from "@/components/dashboard/mobile-chrome";
-import { NotificationBell } from "@/components/notification-bell";
+import { useSurplusWork } from "@/components/surplus-provider";
+import { MobileBrandBar } from "@/components/mobile/MobileBrandBar";
 import {
-  MOBILE_SURPLUS_TOTAL,
   mobileSurplusChips,
   mobileSurplusItems,
   mobileSurplusSorts,
   type MobileSurplusChip,
-  type MobileSurplusItem,
   type MobileSurplusSort,
 } from "@/data/mobile-surplus";
+import { surplusView, type SurplusView } from "./surplus-view";
 import { formatMoney } from "@/lib/format";
 import "./surplus-mobile.css";
 
-const cities = [...new Set(mobileSurplusItems.map((item) => item.city))];
-const conditions = [...new Set(mobileSurplusItems.map((item) => item.condition))];
-
 export function SurplusMobileCatalog({ onPost }: { onPost: () => void }) {
-  const { count } = useCart();
   const favorites = useFavorites();
+  const { feed } = useSurplusWork();
   const [query, setQuery] = useState("");
   const [chip, setChip] = useState<MobileSurplusChip>("all");
   const [sort, setSort] = useState<MobileSurplusSort>("new");
   const [filters, setFilters] = useState(false);
   const [city, setCity] = useState("");
   const [condition, setCondition] = useState("");
-  const cartBadge = count > 0 ? count : 3;
+
+  const all = useMemo<SurplusView[]>(
+    () => [...feed.filter((item) => item.active !== false).map(surplusView), ...mobileSurplusItems.map((item) => surplusView(item))],
+    [feed],
+  );
+  const cities = useMemo(() => [...new Set(all.map((item) => item.city).filter(Boolean))], [all]);
+  const conditions = useMemo(() => [...new Set(all.map((item) => item.condition).filter(Boolean))], [all]);
 
   const list = useMemo(() => {
     const q = query.trim().toLowerCase();
-    const items = mobileSurplusItems.filter((item) => {
+    const items = all.filter((item) => {
       if (chip !== "all" && item.chip !== chip) return false;
       if (city && item.city !== city) return false;
       if (condition && item.condition !== condition) return false;
@@ -47,71 +48,63 @@ export function SurplusMobileCatalog({ onPost }: { onPost: () => void }) {
     if (sort === "dear") return [...items].sort((a, b) => b.price - a.price);
     if (sort === "discount") return [...items].sort((a, b) => b.discount - a.discount);
     return items;
-  }, [chip, city, condition, query, sort]);
-
-  const narrowed = chip !== "all" || Boolean(query.trim()) || Boolean(city) || Boolean(condition);
-  const shown = narrowed ? list.length : MOBILE_SURPLUS_TOTAL;
+  }, [all, chip, city, condition, query, sort]);
+  const active = Number(Boolean(city)) + Number(Boolean(condition));
 
   return (
     <div className="om lg:hidden" data-testid="mobile-surplus">
-      <header className="mh-bar">
-        <MobileMenuButton />
-        <Link href="/" className="mh-logo">
-          STOMAHUB
-        </Link>
-        <Link href="/savat" className="mh-ic" aria-label="Savat">
-          <ShoppingCart />
-          <span className="mh-badge" data-testid="om-cart-badge">
-            {cartBadge > 9 ? "9+" : cartBadge}
-          </span>
-        </Link>
-        <NotificationBell variant="mobile" minBadge={2} buttonClassName="size-10 text-[#1a1d26]" />
-      </header>
-
       <div className="om-body">
+        <MobileBrandBar />
         <div className="om-title">
-          <h1>Ortiqcha material</h1>
-          <button type="button" className="om-post" onClick={onPost}>
-            <Plus /> E‘lon berish
+          <div className="mb-head">
+            <h1>Ortiqcha material</h1>
+            <p>Stomatologlarning ortiqcha, ishlatilmayotgan materiallari</p>
+          </div>
+          <button type="button" className="om-post" data-testid="om-post" onClick={onPost}>
+            <Plus /> E’lon berish
           </button>
         </div>
-        <p className="om-sub">Stomatologlarning ortiqcha, ishlatilmayotgan materiallari</p>
 
-        <form className="om-search" onSubmit={(event) => event.preventDefault()}>
-          <Search />
-          <input
-            data-section-search
-            value={query}
-            onChange={(event) => setQuery(event.target.value)}
-            placeholder="Material, brend, nom, model..."
-            aria-label="Qidiruv"
-          />
-          <button type="button" className="om-filter" aria-label="Filtr" aria-expanded={filters} onClick={() => setFilters(true)}>
+        <form className="mb-search" onSubmit={(event) => event.preventDefault()}>
+          <label>
+            <Search />
+            <input data-section-search value={query} onChange={(event) => setQuery(event.target.value)} placeholder="Material, brend, nom, model..." aria-label="Qidiruv" />
+          </label>
+          <button type="button" className="mb-filter" aria-label="Filtr" aria-expanded={filters} data-testid="om-filter" onClick={() => setFilters(true)}>
             <SlidersHorizontal />
+            {active ? <em>{active}</em> : null}
           </button>
         </form>
 
-        <div className="om-chips" role="tablist" aria-label="Kategoriyalar">
+        <div className="mb-chips" role="tablist" aria-label="Kategoriyalar">
           {mobileSurplusChips.map((item) => (
-            <button key={item.id} type="button" className={chip === item.id ? "on" : undefined} onClick={() => setChip(item.id)}>
+            <button key={item.id} type="button" role="tab" aria-selected={chip === item.id} className={chip === item.id ? "on" : undefined} onClick={() => setChip(item.id)}>
+              {item.id === "all" ? <LayoutGrid /> : null}
               {item.label}
             </button>
           ))}
         </div>
 
         <div className="om-tools">
-          <b data-testid="om-count">{shown} ta e‘lon</b>
-          <select aria-label="Saralash" value={sort} onChange={(event) => setSort(event.target.value as MobileSurplusSort)}>
-            {mobileSurplusSorts.map((item) => (
-              <option key={item.id} value={item.id}>
-                Saralash: {item.label}
-              </option>
-            ))}
-          </select>
+          <b data-testid="om-count">{list.length} ta e’lon</b>
+          <label className="om-sort">
+            <span>Saralash:</span>
+            <select aria-label="Saralash" value={sort} onChange={(event) => setSort(event.target.value as MobileSurplusSort)}>
+              {mobileSurplusSorts.map((item) => (
+                <option key={item.id} value={item.id}>
+                  {item.label}
+                </option>
+              ))}
+            </select>
+            <ChevronDown />
+          </label>
         </div>
 
         {list.length === 0 ? (
-          <p className="om-note">Mos e‘lon topilmadi</p>
+          <div className="om-empty" data-testid="om-empty">
+            <b>Mos e’lon topilmadi</b>
+            <span>Filtrlarni o‘zgartiring yoki birinchi bo‘lib e’lon bering.</span>
+          </div>
         ) : (
           <div className="om-grid">
             {list.map((item) => (
@@ -122,10 +115,10 @@ export function SurplusMobileCatalog({ onPost }: { onPost: () => void }) {
       </div>
 
       {filters ? (
-        <div className="om-sheet" role="dialog" aria-label="Filtr">
-          <button type="button" aria-label="Yopish" className="absolute inset-0" onClick={() => setFilters(false)} />
+        <div className="mb-sheet" role="dialog" aria-label="Filtr">
+          <button type="button" aria-label="Yopish" className="bg" onClick={() => setFilters(false)} />
           <form
-            className="om-panel"
+            className="mb-panel"
             onSubmit={(event) => {
               event.preventDefault();
               setFilters(false);
@@ -151,8 +144,6 @@ export function SurplusMobileCatalog({ onPost }: { onPost: () => void }) {
             <div className="row">
               <button
                 type="button"
-                className="go"
-                style={{ background: "#eef2f6", color: "#24344d" }}
                 onClick={() => {
                   setCity("");
                   setCondition("");
@@ -162,7 +153,7 @@ export function SurplusMobileCatalog({ onPost }: { onPost: () => void }) {
                 Tozalash
               </button>
               <button type="submit" className="go">
-                Ko‘rish
+                Ko‘rsatish ({list.length})
               </button>
             </div>
           </form>
@@ -172,30 +163,29 @@ export function SurplusMobileCatalog({ onPost }: { onPost: () => void }) {
   );
 }
 
-function SurplusCard({ item, saved, onSave }: { item: MobileSurplusItem; saved: boolean; onSave: () => void }) {
+function SurplusCard({ item, saved, onSave }: { item: SurplusView; saved: boolean; onSave: () => void }) {
+  const href = `/ortiqcha-material/${item.id}`;
   return (
-    <article className="om-card">
+    <article className="om-card" data-testid="om-card" data-real={item.real ? "1" : undefined}>
       <div className="om-ph">
-        <Link href={`/ortiqcha-material/${item.id}`} aria-label={item.name}>
+        <Link href={href} aria-label={item.name} tabIndex={-1}>
           <img src={item.image} alt="" />
         </Link>
         <button type="button" className={saved ? "om-heart on" : "om-heart"} aria-label="Sevimlilar" aria-pressed={saved} onClick={onSave}>
           <Heart fill={saved ? "currentColor" : "none"} />
         </button>
       </div>
-      <Link href={`/ortiqcha-material/${item.id}`}>
+      <Link href={href} className="om-info">
         <h3>{item.name}</h3>
-        <p className="spec">
-          {item.brand} · {item.spec}
-        </p>
+        <p className="spec">{[item.brand, item.spec].filter(Boolean).join(" · ")}</p>
         <div className="om-tags">
-          <span className="ok">{item.condition}</span>
-          <span>Yaroqlilik: {item.expiry}</span>
+          {item.condition ? <span className="ok">{item.condition}</span> : null}
+          {item.expiry ? <span>Yaroqlilik: {item.expiry}</span> : null}
         </div>
         <div className="om-price">
           <b>{formatMoney(item.price, "UZS")}</b>
-          <s>{formatMoney(item.oldPrice, "UZS")}</s>
-          <em>-{item.discount}%</em>
+          {item.oldPrice > item.price ? <s>{formatMoney(item.oldPrice, "UZS")}</s> : null}
+          {item.discount > 0 ? <em>-{item.discount}%</em> : null}
         </div>
         <p className="om-pin">
           <MapPin /> {item.city}

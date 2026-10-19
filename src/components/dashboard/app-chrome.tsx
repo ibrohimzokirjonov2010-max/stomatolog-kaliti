@@ -9,12 +9,11 @@ import { KategoriyalarDesktop } from "@/components/shop/desktop/KategoriyalarDes
 import { BrandsDesktop } from "@/components/shop/desktop/BrandsDesktop";
 import { AksiyalarDesktop } from "@/components/shop/desktop/AksiyalarDesktop";
 import { MarketProduct } from "@/components/shop/desktop/MarketProduct";
-import { SurplusCatalog } from "@/components/shop/desktop/SurplusCatalog";
-import { SurplusDetail } from "@/components/shop/desktop/SurplusDetail";
-import { isMarketId, isSurplusId } from "@/data/desktop-shop";
-import { SeminarList } from "@/components/seminars/desktop/SeminarList";
-import { SeminarDetail } from "@/components/seminars/desktop/SeminarDetail";
-import { isDesktopSeminarId } from "@/data/desktop-seminars";
+import { SurplusDesktopCatalog } from "@/components/shop/desktop/SurplusDesktopCatalog";
+import { SurplusDesktopDetail } from "@/components/shop/desktop/SurplusDesktopDetail";
+import { isMarketId } from "@/data/desktop-shop";
+import { SeminarsDesktop } from "@/components/seminars/desktop/SeminarsDesktop";
+import { SeminarPageDesktop } from "@/components/seminars/desktop/SeminarPageDesktop";
 import { OnlaynDarslarDesktop } from "@/components/education/desktop/OnlaynDarslarDesktop";
 import { KitoblarDesktop } from "@/components/hub/desktop/KitoblarDesktop";
 import { KanallarDesktop } from "@/components/hub/desktop/KanallarDesktop";
@@ -28,6 +27,8 @@ import { JihozProduct } from "@/components/jihoz/desktop/JihozProduct";
 import { getDesktopJihoz } from "@/data/desktop-jihozlar";
 import { JobsDesktop } from "@/components/jobs/desktop/JobsDesktop";
 import { NewsDesktop } from "@/components/news/desktop/NewsDesktop";
+import { NewsArticleDesktop } from "@/components/news/desktop/NewsArticleDesktop";
+import { getDesktopArticle } from "@/data/desktop-news";
 import { MutaxassislarDesktop } from "@/components/specialists/desktop/MutaxassislarDesktop";
 import { MutaxassisProfileDesktop } from "@/components/specialists/desktop/MutaxassisProfileDesktop";
 import { getSpecialist } from "@/data/desktop-specialists";
@@ -132,11 +133,12 @@ function desktopShop(pathname: string | null): ReactNode | null {
   if (pathname === "/marketplace/aksiyalar") return <AksiyalarDesktop />;
   const brandPage = pathname.match(/^\/marketplace\/brendlar\/([^/]+)$/);
   if (brandPage) return <BrandsDesktop slug={decodeURIComponent(brandPage[1])} />;
-  if (pathname === "/ortiqcha-material") return <SurplusCatalog />;
+  if (pathname === "/ortiqcha-material") return <SurplusDesktopCatalog />;
   const market = pathname.match(/^\/marketplace\/([^/]+)$/);
   if (market && market[1] !== "sotuvchi" && isMarketId(market[1])) return <MarketProduct id={market[1]} />;
   const surplus = pathname.match(/^\/ortiqcha-material\/([^/]+)$/);
-  if (surplus && surplus[1] !== "elonlarim" && isSurplusId(surplus[1])) return <SurplusDetail id={surplus[1]} />;
+  // Real listings (DB): every /ortiqcha-material/:id except own sub-pages.
+  if (surplus && surplus[1] !== "elonlarim") return <SurplusDesktopDetail id={decodeURIComponent(surplus[1])} />;
   return null;
 }
 
@@ -175,6 +177,8 @@ function desktopJobs(pathname: string | null): ReactNode | null {
 
 function desktopNews(pathname: string | null): ReactNode | null {
   if (pathname === "/yangiliklar") return <NewsDesktop />;
+  const match = pathname?.match(/^\/yangiliklar\/([^/]+)$/);
+  if (match && getDesktopArticle(decodeURIComponent(match[1]))) return <NewsArticleDesktop id={decodeURIComponent(match[1])} />;
   return null;
 }
 
@@ -193,8 +197,10 @@ function desktopUsta(pathname: string | null): ReactNode | null {
   if (pathname === "/ustalar") return <UstaCatalog />;
   const match = pathname.match(/^\/ustalar\/([^/]+)$/);
   if (!match || match[1] === "mening" || match[1] === "sorovlarim") return null;
-  if (!getDesktopUsta(match[1])) return null;
-  return <UstaProfileDesktop slug={match[1]} />;
+  const slug = decodeURIComponent(match[1]);
+  // Design samples by slug; database masters by UUID (loaded client-side from the moderated catalog).
+  if (!getDesktopUsta(slug) && !/^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(slug)) return null;
+  return <UstaProfileDesktop slug={slug} />;
 }
 
 function desktopCart(pathname: string | null): ReactNode | null {
@@ -236,11 +242,11 @@ function desktopFlow(pathname: string | null): ReactNode | null {
 
 function desktopSeminar(pathname: string | null): ReactNode | null {
   if (!pathname) return null;
-  if (pathname === "/seminarlar") return <SeminarList />;
+  if (pathname === "/seminarlar") return <SeminarsDesktop />;
   const match = pathname.match(/^\/seminarlar\/([^/]+)$/);
   if (!match) return null;
-  const id = match[1];
+  const id = decodeURIComponent(match[1]);
   if (id === "yozuvlarim" || id === "tashkilotchi" || id === "chiptalarim") return null;
-  if (isDesktopSeminarId(id)) return <SeminarDetail id={id} />;
-  return null;
+  // One source of truth: the shared catalog (real + demo seed + organizer seminars from the DB).
+  return <SeminarPageDesktop id={id} />;
 }

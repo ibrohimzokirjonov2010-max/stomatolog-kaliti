@@ -8,7 +8,6 @@ export type MobileUsta = {
   name: string;
   role: string;
   city: string;
-  phone: string;
   status: "onlayn" | "band";
   verified: boolean;
   rating: number;
@@ -59,7 +58,6 @@ export const mobileUstalar: MobileUsta[] = [
     name: "Azizbek Tursunov",
     role: "Stomatologik jihozlar ta‘miri",
     city: "Toshkent",
-    phone: "+998901112200",
     status: "onlayn",
     verified: true,
     rating: 4.9,
@@ -90,7 +88,6 @@ export const mobileUstalar: MobileUsta[] = [
     name: "Shahzod Karimov",
     role: "Stomatologik jihozlar ta‘miri",
     city: "Toshkent",
-    phone: "+998901112201",
     status: "band",
     verified: false,
     rating: 4.8,
@@ -115,7 +112,6 @@ export const mobileUstalar: MobileUsta[] = [
     name: "Jasur Mirzayev",
     role: "Qo‘lchalar va turbinalar ta‘miri",
     city: "Toshkent",
-    phone: "+998901112202",
     status: "onlayn",
     verified: true,
     rating: 4.9,
@@ -140,7 +136,6 @@ export const mobileUstalar: MobileUsta[] = [
     name: "Otabek Nazarov",
     role: "Jihoz o‘rnatish va montaj",
     city: "Toshkent",
-    phone: "+998901112203",
     status: "onlayn",
     verified: true,
     rating: 4.7,
@@ -162,7 +157,6 @@ export const mobileUstalar: MobileUsta[] = [
     name: "Dilnoza Karimova",
     role: "Jihoz bo‘yicha maslahatchi",
     city: "Toshkent",
-    phone: "+998901112204",
     status: "onlayn",
     verified: true,
     rating: 4.6,
@@ -184,7 +178,6 @@ export const mobileUstalar: MobileUsta[] = [
     name: "Bekzod Aliyev",
     role: "Rentgen apparatlari ustasi",
     city: "Samarqand",
-    phone: "+998901112205",
     status: "band",
     verified: false,
     rating: 4.5,

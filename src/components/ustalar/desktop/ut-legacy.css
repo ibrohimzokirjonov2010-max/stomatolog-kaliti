@@ -1,0 +1,77 @@
+/* Shared ut- styles still used by the Mutaxassis desktop profile (the Ustalar pages now use usta.css). */
+.sh .ut-page { display: flex; flex-direction: column; gap: calc(.55 * var(--u)); min-width: 0; max-width: 100%; }
+.sh .ut-head { display: flex; justify-content: space-between; gap: calc(.5 * var(--u)); align-items: flex-start; flex-wrap: wrap; min-width: 0; }
+.sh .ut-head h1 { margin: 0; font-size: calc(1.35 * var(--u)); }
+.sh .ut-head p { margin: calc(.1 * var(--u)) 0 0; color: #5d6e86; font-size: calc(.68 * var(--u)); max-width: calc(36 * var(--u)); }
+.sh .ut-actions { display: flex; gap: calc(.35 * var(--u)); flex-wrap: wrap; }
+.sh .ut-alert { height: calc(2 * var(--u)); padding: 0 calc(.7 * var(--u)); border-radius: calc(.45 * var(--u)); background: #fff1f1; color: #d23b3b; border: 1px solid #ffd0d0; font-weight: 800; font-size: calc(.62 * var(--u)); display: inline-flex; align-items: center; gap: calc(.3 * var(--u)); }
+.sh .ut-alert small { display: block; font-weight: 600; font-size: calc(.48 * var(--u)); }
+.sh .ut-reg { height: calc(2 * var(--u)); padding: 0 calc(.7 * var(--u)); border-radius: calc(.45 * var(--u)); background: #f3fbfd; color: #1497a8; border: 1px solid #c5e7ee; font-weight: 800; font-size: calc(.62 * var(--u)); }
+.sh .ut-tabs { display: flex; flex-wrap: wrap; gap: calc(.3 * var(--u)); min-width: 0; }
+.sh .ut-tab { height: calc(1.75 * var(--u)); padding: 0 calc(.6 * var(--u)); border-radius: calc(1 * var(--u)); background: #fff; border: 1px solid #e6edf5; font-size: calc(.58 * var(--u)); font-weight: 700; color: #24344d; }
+.sh .ut-tab.on { background: #1497a8; color: #fff; border-color: #1497a8; }
+.sh .ut-filters { display: flex; flex-wrap: wrap; gap: calc(.3 * var(--u)); align-items: center; min-width: 0; }
+.sh .ut-filters select, .sh .ut-field input, .sh .ut-field select, .sh .ut-field textarea { height: calc(1.7 * var(--u)); border: 1px solid #e1e8f0; border-radius: calc(.35 * var(--u)); background: #fff; font-size: calc(.58 * var(--u)); padding: 0 calc(.4 * var(--u)); max-width: 100%; }
+.sh .ut-filters select { min-width: 0; }
+.sh .ut-count { margin-left: auto; color: #7d8da3; font-size: calc(.6 * var(--u)); white-space: nowrap; }
+.sh .ut-cols { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, calc(15.2 * var(--u))); gap: calc(.5 * var(--u)); align-items: start; min-width: 0; }
+.sh .ut-list { display: flex; flex-direction: column; gap: calc(.4 * var(--u)); min-width: 0; }
+.sh .ut-card, .sh .ut-box { background: #fff; border: 1px solid #e8eef6; border-radius: calc(.5 * var(--u)); min-width: 0; }
+.sh .ut-card { display: grid; grid-template-columns: calc(6.2 * var(--u)) minmax(0, 1.1fr) minmax(0, 1.3fr) minmax(0, calc(8 * var(--u))); gap: calc(.4 * var(--u)); padding: calc(.4 * var(--u)); align-items: center; }
+.sh .ut-photo { position: relative; height: calc(5.6 * var(--u)); border-radius: calc(.4 * var(--u)); overflow: hidden; background: #f4f7fb; }
+.sh .ut-photo img { width: 100%; height: 100%; object-fit: cover; }
+.sh .ut-status { position: absolute; left: calc(.25 * var(--u)); top: calc(.25 * var(--u)); background: #e7f8ee; color: #0d9a52; border-radius: calc(.3 * var(--u)); padding: 0 calc(.28 * var(--u)); font-size: calc(.46 * var(--u)); font-weight: 800; }
+.sh .ut-status.soon { background: #fff4e5; color: #c56a00; }
+.sh .ut-status.offline { background: #eef1f5; color: #6a7c93; }
+.sh .ut-card h3 { margin: 0; font-size: calc(.72 * var(--u)); }
+.sh .ut-card h3 a:hover { color: #1497a8; }
+.sh .ut-role, .sh .ut-meta { margin: calc(.08 * var(--u)) 0; color: #5d6e86; font-size: calc(.55 * var(--u)); }
+.sh .ut-tags { display: flex; flex-wrap: wrap; gap: calc(.18 * var(--u)); }
+.sh .ut-tags span, .sh .ut-skill { background: #eef8f8; color: #1497a8; border-radius: calc(.3 * var(--u)); padding: 0 calc(.3 * var(--u)); font-size: calc(.5 * var(--u)); font-weight: 700; }
+.sh .ut-stats { display: flex; flex-wrap: wrap; gap: calc(.35 * var(--u)); color: #24344d; font-size: calc(.55 * var(--u)); font-weight: 700; }
+.sh .ut-prices { display: flex; flex-direction: column; gap: calc(.12 * var(--u)); font-size: calc(.54 * var(--u)); min-width: 0; }
+.sh .ut-prices div { display: flex; justify-content: space-between; gap: calc(.3 * var(--u)); }
+.sh .ut-prices b { color: #1497a8; white-space: nowrap; }
+.sh .ut-side { display: flex; flex-direction: column; gap: calc(.2 * var(--u)); font-size: calc(.52 * var(--u)); color: #5d6e86; min-width: 0; }
+.sh .ut-side .btns { display: flex; flex-wrap: wrap; gap: calc(.2 * var(--u)); }
+.sh .ut-call, .sh .ut-tg { height: calc(1.55 * var(--u)); padding: 0 calc(.4 * var(--u)); border-radius: calc(.35 * var(--u)); border: 1px solid #d5e3ea; background: #fff; color: #1497a8; font-weight: 700; font-size: calc(.52 * var(--u)); }
+.sh .ut-order { height: calc(1.7 * var(--u)); border-radius: calc(.4 * var(--u)); background: #1497a8; color: #fff; font-weight: 800; font-size: calc(.58 * var(--u)); }
+.sh .ut-rail { display: flex; flex-direction: column; gap: calc(.45 * var(--u)); min-width: 0; }
+.sh .ut-box { padding: calc(.6 * var(--u)); }
+.sh .ut-box h3 { margin: 0 0 calc(.3 * var(--u)); font-size: calc(.72 * var(--u)); display: flex; justify-content: space-between; align-items: center; }
+.sh .ut-field { display: flex; flex-direction: column; gap: calc(.1 * var(--u)); margin-top: calc(.28 * var(--u)); font-size: calc(.55 * var(--u)); color: #5d6e86; min-width: 0; }
+.sh .ut-field textarea { height: calc(3.2 * var(--u)); padding: calc(.3 * var(--u)); }
+.sh .ut-upload { border: 1px dashed #c5d8ea; border-radius: calc(.4 * var(--u)); padding: calc(.4 * var(--u)); text-align: center; color: #1497a8; font-size: calc(.55 * var(--u)); cursor: pointer; display: block; }
+.sh .ut-split { display: grid; grid-template-columns: 1fr 1fr; gap: calc(.3 * var(--u)); min-width: 0; }
+.sh .ut-map { height: calc(6 * var(--u)); border-radius: calc(.4 * var(--u)); background: #e7f3ea; position: relative; overflow: hidden; }
+.sh .ut-pin { position: absolute; background: #fff; border-radius: calc(.3 * var(--u)); padding: calc(.15 * var(--u)) calc(.3 * var(--u)); font-size: calc(.5 * var(--u)); box-shadow: 0 2px 8px rgba(0,0,0,.08); }
+.sh .ut-why { display: flex; gap: calc(.3 * var(--u)); padding: calc(.18 * var(--u)) 0; font-size: calc(.58 * var(--u)); }
+.sh .ut-why b { display: block; }
+.sh .ut-why span { color: #6a7c93; font-size: calc(.52 * var(--u)); }
+.sh .ut-note { background: #e7f7ef; color: #0d7a52; border-radius: calc(.35 * var(--u)); padding: calc(.35 * var(--u)); font-size: calc(.58 * var(--u)); }
+.sh .ut-modal { position: fixed; inset: 0; background: rgba(15,30,50,.45); display: grid; place-items: center; z-index: 40; padding: calc(.8 * var(--u)); }
+.sh .ut-dialog { width: min(calc(26 * var(--u)), 92vw); background: #fff; border-radius: calc(.55 * var(--u)); padding: calc(.7 * var(--u)); }
+.sh .ut-crumbs { display: flex; flex-wrap: wrap; gap: calc(.25 * var(--u)); color: #7b8ba3; font-size: calc(.58 * var(--u)); min-width: 0; }
+.sh .ut-crumbs b { color: #1a2740; }
+.sh .ut-top { display: grid; grid-template-columns: calc(11 * var(--u)) minmax(0, 1fr) minmax(0, calc(13 * var(--u))); gap: calc(.5 * var(--u)); align-items: start; min-width: 0; }
+.sh .ut-hero { width: 100%; height: calc(10 * var(--u)); object-fit: cover; border-radius: calc(.5 * var(--u)); background: #f4f7fb; }
+.sh .ut-top h1 { margin: 0; font-size: calc(1.2 * var(--u)); display: flex; align-items: center; gap: calc(.3 * var(--u)); flex-wrap: wrap; }
+.sh .ut-verified { background: #e7f8ee; color: #0d9a52; border-radius: calc(.3 * var(--u)); font-size: calc(.5 * var(--u)); padding: 0 calc(.3 * var(--u)); font-weight: 800; }
+.sh .ut-cta { display: flex; flex-wrap: wrap; gap: calc(.3 * var(--u)); margin: calc(.35 * var(--u)) 0; }
+.sh .ut-cta .ut-order, .sh .ut-cta .ut-call { height: calc(1.9 * var(--u)); padding: 0 calc(.55 * var(--u)); }
+.sh .ut-skills { display: flex; flex-wrap: wrap; gap: calc(.22 * var(--u)); }
+.sh .ut-brands { display: flex; flex-wrap: wrap; gap: calc(.25 * var(--u)); margin-top: calc(.25 * var(--u)); }
+.sh .ut-brands span { border: 1px solid #e1e8f0; border-radius: calc(.3 * var(--u)); padding: calc(.08 * var(--u)) calc(.35 * var(--u)); font-size: calc(.55 * var(--u)); font-weight: 800; color: #24344d; }
+.sh .ut-mid { display: grid; grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr); gap: calc(.5 * var(--u)); min-width: 0; }
+.sh .ut-table { width: 100%; border-collapse: collapse; font-size: calc(.58 * var(--u)); }
+.sh .ut-table th, .sh .ut-table td { text-align: left; padding: calc(.22 * var(--u)) calc(.1 * var(--u)); border-bottom: 1px solid #f0f3f8; }
+.sh .ut-works { display: grid; grid-template-columns: 1fr 1fr; gap: calc(.25 * var(--u)); }
+.sh .ut-works img { width: 100%; height: calc(4.2 * var(--u)); object-fit: cover; border-radius: calc(.35 * var(--u)); background: #f4f7fb; }
+.sh .ut-reviews { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, calc(12 * var(--u))); gap: calc(.5 * var(--u)); min-width: 0; }
+.sh .ut-revgrid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: calc(.35 * var(--u)); }
+.sh .ut-rev { background: #fff; border: 1px solid #e8eef6; border-radius: calc(.45 * var(--u)); padding: calc(.45 * var(--u)); min-width: 0; }
+.sh .ut-rev b { display: block; font-size: calc(.6 * var(--u)); }
+.sh .ut-rev span, .sh .ut-rev p { color: #5d6e86; font-size: calc(.52 * var(--u)); }
+.sh .ut-bar { display: flex; align-items: center; gap: calc(.25 * var(--u)); font-size: calc(.52 * var(--u)); }
+.sh .ut-bar i { flex: 1; height: calc(.28 * var(--u)); background: #e8eef5; border-radius: 99px; overflow: hidden; }
+.sh .ut-bar i b { display: block; height: 100%; background: #22a06b; }

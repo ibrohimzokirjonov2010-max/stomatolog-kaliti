@@ -7,6 +7,9 @@ import { ArrowLeft, BadgeCheck, Battery, CalendarDays, Check, ChevronRight, Gaug
 import { useCart } from "@/components/cart-provider";
 import type { JihozKit, JihozSpec, MobileJihoz } from "@/data/mobile-jihozlar";
 import type { Product } from "@/data/products";
+import { useFavorites } from "@/components/favorites-provider";
+import { catalogShop } from "@/data/shops";
+import { site } from "@/data/site";
 import { formatMoney } from "@/lib/format";
 import "./jihoz-mobile.css";
 
@@ -40,7 +43,7 @@ function asProduct(item: MobileJihoz): Product {
     rating: item.rating,
     reviews: item.reviews,
     inStock: true,
-    delivery: "Toshkent bo‘ylab bepul",
+    delivery: "Toshkent bo‘ylab 1–2 kunda",
     image: item.gallery[0] ?? item.image,
     stockQty: 5,
   };
@@ -55,9 +58,11 @@ export function JihozMobileProduct({ item }: { item: MobileJihoz }) {
   const brand = item.pdpBrand ?? item.brand;
   const name = item.pdpName ?? item.name;
   const [photo, setPhoto] = useState(0);
-  const [saved, setSaved] = useState(false);
+  const favorites = useFavorites();
+  const saved = favorites.has(item.id);
   const [sheet, setSheet] = useState<"specs" | "pay" | "chat" | null>(null);
   const [text, setText] = useState("");
+  const tg = (msg: string) => `${site.telegram}?text=${encodeURIComponent(msg)}`;
   const [note, setNote] = useState("");
 
   async function share() {
@@ -88,7 +93,7 @@ export function JihozMobileProduct({ item }: { item: MobileJihoz }) {
       <div className="jz-cover">
         <img src={gallery[photo]} alt="" data-testid="jz-hero" />
         <Link href="/jihozlar" className="jz-float back" aria-label="Orqaga"><ArrowLeft /></Link>
-        <button type="button" className={saved ? "jz-float heart on" : "jz-float heart"} aria-label="Sevimlilar" aria-pressed={saved} onClick={() => setSaved((value) => !value)}>
+        <button type="button" className={saved ? "jz-float heart on" : "jz-float heart"} aria-label="Sevimlilar" aria-pressed={saved} onClick={() => favorites.toggle(item.id)}>
           <Heart fill={saved ? "currentColor" : "none"} />
         </button>
         <button type="button" className="jz-float share" aria-label="Ulashish" onClick={() => void share()}><Share2 /></button>
@@ -119,7 +124,7 @@ export function JihozMobileProduct({ item }: { item: MobileJihoz }) {
         {note ? <p className="jz-note">{note}</p> : null}
         <div className="jz-feats">
           <article><ShieldCheck /><b>Kafolat</b>1 yil</article>
-          <article><Truck /><b>Toshkent bo‘ylab</b>bepul yetkazish</article>
+          <article><Truck /><b>Toshkent bo‘ylab</b>1–2 kunda yetkazish</article>
           <article><Package /><b>Omborda bor</b>Tez yetkazish</article>
         </div>
         <div className="jz-sec">
@@ -148,11 +153,10 @@ export function JihozMobileProduct({ item }: { item: MobileJihoz }) {
           ))}
         </div>
         <div className="jz-seller">
-          <span className="mark">Dentium</span>
+          <span className="mark">StomaHub</span>
           <div>
-            <b>Dentium Uzbekistan <Check /></b>
-            <span>Stomatologik jihozlar va materiallar</span>
-            <p className="rate"><Star /> 4.9 (156 ta baho)</p>
+            <b>{catalogShop.name} <Check /></b>
+            <span>Platforma katalogi · {catalogShop.city}</span>
           </div>
           <button type="button" className="jz-chat" onClick={() => setSheet("chat")}><MessageCircle /> Sotuvchiga yozish</button>
         </div>
@@ -184,17 +188,18 @@ export function JihozMobileProduct({ item }: { item: MobileJihoz }) {
             {sheet === "pay" ? (
               <>
                 <h3>Bo‘lib to‘lash</h3>
-                <p>{item.months} oy · oyiga {formatMoney(item.monthly, "UZS")}</p>
-                <p>Jami {formatMoney(item.price, "UZS")}. Birinchi to‘lov shartnoma tasdiqlangach.</p>
-                <button type="button" className="go" onClick={() => { setNote("Bo‘lib to‘lash arizasi qoldirildi"); setSheet(null); }}>Ariza qoldirish</button>
+                <p>Taxminan {item.months} oy · oyiga {formatMoney(item.monthly, "UZS")} (jami {formatMoney(item.price, "UZS")}).</p>
+                <p>Bo‘lib to‘lash sayt orqali hozircha rasmiylashtirilmaydi — shartlarni operator bilan Telegram’da kelishasiz.</p>
+                <a className="go" data-testid="jz-pay-tg" href={tg(`Bo‘lib to‘lash: ${name} (${formatMoney(item.price, "UZS")}), ${item.months} oy`)} target="_blank" rel="noreferrer">Telegram’da so‘rash</a>
               </>
             ) : null}
             {sheet === "chat" ? (
-              <form onSubmit={(event) => { event.preventDefault(); setNote(text.trim() ? "Xabar yuborildi" : "Xabar matnini yozing"); setText(""); setSheet(null); }}>
+              <>
                 <h3>Sotuvchiga yozish</h3>
+                <p>Savolingiz Telegram’da {catalogShop.name} operatoriga tayyor xabar bo‘lib ochiladi.</p>
                 <textarea aria-label="Xabar" rows={3} value={text} onChange={(event) => setText(event.target.value)} placeholder="Savolingizni yozing" />
-                <button type="submit" className="go">Yuborish</button>
-              </form>
+                <a className="go" data-testid="jz-chat-tg" href={tg(`${name}: ${text.trim() || "savolim bor"}`)} target="_blank" rel="noreferrer">Telegram’da yuborish</a>
+              </>
             ) : null}
           </div>
         </div>

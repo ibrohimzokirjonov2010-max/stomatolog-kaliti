@@ -57,7 +57,7 @@ const JobsCtx = createContext<Ctx | null>(null);
 export function JobsWorkProvider({ children }: { children: ReactNode }) {
   const pathname = usePathname();
   const { profile, ready: profileReady } = useDoctorProfile();
-  const active = pathname.startsWith("/ishlar");
+  const active = pathname.startsWith("/ishlar") || pathname.startsWith("/mutaxassislar");
   const userId = profile?.id ?? null;
   const [catalog, setCatalog] = useState<Job[]>([]);
   const [resumes, setResumes] = useState<Candidate[]>([]);

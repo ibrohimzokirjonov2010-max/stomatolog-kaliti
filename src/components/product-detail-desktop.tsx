@@ -27,7 +27,7 @@ import {
   Wallet,
   type LucideIcon,
 } from "lucide-react";
-import { useCart } from "@/components/cart-provider";
+import { cartLineKey, useCart } from "@/components/cart-provider";
 import { useFavorites } from "@/components/favorites-provider";
 import { FormaProductCard } from "@/components/forma-product-card";
 import { ProductCard } from "@/components/product-card";
@@ -147,7 +147,9 @@ export function ProductDetailDesktop({ product }: { product: Product }) {
   }
 
   function buyNow() {
-    if (addToCart()) router.push("/buyurtma");
+    if (!addToCart()) return;
+    cart.selectOnly(cartLineKey(product.id, size || undefined, (showShades ? shade : color) || undefined));
+    router.push("/buyurtma");
   }
 
   const tabs: { id: TabId; label: string }[] = [

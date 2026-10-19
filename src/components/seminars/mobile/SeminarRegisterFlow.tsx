@@ -24,6 +24,7 @@ import {
 } from "lucide-react";
 import { useSeminarRegs } from "@/components/seminar-provider";
 import { resolveRegSeminar, ticketPrices } from "@/data/reg-seminar";
+import { getMobileSeminar } from "@/data/mobile-seminars";
 import { formatMoney } from "@/lib/format";
 import { rememberSeminarTicket, type SeminarTicket } from "@/lib/seminar-tickets";
 import "./seminar-register.css";
@@ -31,17 +32,14 @@ import "./seminar-register.css";
 const CITIES = ["Toshkent", "Samarqand", "Buxoro", "Andijon", "Farg‘ona", "Namangan", "Nukus", "Qarshi"];
 const SPECIALTIES = ["Implantolog", "Endodontist", "Ortodont", "Terapevt-stomatolog", "Jarroh", "Bolalar stomatologi", "Boshqa"];
 const YEARS = ["1", "2", "3", "5", "10", "15"];
-const DISCOUNT = 100_000;
-
-const PAYMENTS = [
-  { id: "click", name: "Click", text: "Click orqali to‘lov qilish", mark: "C", color: "#00b4d8" },
-  { id: "payme", name: "Payme", text: "Payme orqali to‘lov qilish", mark: "P", color: "#14b87a" },
-  { id: "uzum", name: "Uzum Bank", text: "Uzum Bank orqali to‘lov", mark: "U", color: "#7c3aed" },
-  { id: "card", name: "Bank kartasi", text: "Uzcard, Humo, Visa", mark: "", color: "#0066ff" },
-  { id: "installment", name: "Bo‘lib to‘lash", text: "Muddatli to‘lov (3-12 oy)", mark: "", color: "#0066ff" },
-] as const;
-
-type PayId = (typeof PAYMENTS)[number]["id"];
+const FAIL: Record<string, string> = {
+  auth: "Ro‘yxatdan o‘tish uchun avval hisobingizga kiring.",
+  duplicate: "Siz bu seminarga allaqachon yozilgansiz — «Seminarlarim»da ko‘ring.",
+  full: "Afsuski, joy qolmadi.",
+  closed: "Bu seminarga yozilish yopilgan.",
+  invalid: "Ism va telefon raqamini to‘g‘ri kiriting.",
+  missing: "Bu seminar namuna sifatida ko‘rsatilgan — unga ro‘yxat hali ochilmagan.",
+};
 
 function digits(value: string) {
   return value.replace(/\D/g, "");
@@ -50,6 +48,10 @@ function digits(value: string) {
 export function SeminarRegisterFlow({ id }: { id: string }) {
   const seminar = useMemo(() => resolveRegSeminar(id), [id]);
   const { register } = useSeminarRegs();
+  /** Design cards map onto the real catalog seminar they advertise (when there is one). */
+  const regId = getMobileSeminar(id)?.realId ?? id;
+  const [busy, setBusy] = useState(false);
+  const [failReason, setFailReason] = useState("");
   const prices = seminar ? ticketPrices(seminar.price) : { standart: 0, vip: 0 };
   const [step, setStep] = useState<1 | 2>(1);
   const [name, setName] = useState("");
@@ -64,9 +66,6 @@ export function SeminarRegisterFlow({ id }: { id: string }) {
   const [tier, setTier] = useState<"standart" | "vip">("standart");
   const [certificate, setCertificate] = useState(true);
   const [terms, setTerms] = useState(true);
-  const [payment, setPayment] = useState<PayId>("installment");
-  const [promo, setPromo] = useState("");
-  const [promoOn, setPromoOn] = useState(false);
   const [error, setError] = useState("");
   const [ticket, setTicket] = useState<SeminarTicket | null>(null);
   const [qr, setQr] = useState("");
@@ -108,8 +107,7 @@ export function SeminarRegisterFlow({ id }: { id: string }) {
 
   const ticketPrice = tier === "vip" ? prices.vip : prices.standart;
   const vipExtra = tier === "vip" ? prices.vip - prices.standart : 0;
-  const discount = promoOn ? Math.min(DISCOUNT, ticketPrice) : 0;
-  const total = ticketPrice - discount;
+  const total = ticketPrice;
 
   function validate() {
     if (!name.trim()) return "F.I.SH kiriting";
@@ -129,46 +127,41 @@ export function SeminarRegisterFlow({ id }: { id: string }) {
     if (!message) setStep(2);
   }
 
-  function applyPromo() {
-    if (!promo.trim()) {
-      setPromoOn(false);
-      setError("Promokod kiriting");
-      return;
-    }
-    setPromoOn(true);
-    setError("");
-  }
-
-  function pay() {
-    if (!seminar) return;
+  async function pay() {
+    if (!seminar || busy) return;
     const message = validate();
     if (message) {
       setError(message);
       setStep(1);
       return;
     }
+    setBusy(true);
+    setError("");
+    setFailReason("");
+    const res = await register({ seminarId: regId, name: name.trim(), phone: digits(phone), clinic: clinic.trim() });
+    setBusy(false);
+    if (!res.ok) {
+      const reason = res.reason === "error" && /Topilmadi/i.test(res.error ?? "") ? "missing" : res.reason;
+      setFailReason(reason);
+      setError(FAIL[reason] ?? res.error ?? "Ro‘yxatdan o‘tib bo‘lmadi. Qayta urinib ko‘ring.");
+      return;
+    }
+    const reg = res.registration;
     const next: SeminarTicket = {
-      id: `SM-${Date.now().toString().slice(-6)}`,
-      seminarId: seminar.id,
+      id: reg.id,
+      seminarId: regId,
       title: seminar.title,
       when: seminar.when,
       place: seminar.place,
       image: seminar.image,
-      name: name.trim(),
-      price: total,
+      name: reg.name || name.trim(),
+      price: reg.price ?? seminar.price,
       tier,
-      code: `SH-${Math.floor(100000 + Math.random() * 900000)}`,
-      createdAt: new Date().toISOString(),
+      code: reg.ticketCode || reg.id.slice(0, 8).toUpperCase(),
+      createdAt: reg.createdAt,
     };
     rememberSeminarTicket(next);
-    void register({
-      seminarId: seminar.id,
-      name: name.trim(),
-      phone: digits(phone),
-      clinic: clinic.trim(),
-    });
     setTicket(next);
-    setError("");
   }
 
   if (ticket) {
@@ -188,8 +181,8 @@ export function SeminarRegisterFlow({ id }: { id: string }) {
             <div className="badge">
               <Check />
             </div>
-            <h2>Ro‘yxatdan o‘tdingiz</h2>
-            <p>Elektron chipta tayyor. QR kodni kirishda ko‘rsating.</p>
+            <h2>Ro‘yxatga olindingiz</h2>
+            <p>Arizangiz tashkilotchiga yuborildi. U joyingizni tasdiqlaydi va to‘lovni siz bilan kelishadi. Chipta kodi «Seminarlarim»da ham saqlanadi.</p>
             <div className="rg-qr">{qr ? <img src={qr} alt="QR chipta" data-testid="rg-qr" /> : null}</div>
             <p className="rg-code" data-testid="rg-code">
               {ticket.code}
@@ -200,7 +193,8 @@ export function SeminarRegisterFlow({ id }: { id: string }) {
             <span>{ticket.when}</span>
             <span>{ticket.place}</span>
             <span>
-              {ticket.name} · {tier === "vip" ? "VIP" : "Standart"} · {formatMoney(ticket.price, "UZS")}
+              {ticket.name} · {formatMoney(ticket.price, "UZS")} · to‘lov tashkilotchi bilan</span>
+            <span>
             </span>
           </article>
         </div>
@@ -233,13 +227,24 @@ export function SeminarRegisterFlow({ id }: { id: string }) {
           <div className={step === 2 ? "rg-line on" : "rg-line"} />
           <div className={step === 2 ? "rg-step on" : "rg-step"}>
             <i>2</i>
-            To‘lov
+            Tasdiqlash
           </div>
         </div>
         <Summary seminar={seminar} />
         {error ? (
           <p className="rg-error" data-testid="rg-error">
             {error}
+            {failReason === "auth" ? (
+              <>
+                {" "}
+                <Link href={`/kirish?next=${encodeURIComponent(`/seminarlar/${id}/royxat`)}`}>Kirish →</Link>
+              </>
+            ) : failReason === "duplicate" ? (
+              <>
+                {" "}
+                <Link href="/seminarlar/yozuvlarim">Seminarlarim →</Link>
+              </>
+            ) : null}
           </p>
         ) : null}
 
@@ -400,57 +405,11 @@ export function SeminarRegisterFlow({ id }: { id: string }) {
           </>
         ) : (
           <>
-            <section className="rg-block">
+            <section className="rg-block" data-testid="rg-payinfo">
               <h2>
-                <CreditCard /> To‘lov usulini tanlang
+                <CreditCard /> To‘lov
               </h2>
-              <div className="rg-choices">
-                {PAYMENTS.map((item) => (
-                  <button
-                    key={item.id}
-                    type="button"
-                    className={payment === item.id ? "rg-pay on" : "rg-pay"}
-                    data-testid={`rg-pay-${item.id}`}
-                    aria-pressed={payment === item.id}
-                    onClick={() => setPayment(item.id)}
-                  >
-                    {item.id === "card" ? (
-                      <i className="ic" style={{ width: 28, height: 28, borderRadius: 8, display: "grid", placeItems: "center", background: "#eef3f8", marginBottom: 6 }}>
-                        <CreditCard style={{ width: 16, height: 16 }} />
-                      </i>
-                    ) : item.id === "installment" ? (
-                      <i className="ic" style={{ width: 28, height: 28, borderRadius: 8, display: "grid", placeItems: "center", background: "#e8f1ff", color: "#0066ff", marginBottom: 6 }}>
-                        <Clock style={{ width: 16, height: 16 }} />
-                      </i>
-                    ) : (
-                      <span className="rg-mark" style={{ background: item.color }}>
-                        {item.mark}
-                      </span>
-                    )}
-                    <b>{item.name}</b>
-                    <small>{item.text}</small>
-                    {item.id === "card" ? (
-                      <span className="rg-logos">
-                        <span className="uz">UZCARD</span>
-                        <span className="hu">HUMO</span>
-                        <span className="vi">VISA</span>
-                      </span>
-                    ) : null}
-                    <span className="rg-dot">{payment === item.id ? <Check /> : null}</span>
-                  </button>
-                ))}
-              </div>
-            </section>
-            <section className="rg-block">
-              <h2>
-                <Ticket /> Promokod
-              </h2>
-              <div className="rg-promo">
-                <input data-testid="rg-promo" aria-label="Promokod" value={promo} placeholder="Promokod kiriting" onChange={(event) => setPromo(event.target.value)} />
-                <button type="button" data-testid="rg-apply" onClick={applyPromo}>
-                  Qo‘llash
-                </button>
-              </div>
+              <p className="rg-honest">Onlayn to‘lov hozircha ulanmagan — bu yerda pul yechilmaydi. Ro‘yxatdan o‘tganingizdan so‘ng tashkilotchi joyingizni tasdiqlaydi va to‘lovni (naqd, karta yoki o‘tkazma) siz bilan kelishadi.</p>
             </section>
             <section className="rg-block">
               <h2>
@@ -461,10 +420,7 @@ export function SeminarRegisterFlow({ id }: { id: string }) {
                   Seminar narxi <b>{formatMoney(prices.standart, "UZS")}</b>
                 </p>
                 <p className={vipExtra === 0 ? "free" : undefined}>
-                  VIP paket <b>{formatMoney(vipExtra, "UZS")}</b>
-                </p>
-                <p className="free">
-                  Chegirma (promokod) <b>{formatMoney(discount, "UZS")}</b>
+                  VIP paket <b>{vipExtra ? `+${formatMoney(vipExtra, "UZS")}` : formatMoney(0, "UZS")}</b>
                 </p>
                 <p className="jami">
                   Jami summa <b data-testid="rg-summary-total">{formatMoney(total, "UZS")}</b>
@@ -473,7 +429,7 @@ export function SeminarRegisterFlow({ id }: { id: string }) {
             </section>
             <p className="rg-note">
               <Info />
-              To‘lovdan so‘ng elektron chipta (QR kodi) va sertifikat sizning email manzilingizga va Telegram orqali yuboriladi.
+              Ro‘yxatdan so‘ng chipta kodi va QR shu yerda va «Seminarlarim»da chiqadi. Sertifikat seminarda qatnashganingiz tasdiqlangach «Sertifikatlar» bo‘limida paydo bo‘ladi.
             </p>
           </>
         )}
@@ -485,12 +441,12 @@ export function SeminarRegisterFlow({ id }: { id: string }) {
         </div>
         {step === 1 ? (
           <button type="button" className="rg-go" data-testid="rg-next" onClick={goPay}>
-            <b>To‘lovga o‘tish →</b>
-            <span>2-bosqich: to‘lov</span>
+            <b>Davom etish →</b>
+            <span>2-bosqich: tasdiqlash</span>
           </button>
         ) : (
-          <button type="button" className="rg-go" data-testid="rg-pay" onClick={pay}>
-            <b>To‘lash {formatMoney(total, "UZS")} →</b>
+          <button type="button" className="rg-go" data-testid="rg-pay" disabled={busy} onClick={() => void pay()}>
+            <b>{busy ? "Yuborilmoqda..." : "Ro‘yxatdan o‘tish →"}</b>
           </button>
         )}
       </div>
