@@ -11,6 +11,7 @@ import { AksiyalarDesktop } from "@/components/shop/desktop/AksiyalarDesktop";
 import { MarketProduct } from "@/components/shop/desktop/MarketProduct";
 import { SurplusCatalog } from "@/components/shop/desktop/SurplusCatalog";
 import { SurplusDetail } from "@/components/shop/desktop/SurplusDetail";
+import { SurplusPostDesktop } from "@/components/shop/desktop/SurplusPost";
 import { isMarketId, isSurplusId } from "@/data/desktop-shop";
 import { SeminarList } from "@/components/seminars/desktop/SeminarList";
 import { SeminarDetail } from "@/components/seminars/desktop/SeminarDetail";
@@ -133,6 +134,7 @@ function desktopShop(pathname: string | null): ReactNode | null {
   const brandPage = pathname.match(/^\/marketplace\/brendlar\/([^/]+)$/);
   if (brandPage) return <BrandsDesktop slug={decodeURIComponent(brandPage[1])} />;
   if (pathname === "/ortiqcha-material") return <SurplusCatalog />;
+  if (pathname === "/ortiqcha-material/yangi") return <SurplusPostDesktop />;
   const market = pathname.match(/^\/marketplace\/([^/]+)$/);
   if (market && market[1] !== "sotuvchi" && isMarketId(market[1])) return <MarketProduct id={market[1]} />;
   const surplus = pathname.match(/^\/ortiqcha-material\/([^/]+)$/);

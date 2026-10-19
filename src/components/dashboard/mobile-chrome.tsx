@@ -105,7 +105,7 @@ function marketplacePath(path: string) {
 
 function surplusMobilePath(path: string) {
   if (path === "/ortiqcha-material") return true;
-  return /^\/ortiqcha-material\/[^/]+\/?$/.test(path) && !path.startsWith("/ortiqcha-material/elonlarim");
+  return /^\/ortiqcha-material\/[^/]+\/?$/.test(path) && !path.startsWith("/ortiqcha-material/elonlarim") && !path.startsWith("/ortiqcha-material/yangi");
 }
 
 
@@ -732,7 +732,7 @@ export function MobileTabBar() {
 
 function isProductDetailPath(path: string) {
   if (path.startsWith("/product/")) return true;
-  if (/^\/ortiqcha-material\/[^/]+\/?$/.test(path) && !path.startsWith("/ortiqcha-material/elonlarim")) return true;
+  if (/^\/ortiqcha-material\/[^/]+\/?$/.test(path) && !path.startsWith("/ortiqcha-material/elonlarim") && !path.startsWith("/ortiqcha-material/yangi")) return true;
   if (/^\/forma\/[^/]+\/?$/.test(path) && !path.startsWith("/forma/buyurtmalarim")) return true;
   if (/^\/jihozlar\/[^/]+\/?$/.test(path)) return true;
   if (!path.startsWith("/marketplace/")) return false;

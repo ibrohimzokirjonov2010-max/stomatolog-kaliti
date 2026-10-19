@@ -1,0 +1,438 @@
+/* Buttons inside .sh are reset to plain text in globals.css (.sh button).
+   Every control here is scoped under .sh .sp-post so it wins that reset. */
+.sh .sp-post {
+  font-size: 14px;
+  line-height: 1.45;
+  color: #0f1e3d;
+  max-width: 1180px;
+}
+.sh .sp-post .sp-crumbs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  align-items: center;
+  color: #7b8ba3;
+  font-size: 13px;
+  margin-bottom: 10px;
+}
+.sh .sp-post .sp-crumbs a { color: #0066ff; font-weight: 650; }
+.sh .sp-post .sp-crumbs a:hover { text-decoration: underline; }
+.sh .sp-post h1 {
+  margin: 0;
+  font-size: 28px;
+  line-height: 1.15;
+  letter-spacing: -0.02em;
+  font-weight: 800;
+  color: #0f1e3d;
+}
+.sh .sp-post .sp-lead { margin: 6px 0 16px; color: #5d6e86; font-size: 14px; max-width: 640px; }
+
+.sh .sp-post .sp-steps {
+  --done: 0;
+  position: relative;
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 8px;
+  margin-bottom: 16px;
+  background: #fff;
+  border: 1px solid #e8eef6;
+  border-radius: 16px;
+  box-shadow: 0 2px 10px rgba(20, 40, 80, 0.04);
+  padding: 18px 12px 14px;
+}
+.sh .sp-post .sp-steps::before,
+.sh .sp-post .sp-steps::after {
+  content: "";
+  position: absolute;
+  top: 33px;
+  left: 12.5%;
+  height: 2px;
+  border-radius: 99px;
+  z-index: 0;
+}
+.sh .sp-post .sp-steps::before { right: 12.5%; background: #e2e8f0; }
+.sh .sp-post .sp-steps::after { width: calc((100% - 25%) * var(--done)); background: #0066ff; }
+.sh .sp-post button.sp-step {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  min-width: 0;
+  background: transparent;
+  border: 0;
+  padding: 0;
+  color: #64748b;
+  font-size: 13px;
+  font-weight: 700;
+  cursor: pointer;
+}
+.sh .sp-post button.sp-step:hover { color: #0066ff; }
+.sh .sp-post button.sp-step:focus-visible { outline: 2px solid #0066ff; outline-offset: 3px; border-radius: 10px; }
+.sh .sp-post button.sp-step .n {
+  width: 32px;
+  height: 32px;
+  border-radius: 999px;
+  display: grid;
+  place-items: center;
+  background: #fff;
+  border: 2px solid #e2e8f0;
+  color: #64748b;
+  font-size: 13px;
+  font-weight: 800;
+}
+.sh .sp-post button.sp-step.on .n,
+.sh .sp-post button.sp-step.done .n {
+  background: #0066ff;
+  border-color: #0066ff;
+  color: #fff;
+}
+.sh .sp-post button.sp-step.on,
+.sh .sp-post button.sp-step.done { color: #0f1e3d; }
+.sh .sp-post button.sp-step .label { text-align: center; line-height: 1.2; }
+
+.sh .sp-post .sp-layout { display: grid; grid-template-columns: minmax(0, 1fr) 320px; gap: 16px; align-items: start; }
+.sh .sp-post .sp-main { display: flex; flex-direction: column; gap: 14px; min-width: 0; }
+.sh .sp-post .sp-side { position: sticky; top: 84px; display: flex; flex-direction: column; gap: 12px; min-width: 0; }
+
+.sh .sp-post .sp-card {
+  background: #fff;
+  border: 1px solid #e8eef6;
+  border-radius: 16px;
+  box-shadow: 0 2px 10px rgba(20, 40, 80, 0.04);
+  padding: 16px 16px 14px;
+}
+.sh .sp-post .sp-card h2 {
+  margin: 0 0 14px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 16px;
+  font-weight: 800;
+  color: #0f1e3d;
+}
+.sh .sp-post .sp-card h2 svg { color: #0066ff; flex: none; }
+.sh .sp-post .sp-card h3 { margin: 0; font-size: 15px; font-weight: 800; color: #0f1e3d; }
+
+.sh .sp-post .sp-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+.sh .sp-post .sp-grid .wide { grid-column: 1 / -1; }
+.sh .sp-post .sp-field { display: flex; flex-direction: column; min-width: 0; }
+.sh .sp-post .sp-field label,
+.sh .sp-post .sp-label { font-size: 13px; font-weight: 700; color: #24344d; margin-bottom: 6px; }
+.sh .sp-post .sp-req { color: #ef3b3b; }
+.sh .sp-post .sp-field input,
+.sh .sp-post .sp-field select,
+.sh .sp-post .sp-field textarea {
+  width: 100%;
+  height: 44px;
+  border: 1px solid #e2e8f0;
+  border-radius: 12px;
+  background-color: #fff;
+  padding: 0 12px;
+  font: inherit;
+  font-size: 14px;
+  color: #0f1e3d;
+  outline: none;
+  box-shadow: none;
+}
+.sh .sp-post .sp-field select {
+  appearance: none;
+  -webkit-appearance: none;
+  padding-right: 36px;
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%2364748b' stroke-width='2.4' stroke-linecap='round' stroke-linejoin='round'><path d='m6 9 6 6 6-6'/></svg>");
+  background-repeat: no-repeat;
+  background-position: right 12px center;
+  background-size: 16px;
+}
+.sh .sp-post .sp-field textarea { height: 96px; padding: 10px 12px; resize: vertical; }
+.sh .sp-post .sp-field input:focus,
+.sh .sp-post .sp-field select:focus,
+.sh .sp-post .sp-field textarea:focus {
+  border-color: #0066ff;
+  box-shadow: 0 0 0 3px rgba(0, 102, 255, 0.15);
+}
+.sh .sp-post .sp-field.is-bad input,
+.sh .sp-post .sp-field.is-bad select,
+.sh .sp-post .sp-field.is-bad textarea { border-color: #ef3b3b; }
+.sh .sp-post .sp-err { margin-top: 4px; color: #dc2626; font-size: 12.5px; font-weight: 600; }
+.sh .sp-post .sp-hint { margin-top: 4px; color: #7b8ba3; font-size: 12px; }
+.sh .sp-post .sp-count { margin-top: 4px; text-align: right; color: #8b9bb0; font-size: 12px; }
+.sh .sp-post .sp-split { display: grid; grid-template-columns: minmax(0, 1fr) 140px; gap: 8px; }
+
+.sh .sp-post .sp-chips { display: flex; flex-wrap: wrap; gap: 8px; }
+.sh .sp-post button.sp-chip {
+  height: auto;
+  padding: 8px 16px;
+  border-radius: 999px;
+  border: 1px solid #e2e8f0;
+  background: #fff;
+  color: #24344d;
+  font-size: 13px;
+  font-weight: 650;
+  line-height: 1.2;
+  cursor: pointer;
+}
+.sh .sp-post button.sp-chip:hover { border-color: #0066ff; color: #0066ff; }
+.sh .sp-post button.sp-chip:focus-visible { outline: 2px solid #0066ff; outline-offset: 2px; }
+.sh .sp-post button.sp-chip.on,
+.sh .sp-post button.sp-chip.on:hover { background: #0066ff; border-color: #0066ff; color: #fff; }
+
+.sh .sp-post .sp-drop {
+  border: 1.5px dashed #c5d4e4;
+  border-radius: 14px;
+  background: #f8fafc;
+  padding: 18px;
+  text-align: center;
+  color: #5d6e86;
+}
+.sh .sp-post .sp-drop.over { border-color: #0066ff; background: #f3f7ff; }
+.sh .sp-post .sp-drop strong { display: block; color: #0f1e3d; font-size: 14px; margin-bottom: 4px; }
+
+.sh .sp-post button.sp-outline,
+.sh .sp-post button.sp-ghost,
+.sh .sp-post button.sp-primary,
+.sh .sp-post button.sp-video,
+.sh .sp-post button.sp-icon,
+.sh .sp-post button.sp-x,
+.sh .sp-post button.sp-move {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  cursor: pointer;
+  font-weight: 700;
+  font-size: 14px;
+  line-height: 1;
+}
+.sh .sp-post button.sp-outline {
+  height: 40px;
+  padding: 0 14px;
+  border-radius: 12px;
+  border: 1px solid #e2e8f0;
+  background: #fff;
+  color: #0f1e3d;
+}
+.sh .sp-post button.sp-outline:hover { border-color: #0066ff; color: #0066ff; }
+.sh .sp-post button.sp-outline:focus-visible,
+.sh .sp-post button.sp-ghost:focus-visible,
+.sh .sp-post button.sp-primary:focus-visible,
+.sh .sp-post button.sp-video:focus-visible { outline: 2px solid #0066ff; outline-offset: 2px; }
+.sh .sp-post button.sp-outline.sp-remove {
+  margin-top: 8px;
+  color: #b91c1c;
+  border-color: #fecaca;
+  background: #fff;
+}
+.sh .sp-post button.sp-outline.sp-remove:hover { background: #fef2f2; color: #b91c1c; border-color: #fca5a5; }
+
+.sh .sp-post .sp-invoice {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  border: 1.5px dashed #c5d4e4;
+  border-radius: 14px;
+  background: #f8fafc;
+  padding: 12px;
+  color: #0066ff;
+}
+.sh .sp-post .sp-invoice > div { min-width: 0; flex: 1; }
+.sh .sp-post .sp-invoice strong { display: block; color: #0f1e3d; font-size: 13px; }
+.sh .sp-post .sp-invoice span { color: #7b8ba3; font-size: 12px; }
+.sh .sp-post .sp-filechip {
+  margin-top: 8px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  border: 1px solid #e2e8f0;
+  border-radius: 12px;
+  background: #fff;
+  padding: 8px 10px;
+  color: #0066ff;
+}
+.sh .sp-post .sp-filechip div { min-width: 0; flex: 1; }
+.sh .sp-post .sp-filechip b { display: block; color: #0f1e3d; font-size: 13px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.sh .sp-post .sp-filechip span { color: #7b8ba3; font-size: 12px; }
+.sh .sp-post button.sp-icon {
+  width: 28px;
+  height: 28px;
+  border-radius: 999px;
+  border: 1px solid #e2e8f0;
+  background: #fff;
+  color: #64748b;
+  padding: 0;
+}
+.sh .sp-post button.sp-icon:hover { color: #ef3b3b; border-color: #fecaca; }
+
+.sh .sp-post .sp-thumbs { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 12px; }
+.sh .sp-post .sp-thumb {
+  width: 108px;
+  border: 1px solid #e2e8f0;
+  border-radius: 12px;
+  overflow: hidden;
+  background: #fff;
+  position: relative;
+  box-shadow: 0 1px 4px rgba(15, 23, 42, 0.04);
+}
+.sh .sp-post .sp-thumb img { width: 100%; height: 84px; object-fit: cover; display: block; background: #f4f7fb; }
+.sh .sp-post .sp-cover {
+  position: absolute;
+  top: 6px;
+  left: 6px;
+  border-radius: 999px;
+  background: #0066ff;
+  color: #fff;
+  font-size: 10px;
+  font-weight: 800;
+  padding: 3px 7px;
+}
+.sh .sp-post button.sp-x {
+  position: absolute;
+  top: 6px;
+  right: 6px;
+  width: 22px;
+  height: 22px;
+  padding: 0;
+  border-radius: 999px;
+  background: #fff;
+  border: 1px solid #e2e8f0;
+  color: #ef3b3b;
+  box-shadow: 0 1px 4px rgba(15, 23, 42, 0.12);
+}
+.sh .sp-post .sp-thumb .tools { display: flex; gap: 4px; justify-content: center; padding: 6px; background: #fff; }
+.sh .sp-post button.sp-move {
+  width: 26px;
+  height: 26px;
+  padding: 0;
+  border-radius: 8px;
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+  color: #334155;
+}
+.sh .sp-post button.sp-move:hover,
+.sh .sp-post button.sp-x:hover { border-color: #0066ff; color: #0066ff; }
+
+.sh .sp-post .sp-video-head { display: flex; align-items: center; gap: 8px; margin: 16px 0 6px; }
+.sh .sp-post .sp-badge-req {
+  height: 22px;
+  padding: 0 8px;
+  border-radius: 999px;
+  background: #ef3b3b;
+  color: #fff;
+  font-size: 11px;
+  font-weight: 800;
+  display: inline-flex;
+  align-items: center;
+}
+.sh .sp-post .sp-video-box {
+  margin-top: 10px;
+  border: 1px solid #e8eef6;
+  border-radius: 16px;
+  background: linear-gradient(180deg, #f4f8ff, #fff);
+  min-height: 180px;
+  display: grid;
+  place-items: center;
+  overflow: hidden;
+}
+.sh .sp-post .sp-video-box video,
+.sh .sp-post .sp-video-box .live { width: 100%; max-height: 260px; background: #0f1e3d; }
+.sh .sp-post .sp-video-actions { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-top: 10px; }
+.sh .sp-post button.sp-video {
+  height: 44px;
+  padding: 0 12px;
+  border-radius: 12px;
+  border: 0;
+  background: #ef3b3b;
+  color: #fff;
+}
+.sh .sp-post button.sp-video:hover { background: #dc2626; }
+.sh .sp-post .sp-video-actions button.sp-outline { width: 100%; height: 44px; }
+
+.sh .sp-post .sp-check { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 10px; }
+.sh .sp-post .sp-check li { display: flex; gap: 8px; align-items: center; color: #64748b; font-size: 13px; }
+.sh .sp-post .sp-check li .dot {
+  width: 20px;
+  height: 20px;
+  border-radius: 999px;
+  background: #e2e8f0;
+  color: #94a3b8;
+  display: grid;
+  place-items: center;
+  flex: none;
+}
+.sh .sp-post .sp-check li.on { color: #15803d; font-weight: 650; }
+.sh .sp-post .sp-check li.on .dot { background: #16a34a; color: #fff; }
+
+.sh .sp-post button.sp-primary,
+.sh .sp-post button.sp-ghost { width: 100%; height: 48px; border-radius: 12px; margin-top: 12px; }
+.sh .sp-post button.sp-primary { background: #0066ff; color: #fff; border: 0; padding: 0 16px; }
+.sh .sp-post button.sp-primary:hover { background: #0052cc; }
+.sh .sp-post button.sp-primary.is-disabled,
+.sh .sp-post button.sp-primary.is-disabled:hover,
+.sh .sp-post button.sp-primary:disabled {
+  opacity: 0.5;
+  background: #0066ff;
+  color: #fff;
+}
+.sh .sp-post button.sp-ghost {
+  background: #fff;
+  border: 1px solid #e2e8f0;
+  color: #0f1e3d;
+  padding: 0 16px;
+}
+.sh .sp-post button.sp-ghost:hover { border-color: #0066ff; color: #0066ff; }
+.sh .sp-post .sp-discount { margin-top: 8px; color: #15803d; font-size: 13px; font-weight: 700; }
+.sh .sp-post .sp-saved { margin-top: 8px; color: #15803d; font-size: 12.5px; font-weight: 650; }
+
+.sh .sp-post .sp-preview-note { color: #7b8ba3; font-size: 12px; margin: -6px 0 10px; }
+.sh .sp-post .sp-preview {
+  background: #fff;
+  border: 1px solid #e8eef6;
+  border-radius: 14px;
+  box-shadow: 0 8px 24px rgba(15, 23, 42, 0.06);
+  padding: 10px;
+}
+.sh .sp-post .sp-preview .ph {
+  position: relative;
+  height: 190px;
+  border-radius: 12px;
+  background: #f4f7fb;
+  overflow: hidden;
+  display: grid;
+  place-items: center;
+}
+.sh .sp-post .sp-preview .ph img { width: 100%; height: 100%; object-fit: cover; }
+.sh .sp-post .sp-ph-empty { color: #8b9bb0; font-size: 13px; font-weight: 700; }
+.sh .sp-post .sp-pill {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  max-width: calc(100% - 20px);
+  border-radius: 999px;
+  background: #e8f1ff;
+  color: #0066ff;
+  font-size: 11px;
+  font-weight: 800;
+  padding: 4px 8px;
+}
+.sh .sp-post .sp-pill.video { top: auto; bottom: 10px; left: 10px; background: #ecfdf3; color: #15803d; }
+.sh .sp-post .sp-preview .brand { margin-top: 10px; color: #8b9bb0; font-size: 12px; }
+.sh .sp-post .sp-preview h3 { margin: 2px 0 6px; font-size: 15px; line-height: 1.3; font-weight: 800; color: #0f1e3d; min-height: 0; }
+.sh .sp-post .sp-meta-row { display: flex; flex-wrap: wrap; gap: 6px; margin: 0 0 8px; color: #64748b; font-size: 12px; }
+.sh .sp-post .sp-preview .price { display: flex; align-items: baseline; gap: 8px; }
+.sh .sp-post .sp-preview .price strong { color: #0066ff; font-size: 22px; font-weight: 800; letter-spacing: -0.02em; }
+.sh .sp-post .sp-preview .price s { color: #94a3b8; font-size: 13px; }
+
+.sh.sp-mobile .sp-layout,
+.sh .sp-post .sp-layout { align-items: start; }
+.sh.sp-mobile { --u: 15px; font-size: 14px; background: transparent; min-height: 0; }
+.sh.sp-mobile .sp-post .sp-layout { grid-template-columns: 1fr; }
+.sh.sp-mobile .sp-post .sp-side { position: static; }
+.sh.sp-mobile .sp-post .sp-grid,
+.sh.sp-mobile .sp-post .sp-split,
+.sh.sp-mobile .sp-post .sp-video-actions { grid-template-columns: 1fr; }
+
+@media (max-width: 1100px) {
+  .sh .sp-post .sp-layout { grid-template-columns: 1fr; }
+  .sh .sp-post .sp-side { position: static; }
+}

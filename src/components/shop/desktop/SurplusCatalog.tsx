@@ -14,6 +14,7 @@ import {
   surplusSeed,
   type ShopCategory,
 } from "@/data/desktop-shop";
+import { useSurplusWork } from "@/components/surplus-provider";
 import { shopAdd, som, useShopCart } from "./shop-cart";
 import { CartRail, CheckRow, Drop, RadioRow, RangeSlider, Stars } from "./parts";
 import { ShopShell } from "./ShopShell";
@@ -23,6 +24,8 @@ type Avail = "ombor" | "buyurtma" | "yangi";
 
 export function SurplusCatalog() {
   const params = useSearchParams();
+  const { feed } = useSurplusWork();
+  const localListings = feed.filter((item) => item.localDemo);
   const lines = useShopCart(surplusSeed);
   const q = (params.get("q") ?? "").trim().toLowerCase();
   const [cat, setCat] = useState<ShopCategory | "all">("all");
@@ -74,8 +77,15 @@ export function SurplusCatalog() {
   return (
     <ShopShell searchPath="/ortiqcha-material" cartCount={lines.reduce((sum, line) => sum + line.qty, 0)}>
       <div data-testid="surplus-catalog">
-        <h1 className="dk-h1">Stomatologik mahsulotlar</h1>
-        <p className="dk-sub">Sifatli materiallar, zamonaviy asboblar va ishonchli brendlar – StomaHub’da</p>
+        <div className="dk-tools" style={{ alignItems: "flex-end" }}>
+          <div>
+            <h1 className="dk-h1">Stomatologik mahsulotlar</h1>
+            <p className="dk-sub" style={{ marginBottom: 0 }}>Sifatli materiallar, zamonaviy asboblar va ishonchli brendlar – StomaHub’da</p>
+          </div>
+          <Link href="/ortiqcha-material/yangi" className="dk-add" style={{ width: "auto", marginTop: 0, padding: "0 calc(.9 * var(--u))" }} data-testid="surplus-post-link">
+            E’lon berish
+          </Link>
+        </div>
         <div className="dk-chips">
           {marketChips.map((chip) => (
             <button key={chip.id} type="button" className={cat === chip.id ? "dk-chip on" : "dk-chip"} onClick={() => setCat(chip.id)}>
@@ -185,6 +195,23 @@ export function SurplusCatalog() {
               </div>
             ) : (
               <div className="dk-grid">
+                {localListings.map((listing) => (
+                  <article className="dk-card" key={listing.id} data-testid="local-surplus-card">
+                    <Link href={surplusHref(listing.id)} className="ph">
+                      <img src={listing.image} alt="" />
+                      <span className="dk-badge blue">Moderatsiyada</span>
+                    </Link>
+                    <h3>
+                      <Link href={surplusHref(listing.id)}>{listing.name}</Link>
+                    </h3>
+                    <div className="brand">{listing.brand || "Ortiqcha material"}</div>
+                    <div className="dk-stock">{listing.holatiLabel || "E’lon"}</div>
+                    <div className="dk-price">
+                      <strong>{som(listing.price)}</strong>
+                      {listing.newPrice > listing.price ? <s>{som(listing.newPrice)}</s> : null}
+                    </div>
+                  </article>
+                ))}
                 {items.map((item) => (
                   <article className="dk-card" key={item.id}>
                     <Link href={surplusHref(item.id)} className="ph">

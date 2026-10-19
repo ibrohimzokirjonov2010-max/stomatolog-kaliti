@@ -9,6 +9,7 @@ import { Check, Package, X } from "lucide-react";
 import { useDoctorProfile } from "@/components/doctor-profile-provider";
 import type { SurplusListing } from "@/data/surplus";
 import { listingFromDb, type DbSurplus, type InterestStatus, type PublishSurplusInput, type SurplusInterest } from "@/lib/surplus-work";
+import { mergeListings, readLocalListings, removeLocalListing, saveLocalListing } from "@/lib/surplus-local";
 import { api } from "@/lib/work-client";
 
 export type ActionResult = { ok: true } | { ok: false; error: string; errors?: Record<string, string>; status?: number };
@@ -25,6 +26,8 @@ type Ctx = {
   incoming: SurplusInterest[];
   getById: (id: string) => SurplusListing | undefined;
   publish: (input: PublishSurplusInput, id?: string) => Promise<ActionResult>;
+  /** Browser fallback when the surplus API is down or the seller is signed out. */
+  publishLocal: (listing: SurplusListing) => void;
   setListing: (id: string, action: "close" | "open" | "delete") => Promise<ActionResult>;
   sendInterest: (listingId: string, input: { name: string; phone: string; message: string }) => Promise<ActionResult>;
   setInterest: (id: string, status: InterestStatus) => Promise<ActionResult>;
@@ -46,17 +49,21 @@ export function SurplusWorkProvider({ children }: { children: ReactNode }) {
   const [toast, setToast] = useState<{ text: string; href?: string; hrefLabel?: string } | null>(null);
 
   const loadFeed = useCallback(async () => {
+    const local = readLocalListings();
     const res = await api<{ listings: DbSurplus[] }>("/api/work/surplus");
-    if (res.ok) setFeed((res.data.listings ?? []).map(listingFromDb));
+    if (res.ok) setFeed(mergeListings((res.data.listings ?? []).map(listingFromDb), local));
+    else setFeed(local);
     setReady(true);
   }, []);
 
   const loadPrivate = useCallback(async () => {
+    const local = readLocalListings();
     const [m, i] = await Promise.all([
       api<{ listings: DbSurplus[] }>("/api/work/surplus/mine"),
       api<{ outgoing: SurplusInterest[]; incoming: SurplusInterest[] }>("/api/work/surplus/interests"),
     ]);
-    if (m.ok) setMine((m.data.listings ?? []).map(listingFromDb));
+    if (m.ok) setMine(mergeListings((m.data.listings ?? []).map(listingFromDb), local));
+    else setMine(local);
     if (i.ok) {
       setOutgoing(i.data.outgoing ?? []);
       setIncoming(i.data.incoming ?? []);
@@ -71,6 +78,11 @@ export function SurplusWorkProvider({ children }: { children: ReactNode }) {
     if (!active || !profileReady || !userId) return;
     void loadPrivate();
   }, [active, profileReady, userId, loadPrivate]);
+
+  useEffect(() => {
+    if (!active || !profileReady || userId) return;
+    setMine(readLocalListings());
+  }, [active, profileReady, userId]);
 
   useEffect(() => {
     if (!toast) return;
@@ -97,8 +109,28 @@ export function SurplusWorkProvider({ children }: { children: ReactNode }) {
     [refresh],
   );
 
+  const publishLocal = useCallback((listing: SurplusListing) => {
+    const local = saveLocalListing(listing);
+    setMine((prev) => mergeListings(prev.filter((item) => !item.localDemo), local));
+    setFeed((prev) => mergeListings(prev.filter((item) => !item.localDemo), local));
+    setToast({
+      text: "E’lon yuborildi. Admin tasdiqlagach hamma ko‘radi.",
+      href: "/ortiqcha-material/elonlarim",
+      hrefLabel: "Mening e’lonlarim",
+    });
+  }, []);
+
   const setListing = useCallback(
     async (id: string, action: "close" | "open" | "delete"): Promise<ActionResult> => {
+      if (id.startsWith("local-")) {
+        if (action === "delete") {
+          const local = removeLocalListing(id);
+          setMine((prev) => mergeListings(prev.filter((item) => !item.localDemo), local));
+          setFeed((prev) => prev.filter((item) => item.id !== id));
+        }
+        setToast({ text: action === "delete" ? "E’lon o‘chirildi." : "Bu nusxa faqat shu brauzerda saqlangan." });
+        return { ok: true };
+      }
       const res = await api(`/api/work/surplus/${id}`, { body: { action } });
       if (!res.ok) return { ok: false, error: res.error, status: res.status };
       setToast({ text: action === "delete" ? "E’lon o‘chirildi." : action === "close" ? "E’lon yopildi." : "E’lon qayta ochildi." });
@@ -133,17 +165,18 @@ export function SurplusWorkProvider({ children }: { children: ReactNode }) {
       ready: ready && profileReady,
       authed: Boolean(userId),
       feed,
-      mine: userId ? mine : [],
+      mine: userId ? mine : mine.filter((item) => item.localDemo),
       outgoing: userId ? outgoing : [],
       incoming: userId ? incoming : [],
       getById: (id) => feed.find((item) => item.id === id) ?? mine.find((item) => item.id === id),
       publish,
+      publishLocal,
       setListing,
       sendInterest,
       setInterest,
       refresh,
     }),
-    [feed, incoming, mine, outgoing, profileReady, publish, ready, refresh, sendInterest, setInterest, setListing, userId],
+    [feed, incoming, mine, outgoing, profileReady, publish, publishLocal, ready, refresh, sendInterest, setInterest, setListing, userId],
   );
 
   return (
