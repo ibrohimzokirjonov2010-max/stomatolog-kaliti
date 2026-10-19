@@ -1,5 +1,5 @@
 .sh .mx-head { display: flex; align-items: flex-start; justify-content: space-between; gap: calc(.6 * var(--u)); }
-.sh .mx-head h1 { margin: 0; font-size: calc(3.05 * var(--u)); line-height: 1.15; letter-spacing: -.02em; }
+.sh .mx-head h1 { margin: 0; font-size: clamp(26px, 2.109375vw, 32px); line-height: 1.15; letter-spacing: -.02em; }
 .sh .mx-head p { margin: calc(.1 * var(--u)) 0 0; color: #6a7c93; font-size: calc(.92 * var(--u)); font-weight: 500; }
 .sh .mx-badges { display: flex; gap: calc(.4 * var(--u)); flex: none; }
 .sh .mx-badges .brd-badge b, .sh .mx-badges .brd-badge span { white-space: nowrap; }

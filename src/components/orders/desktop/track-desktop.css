@@ -3,7 +3,7 @@
 .tkx-crumb b { color: #142033; }
 .tkx-grid { display: grid; grid-template-columns: minmax(0, 1.4fr) minmax(calc(16 * var(--u)), .72fr); gap: calc(.6 * var(--u)); margin-top: calc(.45 * var(--u)); }
 .tkx-card { background: #fff; border: 1px solid #e7eef5; border-radius: calc(.65 * var(--u)); padding: calc(.7 * var(--u)); margin-bottom: calc(.45 * var(--u)); }
-.tkx h1 { margin: calc(.1 * var(--u)) 0; font-size: calc(1.35 * var(--u)); }
+.tkx h1 { margin: calc(.1 * var(--u)) 0; font-size: clamp(26px, 2.109375vw, 32px); }
 .tkx h2 { margin: 0 0 calc(.35 * var(--u)); font-size: calc(.82 * var(--u)); }
 .tkx-no { color: #3773fe; font-weight: 800; font-size: calc(.68 * var(--u)); margin: 0; }
 .tkx-eta { display: block; margin: calc(.3 * var(--u)) 0; font-size: calc(.78 * var(--u)); }

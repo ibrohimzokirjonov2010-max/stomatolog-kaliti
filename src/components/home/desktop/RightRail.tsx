@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import type { LucideIcon } from "lucide-react";
-import { AlarmClock, ChevronRight, Crown, ShoppingCart, ArrowRight, Star, ShieldCheck, Truck, CreditCard, Smile } from "lucide-react";
+import { AlarmClock, ChevronRight, ShoppingCart, ArrowRight, Star, ShieldCheck, Truck, CreditCard, Smile } from "lucide-react";
 import { sellers } from "@/lib/bosh-sahifa-data";
 import { useCart } from "./CartContext";
 function Countdown({ secs }: { secs: number }) {
@@ -25,16 +25,6 @@ export default function RightRail() {
   const router = useRouter();
   return (
     <aside className="sh-rail">
-      <Link className="sh-pro" href="/marketing">
-        <span className="crown">
-          <Crown className="i" />
-        </span>
-        <b>StomaHub Pro</b>
-        <small>Klinikangiz uchun yana ko‘proq imkoniyatlar</small>
-        <span className="go">
-          Batafsil <ChevronRight className="i" />
-        </span>
-      </Link>
       <section className="box offer">
         <div className="hd"><h3>Maxsus takliflar</h3><Countdown secs={2 * 3600 + 18 * 60 + 45} /><ChevronRight className="i chev" /></div>
         <div className="in">

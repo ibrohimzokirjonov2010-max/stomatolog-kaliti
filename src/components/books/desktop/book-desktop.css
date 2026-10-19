@@ -3,7 +3,7 @@
 .bkx-crumb b { color: #142033; }
 .bkx-hero { display: grid; grid-template-columns: calc(16 * var(--u)) minmax(0, 1fr) calc(14 * var(--u)); gap: calc(.8 * var(--u)); align-items: start; }
 .bkx-cover { width: 100%; height: calc(22 * var(--u)); object-fit: cover; border-radius: calc(.5 * var(--u)); background: #102033; }
-.bkx h1 { margin: 0; font-size: calc(1.45 * var(--u)); font-weight: 800; }
+.bkx h1 { margin: 0; font-size: clamp(26px, 2.109375vw, 32px); font-weight: 800; }
 .bkx-author { color: #64748b; margin: calc(.2 * var(--u)) 0; font-size: calc(.72 * var(--u)); }
 .bkx-stars { color: #f5b400; font-weight: 800; font-size: calc(.72 * var(--u)); }
 .bkx-stars b { color: #142033; }

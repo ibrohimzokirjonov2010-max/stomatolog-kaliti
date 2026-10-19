@@ -1,5 +1,5 @@
 .ckx { color: #142033; }
-.ckx h1 { margin: calc(.2 * var(--u)) 0 0; font-size: calc(1.4 * var(--u)); font-weight: 800; }
+.ckx h1 { margin: calc(.2 * var(--u)) 0 0; font-size: clamp(26px, 2.109375vw, 32px); font-weight: 800; }
 .ckx-sub, .ckx-crumb { color: #8b97a8; font-size: calc(.68 * var(--u)); font-weight: 650; }
 .ckx-crumb { display: flex; gap: calc(.3 * var(--u)); }
 .ckx-crumb b { color: #142033; }

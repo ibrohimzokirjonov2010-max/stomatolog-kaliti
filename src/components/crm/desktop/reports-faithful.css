@@ -1,5 +1,5 @@
 .rpx { display: flex; flex-direction: column; gap: calc(.55 * var(--u)); color: #142033; }
-.rpx h1 { margin: 0; font-size: calc(1.35 * var(--u)); font-weight: 800; }
+.rpx h1 { margin: 0; font-size: clamp(26px, 2.109375vw, 32px); font-weight: 800; }
 .rpx-head { display: flex; justify-content: space-between; align-items: flex-end; }
 .rpx-head p { margin: calc(.12 * var(--u)) 0 0; color: #8b97a8; font-size: calc(.7 * var(--u)); }
 .rpx-actions { display: flex; gap: calc(.35 * var(--u)); }

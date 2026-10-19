@@ -5,12 +5,12 @@
 .sh .hub-page, .sh .hub-rail, .sh .hub-box, .sh .hub-side { min-width: 0; max-width: 100%; }
 .sh .hub-head { display: flex; align-items: flex-start; justify-content: space-between; gap: calc(.8 * var(--u)); min-width: 0; flex-wrap: wrap; }
 .sh .hub-head > div:first-child { min-width: 0; flex: 1 1 calc(12 * var(--u)); }
-.sh .hub-head h1 { margin: 0; font-size: calc(1.45 * var(--u)); letter-spacing: -.02em; }
+.sh .hub-head h1 { margin: 0; font-size: clamp(26px, 2.109375vw, 32px); letter-spacing: -.02em; }
 .sh .hub-head p, .sh .hub-sub { margin: calc(.15 * var(--u)) 0 0; color: #5d6e86; font-size: calc(.72 * var(--u)); }
 .sh .hub-q { height: calc(2.05 * var(--u)); min-width: 0; flex: 1 1 calc(16 * var(--u)); max-width: calc(22 * var(--u)); background: #fff; border: 1px solid #e6edf5; border-radius: calc(.5 * var(--u)); display: flex; align-items: center; gap: calc(.4 * var(--u)); padding: 0 calc(.7 * var(--u)); color: #8aa0b8; }
 .sh .hub-q input { border: 0; outline: 0; flex: 1; font: inherit; font-size: calc(.68 * var(--u)); color: var(--ink); background: transparent; }
-.sh .hub-btn { height: calc(2.05 * var(--u)); padding: 0 calc(.85 * var(--u)); border-radius: calc(.45 * var(--u)); background: #1497a8; color: #fff; font-weight: 700; font-size: calc(.68 * var(--u)); display: inline-flex; align-items: center; gap: calc(.35 * var(--u)); }
-.sh .hub-btn.ghost { background: #fff; color: #1497a8; border: 1px solid #b7e0e6; }
+.sh .hub-btn { height: calc(2.05 * var(--u)); padding: 0 calc(.85 * var(--u)); border-radius: calc(.45 * var(--u)); background: var(--teal); color: #fff; font-weight: 700; font-size: calc(.68 * var(--u)); display: inline-flex; align-items: center; gap: calc(.35 * var(--u)); }
+.sh .hub-btn.ghost { background: #fff; color: var(--teal); border: 1px solid #b7e0e6; }
 .sh .hub-btn.block { width: 100%; justify-content: center; }
 .sh .hub-h2 { margin: 0 0 calc(.45 * var(--u)); font-size: calc(.95 * var(--u)); }
 
@@ -23,16 +23,16 @@
 .sh .hub-ccard b { font-size: calc(.72 * var(--u)); line-height: 1.3; white-space: normal; }
 .sh .hub-ccard small { color: #6a7c93; font-size: calc(.62 * var(--u)); }
 .sh .hub-bar { height: calc(.28 * var(--u)); background: #e6eef5; border-radius: 99px; overflow: hidden; }
-.sh .hub-bar i { display: block; height: 100%; background: #1497a8; border-radius: 99px; }
+.sh .hub-bar i { display: block; height: 100%; background: var(--teal); border-radius: 99px; }
 .sh .hub-foot { display: flex; align-items: center; justify-content: space-between; gap: calc(.4 * var(--u)); min-width: 0; }
 .sh .hub-foot .hub-btn { width: auto; min-width: 0; height: calc(1.7 * var(--u)); padding: 0 calc(.55 * var(--u)); font-size: calc(.58 * var(--u)); white-space: nowrap; }
-.sh .hub-ccard em { font-style: normal; color: #1497a8; font-weight: 800; font-size: calc(.68 * var(--u)); }
+.sh .hub-ccard em { font-style: normal; color: var(--teal); font-weight: 800; font-size: calc(.68 * var(--u)); }
 
 .sh .hub-fblock { display: flex; flex-direction: column; gap: calc(.45 * var(--u)); }
 .sh .hub-frow { display: flex; flex-wrap: wrap; align-items: center; gap: calc(.35 * var(--u)); min-width: 0; max-width: 100%; }
 .sh .hub-frow > span { color: #6a7c93; font-size: calc(.64 * var(--u)); font-weight: 650; margin-right: calc(.15 * var(--u)); }
 .sh .hub-chip { height: calc(1.7 * var(--u)); padding: 0 calc(.7 * var(--u)); border-radius: calc(1 * var(--u)); background: #fff; border: 1px solid #e6edf5; color: #24344d; font-size: calc(.62 * var(--u)); font-weight: 650; }
-.sh .hub-chip.on { background: #1497a8; color: #fff; border-color: #1497a8; }
+.sh .hub-chip.on { background: var(--teal); color: #fff; border-color: var(--teal); }
 .sh .hub-tools { margin-left: auto; display: flex; align-items: center; gap: calc(.4 * var(--u)); }
 .sh .hub-count { color: #7d8da3; font-size: calc(.66 * var(--u)); }
 .sh .hub-sec-h { display: flex; align-items: baseline; justify-content: space-between; gap: calc(.5 * var(--u)); }
@@ -59,7 +59,7 @@
 .sh .hub-meta { display: flex; flex-wrap: wrap; gap: calc(.35 * var(--u)); color: #6a7c93; font-size: calc(.58 * var(--u)); align-items: center; }
 .sh .hub-meta .i { color: #f5b400; fill: #f5b400; font-size: calc(.62 * var(--u)); }
 .sh .hub-price { display: flex; align-items: baseline; gap: calc(.35 * var(--u)); margin-top: auto; }
-.sh .hub-price strong { color: #1497a8; font-size: calc(.85 * var(--u)); }
+.sh .hub-price strong { color: var(--teal); font-size: calc(.85 * var(--u)); }
 .sh .hub-price s { color: #a0aec0; font-size: calc(.6 * var(--u)); }
 .sh .hub-actions { display: flex; gap: calc(.35 * var(--u)); }
 .sh .hub-actions .hub-btn { flex: 1; height: calc(1.85 * var(--u)); font-size: calc(.62 * var(--u)); }
@@ -67,19 +67,19 @@
 .sh .hub-rail { display: flex; flex-direction: column; gap: calc(.6 * var(--u)); }
 .sh .hub-box { background: #fff; border: 1px solid #e8eef6; border-radius: calc(.6 * var(--u)); padding: calc(.7 * var(--u)); box-shadow: 0 calc(.06 * var(--u)) calc(.3 * var(--u)) rgba(20,40,80,.04); }
 .sh .hub-box h3 { margin: 0 0 calc(.45 * var(--u)); font-size: calc(.82 * var(--u)); display: flex; justify-content: space-between; align-items: center; gap: calc(.4 * var(--u)); }
-.sh .hub-box h3 button, .sh .hub-more { color: #1497a8; font-size: calc(.6 * var(--u)); font-weight: 700; background: none; }
+.sh .hub-box h3 button, .sh .hub-more { color: var(--teal); font-size: calc(.6 * var(--u)); font-weight: 700; background: none; }
 .sh .hub-cert { display: flex; gap: calc(.45 * var(--u)); align-items: center; padding: calc(.4 * var(--u)) 0; border-top: 1px solid #f0f3f8; }
 .sh .hub-cert:first-of-type { border-top: 0; }
-.sh .hub-cert .ic { width: calc(1.8 * var(--u)); height: calc(1.8 * var(--u)); border-radius: calc(.4 * var(--u)); background: #e7f6f8; color: #1497a8; display: grid; place-items: center; flex: none; }
+.sh .hub-cert .ic { width: calc(1.8 * var(--u)); height: calc(1.8 * var(--u)); border-radius: calc(.4 * var(--u)); background: #e7f6f8; color: var(--teal); display: grid; place-items: center; flex: none; }
 .sh .hub-cert b { display: block; font-size: calc(.64 * var(--u)); }
 .sh .hub-cert small { color: #7d8da3; font-size: calc(.58 * var(--u)); }
 .sh .hub-stats { display: grid; grid-template-columns: 1fr 1fr; gap: calc(.45 * var(--u)); }
 .sh .hub-stat { background: #f6f8fb; border-radius: calc(.45 * var(--u)); padding: calc(.45 * var(--u)); display: flex; gap: calc(.4 * var(--u)); align-items: center; }
-.sh .hub-stat .ic { width: calc(1.7 * var(--u)); height: calc(1.7 * var(--u)); border-radius: 50%; background: #e7f6f8; color: #1497a8; display: grid; place-items: center; }
+.sh .hub-stat .ic { width: calc(1.7 * var(--u)); height: calc(1.7 * var(--u)); border-radius: 50%; background: #e7f6f8; color: var(--teal); display: grid; place-items: center; }
 .sh .hub-stat b { display: block; font-size: calc(.9 * var(--u)); }
 .sh .hub-stat small { color: #7d8da3; font-size: calc(.55 * var(--u)); }
 .sh .hub-why { display: flex; gap: calc(.45 * var(--u)); align-items: flex-start; padding: calc(.28 * var(--u)) 0; }
-.sh .hub-why .ic { width: calc(1.6 * var(--u)); height: calc(1.6 * var(--u)); border-radius: 50%; background: #e7f7f4; color: #1497a8; display: grid; place-items: center; flex: none; }
+.sh .hub-why .ic { width: calc(1.6 * var(--u)); height: calc(1.6 * var(--u)); border-radius: 50%; background: #e7f7f4; color: var(--teal); display: grid; place-items: center; flex: none; }
 .sh .hub-why b { display: block; font-size: calc(.64 * var(--u)); }
 .sh .hub-why small { color: #7d8da3; font-size: calc(.56 * var(--u)); }
 .sh .hub-chatcard { display: flex; gap: calc(.5 * var(--u)); align-items: center; background: linear-gradient(180deg,#f3fbfd,#fff); }
@@ -93,12 +93,12 @@
 .sh .hub-check { display: flex; align-items: center; gap: calc(.4 * var(--u)); width: 100%; text-align: left; min-height: calc(1.35 * var(--u)); font-size: calc(.62 * var(--u)); color: #24344d; }
 .sh .hub-check em { margin-left: auto; color: #90a0b5; font-style: normal; font-size: calc(.56 * var(--u)); }
 .sh .hub-boxi { width: calc(.78 * var(--u)); height: calc(.78 * var(--u)); border-radius: calc(.18 * var(--u)); border: 1.5px solid #c5d0de; display: grid; place-items: center; color: #fff; flex: none; }
-.sh .hub-check.on .hub-boxi { background: #1497a8; border-color: #1497a8; }
+.sh .hub-check.on .hub-boxi { background: var(--teal); border-color: var(--teal); }
 .sh .hub-labs { display: flex; justify-content: space-between; color: #8b9bb0; font-size: calc(.58 * var(--u)); }
 .sh .hub-book .ph { height: calc(8.2 * var(--u)); background: #f4f7fb; display: grid; place-items: center; position: relative; }
 .sh .hub-book .ph img { max-width: 78%; max-height: 88%; object-fit: contain; }
 .sh .hub-fmts { position: absolute; left: calc(.35 * var(--u)); bottom: calc(.35 * var(--u)); display: flex; gap: calc(.2 * var(--u)); }
-.sh .hub-fmts i { font-style: normal; background: #fff; border-radius: calc(.2 * var(--u)); padding: calc(.05 * var(--u)) calc(.28 * var(--u)); font-size: calc(.5 * var(--u)); font-weight: 700; color: #1497a8; border: 1px solid #d5e7ea; }
+.sh .hub-fmts i { font-style: normal; background: #fff; border-radius: calc(.2 * var(--u)); padding: calc(.05 * var(--u)) calc(.28 * var(--u)); font-size: calc(.5 * var(--u)); font-weight: 700; color: var(--teal); border: 1px solid #d5e7ea; }
 .sh .hub-book h3 { margin: calc(.4 * var(--u)) 0 calc(.1 * var(--u)); font-size: calc(.68 * var(--u)); line-height: 1.25; min-height: calc(1.7 * var(--u)); }
 .sh .hub-book .by { margin: 0; color: #6a7c93; font-size: calc(.58 * var(--u)); }
 .sh .hub-card { background: #fff; border: 1px solid #e8eef6; border-radius: calc(.55 * var(--u)); padding: calc(.45 * var(--u)); display: flex; flex-direction: column; min-width: 0; }
@@ -108,19 +108,19 @@
 .sh .hub-old { color: #a0aec0; font-size: calc(.62 * var(--u)); }
 .sh .hub-perks { display: flex; flex-direction: column; gap: calc(.35 * var(--u)); margin: calc(.45 * var(--u)) 0; }
 .sh .hub-perks div { display: flex; gap: calc(.35 * var(--u)); align-items: center; font-size: calc(.62 * var(--u)); color: #3d4d66; }
-.sh .hub-perks .i { color: #1497a8; }
+.sh .hub-perks .i { color: var(--teal); }
 .sh .hub-lib { display: flex; gap: calc(.4 * var(--u)); align-items: center; padding: calc(.4 * var(--u)) 0; border-top: 1px solid #f0f3f8; }
 .sh .hub-lib img { width: calc(1.9 * var(--u)); height: calc(2.4 * var(--u)); object-fit: cover; border-radius: calc(.2 * var(--u)); background: #f4f7fb; }
 .sh .hub-lib b { display: block; font-size: calc(.62 * var(--u)); }
 .sh .hub-lib small { color: #7d8da3; font-size: calc(.55 * var(--u)); }
-.sh .hub-lib button { margin-left: auto; color: #1497a8; font-size: calc(.6 * var(--u)); font-weight: 700; }
+.sh .hub-lib button { margin-left: auto; color: var(--teal); font-size: calc(.6 * var(--u)); font-weight: 700; }
 .sh .hub-ask { background: #f3fbfd; border-radius: calc(.5 * var(--u)); padding: calc(.6 * var(--u)); margin-top: calc(.5 * var(--u)); }
 .sh .hub-ask b { font-size: calc(.7 * var(--u)); }
 .sh .hub-ask p { margin: calc(.15 * var(--u)) 0 calc(.4 * var(--u)); color: #5d6e86; font-size: calc(.6 * var(--u)); }
 
 .sh .hub-tabs { display: flex; gap: calc(.35 * var(--u)); flex-wrap: wrap; }
 .sh .hub-tab { height: calc(1.85 * var(--u)); padding: 0 calc(.75 * var(--u)); border-radius: calc(1 * var(--u)); background: #fff; border: 1px solid #e6edf5; font-size: calc(.64 * var(--u)); font-weight: 700; color: #24344d; display: inline-flex; align-items: center; gap: calc(.3 * var(--u)); }
-.sh .hub-tab.on { background: #1497a8; color: #fff; border-color: #1497a8; }
+.sh .hub-tab.on { background: var(--teal); color: #fff; border-color: var(--teal); }
 .sh .hub-ch { background: #fff; border: 1px solid #e8eef6; border-radius: calc(.6 * var(--u)); overflow: hidden; display: flex; flex-direction: column; min-width: 0; }
 .sh .hub-ch .ph { position: relative; height: calc(6.2 * var(--u)); background: #e9eef5; min-width: 0; overflow: hidden; }
 .sh .hub-heart { position: absolute; top: calc(.4 * var(--u)); right: calc(.4 * var(--u)); width: calc(1.45 * var(--u)); height: calc(1.45 * var(--u)); border-radius: 50%; background: #fff; display: grid; place-items: center; color: #8aa0b8; }
@@ -129,12 +129,12 @@
 .sh .hub-ver { position: absolute; top: calc(.4 * var(--u)); left: calc(.4 * var(--u)); background: #2f6bff; color: #fff; border-radius: calc(.28 * var(--u)); padding: calc(.08 * var(--u)) calc(.35 * var(--u)); font-size: calc(.52 * var(--u)); font-weight: 750; }
 .sh .hub-ch .bd { padding: calc(.5 * var(--u)); display: flex; flex-direction: column; gap: calc(.25 * var(--u)); flex: 1; }
 .sh .hub-ch h3 { margin: 0; font-size: calc(.72 * var(--u)); }
-.sh .hub-handle { color: #1497a8; font-size: calc(.58 * var(--u)); }
+.sh .hub-handle { color: var(--teal); font-size: calc(.58 * var(--u)); }
 .sh .hub-ch p { margin: 0; color: #5d6e86; font-size: calc(.58 * var(--u)); line-height: 1.35; min-height: calc(2.2 * var(--u)); }
 .sh .hub-tags { display: flex; flex-wrap: wrap; gap: calc(.25 * var(--u)); }
 .sh .hub-tags i { font-style: normal; background: #f3f6fa; color: #52637c; border-radius: calc(.3 * var(--u)); padding: calc(.08 * var(--u)) calc(.35 * var(--u)); font-size: calc(.52 * var(--u)); font-weight: 650; }
-.sh .hub-subbtn { height: calc(1.75 * var(--u)); border-radius: calc(.4 * var(--u)); border: 1px solid #1497a8; color: #1497a8; font-weight: 700; font-size: calc(.58 * var(--u)); background: #fff; padding: 0 calc(.4 * var(--u)); max-width: 100%; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-.sh .hub-subbtn.on { background: #1497a8; color: #fff; }
+.sh .hub-subbtn { height: calc(1.75 * var(--u)); border-radius: calc(.4 * var(--u)); border: 1px solid var(--teal); color: var(--teal); font-weight: 700; font-size: calc(.58 * var(--u)); background: #fff; padding: 0 calc(.4 * var(--u)); max-width: 100%; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.sh .hub-subbtn.on { background: var(--teal); color: #fff; }
 .sh .hub-pick { display: flex; gap: calc(.4 * var(--u)); align-items: center; padding: calc(.35 * var(--u)) 0; border-top: 1px solid #f0f3f8; min-width: 0; }
 .sh .hub-pick > div { min-width: 0; flex: 1; }
 .sh .hub-pick img { width: calc(1.9 * var(--u)); height: calc(1.9 * var(--u)); border-radius: 50%; object-fit: cover; }
@@ -153,7 +153,7 @@
 .sh .hub-post .top img { width: calc(2.1 * var(--u)); height: calc(2.1 * var(--u)); border-radius: 50%; object-fit: cover; }
 .sh .hub-post .top b { display: block; font-size: calc(.7 * var(--u)); }
 .sh .hub-post .top small { color: #7d8da3; font-size: calc(.58 * var(--u)); }
-.sh .hub-pill { margin-left: auto; background: #e7f6f8; color: #1497a8; border-radius: calc(.3 * var(--u)); padding: calc(.12 * var(--u)) calc(.4 * var(--u)); font-size: calc(.56 * var(--u)); font-weight: 700; }
+.sh .hub-pill { margin-left: auto; background: #e7f6f8; color: var(--teal); border-radius: calc(.3 * var(--u)); padding: calc(.12 * var(--u)) calc(.4 * var(--u)); font-size: calc(.56 * var(--u)); font-weight: 700; }
 .sh .hub-post h3 { margin: calc(.45 * var(--u)) 0 calc(.2 * var(--u)); font-size: calc(.82 * var(--u)); }
 .sh .hub-post .body { margin: 0; color: #3d4d66; font-size: calc(.66 * var(--u)); line-height: 1.45; }
 .sh .hub-facts { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: calc(.4 * var(--u)); margin: calc(.5 * var(--u)) 0; }
@@ -165,11 +165,11 @@
 .sh .hub-photos figure { margin: 0; position: relative; height: calc(5.4 * var(--u)); border-radius: calc(.35 * var(--u)); overflow: hidden; background: #111; min-width: 0; }
 .sh .hub-photos figcaption { position: absolute; left: 0; right: 0; bottom: 0; background: rgba(15,23,42,.55); color: #fff; font-size: calc(.52 * var(--u)); padding: calc(.12 * var(--u)) calc(.3 * var(--u)); }
 .sh .hub-ptags { display: flex; flex-wrap: wrap; gap: calc(.3 * var(--u)); margin: calc(.45 * var(--u)) 0; }
-.sh .hub-ptags span { color: #1497a8; font-size: calc(.6 * var(--u)); font-weight: 650; }
+.sh .hub-ptags span { color: var(--teal); font-size: calc(.6 * var(--u)); font-weight: 650; }
 .sh .hub-react { display: flex; align-items: center; gap: calc(.7 * var(--u)); color: #5d6e86; font-size: calc(.64 * var(--u)); }
 .sh .hub-react button { display: inline-flex; align-items: center; gap: calc(.25 * var(--u)); font-weight: 650; }
 .sh .hub-react button.on { color: #ef3b3b; }
-.sh .hub-react .go { margin-left: auto; background: #1497a8; color: #fff; height: calc(1.7 * var(--u)); padding: 0 calc(.7 * var(--u)); border-radius: calc(.4 * var(--u)); }
+.sh .hub-react .go { margin-left: auto; background: var(--teal); color: #fff; height: calc(1.7 * var(--u)); padding: 0 calc(.7 * var(--u)); border-radius: calc(.4 * var(--u)); }
 .sh .hub-reply { display: flex; gap: calc(.35 * var(--u)); margin-top: calc(.4 * var(--u)); }
 .sh .hub-reply input { flex: 1; border: 1px solid #e6edf5; border-radius: calc(.4 * var(--u)); height: calc(1.8 * var(--u)); padding: 0 calc(.5 * var(--u)); font: inherit; font-size: calc(.62 * var(--u)); }
 .sh .hub-member { display: flex; gap: calc(.4 * var(--u)); align-items: center; padding: calc(.3 * var(--u)) 0; }
@@ -179,20 +179,20 @@
 .sh .hub-member small { color: #7d8da3; font-size: calc(.54 * var(--u)); }
 .sh .hub-member em { margin-left: auto; font-style: normal; font-weight: 800; font-size: calc(.66 * var(--u)); }
 .sh .hub-trend { display: flex; align-items: center; gap: calc(.4 * var(--u)); width: 100%; text-align: left; min-height: calc(1.45 * var(--u)); font-size: calc(.64 * var(--u)); }
-.sh .hub-trend b { color: #1497a8; }
+.sh .hub-trend b { color: var(--teal); }
 .sh .hub-trend em { margin-left: auto; color: #8b9bb0; font-style: normal; font-size: calc(.58 * var(--u)); }
 .sh .hub-rule { display: flex; gap: calc(.4 * var(--u)); align-items: flex-start; font-size: calc(.62 * var(--u)); padding: calc(.2 * var(--u)) 0; color: #24344d; }
-.sh .hub-rule i { font-style: normal; width: calc(1.15 * var(--u)); height: calc(1.15 * var(--u)); border-radius: 50%; background: #e7f6f8; color: #1497a8; display: grid; place-items: center; font-size: calc(.58 * var(--u)); font-weight: 800; flex: none; }
+.sh .hub-rule i { font-style: normal; width: calc(1.15 * var(--u)); height: calc(1.15 * var(--u)); border-radius: 50%; background: #e7f6f8; color: var(--teal); display: grid; place-items: center; font-size: calc(.58 * var(--u)); font-weight: 800; flex: none; }
 
 .sh .hub-clinic-h { display: flex; justify-content: space-between; gap: calc(.6 * var(--u)); align-items: center; min-width: 0; flex-wrap: wrap; }
 .sh .hub-brand { display: flex; gap: calc(.5 * var(--u)); align-items: center; }
-.sh .hub-brand .logo { width: calc(2.3 * var(--u)); height: calc(2.3 * var(--u)); border-radius: calc(.5 * var(--u)); background: #e7f6f8; color: #1497a8; display: grid; place-items: center; font-size: calc(1.2 * var(--u)); }
+.sh .hub-brand .logo { width: calc(2.3 * var(--u)); height: calc(2.3 * var(--u)); border-radius: calc(.5 * var(--u)); background: #e7f6f8; color: var(--teal); display: grid; place-items: center; font-size: calc(1.2 * var(--u)); }
 .sh .hub-brand h1 { margin: 0; font-size: calc(1.15 * var(--u)); display: flex; align-items: center; gap: calc(.3 * var(--u)); }
 .sh .hub-brand h1 .i { color: #2f6bff; fill: #2f6bff; font-size: calc(.8 * var(--u)); }
 .sh .hub-brand small { color: #6a7c93; font-size: calc(.62 * var(--u)); display: flex; align-items: center; gap: calc(.25 * var(--u)); }
 .sh .hub-kpis { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: calc(.55 * var(--u)); min-width: 0; }
 .sh .hub-kpi { background: #fff; border: 1px solid #e8eef6; border-radius: calc(.6 * var(--u)); padding: calc(.65 * var(--u)); display: flex; gap: calc(.5 * var(--u)); align-items: flex-start; }
-.sh .hub-kpi .ic { width: calc(2 * var(--u)); height: calc(2 * var(--u)); border-radius: calc(.45 * var(--u)); background: #e7f6f8; color: #1497a8; display: grid; place-items: center; }
+.sh .hub-kpi .ic { width: calc(2 * var(--u)); height: calc(2 * var(--u)); border-radius: calc(.45 * var(--u)); background: #e7f6f8; color: var(--teal); display: grid; place-items: center; }
 .sh .hub-kpi b { font-size: calc(1.05 * var(--u)); }
 .sh .hub-kpi .up { color: #12a06a; font-size: calc(.6 * var(--u)); font-weight: 700; margin-left: calc(.3 * var(--u)); }
 .sh .hub-kpi small { display: block; color: #7d8da3; font-size: calc(.58 * var(--u)); }
@@ -209,11 +209,11 @@
 .sh .hub-slot .who { display: flex; gap: calc(.3 * var(--u)); align-items: center; min-width: 0; }
 .sh .hub-slot img { width: calc(1.35 * var(--u)); height: calc(1.35 * var(--u)); border-radius: 50%; object-fit: cover; }
 .sh .hub-slot.lunch { color: #8b9bb0; font-size: calc(.6 * var(--u)); }
-.sh .hub-free { color: #1497a8; font-size: calc(.6 * var(--u)); font-weight: 700; display: inline-flex; align-items: center; gap: calc(.2 * var(--u)); }
+.sh .hub-free { color: var(--teal); font-size: calc(.6 * var(--u)); font-weight: 700; display: inline-flex; align-items: center; gap: calc(.2 * var(--u)); }
 .sh .hub-bars { display: flex; align-items: flex-end; gap: calc(.45 * var(--u)); height: calc(7.2 * var(--u)); margin-top: calc(.4 * var(--u)); }
 .sh .hub-bars div { flex: 1; display: flex; flex-direction: column; align-items: center; gap: calc(.2 * var(--u)); height: 100%; justify-content: flex-end; }
 .sh .hub-bars i { display: block; width: 100%; border-radius: calc(.25 * var(--u)) calc(.25 * var(--u)) 0 0; background: #8fd4dc; }
-.sh .hub-bars i.on { background: #1497a8; }
+.sh .hub-bars i.on { background: var(--teal); }
 .sh .hub-bars span { font-size: calc(.52 * var(--u)); color: #7d8da3; }
 .sh .hub-alert { display: flex; gap: calc(.4 * var(--u)); align-items: center; padding: calc(.4 * var(--u)) 0; border-top: 1px solid #f0f3f8; width: 100%; text-align: left; }
 .sh .hub-alert b { display: block; font-size: calc(.64 * var(--u)); }
@@ -235,7 +235,7 @@
 .sh .st.bad { background: #fdecec; color: #ef3b3b; }
 .sh .st.blue { background: #e7f0ff; color: #2f6bff; }
 .sh .st.amber { background: #fff4e0; color: #c47d00; }
-.sh .st.teal { background: #e7f6f8; color: #1497a8; }
+.sh .st.teal { background: #e7f6f8; color: var(--teal); }
 .sh .hub-staff { display: grid; grid-template-columns: 1fr 1fr; gap: calc(.45 * var(--u)); }
 .sh .hub-staff div { text-align: center; }
 .sh .hub-staff img { width: calc(3 * var(--u)); height: calc(3 * var(--u)); border-radius: 50%; object-fit: cover; }

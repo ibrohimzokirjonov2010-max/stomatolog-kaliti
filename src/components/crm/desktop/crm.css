@@ -1,7 +1,7 @@
 .sh .crm-head { display: flex; align-items: flex-start; justify-content: space-between; gap: calc(.6 * var(--u)); margin-bottom: calc(.45 * var(--u)); }
-.sh .crm-head h1 { margin: 0; font-size: calc(2 * var(--u)); letter-spacing: -.02em; }
+.sh .crm-head h1 { margin: 0; font-size: clamp(26px, 2.109375vw, 32px); letter-spacing: -.02em; }
 .sh [data-testid="certs-desktop"] .crm-head { margin-bottom: calc(1.8 * var(--u)); }
-.sh [data-testid="certs-desktop"] .crm-head h1 { font-size: calc(3.05 * var(--u)); line-height: 1.15; }
+.sh [data-testid="certs-desktop"] .crm-head h1 { font-size: clamp(26px, 2.109375vw, 32px); line-height: 1.15; }
 .sh .crm-head p { margin: calc(.08 * var(--u)) 0 0; color: #6a7c93; font-size: calc(.68 * var(--u)); }
 .sh .crm-actions { display: flex; gap: calc(.35 * var(--u)); flex: none; align-items: center; }
 .sh .crm-btn, .sh .crm-actions a, .sh .crm-mini button, .sh .crm-dialog .go {
@@ -222,19 +222,19 @@
 .sh .crm-teal .crm-card { border-radius: calc(.6 * var(--u)); box-shadow: 0 calc(.06 * var(--u)) calc(.3 * var(--u)) rgba(20,40,80,.04); }
 .sh .crm-teal .crm-head h1 { font-size: calc(1.15 * var(--u)); }
 .sh .crm-teal .crm-table tr.on { background: #eef8f9; }
-.sh .crm-teal .crm-btn.blue, .sh .crm-teal .crm-dialog .go, .sh .crm-teal .crm-mini .blue { background: #1497a8; border-color: #1497a8; color: #fff; }
+.sh .crm-teal .crm-btn.blue, .sh .crm-teal .crm-dialog .go, .sh .crm-teal .crm-mini .blue { background: var(--teal); border-color: var(--teal); color: #fff; }
 .sh .crm-teal .crm-table tr.on { background: #eef8f9; }
 .sh .crm-teal .crm-pill.davolanishda, .sh .crm-teal .crm-pill.davol, .sh .crm-teal .crm-pill.davom { background: #e7f6f8; color: #0f7f8e; }
-.sh .crm-teal .crm-pager button.on { background: #1497a8; border-color: #1497a8; color: #fff; }
-.sh .crm-teal .pt-who b { color: #1497a8; cursor: pointer; }
-.sh .crm-teal .pt-tabs button.on { color: #1497a8; border-color: #1497a8; }
-.sh .crm-teal .ap-view button.on { background: #1497a8; color: #fff; }
-.sh .crm-teal .ap-docs button.on { background: #e7f6f8; border-color: #1497a8; color: #1497a8; }
-.sh .crm-teal .ap-grid header.on { background: #1497a8; color: #fff; }
+.sh .crm-teal .crm-pager button.on { background: var(--teal); border-color: var(--teal); color: #fff; }
+.sh .crm-teal .pt-who b { color: var(--teal); cursor: pointer; }
+.sh .crm-teal .pt-tabs button.on { color: var(--teal); border-color: var(--teal); }
+.sh .crm-teal .ap-view button.on { background: var(--teal); color: #fff; }
+.sh .crm-teal .ap-docs button.on { background: #e7f6f8; border-color: var(--teal); color: var(--teal); }
+.sh .crm-teal .ap-grid header.on { background: var(--teal); color: #fff; }
 .sh .crm-teal .ap-block.davol { background: #e7f6f8; border-color: #3fb5c4; }
-.sh .crm-teal .ap-month button.on { border-color: #1497a8; background: #eef8f9; }
-.sh .crm-teal .ap-load b { display: block; height: 100%; background: #1497a8; }
-.sh .crm-teal .bar b { display: block; height: 100%; background: #1497a8; }
+.sh .crm-teal .ap-month button.on { border-color: var(--teal); background: #eef8f9; }
+.sh .crm-teal .ap-load b { display: block; height: 100%; background: var(--teal); }
+.sh .crm-teal .bar b { display: block; height: 100%; background: var(--teal); }
 .sh .crm-teal .bars i { flex: 1; background: #3fb5c4; border-radius: calc(.12 * var(--u)) calc(.12 * var(--u)) 0 0; min-height: 2px; }
 
 .sh .pf-back { display: inline-flex; align-items: center; gap: calc(.15 * var(--u)); color: #0f8a8a; font-size: calc(.62 * var(--u)); font-weight: 750; margin-bottom: calc(.15 * var(--u)); }
@@ -265,5 +265,5 @@
 .sh .rp-chips button { height: calc(1.6 * var(--u)); padding: 0 calc(.6 * var(--u)); border-radius: 99px; border: 1px solid #e6edf5; background: #fff; font-size: calc(.58 * var(--u)); font-weight: 750; }
 .sh .rp-chips button.on { background: #0f8a8a; border-color: #0f8a8a; color: #fff; }
 .sh .rp-bars { display: flex; align-items: flex-end; gap: calc(.28 * var(--u)); height: calc(8 * var(--u)); padding: calc(.4 * var(--u)); }
-.sh .rp-bars i { flex: 1; background: #1497a8; border-radius: calc(.2 * var(--u)) calc(.2 * var(--u)) 0 0; min-height: 4px; }
+.sh .rp-bars i { flex: 1; background: var(--teal); border-radius: calc(.2 * var(--u)) calc(.2 * var(--u)) 0 0; min-height: 4px; }
 .sh .rp-split { display: grid; grid-template-columns: 1.2fr .8fr; gap: calc(.5 * var(--u)); }

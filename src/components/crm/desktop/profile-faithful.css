@@ -1,5 +1,5 @@
 .pxp { display: flex; flex-direction: column; gap: calc(.7 * var(--u)); color: #142033; }
-.pxp h1 { margin: 0; font-size: calc(1.35 * var(--u)); font-weight: 800; letter-spacing: -.03em; }
+.pxp h1 { margin: 0; font-size: clamp(26px, 2.109375vw, 32px); font-weight: 800; letter-spacing: -.03em; }
 .pxp .crumb { display: flex; gap: calc(.35 * var(--u)); align-items: center; color: #8b97a8; font-size: calc(.68 * var(--u)); font-weight: 600; }
 .pxp .crumb a { color: #0198a4; }
 .pxp .crumb b { color: #142033; font-weight: 700; }
