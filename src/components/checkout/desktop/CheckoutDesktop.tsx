@@ -1,23 +1,25 @@
 "use client";
 /* eslint-disable @next/next/no-img-element */
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { ClinicShell } from "@/components/shell/ClinicShell";
 import { shopClear } from "@/components/shop/desktop/shop-cart";
-import { rememberPlacedOrder, loadPlacedOrders, type MobileOrder } from "@/data/mobile-orders";
+import { useCart } from "@/components/cart-provider";
+import { useDoctorProfile } from "@/components/doctor-profile-provider";
+import { formatPhoneDisplay } from "@/lib/doctor-profile";
+import { createOrder, type PaymentMethod } from "@/lib/orders";
 import { formatGroupedNumber } from "@/lib/format";
 import "./checkout-desktop.css";
 
 type Step = 1 | 2 | 3;
-const ITEMS = [
-  { id: "implant", name: "Implant tizimi", qty: "1 dona", price: 1250000, image: "/img/designs/prod-implant.png" },
-  { id: "composite", name: "Kompozit (universal)", qty: "2 dona", price: 340000, image: "/img/designs/prod-composite.png" },
-  { id: "curette", name: "Periodontal kuretlar to‘plami", qty: "1 dona", price: 330000, image: "/img/designs/prod-curette.png" },
-];
-const GOODS = 1920000;
-const DELIVERY = 25000;
+
+function apiPayment(id: string): PaymentMethod {
+  if (id === "payme") return "payme";
+  if (id === "naqd") return "naqd";
+  return "click";
+}
 
 function som(n: number) {
   return `${formatGroupedNumber(n)} so‘m`;
@@ -25,53 +27,71 @@ function som(n: number) {
 
 export function CheckoutDesktop() {
   const router = useRouter();
+  const cart = useCart();
+  const { profile } = useDoctorProfile();
   const [step, setStep] = useState<Step>(1);
-  const [name, setName] = useState("Ibrohim");
-  const [phone, setPhone] = useState("+998 90 123 45 67");
+  const [name, setName] = useState("");
+  const [phone, setPhone] = useState("");
   const [city, setCity] = useState("Toshkent");
   const [district, setDistrict] = useState("Yunusobod tumani");
-  const [address, setAddress] = useState("Amir Temur ko‘chasi, 25-uy, 3-xonadon, 5-qavat");
-  const [saved, setSaved] = useState("uy");
+  const [address, setAddress] = useState("");
+  const [saved, setSaved] = useState("");
   const [more, setMore] = useState(false);
   const [map, setMap] = useState(false);
   const [ship, setShip] = useState<"courier" | "pickup">("courier");
   const [note, setNote] = useState("");
-  const [pay, setPay] = useState("click");
+  const [pay, setPay] = useState("naqd");
   const [promo, setPromo] = useState("");
   const [promoOn, setPromoOn] = useState(false);
   const [invoice, setInvoice] = useState(false);
   const [oferta, setOferta] = useState(false);
   const [error, setError] = useState("");
-  const delivery = ship === "courier" ? DELIVERY : 0;
-  const discount = promoOn ? 0 : 0;
-  const total = GOODS + delivery - discount;
+  const [busy, setBusy] = useState(false);
+  const lines = cart.selectedItems.length ? cart.selectedItems : cart.items;
+  const goods = lines.reduce((sum, item) => sum + item.lineTotal, 0);
+  const delivery = 0;
+  const discount = 0;
+  const total = goods + delivery - discount;
+
+  useEffect(() => {
+    if (!profile) return;
+    setName((value) => value || profile.fullName);
+    setPhone((value) => value || formatPhoneDisplay(profile.phone));
+    if (profile.city) setCity((value) => (value === "Toshkent" ? profile.city || value : value));
+  }, [profile]);
 
   function nextFromDelivery() {
+    if (!lines.length) { setError("Savat bo‘sh"); return; }
     if (!name.trim() || !phone.trim() || !address.trim()) { setError("Manzil maydonlarini to‘ldiring"); return; }
     setError("");
     setStep(2);
   }
-  function confirm() {
+  async function confirm() {
     if (!oferta) { setError("Oferta shartlarini tasdiqlang"); return; }
-    const orders = loadPlacedOrders();
-    const id = `sk-${10080 + orders.length}`;
-    const order: MobileOrder = {
-      id,
-      number: "SH-10245",
-      date: "14 okt 2024, 10:24",
-      seller: "DentPro.uz",
-      status: "yetkazilmoqda",
-      itemCount: 3,
-      total,
-      images: ITEMS.map((item) => item.image),
-      extra: 0,
-      items: ITEMS.map((item) => ({ id: item.id, name: item.name, price: item.price, image: item.image, qty: item.id === "composite" ? 2 : 1 })),
-      delivery: ship,
-      place: `${city}, ${district}, ${address}`,
-    };
-    rememberPlacedOrder(order);
+    if (!lines.length) { setError("Savat bo‘sh"); return; }
+    setBusy(true);
+    setError("");
+    const result = await createOrder({
+      name: name.trim(),
+      phone: phone.trim(),
+      city,
+      address: [district, address].filter(Boolean).join(", "),
+      note: [note.trim(), ship === "pickup" ? "Olib ketaman" : "", invoice ? "Hisob-faktura" : "", promoOn && promo.trim() ? `Promokod: ${promo.trim()}` : ""].filter(Boolean).join(". "),
+      payment: apiPayment(pay),
+      items: lines.map((item) => ({
+        productId: item.product.id,
+        qty: item.qty,
+        size: item.size,
+        color: item.color,
+        source: item.source,
+        expiryMonths: item.expiryMonths,
+      })),
+    });
+    setBusy(false);
+    if (!result.ok) { setError(result.reason); return; }
     shopClear();
-    router.push(`/buyurtmalarim/${id}`);
+    cart.clear();
+    router.push(`/buyurtmalarim?order=${encodeURIComponent(result.order.id)}`);
   }
 
   return (
@@ -151,7 +171,7 @@ export function CheckoutDesktop() {
                 </div>
                 <label className="ckx-check"><input type="checkbox" checked={invoice} onChange={(event) => setInvoice(event.target.checked)} /> Menga elektron hisob-faktura (PDF) yuborilsin</label>
                 <div className="ckx-mini">
-                  <span>Mahsulotlar (3 ta)<b>{som(GOODS)}</b></span>
+                  <span>Mahsulotlar ({lines.length} ta)<b>{som(goods)}</b></span>
                   <span>Yetkazish<b>{som(delivery)}</b></span>
                   <span>Chegirma (promokod)<b>{som(discount)}</b></span>
                   <span>Jami to‘lov<b>{som(total)}</b></span>
@@ -160,9 +180,9 @@ export function CheckoutDesktop() {
             ) : null}
             {step === 3 ? (
               <section className="ckx-card">
-                <div className="ckx-saved-head"><h2>Mahsulotlar (3 ta)</h2><button type="button" onClick={() => setStep(1)}>O‘zgartirish</button></div>
-                {ITEMS.map((item) => (
-                  <div key={item.id} className="ckx-line"><img src={item.image} alt="" /><div><b>{item.name}</b><small>{item.qty}</small></div><em>{som(item.price)}</em></div>
+                <div className="ckx-saved-head"><h2>Mahsulotlar ({lines.length} ta)</h2><button type="button" onClick={() => setStep(1)}>O‘zgartirish</button></div>
+                {lines.map((item) => (
+                  <div key={item.key} className="ckx-line"><img src={item.product.image} alt="" /><div><b>{item.product.name}</b><small>{item.qty} dona</small></div><em>{som(item.lineTotal)}</em></div>
                 ))}
                 <div className="ckx-saved-head"><h2>Yetkazish manzili</h2><button type="button" onClick={() => setStep(1)}>O‘zgartirish</button></div>
                 <p><b>{name}</b><br />{phone}<br />{city}, {district}<br />{address}</p>
@@ -177,16 +197,16 @@ export function CheckoutDesktop() {
             {error ? <p className="ckx-error" data-testid="ckd-error">{error}</p> : null}
             <div className="ckx-nav">
               {step > 1 ? <button type="button" className="back" data-testid="ckd-back" onClick={() => { setError(""); setStep((step - 1) as Step); }}>‹ Orqaga</button> : <span />}
-              {step < 3 ? <button type="button" className="next" data-testid="ckd-next" onClick={() => (step === 1 ? nextFromDelivery() : setStep(3))}>Davom etish ›</button> : <button type="button" className="next" data-testid="ckd-confirm" onClick={confirm}>Buyurtmani tasdiqlash ›</button>}
+              {step < 3 ? <button type="button" className="next" data-testid="ckd-next" onClick={() => (step === 1 ? nextFromDelivery() : setStep(3))}>Davom etish ›</button> : <button type="button" className="next" data-testid="ckd-confirm" disabled={busy} onClick={() => void confirm()}>{busy ? "Saqlanmoqda…" : "Buyurtmani tasdiqlash ›"}</button>}
             </div>
           </div>
           <aside className="ckx-card" data-testid="ckd-summary">
-            <h2>Buyurtma ma’lumotlari <small>3 ta mahsulot</small></h2>
-            {ITEMS.map((item) => (
-              <div key={item.id} className="ckx-line"><img src={item.image} alt="" /><div><b>{item.name}</b><small>{item.qty}</small></div><em>{som(item.price)}</em></div>
+            <h2>Buyurtma ma’lumotlari <small>{lines.length} ta mahsulot</small></h2>
+            {lines.length === 0 ? <p data-testid="ckd-empty">Savat bo‘sh. Avval mahsulot qo‘shing.</p> : lines.map((item) => (
+              <div key={item.key} className="ckx-line"><img src={item.product.image} alt="" /><div><b>{item.product.name}</b><small>{item.qty} dona</small></div><em>{som(item.lineTotal)}</em></div>
             ))}
             <div className="ckx-mini">
-              <span>Mahsulotlar (3 ta)<b>{som(GOODS)}</b></span>
+              <span>Mahsulotlar ({lines.length} ta)<b>{som(goods)}</b></span>
               <span>Yetkazish<b>{som(delivery)}</b></span>
               <span>Promokod <button type="button" onClick={() => setPromoOn(Boolean(promo.trim()))}>Qo‘llash</button></span>
               <span className="total">Jami<b>{som(total)}</b></span>

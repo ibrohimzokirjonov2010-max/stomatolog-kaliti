@@ -32,6 +32,9 @@ import { useDoctorProfile } from "@/components/doctor-profile-provider";
 import { useFavorites } from "@/components/favorites-provider";
 import { MobileMenuButton } from "@/components/dashboard/mobile-chrome";
 import { NotificationBell } from "@/components/notification-bell";
+import { uploadImage } from "@/lib/image-upload";
+import { loadOrders, syncOrders } from "@/lib/orders";
+import { getBonusSnapshot, refreshBonus, subscribeBonus } from "@/lib/bonus";
 import "./profil-mobile.css";
 
 type Sheet = "edit" | "plus" | "fav" | "addr" | "pay" | "notes" | "lang" | "help" | "out";
@@ -40,10 +43,10 @@ const LANGUAGES = ["O‘zbekcha", "Ruscha", "English"];
 const DEFAULT_AVATAR = "/img/mobile/pf-avatar.jpg";
 
 const groupOne = [
-  { id: "orders", title: "Mening buyurtmalarim", subtitle: "Buyurtmalar tarixi va holati", icon: ClipboardList, tint: "#e8f1ff", color: "#2f6bff", count: 12, href: "/buyurtmalarim" },
-  { id: "fav", title: "Sevimlilar", subtitle: "Saqlangan mahsulotlar va ustalar", icon: Heart, tint: "#fde8f0", color: "#e11d78", count: 8, sheet: "fav" as const },
-  { id: "courses", title: "Kurslarim", subtitle: "Onlayn kurslar va sertifikatlar", icon: GraduationCap, tint: "#f3e8ff", color: "#7c3aed", count: 3, href: "/talim" },
-  { id: "seminars", title: "Seminarlarim", subtitle: "Ro‘yxatdan o‘tgan seminarlar", icon: CalendarDays, tint: "#e8f1ff", color: "#2f6bff", count: 5, href: "/seminarlar/yozuvlarim" },
+  { id: "orders", title: "Mening buyurtmalarim", subtitle: "Buyurtmalar tarixi va holati", icon: ClipboardList, tint: "#e8f1ff", color: "#2f6bff", href: "/buyurtmalarim" },
+  { id: "fav", title: "Sevimlilar", subtitle: "Saqlangan mahsulotlar va ustalar", icon: Heart, tint: "#fde8f0", color: "#e11d78", sheet: "fav" as const },
+  { id: "courses", title: "Kurslarim", subtitle: "Onlayn kurslar va sertifikatlar", icon: GraduationCap, tint: "#f3e8ff", color: "#7c3aed", href: "/talim" },
+  { id: "seminars", title: "Seminarlarim", subtitle: "Ro‘yxatdan o‘tgan seminarlar", icon: CalendarDays, tint: "#e8f1ff", color: "#2f6bff", href: "/seminarlar/yozuvlarim" },
   { id: "ads", title: "E‘lonlarim", subtitle: "Ish va xizmat e‘lonlarim", icon: Briefcase, tint: "#e7f8ef", color: "#0f9f75", href: "/ishlar" },
 ];
 
@@ -66,10 +69,12 @@ export function ProfilMobile() {
   const [searchOpen, setSearchOpen] = useState(false);
   const [query, setQuery] = useState("");
   const [sheet, setSheet] = useState<Sheet | null>(null);
-  const [name, setName] = useState("Ibrohim Zokirjonov");
-  const [specialty, setSpecialty] = useState("Stomatolog");
-  const [clinic, setClinic] = useState("Smile Dental Clinic");
-  const [city, setCity] = useState("Toshkent, Chilonzor");
+  const [name, setName] = useState("");
+  const [specialty, setSpecialty] = useState("");
+  const [clinic, setClinic] = useState("");
+  const [city, setCity] = useState("");
+  const [orderCount, setOrderCount] = useState(0);
+  const [bonus, setBonus] = useState(0);
   const [avatar, setAvatar] = useState(DEFAULT_AVATAR);
   const [lang, setLang] = useState(LANGUAGES[0]);
   const [draft, setDraft] = useState({ name, specialty, clinic, city });
@@ -83,12 +88,24 @@ export function ProfilMobile() {
 
   useEffect(() => {
     if (!profile) return;
-    setName(profile.fullName || "Ibrohim Zokirjonov");
+    setName(profile.fullName || "");
     if (profile.specialty) setSpecialty(profile.specialty);
     if (profile.clinic) setClinic(profile.clinic);
     if (profile.city) setCity(profile.city);
     if (profile.avatarUrl && profile.avatarUrl !== "/img/mobile/avatar.jpg") setAvatar(profile.avatarUrl);
   }, [profile]);
+
+  useEffect(() => {
+    const load = () => setOrderCount(loadOrders().length);
+    void syncOrders(true).then(load);
+    window.addEventListener("sk-orders-changed", load);
+    void refreshBonus();
+    const unsub = subscribeBonus(() => setBonus(getBonusSnapshot().info?.balance ?? 0));
+    return () => {
+      window.removeEventListener("sk-orders-changed", load);
+      unsub();
+    };
+  }, []);
 
   function openSheet(next: Sheet) {
     setError("");
@@ -136,7 +153,7 @@ export function ProfilMobile() {
           <ShoppingCart />
           {lines > 0 ? <span className="mh-badge" data-testid="pf-cart-badge">{lines > 9 ? "9+" : lines}</span> : null}
         </Link>
-        <NotificationBell variant="mobile" minBadge={3} buttonClassName="size-10 text-[#1a1d26]" />
+        <NotificationBell variant="mobile" buttonClassName="size-10 text-[#1a1d26]" />
       </header>
       <div className="pm-body">
         {searchOpen ? (
@@ -162,7 +179,11 @@ export function ProfilMobile() {
                 onChange={(event) => {
                   const file = event.target.files?.[0];
                   if (!file) return;
-                  setAvatar(URL.createObjectURL(file));
+                  void uploadImage(file, "avatar").then(async (url) => {
+                    const result = await updateProfile({ avatarUrl: url });
+                    if (result.ok) setAvatar(url);
+                    else setNote("Rasmni saqlab bo‘lmadi");
+                  }).catch(() => setNote("Rasmni yuklab bo‘lmadi"));
                   event.target.value = "";
                 }}
               />
@@ -177,10 +198,8 @@ export function ProfilMobile() {
           </div>
         </article>
         <div className="pm-stats">
-          <Link href="/buyurtmalarim" className="pm-stat"><ShoppingBag color="#12b981" /><b>12</b><span>Buyurtmalar</span></Link>
-          <Link href="/talim" className="pm-stat"><GraduationCap color="#2f6bff" /><b>3</b><span>Kurslar</span></Link>
-          <Link href="/seminarlar" className="pm-stat"><CalendarDays color="#7c3aed" /><b>5</b><span>Seminarlar</span></Link>
-          <Link href="/bonuslarim" className="pm-stat"><Coins color="#12b981" /><b className="pm-money">125 000 so‘m</b><span>Bonus balans</span></Link>
+          <Link href="/buyurtmalarim" className="pm-stat"><ShoppingBag color="#12b981" /><b>{orderCount}</b><span>Buyurtmalar</span></Link>
+          <Link href="/bonuslarim" className="pm-stat"><Coins color="#12b981" /><b className="pm-money">{bonus.toLocaleString("fr-FR")} so‘m</b><span>Bonus balans</span></Link>
         </div>
         <button type="button" className="pm-plus" data-testid="pf-plus" onClick={() => openSheet("plus")}>
           <i className="pm-crown"><Crown /></i>

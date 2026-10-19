@@ -8,7 +8,6 @@ import { ShopShell } from "@/components/shop/desktop/ShopShell";
 import { shopAdd, som, useShopLineCount } from "@/components/shop/desktop/shop-cart";
 import {
   ORDER_PAGE_SIZE,
-  desktopOrders,
   orderKinds,
   orderStatuses,
   statusLabel,
@@ -16,6 +15,8 @@ import {
   type OrderKind,
   type OrderStatus,
 } from "@/data/desktop-orders";
+import { loadOrders, syncOrders } from "@/lib/orders";
+import { toDesktopOrder } from "@/lib/order-present";
 import "./cart.css";
 
 const periods = [
@@ -65,7 +66,14 @@ export function OrdersDesktop() {
     setPage(1);
   }, [queryParam]);
 
-  const orders = desktopOrders.map((order) => ({ ...order, ...patch[order.id] }));
+  const [rows, setRows] = useState<DesktopOrder[]>([]);
+  useEffect(() => {
+    const load = () => setRows(loadOrders().map(toDesktopOrder));
+    void syncOrders(true).then(load);
+    window.addEventListener("sk-orders-changed", load);
+    return () => window.removeEventListener("sk-orders-changed", load);
+  }, []);
+  const orders = rows.map((order) => ({ ...order, ...patch[order.id] }));
   const scoped = orders.filter((order) => order.kind === kind);
   const filtered = useMemo(() => {
     const needle = q.trim().toLowerCase();
@@ -199,7 +207,7 @@ export function OrdersDesktop() {
                     <b>{order.pay}</b>
                     <div className="bo-acts">
                       {order.status === "shipping" ? <button type="button" className="solid" onClick={() => setNote(`${order.number} yo‘lda. Taxminiy yetkazish saqlangan.`)}>Kuzatish</button> : null}
-                      {order.status === "pending" ? <button type="button" className="solid" onClick={() => { update(order.id, { status: "preparing", countdown: undefined, note: "To‘lov qabul qilindi" }); setNote("To‘lov qabul qilindi"); }}>To‘lov qilish</button> : null}
+                      {order.status === "pending" ? <span className="var">To‘lov hali ulanmagan</span> : null}
                       {order.status === "delivered" ? <button type="button" onClick={() => receipt(order)}><Download className="i" /> Chek yuklab olish</button> : null}
                       {order.status === "delivered" || order.status === "cancelled" ? <button type="button" onClick={() => reorder(order)}><RefreshCcw className="i" /> Qayta buyurtma</button> : null}
                       {order.status === "preparing" ? <button type="button" className="danger" onClick={() => { update(order.id, { status: "cancelled", note: "Bekor qilingan: bugun" }); setNote("Buyurtma bekor qilindi"); }}>Bekor qilish</button> : null}
@@ -209,7 +217,7 @@ export function OrdersDesktop() {
                 </article>
               );
             })}
-            {view.length === 0 ? <div className="bo-card sv-empty">Buyurtma topilmadi</div> : null}
+            {view.length === 0 ? <div className="bo-card sv-empty" data-testid="orders-empty">{rows.length === 0 ? "Hali buyurtma yo‘q" : "Buyurtma topilmadi"}</div> : null}
             <div className="bo-pages">
               {Array.from({ length: pages }, (_, index) => (
                 <button key={index} type="button" className={page === index + 1 ? "on" : ""} onClick={() => setPage(index + 1)}>{index + 1}</button>
@@ -220,8 +228,8 @@ export function OrdersDesktop() {
           <aside className="bo-rail">
             <section className="bo-box">
               <h3>Mening xaridlarim <select className="bo-select" aria-label="Davr" value={period.id} onChange={(event) => setPeriod(periods.find((item) => item.id === event.target.value) ?? periods[0])}>{periods.map((item) => <option key={item.id} value={item.id}>{item.label}</option>)}</select></h3>
-              <div className="bo-stat"><span className="mark"><ShoppingBag className="i" /></span><div><span>Jami xarid</span><b>{som(period.spent)}</b></div></div>
-              <div className="bo-stat"><span className="mark"><Star className="i" /></span><div><span>Bonus ballar</span><b>{period.points.toLocaleString("fr-FR")} ball</b></div></div>
+              <div className="bo-stat"><span className="mark"><ShoppingBag className="i" /></span><div><span>Jami xarid</span><b>{som(rows.reduce((sum, order) => sum + order.total, 0))}</b></div></div>
+              <div className="bo-stat"><span className="mark"><Star className="i" /></span><div><span>Buyurtmalar</span><b>{rows.length} ta</b></div></div>
             </section>
             <section className="bo-box">
               <h3>Yordam va qo‘llab-quvvatlash</h3>

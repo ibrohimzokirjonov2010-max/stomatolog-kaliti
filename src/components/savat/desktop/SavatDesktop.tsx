@@ -83,6 +83,7 @@ export function SavatDesktop() {
                 </button>
                 <em>Tanlangan: {selected.length} ta</em>
               </div>
+              {lines.length === 0 ? <p className="sv-empty" data-testid="savat-empty">Savat bo‘sh. Marketplace’dan mahsulot qo‘shing.</p> : null}
               {groups.map(([seller, items]) => {
                 const groupOn = items.every((item) => !off.includes(item.id));
                 return (

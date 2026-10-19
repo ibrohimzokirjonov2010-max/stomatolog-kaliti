@@ -8,6 +8,7 @@ import { useCart } from "@/components/cart-provider";
 import { useDoctorProfile } from "@/components/doctor-profile-provider";
 import { MobileMenuButton } from "@/components/dashboard/mobile-chrome";
 import { NotificationBell } from "@/components/notification-bell";
+import { useCommunityWork } from "@/components/community-provider";
 import "./community-mobile.css";
 
 type Kind = "klinik" | "savol" | "maslahat" | "yangilik";
@@ -23,6 +24,7 @@ type Post = {
   body: string;
   likes: number;
   comments: number;
+  mine: boolean;
   pair?: { before: string; after: string };
   mosaic?: { big: string; stack: string[] };
 };
@@ -35,67 +37,27 @@ const chips: { id: "all" | Kind; label: string }[] = [
   { id: "yangilik", label: "Yangiliklar" },
 ];
 
-const seed: Post[] = [
-  {
-    id: "cct",
-    name: "Ibrohim Zokirjonov",
-    avatar: "/img/mobile/avatar.jpg",
-    time: "3 kun oldin",
-    kind: "klinik",
-    kindLabel: "Klinik case",
-    title: "Davolash natijasi: CCT bilan milk retessiyasini yopish",
-    body: "Mandibular old tishlar sohasida milk retessiyasi kuzatildi. CCT (Connective Tissue Graft) usuli bilan yopildi. 6 oylik nazorat natijasi. Bemorda sezgirlik kamaydi va estetik ko‘rinish yaxshilandi.",
-    likes: 24,
-    comments: 8,
-    pair: { before: "/img/mobile/cm-before.jpg", after: "/img/mobile/cm-after.jpg" },
-  },
-  {
-    id: "qatlam",
-    name: "Dr. Dilnoza Karimova",
-    avatar: "/img/mobile/se-dilnoza.jpg",
-    time: "5 kun oldin",
-    kind: "maslahat",
-    kindLabel: "Maslahatlar",
-    title: "Kompozit restavratsiyada qatlamma usul",
-    body: "Posterior tishlarda kompozit bilan ishlashda qatlamma usul natijani yanada mustahkam va estetik qiladi. Siz qanday materiallardan foydalanasiz?",
-    likes: 18,
-    comments: 12,
-    mosaic: { big: "/img/mobile/cm-composite.jpg", stack: ["/img/mobile/cm-teeth-a.jpg", "/img/mobile/cm-teeth-b.jpg"] },
-  },
-  {
-    id: "protez",
-    name: "Dr. Azizbek Murodov",
-    avatar: "/img/mobile/tl-azizbek.jpg",
-    time: "1 hafta oldin",
-    kind: "savol",
-    kindLabel: "Savollar",
-    title: "Implantdan keyingi protetik bosqich",
-    body: "Implant joylashgach, vaqtinchalik tojni qachon qo‘yishni ma’qul ko‘rasiz?",
-    likes: 9,
-    comments: 4,
-  },
-  {
-    id: "yangilik",
-    name: "StomaHub",
-    avatar: "/img/mobile/avatar.jpg",
-    time: "2 hafta oldin",
-    kind: "yangilik",
-    kindLabel: "Yangiliklar",
-    title: "Seminarlar kalendari yangilandi",
-    body: "Oktabr oyi uchun yangi amaliy kurslar qo‘shildi. Ro‘yxatdan o‘tish ochiq.",
-    likes: 31,
-    comments: 2,
-  },
-];
-
 export function CommunityMobile() {
   const { count } = useCart();
   const { profile } = useDoctorProfile();
   const fileRef = useRef<HTMLInputElement>(null);
   const [query, setQuery] = useState("");
   const [kind, setKind] = useState<"all" | Kind>("all");
-  const [posts, setPosts] = useState(seed);
-  const [liked, setLiked] = useState<string[]>([]);
+  const work = useCommunityWork();
+  const posts = useMemo<Post[]>(() => work.feed.map((post): Post => ({
+    id: post.id,
+    name: post.author.name,
+    avatar: post.author.avatar || "/img/mobile/avatar.jpg",
+    time: post.time,
+    kind: post.kind === "savol" ? "savol" : post.kind === "yangilik" ? "yangilik" : "klinik",
+    kindLabel: post.kind === "savol" ? "Savollar" : post.kind === "yangilik" ? "Yangiliklar" : "Klinik case",
+    title: post.text.slice(0, 90),
+    body: post.text,
+    likes: post.likes,
+    comments: post.comments,
+    mine: Boolean(work.viewerId && post.authorId === work.viewerId),
+    mosaic: post.images?.[0] ? { big: post.images[0], stack: post.images.slice(1, 3) } : undefined,
+  })), [work.feed, work.viewerId]);
   const [saved, setSaved] = useState<string[]>([]);
   const [menu, setMenu] = useState<string | null>(null);
   const [draft, setDraft] = useState("");
@@ -110,7 +72,6 @@ export function CommunityMobile() {
   const [onlySaved, setOnlySaved] = useState(false);
   const [note, setNote] = useState("");
   const avatar = profile?.avatarUrl || "/img/mobile/avatar.jpg";
-  const myName = profile?.fullName || "Ibrohim Zokirjonov";
 
   const list = useMemo(() => {
     const q = query.trim().toLowerCase();
@@ -122,25 +83,14 @@ export function CommunityMobile() {
     });
   }, [kind, onlySaved, posts, query, saved]);
 
-  function publish(title: string, body: string) {
-    const text = body.trim();
-    if (!text && !title.trim()) return;
-    setPosts((current) => [
-      {
-        id: `p-${Date.now()}`,
-        name: myName,
-        avatar,
-        time: "hozir",
-        kind: "savol",
-        kindLabel: "Savollar",
-        title: title.trim() || text.slice(0, 72),
-        body: text || title.trim(),
-        likes: 0,
-        comments: 0,
-        mosaic: photo ? { big: photo, stack: [] } : undefined,
-      },
-      ...current,
-    ]);
+  async function publish(title: string, body: string) {
+    const text = [title.trim(), body.trim()].filter(Boolean).join("\n");
+    if (!text) return;
+    const result = await work.publish({ kind: "case", text, tags: [] });
+    if (!result.ok) {
+      setNote(result.error);
+      return;
+    }
     setDraft("");
     setSheetTitle("");
     setSheetBody("");
@@ -180,7 +130,7 @@ export function CommunityMobile() {
           <ShoppingCart />
           {count > 0 ? <span className="mh-badge">{count > 9 ? "9+" : count}</span> : null}
         </Link>
-        <NotificationBell variant="mobile" minBadge={2} buttonClassName="size-10 text-[#1a1d26]" />
+        <NotificationBell variant="mobile" buttonClassName="size-10 text-[#1a1d26]" />
       </header>
 
       <div className="cm-body">
@@ -244,7 +194,6 @@ export function CommunityMobile() {
         {list.length === 0 ? <p className="cm-note">Mos post topilmadi</p> : null}
 
         {list.map((post) => {
-          const on = liked.includes(post.id);
           const kept = saved.includes(post.id);
           return (
             <article key={post.id} id={post.id} className="cm-post">
@@ -266,6 +215,7 @@ export function CommunityMobile() {
                     <span className="cm-menu">
                       <button type="button" onClick={() => { setSaved((current) => (current.includes(post.id) ? current.filter((id) => id !== post.id) : [...current, post.id])); setMenu(null); }}>Saqlash</button>
                       <button type="button" onClick={() => { setMenu(null); void share(post); }}>Ulashish</button>
+                      {post.mine ? <button type="button" onClick={() => { setMenu(null); void work.deletePost(post.id); }}>O‘chirish</button> : null}
                     </span>
                   ) : null}
                 </div>
@@ -299,8 +249,8 @@ export function CommunityMobile() {
                 </div>
               ) : null}
               <div className="cm-acts">
-                <button type="button" className={on ? "like on" : "like"} aria-pressed={on} onClick={() => setLiked((current) => (current.includes(post.id) ? current.filter((id) => id !== post.id) : [...current, post.id]))}>
-                  <Heart fill={on ? "currentColor" : "none"} /> {post.likes + (on ? 1 : 0)}
+                <button type="button" className={work.isLiked(post.id) ? "like on" : "like"} aria-pressed={work.isLiked(post.id)} onClick={() => void work.toggleLike(post.id)}>
+                  <Heart fill={work.isLiked(post.id) ? "currentColor" : "none"} /> {post.likes}
                 </button>
                 <button type="button" aria-label="Izohlar" onClick={() => { setCommentFor(post); setComment(""); }}>
                   <MessageCircle /> {post.comments}
@@ -346,9 +296,12 @@ export function CommunityMobile() {
               event.preventDefault();
               if (!comment.trim()) return;
               const id = commentFor.id;
-              setPosts((current) => current.map((post) => (post.id === id ? { ...post, comments: post.comments + 1 } : post)));
-              setCommentFor(null);
-              setNote("Izoh qo‘shildi");
+              void work.addComment(id, comment).then((ok) => {
+                if (!ok) return;
+                setComment("");
+                setCommentFor(null);
+                setNote("Izoh qo‘shildi");
+              });
             }}
           >
             <h3>Izoh</h3>

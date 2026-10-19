@@ -95,17 +95,79 @@ export function seedQueue(now: Date): QueueAppt[] {
   ];
 }
 
-export function loadQueue(now: Date) {
-  const saved = readPhoneStore<QueueAppt>(QUEUE_KEY);
-  const map = new Map(seedQueue(now).map((item) => [item.id, item]));
-  for (const item of saved) map.set(item.id, item);
-  return [...map.values()].sort((a, b) => a.date.localeCompare(b.date) || a.time.localeCompare(b.time));
+const DESK_STATUS = { keladi: "tasdiq", kutil: "kutil", davolan: "davol", bajar: "yakun", bekor: "bekor" } as const;
+const PHONE_STATUS = { tasdiq: "keladi", kutil: "kutil", davol: "davolan", yakun: "bajar", bekor: "bekor" } as const;
+
+function toDesk(item: QueueAppt) {
+  return {
+    id: item.id,
+    date: item.date,
+    start: item.time,
+    end: item.end,
+    patient: item.name,
+    avatar: item.avatar,
+    service: item.service,
+    doctor: "",
+    doctorId: "",
+    room: "",
+    status: DESK_STATUS[item.status],
+    patientId: item.patientId,
+    phone: item.phone,
+    tooth: item.tooth,
+    amount: item.amount,
+    note: item.note,
+    startedAt: item.startedAt,
+  };
+}
+
+function fromDesk(raw: Record<string, unknown>): QueueAppt | null {
+  const id = typeof raw.id === "string" ? raw.id : "";
+  const date = typeof raw.date === "string" ? raw.date : "";
+  const start = typeof raw.start === "string" ? raw.start : typeof raw.time === "string" ? raw.time : "";
+  if (!id || !date || !start) return null;
+  const desk = typeof raw.status === "string" && raw.status in PHONE_STATUS ? PHONE_STATUS[raw.status as keyof typeof PHONE_STATUS] : null;
+  const phone = typeof raw.status === "string" && raw.status in LABELS ? raw.status as QueueStatus : desk ?? "keladi";
+  return {
+    id,
+    patientId: typeof raw.patientId === "string" ? raw.patientId : id,
+    date,
+    time: start,
+    end: typeof raw.end === "string" ? raw.end : start,
+    name: typeof raw.patient === "string" ? raw.patient : typeof raw.name === "string" ? raw.name : "Bemor",
+    service: typeof raw.service === "string" ? raw.service : "",
+    age: Number(raw.age) || 0,
+    gender: typeof raw.gender === "string" ? raw.gender : "",
+    tooth: typeof raw.tooth === "string" ? raw.tooth : "",
+    note: typeof raw.note === "string" ? raw.note : "",
+    status: phone,
+    statusLabel: LABELS[phone],
+    phone: typeof raw.phone === "string" ? raw.phone : "",
+    avatar: typeof raw.avatar === "string" ? raw.avatar : "",
+    amount: Number(raw.amount) || 0,
+    startedAt: typeof raw.startedAt === "string" ? raw.startedAt : undefined,
+  };
+}
+
+export function loadQueue(_now?: Date) {
+  return readPhoneStore<QueueAppt>(QUEUE_KEY)
+    .filter((item) => item && item.id && !item.id.startsWith("q-"))
+    .sort((a, b) => a.date.localeCompare(b.date) || a.time.localeCompare(b.time));
+}
+
+export async function refreshQueueFromServer() {
+  const { loadCrm } = await import("@/lib/crm-client");
+  const rows = await loadCrm<Record<string, unknown>>("appointments");
+  const items = rows.map(fromDesk).filter((item): item is QueueAppt => item != null);
+  writePhoneStore(QUEUE_KEY, items);
+  if (typeof window !== "undefined") window.dispatchEvent(new Event("sk-queue"));
+  return items;
 }
 
 export function saveQueueItem(item: QueueAppt) {
-  const saved = readPhoneStore<QueueAppt>(QUEUE_KEY).filter((rowItem) => rowItem.id !== item.id);
+  const saved = readPhoneStore<QueueAppt>(QUEUE_KEY).filter((rowItem) => rowItem.id !== item.id && !rowItem.id.startsWith("q-"));
   writePhoneStore(QUEUE_KEY, [item, ...saved]);
   if (typeof window !== "undefined") window.dispatchEvent(new Event("sk-queue"));
+  void import("@/lib/crm-client").then(({ upsertCrm }) => upsertCrm("appointments", toDesk(item)));
 }
 
 export function findQueueItem(id: string, now = new Date()) {
@@ -163,6 +225,7 @@ function pushVisit(appt: QueueAppt, notes: string, unpaid: boolean) {
   };
   const visits = readPhoneStore<ClinicVisit>(CLINIC_VISITS_KEY).filter((item) => item.id !== visit.id);
   writePhoneStore(CLINIC_VISITS_KEY, [visit, ...visits]);
+  void import("@/data/phone-records").then(({ syncPatientClinic }) => syncPatientClinic(appt.patientId));
 }
 
 export function finishUnpaid(appt: QueueAppt, notes: string) {

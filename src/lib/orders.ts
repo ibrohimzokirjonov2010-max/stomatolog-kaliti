@@ -184,9 +184,9 @@ export function orderStatusCopy(status: OrderStatus): {
 }
 
 export const paymentMethods: { id: PaymentMethod; label: string; hint: string }[] = [
-  { id: "click", label: "Click", hint: "Demo: pul darhol escrowga tushadi, haqiqiy yechim yo‘q" },
-  { id: "payme", label: "Payme", hint: "Demo: pul darhol escrowga tushadi, haqiqiy yechim yo‘q" },
-  { id: "naqd", label: "Naqd (yetkazganda)", hint: "Kuryerga naqd to‘lov" },
+  { id: "click", label: "Click", hint: "To‘lov kutilmoqda. Click hali ulanmagan, pul yechilmaydi." },
+  { id: "payme", label: "Payme", hint: "To‘lov kutilmoqda. Payme hali ulanmagan, pul yechilmaydi." },
+  { id: "naqd", label: "Naqd (yetkazganda)", hint: "Kuryerga naqd to‘lov. Buyurtma to‘lanmagan holda saqlanadi." },
 ];
 
 export const orderStatusLabel: Record<OrderStatus, string> = {

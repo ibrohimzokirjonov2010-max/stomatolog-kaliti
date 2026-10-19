@@ -4,6 +4,8 @@ export type ToothState = "soglom" | "davolanmoqda" | "davolangan" | "muammo" | "
 export type PatientVisit = { date: string; kind: string; note: string; doctor: string };
 export type PatientDoc = { name: string; detail: string };
 export type PatientPay = { date: string; amount: number; method: string; note: string };
+export type PatientPlan = { id: string; name: string; doctor: string; date: string; status: string; total: number };
+export type PatientXray = { id: string; date: string; type: string; tooth: string; note: string };
 
 export type Patient = {
   id: string;
@@ -32,6 +34,8 @@ export type Patient = {
   visits: PatientVisit[];
   payments: PatientPay[];
   docs: PatientDoc[];
+  plans?: PatientPlan[];
+  xrays?: PatientXray[];
 };
 
 export const patientStatuses: { id: PatientStatus; label: string }[] = [

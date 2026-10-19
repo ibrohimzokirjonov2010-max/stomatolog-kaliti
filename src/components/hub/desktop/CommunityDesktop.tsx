@@ -6,15 +6,15 @@ import { useSearchParams } from "next/navigation";
 import { Bookmark, Heart, ImagePlus, MessageCircle, Plus, Send, Star } from "lucide-react";
 import { ShopShell } from "@/components/shop/desktop/ShopShell";
 import { useShopLineCount } from "@/components/shop/desktop/shop-cart";
+import { useCommunityWork } from "@/components/community-provider";
+import { uploadImage } from "@/lib/image-upload";
 import {
   communityCategories,
-  communityPosts,
   communityRules,
-  topMembers,
-  trends,
   type CommunityPost,
   type PostKind,
 } from "@/data/desktop-hub";
+import type { CommunityPost as LivePost } from "@/data/community";
 import "./hub.css";
 
 const kinds: { id: PostKind; label: string }[] = [
@@ -30,15 +30,38 @@ const tabs = [
   { id: "mine", label: "Mening postlarim" },
 ] as const;
 
+function mapLive(post: LivePost, viewerId: string | null): CommunityPost {
+  const kind: PostKind = post.kind === "savol" ? "savol" : post.kind === "yangilik" ? "muhokama" : "keys";
+  return {
+    id: post.id,
+    author: post.author.name,
+    role: post.author.specialty,
+    city: post.author.city,
+    avatar: post.author.avatar || "/img/design-pr13/ui/avatar.png",
+    title: post.text.split("\n")[0].slice(0, 90),
+    body: post.text,
+    kind,
+    time: post.time,
+    category: post.tags[0] || "Klinik holatlar",
+    photos: (post.images ?? []).map((src) => ({ src, label: "Rasm" })),
+    tags: post.tags,
+    likes: post.likes,
+    comments: post.comments,
+    mine: Boolean(viewerId && post.authorId === viewerId),
+  };
+}
+
 export function CommunityDesktop() {
   const cartCount = useShopLineCount();
+  const work = useCommunityWork();
   const params = useSearchParams();
   const paramQ = params.get("q") ?? "";
   const [q, setQ] = useState(paramQ);
-  const [posts, setPosts] = useState<CommunityPost[]>(communityPosts);
+  const posts = useMemo(() => work.feed.map((post) => mapLive(post, work.viewerId)), [work.feed, work.viewerId]);
   const [text, setText] = useState("");
   const [kind, setKind] = useState<PostKind>("keys");
   const [photo, setPhoto] = useState<string | null>(null);
+  const [photoFile, setPhotoFile] = useState<File | null>(null);
   const [tab, setTab] = useState<(typeof tabs)[number]["id"]>("lenta");
   const [category, setCategory] = useState("Barchasi");
   const [sort, setSort] = useState<"new" | "hot">("new");
@@ -69,29 +92,27 @@ export function CommunityDesktop() {
     return rows;
   }, [posts, tab, category, q, sort, trendOn]);
 
-  function publish() {
+  async function publish() {
     const body = text.trim();
     if (!body) return;
-    const post: CommunityPost = {
-      id: `mine-${Date.now()}`,
-      author: "Dr. Ibrohim",
-      role: "Stomatolog",
-      city: "Toshkent",
-      avatar: "/img/design-pr13/ui/avatar.png",
-      title: body.slice(0, 80),
-      body,
-      kind,
-      time: "hozir",
-      category: category === "Barchasi" ? "Klinik holatlar" : category,
-      photos: photo ? [{ src: photo, label: "Rasm" }] : [],
-      tags: ["#Case"],
-      likes: 0,
-      comments: 0,
-      mine: true,
-    };
-    setPosts((prev) => [post, ...prev]);
+    let images: string[] | undefined;
+    if (photoFile) {
+      try {
+        images = [await uploadImage(photoFile, "post")];
+      } catch {
+        return;
+      }
+    }
+    const result = await work.publish({
+      kind: kind === "savol" ? "savol" : kind === "muhokama" ? "yangilik" : "case",
+      text: body,
+      tags: category === "Barchasi" ? [] : [category],
+      images,
+    });
+    if (!result.ok) return;
     setText("");
     setPhoto(null);
+    setPhotoFile(null);
     setTab("mine");
   }
 
@@ -127,6 +148,7 @@ export function CommunityDesktop() {
                     onChange={(event) => {
                       const file = event.target.files?.[0];
                       if (!file) return;
+                      setPhotoFile(file);
                       const reader = new FileReader();
                       reader.onload = () => setPhoto(String(reader.result));
                       reader.readAsDataURL(file);
@@ -225,9 +247,10 @@ export function CommunityDesktop() {
                   ))}
                 </div>
                 <div className="hub-react">
-                  <button type="button" className={liked ? "on" : ""} onClick={() => setLikes((prev) => ({ ...prev, [post.id]: !prev[post.id] }))}>
-                    <Heart className="i" /> {post.likes + (liked ? 1 : 0)}
+                  <button type="button" className={work.isLiked(post.id) || liked ? "on" : ""} onClick={() => void work.toggleLike(post.id)}>
+                    <Heart className="i" /> {post.likes}
                   </button>
+                  {post.mine ? <button type="button" onClick={() => void work.deletePost(post.id)}>O‘chirish</button> : null}
                   <span>
                     <MessageCircle className="i" /> {post.comments}
                   </span>
@@ -244,9 +267,11 @@ export function CommunityDesktop() {
                     onSubmit={(event) => {
                       event.preventDefault();
                       if (!reply.trim()) return;
-                      setPosts((prev) => prev.map((item) => (item.id === post.id ? { ...item, comments: item.comments + 1 } : item)));
-                      setReply("");
-                      setReplyFor(null);
+                      void work.addComment(post.id, reply).then((ok) => {
+                        if (!ok) return;
+                        setReply("");
+                        setReplyFor(null);
+                      });
                     }}
                   >
                     <input value={reply} onChange={(event) => setReply(event.target.value)} placeholder="Javob yozing..." />
@@ -262,29 +287,29 @@ export function CommunityDesktop() {
         <aside className="hub-rail">
           <section className="hub-box">
             <h3>Haftaning top a’zolari</h3>
-            {topMembers.map((member, index) => (
-              <div className="hub-member" key={member.name}>
+            {work.doctors.length === 0 ? <p className="hub-empty">Hali a’zo yo‘q</p> : work.doctors.map((member, index) => (
+              <div className="hub-member" key={member.id}>
                 <span className="n">{index + 1}</span>
-                <img src={member.avatar} alt="" />
+                <img src={member.avatar || "/img/design-pr13/ui/avatar.png"} alt="" />
                 <div>
                   <b>{member.name}</b>
                   <small>
-                    {member.role} · {member.posts} post · {member.likes} ta like
+                    {member.specialty} · {member.score} ball
                   </small>
                 </div>
                 <em>
-                  <Star className="i" /> {member.rating.toFixed(1)}
+                  <Star className="i" />
                 </em>
               </div>
             ))}
           </section>
           <section className="hub-box">
             <h3>Trend mavzular</h3>
-            {trends.map((item, index) => (
+            {work.trends.length === 0 ? <p className="hub-empty">Hali trend yo‘q</p> : work.trends.map((item, index) => (
               <button key={item.tag} type="button" className="hub-trend" onClick={() => setTrendOn(trendOn === item.tag ? null : item.tag)}>
                 <span>{index + 1}</span>
                 <b>{item.tag}</b>
-                <em>{item.count} ta post</em>
+                <em>{item.posts} ta post</em>
               </button>
             ))}
             <button type="button" className="hub-more" onClick={() => setTrendOn(null)}>

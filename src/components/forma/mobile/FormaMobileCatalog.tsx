@@ -140,7 +140,7 @@ export function FormaMobileCatalog() {
           <ShoppingCart />
           {count > 0 ? <span className="mh-badge" data-testid="fm-cart-badge">{count > 9 ? "9+" : count}</span> : null}
         </Link>
-        <NotificationBell variant="mobile" minBadge={2} buttonClassName="size-10 text-[#1a1d26]" />
+        <NotificationBell variant="mobile" buttonClassName="size-10 text-[#1a1d26]" />
       </header>
       <div className="fm-body">
         <h1 className="fm-title">Forma</h1>

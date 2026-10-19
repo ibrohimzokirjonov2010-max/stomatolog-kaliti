@@ -85,7 +85,7 @@ export function PhonePatientProfile({ id }: { id: string }) {
   const selected = tooth ? chart[tooth] : undefined;
   const toothVisits = tooth ? visits.filter((item) => item.tooth === tooth) : [];
   const toothPlans = tooth ? plans.flatMap((plan) => plan.services.filter((service) => service.tooth === tooth).map((service) => ({ ...service, plan: plan.name }))) : [];
-  const allergy = patient.conditions?.includes("Allergiya") || patient.id === "b-0012";
+  const allergy = patient.tags?.includes("Allergiya");
 
   function setStatus(status: ToothStatus) {
     if (!tooth) return;
@@ -156,7 +156,7 @@ export function PhonePatientProfile({ id }: { id: string }) {
       {allergy ? (
         <button type="button" className="allergy" onClick={() => setTab("Umumiy")}>
           <span className="bang">!</span>
-          <span><b>Allergiya</b><small>{patient.id === "b-0012" ? "Penitsillin allergiyasi. Gipertoniya (dori qabul qiladi)" : "Allergiya belgilangan"}</small></span>
+          <span><b>Allergiya</b><small>Allergiya belgilangan</small></span>
           <ChevronRight size={16} />
         </button>
       ) : null}

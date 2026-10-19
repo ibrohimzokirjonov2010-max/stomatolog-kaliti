@@ -1,7 +1,7 @@
 "use client";
 /* eslint-disable @next/next/no-img-element -- desktop shell sizes raw images with --u */
 
-import { useRef, useState, type ChangeEvent } from "react";
+import { useEffect, useRef, useState, type ChangeEvent } from "react";
 import Link from "next/link";
 import {
   Award,
@@ -26,7 +26,13 @@ import {
 } from "lucide-react";
 import { ShopShell } from "@/components/shop/desktop/ShopShell";
 import { som, useShopFavs, useShopLineCount } from "@/components/shop/desktop/shop-cart";
-import { desktopOrders, statusLabel } from "@/data/desktop-orders";
+import { statusLabel } from "@/data/desktop-orders";
+import { useDoctorProfile } from "@/components/doctor-profile-provider";
+import { formatPhoneDisplay } from "@/lib/doctor-profile";
+import { uploadImage } from "@/lib/image-upload";
+import { loadOrders, syncOrders } from "@/lib/orders";
+import { toDesktopOrder } from "@/lib/order-present";
+import { refreshBonus, getBonusSnapshot, subscribeBonus } from "@/lib/bonus";
 import "./profil.css";
 
 type Section = "shaxsiy" | "klinika" | "kurslar" | "saqlangan" | "manzil" | "tolov" | "bildirish" | "xavfsizlik" | "chiqish";
@@ -34,20 +40,8 @@ type Section = "shaxsiy" | "klinika" | "kurslar" | "saqlangan" | "manzil" | "tol
 type Address = { id: string; title: string; line: string };
 type PayCard = { id: string; brand: "UZCARD" | "HUMO"; last4: string; exp: string };
 
-const recentIds = ["sh-240518", "sh-240510", "sh-240502", "sh-240428", "sh-240421"];
-const recentOrders = recentIds.map((id) => desktopOrders.find((order) => order.id === id)).filter((order) => order != null);
-
-const courses = [
-  { title: "Implantologiya asoslari", progress: 80, image: "/img/hub/course-1.jpg", done: false },
-  { title: "Raqamli protetika va CAD/CAM", progress: 100, image: "/img/news/n1.jpg", done: true },
-  { title: "Alignerlar bilan davolash", progress: 60, image: "/img/news/n8.jpg", done: false },
-];
-
-const savedSeed = [
-  { id: "pick-fuji", name: "GC Fuji II LC kapsula", price: 1_420_000 },
-  { id: "pick-scaler", name: "Eighteeth ultratovush skaler", price: 3_250_000 },
-  { id: "pick-masks", name: "Nitril niqoblar (50 dona)", price: 90_000 },
-];
+const courses: { title: string; progress: number; image: string; done: boolean }[] = [];
+const savedSeed: { id: string; name: string; price: number }[] = [];
 
 const specs = ["Ortoped stomatolog", "Terapevt stomatolog", "Jarroh stomatolog", "Ortodont", "Bolalar stomatologi"];
 const languages = ["O‘zbekcha", "Ruscha", "English"];
@@ -75,8 +69,12 @@ const settingKeys = [
 export function ProfilDesktop() {
   const cartCount = useShopLineCount();
   const favs = useShopFavs();
+  const { profile, updateProfile } = useDoctorProfile();
   const fileRef = useRef<HTMLInputElement>(null);
-  const [avatar, setAvatar] = useState("/img/profil/dilnoza.jpg");
+  const [avatar, setAvatar] = useState("/img/design-pr13/ui/avatar.png");
+  const [orderCount, setOrderCount] = useState(0);
+  const [recentOrders, setRecentOrders] = useState<ReturnType<typeof toDesktopOrder>[]>([]);
+  const [bonus, setBonus] = useState(0);
   const [section, setSection] = useState<Section>("shaxsiy");
   const [editing, setEditing] = useState(false);
   const [editClinic, setEditClinic] = useState(false);
@@ -85,19 +83,19 @@ export function ProfilDesktop() {
   const [toggles, setToggles] = useState<Record<string, boolean>>({ email: true, sms: true, market: true, courses: true, offers: true });
   const [twoFactor, setTwoFactor] = useState(false);
   const [form, setForm] = useState({
-    name: "Dr. Dilnoza Karimova",
-    phone: "+998 90 123 45 67",
-    email: "dilnoza.karimova@gmail.com",
-    spec: "Ortoped stomatolog",
-    exp: "8 yil",
-    license: "№ 012345",
-    about: "Implantologiya va protetik stomatologiya sohasida ixtisoslashgan. Zamonaviy raqamli texnologiyalar bilan ishlayman.",
+    name: "",
+    phone: "",
+    email: "",
+    spec: "",
+    exp: "",
+    license: "",
+    about: "",
   });
   const [clinic, setClinic] = useState({
-    name: "Smile Dental",
-    address: "Toshkent, Yunusobod tumani, Amir Temur ko‘chasi, 100",
-    hours: "09:00 – 19:00 (Dushanba – Shanba)",
-    phone: "+998 71 200 11 22",
+    name: "",
+    address: "",
+    hours: "",
+    phone: "",
     site: "www.smiledental.uz",
   });
   const [addresses, setAddresses] = useState<Address[]>([
@@ -116,20 +114,67 @@ export function ProfilDesktop() {
   function onAvatar(event: ChangeEvent<HTMLInputElement>) {
     const file = event.target.files?.[0];
     if (!file) return;
-    setAvatar((current) => {
-      if (current.startsWith("blob:")) URL.revokeObjectURL(current);
-      return URL.createObjectURL(file);
-    });
-    setNote("Profil rasmi yangilandi");
+    void onAvatarFile(file);
   }
 
   function toggle(key: string) {
     setToggles((current) => ({ ...current, [key]: !current[key] }));
   }
 
-  function savePersonal() {
+  useEffect(() => {
+    if (!profile) return;
+    setForm((current) => ({
+      ...current,
+      name: profile.fullName,
+      phone: formatPhoneDisplay(profile.phone),
+      email: profile.email || "",
+      spec: profile.specialty || "",
+      about: profile.bio || "",
+    }));
+    setClinic((current) => ({ ...current, name: profile.clinic || "", address: profile.city || "" }));
+    if (profile.avatarUrl) setAvatar(profile.avatarUrl);
+  }, [profile]);
+
+  useEffect(() => {
+    const load = () => {
+      const rows = loadOrders().map(toDesktopOrder);
+      setOrderCount(rows.length);
+      setRecentOrders(rows.slice(0, 5));
+    };
+    void syncOrders(true).then(load);
+    window.addEventListener("sk-orders-changed", load);
+    void refreshBonus();
+    const unsub = subscribeBonus(() => setBonus(getBonusSnapshot().info?.balance ?? 0));
+    return () => {
+      window.removeEventListener("sk-orders-changed", load);
+      unsub();
+    };
+  }, []);
+
+  async function savePersonal() {
+    const result = await updateProfile({
+      fullName: form.name.trim(),
+      phone: form.phone,
+      specialty: form.spec.trim(),
+      clinic: clinic.name.trim(),
+      city: clinic.address.trim() || profile?.city,
+      bio: form.about.trim(),
+    });
     setEditing(false);
-    setNote("Shaxsiy ma‘lumotlar saqlandi");
+    setNote(result.ok ? "Shaxsiy ma‘lumotlar saqlandi" : "Saqlab bo‘lmadi");
+  }
+
+  async function onAvatarFile(file: File) {
+    try {
+      const url = await uploadImage(file, "avatar");
+      const result = await updateProfile({ avatarUrl: url });
+      if (result.ok) {
+        setAvatar(url);
+        setNote("Rasm saqlandi");
+      } else setNote("Rasmni saqlab bo‘lmadi");
+    } catch {
+      setNote("Rasmni yuklab bo‘lmadi");
+    }
   }
 
   function addAddress() {
@@ -155,7 +200,7 @@ export function ProfilDesktop() {
   }
 
   function downloadCert(title: string) {
-    const blob = new Blob([`${title}\nSertifikat\nDr. Dilnoza Karimova\nSmile Dental\n`], { type: "text/plain" });
+    const blob = new Blob([`${title}\nSertifikat\n${form.name}\n${clinic.name}\n`], { type: "text/plain" });
     const url = URL.createObjectURL(blob);
     const link = document.createElement("a");
     link.href = url;
@@ -175,7 +220,7 @@ export function ProfilDesktop() {
         {note ? <p className="pf-note">{note}</p> : null}
         <header className="pf-hero">
           <div className="pf-ava">
-            <img src={avatar} alt="Dr. Dilnoza Karimova" />
+            <img src={avatar} alt={form.name || "Profil"} />
             <button type="button" aria-label="Rasm yuklash" onClick={() => fileRef.current?.click()}>
               <Camera className="i" />
             </button>
@@ -195,7 +240,7 @@ export function ProfilDesktop() {
             </div>
           </div>
           <div className="pf-bar">
-            <label>Profil to‘liqligi <span>85%</span></label>
+            <label>Profil to‘liqligi <span>{Math.round(([form.name, form.phone, form.spec, clinic.name, profile?.city, form.about].filter(Boolean).length / 6) * 100)}%</span></label>
             <b><i /></b>
           </div>
           <button
@@ -213,19 +258,19 @@ export function ProfilDesktop() {
         <div className="pf-stats">
           <Link className="pf-stat" href="/buyurtmalarim">
             <span className="mark"><ShoppingBag className="i" /></span>
-            <span><b>24</b><span>Buyurtmalar</span></span>
+            <span><b>{orderCount}</b><span>Buyurtmalar</span></span>
           </Link>
           <button type="button" className="pf-stat" onClick={() => setSection("kurslar")}>
             <span className="mark"><Award className="i" /></span>
-            <span><b>7</b><span>Sertifikatlar</span></span>
+            <span><b>0</b><span>Sertifikatlar</span></span>
           </button>
           <button type="button" className="pf-stat" onClick={() => setSection("kurslar")}>
             <span className="mark"><GraduationCap className="i" /></span>
-            <span><b>5</b><span>Kurslar</span></span>
+            <span><b>0</b><span>Kurslar</span></span>
           </button>
-          <button type="button" className="pf-stat" onClick={() => setNote("Bonus ballar: 12 450")}>
+          <button type="button" className="pf-stat" onClick={() => setNote(`Bonus balans: ${bonus.toLocaleString("fr-FR")} so‘m`)}>
             <span className="mark"><Star className="i" /></span>
-            <span><b>12 450</b><span>Bonus ballar</span></span>
+            <span><b>{bonus.toLocaleString("fr-FR")}</b><span>Bonus, so‘m</span></span>
           </button>
           <button type="button" className="pf-stat" onClick={() => setSection("saqlangan")}>
             <span className="mark"><Heart className="i" /></span>
@@ -265,12 +310,12 @@ export function ProfilDesktop() {
               <>
                 <div className="pf-top">
                   <PersonalCard form={form} setForm={setForm} editing={editing} setEditing={setEditing} onSave={savePersonal} />
-                  <ClinicCard clinic={clinic} setClinic={setClinic} editing={editClinic} setEditing={setEditClinic} onSave={() => { setEditClinic(false); setNote("Klinika ma‘lumotlari saqlandi"); }} />
+                  <ClinicCard clinic={clinic} setClinic={setClinic} editing={editClinic} setEditing={setEditClinic} onSave={() => { setEditClinic(false); void updateProfile({ clinic: clinic.name.trim(), city: clinic.address.trim() }).then((result) => setNote(result.ok ? "Klinika ma‘lumotlari saqlandi" : "Saqlab bo‘lmadi")); }} />
                   <SettingsCard language={language} setLanguage={setLanguage} toggles={toggles} onToggle={toggle} />
                 </div>
                 <div className="pf-mid">
                   <CoursesCard onOpen={() => setSection("kurslar")} onContinue={(title) => setNote(`«${title}» davom ettirilmoqda`)} onCert={downloadCert} />
-                  <OrdersCard />
+                  <OrdersCard orders={recentOrders} />
                 </div>
                 <div className="pf-bot">
                   <AddressCard addresses={addresses} limit={2} onAdd={() => setModal("addr")} onOpen={() => setSection("manzil")} />
@@ -279,7 +324,7 @@ export function ProfilDesktop() {
               </>
             ) : null}
             {section === "klinika" ? (
-              <ClinicCard clinic={clinic} setClinic={setClinic} editing={editClinic} setEditing={setEditClinic} onSave={() => { setEditClinic(false); setNote("Klinika ma‘lumotlari saqlandi"); }} />
+              <ClinicCard clinic={clinic} setClinic={setClinic} editing={editClinic} setEditing={setEditClinic} onSave={() => { setEditClinic(false); void updateProfile({ clinic: clinic.name.trim(), city: clinic.address.trim() }).then((result) => setNote(result.ok ? "Klinika ma‘lumotlari saqlandi" : "Saqlab bo‘lmadi")); }} />
             ) : null}
             {section === "kurslar" ? <CoursesCard onOpen={() => setSection("kurslar")} onContinue={(title) => setNote(`«${title}» davom ettirilmoqda`)} onCert={downloadCert} /> : null}
             {section === "saqlangan" ? <SavedCard items={saved} /> : null}
@@ -503,13 +548,14 @@ function CoursesCard({
   );
 }
 
-function OrdersCard() {
+function OrdersCard({ orders }: { orders: ReturnType<typeof toDesktopOrder>[] }) {
   return (
     <section className="pf-card">
       <h3>Oxirgi buyurtmalarim <Link className="pf-link" href="/buyurtmalarim">Barchasini ko‘rish</Link></h3>
-      {recentOrders.map((order) => (
+      {orders.length === 0 ? <p className="pf-empty">Hali buyurtma yo‘q</p> : null}
+      {orders.map((order) => (
         <Link className="pf-order" href="/buyurtmalarim" key={order.id}>
-          <img src={order.images[0]} alt="" />
+          <img src={order.images[0] || "/img/design-pr13/ui/avatar.png"} alt="" />
           <span>
             <b>№ {order.number}</b>
             <span>{order.when.split(",")[0]}</span>

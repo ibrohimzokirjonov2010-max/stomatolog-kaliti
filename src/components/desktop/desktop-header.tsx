@@ -53,12 +53,15 @@ export function DesktopHeader({
   const pathname = usePathname() ?? "/";
   const router = useRouter();
   const { count } = useCart();
-  const { profile, logout } = useDoctorProfile();
+  const { profile, logout, updateProfile } = useDoctorProfile();
   const [localQuery, setLocalQuery] = useState("");
   const [menu, setMenu] = useState(false);
   const [catsOpen, setCatsOpen] = useState(false);
   const [cityOpen, setCityOpen] = useState(false);
   const [city, setCity] = useState(profile?.city || "Toshkent");
+  useEffect(() => {
+    if (profile?.city) setCity(profile.city);
+  }, [profile?.city]);
   const fileRef = useRef<HTMLInputElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
   const value = onHeaderQuery ? (headerQuery ?? "") : localQuery;
@@ -155,6 +158,7 @@ export function DesktopHeader({
                   onClick={() => {
                     setCity(item);
                     setCityOpen(false);
+                    if (profile) void updateProfile({ city: item });
                   }}
                 >
                   {item}
@@ -164,7 +168,7 @@ export function DesktopHeader({
           ) : null}
         </div>
         <span className="dh-bell">
-          <NotificationBell variant="desktop" buttonClassName="dh-icon-btn" minBadge={profile ? 3 : 0} />
+          <NotificationBell variant="desktop" buttonClassName="dh-icon-btn" />
         </span>
         <Link className="dh-ic" href="/profil" aria-label="Sevimlilar" data-testid="desktop-heart">
           <Heart className="i" />

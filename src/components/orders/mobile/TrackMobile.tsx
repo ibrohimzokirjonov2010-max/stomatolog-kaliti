@@ -73,7 +73,7 @@ export function TrackMobile({ order }: { order: MobileOrder | undefined }) {
           <ShoppingCart />
           {lines > 0 ? <span className="mh-badge" data-testid="tr-cart-badge">{lines > 9 ? "9+" : lines}</span> : null}
         </Link>
-        <NotificationBell variant="mobile" minBadge={3} buttonClassName="size-10 text-[#1a1d26]" />
+        <NotificationBell variant="mobile" buttonClassName="size-10 text-[#1a1d26]" />
       </header>
       <div className="tr-body">
         <div>

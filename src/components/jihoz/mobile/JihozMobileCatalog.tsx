@@ -137,7 +137,7 @@ export function JihozMobileCatalog() {
           <ShoppingCart />
           {count > 0 ? <span className="mh-badge" data-testid="jz-cart-badge">{count > 9 ? "9+" : count}</span> : null}
         </Link>
-        <NotificationBell variant="mobile" minBadge={2} buttonClassName="size-10 text-[#1a1d26]" />
+        <NotificationBell variant="mobile" buttonClassName="size-10 text-[#1a1d26]" />
       </header>
       <div className="jz-body">
         <h1 className="jz-title">Jihozlar</h1>

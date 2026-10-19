@@ -1,11 +1,52 @@
 import "server-only";
-import { products as staticProducts } from "@/data/products";
+import { products as staticProducts, type Product, type ProductCategory } from "@/data/products";
 import { surplusProducts } from "@/data/surplus";
+import { marketProducts, type ShopCategory } from "@/data/desktop-shop";
+import { desktopForma } from "@/data/desktop-forma";
+import { desktopJihoz } from "@/data/desktop-jihozlar";
 import { catalogShop } from "@/data/shops";
 import { safeImage } from "@/lib/server/seller";
 import { UUID_RE, str } from "@/lib/server/user";
 
-const STATIC = new Map([...staticProducts, ...surplusProducts].map((p) => [p.id, p]));
+function shopCategory(category: ShopCategory): ProductCategory {
+  if (category === "implantlar") return "implantlar";
+  if (category === "uskunalar") return "jihozlar";
+  if (category === "asboblar" || category === "endodontiya" || category === "uchliklar") return "asboblar";
+  return "materiallar";
+}
+
+function priced(partial: Pick<Product, "id" | "name" | "brand" | "category" | "price" | "image">): Product {
+  return { ...partial, rating: 0, reviews: 0, inStock: true, delivery: "" };
+}
+
+const DESIGN_CATALOG: Product[] = [
+  ...marketProducts.map((item) => priced({
+    id: item.id,
+    name: item.name,
+    brand: item.brand,
+    category: shopCategory(item.category),
+    price: item.price,
+    image: item.image,
+  })),
+  ...desktopForma.map((item) => priced({
+    id: item.slug,
+    name: item.name,
+    brand: item.brand,
+    category: "forma",
+    price: item.price,
+    image: item.image,
+  })),
+  ...desktopJihoz.map((item) => priced({
+    id: item.slug,
+    name: item.name,
+    brand: item.brand,
+    category: "jihozlar",
+    price: item.price,
+    image: item.image,
+  })),
+];
+
+const STATIC = new Map([...staticProducts, ...surplusProducts, ...DESIGN_CATALOG].map((p) => [p.id, p]));
 
 /**
  * Cart lines → the shape the SQL order/quote functions expect. Seller (DB) products are priced in SQL; platform

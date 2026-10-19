@@ -31,6 +31,8 @@ export type Product = {
   shopId?: string;
   shopName?: string;
   shopSlug?: string;
+  /** Catalog page for this line. Kept on cart snapshots so /savat can link back. */
+  href?: string;
   description?: string;
   stockQty?: number;
   active?: boolean;
