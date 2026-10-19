@@ -1,31 +1,31 @@
 .tkx { color: #142033; }
-.tkx-crumb { display: flex; gap: calc(.3 * var(--u)); color: #8b97a8; font-size: calc(.66 * var(--fs)); font-weight: 650; }
+.tkx-crumb { display: flex; gap: calc(.3 * var(--u)); color: #8b97a8; font-size: calc(.66 * var(--u)); font-weight: 650; }
 .tkx-crumb b { color: #142033; }
 .tkx-grid { display: grid; grid-template-columns: minmax(0, 1.4fr) minmax(calc(16 * var(--u)), .72fr); gap: calc(.6 * var(--u)); margin-top: calc(.45 * var(--u)); }
 .tkx-card { background: #fff; border: 1px solid #e7eef5; border-radius: calc(.65 * var(--u)); padding: calc(.7 * var(--u)); margin-bottom: calc(.45 * var(--u)); }
-.tkx h1 { margin: calc(.1 * var(--u)) 0; font-size: calc(1.35 * var(--fs)); }
-.tkx h2 { margin: 0 0 calc(.35 * var(--u)); font-size: calc(.82 * var(--fs)); }
-.tkx-no { color: #3773fe; font-weight: 800; font-size: calc(.68 * var(--fs)); margin: 0; }
-.tkx-eta { display: block; margin: calc(.3 * var(--u)) 0; font-size: calc(.78 * var(--fs)); }
+.tkx h1 { margin: calc(.1 * var(--u)) 0; font-size: clamp(26px, 2.109375vw, 32px); }
+.tkx h2 { margin: 0 0 calc(.35 * var(--u)); font-size: calc(.82 * var(--u)); }
+.tkx-no { color: #3773fe; font-weight: 800; font-size: calc(.68 * var(--u)); margin: 0; }
+.tkx-eta { display: block; margin: calc(.3 * var(--u)) 0; font-size: calc(.78 * var(--u)); }
 .tkx-eta small { color: #64748b; font-weight: 650; }
 .tkx-steps { display: grid; grid-template-columns: repeat(4, 1fr); gap: calc(.3 * var(--u)); margin-top: calc(.4 * var(--u)); }
-.tkx-steps div { font-size: calc(.62 * var(--fs)); }
+.tkx-steps div { font-size: calc(.62 * var(--u)); }
 .tkx-steps i { display: block; width: calc(.7 * var(--u)); height: calc(.7 * var(--u)); border-radius: 50%; background: #dbe4ef; margin-bottom: calc(.2 * var(--u)); }
 .tkx-steps .done i, .tkx-steps .current i { background: #3773fe; }
 .tkx-steps b { display: block; }
 .tkx-steps small, .tkx-steps span { color: #8b97a8; }
 .tkx-map { width: 100%; height: calc(14 * var(--u)); object-fit: cover; border-radius: calc(.65 * var(--u)); margin-bottom: calc(.45 * var(--u)); border: 1px solid #e7eef5; }
-.tkx-log { padding: calc(.28 * var(--u)) 0; border-bottom: 1px solid #f1f5f9; font-size: calc(.66 * var(--fs)); }
+.tkx-log { padding: calc(.28 * var(--u)) 0; border-bottom: 1px solid #f1f5f9; font-size: calc(.66 * var(--u)); }
 .tkx-log span, .tkx-meta span, .tkx-line small { color: #8b97a8; }
 .tkx-courier { display: flex; gap: calc(.45 * var(--u)); align-items: center; }
 .tkx-courier img, .tkx-line img { width: calc(2.4 * var(--u)); height: calc(2.4 * var(--u)); border-radius: 50%; object-fit: cover; background: #e8eef6; }
 .tkx-line img { border-radius: calc(.3 * var(--u)); }
-.tkx-courier b, .tkx-line b { display: block; font-size: calc(.74 * var(--fs)); }
-.tkx-courier span { color: #b7791f; font-size: calc(.62 * var(--fs)); font-weight: 750; }
+.tkx-courier b, .tkx-line b { display: block; font-size: calc(.74 * var(--u)); }
+.tkx-courier span { color: #b7791f; font-size: calc(.62 * var(--u)); font-weight: 750; }
 .tkx-row, .tkx-foot { display: flex; gap: calc(.35 * var(--u)); margin-top: calc(.4 * var(--u)); }
-.tkx-row button, .tkx-foot button, .tkx-foot a, .tkx-card > button { height: calc(1.9 * var(--u)); padding: 0 calc(.6 * var(--u)); border-radius: calc(.4 * var(--u)); border: 1px solid #d7e2ea; background: #fff; font-weight: 800; font-size: calc(.66 * var(--fs)); color: #3773fe; }
+.tkx-row button, .tkx-foot button, .tkx-foot a, .tkx-card > button { height: calc(1.9 * var(--u)); padding: 0 calc(.6 * var(--u)); border-radius: calc(.4 * var(--u)); border: 1px solid #d7e2ea; background: #fff; font-weight: 800; font-size: calc(.66 * var(--u)); color: #3773fe; }
 .tkx textarea { width: 100%; min-height: calc(3.2 * var(--u)); margin-top: calc(.3 * var(--u)); border: 1px solid #e3eaf2; border-radius: calc(.4 * var(--u)); font: inherit; padding: calc(.35 * var(--u)); }
 .tkx-line { display: flex; gap: calc(.35 * var(--u)); align-items: center; padding: calc(.22 * var(--u)) 0; }
-.tkx-line em { margin-left: auto; font-style: normal; font-weight: 800; font-size: calc(.66 * var(--fs)); }
-.tkx-sum span, .tkx-meta { display: flex; justify-content: space-between; font-size: calc(.66 * var(--fs)); padding: calc(.12 * var(--u)) 0; }
-.tkx-sum span:last-child { font-weight: 800; font-size: calc(.78 * var(--fs)); }
+.tkx-line em { margin-left: auto; font-style: normal; font-weight: 800; font-size: calc(.66 * var(--u)); }
+.tkx-sum span, .tkx-meta { display: flex; justify-content: space-between; font-size: calc(.66 * var(--u)); padding: calc(.12 * var(--u)) 0; }
+.tkx-sum span:last-child { font-weight: 800; font-size: calc(.78 * var(--u)); }

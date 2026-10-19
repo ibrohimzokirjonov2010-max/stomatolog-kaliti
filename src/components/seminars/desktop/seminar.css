@@ -1,17 +1,17 @@
 .sh .sem-layout { display: grid; grid-template-columns: minmax(0, 1fr) calc(16.6 * var(--u)); gap: calc(.7 * var(--u)); align-items: start; }
 .sh .sem-head { display: flex; align-items: flex-start; justify-content: space-between; gap: calc(.6 * var(--u)); }
-.sh .sem-h1 { margin: 0; font-size: calc(1.45 * var(--fs)); letter-spacing: -.02em; }
-.sh .sem-sub { margin: calc(.15 * var(--u)) 0 0; color: #5d6e86; font-size: calc(.72 * var(--fs)); }
+.sh .sem-h1 { margin: 0; font-size: clamp(26px, 2.109375vw, 32px); letter-spacing: -.02em; }
+.sh .sem-sub { margin: calc(.15 * var(--u)) 0 0; color: #5d6e86; font-size: calc(.72 * var(--u)); }
 .sh .sem-add {
   height: calc(2 * var(--u)); padding: 0 calc(.8 * var(--u)); border-radius: calc(.45 * var(--u));
-  background: var(--teal); color: #fff; font-weight: 700; font-size: calc(.66 * var(--fs));
+  background: var(--teal); color: #fff; font-weight: 700; font-size: calc(.66 * var(--u));
   display: inline-flex; align-items: center; gap: calc(.3 * var(--u)); white-space: nowrap;
 }
 .sh .sem-filters { display: flex; flex-wrap: wrap; gap: calc(.4 * var(--u)); margin: calc(.55 * var(--u)) 0 calc(.7 * var(--u)); }
 .sh .sem-month { display: flex; align-items: baseline; gap: calc(.45 * var(--u)); margin: calc(.15 * var(--u)) 0 calc(.45 * var(--u)); }
-.sh .sem-month h2 { margin: 0; font-size: calc(1.05 * var(--fs)); }
-.sh .sem-month em { color: var(--teal); font-style: normal; font-size: calc(.66 * var(--fs)); font-weight: 650; }
-.sh .sem-month a { margin-left: auto; color: var(--teal); font-size: calc(.64 * var(--fs)); font-weight: 700; }
+.sh .sem-month h2 { margin: 0; font-size: calc(1.05 * var(--u)); }
+.sh .sem-month em { color: var(--teal); font-style: normal; font-size: calc(.66 * var(--u)); font-weight: 650; }
+.sh .sem-month a { margin-left: auto; color: var(--teal); font-size: calc(.64 * var(--u)); font-weight: 700; }
 
 .sh .sem-card {
   display: grid;
@@ -29,33 +29,33 @@
   height: calc(4.5 * var(--u)); border-radius: calc(.45 * var(--u)); background: var(--teal); color: #fff;
   display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center;
 }
-.sh .sem-date b { font-size: calc(1.15 * var(--fs)); line-height: 1; }
-.sh .sem-date span { font-size: calc(.55 * var(--fs)); letter-spacing: .04em; font-weight: 700; }
-.sh .sem-date small { font-size: calc(.52 * var(--fs)); opacity: .9; }
+.sh .sem-date b { font-size: calc(1.15 * var(--u)); line-height: 1; }
+.sh .sem-date span { font-size: calc(.55 * var(--u)); letter-spacing: .04em; font-weight: 700; }
+.sh .sem-date small { font-size: calc(.52 * var(--u)); opacity: .9; }
 .sh .sem-thumb { width: 100%; height: calc(4.5 * var(--u)); object-fit: cover; border-radius: calc(.4 * var(--u)); background: #eef3f8; }
 .sh .sem-tag {
   display: inline-flex; align-items: center; height: calc(1.15 * var(--u)); padding: 0 calc(.4 * var(--u));
-  border-radius: calc(.3 * var(--u)); background: #e7f6f8; color: #0e8c9e; font-size: calc(.55 * var(--fs)); font-weight: 700;
+  border-radius: calc(.3 * var(--u)); background: #e7f6f8; color: #0e8c9e; font-size: calc(.55 * var(--u)); font-weight: 700;
 }
-.sh .sem-card h3 { margin: calc(.15 * var(--u)) 0 calc(.08 * var(--u)); font-size: calc(.74 * var(--fs)); line-height: 1.25; }
+.sh .sem-card h3 { margin: calc(.15 * var(--u)) 0 calc(.08 * var(--u)); font-size: calc(.74 * var(--u)); line-height: 1.25; }
 .sh .sem-card h3 a:hover { color: var(--teal); }
-.sh .sem-card .sum { margin: 0; color: #5d6e86; font-size: calc(.6 * var(--fs)); line-height: 1.35; }
-.sh .sem-meta { display: flex; flex-wrap: wrap; gap: calc(.35 * var(--u)) calc(.55 * var(--u)); margin-top: calc(.28 * var(--u)); color: #6a7c93; font-size: calc(.56 * var(--fs)); }
+.sh .sem-card .sum { margin: 0; color: #5d6e86; font-size: calc(.6 * var(--u)); line-height: 1.35; }
+.sh .sem-meta { display: flex; flex-wrap: wrap; gap: calc(.35 * var(--u)) calc(.55 * var(--u)); margin-top: calc(.28 * var(--u)); color: #6a7c93; font-size: calc(.56 * var(--u)); }
 .sh .sem-meta span { display: inline-flex; align-items: center; gap: calc(.18 * var(--u)); }
 .sh .sem-who { display: flex; gap: calc(.35 * var(--u)); align-items: center; min-width: 0; }
 .sh .sem-who img { width: calc(1.9 * var(--u)); height: calc(1.9 * var(--u)); border-radius: 50%; object-fit: cover; background: #e7f3f8; flex: none; }
-.sh .sem-who b { display: block; font-size: calc(.62 * var(--fs)); line-height: 1.2; }
-.sh .sem-who small { color: #7d8da3; font-size: calc(.54 * var(--fs)); }
-.sh .sem-cme { margin-top: calc(.28 * var(--u)); color: var(--teal); font-size: calc(.56 * var(--fs)); font-weight: 700; }
+.sh .sem-who b { display: block; font-size: calc(.62 * var(--u)); line-height: 1.2; }
+.sh .sem-who small { color: #7d8da3; font-size: calc(.54 * var(--u)); }
+.sh .sem-cme { margin-top: calc(.28 * var(--u)); color: var(--teal); font-size: calc(.56 * var(--u)); font-weight: 700; }
 .sh .sem-bar { margin-top: calc(.2 * var(--u)); height: calc(.28 * var(--u)); background: #e6eef5; border-radius: 99px; overflow: hidden; }
 .sh .sem-bar i { display: block; height: 100%; background: var(--teal); border-radius: 99px; }
-.sh .sem-left { color: #12a06a; font-size: calc(.54 * var(--fs)); font-weight: 650; margin-top: calc(.12 * var(--u)); }
+.sh .sem-left { color: #12a06a; font-size: calc(.54 * var(--u)); font-weight: 650; margin-top: calc(.12 * var(--u)); }
 .sh .sem-buy { text-align: right; }
-.sh .sem-price { font-size: calc(.95 * var(--fs)); font-weight: 800; letter-spacing: -.02em; }
+.sh .sem-price { font-size: calc(.95 * var(--u)); font-weight: 800; letter-spacing: -.02em; }
 .sh .sem-actions { display: flex; justify-content: flex-end; align-items: center; gap: calc(.3 * var(--u)); margin-top: calc(.3 * var(--u)); }
 .sh .sem-go {
   height: calc(1.85 * var(--u)); padding: 0 calc(.7 * var(--u)); border-radius: calc(.4 * var(--u));
-  background: var(--teal); color: #fff; font-weight: 700; font-size: calc(.62 * var(--fs));
+  background: var(--teal); color: #fff; font-weight: 700; font-size: calc(.62 * var(--u));
   display: inline-flex; align-items: center;
 }
 .sh .sem-heart {
@@ -67,12 +67,12 @@
 
 .sh .sem-cal, .sh .sem-box { background: #fff; border: 1px solid #e8eef6; border-radius: calc(.6 * var(--u)); padding: calc(.7 * var(--u)); margin-bottom: calc(.55 * var(--u)); }
 .sh .sem-cal .hd, .sh .sem-box .hd { display: flex; align-items: center; justify-content: space-between; margin-bottom: calc(.4 * var(--u)); }
-.sh .sem-cal h3, .sh .sem-box h3 { margin: 0; font-size: calc(.78 * var(--fs)); }
+.sh .sem-cal h3, .sh .sem-box h3 { margin: 0; font-size: calc(.78 * var(--u)); }
 .sh .sem-cal .nav { width: calc(1.4 * var(--u)); height: calc(1.4 * var(--u)); border-radius: 50%; display: grid; place-items: center; color: var(--teal); }
 .sh .sem-week, .sh .sem-days { display: grid; grid-template-columns: repeat(7, 1fr); text-align: center; }
-.sh .sem-week { color: #8b9bb0; font-size: calc(.52 * var(--fs)); margin-bottom: calc(.2 * var(--u)); }
+.sh .sem-week { color: #8b9bb0; font-size: calc(.52 * var(--u)); margin-bottom: calc(.2 * var(--u)); }
 .sh .sem-days button {
-  height: calc(1.45 * var(--u)); border-radius: 50%; font-size: calc(.6 * var(--fs)); font-weight: 650; color: #24344d; margin: calc(.05 * var(--u)) auto; width: calc(1.45 * var(--u));
+  height: calc(1.45 * var(--u)); border-radius: 50%; font-size: calc(.6 * var(--u)); font-weight: 650; color: #24344d; margin: calc(.05 * var(--u)) auto; width: calc(1.45 * var(--u));
 }
 .sh .sem-days button.on { background: var(--teal); color: #fff; }
 .sh .sem-days button.has { box-shadow: inset 0 calc(-.12 * var(--u)) 0 var(--teal); }
@@ -80,65 +80,65 @@
 
 .sh .sem-mine { display: flex; gap: calc(.4 * var(--u)); align-items: center; padding: calc(.35 * var(--u)) 0; border-top: 1px solid #f0f3f8; }
 .sh .sem-mine .d { width: calc(2.1 * var(--u)); text-align: center; color: var(--teal); flex: none; }
-.sh .sem-mine .d b { display: block; font-size: calc(.72 * var(--fs)); line-height: 1; }
-.sh .sem-mine .d span { font-size: calc(.48 * var(--fs)); letter-spacing: .04em; }
-.sh .sem-mine b { font-size: calc(.62 * var(--fs)); display: block; line-height: 1.25; }
-.sh .sem-mine small { color: #7d8da3; font-size: calc(.54 * var(--fs)); }
+.sh .sem-mine .d b { display: block; font-size: calc(.72 * var(--u)); line-height: 1; }
+.sh .sem-mine .d span { font-size: calc(.48 * var(--u)); letter-spacing: .04em; }
+.sh .sem-mine b { font-size: calc(.62 * var(--u)); display: block; line-height: 1.25; }
+.sh .sem-mine small { color: #7d8da3; font-size: calc(.54 * var(--u)); }
 .sh .sem-why { display: flex; gap: calc(.4 * var(--u)); align-items: flex-start; margin: calc(.4 * var(--u)) 0; }
 .sh .sem-why .ic { width: calc(1.6 * var(--u)); height: calc(1.6 * var(--u)); border-radius: 50%; background: #e7f7f4; color: var(--teal); display: grid; place-items: center; flex: none; }
-.sh .sem-why b { display: block; font-size: calc(.64 * var(--fs)); }
-.sh .sem-why small { color: #6a7c93; font-size: calc(.56 * var(--fs)); }
+.sh .sem-why b { display: block; font-size: calc(.64 * var(--u)); }
+.sh .sem-why small { color: #6a7c93; font-size: calc(.56 * var(--u)); }
 
 .sh .sd-grid { display: grid; grid-template-columns: minmax(0, 1fr) calc(16.8 * var(--u)); gap: calc(.7 * var(--u)); align-items: start; }
-.sh .sd-title { margin: calc(.15 * var(--u)) 0 calc(.15 * var(--u)); font-size: calc(1.35 * var(--fs)); letter-spacing: -.02em; display: flex; align-items: flex-start; justify-content: space-between; gap: calc(.4 * var(--u)); }
-.sh .sd-lead { margin: 0 0 calc(.5 * var(--u)); color: #52637c; font-size: calc(.7 * var(--fs)); line-height: 1.4; }
+.sh .sd-title { margin: calc(.15 * var(--u)) 0 calc(.15 * var(--u)); font-size: clamp(26px, 2.109375vw, 32px); letter-spacing: -.02em; display: flex; align-items: flex-start; justify-content: space-between; gap: calc(.4 * var(--u)); }
+.sh .sd-lead { margin: 0 0 calc(.5 * var(--u)); color: #52637c; font-size: calc(.7 * var(--u)); line-height: 1.4; }
 .sh .sd-facts { display: flex; flex-wrap: wrap; gap: calc(.4 * var(--u)); margin-bottom: calc(.55 * var(--u)); }
 .sh .sd-fact { background: #fff; border: 1px solid #e6edf5; border-radius: calc(.45 * var(--u)); padding: calc(.35 * var(--u)) calc(.5 * var(--u)); min-width: calc(7 * var(--u)); }
-.sh .sd-fact b { display: flex; align-items: center; gap: calc(.25 * var(--u)); font-size: calc(.64 * var(--fs)); }
-.sh .sd-fact small { display: block; color: #7d8da3; font-size: calc(.55 * var(--fs)); margin-top: calc(.05 * var(--u)); }
+.sh .sd-fact b { display: flex; align-items: center; gap: calc(.25 * var(--u)); font-size: calc(.64 * var(--u)); }
+.sh .sd-fact small { display: block; color: #7d8da3; font-size: calc(.55 * var(--u)); margin-top: calc(.05 * var(--u)); }
 .sh .sd-hero { width: 100%; height: calc(13.5 * var(--u)); object-fit: cover; border-radius: calc(.6 * var(--u)); background: #d7e3ee; }
 .sh .sd-block { margin-top: calc(.7 * var(--u)); }
-.sh .sd-block h2 { margin: 0 0 calc(.35 * var(--u)); font-size: calc(.95 * var(--fs)); }
+.sh .sd-block h2 { margin: 0 0 calc(.35 * var(--u)); font-size: calc(.95 * var(--u)); }
 .sh .sd-about { display: grid; grid-template-columns: minmax(0, 1fr) calc(12 * var(--u)); gap: calc(.6 * var(--u)); }
-.sh .sd-about p { margin: 0; color: #31445f; font-size: calc(.68 * var(--fs)); line-height: 1.5; }
+.sh .sd-about p { margin: 0; color: #31445f; font-size: calc(.68 * var(--u)); line-height: 1.5; }
 .sh .sd-speaker { background: #f6f8fb; border-radius: calc(.55 * var(--u)); padding: calc(.55 * var(--u)); display: flex; gap: calc(.45 * var(--u)); }
 .sh .sd-speaker img { width: calc(3.2 * var(--u)); height: calc(3.2 * var(--u)); border-radius: 50%; object-fit: cover; object-position: top; }
-.sh .sd-speaker b { font-size: calc(.72 * var(--fs)); }
-.sh .sd-speaker small { display: block; color: #6a7c93; font-size: calc(.58 * var(--fs)); }
+.sh .sd-speaker b { font-size: calc(.72 * var(--u)); }
+.sh .sd-speaker small { display: block; color: #6a7c93; font-size: calc(.58 * var(--u)); }
 .sh .sd-two { display: grid; grid-template-columns: 1fr 1fr; gap: calc(.6 * var(--u)); margin-top: calc(.7 * var(--u)); }
 .sh .sd-list { list-style: none; margin: 0; padding: 0; }
-.sh .sd-list li { display: flex; gap: calc(.35 * var(--u)); align-items: flex-start; font-size: calc(.64 * var(--fs)); margin: calc(.28 * var(--u)) 0; color: #24344d; }
+.sh .sd-list li { display: flex; gap: calc(.35 * var(--u)); align-items: flex-start; font-size: calc(.64 * var(--u)); margin: calc(.28 * var(--u)) 0; color: #24344d; }
 .sh .sd-list .i { color: var(--teal); flex: none; margin-top: calc(.05 * var(--u)); }
-.sh .sd-perk b { display: block; font-size: calc(.66 * var(--fs)); }
-.sh .sd-perk small { color: #6a7c93; font-size: calc(.56 * var(--fs)); }
+.sh .sd-perk b { display: block; font-size: calc(.66 * var(--u)); }
+.sh .sd-perk small { color: #6a7c93; font-size: calc(.56 * var(--u)); }
 .sh .sd-prog { display: grid; grid-template-columns: minmax(0, 1.2fr) minmax(0, .8fr); gap: calc(.6 * var(--u)); margin-top: calc(.7 * var(--u)); }
-.sh .sd-time { display: grid; grid-template-columns: calc(5.2 * var(--u)) minmax(0, 1fr); gap: calc(.35 * var(--u)); padding: calc(.22 * var(--u)) 0; font-size: calc(.64 * var(--fs)); border-bottom: 1px solid #f3f6fa; }
+.sh .sd-time { display: grid; grid-template-columns: calc(5.2 * var(--u)) minmax(0, 1fr); gap: calc(.35 * var(--u)); padding: calc(.22 * var(--u)) 0; font-size: calc(.64 * var(--u)); border-bottom: 1px solid #f3f6fa; }
 .sh .sd-time b { color: var(--teal); font-weight: 700; }
 .sh .sd-venue { display: flex; gap: calc(.5 * var(--u)); align-items: center; background: #f6f8fb; border-radius: calc(.5 * var(--u)); padding: calc(.45 * var(--u)); margin-top: calc(.4 * var(--u)); }
 .sh .sd-venue img { width: calc(5.5 * var(--u)); height: calc(3.4 * var(--u)); object-fit: cover; border-radius: calc(.35 * var(--u)); }
-.sh .sd-map { color: var(--teal); font-size: calc(.62 * var(--fs)); font-weight: 700; }
+.sh .sd-map { color: var(--teal); font-size: calc(.62 * var(--u)); font-weight: 700; }
 
 .sh .sd-side { position: sticky; top: calc(4.2 * var(--u)); display: flex; flex-direction: column; gap: calc(.55 * var(--u)); }
-.sh .sd-reg h3 { margin: 0; font-size: calc(.9 * var(--fs)); }
+.sh .sd-reg h3 { margin: 0; font-size: calc(.9 * var(--u)); }
 .sh .sd-reg .top { display: flex; justify-content: space-between; align-items: center; margin-bottom: calc(.4 * var(--u)); }
-.sh .sd-reg .lefts { color: #12a06a; font-size: calc(.6 * var(--fs)); font-weight: 700; }
+.sh .sd-reg .lefts { color: #12a06a; font-size: calc(.6 * var(--u)); font-weight: 700; }
 .sh .sd-tier {
   width: 100%; text-align: left; border: 1.5px solid #e6edf5; border-radius: calc(.5 * var(--u));
   padding: calc(.45 * var(--u)); margin-bottom: calc(.4 * var(--u)); background: #fff;
 }
 .sh .sd-tier.on { border-color: var(--teal); box-shadow: 0 0 0 1px var(--teal) inset; }
-.sh .sd-tier .nm { display: flex; justify-content: space-between; align-items: center; font-size: calc(.68 * var(--fs)); font-weight: 750; }
-.sh .sd-tier .pr { margin: calc(.12 * var(--u)) 0; font-size: calc(.95 * var(--fs)); font-weight: 800; }
-.sh .sd-tier .pr s { color: #a0aec0; font-size: calc(.58 * var(--fs)); font-weight: 500; margin-left: calc(.25 * var(--u)); }
-.sh .sd-off { background: #ffecec; color: #ef3b3b; border-radius: calc(.25 * var(--u)); padding: 0 calc(.28 * var(--u)); font-size: calc(.55 * var(--fs)); font-weight: 750; }
-.sh .sd-tier li { font-size: calc(.58 * var(--fs)); color: #31445f; margin: calc(.12 * var(--u)) 0; display: flex; gap: calc(.25 * var(--u)); }
-.sh .sd-seat { display: flex; justify-content: space-between; color: #12a06a; font-size: calc(.56 * var(--fs)); font-weight: 650; margin-top: calc(.15 * var(--u)); }
+.sh .sd-tier .nm { display: flex; justify-content: space-between; align-items: center; font-size: calc(.68 * var(--u)); font-weight: 750; }
+.sh .sd-tier .pr { margin: calc(.12 * var(--u)) 0; font-size: calc(.95 * var(--u)); font-weight: 800; }
+.sh .sd-tier .pr s { color: #a0aec0; font-size: calc(.58 * var(--u)); font-weight: 500; margin-left: calc(.25 * var(--u)); }
+.sh .sd-off { background: #ffecec; color: #ef3b3b; border-radius: calc(.25 * var(--u)); padding: 0 calc(.28 * var(--u)); font-size: calc(.55 * var(--u)); font-weight: 750; }
+.sh .sd-tier li { font-size: calc(.58 * var(--u)); color: #31445f; margin: calc(.12 * var(--u)) 0; display: flex; gap: calc(.25 * var(--u)); }
+.sh .sd-seat { display: flex; justify-content: space-between; color: #12a06a; font-size: calc(.56 * var(--u)); font-weight: 650; margin-top: calc(.15 * var(--u)); }
 .sh .sd-pay { display: flex; gap: calc(.3 * var(--u)); margin-top: calc(.45 * var(--u)); }
-.sh .sd-pay button { height: calc(1.5 * var(--u)); padding: 0 calc(.45 * var(--u)); border-radius: calc(.3 * var(--u)); border: 1px solid #e6edf5; font-size: calc(.58 * var(--fs)); font-weight: 750; }
+.sh .sd-pay button { height: calc(1.5 * var(--u)); padding: 0 calc(.45 * var(--u)); border-radius: calc(.3 * var(--u)); border: 1px solid #e6edf5; font-size: calc(.58 * var(--u)); font-weight: 750; }
 .sh .sd-pay button.on { border-color: var(--teal); color: var(--teal); }
-.sh .sd-cert { margin-top: calc(.4 * var(--u)); background: #f3fbf8; border-radius: calc(.4 * var(--u)); padding: calc(.4 * var(--u)); font-size: calc(.6 * var(--fs)); }
+.sh .sd-cert { margin-top: calc(.4 * var(--u)); background: #f3fbf8; border-radius: calc(.4 * var(--u)); padding: calc(.4 * var(--u)); font-size: calc(.6 * var(--u)); }
 .sh .sd-sim { display: flex; gap: calc(.4 * var(--u)); align-items: center; padding: calc(.35 * var(--u)) 0; border-top: 1px solid #f0f3f8; }
 .sh .sd-sim img { width: calc(3.2 * var(--u)); height: calc(2.2 * var(--u)); object-fit: cover; border-radius: calc(.3 * var(--u)); flex: none; }
-.sh .sd-sim b { font-size: calc(.62 * var(--fs)); display: block; line-height: 1.25; }
-.sh .sd-sim small { color: #7d8da3; font-size: calc(.54 * var(--fs)); }
-.sh .sd-sim strong { margin-left: auto; color: var(--teal); font-size: calc(.66 * var(--fs)); white-space: nowrap; }
+.sh .sd-sim b { font-size: calc(.62 * var(--u)); display: block; line-height: 1.25; }
+.sh .sd-sim small { color: #7d8da3; font-size: calc(.54 * var(--u)); }
+.sh .sd-sim strong { margin-left: auto; color: var(--teal); font-size: calc(.66 * var(--u)); white-space: nowrap; }

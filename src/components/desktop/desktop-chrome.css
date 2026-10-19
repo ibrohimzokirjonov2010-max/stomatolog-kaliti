@@ -2,7 +2,7 @@
 .home-desktop-scroll,
 .sh,
 .shell-root {
-  --dh: 72px;
+  --dh: clamp(44px, 3.59375vw, 56px);
 }
 
 .dh-top {
@@ -12,8 +12,8 @@
   background: #fff;
   display: flex;
   align-items: center;
-  gap: 14px;
-  padding: 0 16px 0 18px;
+  gap: 10px;
+  padding: 0 10px 0 12px;
   border-bottom: 1px solid #eef2f7;
   position: sticky;
   top: 0;
@@ -33,14 +33,14 @@
 }
 .sh .dh-logo { color: #16324f; }
 .dh-logo img {
-  width: 34px;
-  height: 36px;
+  width: 22px;
+  height: 24px;
   object-fit: contain;
   flex: none;
 }
 .dh-word {
   display: block;
-  font-size: 20px;
+  font-size: clamp(14px, 1.171875vw, 16px);
   line-height: 1;
   font-weight: 800;
   letter-spacing: -0.03em;
@@ -55,10 +55,10 @@
   flex: 1 1 420px;
   min-width: 160px;
   max-width: 640px;
-  height: 44px;
+  height: clamp(28px, 2.34375vw, 36px);
   background: #f3f6fa;
   border: 1px solid #e4eaf2;
-  border-radius: 12px;
+  border-radius: 8px;
   display: flex;
   align-items: center;
   gap: 8px;
@@ -78,7 +78,7 @@
   outline: 0;
   background: transparent;
   font: inherit;
-  font-size: 13.5px;
+  font-size: 12px;
   color: #0f1e3d;
 }
 .dh-search input::placeholder {
@@ -94,24 +94,24 @@
   display: inline-flex;
   align-items: center;
   gap: 4px;
-  height: 28px;
-  padding: 0 10px 0 0;
+  height: 22px;
+  padding: 0 8px 0 0;
   border: 0;
   border-right: 1px solid #e4eaf2;
   background: transparent;
   color: #24344d;
   font: inherit;
-  font-size: 13px;
+  font-size: 12px;
   font-weight: 650;
   white-space: nowrap;
   cursor: pointer;
 }
 .dh-top .dh-cats > button .i { width: 14px; height: 14px; }
 .dh-top button.dh-go {
-  width: 36px;
-  height: 36px;
+  width: 24px;
+  height: 24px;
   border: 0;
-  border-radius: 10px;
+  border-radius: 7px;
   background: #00a8a3;
   color: #fff;
   display: grid;
@@ -123,17 +123,17 @@
 .dh-top button.dh-go .i { width: 16px; height: 16px; color: #fff; }
 .dh-top button.dh-cam {
   flex: none;
-  height: 44px;
-  padding: 0 14px;
+  height: clamp(28px, 2.34375vw, 36px);
+  padding: 0 10px;
   border: 0;
-  border-radius: 12px;
+  border-radius: 8px;
   background: #00a8a3;
   color: #fff;
   display: inline-flex;
   align-items: center;
-  gap: 8px;
+  gap: 6px;
   font: inherit;
-  font-size: 13px;
+  font-size: 11px;
   font-weight: 700;
   white-space: nowrap;
   cursor: pointer;
@@ -152,13 +152,13 @@
   display: inline-flex;
   align-items: center;
   gap: 4px;
-  height: 40px;
-  padding: 0 8px;
+  height: 28px;
+  padding: 0 6px;
   border: 0;
   background: transparent;
   color: #16324f;
   font: inherit;
-  font-size: 13.5px;
+  font-size: 12px;
   font-weight: 650;
   cursor: pointer;
   white-space: nowrap;
@@ -167,8 +167,8 @@
 .dh-top .dh-city > button .chev { width: 14px; height: 14px; color: #5b6b82; }
 .dh-ic {
   position: relative;
-  width: 36px;
-  height: 36px;
+  width: 28px;
+  height: 28px;
   display: grid;
   place-items: center;
   color: #1d2b45;
@@ -179,8 +179,8 @@
   background: #f4f7fb;
 }
 .dh-ic .i {
-  width: 18px;
-  height: 18px;
+  width: 16px;
+  height: 16px;
 }
 .dh-ic .badge {
   position: absolute;
@@ -200,8 +200,8 @@
   line-height: 1;
 }
 .dh-top .dh-icon-btn {
-  width: 40px;
-  height: 40px;
+  width: 28px;
+  height: 28px;
   border: 0;
   padding: 0;
   border-radius: 999px;
@@ -212,8 +212,8 @@
 .dh-top .dh-ic { color: #1d2b45; }
 .dh-cat-menu { left: 0; right: auto; min-width: 220px; }
 .dh-bell .dh-icon-btn {
-  width: 40px;
-  height: 40px;
+  width: 28px;
+  height: 28px;
   border-radius: 999px;
   color: #1d2b45;
 }
@@ -230,8 +230,8 @@
 .dh-login {
   display: flex;
   align-items: center;
-  gap: 8px;
-  height: 44px;
+  gap: 6px;
+  height: 32px;
   padding: 0 4px 0 2px;
   border-radius: 999px;
   color: #16324f;
@@ -246,15 +246,15 @@
   background: #f4f7fb;
 }
 .dh-user img {
-  width: 36px;
-  height: 36px;
+  width: 26px;
+  height: 26px;
   border-radius: 50%;
   object-fit: cover;
   flex: none;
 }
 .dh-user b {
   display: block;
-  font-size: 13px;
+  font-size: 11px;
   font-weight: 700;
   color: #0f1e3d;
   line-height: 1.15;

@@ -205,7 +205,7 @@
 
 .brd-main { flex: 1; min-width: 0; padding: calc(1.7 * var(--u)) calc(1 * var(--u)) calc(1.2 * var(--u)); }
 .brd-head { display: flex; align-items: flex-start; justify-content: space-between; gap: calc(.8 * var(--u)); margin-bottom: calc(2.1 * var(--u)); }
-.brd-head h1 { margin: 0; font-size: calc(1.35 * var(--fs)); line-height: 1.15; letter-spacing: -.02em; }
+.brd-head h1 { margin: 0; font-size: clamp(26px, 2.109375vw, 32px); line-height: 1.15; letter-spacing: -.02em; }
 .brd-head p { margin: calc(.12 * var(--u)) 0 0; color: #6a7c93; font-size: calc(.92 * var(--u)); font-weight: 500; }
 .brd-badge {
   flex: none;
