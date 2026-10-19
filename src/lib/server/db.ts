@@ -51,8 +51,8 @@ export function privateCache() {
 
 export const COMMUNITY_BUCKET = "community";
 
-export function publicObjectUrl(path: string) {
-  return `${supabaseUrl()}/storage/v1/object/public/${COMMUNITY_BUCKET}/${path}`;
+export function publicObjectUrl(path: string, bucket = COMMUNITY_BUCKET) {
+  return `${supabaseUrl()}/storage/v1/object/public/${bucket}/${path}`;
 }
 
 export async function rpc<T>(fn: string, args: Record<string, unknown>): Promise<T> {
@@ -110,6 +110,7 @@ export async function rpc<T>(fn: string, args: Record<string, unknown>): Promise
         lim_reached: "Limitga yetdingiz. Avvalgi e’lonlarni yoping yoki o‘chiring, yoki keyinroq urinib ko‘ring.",
         listing_duplicate: "Bunday e’lon allaqachon bor. Avvalgisini tahrirlang yoki yoping.",
         clinic_none: "Avval klinika ma’lumotlarini saqlang.",
+        forbidden: "Bu amal uchun admin huquqi kerak.",
         sem_seats_low: "O‘rinlar soni allaqachon yozilganlar sonidan kam bo‘lishi mumkin emas.",
       };
       console.error(`[rpc ${fn}]`, parsed.message);

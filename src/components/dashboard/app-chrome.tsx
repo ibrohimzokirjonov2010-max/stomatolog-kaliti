@@ -21,11 +21,7 @@ import { KanallarDesktop } from "@/components/hub/desktop/KanallarDesktop";
 import { CommunityDesktop } from "@/components/hub/desktop/CommunityDesktop";
 import { KlinikaDesktop } from "@/components/hub/desktop/KlinikaDesktop";
 import { FormaCatalog } from "@/components/forma/desktop/FormaCatalog";
-import { FormaProduct } from "@/components/forma/desktop/FormaProduct";
-import { getDesktopForma } from "@/data/desktop-forma";
 import { JihozCatalog } from "@/components/jihoz/desktop/JihozCatalog";
-import { JihozProduct } from "@/components/jihoz/desktop/JihozProduct";
-import { getDesktopJihoz } from "@/data/desktop-jihozlar";
 import { JobsDesktop } from "@/components/jobs/desktop/JobsDesktop";
 import { NewsDesktop } from "@/components/news/desktop/NewsDesktop";
 import { MutaxassislarDesktop } from "@/components/specialists/desktop/MutaxassislarDesktop";
@@ -171,19 +167,13 @@ function desktopHub(pathname: string | null): ReactNode | null {
 function desktopForma(pathname: string | null): ReactNode | null {
   if (!pathname) return null;
   if (pathname === "/forma") return <FormaCatalog />;
-  const match = pathname.match(/^\/forma\/([^/]+)$/);
-  if (!match || match[1] === "buyurtmalarim") return null;
-  if (!getDesktopForma(match[1])) return null;
-  return <FormaProduct slug={match[1]} />;
+  return null;
 }
 
 function desktopJihoz(pathname: string | null): ReactNode | null {
   if (!pathname) return null;
   if (pathname === "/jihozlar") return <JihozCatalog />;
-  const match = pathname.match(/^\/jihozlar\/([^/]+)$/);
-  if (!match) return null;
-  if (!getDesktopJihoz(match[1])) return null;
-  return <JihozProduct slug={match[1]} />;
+  return null;
 }
 
 function desktopJobs(pathname: string | null): ReactNode | null {

@@ -8,6 +8,7 @@ import {
   Wallet,
   ExternalLink,
   FileCheck2,
+  BookOpen,
   GraduationCap,
   FileSpreadsheet,
   History,
@@ -62,6 +63,7 @@ export const ADMIN_NAV: NavDef[] = [
   { href: "/admin/kanallar", label: "Kanal auksion", icon: Send, crumb: "Kanal auksion" },
   { href: "/admin/kontent", label: "Kontent", icon: MessageSquareText, badge: "reports", crumb: "Kontent" },
   { href: "/admin/seminarlar", label: "Seminarlar", icon: GraduationCap, crumb: "Seminarlar" },
+  { href: "/admin/kutubxona", label: "Kutubxona", icon: BookOpen, crumb: "Kutubxona" },
   { href: "/admin/moderatsiya", label: "Moderatsiya", icon: ListChecks, crumb: "Moderatsiya" },
   { href: "/admin/sozlamalar", label: "Sozlamalar", icon: Settings, crumb: "Sozlamalar" },
 ];

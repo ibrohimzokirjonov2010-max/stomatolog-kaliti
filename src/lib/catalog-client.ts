@@ -17,6 +17,13 @@ export type CatalogCard = {
   shopId: string;
   shopName: string;
   shopSlug: string;
+  description: string;
+  kind: string;
+  gender: string;
+  sizes: string[];
+  colors: string[];
+  images: string[];
+  attrs: Record<string, unknown>;
 };
 
 export type CatalogShop = {
@@ -80,6 +87,13 @@ function cardFrom(raw: Record<string, unknown>): CatalogCard | null {
     shopId: typeof raw.shopId === "string" ? raw.shopId : "",
     shopName: typeof raw.shopName === "string" ? raw.shopName : "",
     shopSlug: typeof raw.shopSlug === "string" ? raw.shopSlug : "",
+    description: typeof raw.description === "string" ? raw.description : "",
+    kind: typeof raw.kind === "string" ? raw.kind : "",
+    gender: typeof raw.gender === "string" ? raw.gender : "",
+    sizes: Array.isArray(raw.sizes) ? raw.sizes.filter((item): item is string => typeof item === "string") : [],
+    colors: Array.isArray(raw.colors) ? raw.colors.filter((item): item is string => typeof item === "string") : [],
+    images: Array.isArray(raw.images) ? raw.images.filter((item): item is string => typeof item === "string") : [],
+    attrs: raw.attrs && typeof raw.attrs === "object" && !Array.isArray(raw.attrs) ? (raw.attrs as Record<string, unknown>) : {},
   };
 }
 

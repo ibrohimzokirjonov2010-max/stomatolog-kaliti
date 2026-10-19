@@ -74,6 +74,17 @@ export type ProductAttrs = {
   isNew?: boolean;
   recommended?: boolean;
   limited?: boolean;
+  /** Jihozlar: short spec line, warranty, year, and installment. */
+  specLine?: string;
+  warrantyMonths?: number;
+  year?: number;
+  installmentMonths?: number;
+  installmentMonthly?: number;
+  leasing?: boolean;
+  installService?: boolean;
+  official?: boolean;
+  condition?: "yangi" | "ishlatilgan";
+  city?: string;
 };
 
 export type ProductCondition = "yangi" | "ishlatilgan" | "ochilgan";

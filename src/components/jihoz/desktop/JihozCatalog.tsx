@@ -1,7 +1,7 @@
 "use client";
 /* eslint-disable @next/next/no-img-element -- desktop shell sizes raw images with --u */
 
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
 import {
@@ -27,16 +27,14 @@ import { shopAdd, shopToggleFav, som, somPlain, useShopFavs, useShopLineCount } 
 import {
   JIZOZ_PRICE_MAX,
   catLabel,
-  desktopJihoz,
-  jihozBrands,
   jihozCats,
-  jihozCities,
   jihozConds,
   jihozWarranties,
   type DesktopJihoz,
   type JihozCat,
   type JihozCond,
 } from "@/data/desktop-jihozlar";
+import { fetchSectionProducts, toDesktopJihoz } from "@/lib/live-content";
 import "./jihoz.css";
 
 const sorts = [
@@ -95,7 +93,7 @@ export function JihozCatalog() {
   const [conds, setConds] = useState<JihozCond[]>([]);
   const [brands, setBrands] = useState<string[]>(() => {
     const raw = params.get("brand");
-    return raw && jihozBrands.some((item) => item.id === raw) ? [raw] : [];
+    return raw ? [raw] : [];
   });
   const [moreBrands, setMoreBrands] = useState(false);
   const [price, setPrice] = useState<[number, number]>([0, JIZOZ_PRICE_MAX]);
@@ -106,18 +104,37 @@ export function JihozCatalog() {
   const [city, setCity] = useState("Barchasi");
   const [sort, setSort] = useState<SortId>("pop");
   const [list, setList] = useState(false);
-  const [compare, setCompare] = useState<string[]>(["sirona-intego", "planmeca-promax"]);
+  const [compare, setCompare] = useState<string[]>([]);
+  const [source, setSource] = useState<DesktopJihoz[]>([]);
+  const [ready, setReady] = useState(false);
+  useEffect(() => {
+    let stop = false;
+    void fetchSectionProducts("jihozlar").then((rows) => {
+      if (stop) return;
+      setSource(rows.map(toDesktopJihoz));
+      setReady(true);
+    });
+    return () => {
+      stop = true;
+    };
+  }, []);
   const [note, setNote] = useState("");
   const [offer, setOffer] = useState<DesktopJihoz | null>(null);
   const [consult, setConsult] = useState(false);
   const [table, setTable] = useState(false);
 
   const priceOn = price[0] > 0 || price[1] < JIZOZ_PRICE_MAX;
-  const shownBrands = moreBrands ? jihozBrands : jihozBrands.slice(0, 8);
-  const countOf = (pred: (item: DesktopJihoz) => boolean) => desktopJihoz.filter(pred).length;
+  const liveBrands = useMemo(() => {
+    const map = new Map<string, string>();
+    for (const item of source) map.set(item.brandKey, item.brand);
+    return [...map].map(([id, label]) => ({ id, label }));
+  }, [source]);
+  const shownBrands = moreBrands ? liveBrands : liveBrands.slice(0, 8);
+  const cities = useMemo(() => [...new Set(source.map((item) => item.city).filter(Boolean))], [source]);
+  const countOf = (pred: (item: DesktopJihoz) => boolean) => source.filter(pred).length;
 
   const items = useMemo(() => {
-    const rows = desktopJihoz.filter((item) => {
+    const rows = source.filter((item) => {
       if (cat !== "all" && item.cat !== cat) return false;
       if (conds.length && !conds.includes(item.condition)) return false;
       if (brands.length && !brands.includes(item.brandKey)) return false;
@@ -137,7 +154,7 @@ export function JihozCatalog() {
       if (sort === "rate") return b.rating - a.rating;
       return b.popularity - a.popularity;
     });
-  }, [brands, cat, city, conds, install, leasing, official, price, priceOn, q, sort, warranties]);
+  }, [brands, cat, city, conds, install, leasing, official, price, priceOn, q, sort, source, warranties]);
 
   function toggle<T>(current: T[], value: T, set: (next: T[]) => void) {
     set(current.includes(value) ? current.filter((item) => item !== value) : [...current, value]);
@@ -172,7 +189,7 @@ export function JihozCatalog() {
     setPrice((current) => (index === 0 ? [Math.min(value, current[1]), current[1]] : [current[0], Math.max(value, current[0])]));
   };
 
-  const compared = compare.map((slug) => desktopJihoz.find((item) => item.slug === slug)).filter((item): item is DesktopJihoz => Boolean(item));
+  const compared = compare.map((slug) => source.find((item) => item.slug === slug)).filter((item): item is DesktopJihoz => Boolean(item));
 
   return (
     <ShopShell searchPath="/jihozlar" cartCount={cartCount} placeholder="Stomatologik jihozlar, brend yoki model qidirish..." showCamera={false}>
@@ -237,7 +254,7 @@ export function JihozCatalog() {
               <h4>Shahar tanlash</h4>
               <select className="jx-select" value={city} aria-label="Shahar" onChange={(event) => setCity(event.target.value)}>
                 <option>Barchasi</option>
-                {jihozCities.map((name) => <option key={name}>{name}</option>)}
+                {cities.map((name) => <option key={name}>{name}</option>)}
               </select>
             </aside>
 
@@ -257,8 +274,8 @@ export function JihozCatalog() {
 
               {items.length === 0 ? (
                 <div className="jx-empty">
-                  <b>Mos jihoz topilmadi</b>
-                  <p>Filtrlarni o‘zgartirib ko‘ring.</p>
+                  <b>{!ready ? "Yuklanmoqda..." : source.length === 0 ? "Hozircha jihoz yo‘q" : "Mos jihoz topilmadi"}</b>
+                  <p>{source.length === 0 ? "Tasdiqlangan do‘kon Jihozlar toifasida mahsulot qo‘shganda shu yerda chiqadi." : "Filtrlarni o‘zgartirib ko‘ring."}</p>
                   <button type="button" onClick={reset}>Filtrlarni tozalash</button>
                 </div>
               ) : (
@@ -284,7 +301,7 @@ export function JihozCatalog() {
                             <li>{item.spec}</li>
                           </ul>
                           <strong className="jx-sum">{som(item.price)}</strong>
-                          <p className="jx-month"><CalendarClock className="i" /> {item.months} oyga {somPlain(item.monthly)} so‘m/oy</p>
+                          {item.months > 0 ? <p className="jx-month"><CalendarClock className="i" /> {item.months} oyga {somPlain(item.monthly)} so‘m/oy</p> : null}
                           <div className="jx-acts">
                             <button type="button" className="jx-add" aria-label={`${item.name} — savatga qo‘shish`} onClick={() => addCart(item)}><ShoppingCart className="i" /> Savatga</button>
                             <button type="button" className="jx-ghost" onClick={() => setOffer(item)}>Taklif so‘rash</button>

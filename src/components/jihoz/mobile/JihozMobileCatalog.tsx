@@ -1,13 +1,14 @@
 "use client";
 /* eslint-disable @next/next/no-img-element -- equipment photos are sized by the fluid unit */
 
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import Link from "next/link";
 import { ArrowUpDown, ChevronDown, Heart, LayoutGrid, List, Search, ShieldCheck, ShoppingCart, SlidersHorizontal, Tag } from "lucide-react";
 import { useCart } from "@/components/cart-provider";
 import { MobileMenuButton } from "@/components/dashboard/mobile-chrome";
 import { NotificationBell } from "@/components/notification-bell";
-import { JIZHOZ_RESULT_TOTAL, jihozKinds, mobileJihoz, type JihozKind, type MobileJihoz } from "@/data/mobile-jihozlar";
+import { jihozKinds, type JihozKind, type MobileJihoz } from "@/data/mobile-jihozlar";
+import { fetchSectionProducts, toMobileJihoz } from "@/lib/live-content";
 import type { Product } from "@/data/products";
 import { formatMoney } from "@/lib/format";
 import "./jihoz-mobile.css";
@@ -101,6 +102,19 @@ export function JihozMobileCatalog() {
   const [filters, setFilters] = useState(false);
   const [saved, setSaved] = useState<string[]>([]);
   const [note, setNote] = useState("");
+  const [mobileJihoz, setMobileJihoz] = useState<MobileJihoz[]>([]);
+  const [ready, setReady] = useState(false);
+  useEffect(() => {
+    let stop = false;
+    void fetchSectionProducts("jihozlar").then((rows) => {
+      if (stop) return;
+      setMobileJihoz(rows.map(toMobileJihoz));
+      setReady(true);
+    });
+    return () => {
+      stop = true;
+    };
+  }, []);
   const brands = [...new Set(mobileJihoz.map((item) => item.brand))];
   const filterCount = 1 + (brand ? 1 : 0) + (maxPrice ? 1 : 0);
 
@@ -120,10 +134,10 @@ export function JihozMobileCatalog() {
     else if (sort === "yangi") rows.sort((a, b) => Number(b.condition === "yangi") - Number(a.condition === "yangi") || a.rank - b.rank);
     else rows.sort((a, b) => a.rank - b.rank);
     return rows;
-  }, [brand, cond, condOn, kind, kindOn, maxPrice, query, sort]);
+  }, [brand, cond, condOn, kind, kindOn, maxPrice, mobileJihoz, query, sort]);
 
   const quiet = !kindOn && !condOn && !query && !brand && !maxPrice;
-  const resultLabel = quiet ? `${JIZHOZ_RESULT_TOTAL} ta natija` : `${list.length} ta natija`;
+  const resultLabel = !ready ? "Yuklanmoqda..." : `${list.length} ta natija`;
 
   return (
     <div className="jz lg:hidden" data-testid="mobile-jihoz">
@@ -182,7 +196,7 @@ export function JihozMobileCatalog() {
           </div>
         </div>
         {note ? <p className="jz-note">{note}</p> : null}
-        {list.length === 0 ? <p className="jz-note">Mos jihoz topilmadi</p> : null}
+        {list.length === 0 ? <p className="jz-note">{!ready ? "Yuklanmoqda..." : mobileJihoz.length === 0 ? "Hozircha jihoz yo‘q" : "Mos jihoz topilmadi"}</p> : null}
         <div className={view === "list" ? "jz-grid list" : "jz-grid"}>
           {list.map((item) => (
             <article key={item.id} className="jz-card" data-testid={`jz-card-${item.id}`}>

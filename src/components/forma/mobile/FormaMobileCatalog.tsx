@@ -1,26 +1,19 @@
 "use client";
 /* eslint-disable @next/next/no-img-element -- uniform photos are sized by the fluid unit */
 
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import Link from "next/link";
 import { ArrowUpDown, ChevronDown, ChevronRight, Heart, Search, ShoppingCart, SlidersHorizontal, Star } from "lucide-react";
 import { useCart } from "@/components/cart-provider";
 import { MobileMenuButton } from "@/components/dashboard/mobile-chrome";
 import { NotificationBell } from "@/components/notification-bell";
-import { formaKinds, mobileForma, type FormaColor, type FormaGender, type FormaKind, type MobileForma } from "@/data/mobile-forma";
+import { formaKinds, type FormaColor, type FormaGender, type FormaKind, type MobileForma } from "@/data/mobile-forma";
+import { fetchSectionProducts, toMobileForma } from "@/lib/live-content";
 import type { Product } from "@/data/products";
 import { formatMoney } from "@/lib/format";
 import "./forma-mobile.css";
 
-const catalog = mobileForma.filter((item) => !item.pdpOnly);
 const sizeOrder = ["XS", "S", "M", "L", "XL", "XXL"];
-const sizes = sizeOrder.filter((size) => catalog.some((item) => item.sizes.includes(size)));
-const colors = catalog.reduce<FormaColor[]>((list, item) => {
-  item.colors.forEach((color) => {
-    if (!list.some((entry) => entry.id === color.id)) list.push(color);
-  });
-  return list;
-}, []);
 
 function KindIcon({ id }: { id: "all" | FormaKind }) {
   if (id === "all") {
@@ -103,6 +96,26 @@ export function FormaMobileCatalog() {
   const [saved, setSaved] = useState<string[]>([]);
   const [filters, setFilters] = useState(false);
   const [note, setNote] = useState("");
+  const [catalog, setCatalog] = useState<MobileForma[]>([]);
+  const [ready, setReady] = useState(false);
+  useEffect(() => {
+    let stop = false;
+    void fetchSectionProducts("forma").then((rows) => {
+      if (stop) return;
+      setCatalog(rows.map(toMobileForma));
+      setReady(true);
+    });
+    return () => {
+      stop = true;
+    };
+  }, []);
+  const sizes = sizeOrder.filter((size) => catalog.some((item) => item.sizes.includes(size)));
+  const colors = catalog.reduce<FormaColor[]>((list, item) => {
+    item.colors.forEach((color) => {
+      if (!list.some((entry) => entry.id === color.id)) list.push(color);
+    });
+    return list;
+  }, []);
 
   const list = useMemo(() => {
     const q = query.trim().toLowerCase();
@@ -121,7 +134,7 @@ export function FormaMobileCatalog() {
     else if (sort === "qimmat") rows.sort((a, b) => b.price - a.price);
     else rows.sort((a, b) => b.reviews - a.reviews);
     return rows;
-  }, [color, gender, kind, maxPrice, query, size, sort]);
+  }, [catalog, color, gender, kind, maxPrice, query, size, sort]);
 
   function addItem(item: MobileForma) {
     add(item.id, asProduct(item), 1, { size: item.sizes[0], color: item.colors[0]?.label });
@@ -222,7 +235,7 @@ export function FormaMobileCatalog() {
           </label>
         </div>
         {note ? <p className="fm-note">{note}</p> : null}
-        {list.length === 0 ? <p className="fm-note">Mos forma topilmadi</p> : null}
+        {list.length === 0 ? <p className="fm-note">{!ready ? "Yuklanmoqda..." : catalog.length === 0 ? "Hozircha mahsulot yo‘q" : "Mos forma topilmadi"}</p> : null}
         <div className="fm-grid" id="fm-list">
           {list.map((item) => (
             <article key={item.id} className="fm-card" data-testid={`fm-card-${item.id}`}>

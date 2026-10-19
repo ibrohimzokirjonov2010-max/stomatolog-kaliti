@@ -1,7 +1,7 @@
 "use client";
 /* eslint-disable @next/next/no-img-element -- lesson photos are sized by the fluid unit */
 
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { BookOpen, Eye, LayoutGrid, MoreVertical, Play, Search, ShoppingCart, SlidersHorizontal } from "lucide-react";
@@ -9,14 +9,13 @@ import { useCart } from "@/components/cart-provider";
 import { MobileMenuButton } from "@/components/dashboard/mobile-chrome";
 import { NotificationBell } from "@/components/notification-bell";
 import {
-  continueLesson,
   lessonSorts,
   lessonTopics,
-  mobileLessons,
   type LessonSort,
   type LessonTopic,
   type MobileLesson,
 } from "@/data/mobile-lessons";
+import { fetchCourses, toMobileLesson } from "@/lib/live-content";
 import { formatMoney } from "@/lib/format";
 import "./talim-mobile.css";
 
@@ -39,6 +38,20 @@ export function TalimMobile() {
   const [menu, setMenu] = useState<string | null>(null);
   const [saved, setSaved] = useState<string[]>([]);
   const [note, setNote] = useState("");
+  const [mobileLessons, setMobileLessons] = useState<MobileLesson[]>([]);
+  const [ready, setReady] = useState(false);
+  useEffect(() => {
+    let stop = false;
+    void fetchCourses().then((rows) => {
+      if (stop) return;
+      setMobileLessons(rows.map(toMobileLesson));
+      setReady(true);
+    });
+    return () => {
+      stop = true;
+    };
+  }, []);
+  const continueLesson = mobileLessons.find((item) => item.progress != null) ?? null;
 
   const list = useMemo(() => {
     const q = query.trim().toLowerCase();
@@ -51,12 +64,14 @@ export function TalimMobile() {
     if (sort === "ommabop") rows.sort((a, b) => b.views - a.views);
     if (sort === "narx") rows.sort((a, b) => a.price - b.price);
     return rows;
-  }, [level, query, sort, topic]);
+  }, [level, mobileLessons, query, sort, topic]);
 
-  const showContinue =
+  const showContinue = Boolean(
+    continueLesson &&
     (topic === "all" || topic === continueLesson.topic) &&
     (!level || continueLesson.level === level) &&
-    (!query.trim() || `${continueLesson.title} ${continueLesson.author} ${continueLesson.topicLabel}`.toLowerCase().includes(query.trim().toLowerCase()));
+    (!query.trim() || `${continueLesson.title} ${continueLesson.author} ${continueLesson.topicLabel}`.toLowerCase().includes(query.trim().toLowerCase())),
+  );
 
   async function share(item: MobileLesson) {
     const url = `${window.location.origin}/talim/${item.id}/video`;
@@ -121,7 +136,7 @@ export function TalimMobile() {
           ))}
         </div>
 
-        {showContinue ? (
+        {showContinue && continueLesson ? (
           <article className="tl-go">
             <Thumb lesson={continueLesson} onPlay={() => router.push(`/talim/${continueLesson.id}/video`)} />
             <div>
@@ -155,7 +170,7 @@ export function TalimMobile() {
         </div>
 
         {note ? <p className="tl-note">{note}</p> : null}
-        {list.length === 0 ? <p className="tl-note">Mos dars topilmadi</p> : null}
+        {list.length === 0 ? <p className="tl-note">{!ready ? "Yuklanmoqda..." : mobileLessons.length === 0 ? "Hozircha kurs yo‘q" : "Mos dars topilmadi"}</p> : null}
 
         {list.map((item) => (
           <article key={item.id} className="tl-row" id={item.id}>

@@ -22,8 +22,6 @@ import { ShopShell } from "@/components/shop/desktop/ShopShell";
 import { som, useShopLineCount } from "@/components/shop/desktop/shop-cart";
 import {
   certificates,
-  continueItems,
-  courses,
   directions,
   formats,
   levels,
@@ -33,6 +31,7 @@ import {
   type Direction,
   type Level,
 } from "@/data/desktop-hub";
+import { enrollCourse, fetchCourses, saveLessonDone, toContinue, toCourseCard, type LiveCourse } from "@/lib/live-content";
 import "./hub.css";
 
 const sorts = [
@@ -64,6 +63,9 @@ export function TalimDesktop() {
   const [sortOpen, setSortOpen] = useState(false);
   const [view, setView] = useState<"grid" | "list">("grid");
   const [progress, setProgress] = useState<Record<string, number>>({});
+  const [courses, setCourses] = useState<Course[]>([]);
+  const [live, setLive] = useState<LiveCourse[]>([]);
+  const [ready, setReady] = useState(false);
   const [player, setPlayer] = useState<Course | null>(null);
   const [certsOpen, setCertsOpen] = useState(false);
   const [chat, setChat] = useState(false);
@@ -75,6 +77,20 @@ export function TalimDesktop() {
   useEffect(() => {
     setQ(paramQ);
   }, [paramQ]);
+
+  useEffect(() => {
+    let stop = false;
+    void fetchCourses().then((rows) => {
+      if (stop) return;
+      setLive(rows);
+      setCourses(rows.map(toCourseCard));
+      setProgress(Object.fromEntries(rows.filter((item) => item.enrolled).map((item) => [item.id, item.progress])));
+      setReady(true);
+    });
+    return () => {
+      stop = true;
+    };
+  }, []);
 
   const shown = useMemo(() => {
     const query = q.trim().toLowerCase();
@@ -99,7 +115,11 @@ export function TalimDesktop() {
 
   function play(course: Course) {
     setPlayer(course);
-    setProgress((prev) => ({ ...prev, [course.id]: Math.min(100, (prev[course.id] ?? 8) + 6) }));
+    void enrollCourse(course.id).then((next) => {
+      if (!next) return;
+      setLive((rows) => rows.map((item) => (item.id === next.id ? next : item)));
+      setProgress((prev) => ({ ...prev, [next.id]: next.progress }));
+    });
   }
 
   function sendChat() {
@@ -129,9 +149,11 @@ export function TalimDesktop() {
           <section>
             <h2 className="hub-h2">Davom ettirish</h2>
             <div className="hub-cont">
-              {continueItems.map((item) => {
+              {live.filter((item) => item.enrolled).length === 0 ? <p className="by">Hozircha yozilgan kurs yo‘q</p> : null}
+              {live.filter((item) => item.enrolled).map(toContinue).map((item) => {
                 const pct = progress[item.id] ?? item.progress;
-                const course = courses.find((entry) => entry.id === item.id) ?? courses[0];
+                const course = courses.find((entry) => entry.id === item.id);
+                if (!course) return null;
                 return (
                   <article className="hub-ccard" key={item.id}>
                     <div className="ph">
@@ -234,7 +256,7 @@ export function TalimDesktop() {
           </div>
           {shown.length === 0 ? (
             <div className="hub-empty">
-              Bu filtrda kurs yo‘q.
+              {!ready ? "Yuklanmoqda..." : courses.length === 0 ? "Hozircha kurs yo‘q" : "Bu filtrda kurs yo‘q."}
               <div>
                 <button
                   type="button"
@@ -399,14 +421,28 @@ export function TalimDesktop() {
             </div>
             <img src={player.image} alt="" />
             <p>
-              {player.teacher} · {player.role}. Jarayon: {progress[player.id] ?? 8}%.
+              {player.teacher} · {player.role}. Jarayon: {progress[player.id] ?? 0}%.
             </p>
             <div className="hub-bar">
-              <i style={{ width: `${progress[player.id] ?? 8}%` }} />
+              <i style={{ width: `${progress[player.id] ?? 0}%` }} />
             </div>
+            <ul>
+              {(live.find((item) => item.id === player.id)?.lessons ?? []).map((lesson) => (
+                <li key={lesson.id}>
+                  <button type="button" onClick={() => void saveLessonDone(player.id, lesson.id).then((next) => {
+                    if (!next) return;
+                    setLive((rows) => rows.map((item) => (item.id === next.id ? next : item)));
+                    setProgress((prev) => ({ ...prev, [next.id]: next.progress }));
+                  })}>
+                    {lesson.done ? "✓ " : ""}{lesson.title}
+                  </button>
+                  {lesson.videoUrl ? <a href={lesson.videoUrl}>Video</a> : null}
+                </li>
+              ))}
+            </ul>
             <div className="hub-actions">
-              <button type="button" className="hub-btn" onClick={() => setProgress((prev) => ({ ...prev, [player.id]: Math.min(100, (prev[player.id] ?? 8) + 10) }))}>
-                Davom ettirish
+              <button type="button" className="hub-btn" onClick={() => play(player)}>
+                Yozilish
               </button>
               <button type="button" className="hub-btn ghost" onClick={() => setPlayer(null)}>
                 Yopish

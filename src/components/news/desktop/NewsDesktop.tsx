@@ -1,12 +1,13 @@
 "use client";
 /* eslint-disable @next/next/no-img-element -- desktop shell sizes raw images with --u */
 
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { useSearchParams } from "next/navigation";
 import { Bookmark, Clock, Eye, Send } from "lucide-react";
 import { ShopShell } from "@/components/shop/desktop/ShopShell";
-import { som, useShopLineCount } from "@/components/shop/desktop/shop-cart";
-import { desktopArticles, newsBadge, newsCats, popularArticles, upcomingEvents, type NewsCat } from "@/data/desktop-news";
+import { useShopLineCount } from "@/components/shop/desktop/shop-cart";
+import { newsBadge, newsCats, type DesktopArticle, type NewsCat } from "@/data/desktop-news";
+import { fetchNews, toDesktopNews } from "@/lib/live-content";
 import "@/components/jihoz/desktop/jihoz.css";
 
 export function NewsDesktop() {
@@ -15,21 +16,34 @@ export function NewsDesktop() {
   const q = (params.get("q") ?? "").trim().toLowerCase();
   const [cat, setCat] = useState<"all" | NewsCat>("all");
   const [saved, setSaved] = useState<string[]>([]);
-  const [heroId, setHeroId] = useState(desktopArticles.find((item) => item.featured)?.id ?? desktopArticles[0].id);
+  const [articles, setArticles] = useState<DesktopArticle[]>([]);
+  const [ready, setReady] = useState(false);
+  const [heroId, setHeroId] = useState("");
+  useEffect(() => {
+    let stop = false;
+    void fetchNews().then((rows) => {
+      if (stop) return;
+      const mapped = rows.map(toDesktopNews);
+      setArticles(mapped);
+      setHeroId(mapped[0]?.id ?? "");
+      setReady(true);
+    });
+    return () => {
+      stop = true;
+    };
+  }, []);
   const [note, setNote] = useState("");
   const [showAllPopular, setShowAllPopular] = useState(false);
-  const [showAllEvents, setShowAllEvents] = useState(false);
 
-  const visible = useMemo(() => desktopArticles.filter((item) => {
+  const visible = useMemo(() => articles.filter((item) => {
     if (cat !== "all" && item.cat !== cat) return false;
     if (q && !`${item.title} ${item.lead}`.toLowerCase().includes(q)) return false;
     return true;
-  }), [cat, q]);
+  }), [articles, cat, q]);
 
   const hero = visible.find((item) => item.id === heroId) ?? visible[0];
   const grid = visible.filter((item) => item.id !== hero?.id);
-  const popular = showAllPopular ? popularArticles : popularArticles;
-  const events = showAllEvents ? upcomingEvents : upcomingEvents;
+  const popular = visible.slice(0, showAllPopular ? visible.length : 5);
 
   function toggleSave(id: string) {
     setSaved((list) => list.includes(id) ? list.filter((item) => item !== id) : [...list, id]);
@@ -73,7 +87,7 @@ export function NewsDesktop() {
                   </div>
                 </div>
               </article>
-            ) : <div className="yn-box">Yangilik topilmadi</div>}
+            ) : <div className="yn-box">{!ready ? "Yuklanmoqda..." : articles.length === 0 ? "Hozircha yangilik yo‘q" : "Yangilik topilmadi"}</div>}
             <div className="yn-grid">
               {grid.map((item) => (
                 <article className="yn-card" key={item.id}>
@@ -98,8 +112,9 @@ export function NewsDesktop() {
           <aside className="yn-rail">
             <section className="yn-box">
               <h3>Ko‘p o‘qilganlar <button type="button" className="yn-link" onClick={() => setShowAllPopular(true)}>Barchasini ko‘rish</button></h3>
+              {popular.length === 0 ? <p className="yn-note">Hozircha yangilik yo‘q</p> : null}
               {popular.map((item, index) => (
-                <div className="yn-pop" key={item.title}>
+                <div className="yn-pop" key={item.id}>
                   <em>{index + 1}</em>
                   <img src={item.image} alt="" />
                   <div>
@@ -111,18 +126,8 @@ export function NewsDesktop() {
               {showAllPopular ? <p className="yn-note">Eng ko‘p o‘qilgan 5 ta maqola.</p> : null}
             </section>
             <section className="yn-box">
-              <h3>Yaqin tadbirlar <button type="button" className="yn-link" onClick={() => setShowAllEvents(true)}>Barchasini ko‘rish</button></h3>
-              {events.map((item) => (
-                <div className="yn-event" key={item.title}>
-                  <div className="yn-date"><b>{item.day}</b><span>{item.month}</span></div>
-                  <div>
-                    <b>{item.title}</b>
-                    <span>{item.place}</span>
-                    <strong>{som(item.price)}</strong>
-                  </div>
-                </div>
-              ))}
-              {showAllEvents ? <p className="yn-note">Yaqin uchta tadbir.</p> : null}
+              <h3>Yaqin tadbirlar</h3>
+              <p className="yn-note">Hozircha tadbir yo‘q. Tadbirlar alohida bo‘lim emas.</p>
             </section>
             <section className="yn-box yn-tg">
               <h3><Send className="i" /> Telegram kanalimizga obuna bo‘ling</h3>
