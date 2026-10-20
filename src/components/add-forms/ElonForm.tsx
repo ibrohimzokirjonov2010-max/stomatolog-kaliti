@@ -3,7 +3,10 @@
 import { useEffect, useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { MapPin, MessageCircle } from "lucide-react";
-import { ADD_CITIES, ADD_DISTRICTS, ELON_CATEGORIES, elonPayload, emptyElon, moneyText, saveAddForm, validateElon, type ElonInput } from "@/lib/add-forms";
+import { ADD_CITIES, ADD_DISTRICTS, ELON_CATEGORIES, ELON_WEAR, elonPayload, emptyElon, moneyText, saveAddForm, validateElon, type ElonInput } from "@/lib/add-forms";
+import { PublishNote } from "@/components/forms/PublishNote";
+import { DraftBanner } from "@/components/forms/DraftBanner";
+import { saveFormP0, useFormDraft } from "@/lib/forms/use-draft";
 import { formatGroupedNumber } from "@/lib/format";
 import { AddPage, AreaField, Banners, Field, FormActions, PhoneField, PhotoPicker, SelectField, SourceLinks, Step, TelegramField, TextField, Toggle, type LocalPhoto } from "@/components/add-forms/widgets";
 import { photosFromUrls, resolvePhotos } from "@/components/add-forms/upload-local";
@@ -14,6 +17,8 @@ export function ElonForm() {
   const [id, setId] = useState(params.get("id") ?? "");
   const [form, setForm] = useState<ElonInput>(emptyElon());
   const [photos, setPhotos] = useState<LocalPhoto[]>([]);
+  const [wear, setWear] = useState<(typeof ELON_WEAR)[number]["id"]>("yangi");
+  const draft = useFormDraft("draft:elon", form, !id);
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [note, setNote] = useState("");
   const [fail, setFail] = useState("");
@@ -43,6 +48,7 @@ export function ElonForm() {
         instagram: row.instagram ?? "",
         photos: row.photos ?? [],
       });
+      setWear(row.condition === "ishlatilgan" ? "alo" : "yangi");
       setPhotos(photosFromUrls(row.photos ?? []));
     }).catch(() => undefined);
     return () => { cancel = true; };
@@ -69,6 +75,10 @@ export function ElonForm() {
         return;
       }
       setId(result.id);
+      if (result.id) {
+        const extra = await saveFormP0("classified", result.id, { wear });
+        if (extra.pending) setNote("E‘lon saqlandi. Qo‘shimcha maydonlar migratsiya qo‘llangach yoziladi.");
+      }
       if (mode === "draft") {
         setNote("Qoralama saqlandi.");
         router.replace(`/elonlar/yangi?id=${result.id}`);
@@ -84,20 +94,32 @@ export function ElonForm() {
   const cover = photos[0]?.preview || photos[0]?.url;
 
   return (
-    <AddPage testId="add-elon" title="Yangi e‘lon qo‘shish" sub="Jihoz, asbob yoki material e’lonini joylang." crumbs={[{ href: "/", label: "Bosh sahifa" }, { href: "/elonlar", label: "E‘lonlar" }, { label: "Yangi e‘lon qo‘shish" }]}>
+    <AddPage testId="add-elon" minutes={2} title="Yangi e‘lon qo‘shish" sub="Jihoz, asbob yoki material e’lonini joylang." crumbs={[{ href: "/", label: "Bosh sahifa" }, { href: "/elonlar", label: "E‘lonlar" }, { label: "Yangi e‘lon qo‘shish" }]}>
       <Banners note={note} error={fail} />
+      <DraftBanner draft={draft} onRestore={(value) => setForm(value)} />
       <div className="af-grid">
         <div>
           <Step n={1} title="Rasmlar" hint="8 tagacha. Birinchi rasm asosiy bo‘ladi. Sudrab tartiblang.">
-            <PhotoPicker photos={photos} onChange={setPhotos} title="Rasm qo‘shish" hint="Tortib tashlang yoki tanlang · JPG, PNG, WEBP" />
+            <PhotoPicker photos={photos} onChange={setPhotos} title="Rasm qo‘shish" hint="Kamida 3 ta · JPG, PNG, WEBP" />
+            {errors.photos ? <p className="af-err">{errors.photos}</p> : null}
           </Step>
           <Step n={2} title="Asosiy ma’lumotlar">
             <TextField label="Sarlavha" required testId="elon-title" value={form.title} error={errors.title} placeholder="Masalan, Stomatologik unit" onChange={(title) => patch({ title })} />
             <SelectField label="Kategoriya" required testId="elon-category" value={form.category} error={errors.category} placeholder="Kategoriyani tanlang" options={ELON_CATEGORIES} onChange={(category) => patch({ category })} />
             <Field label="Holati" required>
               <div className="af-pills">
-                {(["yangi", "ishlatilgan"] as const).map((id) => (
-                  <button key={id} type="button" className={`af-pill${form.condition === id ? " on" : ""}`} onClick={() => patch({ condition: id })}>{id === "yangi" ? "Yangi" : "Ishlatilgan"}</button>
+                {ELON_WEAR.map((item) => (
+                  <button
+                    key={item.id}
+                    type="button"
+                    className={`af-pill${wear === item.id ? " on" : ""}`}
+                    onClick={() => {
+                      setWear(item.id);
+                      patch({ condition: item.condition });
+                    }}
+                  >
+                    {item.label}
+                  </button>
                 ))}
               </div>
             </Field>
@@ -119,13 +141,14 @@ export function ElonForm() {
             <TextField label="Manba yoki sayt havolasi" testId="elon-source" value={form.sourceUrl} error={errors.sourceUrl} placeholder="https://" maxLength={400} onChange={(sourceUrl) => patch({ sourceUrl })} />
             <TextField label="Instagram" testId="elon-instagram" value={form.instagram} error={errors.instagram} placeholder="@username yoki https://" maxLength={200} onChange={(instagram) => patch({ instagram })} />
           </Step>
-          <FormActions pending={pending} draftLabel="Saqlash (qoralama)" publishLabel="E‘lon berish" draft={() => void save("draft")} publish={() => void save("publish")} />
+          <PublishNote />
+          <FormActions pending={pending} draftLabel="Saqlash (qoralama)" publishLabel="E‘lonni joylash" draft={() => void save("draft")} publish={() => void save("publish")} />
         </div>
         <aside className="af-side">
           <article className="af-prev" data-testid="elon-preview">
             <div className="af-gallery">
               {cover ? <img src={cover} alt="" /> : <span>Rasm yo‘q</span>}
-              <span className="af-badge">{form.condition === "ishlatilgan" ? "Ishlatilgan" : "Yangi"}</span>
+              <span className="af-badge">{ELON_WEAR.find((item) => item.id === wear)?.label ?? "Yangi"}</span>
             </div>
             <div className="cap">
               <h3>{form.title.trim() || "Sarlavha"}</h3>

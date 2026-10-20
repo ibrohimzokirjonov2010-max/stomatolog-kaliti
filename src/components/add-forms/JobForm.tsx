@@ -4,6 +4,10 @@ import { useEffect, useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { MapPin } from "lucide-react";
 import { ADD_CITIES, ADD_DISTRICTS, JOB_EXPERIENCE, JOB_PERKS, JOB_TYPES, emptyJob, jobPayload, moneyText, saveAddForm, validateJobForm, type JobInput } from "@/lib/add-forms";
+import { JOB_ROLE_CHIPS } from "@/lib/forms/p0";
+import { PublishNote } from "@/components/forms/PublishNote";
+import { DraftBanner } from "@/components/forms/DraftBanner";
+import { saveFormP0, useFormDraft } from "@/lib/forms/use-draft";
 import { formatGroupedNumber } from "@/lib/format";
 import { AddPage, AreaField, Banners, Chips, FormActions, PhoneField, SelectField, SourceLinks, Step, TelegramField, TextField, Toggle } from "@/components/add-forms/widgets";
 
@@ -42,6 +46,7 @@ export function JobForm() {
   const [note, setNote] = useState("");
   const [fail, setFail] = useState("");
   const [pending, setPending] = useState(false);
+  const draft = useFormDraft("draft:job", form, !id);
 
   useEffect(() => {
     const edit = params.get("id");
@@ -74,6 +79,7 @@ export function JobForm() {
         sourceUrl: row.sourceUrl ?? "",
         instagram: row.instagram ?? "",
         acceptApplications: row.acceptApplications !== false,
+        salaryMode: row.salaryNegotiable ? "negotiable" : "amount",
       });
     }).catch(() => undefined);
     return () => { cancel = true; };
@@ -98,6 +104,10 @@ export function JobForm() {
         return;
       }
       setId(result.id);
+      if (result.id) {
+        const extra = await saveFormP0("job", result.id, { salaryMode: form.salaryMode, type: form.type, percent: form.salaryMode === "percent" ? form.salaryMin.replace(/\D/g, "") : "" });
+        if (extra.pending) setNote("Vakansiya saqlandi. Qo‘shimcha maydonlar migratsiya qo‘llangach yoziladi.");
+      }
       if (mode === "draft") {
         setNote("Qoralama saqlandi.");
         router.replace(`/ishlar/yangi?id=${result.id}`);
@@ -110,17 +120,25 @@ export function JobForm() {
   }
 
   const typeLabel = JOB_TYPES.find((item) => item.id === form.type)?.label ?? "";
-  const salary = form.negotiable && !form.salaryMin && !form.salaryMax
-    ? "Kelishiladi"
-    : [form.salaryMin && `${moneyText(form.salaryMin)} dan`, form.salaryMax && `${moneyText(form.salaryMax)} gacha`].filter(Boolean).join(" · ") || "Maosh kiritilmagan";
+  const salary = form.salaryMode === "percent"
+    ? (form.salaryMin ? `Ish haqining ${form.salaryMin.replace(/\D/g, "")}%` : "Foiz kiritilmagan")
+    : form.salaryMode === "negotiable" || (form.negotiable && !form.salaryMin && !form.salaryMax)
+      ? "Kelishiladi"
+      : [form.salaryMin && `${moneyText(form.salaryMin)} dan`, form.salaryMax && `${moneyText(form.salaryMax)} gacha`].filter(Boolean).join(" · ") || "Maosh kiritilmagan";
 
   return (
-    <AddPage testId="add-job" title="Vakansiya qo‘shish" sub="Ishlar" crumbs={[{ href: "/", label: "Bosh sahifa" }, { href: "/ishlar", label: "Ishlar" }, { label: "Vakansiya qo‘shish" }]}>
+    <AddPage testId="add-job" minutes={2} title="Vakansiya qo‘shish" sub="Ishlar" crumbs={[{ href: "/", label: "Bosh sahifa" }, { href: "/ishlar", label: "Ishlar" }, { label: "Vakansiya qo‘shish" }]}>
       <Banners note={note} error={fail} />
+      <DraftBanner draft={draft} onRestore={(value) => setForm(value)} />
       <div className="af-grid">
         <div>
           <Step n={1} title="Asosiy">
             <TextField label="Lavozim" required testId="job-title" value={form.title} error={errors.title} placeholder="Masalan, Stomatolog-terapevt" onChange={(title) => patch({ title })} />
+            <div className="af-pills">
+              {JOB_ROLE_CHIPS.map((role) => (
+                <button key={role} type="button" className={`af-chip${form.title === role ? " on" : ""}`} onClick={() => patch({ title: role })}>{role}</button>
+              ))}
+            </div>
             <TextField label="Klinika nomi" required testId="job-clinic" value={form.clinic} error={errors.clinic} placeholder="Klinika nomi" onChange={(clinic) => patch({ clinic })} />
             <div className="af-row">
               <SelectField label="Shahar" required testId="job-city" value={form.city} error={errors.city} placeholder="Shaharni tanlang" options={ADD_CITIES} onChange={(city) => patch({ city })} />
@@ -132,16 +150,29 @@ export function JobForm() {
             <p className="af-label">Bandlik turi</p>
             <Chips options={JOB_TYPES} value={form.type} onChange={(type) => patch({ type })} />
             {errors.type ? <p className="af-err">{errors.type}</p> : null}
-            <div className="af-row" style={{ alignItems: "end" }}>
-              <TextField label="Maosh dan" testId="job-salary-min" value={form.salaryMin} error={errors.salaryMin} placeholder="0" onChange={(salaryMin) => patch({ salaryMin: moneyText(salaryMin) })} />
-              <TextField label="Maosh gacha" testId="job-salary-max" value={form.salaryMax} error={errors.salaryMax} placeholder="0" onChange={(salaryMax) => patch({ salaryMax: moneyText(salaryMax) })} />
+            <p className="af-label">Maosh</p>
+            <div className="af-pills">
+              {([
+                ["amount", "Summa"],
+                ["negotiable", "Kelishiladi"],
+                ["percent", "Foiz"],
+              ] as const).map(([id, label]) => (
+                <button key={id} type="button" className={`af-pill${form.salaryMode === id ? " on" : ""}`} onClick={() => patch({ salaryMode: id, negotiable: id === "negotiable" })}>{label}</button>
+              ))}
             </div>
-            <Toggle on={form.negotiable} label="Kelishiladi" testId="job-negotiable" onChange={(negotiable) => patch({ negotiable })} />
+            {form.salaryMode === "percent" ? (
+              <TextField label="Foiz" testId="job-salary-min" value={form.salaryMin} error={errors.salaryMin} placeholder="30" onChange={(salaryMin) => patch({ salaryMin: salaryMin.replace(/\D/g, "").slice(0, 2) })} />
+            ) : form.salaryMode === "amount" ? (
+              <div className="af-row" style={{ alignItems: "end" }}>
+                <TextField label="Maosh dan" testId="job-salary-min" value={form.salaryMin} error={errors.salaryMin} placeholder="0" onChange={(salaryMin) => patch({ salaryMin: moneyText(salaryMin) })} />
+                <TextField label="Maosh gacha" testId="job-salary-max" value={form.salaryMax} error={errors.salaryMax} placeholder="0" onChange={(salaryMax) => patch({ salaryMax: moneyText(salaryMax) })} />
+              </div>
+            ) : null}
             <p className="af-label">Tajriba talabi</p>
             <Chips options={JOB_EXPERIENCE} value={form.experienceYears} onChange={(experienceYears) => patch({ experienceYears })} />
           </Step>
           <Step n={3} title="Tavsif">
-            <AreaField label="Talablar" required testId="job-req" value={form.requirements} error={errors.requirements} placeholder="Nomzoddan nima kutiladi" onChange={(requirements) => patch({ requirements })} />
+            <AreaField label="Talablar" testId="job-req" value={form.requirements} error={errors.requirements} placeholder="Nomzoddan nima kutiladi" onChange={(requirements) => patch({ requirements })} />
             <AreaField label="Majburiyatlar" testId="job-duties" value={form.duties} error={errors.duties} placeholder="Nimalar qilinadi" onChange={(duties) => patch({ duties })} />
             <p className="af-label">Afzalliklar</p>
             <div className="af-pills">
@@ -166,7 +197,8 @@ export function JobForm() {
             <Toggle on={form.acceptApplications} label="Saytda ariza qabul qilish" testId="job-apply" onChange={(acceptApplications) => patch({ acceptApplications })} />
             {errors.contact ? <p className="af-err" data-testid="job-contact-error">{errors.contact}</p> : null}
           </Step>
-          <FormActions pending={pending} draftLabel="Saqlash (qoralama)" publishLabel="Vakansiyani e‘lon qilish" draft={() => void save("draft")} publish={() => void save("publish")} />
+          <PublishNote />
+          <FormActions pending={pending} draftLabel="Saqlash (qoralama)" publishLabel="Vakansiyani joylash" draft={() => void save("draft")} publish={() => void save("publish")} />
         </div>
         <aside className="af-side">
           <article className="af-prev" data-testid="job-preview">

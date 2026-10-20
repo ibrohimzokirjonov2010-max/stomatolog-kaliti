@@ -16,6 +16,7 @@ import {
 } from "@/data/jobs";
 import { formatSalaryRange } from "@/lib/format";
 import { instagramHref, instagramValue, sourceUrlValue } from "@/lib/add-forms";
+import { ReportButton, RevealPhone } from "@/components/forms/RevealPhone";
 import { ClinicInitials } from "@/components/clinic-initials";
 import { cn } from "@/lib/utils";
 
@@ -152,14 +153,14 @@ export function JobDetail({ id }: { id: string }) {
           <p className="mt-2 whitespace-pre-line text-sm leading-relaxed text-[#4b5568]">{job.description}</p>
         </div>
 
-        {job.phone || job.telegram || job.email || sourceUrlValue(job.sourceUrl ?? "") || instagramHref(job.instagram ?? "") ? (
+        {job.phone || job.telegram || job.email || sourceUrlValue(job.sourceUrl ?? "") || instagramHref(job.instagram ?? "") || !job.mine ? (
           <p className="mt-4 inline-flex flex-wrap items-center gap-2 text-sm text-[#4b5568]">
             <Phone className="size-4 text-primary" />
             {job.phone ? (
             <a href={`tel:${job.phone.replace(/\s/g, "")}`} className="font-medium text-primary hover:underline">
               {job.phone}
             </a>
-            ) : null}
+            ) : !job.mine ? <RevealPhone kind="job" id={job.id} /> : null}
             {job.telegram ? <span>@{job.telegram.replace(/^@/, "")}</span> : null}
             {job.email ? <span>{job.email}</span> : null}
             {sourceUrlValue(job.sourceUrl ?? "") ? (
@@ -172,7 +173,7 @@ export function JobDetail({ id }: { id: string }) {
                 {instagramValue(job.instagram ?? "")}
               </a>
             ) : null}
-            {job.mine ? <Link href={`/ishlar/yangi?id=${job.id}`} className="font-semibold text-primary">Tahrirlash</Link> : null}
+            {job.mine ? <Link href={`/ishlar/yangi?id=${job.id}`} className="font-semibold text-primary">Tahrirlash</Link> : <ReportButton kind="job" id={job.id} />}
           </p>
         ) : null}
 

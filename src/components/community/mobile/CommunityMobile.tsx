@@ -9,6 +9,8 @@ import { useDoctorProfile } from "@/components/doctor-profile-provider";
 import { MobileMenuButton } from "@/components/dashboard/mobile-chrome";
 import { NotificationBell } from "@/components/notification-bell";
 import { useCommunityWork } from "@/components/community-provider";
+import { CASE_TAGS, caseProblem } from "@/lib/forms/p0";
+import { uploadImage } from "@/lib/image-upload";
 import "./community-mobile.css";
 
 type Kind = "klinik" | "savol" | "maslahat" | "yangilik";
@@ -66,6 +68,14 @@ export function CommunityMobile() {
   const [composer, setComposer] = useState(false);
   const [sheetTitle, setSheetTitle] = useState("");
   const [sheetBody, setSheetBody] = useState("");
+  const [clinical, setClinical] = useState(false);
+  const [complaint, setComplaint] = useState("");
+  const [diagnosis, setDiagnosis] = useState("");
+  const [steps, setSteps] = useState("");
+  const [consent, setConsent] = useState(false);
+  const [faceAck, setFaceAck] = useState(false);
+  const [caseTag, setCaseTag] = useState<string>(CASE_TAGS[0]);
+  const [files, setFiles] = useState<File[]>([]);
   const [commentFor, setCommentFor] = useState<Post | null>(null);
   const [comment, setComment] = useState("");
   const [filters, setFilters] = useState(false);
@@ -85,11 +95,54 @@ export function CommunityMobile() {
 
   async function publish(title: string, body: string) {
     const text = [title.trim(), body.trim()].filter(Boolean).join("\n");
-    if (!text) return;
-    const result = await work.publish({ kind: "case", text, tags: [] });
+    if (!text && !clinical) return;
+    if (clinical) {
+      const problem = caseProblem({
+        text,
+        tags: [caseTag],
+        images: files.map(() => "pending"),
+        consent,
+        faceAck,
+        complaint,
+        diagnosis,
+        steps,
+      });
+      if (problem) {
+        setNote(problem);
+        return;
+      }
+      try {
+        const images: string[] = [];
+        for (const file of files.slice(0, 6)) images.push(await uploadImage(file, "post"));
+        const result = await work.publish({
+          kind: "case",
+          text: `${text}\n\nShikoyat: ${complaint.trim()}\nDiagnoz: ${diagnosis.trim()}\nBosqichlar:\n${steps.trim()}`,
+          tags: [caseTag],
+          images,
+          consent,
+          faceAck,
+          complaint,
+          diagnosis,
+          steps,
+        });
+        if (!result.ok) {
+          setNote(result.error);
+          return;
+        }
+      } catch (error) {
+        setNote(error instanceof Error ? error.message : "Postni saqlab bo‘lmadi.");
+        return;
+      }
+      setClinical(false);
+      setFiles([]);
+      setConsent(false);
+      setFaceAck(false);
+    } else {
+    const result = await work.publish({ kind: "yangilik", text, tags: [] });
     if (!result.ok) {
       setNote(result.error);
       return;
+    }
     }
     setDraft("");
     setSheetTitle("");
@@ -279,6 +332,22 @@ export function CommunityMobile() {
             <h3>Yangi post</h3>
             <input aria-label="Sarlavha" value={sheetTitle} onChange={(event) => setSheetTitle(event.target.value)} placeholder="Sarlavha" />
             <textarea aria-label="Matn" value={sheetBody} onChange={(event) => setSheetBody(event.target.value)} placeholder="Nima haqida o‘ylayapsiz?" />
+            <label className="row" style={{ fontSize: 13 }}>
+              <input type="checkbox" checked={clinical} onChange={(event) => setClinical(event.target.checked)} /> Klinik holat
+            </label>
+            {clinical ? (
+              <>
+                <input aria-label="Shikoyat" value={complaint} onChange={(event) => setComplaint(event.target.value)} placeholder="Shikoyat" />
+                <input aria-label="Diagnoz" value={diagnosis} onChange={(event) => setDiagnosis(event.target.value)} placeholder="Diagnoz" />
+                <textarea aria-label="Bosqichlar" value={steps} onChange={(event) => setSteps(event.target.value)} placeholder={"1. Diagnostika\n2. Davolash"} />
+                <select aria-label="Mutaxassislik" value={caseTag} onChange={(event) => setCaseTag(event.target.value)}>
+                  {CASE_TAGS.map((item) => <option key={item}>{item}</option>)}
+                </select>
+                <input aria-label="Oldin va keyin rasmlari" type="file" accept="image/*" multiple onChange={(event) => setFiles(Array.from(event.target.files ?? []).slice(0, 6))} />
+                <label style={{ fontSize: 13 }}><input type="checkbox" checked={consent} onChange={(event) => setConsent(event.target.checked)} /> Bemor roziligi bor, ism va telefon yo‘q</label>
+                <label style={{ fontSize: 13 }}><input type="checkbox" checked={faceAck} onChange={(event) => setFaceAck(event.target.checked)} /> Yuz ko‘rinmasligini tekshirdim</label>
+              </>
+            ) : null}
             <div className="row">
               <button type="button" className="go" style={{ background: "#eef2f6", color: "#24344d" }} onClick={() => setComposer(false)}>Yopish</button>
               <button type="submit" className="go">Joylash</button>

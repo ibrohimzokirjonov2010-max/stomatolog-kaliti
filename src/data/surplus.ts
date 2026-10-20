@@ -79,7 +79,6 @@ export const surplusCategories: { id: SurplusCategory; label: string }[] = [
   { id: "sement", label: "Sement" },
   { id: "endodontiya", label: "Endodontiya" },
   { id: "implantlar", label: "Implant" },
-  { id: "anesteziya", label: "Anesteziya" },
   { id: "borlar", label: "Borlar" },
   { id: "instrument", label: "Instrument" },
   { id: "ortodontiya", label: "Ortodontiya" },

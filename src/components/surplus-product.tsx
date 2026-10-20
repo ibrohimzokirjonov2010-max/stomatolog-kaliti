@@ -23,6 +23,7 @@ import {
   Tag,
   User,
 } from "lucide-react";
+import { ReportButton, RevealPhone } from "@/components/forms/RevealPhone";
 import { useCart } from "@/components/cart-provider";
 import { useFavorites } from "@/components/favorites-provider";
 import { UzumHero, UzumLightbox } from "@/components/product-uzum";
@@ -461,7 +462,11 @@ function SellerCard({ l }: { l: SurplusListing }) {
           <span className="mt-0.5 block text-[11.5px] text-[#8b93a7]">Faqat siz ko‘rasiz. So‘rovni qabul qilganingizdan keyin xaridorga ochiladi.</span>
         </p>
       ) : (
-        <p className="mt-3 text-[12px] text-[#8b93a7]">Telefon raqam sotuvchi so‘rovingizni qabul qilgach ochiladi.</p>
+        <>
+          <p className="mt-3 text-[13px]"><RevealPhone kind="surplus" id={l.id} /></p>
+          <p className="mt-2"><ReportButton kind="surplus" id={l.id} /></p>
+          <p className="mt-2 text-[12px] text-[#8b93a7]">Video moderator tasdig‘idan keyin «Jonli video» belgisi chiqadi.</p>
+        </>
       )}
     </Card>
   );

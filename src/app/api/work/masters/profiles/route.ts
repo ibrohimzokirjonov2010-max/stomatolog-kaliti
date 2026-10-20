@@ -40,6 +40,7 @@ export async function POST(request: Request) {
     instagram: String(body.instagram ?? ""),
     photo: typeof body.photo === "string" ? body.photo : "",
     works: Array.isArray(body.works) ? body.works.filter((item): item is string => typeof item === "string") : [],
+    visitMode: typeof body.visitMode === "string" ? body.visitMode : "",
   };
   const errors = validateUsta(input, mode);
   const own = (url: string) => !url || [publicObjectUrl(`listings/${guard.userId}/`), publicObjectUrl(`logos/${guard.userId}/`)].some((prefix) => url.startsWith(prefix));

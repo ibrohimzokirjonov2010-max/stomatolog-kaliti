@@ -32,6 +32,7 @@ export async function POST(request: Request) {
     sourceUrl: String(body.sourceUrl ?? ""),
     instagram: String(body.instagram ?? ""),
     acceptApplications: body.acceptApplications !== false,
+    salaryMode: body.salaryMode === "percent" || body.salaryMode === "negotiable" ? body.salaryMode : "amount",
   };
   const errors = validateJobForm(input, mode);
   const id = typeof body.id === "string" ? body.id : "";

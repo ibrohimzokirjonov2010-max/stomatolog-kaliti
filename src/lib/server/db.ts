@@ -102,6 +102,8 @@ export async function rpc<T>(fn: string, args: Record<string, unknown>): Promise
         sem_retry: "Qayta urinib ko‘ring.",
         sem_not_organizer: "Seminar yaratish uchun avval tashkilotchi arizangiz tasdiqlanishi kerak.",
         val_invalid: "Maydonlarni to‘g‘ri to‘ldiring.",
+        drug_banned: "Dori vositalarini bu bo‘limda sotib bo‘lmaydi. Anestetik karpulalar yuridik xulosagacha yopiq.",
+        video_rejected: "Video qabul qilinmadi. 15–60 soniya, jonli kamera va amaldagi tekshiruv kodi kerak.",
         req_notfound: "Topilmadi yoki endi mavjud emas.",
         req_self: "O‘zingizning e’loningizga so‘rov yubora olmaysiz.",
         req_duplicate: "Bu so‘rov allaqachon yuborilgan — javobni kuting.",

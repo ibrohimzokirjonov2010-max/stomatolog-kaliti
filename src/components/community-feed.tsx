@@ -41,6 +41,7 @@ import {
 } from "@/data/community";
 import { initialsFromName } from "@/lib/doctor-profile";
 import { looksLikePatientName, parseTags } from "@/lib/community-work";
+import { CASE_TAGS, caseProblem } from "@/lib/forms/p0";
 import { prepareImage, uploadImage, type PreparedImage } from "@/lib/image-upload";
 
 const MAX_IMAGES = 6;
@@ -102,8 +103,8 @@ const deskRules = [
   "Faqat stomatologiya mavzusidagi kontent.",
 ];
 
-type Clinical = { age: string; gender: string; complaint: string; diagnosis: string; plan: string };
-const emptyClinical: Clinical = { age: "", gender: "", complaint: "", diagnosis: "", plan: "" };
+type Clinical = { age: string; gender: string; complaint: string; diagnosis: string; plan: string; steps: string; consent: boolean; faceAck: boolean };
+const emptyClinical: Clinical = { age: "", gender: "", complaint: "", diagnosis: "", plan: "", steps: "", consent: false, faceAck: false };
 
 function DeskField({ label, value, onChange, placeholder, className }: { label: string; value: string; onChange: (v: string) => void; placeholder?: string; className?: string }) {
   return (
@@ -282,6 +283,7 @@ export function CommunityFeed() {
       clinical.complaint.trim() ? `Shikoyat: ${clinical.complaint.trim()}` : "",
       clinical.diagnosis.trim() ? `Diagnoz: ${clinical.diagnosis.trim()}` : "",
       clinical.plan.trim() ? `Davolash rejasi: ${clinical.plan.trim()}` : "",
+      clinical.steps.trim() ? `Bosqichlar:\n${clinical.steps.trim()}` : "",
     ].filter(Boolean);
     return lines.length ? `${base}\n\n${lines.join("\n")}` : base;
   }
@@ -314,6 +316,23 @@ export function CommunityFeed() {
       setError("");
       return;
     }
+    if (draftKind === "case") {
+      const problem = caseProblem({
+        text: composeText(),
+        tags: parseTags(draftTags, draftKind),
+        images: pending.map(() => "pending"),
+        consent: clinical.consent,
+        faceAck: clinical.faceAck,
+        complaint: clinical.complaint,
+        diagnosis: clinical.diagnosis,
+        steps: clinical.steps,
+      });
+      if (problem) {
+        setError(problem);
+        setOpenComposer(true);
+        return;
+      }
+    }
     setError("");
     const urls: string[] = [];
     try {
@@ -327,6 +346,11 @@ export function CommunityFeed() {
         text: composeText(),
         tags: parseTags(draftTags, draftKind),
         images: urls,
+        consent: clinical.consent,
+        faceAck: clinical.faceAck,
+        complaint: clinical.complaint,
+        diagnosis: clinical.diagnosis,
+        steps: clinical.steps,
       });
       if (!result.ok) {
         setError(result.error);
@@ -996,6 +1020,43 @@ export function CommunityFeed() {
                     <DeskField label="Shikoyat" value={clinical.complaint} onChange={(v) => setClinical((c) => ({ ...c, complaint: v }))} placeholder="Asosiy shikoyat" />
                     <DeskField label="Diagnoz" value={clinical.diagnosis} onChange={(v) => setClinical((c) => ({ ...c, diagnosis: v }))} placeholder="Diagnoz" className="col-span-1" />
                     <DeskField label="Davolash rejasi" value={clinical.plan} onChange={(v) => setClinical((c) => ({ ...c, plan: v }))} placeholder="Davolash rejasi" className="col-span-2" />
+                    <label className="col-span-3 block text-[12px] font-semibold text-[#6b7488]">
+                      Bosqichlar
+                      <textarea
+                        data-testid="case-steps"
+                        value={clinical.steps}
+                        onChange={(event) => setClinical((c) => ({ ...c, steps: event.target.value }))}
+                        placeholder={"1. Diagnostika\n2. Davolash\n3. Natija"}
+                        className="mt-1 min-h-[72px] w-full rounded-xl border border-[#e6eaf2] px-3 py-2 text-[13px] font-normal"
+                      />
+                    </label>
+                    <div className="col-span-3 flex flex-wrap gap-1.5">
+                      {CASE_TAGS.map((tag) => {
+                        const on = parseTags(draftTags, "case").some((item) => item.toLowerCase() === tag.toLowerCase());
+                        return (
+                          <button
+                            key={tag}
+                            type="button"
+                            className={cn("rounded-full px-2.5 py-1 text-[11.5px] font-medium", on ? "bg-[#0066FF] text-white" : "bg-[#e8f1ff] text-[#0066FF]")}
+                            onClick={() => {
+                              const parts = parseTags(draftTags, "case").filter((item) => item !== "Case");
+                              const next = on ? parts.filter((item) => item.toLowerCase() !== tag.toLowerCase()) : [...parts, tag];
+                              setDraftTags(next.join(", "));
+                            }}
+                          >
+                            {tag}
+                          </button>
+                        );
+                      })}
+                    </div>
+                    <label className="col-span-3 flex items-start gap-2 text-[12.5px] text-[#1a1d26]">
+                      <input data-testid="case-consent" type="checkbox" checked={clinical.consent} onChange={(event) => setClinical((c) => ({ ...c, consent: event.target.checked }))} />
+                      Bemor roziligini oldim. Ism, familiya va telefon yo‘q.
+                    </label>
+                    <label className="col-span-3 flex items-start gap-2 text-[12.5px] text-[#1a1d26]">
+                      <input data-testid="case-face" type="checkbox" checked={clinical.faceAck} onChange={(event) => setClinical((c) => ({ ...c, faceAck: event.target.checked }))} />
+                      Yuz ko‘rinmasligini o‘zim tekshirdim. Avtomatik xiralashtirish keyingi bosqichda.
+                    </label>
                   </div>
                 ) : null}
 
