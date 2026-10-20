@@ -473,19 +473,22 @@ const GROUP_TONES: Record<string, { bg: string; color: string }> = {
   xizmatlar: { bg: "#fff1e6", color: "#ea580c" },
 };
 
-function DrawerLink({ item, tone, active, sub = false }: { item: NavItem; tone: { bg: string; color: string }; active: boolean; sub?: boolean }) {
+function DrawerLink({ item, tone, active }: { item: NavItem; tone: { bg: string; color: string }; active: boolean }) {
   const Icon = item.icon;
   return (
     <li>
       <Link
         href={item.href}
         aria-current={active ? "page" : undefined}
-        className={cn("flex items-center gap-3 rounded-xl px-2", sub ? "py-1.5" : "py-2", active ? "bg-[#e8f1ff] text-[#0066FF]" : "text-[#1a1d26]")}
+        className={cn(
+          "flex h-10 items-center gap-3 rounded-xl px-2",
+          active ? "bg-[#D7F4F2] text-[#007F7B]" : "text-[#1a1d26]",
+        )}
       >
-        <span className={cn("grid shrink-0 place-items-center rounded-xl", sub ? "size-8" : "size-9")} style={{ background: tone.bg, color: tone.color }}>
-          <Icon className={sub ? "size-[18px]" : "size-5"} strokeWidth={2} aria-hidden="true" />
+        <span className="grid size-7 shrink-0 place-items-center rounded-lg" style={{ background: tone.bg, color: tone.color }}>
+          <Icon className="size-5" strokeWidth={2} aria-hidden="true" />
         </span>
-        <span className={cn("min-w-0 flex-1 truncate font-semibold", sub ? "text-[14px]" : "text-[15px]")}>{item.label}</span>
+        <span className="min-w-0 flex-1 truncate text-[15px] font-semibold">{item.label}</span>
         <ChevronRight className="size-4 shrink-0 text-[#8b93a7]" aria-hidden="true" />
       </Link>
     </li>
@@ -509,7 +512,7 @@ function DrawerNav() {
               type="button"
               aria-expanded={open}
               onClick={() => toggle(group.id)}
-              className="flex w-full items-center gap-2 px-2 pt-2 pb-1.5 text-left text-[12px] font-bold tracking-[0.12em] text-[#8b93a7] uppercase"
+              className="flex h-10 w-full items-center gap-2 px-2 text-left text-[13px] font-extrabold tracking-[0.08em] text-[#5b6b82] uppercase"
             >
               <span className="min-w-0 flex-1 truncate">{group.title}</span>
               <ChevronDown className={cn("size-4 shrink-0 transition-transform", open ? "" : "-rotate-90")} aria-hidden="true" />
@@ -517,7 +520,7 @@ function DrawerNav() {
             {open ? (
               <ul className="pb-1">
                 {links.map((item) => (
-                  <DrawerLink key={`${item.href}-${item.label}`} item={item} tone={tone} active={desktopItemActive(item, activeHref)} sub />
+                  <DrawerLink key={`${item.href}-${item.label}`} item={item} tone={tone} active={desktopItemActive(item, activeHref)} />
                 ))}
               </ul>
             ) : null}

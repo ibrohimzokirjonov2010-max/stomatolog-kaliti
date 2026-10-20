@@ -2,7 +2,7 @@
 
 import { useCallback, useEffect, useRef, useState } from "react";
 import { usePathname } from "next/navigation";
-import { activeDesktopGroup, activeDesktopMoreGroup, activeNavHref } from "@/data/nav";
+import { activeDesktopGroup, activeDesktopMoreGroup, activeNavHref, desktopNavGroups } from "@/data/nav";
 
 const MOBILE_KEY = "stomahub.nav.openGroup";
 const DESKTOP_KEY = "stomahub.nav.desktop";
@@ -50,18 +50,27 @@ function writeDesktop(groups: Set<string>, yana: Set<string>) {
   }
 }
 
+function defaultDesktopGroups(activeGroup: string | null) {
+  const groups = new Set(desktopNavGroups.map((group) => group.id));
+  if (activeGroup) groups.add(activeGroup);
+  return groups;
+}
+
 /**
  * Shared state for the grouped navigation.
  * Mobile: the active group starts open, and the last group the user opened is remembered.
- * Desktop: only the group for the current route starts open. Other groups stay collapsed
- * until clicked. Open groups and "Yana..." rows are remembered separately from the phone drawer.
+ * Desktop: every group starts open. A saved choice is restored, and the group for the
+ * current route stays open. Open groups and "Yana..." rows are remembered separately
+ * from the phone drawer.
  */
 export function useNavTree(mode: "mobile" | "desktop" = "mobile") {
   const pathname = usePathname() ?? "/";
   const activeHref = activeNavHref(pathname);
   const activeGroup = activeDesktopGroup(pathname);
   const moreGroup = mode === "desktop" ? activeDesktopMoreGroup(pathname) : null;
-  const [open, setOpen] = useState<Set<string>>(() => new Set(activeGroup ? [activeGroup] : []));
+  const [open, setOpen] = useState<Set<string>>(() =>
+    mode === "desktop" ? defaultDesktopGroups(activeGroup) : new Set(activeGroup ? [activeGroup] : []),
+  );
   const [yana, setYana] = useState<Set<string>>(() => new Set(moreGroup ? [moreGroup] : []));
   const openRef = useRef(open);
   const yanaRef = useRef(yana);
@@ -71,7 +80,7 @@ export function useNavTree(mode: "mobile" | "desktop" = "mobile") {
   useEffect(() => {
     if (mode === "desktop") {
       const stored = readDesktop();
-      const groups = new Set(stored?.groups ?? []);
+      const groups = stored ? new Set(stored.groups) : defaultDesktopGroups(activeGroup);
       if (activeGroup) groups.add(activeGroup);
       const extras = new Set(stored?.yana ?? []);
       if (moreGroup) extras.add(moreGroup);

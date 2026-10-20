@@ -595,8 +595,6 @@ export function SeminarListMobile() {
         </span>
         <ChevronRight className="size-5 shrink-0 text-[#8b93a7]" />
       </Link>
-      <p className="mt-2 text-center text-[11px] text-[#8b93a7]">Ba’zi tadbirlar namuna. Yozilish hisobingizda saqlanadi.</p>
-
       {filterOpen ? (
         <div className="fixed inset-0 z-[60] lg:hidden" role="dialog" aria-label="Filtrlar" data-testid="seminar-filter-sheet">
           <button type="button" aria-label="Yopish" className="absolute inset-0 bg-black/40" onClick={() => setFilterOpen(false)} />

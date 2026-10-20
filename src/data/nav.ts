@@ -136,21 +136,36 @@ export const navGroups: NavGroup[] = [
  */
 export const desktopNavGroups: NavGroup[] = [
   {
+    id: "klinika",
+    title: "Klinika",
+    icon: Building2,
+    items: [
+      { href: "/crm/bemorlar", label: "Bemorlar CRM", icon: UserRound, match: ["/crm"] },
+      { href: "/crm/uchrashuvlar", label: "Uchrashuvlar", icon: CalendarDays },
+      { href: "/mening-klinikam", label: "Mening klinikam", icon: Building2, match: ["/klinika"] },
+      { href: "/crm/davolash-rejalari", label: "Davolash rejalari", icon: ClipboardList },
+      { href: "/crm/tolovlar", label: "To‘lovlar", icon: Wallet },
+      { href: "/crm/ombor", label: "Ombor (Inventar)", icon: Warehouse },
+    ],
+    more: [
+      { href: "/crm/xizmatlar", label: "Xizmatlar", icon: Stethoscope },
+      { href: "/crm/hisobotlar", label: "Hisobotlar", icon: BarChart3 },
+    ],
+  },
+  {
     id: "dokon",
     title: "Do’kon",
     icon: Store,
     items: [
-      { href: "/marketplace", label: "Barcha mahsulotlar", icon: LayoutGrid },
       { href: "/marketplace", label: "Marketplace", icon: ShoppingBag, primary: true, match: ["/product", "/savat", "/cart", "/checkout", "/buyurtma"] },
+      { href: "/buyurtmalarim", label: "Buyurtmalarim", icon: Receipt },
+      { href: "/marketplace", label: "Barcha mahsulotlar", icon: LayoutGrid },
       { href: "/ortiqcha-material", label: "Ortiqcha material", icon: Package },
       { href: "/kategoriyalar", label: "Kategoriyalar", icon: LayoutGrid },
       { href: "/marketplace/brendlar", label: "Brendlar", icon: Tag },
       { href: "/marketplace/aksiyalar", label: "Aksiyalar", icon: BadgePercent },
     ],
-    more: [
-      { href: "/buyurtmalarim", label: "Buyurtmalarim", icon: Receipt },
-      { href: "/marketplace/sotuvchi", label: "Sotuvchi kabineti", icon: Store, match: ["/sotuvchi"] },
-    ],
+    more: [{ href: "/marketplace/sotuvchi", label: "Sotuvchi kabineti", icon: Store, match: ["/sotuvchi"] }],
   },
   {
     id: "talim",
@@ -163,23 +178,6 @@ export const desktopNavGroups: NavGroup[] = [
       { href: "/sertifikatlar", label: "Sertifikatlar", icon: Award },
     ],
     more: [{ href: "/kitoblar", label: "Kitoblar", icon: BookOpen }],
-  },
-  {
-    id: "klinika",
-    title: "Klinika",
-    icon: Building2,
-    items: [
-      { href: "/crm/bemorlar", label: "Bemorlar CRM", icon: UserRound, match: ["/crm"] },
-      { href: "/crm/uchrashuvlar", label: "Uchrashuvlar", icon: CalendarDays },
-      { href: "/crm/davolash-rejalari", label: "Davolash rejalari", icon: ClipboardList },
-      { href: "/crm/tolovlar", label: "To‘lovlar", icon: Wallet },
-      { href: "/crm/ombor", label: "Ombor (Inventar)", icon: Warehouse },
-    ],
-    more: [
-      { href: "/mening-klinikam", label: "Mening klinikam", icon: Building2, match: ["/klinika"] },
-      { href: "/crm/xizmatlar", label: "Xizmatlar", icon: Stethoscope },
-      { href: "/crm/hisobotlar", label: "Hisobotlar", icon: BarChart3 },
-    ],
   },
   {
     id: "xizmatlar",

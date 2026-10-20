@@ -62,6 +62,20 @@ function iso(year: number, month: number, day: number) {
   return `${year}-${String(month + 1).padStart(2, "0")}-${String(day).padStart(2, "0")}`;
 }
 
+function tashkentToday(date = new Date()) {
+  const parts = new Intl.DateTimeFormat("en-US", {
+    timeZone: "Asia/Tashkent",
+    year: "numeric",
+    month: "2-digit",
+    day: "2-digit",
+  }).formatToParts(date);
+  const pick = (type: Intl.DateTimeFormatPartTypes) => Number(parts.find((part) => part.type === type)?.value);
+  const year = pick("year");
+  const month = pick("month") - 1;
+  const day = pick("day");
+  return { year, month, iso: iso(year, month, day) };
+}
+
 const DAY_NAMES = ["Yakshanba", "Dushanba", "Seshanba", "Chorshanba", "Payshanba", "Juma", "Shanba"];
 
 function viewOf(item: Seminar) {
@@ -114,8 +128,9 @@ export function SeminarList() {
   const [to, setTo] = useState("");
   const [sort, setSort] = useState<SortKey>("near");
   const [open, setOpen] = useState<"city" | "format" | "price" | "sort" | null>(null);
-  const [cursor, setCursor] = useState({ year: 2026, month: 9 });
-  const [selected, setSelected] = useState("2026-10-24");
+  const [today] = useState(tashkentToday);
+  const [cursor, setCursor] = useState({ year: today.year, month: today.month });
+  const [selected, setSelected] = useState(today.iso);
   const [filtering, setFiltering] = useState(false);
   const [onlyMonth, setOnlyMonth] = useState<string | null>(null);
 
@@ -351,7 +366,13 @@ export function SeminarList() {
                 const id = iso(cursor.year, cursor.month, day);
                 const on = selected === id;
                 return (
-                  <button key={id} type="button" className={`${on ? "on" : ""} ${marked.has(id) ? "has" : ""}`} onClick={() => pickDay(day)}>
+                  <button
+                    key={id}
+                    type="button"
+                    className={`${on ? "on" : ""} ${marked.has(id) ? "has" : ""}`}
+                    aria-current={id === today.iso ? "date" : undefined}
+                    onClick={() => pickDay(day)}
+                  >
                     {day}
                   </button>
                 );
