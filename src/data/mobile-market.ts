@@ -1,6 +1,6 @@
 import type { Product } from "@/data/products";
 
-export type MobileMarketChip = "materiallar" | "implantlar" | "asboblar" | "jihozlar" | "laboratoriya";
+export type MobileMarketChip = "all" | "materiallar" | "implantlar" | "asboblar" | "jihozlar" | "laboratoriya" | "forma";
 
 export type MobileMarketItem = {
   id: string;
@@ -32,11 +32,13 @@ export type MobileMarketItem = {
 export const MOBILE_MARKET_TOTAL = 248;
 
 export const mobileMarketChips: { id: MobileMarketChip; label: string }[] = [
+  { id: "all", label: "Barchasi" },
   { id: "materiallar", label: "Materiallar" },
   { id: "implantlar", label: "Implantlar" },
   { id: "asboblar", label: "Asboblar" },
   { id: "jihozlar", label: "Jihozlar" },
   { id: "laboratoriya", label: "Laboratoriya" },
+  { id: "forma", label: "Forma" },
 ];
 
 const optiGallery = [

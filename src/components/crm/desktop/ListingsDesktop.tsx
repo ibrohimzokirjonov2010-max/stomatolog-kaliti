@@ -96,7 +96,7 @@ export function ListingsDesktop() {
           {listingTypes.map((item) => (
             <button key={item.label} type="button" className={type === item.id ? "on" : undefined} data-testid={`listing-type-${item.id || "all"}`} onClick={() => setType(item.id)}>
               <b>{item.label}</b>
-              <small>{item.id === "" ? 245 + extra.length : item.count + extra.filter((row) => row.type === item.id).length}</small>
+              <small>{item.id === "" ? all.length : all.filter((row) => row.type === item.id).length}</small>
             </button>
           ))}
         </div>
@@ -127,7 +127,7 @@ export function ListingsDesktop() {
           <aside className="el-side">
             <div className="pl-box">
               <b>Ommabop shaharlar</b>
-              {listingCities.map((item) => <button key={item.city} type="button" className="city" onClick={() => setCity(item.city)}><span>{item.city}</span><b>{item.count}</b></button>)}
+              {listingCities.map((item) => <button key={item.city} type="button" className="city" onClick={() => setCity(item.city)}><span>{item.city}</span><b>{all.filter((row) => row.city === item.city).length}</b></button>)}
             </div>
             <div className="pl-box" style={{ marginTop: "calc(.4 * var(--u))" }}>
               <b>So‘nggi e’lonlar</b>

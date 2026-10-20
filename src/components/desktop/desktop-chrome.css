@@ -226,6 +226,23 @@
 .dh-user {
   position: relative;
 }
+.dh-auth {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.dh-initials {
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  background: #e8f1ff;
+  color: #0066ff;
+  font-size: 12px;
+  font-weight: 800;
+  flex: none;
+}
 .dh-top .dh-user > button,
 .dh-login {
   display: flex;
@@ -244,6 +261,17 @@
 .dh-user > button:hover,
 .dh-login:hover {
   background: #f4f7fb;
+}
+.dh-auth .dh-login-solid {
+  background: #0066ff;
+  color: #fff;
+  padding: 0 12px;
+  font-size: 13px;
+  font-weight: 700;
+}
+.dh-auth .dh-login-solid:hover {
+  background: #0052cc;
+  color: #fff;
 }
 .dh-user img {
   width: 26px;

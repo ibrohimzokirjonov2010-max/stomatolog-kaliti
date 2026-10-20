@@ -37,8 +37,18 @@ export function matchesClothingSize(product: Product, size: string) {
   return false;
 }
 
+const extraColorLabels: Record<string, string> = {
+  oq: "Oq",
+  qora: "Qora",
+  purple: "Siyohrang",
+  green: "Yashil",
+  yalpiz: "Yalpiz",
+  pushti: "Pushti",
+};
+
+/** Uzbek color name. Unknown ids stay as stored so a new swatch is not invented in English. */
 export function colorLabel(id: string) {
-  return formaColors.find((item) => item.id === id)?.label ?? id;
+  return formaColors.find((item) => item.id === id)?.label ?? extraColorLabels[id] ?? id;
 }
 
 export function apparelMetaLabel(size?: string, color?: string) {

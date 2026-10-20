@@ -5,6 +5,7 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { Check, Headphones, MessageCircle, Minus, Plus, ShieldCheck, Star, Trash2, Truck, Undo2, X } from "lucide-react";
 import { useCart } from "@/components/cart-provider";
+import { freeDeliveryText, returnWindowText } from "@/lib/commerce-terms";
 import type { Product } from "@/data/products";
 import { shopClear, shopRemove, shopSetQty, som, type ShopLine } from "./shop-cart";
 
@@ -99,10 +100,10 @@ function asProduct(line: ShopLine): Product {
 }
 
 const perks = [
-  [Truck, "Bepul yetkazib berish", "500 000 so‘m dan yuqori buyurtmalarda"],
+  [Truck, "Yetkazib berish", freeDeliveryText()],
   [ShieldCheck, "Rasmiy distribyutor mahsulotlari", "100% original mahsulotlar"],
   [Check, "Xavfsiz to‘lov", "Click, Payme, Uzum, Paynet"],
-  [Undo2, "7 kun ichida qaytarish", "Sifat kafolati"],
+  [Undo2, returnWindowText(), "Sifat kafolati"],
 ] as const;
 
 export function CartRail({ lines }: { lines: ShopLine[] }) {
@@ -151,10 +152,10 @@ export function CartRail({ lines }: { lines: ShopLine[] }) {
           </div>
           <div>
             <span>Yetkazib berish</span>
-            <b>0 so‘m</b>
+            <b>savatda</b>
           </div>
           <div className="tot">
-            <span>Jami summa</span>
+            <span>Jami (yetkazishsiz)</span>
             <span>{som(sub)}</span>
           </div>
         </div>

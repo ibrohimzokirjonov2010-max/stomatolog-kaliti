@@ -15,6 +15,7 @@ import {
   Package,
   Scissors,
   Search,
+  Shirt,
   ShoppingCart,
   SlidersHorizontal,
   Star,
@@ -24,16 +25,18 @@ import { useFavorites } from "@/components/favorites-provider";
 import { MobileMenuButton } from "@/components/dashboard/mobile-chrome";
 import { NotificationBell } from "@/components/notification-bell";
 import { mobileMarketChips, type MobileMarketChip } from "@/data/mobile-market";
-import { fetchCatalogProducts, productFromCatalog, type CatalogCard } from "@/lib/catalog-client";
+import { catalogCatFromQuery, catalogHref, fetchCatalogProducts, productFromCatalog, type CatalogCard } from "@/lib/catalog-client";
 import { formatMoney } from "@/lib/format";
 import "./market-mobile.css";
 
 const icons = {
+  all: LayoutGrid,
   materiallar: Package,
   implantlar: Package,
   asboblar: Scissors,
   jihozlar: Monitor,
   laboratoriya: FlaskConical,
+  forma: Shirt,
 } as const;
 
 type SortId = "shown" | "dear" | "rating";
@@ -43,7 +46,11 @@ export function MarketMobileCatalog() {
   const { count, add } = useCart();
   const favorites = useFavorites();
   const [query, setQuery] = useState(params.get("q") ?? "");
-  const [chip, setChip] = useState<MobileMarketChip>("materiallar");
+  const catQuery = params.get("category") || params.get("cat") || "";
+  const [chip, setChip] = useState<MobileMarketChip>(() => catalogCatFromQuery(catQuery));
+  useEffect(() => {
+    setChip(catalogCatFromQuery(catQuery));
+  }, [catQuery]);
   const [sort, setSort] = useState<SortId>("shown");
   const [view, setView] = useState<"grid" | "list">("grid");
   const [filters, setFilters] = useState(false);
@@ -67,7 +74,7 @@ export function MarketMobileCatalog() {
   const list = useMemo(() => {
     const q = query.trim().toLowerCase();
     const items = rows.filter((item) => {
-      if (item.category !== chip) return false;
+      if (chip !== "all" && item.category !== chip) return false;
       if (brand && item.brand !== brand) return false;
       if (!q) return true;
       return `${item.brand} ${item.name} ${item.category}`.toLowerCase().includes(q);
@@ -78,7 +85,7 @@ export function MarketMobileCatalog() {
   }, [brand, chip, query, rows, sort]);
 
   const shown = list.length;
-  const badge = 1 + (brand ? 1 : 0);
+  const badge = (chip !== "all" ? 1 : 0) + (brand ? 1 : 0);
 
   return (
     <div className="mk lg:hidden" data-testid="mobile-market">
@@ -142,7 +149,7 @@ export function MarketMobileCatalog() {
           <button type="button" className="mk-filter" onClick={() => setFilters(true)}>
             <SlidersHorizontal />
             Filtrlar
-            <i>{badge}</i>
+            {badge > 0 ? <i>{badge}</i> : null}
           </button>
           <p className="mk-count" data-testid="mk-count">
             {shown} ta natija
@@ -238,7 +245,7 @@ function MarketCard({
   return (
     <article className="mk-card">
       <div className="mk-ph">
-        <Link href={`/marketplace/${item.id}`} aria-label={item.name}>
+        <Link href={catalogHref(item.category, item.id)} aria-label={item.name}>
           {item.image ? <img src={item.image} alt="" /> : null}
         </Link>
         {item.discount ? <span className="mk-off">-{item.discount}%</span> : null}
@@ -246,7 +253,7 @@ function MarketCard({
           <Heart fill={saved ? "currentColor" : "none"} />
         </button>
       </div>
-      <Link href={`/marketplace/${item.id}`}>
+      <Link href={catalogHref(item.category, item.id)}>
         <p className="brand">{item.brand}</p>
         <h3>{item.name}</h3>
         <p className="spec">{item.category}</p>

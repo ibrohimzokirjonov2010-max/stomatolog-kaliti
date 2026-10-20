@@ -1,4 +1,5 @@
 import { SEMINAR_DATE_TBD as SEMINAR_DATE_TBD_VALUE, formatUzDate } from "@/lib/format";
+import { tashkentDateParts } from "@/lib/tashkent-date";
 
 export type Specialty =
   | "implantologiya"
@@ -124,10 +125,7 @@ export function seminarDayMonth(iso: string) {
 }
 
 export function todayIso(from = new Date()) {
-  const y = from.getFullYear();
-  const m = String(from.getMonth() + 1).padStart(2, "0");
-  const d = String(from.getDate()).padStart(2, "0");
-  return `${y}-${m}-${d}`;
+  return tashkentDateParts(from).iso;
 }
 
 export function isSeminarUpcoming(seminar: Seminar, from = new Date()) {

@@ -7,6 +7,7 @@ import { ArrowLeft, BadgeCheck, Battery, CalendarDays, Check, ChevronRight, Gaug
 import { useCart } from "@/components/cart-provider";
 import type { JihozKit, JihozSpec, MobileJihoz } from "@/data/mobile-jihozlar";
 import type { Product } from "@/data/products";
+import { freeDeliveryText } from "@/lib/commerce-terms";
 import { formatMoney } from "@/lib/format";
 import "./jihoz-mobile.css";
 
@@ -119,7 +120,7 @@ export function JihozMobileProduct({ item }: { item: MobileJihoz }) {
         {note ? <p className="jz-note">{note}</p> : null}
         <div className="jz-feats">
           <article><ShieldCheck /><b>Kafolat</b>1 yil</article>
-          <article><Truck /><b>Toshkent bo‘ylab</b>bepul yetkazish</article>
+          <article><Truck /><b>Yetkazish</b>{freeDeliveryText()}</article>
           <article><Package /><b>Omborda bor</b>Tez yetkazish</article>
         </div>
         <div className="jz-sec">

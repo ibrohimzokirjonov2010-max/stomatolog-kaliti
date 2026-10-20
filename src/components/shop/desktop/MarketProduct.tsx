@@ -10,6 +10,7 @@ import { getMarketProduct, marketHref, marketSeed, pdpSimilar } from "@/data/des
 import { shopAdd, shopToggleFav, som, useShopCart, useShopFavs } from "./shop-cart";
 import { ShopShell } from "./ShopShell";
 import { Stepper } from "./parts";
+import { freeDeliveryText } from "@/lib/commerce-terms";
 
 const tabs = ["Tavsif", "Klinik qo‘llanish", "Texnik xususiyatlar", "Sertifikat", "Sharhlar", "Yetkazib berish", "Qayta buyurtma"] as const;
 
@@ -238,7 +239,7 @@ export function MarketProduct({ id }: { id: string }) {
             ) : null}
             {tab === "Yetkazib berish" ? (
               <p>
-                <MapPin className="i" /> {product.city}. {product.delivery}. 500 000 so‘m dan yuqori buyurtmalarda yetkazish bepul. Viloyatlarga 2–3 ish kuni.
+                <MapPin className="i" /> {product.city}. {product.delivery}. {freeDeliveryText()}
               </p>
             ) : null}
             {tab === "Qayta buyurtma" ? (

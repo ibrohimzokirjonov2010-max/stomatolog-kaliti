@@ -17,22 +17,22 @@ export type Listing = {
   description: string;
 };
 
-export const listingTypes: { id: ListingType | ""; label: string; count: number }[] = [
-  { id: "", label: "Barcha e’lonlar", count: 245 },
-  { id: "sotiladi", label: "Sotiladi", count: 124 },
-  { id: "ijara", label: "Ijaraga", count: 28 },
-  { id: "ish", label: "Ish o‘rni", count: 36 },
-  { id: "xizmat", label: "Xizmatlar", count: 22 },
-  { id: "hamkor", label: "Hamkorlik", count: 18 },
+export const listingTypes: { id: ListingType | ""; label: string }[] = [
+  { id: "", label: "Barcha e’lonlar" },
+  { id: "sotiladi", label: "Sotiladi" },
+  { id: "ijara", label: "Ijaraga" },
+  { id: "ish", label: "Ish o‘rni" },
+  { id: "xizmat", label: "Xizmatlar" },
+  { id: "hamkor", label: "Hamkorlik" },
 ];
 
 export const listingCities = [
-  { city: "Toshkent", count: 98 },
-  { city: "Samarqand", count: 32 },
-  { city: "Buxoro", count: 28 },
-  { city: "Andijon", count: 18 },
-  { city: "Namangan", count: 15 },
-  { city: "Farg‘ona", count: 14 },
+  { city: "Toshkent" },
+  { city: "Samarqand" },
+  { city: "Buxoro" },
+  { city: "Andijon" },
+  { city: "Namangan" },
+  { city: "Farg‘ona" },
 ];
 
 export const seedListings: Listing[] = [

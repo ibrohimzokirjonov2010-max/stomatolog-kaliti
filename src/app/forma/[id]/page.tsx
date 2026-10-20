@@ -1,10 +1,8 @@
-"use client";
-
-import { useParams } from "next/navigation";
 import { CatalogDetail } from "@/components/library/live-pages";
+import { assertPublicProduct } from "@/lib/server/public-product";
 
-export default function FormaProductPage() {
-  const params = useParams();
-  const id = typeof params.id === "string" ? params.id : "";
+export default async function FormaProductPage({ params }: { params: Promise<{ id: string }> }) {
+  const { id } = await params;
+  await assertPublicProduct(id, "forma");
   return <CatalogDetail id={id} expect="forma" />;
 }

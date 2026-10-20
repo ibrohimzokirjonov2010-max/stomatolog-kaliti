@@ -15,6 +15,7 @@ import {
   type OrderKind,
   type OrderStatus,
 } from "@/data/desktop-orders";
+import { freeDeliveryText, returnWindowText } from "@/lib/commerce-terms";
 import { loadOrders, syncOrders } from "@/lib/orders";
 import { toDesktopOrder } from "@/lib/order-present";
 import "./cart.css";
@@ -234,8 +235,8 @@ export function OrdersDesktop() {
             <section className="bo-box">
               <h3>Yordam va qo‘llab-quvvatlash</h3>
               <button type="button" className="bo-help" onClick={() => setHelp("Buyurtma haqida savol qoldiring. Mutaxassislarimiz ish vaqtida javob beradi.")}><MessageCircle className="i" /><div><b>Buyurtma haqida savol</b><span>Mutaxassislarimizga murojaat qiling</span></div></button>
-              <button type="button" className="bo-help" onClick={() => setHelp("Qaytarish 14 kun ichida. Mahsulot ochilmagan va chek saqlangan bo‘lishi kerak.")}><RefreshCcw className="i" /><div><b>Qaytarish va almashtirish</b><span>Qoidalarni ko‘rish</span></div></button>
-              <button type="button" className="bo-help" onClick={() => setHelp("Toshkent bo‘ylab 1 kun, viloyatlarga 3–5 kun. Yetkazish 35 000 so‘m.")}><Truck className="i" /><div><b>Yetkazib berish</b><span>Muddatlar va narxlar</span></div></button>
+              <button type="button" className="bo-help" onClick={() => setHelp(`${returnWindowText()}. Mahsulot ochilmagan va chek saqlangan bo‘lishi kerak.`)}><RefreshCcw className="i" /><div><b>Qaytarish va almashtirish</b><span>Qoidalarni ko‘rish</span></div></button>
+              <button type="button" className="bo-help" onClick={() => setHelp(freeDeliveryText())}><Truck className="i" /><div><b>Yetkazib berish</b><span>Muddatlar va narxlar</span></div></button>
               <button type="button" className="bo-center" onClick={() => setHelp("Qo‘llab-quvvatlash markazi: +998 71 200 00 00, har kuni 09:00–21:00.")}>Qo‘llab-quvvatlash markazi</button>
               {help ? <p className="bo-note" style={{ marginTop: "calc(.35 * var(--u))" }}>{help}</p> : null}
             </section>

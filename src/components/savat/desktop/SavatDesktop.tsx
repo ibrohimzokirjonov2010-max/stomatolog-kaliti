@@ -11,6 +11,7 @@ import { ShopShell } from "@/components/shop/desktop/ShopShell";
 import { som } from "@/components/shop/desktop/shop-cart";
 import { apparelMetaLabel } from "@/data/forma";
 import { shopDeliveryFee } from "@/lib/cart-totals";
+import { returnWindowText } from "@/lib/commerce-terms";
 import "./cart.css";
 
 const steps = ["Savat", "Yetkazib berish", "To‘lov", "Tasdiqlash"];
@@ -131,7 +132,7 @@ export function SavatDesktop() {
             </section>
             <section className="sv-box">
               <div className="sv-trust"><Lock className="i" /><div>Xavfsiz to‘lov<span>Ma’lumotlaringiz himoyalangan</span></div></div>
-              <div className="sv-trust"><RotateCcw className="i" /><div>14 kun ichida qaytarish<span>Sifat kafolati</span></div></div>
+              <div className="sv-trust"><RotateCcw className="i" /><div>{returnWindowText()}<span>Sifat kafolati</span></div></div>
               <div className="sv-trust"><Truck className="i" /><div>Yetkazib berish<span>Narx mahsulot kartasidagi haqiqiy yetkazish haqidan olinadi</span></div></div>
               <div className="sv-trust"><ShieldCheck className="i" /><div>Sotuvchi kafolati<span>Buyurtma sotuvchi tasdig‘idan keyin yuradi</span></div></div>
             </section>

@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { usePathname } from "next/navigation";
 import { Share, SquarePlus, X } from "lucide-react";
 
 type BeforeInstallPromptEvent = Event & {
@@ -26,6 +27,21 @@ function isIosSafari() {
   return ios && !otherBrowser;
 }
 
+/** Product, cart and checkout keep a sticky Savatga / pay button. The banner must not sit on it. */
+function coversStickyCta(path: string) {
+  if (path.startsWith("/product/")) return true;
+  if (path === "/savat" || path.startsWith("/savat/")) return true;
+  if (path === "/cart" || path.startsWith("/cart/")) return true;
+  if (path === "/checkout" || path.startsWith("/checkout/")) return true;
+  if (path === "/buyurtma" || path.startsWith("/buyurtma/")) return true;
+  if (/^\/forma\/[^/]+/.test(path) && !path.startsWith("/forma/buyurtmalarim")) return true;
+  if (/^\/jihozlar\/[^/]+/.test(path)) return true;
+  if (!path.startsWith("/marketplace/")) return false;
+  const rest = path.slice("/marketplace/".length);
+  if (!rest || rest.startsWith("dokon") || rest.startsWith("sotuvchi") || rest.startsWith("brendlar") || rest.startsWith("aksiyalar")) return false;
+  return true;
+}
+
 function recentlyDismissed() {
   try {
     const at = Number(localStorage.getItem(DISMISS_KEY) || 0);
@@ -37,14 +53,23 @@ function recentlyDismissed() {
 
 /** Registers the service worker and shows a small "install app" card on phones. */
 export function PwaInstall() {
+  const pathname = usePathname() ?? "/";
+  const hidden = coversStickyCta(pathname);
   const [deferred, setDeferred] = useState<BeforeInstallPromptEvent | null>(null);
   const [mode, setMode] = useState<"android" | "ios" | null>(null);
   const [bottom, setBottom] = useState("0.75rem");
 
   useEffect(() => {
     const show = (m: "android" | "ios") => {
+      if (coversStickyCta(window.location.pathname)) return;
+      const cart = document.querySelector("[data-sticky-cta]");
       const hasTabBar = !!document.querySelector('nav[aria-label="Mobil menyu"]');
-      setBottom(hasTabBar ? "calc(4.6rem + env(safe-area-inset-bottom))" : "calc(0.75rem + env(safe-area-inset-bottom))");
+      const bottom = cart
+        ? "calc(9.4rem + env(safe-area-inset-bottom))"
+        : hasTabBar
+          ? "calc(4.6rem + env(safe-area-inset-bottom))"
+          : "calc(0.75rem + env(safe-area-inset-bottom))";
+      setBottom(bottom);
       setMode(m);
     };
     if ("serviceWorker" in navigator && window.location.protocol === "https:") {
@@ -78,7 +103,29 @@ export function PwaInstall() {
     };
   }, []);
 
-  if (!mode) return null;
+  useEffect(() => {
+    if (!mode || hidden) return;
+    const cart = document.querySelector("[data-sticky-cta]");
+    const hasTabBar = !!document.querySelector('nav[aria-label="Mobil menyu"]');
+    setBottom(
+      cart
+        ? "calc(9.4rem + env(safe-area-inset-bottom))"
+        : hasTabBar
+          ? "calc(4.6rem + env(safe-area-inset-bottom))"
+          : "calc(0.75rem + env(safe-area-inset-bottom))",
+    );
+  }, [hidden, mode, pathname]);
+
+  useEffect(() => {
+    if (!mode || hidden) return;
+    const prev = document.body.style.paddingBottom;
+    document.body.style.paddingBottom = "calc(7.5rem + env(safe-area-inset-bottom))";
+    return () => {
+      document.body.style.paddingBottom = prev;
+    };
+  }, [hidden, mode]);
+
+  if (!mode || hidden) return null;
 
   const close = () => {
     try {

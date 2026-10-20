@@ -18,7 +18,7 @@ import {
   ShoppingCart,
   Stethoscope,
 } from "lucide-react";
-import { fetchCatalogProducts, type CatalogCard } from "@/lib/catalog-client";
+import { catalogCatFromQuery, fetchCatalogProducts, type CatalogCard, type CatalogCat } from "@/lib/catalog-client";
 import { marketHref } from "@/data/desktop-shop";
 import { shopAdd, som, useShopCart } from "./shop-cart";
 import { CartRail, CheckRow, RadioRow, RangeSlider, Stars } from "./parts";
@@ -27,11 +27,9 @@ import { ShopShell } from "./ShopShell";
 type SortKey = "ommabop" | "arzon" | "qimmat" | "yangi";
 type StockFilter = "all" | "ombor" | "buyurtma";
 type RatingFilter = "all" | "5" | "4" | "3";
-type CatId = "all" | "materiallar" | "implantlar" | "asboblar" | "jihozlar" | "laboratoriya" | "forma";
-
 const PRICE_CAP = 50_000_000;
 
-const catalogChips: { id: CatId; label: string }[] = [
+const catalogChips: { id: CatalogCat; label: string }[] = [
   { id: "all", label: "Barchasi" },
   { id: "materiallar", label: "Materiallar" },
   { id: "implantlar", label: "Implantlar" },
@@ -51,21 +49,6 @@ const chipIcon = {
   forma: Shirt,
 } as const;
 
-const catAlias: Record<string, CatId> = {
-  kompozitlar: "materiallar",
-  terapiya: "materiallar",
-  bondlar: "materiallar",
-  endodontiya: "asboblar",
-  uchliklar: "asboblar",
-  uskunalar: "jihozlar",
-  gigiyena: "forma",
-};
-
-function shopCatFromQuery(raw: string): CatId {
-  if (catalogChips.some((chip) => chip.id === raw)) return raw as CatId;
-  return catAlias[raw] ?? "all";
-}
-
 function isSortKey(value: string): value is SortKey {
   return value === "ommabop" || value === "arzon" || value === "qimmat" || value === "yangi";
 }
@@ -80,17 +63,17 @@ export function MarketCatalog() {
   const lines = useShopCart();
   const q = (params.get("q") ?? "").trim().toLowerCase();
   const brandParam = (params.get("brand") ?? "").trim();
-  const catParam = params.get("cat") ?? "";
+  const catParam = params.get("category") || params.get("cat") || "";
   const sortParam = params.get("sort") ?? "";
   const [products, setProducts] = useState<CatalogCard[]>([]);
   const [ready, setReady] = useState(false);
-  const [cat, setCat] = useState<CatId>(() => shopCatFromQuery(catParam));
+  const [cat, setCat] = useState<CatalogCat>(() => catalogCatFromQuery(catParam));
   const [brands, setBrands] = useState<string[]>(brandParam ? [brandParam] : []);
   useEffect(() => {
     if (brandParam) setBrands([brandParam]);
   }, [brandParam]);
   useEffect(() => {
-    setCat(shopCatFromQuery(catParam));
+    setCat(catalogCatFromQuery(catParam));
   }, [catParam]);
   useEffect(() => {
     let stop = false;

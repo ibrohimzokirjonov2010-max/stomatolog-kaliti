@@ -128,7 +128,6 @@ export function KitoblarDesktop() {
             <h1>Kitoblar</h1>
             <p className="hub-sub">Stomatologik kitoblar, atlaslar va qo‘llanmalar. Bosma yoki elektron formatda.</p>
           </div>
-          <p className="hub-sub">Yangi kitobni admin kutubxonadan qo‘shadi.</p>
         </div>
         <div className="hub-frow">
           {bookCategories.map((item) => (
