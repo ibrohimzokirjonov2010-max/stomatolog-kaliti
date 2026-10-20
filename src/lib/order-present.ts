@@ -17,7 +17,7 @@ function desktopStatus(order: Order): OrderStatus {
 
 function payLabel(payment: Order["payment"]): PayMethod {
   if (payment === "payme") return "Payme";
-  if (payment === "naqd") return "Naqd";
+  if (payment === "naqd") return "Naqd pul";
   return "Click";
 }
 

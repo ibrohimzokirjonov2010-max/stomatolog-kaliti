@@ -7,7 +7,7 @@ import { flushTelegramOutbox } from "@/lib/server/telegram-notify";
 
 export const dynamic = "force-dynamic";
 
-const PAYMENTS = new Set(["click", "payme", "naqd"]);
+const PAYMENTS = new Set(["naqd"]);
 
 /** My orders as buyer, plus orders to my store as seller. */
 export async function GET() {
@@ -37,7 +37,7 @@ export async function POST(request: Request) {
   if (!name || phone.replace(/\D/g, "").length < 9 || !address) {
     return NextResponse.json({ ok: false, error: "Ism, telefon va manzil majburiy." }, { status: 400 });
   }
-  if (!PAYMENTS.has(payment)) return NextResponse.json({ ok: false, error: "To‘lov usulini tanlang." }, { status: 400 });
+  if (!PAYMENTS.has(payment)) return NextResponse.json({ ok: false, error: "Hozircha faqat Naqd pul ishlaydi." }, { status: 400 });
   const rawItems = Array.isArray(body.items) ? body.items.slice(0, 50) : [];
   if (!rawItems.length) return NextResponse.json({ ok: false, error: "Savat bo‘sh." }, { status: 400 });
 

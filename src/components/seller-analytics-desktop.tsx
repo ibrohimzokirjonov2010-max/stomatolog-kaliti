@@ -4,6 +4,7 @@ import { useMemo, useState, type ReactNode } from "react";
 import { CalendarDays, Eye, MapPin, Percent, ShoppingBag, ShoppingCart, Wallet } from "lucide-react";
 import { useSellerWork } from "@/components/seller-provider";
 import { orderSum } from "@/components/seller-overview-desktop";
+import { goodsLines } from "@/lib/order-money";
 import { DemoTag, Donut, DONUT_COLORS, LineChart, Panel, SelectBox, shortMoney } from "@/components/seller-desktop-ui";
 import { categoryLabels, type ProductCategory } from "@/data/products";
 import { formatMoney } from "@/lib/format";
@@ -79,8 +80,7 @@ type Line = { orderId: string; at: Date; qty: number; price: number; name: strin
 type Sale = { order: Order; at: Date; sum: number; lines: Line[]; cust: string; region: string };
 
 function linesOf(order: Order, shopId: string): Line[] {
-  const mine = order.items.filter((i) => i.shopId === shopId);
-  const src = mine.length ? mine : order.items;
+  const src = goodsLines(order, shopId);
   const at = new Date(order.createdAt);
   return src.map((i) => ({
     orderId: order.id,

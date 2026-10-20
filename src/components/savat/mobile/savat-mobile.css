@@ -63,10 +63,10 @@
 .sv-empty h2 { margin: 10px 0 4px; font-size: 18px; }
 .sv-empty p { margin: 0; color: #6a7c93; }
 .sv-empty a { display: inline-flex; margin-top: 14px; height: 42px; align-items: center; padding: 0 16px; border-radius: 12px; background: #12b981; color: #fff; font-weight: 800; }
-.sv-pad { height: 74px; }
+.sv-pad { height: calc(132px + env(safe-area-inset-bottom)); }
 .sv-bar {
-  position: fixed; left: 0; right: 0; z-index: 35;
-  bottom: calc(64px + env(safe-area-inset-bottom));
+  position: fixed; left: 0; right: 0; z-index: 45;
+  bottom: calc(72px + env(safe-area-inset-bottom));
   display: flex; align-items: center; gap: 10px;
   padding: 6px 12px; background: #fff; border-top: 1px solid #eef2f6;
 }

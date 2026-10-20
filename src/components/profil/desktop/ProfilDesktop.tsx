@@ -233,9 +233,9 @@ export function ProfilDesktop() {
               <span><MapPin className="i" /> {(profile?.city || clinic.address).trim() || EMPTY_FIELD}</span>
             </div>
           </div>
-          <div className="pf-bar">
+          <div className="pf-bar" data-testid="profile-completeness">
             <label>Profil to‘liqligi <span>{Math.round(([form.name, form.phone, form.spec, clinic.name, profile?.city, form.about].filter(Boolean).length / 6) * 100)}%</span></label>
-            <b><i /></b>
+            <b><i style={{ width: `${Math.round(([form.name, form.phone, form.spec, clinic.name, profile?.city, form.about].filter(Boolean).length / 6) * 100)}%` }} /></b>
           </div>
           <button
             type="button"

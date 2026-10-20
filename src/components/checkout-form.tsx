@@ -47,7 +47,7 @@ export function CheckoutForm() {
     city: site.city,
     address: "",
     note: "",
-    payment: "click",
+    payment: "naqd",
   });
 
   const delivery = shopDeliveryFee(items.map((item) => item.product));
@@ -183,12 +183,15 @@ export function CheckoutForm() {
         <div>
           <p className="text-sm font-medium text-[#4b5568]">To‘lov usuli</p>
           <div className="mt-2 grid gap-2 sm:grid-cols-3">
-            {paymentMethods.map((method) => (
+            {paymentMethods.map((method) => {
+              const soon = method.id !== "naqd";
+              return (
               <label
                 key={method.id}
                 className={cn(
-                  "cursor-pointer rounded-xl border px-3 py-3 text-sm",
-                  form.payment === method.id
+                  "rounded-xl border px-3 py-3 text-sm",
+                  soon ? "cursor-not-allowed opacity-60" : "cursor-pointer",
+                  !soon && form.payment === method.id
                     ? "border-[#0066FF] bg-[#e8f1ff] text-[#0066FF]"
                     : "border-[#e6eaf2] bg-white text-[#4b5568]"
                 )}
@@ -197,12 +200,15 @@ export function CheckoutForm() {
                   type="radio"
                   className="sr-only"
                   name="payment"
-                  checked={form.payment === method.id}
-                  onChange={() => setForm({ ...form, payment: method.id })}
+                  disabled={soon}
+                  checked={!soon && form.payment === method.id}
+                  onChange={() => { if (!soon) setForm({ ...form, payment: "naqd" }); }}
                 />
-                <span className="block font-semibold">{method.label}</span>
+                <span className="block font-semibold">{method.id === "naqd" ? "Naqd pul" : method.label}</span>
+                {soon ? <span className="mt-1 block text-[12px] font-semibold text-[#8b93a7]">Tez orada</span> : null}
               </label>
-            ))}
+              );
+            })}
           </div>
           <p className="mt-2 text-[12px] text-[#8b93a7]">{payHint}</p>
         </div>

@@ -105,10 +105,13 @@
 .ck-offer { display: flex; align-items: center; gap: 8px; font-size: 13px; font-weight: 700; }
 .ck-offer input { width: 18px; height: 18px; accent-color: #0066ff; }
 .ck-error { margin: 0; color: #d92d20; font-size: 12px; font-weight: 800; }
-.ck-pad { height: 92px; }
+.ck-field.bad input, .ck-field.bad select, .ck-field.bad textarea { border-color: #d92d20; }
+.ck-field .err { color: #d92d20; font-size: 11px; font-weight: 800; }
+.ck-pay:disabled { opacity: .55; cursor: not-allowed; }
+.ck-pad { height: calc(168px + env(safe-area-inset-bottom)); }
 .ck-bar {
-  position: fixed; left: 12px; right: 12px; z-index: 35;
-  bottom: calc(74px + env(safe-area-inset-bottom));
+  position: fixed; left: 12px; right: 12px; z-index: 45;
+  bottom: calc(76px + env(safe-area-inset-bottom));
   display: flex; flex-direction: column; gap: 4px;
 }
 .ck-bar p { margin: 0; text-align: center; color: #8b93a7; font-size: 11px; }

@@ -41,6 +41,7 @@ export function CatalogDetail({ id, expect }: { id: string; expect?: "forma" | "
   const [size, setSize] = useState("");
   const [color, setColor] = useState("");
   const [photo, setPhoto] = useState(0);
+  const [qty, setQty] = useState(1);
   const [error, setError] = useState("");
 
   useEffect(() => {
@@ -49,6 +50,7 @@ export function CatalogDetail({ id, expect }: { id: string; expect?: "forma" | "
     setSize("");
     setColor("");
     setPhoto(0);
+    setQty(1);
     setError("");
     void fetch(`/api/catalog/${id}`, { credentials: "same-origin" })
       .then((res) => res.json())
@@ -109,7 +111,7 @@ export function CatalogDetail({ id, expect }: { id: string; expect?: "forma" | "
       return;
     }
     setError("");
-    add(card.id, productFromCatalog(card), 1, { size: size || undefined, color: color || undefined });
+    add(card.id, productFromCatalog(card), qty, { size: size || undefined, color: color || undefined });
   }
 
   return (
@@ -183,8 +185,16 @@ export function CatalogDetail({ id, expect }: { id: string; expect?: "forma" | "
             </ul>
           ) : null}
           {months > 0 ? <p className="mt-2 text-[14px]">{months} oyga bo‘lib to‘lash</p> : null}
+          <div className="mt-5 flex items-center gap-3" data-testid="product-qty">
+            <span className="text-[13px] font-semibold text-[#52637c]">Soni</span>
+            <div className="inline-flex h-11 items-center overflow-hidden rounded-xl border border-[#d7e0ee]">
+              <button type="button" className="grid h-11 w-11 place-items-center text-[18px] font-bold" aria-label="Kamaytirish" disabled={qty <= 1} onClick={() => setQty((value) => Math.max(1, value - 1))}>−</button>
+              <span className="min-w-8 text-center text-[15px] font-bold">{qty}</span>
+              <button type="button" className="grid h-11 w-11 place-items-center text-[18px] font-bold" aria-label="Oshirish" disabled={qty >= Math.max(1, card.stockQty)} onClick={() => setQty((value) => Math.min(Math.max(1, card.stockQty), value + 1))}>+</button>
+            </div>
+          </div>
           {error ? <p className="mt-3 text-[13px] font-semibold text-[#dc2626]">{error}</p> : null}
-          <button type="button" className="mt-5 inline-flex h-11 items-center rounded-xl bg-[#0066FF] px-4 text-[14px] font-bold text-white disabled:opacity-50" data-testid="product-add" disabled={card.stockQty < 1} onClick={addLine}>
+          <button type="button" className="mt-4 inline-flex h-11 items-center rounded-xl bg-[#0066FF] px-4 text-[14px] font-bold text-white disabled:opacity-50" data-testid="product-add" disabled={card.stockQty < 1} onClick={addLine}>
             Savatga
           </button>
         </div>

@@ -27,6 +27,7 @@ const empty: FormState = {
 export function MarketingForm() {
   const [form, setForm] = useState<FormState>(empty);
   const [error, setError] = useState("");
+  const [busy, setBusy] = useState(false);
   const [submitted, setSubmitted] = useState(false);
 
   function toggleNeed(id: string, checked: boolean) {
@@ -38,7 +39,7 @@ export function MarketingForm() {
     }));
   }
 
-  function onSubmit(event: FormEvent<HTMLFormElement>) {
+  async function onSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
     if (!form.name.trim() || !form.clinic.trim() || !form.contact.trim()) {
       setError("Ism, klinika va telefon yoki Telegramni yozing.");
@@ -49,7 +50,25 @@ export function MarketingForm() {
       return;
     }
     setError("");
-    setSubmitted(true);
+    setBusy(true);
+    try {
+      const res = await fetch("/api/marketing-leads", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        credentials: "same-origin",
+        body: JSON.stringify({ ...form, website: "" }),
+      });
+      const json = (await res.json().catch(() => null)) as { ok?: boolean; error?: string } | null;
+      if (!res.ok || !json?.ok) {
+        setError(json?.error ?? "So‘rovni saqlab bo‘lmadi.");
+        return;
+      }
+      setSubmitted(true);
+    } catch {
+      setError("So‘rovni saqlab bo‘lmadi.");
+    } finally {
+      setBusy(false);
+    }
   }
 
   if (submitted) {
@@ -147,9 +166,9 @@ export function MarketingForm() {
 
       <div className="mt-6 flex items-center justify-between gap-4">
         <p className="text-[12px] text-muted-foreground">
-          So‘rov namuna: serverga ketmaydi. Kerak bo‘lsa {site.telegramHandle}.
+          So‘rov saqlanadi. Kerak bo‘lsa {site.telegramHandle}.
         </p>
-        <Button type="submit">So‘rovni yuborish</Button>
+        <Button type="submit" disabled={busy}>{busy ? "Yuborilmoqda…" : "So‘rovni yuborish"}</Button>
       </div>
     </form>
   );

@@ -147,8 +147,8 @@ export function KitoblarDesktop() {
             <h4>Format</h4>
             {(
               [
-                ["bosma", "Bosma kitob", 78],
-                ["pdf", "Elektron (PDF)", 112],
+                ["bosma", "Bosma kitob", catalog.filter((book) => book.formats.includes("bosma")).length],
+                ["pdf", "Elektron (PDF)", catalog.filter((book) => book.formats.includes("pdf")).length],
               ] as const
             ).map(([id, label, count]) => (
               <button key={id} type="button" className={formats.includes(id) ? "hub-check on" : "hub-check"} onClick={() => { setBothOnly(false); toggle(formats, id, setFormats); }}>
@@ -160,14 +160,14 @@ export function KitoblarDesktop() {
             <button type="button" className={bothOnly ? "hub-check on" : "hub-check"} onClick={() => { setBothOnly((on) => !on); setFormats([]); }}>
               <span className="hub-boxi">{bothOnly ? <Check className="i" /> : null}</span>
               Ikkalasi
-              <em>(26)</em>
+              <em>({catalog.filter((book) => book.formats.includes("bosma") && book.formats.includes("pdf")).length})</em>
             </button>
             <h4>Til</h4>
             {(
               [
-                ["O‘zbek", 45],
-                ["Rus", 38],
-                ["Ingliz", 96],
+                ["O‘zbek", catalog.filter((book) => book.lang === "O‘zbek").length],
+                ["Rus", catalog.filter((book) => book.lang === "Rus").length],
+                ["Ingliz", catalog.filter((book) => book.lang === "Ingliz").length],
               ] as const
             ).map(([id, count]) => (
               <button key={id} type="button" className={langs.includes(id) ? "hub-check on" : "hub-check"} onClick={() => toggle(langs, id, setLangs)}>

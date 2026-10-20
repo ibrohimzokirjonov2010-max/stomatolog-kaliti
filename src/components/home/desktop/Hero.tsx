@@ -7,7 +7,7 @@ import { ArrowRight } from "lucide-react";
 const slides = [
   { t: "Sifatli stomatologik mahsulotlar endi yanada yaqinroq", s: "Stomatologlar uchun eng yaxshi brendlar, tez yetkazib berish, ishonchli sotuvchilar.", b: "Xarid qilish", img: "/img/hero.jpg", href: "/marketplace" },
   { t: "Yangi mahsulotlar har hafta qo‘shiladi", s: "Eng so‘nggi uskunalar va materiallar bir joyda.", b: "Ko‘rish", img: "/img/hero.jpg", href: "/marketplace" },
-  { t: "Maxsus takliflar va chegirmalar", s: "Mashhur brendlarga 25% gacha chegirma.", b: "Takliflar", img: "/img/hero.jpg", href: "/marketplace" },
+  { t: "Chegirma faqat mahsulot kartasida", s: "Aksiya bo‘lmasa narx o‘zgarmaydi. Do‘kon o‘zi belgilagan chegirma ko‘rsatiladi.", b: "Katalog", img: "/img/hero.jpg", href: "/marketplace" },
 ];
 const imp = [
   { t: "Implant yechimlari", s: "Dunyoga mashhur brendlar endi StomaHub’da" },

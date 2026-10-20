@@ -19,6 +19,9 @@
 .ckx label { display: flex; flex-direction: column; gap: calc(.18 * var(--u)); font-size: calc(.64 * var(--u)); font-weight: 750; color: #334155; }
 .ckx label.wide { grid-column: 1 / -1; margin-top: calc(.35 * var(--u)); }
 .ckx input, .ckx select, .ckx textarea { border: 1px solid #e3eaf2; border-radius: calc(.4 * var(--u)); min-height: calc(2.15 * var(--u)); padding: 0 calc(.5 * var(--u)); font: inherit; font-size: calc(.72 * var(--u)); font-weight: 650; color: #142033; background: #fff; }
+.ckx label.bad input, .ckx label.bad select, .ckx label.bad textarea { border-color: #dc2626; }
+.ckx label .err { display: block; margin-top: 4px; color: #dc2626; font-size: calc(.58 * var(--u)); font-weight: 750; }
+.ckx-pays button:disabled { opacity: .55; cursor: not-allowed; }
 .ckx textarea { min-height: calc(4 * var(--u)); padding: calc(.4 * var(--u)); }
 .ckx-mapbtn, .ckx-saved-head button, .ckx-mini button { color: #3773fe; font-weight: 800; font-size: calc(.66 * var(--u)); background: none; border: 0; }
 .ckx-map { width: 100%; height: calc(8 * var(--u)); object-fit: cover; border-radius: calc(.45 * var(--u)); margin-top: calc(.3 * var(--u)); }

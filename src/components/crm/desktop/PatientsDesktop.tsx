@@ -1,8 +1,9 @@
 "use client";
 /* eslint-disable @next/next/no-img-element */
 
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import Link from "next/link";
+import { usePathname, useRouter } from "next/navigation";
 import { ChevronRight, Download, MoreHorizontal, Plus, Search, Upload } from "lucide-react";
 import { CrmFrame, CrmModal, CrmPager } from "@/components/crm/desktop/CrmFrame";
 import { ADULT_LOWER, ADULT_UPPER, BABY_LOWER, BABY_UPPER, ToothChart, cycleTooth } from "@/components/crm/desktop/ToothChart";
@@ -31,6 +32,8 @@ function csv(items: Patient[]) {
 }
 
 export function PatientsDesktop() {
+  const pathname = usePathname();
+  const router = useRouter();
   const [items, setItems] = useCrmPatients<Patient>();
   const [q, setQ] = useState("");
   const [status, setStatus] = useState<PatientStatus | "">("");
@@ -43,7 +46,10 @@ export function PatientsDesktop() {
   const [tab, setTab] = useState<"umumiy" | "davolash" | "tolov" | "hujjat">("umumiy");
   const [dentition, setDentition] = useState<"doimiy" | "sut">("doimiy");
   const [menu, setMenu] = useState(false);
-  const [adding, setAdding] = useState(false);
+  const [adding, setAdding] = useState(pathname === "/crm/bemorlar/yangi");
+  useEffect(() => {
+    if (pathname === "/crm/bemorlar/yangi") setAdding(true);
+  }, [pathname]);
   const [visit, setVisit] = useState(false);
   const [toast, setToast] = useState("");
   const [visitForm, setVisitForm] = useState({ date: "", kind: "Maslahat", note: "", doctor: "" });
@@ -194,7 +200,7 @@ export function PatientsDesktop() {
             </aside>
           ) : null}
         </div>
-        {adding ? <NewPatientModal onClose={() => setAdding(false)} onSave={addPatient} /> : null}
+        {adding ? <NewPatientModal onClose={() => { setAdding(false); if (pathname === "/crm/bemorlar/yangi") router.replace("/crm/bemorlar"); }} onSave={addPatient} /> : null}
         {toast ? <div className="nb-toast" data-testid="patient-toast" role="status"><i />{toast}</div> : null}
         {visit && current ? (
           <CrmModal title="Qabul qo‘shish" onClose={() => setVisit(false)}>
