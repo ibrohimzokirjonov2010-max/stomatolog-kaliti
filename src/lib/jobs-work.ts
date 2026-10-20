@@ -14,7 +14,7 @@ export type DbJob = {
   experienceYears: number;
   remote: boolean;
   description: string;
-  status: "pending" | "published" | "rejected" | "hidden" | "closed";
+  status: "draft" | "pending" | "published" | "rejected" | "hidden" | "closed";
   rejectReason: string | null;
   createdAt: string;
   mine: boolean;
@@ -34,6 +34,12 @@ export type DbJob = {
   staffCount?: number | null;
   foundedYear?: number | null;
   logo?: string | null;
+  duties?: string[];
+  salaryNegotiable?: boolean;
+  acceptApplications?: boolean;
+  benefitNote?: string | null;
+  telegram?: string | null;
+  email?: string | null;
 };
 
 /** Application. `phone` = applicant phone (employer view); `employerPhone` appears for the applicant only after acceptance. */
@@ -127,6 +133,12 @@ export function jobFromDb(d: DbJob): Job {
     staffCount: d.staffCount ?? null,
     foundedYear: d.foundedYear ?? null,
     logo: d.logo ?? null,
+    duties: d.duties ?? [],
+    salaryNegotiable: d.salaryNegotiable,
+    acceptApplications: d.acceptApplications,
+    benefitNote: d.benefitNote ?? null,
+    telegram: d.telegram ?? null,
+    email: d.email ?? null,
   };
 }
 

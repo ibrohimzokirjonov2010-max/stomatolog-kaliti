@@ -28,6 +28,7 @@ import { useUstaWork } from "@/components/usta-provider";
 import { UstaRequestSheet } from "@/components/usta-request-sheet";
 import { MasterAvatar, NoRating, VerifiedBadge, placeLine, useFavMasters } from "@/components/usta-ui";
 import { phoneHref, serviceTagLabels, telegramHref, type Master } from "@/data/masters";
+import { USTA_SPECIALTIES } from "@/lib/add-forms";
 import { cn } from "@/lib/utils";
 
 const TABS = [
@@ -102,8 +103,9 @@ export function UstaProfile({ id }: { id: string }) {
     }
   }
 
-  const locked = !contact;
-  const tg = contact?.masterTelegram ?? null;
+  const locked = !contact && !m.phone && !m.telegram;
+  const tg = contact?.masterTelegram ?? m.telegram ?? null;
+  const phone = contact?.masterPhone ?? m.phone ?? null;
 
   return (
     <div className="-mx-4 -mt-4 min-h-dvh bg-[#F4F7FC] px-4 pb-8 lg:mx-auto lg:mt-0 lg:max-w-[560px]" data-testid="usta-profile">
@@ -153,7 +155,7 @@ export function UstaProfile({ id }: { id: string }) {
           {chips.map((s) => (
             <span key={s} className="inline-flex h-8 min-w-0 items-center gap-1 rounded-xl border border-[#e6ebf3] bg-white px-2 text-[11.5px] font-medium whitespace-nowrap text-[#1a1d26]">
               <UstaIcon name={s} className="size-[15px] shrink-0 text-[#1a1d26]" style={{ ["--ua" as string]: "#1a1d26" }} />
-              <span className="truncate">{serviceTagLabels[s]}</span>
+              <span className="truncate">{USTA_SPECIALTIES.find((item) => item.id === s)?.label ?? serviceTagLabels[s] ?? s}</span>
             </span>
           ))}
           {extraChips > 0 ? (
@@ -164,7 +166,7 @@ export function UstaProfile({ id }: { id: string }) {
         </div>
 
         {m.mine ? (
-          <Link href="/ustalar/mening" className="mt-3.5 flex h-[60px] w-full items-center justify-center rounded-2xl border border-[#dbe3f0] text-[15px] font-semibold text-[#1a1d26]">
+          <Link href={`/ustalar/yangi?id=${m.id}`} className="mt-3.5 flex h-[60px] w-full items-center justify-center rounded-2xl border border-[#dbe3f0] text-[15px] font-semibold text-[#1a1d26]">
             Bu sizning profilingiz — tahrirlash
           </Link>
         ) : (
@@ -187,8 +189,8 @@ export function UstaProfile({ id }: { id: string }) {
             tone="green"
             icon={<Phone className="size-[18px] fill-current" />}
             title="Qo‘ng‘iroq qilish"
-            sub={contact?.masterPhone ?? "Qabul qilingach ochiladi"}
-            href={contact?.masterPhone ? phoneHref(contact.masterPhone) : undefined}
+            sub={phone ?? "Qabul qilingach ochiladi"}
+            href={phone ? phoneHref(phone) : undefined}
             onClick={locked && !m.mine ? () => setRequest(true) : undefined}
             testId="usta-call"
           />

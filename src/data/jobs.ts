@@ -71,6 +71,12 @@ export type Job = {
   rejectReason?: string | null;
   appCount?: number;
   newCount?: number;
+  duties?: string[];
+  salaryNegotiable?: boolean;
+  acceptApplications?: boolean;
+  benefitNote?: string | null;
+  telegram?: string | null;
+  email?: string | null;
 };
 
 export type Candidate = {

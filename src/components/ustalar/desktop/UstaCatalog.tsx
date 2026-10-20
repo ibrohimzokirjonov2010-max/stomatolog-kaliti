@@ -171,7 +171,7 @@ export function UstaCatalog() {
               <PhoneCall className="i" />
               <span><b>Shoshilinch chaqiruv</b><small>24/7 tezkor xizmat</small></span>
             </button>
-            <Link href="/ustalar/mening" className="us-join"><UserPlus className="i" /> Usta sifatida ro‘yxatdan o‘tish</Link>
+            <Link href="/ustalar/yangi" className="us-join"><UserPlus className="i" /> Usta sifatida ro‘yxatdan o‘tish</Link>
           </div>
         </div>
 

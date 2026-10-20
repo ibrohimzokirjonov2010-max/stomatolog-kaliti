@@ -1,4 +1,4 @@
-import type { Master, RequestServiceV2, UstaService as MasterService } from "@/data/masters";
+import type { Master, RequestServiceV2 } from "@/data/masters";
 import { serviceTagLabels } from "@/data/masters";
 import { type DesktopUsta, type UstaService } from "@/data/desktop-ustalar";
 
@@ -18,7 +18,7 @@ export type UstaRequestDraft = {
 
 export const UUID_RE = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
 
-const serviceMap: Record<MasterService, UstaService[]> = {
+const serviceMap: Record<string, UstaService[]> = {
   rentgen: ["rentgen"],
   kreslo: ["unit"],
   ornatish: ["install"],
@@ -26,12 +26,23 @@ const serviceMap: Record<MasterService, UstaService[]> = {
   mebel: ["install"],
   servis: ["unit", "autoclave", "compressor"],
   konsultatsiya: [],
+  unit: ["unit"],
+  kompressor: ["compressor"],
+  avtoklav: ["autoclave"],
+  turbina: ["hand"],
+};
+
+const specialtyLabels: Record<string, string> = {
+  unit: "Unit ta‘mirlash",
+  kompressor: "Kompressor",
+  avtoklav: "Avtoklav",
+  turbina: "Turbina",
 };
 
 /** Map a public master (no phone/telegram, no ratings yet) onto the view model. Unknown fields stay empty. */
 export function masterToView(master: Master): UstaView {
   const services = [...new Set(master.services.flatMap((id) => serviceMap[id] ?? []))];
-  const tags = master.services.map((id) => serviceTagLabels[id] ?? id);
+  const tags = master.services.map((id) => specialtyLabels[id] ?? serviceTagLabels[id] ?? id);
   return {
     master,
     slug: master.id,
@@ -48,13 +59,13 @@ export function masterToView(master: Master): UstaView {
     rating: 0,
     reviews: 0,
     response: "",
-    hours: "",
+    hours: master.hours ?? "",
     warranty: "",
-    prices: [],
+    prices: master.priceFrom ? [{ name: "Xizmat", price: `${new Intl.NumberFormat("ru-RU").format(master.priceFrom)} so‘mdan` }] : [],
     brands: [],
     skills: tags,
-    phone: "",
-    telegram: "",
+    phone: master.phone ?? "",
+    telegram: master.telegram ?? "",
     image: master.photo ?? "",
     works: master.works ?? [],
     about: master.description ?? "",

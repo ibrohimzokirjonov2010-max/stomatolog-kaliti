@@ -5,9 +5,9 @@ import { useEffect, useMemo, useState } from "react";
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
 import { ChevronRight, Eye, Heart, MapPin, Plus, Search } from "lucide-react";
-import { CrmFrame, CrmModal } from "@/components/crm/desktop/CrmFrame";
+import { CrmFrame } from "@/components/crm/desktop/CrmFrame";
 import { listingCities, listingTypes, getListing, type Listing, type ListingType } from "@/data/listings";
-import { formatGroupedNumber } from "@/lib/format";
+import { classifiedToListing, type ClassifiedRow } from "@/lib/classified-view";
 import { useStoredList } from "@/lib/stored-list";
 
 const SAVED = "sk-elon-saved-v1";
@@ -15,15 +15,14 @@ const SAVED = "sk-elon-saved-v1";
 export function ListingsDesktop() {
   const params = useSearchParams();
   const initial = (params.get("tur") as ListingType | null) ?? "";
-  const [extra, setExtra] = useStoredList("sk-elonlar-v1", [] as Listing[]);
+  const [extra] = useStoredList("sk-elonlar-v1", [] as Listing[]);
+  const [remote, setRemote] = useState<Listing[]>([]);
   const [q, setQ] = useState("");
   const [type, setType] = useState<ListingType | "">(initial);
   const [category, setCategory] = useState("");
   const [city, setCity] = useState("");
   const [sort, setSort] = useState("yangi");
-  const [open, setOpen] = useState(false);
   const [saved, setSaved] = useState<string[]>([]);
-  const [form, setForm] = useState({ title: "", city: "Toshkent", type: "sotiladi" as ListingType, price: "", category: "Uskunalar" });
 
   useEffect(() => {
     setType(initial);
@@ -36,7 +35,16 @@ export function ListingsDesktop() {
     } catch { /* ignore */ }
   }, []);
 
-  const all = extra;
+  useEffect(() => {
+    let cancel = false;
+    void fetch("/api/work/classifieds").then(async (res) => {
+      const data = await res.json().catch(() => null) as { items?: ClassifiedRow[] } | null;
+      if (!cancel && Array.isArray(data?.items)) setRemote(data.items.map(classifiedToListing));
+    }).catch(() => undefined);
+    return () => { cancel = true; };
+  }, []);
+
+  const all = [...remote, ...extra.filter((item) => !remote.some((row) => row.id === item.id))];
   const items = useMemo(() => {
     const next = all.filter((item) => {
       if (type && item.type !== type) return false;
@@ -57,31 +65,6 @@ export function ListingsDesktop() {
     });
   }
 
-  function publish() {
-    if (!form.title.trim()) return;
-    const price = form.price.trim() ? Number(form.price.replace(/\s/g, "")) : null;
-    const labels: Record<ListingType, string> = { sotiladi: "Sotiladi", ijara: "Ijaraga", ish: "Ish o‘rni", xizmat: "Xizmatlar", hamkor: "Hamkorlik" };
-    const next: Listing = {
-      id: `el-user-${Date.now()}`,
-      type: form.type,
-      typeLabel: labels[form.type],
-      title: form.title.trim(),
-      city: form.city,
-      date: "2026-10-22",
-      dateLabel: "22.10.2026",
-      price,
-      priceLabel: price ? `${formatGroupedNumber(price)} so‘m` : "Kelishiladi",
-      views: 1,
-      likes: 0,
-      image: "/img/jihoz/unit.jpg",
-      category: form.category,
-      description: "Foydalanuvchi joylagan e’lon.",
-    };
-    setExtra((prev) => [next, ...prev]);
-    setOpen(false);
-    setType("");
-  }
-
   return (
     <CrmFrame active="listings" listings placeholder="E‘lonlar bo‘yicha qidiring..." headerQuery={q} onHeaderQuery={setQ}>
       <div data-testid="listings-desktop">
@@ -90,7 +73,7 @@ export function ListingsDesktop() {
             <h1>E‘lonlar</h1>
             <p>Stomatologiya sohasidagi e’lonlar: sotiladi, ijaraga, ish o‘rni va boshqalar</p>
           </div>
-          <button type="button" className="crm-btn blue" data-testid="listing-add" onClick={() => setOpen(true)}><Plus className="i" /> E‘lon joylashtirish</button>
+          <Link href="/elonlar/yangi" className="crm-btn blue" data-testid="listing-add"><Plus className="i" /> E‘lon joylashtirish</Link>
         </div>
         <div className="el-tiles">
           {listingTypes.map((item) => (
@@ -137,15 +120,6 @@ export function ListingsDesktop() {
             </div>
           </aside>
         </div>
-        {open ? (
-          <CrmModal title="E’lon joylashtirish" onClose={() => setOpen(false)}>
-            <label className="crm-field">Sarlavha<input data-testid="listing-title" value={form.title} onChange={(event) => setForm({ ...form, title: event.target.value })} /></label>
-            <label className="crm-field">Turi<select value={form.type} onChange={(event) => setForm({ ...form, type: event.target.value as ListingType })}>{listingTypes.filter((item) => item.id).map((item) => <option key={item.id} value={item.id}>{item.label}</option>)}</select></label>
-            <label className="crm-field">Shahar<select value={form.city} onChange={(event) => setForm({ ...form, city: event.target.value })}>{listingCities.map((item) => <option key={item.city}>{item.city}</option>)}</select></label>
-            <label className="crm-field">Narx (bo‘sh qolsa kelishiladi)<input value={form.price} onChange={(event) => setForm({ ...form, price: event.target.value })} /></label>
-            <div className="row"><button type="button" className="go" data-testid="listing-save" onClick={publish}>Joylash</button></div>
-          </CrmModal>
-        ) : null}
       </div>
     </CrmFrame>
   );
@@ -153,7 +127,25 @@ export function ListingsDesktop() {
 
 export function ListingDetailDesktop({ id }: { id: string }) {
   const [extra] = useStoredList("sk-elonlar-v1", [] as Listing[]);
-  const item = getListing(id, extra);
+  const [remote, setRemote] = useState<Listing | null>(null);
+  const [ready, setReady] = useState(false);
+  useEffect(() => {
+    let cancel = false;
+    void fetch(`/api/work/classifieds/${id}`).then(async (res) => {
+      const data = await res.json().catch(() => null) as { item?: ClassifiedRow } | null;
+      if (!cancel && data?.item) setRemote(classifiedToListing(data.item));
+      if (!cancel) setReady(true);
+    }).catch(() => { if (!cancel) setReady(true); });
+    return () => { cancel = true; };
+  }, [id]);
+  const item = remote ?? getListing(id, extra);
+  if (!item && !ready) {
+    return (
+      <CrmFrame active="listings" listings placeholder="E‘lonlar bo‘yicha qidiring...">
+        <div className="crm-empty">Yuklanmoqda…</div>
+      </CrmFrame>
+    );
+  }
   if (!item) {
     return (
       <CrmFrame active="listings" listings placeholder="E‘lonlar bo‘yicha qidiring...">
@@ -179,7 +171,8 @@ export function ListingDetailDesktop({ id }: { id: string }) {
           <aside className="pl-box">
             <b>Bog‘lanish</b>
             <p className="crm-muted">E’lon egasi bilan chat yoki telefon orqali.</p>
-            <a className="crm-btn blue" href="tel:+998901234567">+998 90 123 45 67</a>
+            {item.phone ? <a className="crm-btn blue" href={`tel:${item.phone.replace(/\s/g, "")}`}>{item.phone}</a> : <p className="crm-muted">Telefon ko‘rsatilmagan.</p>}
+            {item.telegram ? <a className="crm-btn" href={`https://t.me/${item.telegram.replace(/^@/, "")}`}>@{item.telegram.replace(/^@/, "")}</a> : null}
           </aside>
         </div>
       </div>

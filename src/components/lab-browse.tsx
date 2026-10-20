@@ -135,7 +135,7 @@ export function LabBrowse() {
           <p className="mt-0.5 text-[13px] text-[#8b93a7] lg:mt-1 lg:text-sm">Dental lab hamkorlari · crown, veneer, implant va protez buyurtmasi.</p>
           <div className="mt-2 hidden items-center gap-4 lg:flex">
             <Link href="/laboratoriya/buyurtmalarim" className="text-[13px] font-semibold text-primary">Mening lab buyurtmalarim</Link>
-            <Link href="/laboratoriya/mening" className="text-[13px] font-semibold text-primary">Laboratoriya sifatida e’lon berish</Link>
+            <Link href="/laboratoriya/yangi" className="text-[13px] font-semibold text-primary">Laboratoriya sifatida e’lon berish</Link>
           </div>
         </header>
         <div className="flex shrink-0 gap-2">
@@ -144,7 +144,7 @@ export function LabBrowse() {
             <span className="lg:hidden">Buyurtma</span>
             <span className="hidden lg:inline">Yangi buyurtma</span>
           </Button>
-          <Link href="/laboratoriya/mening" className={cn(buttonVariants({ variant: "outline" }), "hidden h-10 !rounded-xl px-4 lg:inline-flex")}>
+          <Link href="/laboratoriya/yangi" className={cn(buttonVariants({ variant: "outline" }), "hidden h-10 !rounded-xl px-4 lg:inline-flex")}>
             <Building2 className="size-4" />
             Lab qo‘shish
           </Link>
@@ -240,7 +240,7 @@ export function LabBrowse() {
           <span className="mx-auto grid size-14 place-items-center rounded-full bg-[#eef4ff] text-[#0066FF]"><FlaskConical className="size-6" /></span>
           <p className="mt-4 text-[16px] font-semibold text-[#1a1d26]">Hali e’lon yo‘q</p>
           <p className="mx-auto mt-1 max-w-sm text-sm text-[#8b93a7]">Hozircha tasdiqlangan laboratoriya yo‘q. Laboratoriyangiz bo‘lsa, profilingizni joylang.</p>
-          <Link href="/laboratoriya/mening" className={cn(buttonVariants(), "mt-5 inline-flex h-12 min-w-[200px] !rounded-2xl text-[14px] font-semibold")}>Laboratoriya sifatida e’lon berish</Link>
+          <Link href="/laboratoriya/yangi" className={cn(buttonVariants(), "mt-5 inline-flex h-12 min-w-[200px] !rounded-2xl text-[14px] font-semibold")}>Laboratoriya sifatida e’lon berish</Link>
         </div>
       ) : visible.length === 0 ? (
         <div className="rounded-2xl border border-[#eceff5] bg-white px-4 py-12 text-center">
@@ -259,7 +259,7 @@ export function LabBrowse() {
       )}
 
       <section className="mt-5 grid gap-3 sm:grid-cols-2">
-        <Link href="/laboratoriya/mening" className="flex items-center gap-3 rounded-2xl border border-[#eceff5] bg-white px-3.5 py-3.5 lg:hidden">
+        <Link href="/laboratoriya/yangi" className="flex items-center gap-3 rounded-2xl border border-[#eceff5] bg-white px-3.5 py-3.5 lg:hidden">
           <span className="grid size-10 shrink-0 place-items-center rounded-xl bg-[#e8f1ff] text-[#0066FF]"><Building2 className="size-4" /></span>
           <span className="min-w-0 leading-tight">
             <span className="block text-[13px] font-bold text-[#1a1d26]">Lab qo‘shish</span>

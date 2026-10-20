@@ -151,13 +151,17 @@ export function JobDetail({ id }: { id: string }) {
           <p className="mt-2 whitespace-pre-line text-sm leading-relaxed text-[#4b5568]">{job.description}</p>
         </div>
 
-        {job.phone ? (
-          <p className="mt-4 inline-flex items-center gap-2 text-sm text-[#4b5568]">
+        {job.phone || job.telegram || job.email ? (
+          <p className="mt-4 inline-flex flex-wrap items-center gap-2 text-sm text-[#4b5568]">
             <Phone className="size-4 text-primary" />
+            {job.phone ? (
             <a href={`tel:${job.phone.replace(/\s/g, "")}`} className="font-medium text-primary hover:underline">
               {job.phone}
             </a>
-            <span className="text-[12px] text-[#8b93a7]">sizning raqamingiz (ochiq ko‘rinmaydi)</span>
+            ) : null}
+            {job.telegram ? <span>@{job.telegram.replace(/^@/, "")}</span> : null}
+            {job.email ? <span>{job.email}</span> : null}
+            {job.mine ? <Link href={`/ishlar/yangi?id=${job.id}`} className="font-semibold text-primary">Tahrirlash</Link> : null}
           </p>
         ) : null}
 
