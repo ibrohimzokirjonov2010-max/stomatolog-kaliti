@@ -3,9 +3,9 @@
 import { useEffect, useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { MapPin, MessageCircle } from "lucide-react";
-import { ADD_CITIES, ADD_DISTRICTS, ELON_CATEGORIES, elonPayload, emptyElon, moneyText, saveAddForm, sourceUrlValue, validateElon, type ElonInput } from "@/lib/add-forms";
+import { ADD_CITIES, ADD_DISTRICTS, ELON_CATEGORIES, elonPayload, emptyElon, moneyText, saveAddForm, validateElon, type ElonInput } from "@/lib/add-forms";
 import { formatGroupedNumber } from "@/lib/format";
-import { AddPage, AreaField, Banners, Field, FormActions, PhoneField, PhotoPicker, SelectField, Step, TelegramField, TextField, Toggle, type LocalPhoto } from "@/components/add-forms/widgets";
+import { AddPage, AreaField, Banners, Field, FormActions, PhoneField, PhotoPicker, SelectField, SourceLinks, Step, TelegramField, TextField, Toggle, type LocalPhoto } from "@/components/add-forms/widgets";
 import { photosFromUrls, resolvePhotos } from "@/components/add-forms/upload-local";
 
 export function ElonForm() {
@@ -40,6 +40,7 @@ export function ElonForm() {
         phone: row.phone ?? "",
         telegram: row.telegram ?? "",
         sourceUrl: row.sourceUrl ?? "",
+        instagram: row.instagram ?? "",
         photos: row.photos ?? [],
       });
       setPhotos(photosFromUrls(row.photos ?? []));
@@ -81,7 +82,6 @@ export function ElonForm() {
 
   const priceLabel = form.negotiable && !form.price.trim() ? "Kelishiladi" : form.price.trim() ? `${moneyText(form.price)} so‘m` : "Narx kiritilmagan";
   const cover = photos[0]?.preview || photos[0]?.url;
-  const source = sourceUrlValue(form.sourceUrl);
 
   return (
     <AddPage testId="add-elon" title="Yangi e‘lon qo‘shish" sub="Jihoz, asbob yoki material e’lonini joylang." crumbs={[{ href: "/", label: "Bosh sahifa" }, { href: "/elonlar", label: "E‘lonlar" }, { label: "Yangi e‘lon qo‘shish" }]}>
@@ -117,7 +117,7 @@ export function ElonForm() {
               <TelegramField testId="elon-tg" value={form.telegram} error={errors.telegram} onChange={(telegram) => patch({ telegram })} />
             </div>
             <TextField label="Manba yoki sayt havolasi" testId="elon-source" value={form.sourceUrl} error={errors.sourceUrl} placeholder="https://" maxLength={400} onChange={(sourceUrl) => patch({ sourceUrl })} />
-            {errors.contact ? <p className="af-err" data-testid="elon-contact-error">{errors.contact}</p> : null}
+            <TextField label="Instagram" testId="elon-instagram" value={form.instagram} error={errors.instagram} placeholder="@username yoki https://" maxLength={200} onChange={(instagram) => patch({ instagram })} />
           </Step>
           <FormActions pending={pending} draftLabel="Saqlash (qoralama)" publishLabel="E‘lon berish" draft={() => void save("draft")} publish={() => void save("publish")} />
         </div>
@@ -133,7 +133,7 @@ export function ElonForm() {
               <p className="af-line"><MapPin size={14} /> {[form.city, form.district].filter(Boolean).join(", ") || "Shahar"}</p>
               <p className="muted">{form.description.trim() || "Tavsif shu yerda ko‘rinadi."}</p>
               <p className="af-line"><MessageCircle size={14} /> {form.phone.trim() || "Telefon"}{form.telegram.trim() ? ` · @${form.telegram.replace(/^@/, "")}` : ""}</p>
-              {source ? <a className="af-source" href={source} target="_blank" rel="noopener nofollow">{source}</a> : null}
+              <SourceLinks source={form.sourceUrl} instagram={form.instagram} />
               <button type="button" className="af-msg blue">Xabar yozish</button>
             </div>
           </article>
@@ -156,5 +156,6 @@ type ElonRow = {
   phone?: string;
   telegram?: string;
   sourceUrl?: string | null;
+  instagram?: string | null;
   photos?: string[];
 };

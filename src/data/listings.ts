@@ -20,6 +20,7 @@ export type Listing = {
   photos?: string[];
   district?: string;
   sourceUrl?: string;
+  instagram?: string;
 };
 
 export const listingTypes: { id: ListingType | ""; label: string }[] = [

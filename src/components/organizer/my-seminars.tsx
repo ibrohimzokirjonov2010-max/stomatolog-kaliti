@@ -4,7 +4,7 @@ import { useState } from "react";
 import Link from "next/link";
 import { CalendarDays, MapPin, Pencil, Plus, Trash2 } from "lucide-react";
 import { formatUzDate } from "@/lib/format";
-import { SEMINAR_STATUS_LABEL, type SeminarRow } from "@/lib/seminar-remote";
+import { SEMINAR_STATUS_LABEL, seminarRowPriceText, type SeminarRow } from "@/lib/seminar-remote";
 import { cn } from "@/lib/utils";
 
 const tone: Record<SeminarRow["status"], string> = {
@@ -67,7 +67,7 @@ export function MySeminars({ seminars, onChanged }: { seminars: SeminarRow[]; on
                       <span className="inline-flex items-center gap-1"><MapPin className="size-3.5" />{s.city}</span>
                     </p>
                     <p className="mt-1 text-[12.5px] text-[#4b5568]">
-                      Yozilgan: <b>{s.registered}</b> / {s.seats} · Narx: <b>{s.price > 0 ? `${s.price.toLocaleString("ru-RU")} so‘m` : "Bepul"}</b>
+                      Yozilgan: <b>{s.registered}</b> / {s.seats} · Narx: <b>{seminarRowPriceText(s.price)}</b>
                     </p>
                   </div>
                   <span className={cn("shrink-0 rounded-full px-2.5 py-1 text-[11.5px] font-semibold", tone[s.status])}>{SEMINAR_STATUS_LABEL[s.status]}</span>

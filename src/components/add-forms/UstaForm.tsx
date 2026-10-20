@@ -3,9 +3,9 @@
 import { useEffect, useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { MapPin } from "lucide-react";
-import { ADD_CITIES, ADD_DISTRICTS, USTA_HOURS, USTA_SPECIALTIES, USTA_YEARS, emptyUsta, moneyText, saveAddForm, sourceUrlValue, ustaPayload, ustaTitle, validateUsta, type UstaInput } from "@/lib/add-forms";
+import { ADD_CITIES, ADD_DISTRICTS, USTA_HOURS, USTA_SPECIALTIES, USTA_YEARS, emptyUsta, moneyText, saveAddForm, ustaPayload, ustaTitle, validateUsta, type UstaInput } from "@/lib/add-forms";
 import { formatGroupedNumber } from "@/lib/format";
-import { AddPage, AreaField, Banners, Checks, FormActions, LogoPicker, PhoneField, PhotoPicker, ProfileSwitch, SelectField, Step, TelegramField, TextField, Toggle, type LocalPhoto } from "@/components/add-forms/widgets";
+import { AddPage, AreaField, Banners, Checks, FormActions, LogoPicker, PhoneField, PhotoPicker, ProfileSwitch, SelectField, SourceLinks, Step, TelegramField, TextField, Toggle, type LocalPhoto } from "@/components/add-forms/widgets";
 import { photosFromUrls, resolvePhotos } from "@/components/add-forms/upload-local";
 
 type Row = {
@@ -24,6 +24,7 @@ type Row = {
   phone?: string;
   telegram?: string;
   sourceUrl?: string | null;
+  instagram?: string | null;
   photo?: string | null;
   works?: string[];
   status?: string;
@@ -58,6 +59,7 @@ export function UstaForm() {
       phone: row.phone ?? "",
       telegram: row.telegram ?? "",
       sourceUrl: row.sourceUrl ?? "",
+      instagram: row.instagram ?? "",
       photo: row.photo ?? "",
       works: row.works ?? [],
     });
@@ -120,7 +122,6 @@ export function UstaForm() {
   }
 
   const price = form.priceFrom.trim() ? `${moneyText(form.priceFrom)} so‘mdan` : "Narx kiritilmagan";
-  const source = sourceUrlValue(form.sourceUrl);
 
   return (
     <AddPage testId="add-usta" title="Usta profili qo‘shish" sub="Xizmatlar · Ustalar" crumbs={[{ href: "/", label: "Bosh sahifa" }, { href: "/ustalar", label: "Ustalar" }, { label: "Usta profili qo‘shish" }]}>
@@ -169,7 +170,7 @@ export function UstaForm() {
               <TelegramField testId="usta-tg" value={form.telegram} error={errors.telegram} onChange={(telegram) => patch({ telegram })} />
             </div>
             <TextField label="Manba yoki sayt havolasi" testId="usta-source" value={form.sourceUrl} error={errors.sourceUrl} placeholder="https://" maxLength={400} onChange={(sourceUrl) => patch({ sourceUrl })} />
-            {errors.contact ? <p className="af-err" data-testid="usta-contact-error">{errors.contact}</p> : null}
+            <TextField label="Instagram" testId="usta-instagram" value={form.instagram} error={errors.instagram} placeholder="@username yoki https://" maxLength={200} onChange={(instagram) => patch({ instagram })} />
           </Step>
           <FormActions pending={pending} draftLabel="Saqlash (qoralama)" publishLabel="Profilni e‘lon qilish" draft={() => void save("draft")} publish={() => void save("publish")} />
         </div>
@@ -186,7 +187,7 @@ export function UstaForm() {
               <p className="muted">{form.hours || "Ish vaqti"}</p>
               <p className="muted">{form.description.trim() || "Tavsif shu yerda ko‘rinadi."}</p>
               <p className="af-line">{form.phone.trim() || "Telefon"}{form.telegram.trim() ? ` · @${form.telegram.replace(/^@/, "")}` : ""}</p>
-              {source ? <a className="af-source" href={source} target="_blank" rel="noopener nofollow">{source}</a> : null}
+              <SourceLinks source={form.sourceUrl} instagram={form.instagram} />
               <button type="button" className="af-msg blue">Xabar yozish</button>
             </div>
           </article>

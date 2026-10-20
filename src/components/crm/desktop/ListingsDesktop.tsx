@@ -8,7 +8,7 @@ import { ChevronRight, Eye, Heart, MapPin, Plus, Search } from "lucide-react";
 import { CrmFrame } from "@/components/crm/desktop/CrmFrame";
 import { listingCities, listingTypes, getListing, type Listing, type ListingType } from "@/data/listings";
 import { classifiedToListing, type ClassifiedRow } from "@/lib/classified-view";
-import { sourceUrlValue } from "@/lib/add-forms";
+import { instagramHref, instagramValue, sourceUrlValue } from "@/lib/add-forms";
 import { useStoredList } from "@/lib/stored-list";
 
 const SAVED = "sk-elon-saved-v1";
@@ -175,6 +175,7 @@ export function ListingDetailDesktop({ id }: { id: string }) {
             {item.phone ? <a className="crm-btn blue" href={`tel:${item.phone.replace(/\s/g, "")}`}>{item.phone}</a> : <p className="crm-muted">Telefon ko‘rsatilmagan.</p>}
             {item.telegram ? <a className="crm-btn" href={`https://t.me/${item.telegram.replace(/^@/, "")}`}>@{item.telegram.replace(/^@/, "")}</a> : null}
             {sourceUrlValue(item.sourceUrl ?? "") ? <a className="crm-btn" href={sourceUrlValue(item.sourceUrl ?? "")} target="_blank" rel="noopener nofollow" data-testid="listing-source">{sourceUrlValue(item.sourceUrl ?? "")}</a> : null}
+            {instagramHref(item.instagram ?? "") ? <a className="crm-btn" href={instagramHref(item.instagram ?? "")} target="_blank" rel="noopener nofollow" data-testid="listing-instagram">{instagramValue(item.instagram ?? "")}</a> : null}
           </aside>
         </div>
       </div>

@@ -1,4 +1,5 @@
-import { SEMINAR_DATE_TBD as SEMINAR_DATE_TBD_VALUE, formatUzDate } from "@/lib/format";
+import { UZ_REGIONS, type UzRegion } from "@/data/regions";
+import { SEMINAR_DATE_TBD as SEMINAR_DATE_TBD_VALUE, formatMoney, formatUzDate } from "@/lib/format";
 import { tashkentDateParts } from "@/lib/tashkent-date";
 
 export type Specialty =
@@ -8,7 +9,8 @@ export type Specialty =
   | "ortodontiya"
   | "kongress";
 
-export type SeminarCity = "Toshkent" | "Samarqand" | "Online";
+/** Regions plus older catalog values still stored on some rows. */
+export type SeminarCity = UzRegion | "Toshkent" | "Samarqand" | "Online";
 
 export type SeminarSpeaker = {
   name: string;
@@ -57,6 +59,12 @@ export type Seminar = {
   pastGallery?: SeminarGalleryItem[];
   specialty: Specialty;
   price: number;
+  /** Price was not announced. `price` stays 0 so existing math still runs. */
+  priceHidden?: boolean;
+  /** Public source page (http/https). */
+  sourceUrl?: string;
+  /** Instagram handle or URL. */
+  instagram?: string;
   /** Optional pre-discount price (shown crossed out with -N%). */
   oldPrice?: number;
   seatsTaken: number;
@@ -102,7 +110,14 @@ export const specialtyLabels: Record<Specialty, string> = {
   kongress: "Kongress",
 };
 
-export const seminarCities: SeminarCity[] = ["Toshkent", "Samarqand", "Online"];
+/** Shared region list used by the seminar form and the public city filters. */
+export const seminarCities: SeminarCity[] = [...UZ_REGIONS];
+
+export function seminarPriceText(seminar: Pick<Seminar, "price" | "priceHidden">) {
+  if (seminar.priceHidden) return "Narx e‘lon qilinmagan";
+  if (seminar.price > 0) return formatMoney(seminar.price, "UZS");
+  return "Bepul";
+}
 
 /** Live list. Filled only from /api/seminars/catalog. */
 export const seminars: Seminar[] = [];

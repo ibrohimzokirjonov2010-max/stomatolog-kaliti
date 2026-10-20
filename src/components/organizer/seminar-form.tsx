@@ -5,10 +5,11 @@ import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { ChevronLeft, ImagePlus, Loader2, Plus, Trash2 } from "lucide-react";
-import { seminarCities } from "@/data/seminars";
+import { SeminarPublicLinks } from "@/components/seminar-links";
+import { seminarCities, type SeminarCity } from "@/data/seminars";
 import { prepareImage, uploadImage } from "@/lib/image-upload";
 import { SPECIALTIES, type SeminarRow } from "@/lib/seminar-remote";
-import { emptySeminarInput, validateSeminar, type SeminarErrors, type SeminarInput } from "@/lib/seminar-validate";
+import { emptySeminarInput, validateSeminar, type SeminarErrors, type SeminarInput, type SeminarPriceMode } from "@/lib/seminar-validate";
 import { cn } from "@/lib/utils";
 
 const field =
@@ -38,19 +39,29 @@ function toInput(r: SeminarRow): SeminarInput {
     description: r.description ?? "",
     speakers: r.speakers?.length ? r.speakers.map((s) => ({ name: s.name, role: s.role })) : [{ name: "", role: "" }],
     date: r.date ?? "",
+    dateEnd: r.dateEnd ?? "",
     startTime: r.time ?? "",
     endTime: r.timeEnd ?? "",
-    city: r.city ?? "Toshkent",
+    city: r.city ?? "Toshkent shahri",
     venue: r.venue ?? "",
-    price: String(r.price ?? ""),
+    priceMode: r.price == null ? "hidden" : Number(r.price) === 0 ? "free" : "paid",
+    price: r.price == null || Number(r.price) === 0 ? "" : String(r.price),
     seats: String(r.seats ?? ""),
     specialty: r.specialty ?? "implantologiya",
     image: r.image ?? "",
     tags: (r.tags ?? []).join(", "),
     program: r.program ?? [],
     learnings: (r.learnings ?? []).join("\n"),
+    sourceUrl: r.sourceUrl ?? "",
+    instagram: r.instagram ?? "",
   };
 }
+
+const PRICE_MODES: { id: SeminarPriceMode; label: string }[] = [
+  { id: "free", label: "Bepul" },
+  { id: "paid", label: "Pullik" },
+  { id: "hidden", label: "Narx e‘lon qilinmagan" },
+];
 
 /** Create / edit form for an organizer's seminar. `seminarId` set → edit. */
 export function SeminarForm({ seminarId }: { seminarId?: string }) {
@@ -145,6 +156,7 @@ export function SeminarForm({ seminarId }: { seminarId?: string }) {
   }
 
   const bad = (k: string) => (errors[k] ? "border-[#dc2626]" : "border-[#e1e6ef]");
+  const cityOptions = (seminarCities as string[]).includes(form.city) ? seminarCities : [form.city as SeminarCity, ...seminarCities];
 
   if (loading) return <div className="mx-auto h-64 max-w-3xl animate-pulse rounded-[16px] bg-[#f1f3f8]" />;
   if (loadError)
@@ -219,9 +231,12 @@ export function SeminarForm({ seminarId }: { seminarId?: string }) {
           ) : null}
         </div>
 
-        <div className="grid gap-4 sm:grid-cols-3">
+        <div className="grid gap-4 sm:grid-cols-2">
           <Field id="date" label="Sana" error={errors.date}>
             <input id="date" type="date" value={form.date} onChange={(e) => set("date", e.target.value)} className={cn(field, bad("date"))} />
+          </Field>
+          <Field id="dateEnd" label="Tugash sanasi" error={errors.dateEnd} hint="Bir kunlik bo‘lsa bo‘sh qoldiring.">
+            <input id="dateEnd" type="date" value={form.dateEnd} onChange={(e) => set("dateEnd", e.target.value)} className={cn(field, bad("dateEnd"))} data-testid="seminar-date-end" />
           </Field>
           <Field id="startTime" label="Boshlanishi" error={errors.startTime}>
             <input id="startTime" type="time" value={form.startTime} onChange={(e) => set("startTime", e.target.value)} className={cn(field, bad("startTime"))} />
@@ -231,10 +246,10 @@ export function SeminarForm({ seminarId }: { seminarId?: string }) {
           </Field>
         </div>
 
-        <div className="grid gap-4 sm:grid-cols-[180px_1fr]">
+        <div className="grid gap-4 sm:grid-cols-[240px_1fr]">
           <Field id="city" label="Shahar" error={errors.city}>
             <select id="city" value={form.city} onChange={(e) => set("city", e.target.value)} className={cn(field, bad("city"))}>
-              {seminarCities.map((c) => (
+              {cityOptions.map((c) => (
                 <option key={c} value={c}>
                   {c}
                 </option>
@@ -246,10 +261,34 @@ export function SeminarForm({ seminarId }: { seminarId?: string }) {
           </Field>
         </div>
 
-        <div className="grid gap-4 sm:grid-cols-3">
-          <Field id="price" label="Narx (so‘m)" error={errors.price} hint="Bepul bo‘lsa 0 yozing.">
-            <input id="price" inputMode="numeric" value={form.price} onChange={(e) => set("price", e.target.value.replace(/[^\d\s]/g, ""))} placeholder="450000" className={cn(field, bad("price"))} />
-          </Field>
+        <div data-field="price">
+          <p className="mb-1.5 text-[13px] font-semibold text-[#1a1d26]">Narx</p>
+          <div className="flex flex-wrap gap-2" data-testid="seminar-price-mode">
+            {PRICE_MODES.map((mode) => (
+              <button
+                key={mode.id}
+                type="button"
+                data-testid={`seminar-price-${mode.id}`}
+                aria-pressed={form.priceMode === mode.id}
+                onClick={() => set("priceMode", mode.id)}
+                className={cn(
+                  "h-10 rounded-xl border px-3.5 text-[13px] font-semibold",
+                  form.priceMode === mode.id ? "border-[#0066FF] bg-[#e8f1ff] text-[#0066FF]" : "border-[#e1e6ef] text-[#4b5568]",
+                )}
+              >
+                {mode.label}
+              </button>
+            ))}
+          </div>
+          {form.priceMode === "paid" ? (
+            <div className="mt-2">
+              <input id="price" inputMode="numeric" value={form.price} onChange={(e) => set("price", e.target.value.replace(/[^\d\s]/g, ""))} placeholder="450000" aria-label="Narx (so‘m)" className={cn(field, bad("price"))} />
+            </div>
+          ) : null}
+          {errors.price ? <p role="alert" className="mt-1.5 text-[12.5px] font-medium text-[#dc2626]">{errors.price}</p> : null}
+        </div>
+
+        <div className="grid gap-4 sm:grid-cols-2">
           <Field id="seats" label="O‘rinlar soni" error={errors.seats}>
             <input id="seats" inputMode="numeric" value={form.seats} onChange={(e) => set("seats", e.target.value.replace(/[^\d]/g, ""))} placeholder="40" className={cn(field, bad("seats"))} />
           </Field>
@@ -316,6 +355,16 @@ export function SeminarForm({ seminarId }: { seminarId?: string }) {
         <Field id="learnings" label="Nima o‘rganasiz (ixtiyoriy)" error={errors.learnings} hint="Har bir bandni yangi qatordan yozing.">
           <textarea id="learnings" value={form.learnings} onChange={(e) => set("learnings", e.target.value)} rows={3} className={cn(field, bad("learnings"), "h-auto py-3 leading-relaxed")} />
         </Field>
+
+        <div className="grid gap-4 sm:grid-cols-2">
+          <Field id="sourceUrl" label="Manba yoki sayt havolasi" error={errors.sourceUrl} hint="Ixtiyoriy. http:// yoki https://">
+            <input id="sourceUrl" value={form.sourceUrl} onChange={(e) => set("sourceUrl", e.target.value)} maxLength={400} placeholder="https://" className={cn(field, bad("sourceUrl"))} data-testid="seminar-source" />
+          </Field>
+          <Field id="instagram" label="Instagram" error={errors.instagram} hint="Ixtiyoriy. @username yoki havola.">
+            <input id="instagram" value={form.instagram} onChange={(e) => set("instagram", e.target.value)} maxLength={200} placeholder="@username yoki https://" className={cn(field, bad("instagram"))} data-testid="seminar-instagram" />
+          </Field>
+        </div>
+        <SeminarPublicLinks sourceUrl={form.sourceUrl} instagram={form.instagram} testId="seminar-link-preview" />
 
         <Field id="tags" label="Teglar (ixtiyoriy)" error={errors.tags} hint="Vergul bilan ajrating, eng ko‘pi 6 ta. Masalan: master-klass, amaliyot">
           <input id="tags" value={form.tags} onChange={(e) => set("tags", e.target.value)} className={cn(field, bad("tags"))} />

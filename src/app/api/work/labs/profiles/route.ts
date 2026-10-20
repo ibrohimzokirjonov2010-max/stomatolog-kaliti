@@ -43,6 +43,7 @@ export async function POST(request: Request) {
     telegram: String(body.telegram ?? ""),
     email: String(body.email ?? ""),
     sourceUrl: String(body.sourceUrl ?? ""),
+    instagram: String(body.instagram ?? ""),
     logo: typeof body.logo === "string" ? body.logo : "",
     photos: Array.isArray(body.photos) ? body.photos.filter((item): item is string => typeof item === "string") : [],
   };

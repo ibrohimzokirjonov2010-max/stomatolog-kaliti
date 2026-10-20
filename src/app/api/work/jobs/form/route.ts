@@ -30,6 +30,7 @@ export async function POST(request: Request) {
     telegram: String(body.telegram ?? ""),
     email: String(body.email ?? ""),
     sourceUrl: String(body.sourceUrl ?? ""),
+    instagram: String(body.instagram ?? ""),
     acceptApplications: body.acceptApplications !== false,
   };
   const errors = validateJobForm(input, mode);

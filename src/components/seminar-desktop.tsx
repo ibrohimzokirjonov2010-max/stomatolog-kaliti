@@ -37,6 +37,7 @@ import {
   isSeminarUpcoming,
   seminarCities,
   seminarHref,
+  seminarPriceText,
   seminars,
   todayIso,
   type Seminar,
@@ -655,7 +656,7 @@ function Hero({
             )}
             <div className="text-white">
               <p className="flex items-center gap-2">
-                <span className="text-[22px] leading-none font-extrabold">{formatMoney(seminar.price, "UZS")}</span>
+                <span className="text-[22px] leading-none font-extrabold">{seminarPriceText(seminar)}</span>
                 {discount ? (
                   <span className="rounded-md bg-[#ef4444] px-1.5 py-[3px] text-[11px] leading-none font-bold">-{discount}%</span>
                 ) : null}
@@ -839,7 +840,7 @@ function SeminarGridCard({ seminar }: { seminar: Seminar }) {
 
         <div className="mt-auto pt-2.5">
           <div className="flex items-baseline gap-1.5">
-            <span className="text-[15px] leading-tight font-extrabold text-[#0066FF]">{formatMoney(seminar.price, "UZS")}</span>
+            <span className="text-[15px] leading-tight font-extrabold text-[#0066FF]">{seminarPriceText(seminar)}</span>
             {discount ? (
               <span className="rounded-md bg-[#ffe9e9] px-1.5 py-[2px] text-[10px] leading-none font-bold text-[#e5484d]">-{discount}%</span>
             ) : null}

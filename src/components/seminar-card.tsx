@@ -20,9 +20,10 @@ import {
   getSeminarSpeakers,
   isSeminarUpcoming,
   seminarHref,
+  seminarPriceText,
   type Seminar,
 } from "@/data/seminars";
-import { formatMoney, formatUzDate } from "@/lib/format";
+import { formatUzDate } from "@/lib/format";
 import { cn } from "@/lib/utils";
 import { seminarDate } from "@/data/seminars";
 
@@ -220,7 +221,7 @@ export function SeminarCard({ seminar }: { seminar: Seminar }) {
                   {online ? "Online" : live.city}
                 </span>
                 <span className="text-white/40">·</span>
-                <span className="font-semibold text-white">{formatMoney(live.price, "UZS")}</span>
+                <span className="font-semibold text-white">{seminarPriceText(live)}</span>
               </div>
             </div>
           </div>
@@ -308,7 +309,7 @@ export function FeaturedSeminar({ seminar }: { seminar: Seminar }) {
               </li>
               <li className="flex items-center gap-1.5">
                 <Tag className="size-3.5 shrink-0 text-white" />
-                <span className="font-semibold text-white">{formatMoney(live.price, "UZS")}</span>
+                <span className="font-semibold text-white">{seminarPriceText(live)}</span>
               </li>
               {primary ? (
                 <li className="flex items-center gap-1.5 pt-0.5">
@@ -504,7 +505,7 @@ export function SeminarRow({ seminar }: { seminar: Seminar }) {
         {online ? <Monitor className="size-3.5 text-primary" /> : <MapPin className="size-3.5 text-primary" />}
         {live.city}
       </p>
-      <p className="hidden text-sm font-semibold text-primary lg:block">{formatMoney(live.price, "UZS")}</p>
+      <p className="hidden text-sm font-semibold text-primary lg:block">{seminarPriceText(live)}</p>
       <div className="justify-self-start sm:justify-self-end">
         <RegisterCta seminar={seminar} />
       </div>

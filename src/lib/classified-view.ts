@@ -14,6 +14,7 @@ export type ClassifiedRow = {
   phone?: string | null;
   telegram?: string | null;
   sourceUrl?: string | null;
+  instagram?: string | null;
   photos?: string[];
   createdAt?: string;
 };
@@ -46,5 +47,6 @@ export function classifiedToListing(row: ClassifiedRow): Listing {
     phone: row.phone || "",
     telegram: row.telegram || "",
     sourceUrl: row.sourceUrl || "",
+    instagram: row.instagram || "",
   };
 }

@@ -3,8 +3,8 @@
 import { useEffect, useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { MapPin } from "lucide-react";
-import { ADD_CITIES, ADD_DISTRICTS, LAB_DAY_LABEL, LAB_DAYS, LAB_MATERIALS, LAB_SPECIALTIES, emptyLab, labPayload, moneyText, saveAddForm, sourceUrlValue, validateLabForm, type LabInput, type LabRow } from "@/lib/add-forms";
-import { AddPage, Banners, Checks, FormActions, LogoPicker, PhoneField, PhotoPicker, ProfileSwitch, SelectField, Step, TelegramField, TextField, Toggle, type LocalPhoto } from "@/components/add-forms/widgets";
+import { ADD_CITIES, ADD_DISTRICTS, LAB_DAY_LABEL, LAB_DAYS, LAB_MATERIALS, LAB_SPECIALTIES, emptyLab, labPayload, moneyText, saveAddForm, validateLabForm, type LabInput, type LabRow } from "@/lib/add-forms";
+import { AddPage, Banners, Checks, FormActions, LogoPicker, PhoneField, PhotoPicker, ProfileSwitch, SelectField, SourceLinks, Step, TelegramField, TextField, Toggle, type LocalPhoto } from "@/components/add-forms/widgets";
 import { photosFromUrls, resolvePhotos } from "@/components/add-forms/upload-local";
 
 type Stored = {
@@ -23,6 +23,7 @@ type Stored = {
   telegram?: string;
   email?: string;
   sourceUrl?: string | null;
+  instagram?: string | null;
   logo?: string | null;
   photos?: string[];
   priceItems?: { id?: string; service?: string; title?: string; material?: string; price?: number | null; days?: number | null; daysMin?: number | null; tags?: string[] }[];
@@ -68,6 +69,7 @@ export function LabForm() {
       telegram: row.telegram ?? "",
       email: row.email ?? "",
       sourceUrl: row.sourceUrl ?? "",
+      instagram: row.instagram ?? "",
       logo: row.logo ?? "",
       photos: row.photos ?? [],
     });
@@ -129,7 +131,6 @@ export function LabForm() {
   }
 
   const names = form.services.map((item) => LAB_SPECIALTIES.find((spec) => spec.id === item)?.label ?? item).join(", ");
-  const source = sourceUrlValue(form.sourceUrl);
 
   return (
     <AddPage testId="add-lab" title="Laboratoriya qo‘shish" sub="Xizmatlar · Laboratoriyalar" crumbs={[{ href: "/", label: "Bosh sahifa" }, { href: "/laboratoriya", label: "Laboratoriyalar" }, { label: "Laboratoriya qo‘shish" }]}>
@@ -205,7 +206,7 @@ export function LabForm() {
             </div>
             <TextField label="Email" testId="lab-email" value={form.email} error={errors.email} placeholder="lab@example.com" onChange={(email) => patch({ email })} />
             <TextField label="Manba yoki sayt havolasi" testId="lab-source" value={form.sourceUrl} error={errors.sourceUrl} placeholder="https://" maxLength={400} onChange={(sourceUrl) => patch({ sourceUrl })} />
-            {errors.contact ? <p className="af-err" data-testid="lab-contact-error">{errors.contact}</p> : null}
+            <TextField label="Instagram" testId="lab-instagram" value={form.instagram} error={errors.instagram} placeholder="@username yoki https://" maxLength={200} onChange={(instagram) => patch({ instagram })} />
           </Step>
           <FormActions pending={pending} draftLabel="Saqlash (qoralama)" publishLabel="Laboratoriyani e‘lon qilish" draft={() => void save("draft")} publish={() => void save("publish")} />
         </div>
@@ -221,7 +222,7 @@ export function LabForm() {
                 <p key={row.key} className="af-line">{row.service}{row.price ? ` · ${row.price} so‘m` : ""}{row.days ? ` · ${row.days} kun` : ""}</p>
               ))}
               <p className="af-line">{form.phone.trim() || "Telefon"}{form.email.trim() ? ` · ${form.email.trim()}` : ""}</p>
-              {source ? <a className="af-source" href={source} target="_blank" rel="noopener nofollow">{source}</a> : null}
+              <SourceLinks source={form.sourceUrl} instagram={form.instagram} />
               <button type="button" className="af-msg blue">Buyurtma berish</button>
             </div>
           </article>

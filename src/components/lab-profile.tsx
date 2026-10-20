@@ -30,7 +30,7 @@ import {
 import { Modal, OrderForm } from "@/components/lab-browse";
 import { useLabWork } from "@/components/lab-provider";
 import { findPhoneLab } from "@/data/phone14";
-import { sourceUrlValue } from "@/lib/add-forms";
+import { instagramHref, instagramValue, sourceUrlValue } from "@/lib/add-forms";
 import {
   LabLogo,
   LabPhoto,
@@ -405,6 +405,11 @@ function LabProfileView({ lab }: { lab: Lab }) {
             {sourceUrlValue(lab.sourceUrl ?? "") ? (
               <a href={sourceUrlValue(lab.sourceUrl ?? "")} target="_blank" rel="noopener nofollow" className="mt-3 inline-flex text-[13px] font-semibold text-[#0066FF] break-all" data-testid="lab-source">
                 {sourceUrlValue(lab.sourceUrl ?? "")}
+              </a>
+            ) : null}
+            {instagramHref(lab.instagram ?? "") ? (
+              <a href={instagramHref(lab.instagram ?? "")} target="_blank" rel="noopener nofollow" className="mt-3 inline-flex text-[13px] font-semibold text-[#0066FF] break-all" data-testid="lab-instagram">
+                {instagramValue(lab.instagram ?? "")}
               </a>
             ) : null}
             <a href={labMapHref(lab)} target="_blank" rel="noreferrer" className="mt-3 inline-flex h-10 items-center gap-1.5 rounded-xl border border-[#dbe3f0] px-3.5 text-[13px] font-semibold text-[#0066FF]">

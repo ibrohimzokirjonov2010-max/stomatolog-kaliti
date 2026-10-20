@@ -3,9 +3,9 @@
 import { useEffect, useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { MapPin } from "lucide-react";
-import { ADD_CITIES, ADD_DISTRICTS, JOB_EXPERIENCE, JOB_PERKS, JOB_TYPES, emptyJob, jobPayload, moneyText, saveAddForm, sourceUrlValue, validateJobForm, type JobInput } from "@/lib/add-forms";
+import { ADD_CITIES, ADD_DISTRICTS, JOB_EXPERIENCE, JOB_PERKS, JOB_TYPES, emptyJob, jobPayload, moneyText, saveAddForm, validateJobForm, type JobInput } from "@/lib/add-forms";
 import { formatGroupedNumber } from "@/lib/format";
-import { AddPage, AreaField, Banners, Chips, FormActions, PhoneField, SelectField, Step, TelegramField, TextField, Toggle } from "@/components/add-forms/widgets";
+import { AddPage, AreaField, Banners, Chips, FormActions, PhoneField, SelectField, SourceLinks, Step, TelegramField, TextField, Toggle } from "@/components/add-forms/widgets";
 
 type Row = {
   id: string;
@@ -28,6 +28,7 @@ type Row = {
   telegram?: string | null;
   email?: string | null;
   sourceUrl?: string | null;
+  instagram?: string | null;
   acceptApplications?: boolean;
 };
 
@@ -71,6 +72,7 @@ export function JobForm() {
         telegram: row.telegram ?? "",
         email: row.email ?? "",
         sourceUrl: row.sourceUrl ?? "",
+        instagram: row.instagram ?? "",
         acceptApplications: row.acceptApplications !== false,
       });
     }).catch(() => undefined);
@@ -108,7 +110,6 @@ export function JobForm() {
   }
 
   const typeLabel = JOB_TYPES.find((item) => item.id === form.type)?.label ?? "";
-  const source = sourceUrlValue(form.sourceUrl);
   const salary = form.negotiable && !form.salaryMin && !form.salaryMax
     ? "Kelishiladi"
     : [form.salaryMin && `${moneyText(form.salaryMin)} dan`, form.salaryMax && `${moneyText(form.salaryMax)} gacha`].filter(Boolean).join(" · ") || "Maosh kiritilmagan";
@@ -161,6 +162,7 @@ export function JobForm() {
             </div>
             <TextField label="Email" testId="job-email" value={form.email} error={errors.email} placeholder="hr@klinika.uz" onChange={(email) => patch({ email })} />
             <TextField label="Manba yoki sayt havolasi" testId="job-source" value={form.sourceUrl} error={errors.sourceUrl} placeholder="https://" maxLength={400} onChange={(sourceUrl) => patch({ sourceUrl })} />
+            <TextField label="Instagram" testId="job-instagram" value={form.instagram} error={errors.instagram} placeholder="@username yoki https://" maxLength={200} onChange={(instagram) => patch({ instagram })} />
             <Toggle on={form.acceptApplications} label="Saytda ariza qabul qilish" testId="job-apply" onChange={(acceptApplications) => patch({ acceptApplications })} />
             {errors.contact ? <p className="af-err" data-testid="job-contact-error">{errors.contact}</p> : null}
           </Step>
@@ -177,7 +179,7 @@ export function JobForm() {
               <p className="muted">{form.requirements.trim() || "Talablar shu yerda ko‘rinadi."}</p>
               <p className="af-line">{form.acceptApplications ? "Saytda ariza ochiq" : "Ariza saytda yopiq"}</p>
               <p className="af-line">{[form.phone, form.telegram && `@${form.telegram.replace(/^@/, "")}`, form.email].filter(Boolean).join(" · ") || "Aloqa kiritilmagan"}</p>
-              {source ? <a className="af-source" href={source} target="_blank" rel="noopener nofollow">{source}</a> : null}
+              <SourceLinks source={form.sourceUrl} instagram={form.instagram} />
               <button type="button" className="af-msg blue">Ariza qoldirish</button>
             </div>
           </article>

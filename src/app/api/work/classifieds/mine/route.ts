@@ -35,6 +35,7 @@ export async function POST(request: Request) {
     phone: String(body.phone ?? ""),
     telegram: String(body.telegram ?? ""),
     sourceUrl: String(body.sourceUrl ?? ""),
+    instagram: String(body.instagram ?? ""),
     photos: Array.isArray(body.photos) ? body.photos.filter((item): item is string => typeof item === "string") : [],
   };
   const errors = validateElon(input, mode);

@@ -1,8 +1,9 @@
+import { UZ_REGIONS } from "@/data/regions";
 import { formatGroupedNumber } from "@/lib/format";
 import { formatUzPhone, isUzPhone, uzPhoneDigits } from "@/lib/phone-uz";
 import type { FieldErrors } from "@/lib/work-validate";
 
-export const ADD_CITIES = ["Toshkent", "Samarqand", "Buxoro", "Andijon", "Namangan", "Farg‘ona", "Qarshi", "Nukus", "Urganch", "Termiz", "Jizzax", "Guliston", "Navoiy"] as const;
+export const ADD_CITIES = UZ_REGIONS;
 
 export const ADD_DISTRICTS = ["Yunusobod", "Mirzo Ulug‘bek", "Mirobod", "Yakkasaroy", "Shayxontohur", "Olmazor", "Chilonzor", "Sergeli", "Bektemir", "Uchtepa", "Yangihayot", "Yashnobod"] as const;
 
@@ -119,17 +120,51 @@ function sourceError(value: string, errors: FieldErrors) {
   else if (!sourceUrlValue(raw)) errors.sourceUrl = "Havola http:// yoki https:// bilan boshlansin.";
 }
 
-function reached(phone: string, telegram: string, email: string, sourceUrl: string, apply = false) {
-  return isUzPhone(phone) || telegramHandle(telegram).length >= 3 || emailOk(email.trim()) || Boolean(sourceUrlValue(sourceUrl)) || apply;
+/** Empty is allowed. A handle (@name or name) or an http(s) URL. instagram.com/name is stored as the handle. */
+export function instagramValue(value: string) {
+  const raw = value.trim();
+  if (!raw) return "";
+  if (/^https?:\/\//i.test(raw)) {
+    if (raw.length > 200 || /\s/.test(raw)) return "";
+    try {
+      const url = new URL(raw);
+      if ((url.protocol !== "http:" && url.protocol !== "https:") || !url.hostname) return "";
+      return raw;
+    } catch {
+      return "";
+    }
+  }
+  const handle = raw.replace(/^@/, "");
+  const fromSite = handle.match(/^(?:www\.)?instagram\.com\/([A-Za-z0-9._]{1,30})\/?$/i);
+  if (fromSite) return fromSite[1];
+  return /^[A-Za-z0-9._]{1,30}$/.test(handle) ? handle : "";
 }
 
-function partialContact(phone: string, telegram: string, email: string, sourceUrl: string) {
-  return Boolean(
-    (phone.trim() && !isUzPhone(phone))
-    || (telegram.trim() && telegramHandle(telegram).length < 3)
-    || (email.trim() && !emailOk(email.trim()))
-    || (sourceUrl.trim() && !sourceUrlValue(sourceUrl)),
+export function instagramHref(value: string) {
+  const clean = instagramValue(value);
+  if (!clean) return "";
+  return /^https?:\/\//i.test(clean) ? clean : `https://instagram.com/${clean}`;
+}
+
+function instagramError(value: string, errors: FieldErrors) {
+  if (value.trim() && !instagramValue(value)) errors.instagram = "Instagram nomi yoki https:// havolasini kiriting.";
+}
+
+const CHANNEL_NEED = "Telefon, Telegram, manba havolasi yoki Instagramdan bittasini kiriting.";
+
+function requireChannel(input: { phone: string; telegram: string; sourceUrl: string; instagram: string }, errors: FieldErrors) {
+  const ok = isUzPhone(input.phone) || telegramHandle(input.telegram).length >= 3 || Boolean(sourceUrlValue(input.sourceUrl)) || Boolean(instagramValue(input.instagram));
+  const partial = Boolean(
+    (input.phone.trim() && !isUzPhone(input.phone))
+    || (input.telegram.trim() && telegramHandle(input.telegram).length < 3)
+    || (input.sourceUrl.trim() && !sourceUrlValue(input.sourceUrl))
+    || (input.instagram.trim() && !instagramValue(input.instagram)),
   );
+  if (ok || partial) return;
+  if (!errors.phone) errors.phone = CHANNEL_NEED;
+  if (!errors.telegram) errors.telegram = CHANNEL_NEED;
+  if (!errors.sourceUrl) errors.sourceUrl = CHANNEL_NEED;
+  if (!errors.instagram) errors.instagram = CHANNEL_NEED;
 }
 
 export type ElonInput = {
@@ -144,16 +179,18 @@ export type ElonInput = {
   phone: string;
   telegram: string;
   sourceUrl: string;
+  instagram: string;
   photos: string[];
 };
 
 export function emptyElon(): ElonInput {
-  return { title: "", category: "", condition: "yangi", price: "", negotiable: false, description: "", city: "", district: "", phone: "", telegram: "", sourceUrl: "", photos: [] };
+  return { title: "", category: "", condition: "yangi", price: "", negotiable: false, description: "", city: "", district: "", phone: "", telegram: "", sourceUrl: "", instagram: "", photos: [] };
 }
 
 export function validateElon(input: ElonInput, mode: "draft" | "publish"): FieldErrors {
   const errors: FieldErrors = {};
   sourceError(input.sourceUrl, errors);
+  instagramError(input.instagram, errors);
   if (mode === "draft") {
     if (input.title.trim().length < 2) errors.title = "Qoralama uchun sarlavha kiriting.";
     return errors;
@@ -166,9 +203,7 @@ export function validateElon(input: ElonInput, mode: "draft" | "publish"): Field
   if (input.phone && !isUzPhone(input.phone)) errors.phone = "Telefon raqamini to‘liq kiriting yoki bo‘sh qoldiring.";
   if (input.telegram && telegramHandle(input.telegram).length < 3) errors.telegram = "Telegram manzilini to‘g‘ri kiriting.";
   if (input.description.trim().length > 0 && input.description.trim().length < 10) errors.description = "Tavsif kamida 10 ta belgi bo‘lsin yoki bo‘sh qoldiring.";
-  if (!reached(input.phone, input.telegram, "", input.sourceUrl) && !partialContact(input.phone, input.telegram, "", input.sourceUrl)) {
-    errors.contact = "Telefon, Telegram yoki manba havolasidan bittasini kiriting.";
-  }
+  requireChannel(input, errors);
   return errors;
 }
 
@@ -187,6 +222,7 @@ export function elonPayload(input: ElonInput, mode: "draft" | "publish", id?: st
     phone: formatUzPhone(input.phone),
     telegram: telegramHandle(input.telegram),
     sourceUrl: sourceUrlValue(input.sourceUrl),
+    instagram: instagramValue(input.instagram),
     photos: input.photos.slice(0, 8),
   };
 }
@@ -205,12 +241,13 @@ export type UstaInput = {
   phone: string;
   telegram: string;
   sourceUrl: string;
+  instagram: string;
   photo: string;
   works: string[];
 };
 
 export function emptyUsta(): UstaInput {
-  return { name: "", services: [], years: "", city: "", district: "", address: "", hours: "", priceFrom: "", priceNegotiable: false, description: "", phone: "", telegram: "", sourceUrl: "", photo: "", works: [] };
+  return { name: "", services: [], years: "", city: "", district: "", address: "", hours: "", priceFrom: "", priceNegotiable: false, description: "", phone: "", telegram: "", sourceUrl: "", instagram: "", photo: "", works: [] };
 }
 
 export function ustaTitle(services: string[]) {
@@ -220,6 +257,7 @@ export function ustaTitle(services: string[]) {
 export function validateUsta(input: UstaInput, mode: "draft" | "publish"): FieldErrors {
   const errors: FieldErrors = {};
   sourceError(input.sourceUrl, errors);
+  instagramError(input.instagram, errors);
   if (input.name.trim().length < 2) errors.name = "Ustaxona nomini kiriting.";
   if (mode === "draft") return errors;
   if (!input.city) errors.city = "Shaharni tanlang.";
@@ -227,9 +265,7 @@ export function validateUsta(input: UstaInput, mode: "draft" | "publish"): Field
   if (input.phone && !isUzPhone(input.phone)) errors.phone = "Telefon raqamini to‘liq kiriting yoki bo‘sh qoldiring.";
   if (input.telegram && telegramHandle(input.telegram).length < 3) errors.telegram = "Telegram manzilini to‘g‘ri kiriting.";
   if (input.priceFrom && !moneyDigits(input.priceFrom)) errors.priceFrom = "Narxni raqam bilan kiriting.";
-  if (!reached(input.phone, input.telegram, "", input.sourceUrl) && !partialContact(input.phone, input.telegram, "", input.sourceUrl)) {
-    errors.contact = "Telefon, Telegram yoki manba havolasidan bittasini kiriting.";
-  }
+  requireChannel(input, errors);
   return errors;
 }
 
@@ -253,6 +289,7 @@ export function ustaPayload(input: UstaInput, mode: "draft" | "publish", id?: st
     phone: formatUzPhone(input.phone),
     telegram: telegramHandle(input.telegram),
     sourceUrl: sourceUrlValue(input.sourceUrl),
+    instagram: instagramValue(input.instagram),
     photo: input.photo,
     works: input.works.slice(0, 8),
   };
@@ -276,6 +313,7 @@ export type LabInput = {
   telegram: string;
   email: string;
   sourceUrl: string;
+  instagram: string;
   logo: string;
   photos: string[];
 };
@@ -297,6 +335,7 @@ export function emptyLab(): LabInput {
     telegram: "",
     email: "",
     sourceUrl: "",
+    instagram: "",
     logo: "",
     photos: [],
   };
@@ -305,6 +344,7 @@ export function emptyLab(): LabInput {
 export function validateLabForm(input: LabInput, mode: "draft" | "publish"): FieldErrors {
   const errors: FieldErrors = {};
   sourceError(input.sourceUrl, errors);
+  instagramError(input.instagram, errors);
   if (input.name.trim().length < 2) errors.name = "Laboratoriya nomini kiriting.";
   if (mode === "draft") return errors;
   if (!input.services.length) errors.services = "Kamida bitta mutaxassislikni tanlang.";
@@ -316,9 +356,7 @@ export function validateLabForm(input: LabInput, mode: "draft" | "publish"): Fie
   if (input.email && !emailOk(input.email.trim())) errors.email = "Email manzilini to‘g‘ri kiriting.";
   const badRow = input.rows.some((row) => (row.service || row.material || row.price || row.days) && row.service.trim().length < 2);
   if (badRow) errors.rows = "Xizmat turini kiriting yoki qatorni o‘chiring.";
-  if (!reached(input.phone, input.telegram, input.email, input.sourceUrl) && !partialContact(input.phone, input.telegram, input.email, input.sourceUrl)) {
-    errors.contact = "Telefon, Telegram, email yoki manba havolasidan bittasini kiriting.";
-  }
+  requireChannel(input, errors);
   return errors;
 }
 
@@ -366,6 +404,7 @@ export function labPayload(input: LabInput, mode: "draft" | "publish", id?: stri
     telegram: telegramHandle(input.telegram),
     email: clip(input.email, 120),
     sourceUrl: sourceUrlValue(input.sourceUrl),
+    instagram: instagramValue(input.instagram),
     logo: input.logo,
     photos: input.photos.slice(0, 8),
     portfolio: input.photos.slice(0, 8),
@@ -399,19 +438,21 @@ export type JobInput = {
   telegram: string;
   email: string;
   sourceUrl: string;
+  instagram: string;
   acceptApplications: boolean;
 };
 
 export function emptyJob(): JobInput {
   return {
     title: "", clinic: "", city: "", district: "", address: "", type: "full", salaryMin: "", salaryMax: "", negotiable: false,
-    experienceYears: "0", requirements: "", duties: "", benefits: [], benefitNote: "", phone: "", telegram: "", email: "", sourceUrl: "", acceptApplications: true,
+    experienceYears: "0", requirements: "", duties: "", benefits: [], benefitNote: "", phone: "", telegram: "", email: "", sourceUrl: "", instagram: "", acceptApplications: true,
   };
 }
 
 export function validateJobForm(input: JobInput, mode: "draft" | "publish"): FieldErrors {
   const errors: FieldErrors = {};
   sourceError(input.sourceUrl, errors);
+  instagramError(input.instagram, errors);
   if (input.title.trim().length < 3) errors.title = mode === "draft" ? "Qoralama uchun lavozim nomini kiriting." : "Lavozim nomini kiriting (kamida 3 belgi).";
   if (mode === "draft") return errors;
   if (input.clinic.trim().length < 2) errors.clinic = "Klinika nomini kiriting.";
@@ -425,9 +466,15 @@ export function validateJobForm(input: JobInput, mode: "draft" | "publish"): Fie
   if (input.phone && !isUzPhone(input.phone)) errors.phone = "Telefon raqamini to‘liq kiriting yoki bo‘sh qoldiring.";
   if (input.telegram && telegramHandle(input.telegram).length < 3) errors.telegram = "Telegram manzilini to‘g‘ri kiriting.";
   if (input.email && !emailOk(input.email.trim())) errors.email = "Email manzilini to‘g‘ri kiriting.";
-  if (!reached(input.phone, input.telegram, input.email, input.sourceUrl, input.acceptApplications) && !partialContact(input.phone, input.telegram, input.email, input.sourceUrl)) {
-    errors.contact = "Telefon, Telegram, email, manba havolasi yoki saytda ariza qabul qilishdan bittasini qoldiring.";
-  }
+  const ok = isUzPhone(input.phone) || telegramHandle(input.telegram).length >= 3 || emailOk(input.email.trim()) || Boolean(sourceUrlValue(input.sourceUrl)) || Boolean(instagramValue(input.instagram)) || input.acceptApplications;
+  const partial = Boolean(
+    (input.phone.trim() && !isUzPhone(input.phone))
+    || (input.telegram.trim() && telegramHandle(input.telegram).length < 3)
+    || (input.email.trim() && !emailOk(input.email.trim()))
+    || (input.sourceUrl.trim() && !sourceUrlValue(input.sourceUrl))
+    || (input.instagram.trim() && !instagramValue(input.instagram)),
+  );
+  if (!ok && !partial) errors.contact = "Telefon, Telegram, email, manba havolasi, Instagram yoki saytda ariza qabul qilishdan bittasini qoldiring.";
   return errors;
 }
 
@@ -460,6 +507,7 @@ export function jobPayload(input: JobInput, mode: "draft" | "publish", id?: stri
     telegram: telegramHandle(input.telegram),
     email: clip(input.email, 120),
     sourceUrl: sourceUrlValue(input.sourceUrl),
+    instagram: instagramValue(input.instagram),
     acceptApplications: input.acceptApplications,
     remote: false,
     category: "",

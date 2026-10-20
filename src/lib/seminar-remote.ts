@@ -1,4 +1,5 @@
-import { seminarCities, type Seminar, type SeminarCity, type Specialty } from "@/data/seminars";
+import { UZ_REGIONS } from "@/data/regions";
+import { type Seminar, type SeminarCity, type Specialty } from "@/data/seminars";
 
 /** Organizer-created seminar as returned by the database RPCs (camelCase JSON). */
 export type SeminarRow = {
@@ -15,7 +16,11 @@ export type SeminarRow = {
   timeEnd: string | null;
   city: string | null;
   venue: string | null;
-  price: number;
+  price: number | null;
+  priceHidden?: boolean;
+  dateEnd?: string | null;
+  sourceUrl?: string | null;
+  instagram?: string | null;
   seats: number | null;
   specialty: string | null;
   image: string | null;
@@ -44,16 +49,26 @@ export const SEMINAR_STATUS_LABEL: Record<SeminarRow["status"], string> = {
   deleted: "O‘chirilgan",
 };
 
+const KNOWN_CITIES = new Set<string>([...UZ_REGIONS, "Toshkent", "Samarqand", "Online"]);
+
+export function seminarRowPriceText(price: number | null | undefined) {
+  if (price == null) return "Narx e‘lon qilinmagan";
+  if (price > 0) return `${price.toLocaleString("ru-RU")} so‘m`;
+  return "Bepul";
+}
+
 /** Map a DB row into the shared `Seminar` shape so every list/detail/ticket page can render it. */
 export function rowToSeminar(r: SeminarRow): Seminar {
   const speakers = (r.speakers ?? []).filter((s) => s?.name);
-  const city = (seminarCities as string[]).includes(r.city ?? "") ? (r.city as SeminarCity) : "Toshkent";
+  const city = KNOWN_CITIES.has(r.city ?? "") ? (r.city as SeminarCity) : "Toshkent shahri";
+  const hidden = r.price == null || Boolean(r.priceHidden);
   return {
     id: r.id,
     title: r.title ?? "",
     date: r.date ?? "",
     time: r.time ?? "00:00",
     timeEnd: r.timeEnd ?? r.time ?? "00:00",
+    dateEnd: r.dateEnd || undefined,
     city,
     venue: r.venue ?? "",
     speaker: speakers[0]?.name ?? "",
@@ -61,7 +76,10 @@ export function rowToSeminar(r: SeminarRow): Seminar {
     speakers: speakers.map((s) => ({ name: s.name, role: s.role })),
     learnings: r.learnings?.length ? r.learnings : undefined,
     specialty: ((r.specialty as Specialty) || "kongress") as Specialty,
-    price: Number(r.price) || 0,
+    price: hidden ? 0 : Number(r.price) || 0,
+    priceHidden: hidden,
+    sourceUrl: r.sourceUrl || undefined,
+    instagram: r.instagram || undefined,
     seatsTaken: 0,
     seatsTotal: r.seats ?? 0,
     image: r.image ?? "",
