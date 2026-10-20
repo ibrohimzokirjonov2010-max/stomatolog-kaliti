@@ -1,5 +1,5 @@
 "use client";
-/* eslint-disable @next/next/no-img-element -- catalog photos are sized by the fluid unit */
+/* eslint-disable @next/next/no-img-element -- seller uploads are sized by the fluid unit */
 
 import { useMemo, useState } from "react";
 import Link from "next/link";
@@ -8,49 +8,34 @@ import { useCart } from "@/components/cart-provider";
 import { useFavorites } from "@/components/favorites-provider";
 import { MobileMenuButton } from "@/components/dashboard/mobile-chrome";
 import { NotificationBell } from "@/components/notification-bell";
-import {
-  MOBILE_SURPLUS_TOTAL,
-  mobileSurplusChips,
-  mobileSurplusItems,
-  mobileSurplusSorts,
-  type MobileSurplusChip,
-  type MobileSurplusItem,
-  type MobileSurplusSort,
-} from "@/data/mobile-surplus";
+import { useSurplusWork } from "@/components/surplus-provider";
+import { conditionLabel, listingExpiry, surplusCategoryLabel, type SurplusListing } from "@/data/surplus";
 import { formatMoney } from "@/lib/format";
 import "./surplus-mobile.css";
 
-const cities = [...new Set(mobileSurplusItems.map((item) => item.city))];
-const conditions = [...new Set(mobileSurplusItems.map((item) => item.condition))];
+type Sort = "new" | "cheap" | "dear";
 
 export function SurplusMobileCatalog({ onPost }: { onPost: () => void }) {
   const { count } = useCart();
   const favorites = useFavorites();
+  const { feed, ready } = useSurplusWork();
   const [query, setQuery] = useState("");
-  const [chip, setChip] = useState<MobileSurplusChip>("all");
-  const [sort, setSort] = useState<MobileSurplusSort>("new");
+  const [sort, setSort] = useState<Sort>("new");
   const [filters, setFilters] = useState(false);
   const [city, setCity] = useState("");
-  const [condition, setCondition] = useState("");
-  const cartBadge = count > 0 ? count : 3;
 
+  const cities = useMemo(() => [...new Set(feed.map((item) => item.city).filter(Boolean))], [feed]);
   const list = useMemo(() => {
     const q = query.trim().toLowerCase();
-    const items = mobileSurplusItems.filter((item) => {
-      if (chip !== "all" && item.chip !== chip) return false;
+    const items = feed.filter((item) => {
       if (city && item.city !== city) return false;
-      if (condition && item.condition !== condition) return false;
       if (!q) return true;
-      return `${item.name} ${item.brand} ${item.spec} ${item.city}`.toLowerCase().includes(q);
+      return `${item.name} ${item.brand} ${item.seller} ${item.city}`.toLowerCase().includes(q);
     });
     if (sort === "cheap") return [...items].sort((a, b) => a.price - b.price);
     if (sort === "dear") return [...items].sort((a, b) => b.price - a.price);
-    if (sort === "discount") return [...items].sort((a, b) => b.discount - a.discount);
     return items;
-  }, [chip, city, condition, query, sort]);
-
-  const narrowed = chip !== "all" || Boolean(query.trim()) || Boolean(city) || Boolean(condition);
-  const shown = narrowed ? list.length : MOBILE_SURPLUS_TOTAL;
+  }, [city, feed, query, sort]);
 
   return (
     <div className="om lg:hidden" data-testid="mobile-surplus">
@@ -61,9 +46,11 @@ export function SurplusMobileCatalog({ onPost }: { onPost: () => void }) {
         </Link>
         <Link href="/savat" className="mh-ic" aria-label="Savat">
           <ShoppingCart />
-          <span className="mh-badge" data-testid="om-cart-badge">
-            {cartBadge > 9 ? "9+" : cartBadge}
-          </span>
+          {count > 0 ? (
+            <span className="mh-badge" data-testid="om-cart-badge">
+              {count > 9 ? "9+" : count}
+            </span>
+          ) : null}
         </Link>
         <NotificationBell variant="mobile" buttonClassName="size-10 text-[#1a1d26]" />
       </header>
@@ -91,34 +78,28 @@ export function SurplusMobileCatalog({ onPost }: { onPost: () => void }) {
           </button>
         </form>
 
-        <div className="om-chips" role="tablist" aria-label="Kategoriyalar">
-          {mobileSurplusChips.map((item) => (
-            <button key={item.id} type="button" className={chip === item.id ? "on" : undefined} onClick={() => setChip(item.id)}>
-              {item.label}
-            </button>
-          ))}
-        </div>
-
         <div className="om-tools">
-          <b data-testid="om-count">{shown} ta e‘lon</b>
-          <select aria-label="Saralash" value={sort} onChange={(event) => setSort(event.target.value as MobileSurplusSort)}>
-            {mobileSurplusSorts.map((item) => (
-              <option key={item.id} value={item.id}>
-                Saralash: {item.label}
-              </option>
-            ))}
+          <b data-testid="om-count">{ready ? list.length : "…"} ta e‘lon</b>
+          <select aria-label="Saralash" value={sort} onChange={(event) => setSort(event.target.value as Sort)}>
+            <option value="new">Saralash: Eng yangi</option>
+            <option value="cheap">Saralash: Arzon</option>
+            <option value="dear">Saralash: Qimmat</option>
           </select>
         </div>
 
-        {list.length === 0 ? (
-          <p className="om-note">Mos e‘lon topilmadi</p>
-        ) : (
+        {!ready ? <p className="om-note">Yuklanmoqda...</p> : null}
+        {ready && list.length === 0 ? (
+          <p className="om-note" data-testid="surplus-mobile-empty">
+            {feed.length === 0 ? "Hozircha e’lonlar yo‘q" : "Mos e’lon topilmadi"}
+          </p>
+        ) : null}
+        {list.length > 0 ? (
           <div className="om-grid">
             {list.map((item) => (
               <SurplusCard key={item.id} item={item} saved={favorites.has(item.id)} onSave={() => favorites.toggle(item.id)} />
             ))}
           </div>
-        )}
+        ) : null}
       </div>
 
       {filters ? (
@@ -140,14 +121,6 @@ export function SurplusMobileCatalog({ onPost }: { onPost: () => void }) {
                 </option>
               ))}
             </select>
-            <select aria-label="Holat" value={condition} onChange={(event) => setCondition(event.target.value)}>
-              <option value="">Barcha holat</option>
-              {conditions.map((item) => (
-                <option key={item} value={item}>
-                  {item}
-                </option>
-              ))}
-            </select>
             <div className="row">
               <button
                 type="button"
@@ -155,7 +128,6 @@ export function SurplusMobileCatalog({ onPost }: { onPost: () => void }) {
                 style={{ background: "#eef2f6", color: "#24344d" }}
                 onClick={() => {
                   setCity("");
-                  setCondition("");
                   setFilters(false);
                 }}
               >
@@ -172,12 +144,12 @@ export function SurplusMobileCatalog({ onPost }: { onPost: () => void }) {
   );
 }
 
-function SurplusCard({ item, saved, onSave }: { item: MobileSurplusItem; saved: boolean; onSave: () => void }) {
+function SurplusCard({ item, saved, onSave }: { item: SurplusListing; saved: boolean; onSave: () => void }) {
   return (
     <article className="om-card">
       <div className="om-ph">
         <Link href={`/ortiqcha-material/${item.id}`} aria-label={item.name}>
-          <img src={item.image} alt="" />
+          {item.image ? <img src={item.image} alt="" /> : <span className="om-note">Rasm yo‘q</span>}
         </Link>
         <button type="button" className={saved ? "om-heart on" : "om-heart"} aria-label="Sevimlilar" aria-pressed={saved} onClick={onSave}>
           <Heart fill={saved ? "currentColor" : "none"} />
@@ -186,19 +158,17 @@ function SurplusCard({ item, saved, onSave }: { item: MobileSurplusItem; saved: 
       <Link href={`/ortiqcha-material/${item.id}`}>
         <h3>{item.name}</h3>
         <p className="spec">
-          {item.brand} · {item.spec}
+          {item.brand} · {surplusCategoryLabel(item.category)}
         </p>
         <div className="om-tags">
-          <span className="ok">{item.condition}</span>
-          <span>Yaroqlilik: {item.expiry}</span>
+          <span className="ok">{item.condition ? conditionLabel[item.condition] : "Holat ko‘rsatilmagan"}</span>
+          <span>Yaroqlilik: {listingExpiry(item)}</span>
         </div>
         <div className="om-price">
           <b>{formatMoney(item.price, "UZS")}</b>
-          <s>{formatMoney(item.oldPrice, "UZS")}</s>
-          <em>-{item.discount}%</em>
         </div>
         <p className="om-pin">
-          <MapPin /> {item.city}
+          <MapPin /> {item.city || "Shahar ko‘rsatilmagan"}
         </p>
       </Link>
     </article>

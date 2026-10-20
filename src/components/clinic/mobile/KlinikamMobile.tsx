@@ -1,11 +1,13 @@
 "use client";
 /* eslint-disable @next/next/no-img-element -- the clinic photo is sized by the fluid unit */
 
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { BarChart3, Building2, CalendarDays, Camera, ChevronRight, Clock, Lock, MapPin, Navigation, Phone, Store, Users, X } from "lucide-react";
 import { MobileMenuButton } from "@/components/dashboard/mobile-chrome";
 import { NotificationBell } from "@/components/notification-bell";
+import { useDoctorProfile } from "@/components/doctor-profile-provider";
+import { formatPhoneDisplay } from "@/lib/doctor-profile";
 import "./klinika-mobile.css";
 
 const steps = ["Klinika ma’lumotlari", "Xodimlar", "Xizmatlar"] as const;
@@ -29,19 +31,27 @@ const locks = [
 ];
 
 export function KlinikamMobile() {
+  const { profile } = useDoctorProfile();
   const fileRef = useRef<HTMLInputElement>(null);
   const [step, setStep] = useState(0);
   const [logo, setLogo] = useState("");
-  const [name, setName] = useState("Smile Dental");
-  const [branch, setBranch] = useState(branches[0]);
-  const [phone, setPhone] = useState("+998 90 123 45 67");
-  const [address, setAddress] = useState("Toshkent, Chilonzor");
+  const [name, setName] = useState("");
+  const [branch, setBranch] = useState("");
+  const [phone, setPhone] = useState("");
+  const [address, setAddress] = useState("");
   const [openAt, setOpenAt] = useState("09:00");
   const [closeAt, setCloseAt] = useState("18:00");
   const [openDays, setOpenDays] = useState<string[]>(["du", "se", "ch", "pa", "ju", "sha"]);
   const [error, setError] = useState("");
   const [map, setMap] = useState(false);
   const [note, setNote] = useState("");
+
+  useEffect(() => {
+    if (!profile) return;
+    setName((current) => current || profile.clinic || "");
+    setAddress((current) => current || profile.city || "");
+    setPhone((current) => current || (profile.phone ? formatPhoneDisplay(profile.phone) : ""));
+  }, [profile]);
 
   function save() {
     if (!name.trim()) {
@@ -126,7 +136,8 @@ export function KlinikamMobile() {
                 <div className="kl-box">
                   <Building2 />
                   <select id="kl-branch" value={branch} onChange={(event) => setBranch(event.target.value)}>
-                    {branches.map((item) => <option key={item}>{item}</option>)}
+                    <option value="">Tanlanmagan</option>
+                    {branches.filter(Boolean).map((item) => <option key={item}>{item}</option>)}
                   </select>
                 </div>
               </div>
@@ -144,7 +155,7 @@ export function KlinikamMobile() {
               <div className="kl-field">
                 <label htmlFor="kl-address">Manzil (ixtiyoriy)</label>
                 <div className="kl-box">
-                  <button type="button" aria-label="Joylashuv" onClick={() => setAddress((value) => value || "Toshkent, Chilonzor")}><MapPin /></button>
+                  <button type="button" aria-label="Joylashuv" onClick={() => setMap(true)}><MapPin /></button>
                   <input id="kl-address" value={address} onChange={(event) => setAddress(event.target.value)} />
                 </div>
               </div>

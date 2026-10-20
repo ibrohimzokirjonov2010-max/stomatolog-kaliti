@@ -5,9 +5,7 @@ import { useEffect, useRef, useState, type ChangeEvent } from "react";
 import Link from "next/link";
 import {
   Award,
-  BadgeCheck,
   Bell,
-  Briefcase,
   Building2,
   Camera,
   Clock,
@@ -29,6 +27,7 @@ import { som, useShopFavs, useShopLineCount } from "@/components/shop/desktop/sh
 import { statusLabel } from "@/data/desktop-orders";
 import { useDoctorProfile } from "@/components/doctor-profile-provider";
 import { formatPhoneDisplay } from "@/lib/doctor-profile";
+import { useSavedPlaces } from "@/lib/saved-addresses";
 import { uploadImage } from "@/lib/image-upload";
 import { loadOrders, syncOrders } from "@/lib/orders";
 import { toDesktopOrder } from "@/lib/order-present";
@@ -41,7 +40,7 @@ type Address = { id: string; title: string; line: string };
 type PayCard = { id: string; brand: "UZCARD" | "HUMO"; last4: string; exp: string };
 
 const courses: { title: string; progress: number; image: string; done: boolean }[] = [];
-const savedSeed: { id: string; name: string; price: number }[] = [];
+const EMPTY_FIELD = "Ko‘rsatilmagan — tahrirlash orqali yozing";
 
 const specs = ["Ortoped stomatolog", "Terapevt stomatolog", "Jarroh stomatolog", "Ortodont", "Bolalar stomatologi"];
 const languages = ["O‘zbekcha", "Ruscha", "English"];
@@ -69,9 +68,10 @@ const settingKeys = [
 export function ProfilDesktop() {
   const cartCount = useShopLineCount();
   const favs = useShopFavs();
-  const { profile, updateProfile } = useDoctorProfile();
+  const { profile, updateProfile, ready } = useDoctorProfile();
+  const savedPlaces = useSavedPlaces(Boolean(profile), ready);
   const fileRef = useRef<HTMLInputElement>(null);
-  const [avatar, setAvatar] = useState("/img/design-pr13/ui/avatar.png");
+  const [avatar, setAvatar] = useState("");
   const [orderCount, setOrderCount] = useState(0);
   const [recentOrders, setRecentOrders] = useState<ReturnType<typeof toDesktopOrder>[]>([]);
   const [bonus, setBonus] = useState(0);
@@ -87,8 +87,6 @@ export function ProfilDesktop() {
     phone: "",
     email: "",
     spec: "",
-    exp: "",
-    license: "",
     about: "",
   });
   const [clinic, setClinic] = useState({
@@ -96,16 +94,9 @@ export function ProfilDesktop() {
     address: "",
     hours: "",
     phone: "",
-    site: "www.smiledental.uz",
+    site: "",
   });
-  const [addresses, setAddresses] = useState<Address[]>([
-    { id: "home", title: "Uy (Asosiy)", line: "Toshkent, Yunusobod tumani, Amir Temur ko‘chasi, 100" },
-    { id: "clinic", title: "Klinika", line: "Toshkent, Chilonzor tumani, Bunyodkor ko‘chasi, 12" },
-  ]);
-  const [cards, setCards] = useState<PayCard[]>([
-    { id: "uz", brand: "UZCARD", last4: "4521", exp: "09/28" },
-    { id: "humo", brand: "HUMO", last4: "7703", exp: "12/27" },
-  ]);
+  const [cards, setCards] = useState<PayCard[]>([]);
   const [modal, setModal] = useState<null | "addr" | "card">(null);
   const [addrForm, setAddrForm] = useState({ title: "", line: "" });
   const [cardForm, setCardForm] = useState({ brand: "UZCARD" as PayCard["brand"], last4: "", exp: "" });
@@ -131,7 +122,12 @@ export function ProfilDesktop() {
       spec: profile.specialty || "",
       about: profile.bio || "",
     }));
-    setClinic((current) => ({ ...current, name: profile.clinic || "", address: profile.city || "" }));
+    setClinic((current) => ({
+      ...current,
+      name: profile.clinic || "",
+      address: profile.city || "",
+      phone: formatPhoneDisplay(profile.phone),
+    }));
     if (profile.avatarUrl) setAvatar(profile.avatarUrl);
   }, [profile]);
 
@@ -177,15 +173,15 @@ export function ProfilDesktop() {
     }
   }
 
-  function addAddress() {
+  async function addAddress() {
     if (!addrForm.title.trim() || !addrForm.line.trim()) {
       setNote("Manzil nomi va qatorini kiriting");
       return;
     }
-    setAddresses((list) => [{ id: `addr-${Date.now()}`, title: addrForm.title.trim(), line: addrForm.line.trim() }, ...list]);
+    const result = await savedPlaces.save({ label: addrForm.title.trim(), address: addrForm.line.trim(), city: profile?.city });
     setAddrForm({ title: "", line: "" });
     setModal(null);
-    setNote("Yangi manzil qo‘shildi");
+    setNote(result.ok ? "Yangi manzil qo‘shildi" : result.error);
   }
 
   function addCard() {
@@ -210,9 +206,12 @@ export function ProfilDesktop() {
     setNote("Sertifikat yuklab olindi");
   }
 
-  const saved = favs.length
-    ? favs.map((id) => ({ id, name: id, price: 0 }))
-    : savedSeed;
+  const saved = favs.map((id) => ({ id, name: id, price: 0 }));
+  const addresses: Address[] = savedPlaces.places.map((place) => ({
+    id: place.id,
+    title: place.label,
+    line: [place.city, place.address].filter(Boolean).join(", "),
+  }));
 
   return (
     <ShopShell searchPath="/profil" cartCount={cartCount} placeholder="Stomatologiya mahsulotlari, kurslar, ustalar..." showCamera={false}>
@@ -220,23 +219,18 @@ export function ProfilDesktop() {
         {note ? <p className="pf-note">{note}</p> : null}
         <header className="pf-hero">
           <div className="pf-ava">
-            <img src={avatar} alt={form.name || "Profil"} />
+            {avatar ? <img src={avatar} alt={form.name || "Profil"} /> : <span className="pf-ava-empty" aria-hidden><User className="i" /></span>}
             <button type="button" aria-label="Rasm yuklash" onClick={() => fileRef.current?.click()}>
               <Camera className="i" />
             </button>
             <input ref={fileRef} type="file" accept="image/*" hidden aria-label="Profil rasmi" onChange={onAvatar} />
           </div>
           <div>
-            <h1>
-              {form.name}
-              <span className="pf-badge"><BadgeCheck className="i" /> Tasdiqlangan shifokor</span>
-            </h1>
-            <p className="pf-role">{form.spec}</p>
+            <h1>{form.name.trim() || "Ism ko‘rsatilmagan"}</h1>
+            <p className="pf-role">{form.spec.trim() || EMPTY_FIELD}</p>
             <div className="pf-meta">
-              <span><Building2 className="i" /> {clinic.name}</span>
-              <span><MapPin className="i" /> Toshkent</span>
-              <span><Briefcase className="i" /> {form.exp} tajriba</span>
-              <span><BadgeCheck className="i" /> Litsenziya {form.license}</span>
+              <span><Building2 className="i" /> {clinic.name.trim() || EMPTY_FIELD}</span>
+              <span><MapPin className="i" /> {(profile?.city || clinic.address).trim() || EMPTY_FIELD}</span>
             </div>
           </div>
           <div className="pf-bar">
@@ -274,7 +268,7 @@ export function ProfilDesktop() {
           </button>
           <button type="button" className="pf-stat" onClick={() => setSection("saqlangan")}>
             <span className="mark"><Heart className="i" /></span>
-            <span><b>38</b><span>Saqlanganlar</span></span>
+            <span><b>{favs.length}</b><span>Saqlanganlar</span></span>
           </button>
         </div>
 
@@ -396,8 +390,8 @@ function PersonalCard({
   setEditing,
   onSave,
 }: {
-  form: { name: string; phone: string; email: string; spec: string; exp: string; license: string; about: string };
-  setForm: (next: { name: string; phone: string; email: string; spec: string; exp: string; license: string; about: string }) => void;
+  form: { name: string; phone: string; email: string; spec: string; about: string };
+  setForm: (next: { name: string; phone: string; email: string; spec: string; about: string }) => void;
   editing: boolean;
   setEditing: (value: boolean) => void;
   onSave: () => void;
@@ -418,11 +412,10 @@ function PersonalCard({
         <label>
           Mutaxassislik
           <select value={form.spec} disabled={!editing} onChange={(event) => field("spec", event.target.value)}>
+            <option value="">Tanlang</option>
             {specs.map((spec) => <option key={spec}>{spec}</option>)}
           </select>
         </label>
-        <label>Tajriba<input value={form.exp} disabled={!editing} onChange={(event) => field("exp", event.target.value)} /></label>
-        <label>Litsenziya raqami<input value={form.license} disabled={!editing} onChange={(event) => field("license", event.target.value)} /></label>
       </div>
       <label className="pf-wide">
         Men haqimda
@@ -456,8 +449,8 @@ function ClinicCard({
         <button type="button" onClick={() => setEditing(!editing)}>{editing ? "Yopish" : "Tahrirlash"}</button>
       </h3>
       <div className="pf-shot">
-        <img src="/img/profil/clinic.jpg" alt="Smile Dental klinikasi" />
-        <b>{clinic.name}</b>
+        <span className="pf-ava-empty" aria-hidden><Building2 className="i" /></span>
+        <b>{clinic.name.trim() || EMPTY_FIELD}</b>
       </div>
       {editing ? (
         <div className="pf-grid" style={{ marginTop: "calc(.35 * var(--u))" }}>
@@ -469,10 +462,10 @@ function ClinicCard({
         </div>
       ) : (
         <>
-          <p><MapPin className="i" /> {clinic.address}</p>
-          <p><Clock className="i" /> Ish vaqti: {clinic.hours}</p>
-          <p><Phone className="i" /> {clinic.phone}</p>
-          <p><Globe className="i" /> {clinic.site}</p>
+          <p><MapPin className="i" /> {clinic.address.trim() || EMPTY_FIELD}</p>
+          <p><Clock className="i" /> Ish vaqti: {clinic.hours.trim() || EMPTY_FIELD}</p>
+          <p><Phone className="i" /> {clinic.phone.trim() || EMPTY_FIELD}</p>
+          <p><Globe className="i" /> {clinic.site.trim() || EMPTY_FIELD}</p>
         </>
       )}
       {editing ? <button type="button" className="pf-go pf-save" onClick={onSave}>Saqlash</button> : null}
@@ -524,6 +517,7 @@ function CoursesCard({
   return (
     <section className="pf-card">
       <h3>Kurslarim va sertifikatlar <button type="button" onClick={onOpen}>Barchasini ko‘rish</button></h3>
+      {courses.length === 0 ? <p className="pf-empty">Hozircha kurs yo‘q — kurs ochilganda shu yerda ko‘rinadi.</p> : null}
       <div className="pf-courses">
         {courses.map((course) => (
           <article className="pf-course" key={course.title}>
@@ -576,6 +570,7 @@ function AddressCard({ addresses, onAdd, onOpen, limit }: { addresses: Address[]
     <section className="pf-card">
       <h3>Manzillarim <button type="button" onClick={onOpen}>Barchasini ko‘rish</button></h3>
       <div className="pf-addrs">
+        {addresses.length === 0 ? <p className="pf-empty">Manzil yo‘q — qo‘shish orqali yozing.</p> : null}
         {shown.map((address) => (
           <article className="pf-addr" key={address.id}>
             <b>{address.title}</b>
@@ -594,6 +589,7 @@ function PayCardList({ cards, onAdd, onOpen, limit }: { cards: PayCard[]; onAdd:
     <section className="pf-card">
       <h3>To‘lov usullari <button type="button" onClick={onOpen}>Barchasini ko‘rish</button></h3>
       <div className="pf-pays">
+        {cards.length === 0 ? <p className="pf-empty">Saqlangan karta yo‘q. To‘lov usuli buyurtma berishda tanlanadi.</p> : null}
         {shown.map((card) => (
           <article className={card.brand === "HUMO" ? "pf-pay humo" : "pf-pay uz"} key={card.id}>
             <b>{card.brand}</b>
@@ -612,6 +608,7 @@ function SavedCard({ items }: { items: { id: string; name: string; price: number
     <section className="pf-card">
       <h3>Saqlanganlar</h3>
       <div className="pf-list">
+        {items.length === 0 ? <p className="pf-empty">Saqlangan mahsulot yo‘q.</p> : null}
         {items.map((item) => (
           <article key={item.id}>
             <b>{item.name}</b>

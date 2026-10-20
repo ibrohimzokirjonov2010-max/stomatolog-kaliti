@@ -2,7 +2,9 @@
 .sh .pf-hero, .sh .pf-card, .sh .pf-menu { background: #fff; border: 1px solid #e8eef6; border-radius: calc(.55 * var(--u)); min-width: 0; }
 .sh .pf-hero { display: grid; grid-template-columns: auto minmax(0, 1fr) minmax(0, calc(14 * var(--u))) auto; gap: calc(.6 * var(--u)); align-items: center; padding: calc(.6 * var(--u)); }
 .sh .pf-ava { position: relative; width: calc(4.6 * var(--u)); height: calc(4.6 * var(--u)); }
-.sh .pf-ava img { width: 100%; height: 100%; object-fit: cover; border-radius: calc(.5 * var(--u)); }
+.sh .pf-ava img, .sh .pf-ava-empty { width: 100%; height: 100%; object-fit: cover; border-radius: calc(.5 * var(--u)); }
+.sh .pf-ava-empty { display: grid; place-items: center; background: #e8eef8; color: #8b93a7; }
+.sh .pf-clinic .pf-shot .pf-ava-empty { position: absolute; inset: 0; border-radius: inherit; }
 .sh .pf-ava button { position: absolute; right: calc(-.15 * var(--u)); bottom: calc(-.15 * var(--u)); width: calc(1.25 * var(--u)); height: calc(1.25 * var(--u)); border-radius: 50%; background: var(--teal); color: #fff; display: grid; place-items: center; }
 .sh .pf-hero h1 { margin: 0; font-size: calc(1.05 * var(--u)); display: flex; align-items: center; gap: calc(.3 * var(--u)); flex-wrap: wrap; }
 .sh .pf-badge { display: inline-flex; align-items: center; gap: calc(.15 * var(--u)); background: #e7f7ef; color: #0d7a52; border-radius: calc(1 * var(--u)); padding: 0 calc(.35 * var(--u)); font-size: calc(.5 * var(--u)); font-weight: 800; }
@@ -36,7 +38,7 @@
 .sh .pf-grid input, .sh .pf-grid select, .sh .pf-wide textarea, .sh .pf-card input, .sh .pf-card select { width: 100%; border: 1px solid #e6edf5; border-radius: calc(.3 * var(--u)); height: calc(1.7 * var(--u)); padding: 0 calc(.35 * var(--u)); font-size: calc(.58 * var(--u)); color: #1d2b45; background: #f8fafc; min-width: 0; }
 .sh .pf-wide textarea { height: calc(3.2 * var(--u)); padding: calc(.3 * var(--u)); resize: vertical; }
 .sh .pf-grid input:enabled, .sh .pf-grid select:enabled, .sh .pf-wide textarea:enabled, .sh .pf-card input:enabled { background: #fff; }
-.sh .pf-shot { position: relative; }
+.sh .pf-shot { position: relative; min-height: calc(5.4 * var(--u)); }
 .sh .pf-clinic img { width: 100%; height: calc(5.4 * var(--u)); object-fit: cover; border-radius: calc(.4 * var(--u)); display: block; }
 .sh .pf-shot b { position: absolute; left: calc(.4 * var(--u)); bottom: calc(.4 * var(--u)); color: #fff; background: rgba(20, 151, 168, .92); border-radius: calc(.3 * var(--u)); padding: calc(.12 * var(--u)) calc(.35 * var(--u)); font-size: calc(.62 * var(--u)); }
 .sh .pf-clinic .name { display: flex; align-items: center; gap: calc(.25 * var(--u)); margin-top: calc(.3 * var(--u)); font-weight: 800; font-size: calc(.68 * var(--u)); }

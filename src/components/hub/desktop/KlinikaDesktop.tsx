@@ -53,8 +53,8 @@ export function KlinikaDesktop() {
   const clinicCity = profile?.city?.trim() || "Shahar tanlanmagan";
   const day = iso(date);
   const todayCount = appointments.filter((item) => item.date === day).length;
-  const income = patients.reduce((sum, item) => sum + (item.debt || 0), 0);
-  const bars = range === "6" ? [] : [];
+  const income = storedPatients.reduce((sum, patient) => sum + (patient.payments ?? []).reduce((paid, pay) => paid + (Number(pay.amount) || 0), 0), 0);
+  const bars: { m: string; v: number }[] = [];
 
   const view = useMemo(() => {
     return chairState.map((chair) => {
@@ -68,6 +68,18 @@ export function KlinikaDesktop() {
       return { ...chair, slots, busy, total: slots.length };
     });
   }, [appointments, chairState, day]);
+  const slotStats = view.reduce(
+    (acc, chair) => {
+      for (const slot of chair.slots) {
+        if (slot.kind === "lunch") continue;
+        acc.total += 1;
+        if (slot.kind === "visit") acc.busy += 1;
+      }
+      return acc;
+    },
+    { total: 0, busy: 0 },
+  );
+  const occupancy = slotStats.total ? Math.round((slotStats.busy / slotStats.total) * 100) : 0;
 
   function shift(delta: number) {
     setDate((prev) => {
@@ -161,10 +173,8 @@ export function KlinikaDesktop() {
             </span>
             <div>
               <div className="lab">Oylik daromad</div>
-              <b>
-                {som(income)}
-              </b>
-              <small>Bemor to‘lovlari yig‘indisi</small>
+              <b data-testid="clinic-income">{som(income)}</b>
+              <small>{patients.length === 0 ? "Bemor yo‘q — daromad 0" : "CRM to‘lovlari yig‘indisi"}</small>
             </div>
           </article>
           <article className="hub-kpi">
@@ -173,7 +183,7 @@ export function KlinikaDesktop() {
             </span>
             <div>
               <div className="lab">Kreslo bandligi</div>
-              <b>{todayCount ? Math.min(100, todayCount * 10) : 0}%</b>
+              <b data-testid="clinic-occupancy">{occupancy}%</b>
               <small>Bugungi qabullardan</small>
             </div>
           </article>
@@ -260,7 +270,7 @@ export function KlinikaDesktop() {
                   </button>
                 </div>
               </h3>
-              <b>{som(income)}</b>
+              <b data-testid="clinic-revenue">{som(income)}</b>
               {bars.length === 0 ? <p className="hub-note">Oylik grafik uchun to‘lovlar hali yo‘q.</p> : null}
             </section>
             <section className="hub-box">
@@ -289,6 +299,11 @@ export function KlinikaDesktop() {
                 </tr>
               </thead>
               <tbody>
+                {patients.length === 0 ? (
+                  <tr>
+                    <td colSpan={7}>Bemor yo‘q</td>
+                  </tr>
+                ) : null}
                 {patients.map((patient, index) => (
                   <tr key={patient.id}>
                     <td>{index + 1}</td>
