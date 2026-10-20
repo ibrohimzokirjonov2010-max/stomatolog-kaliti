@@ -5,7 +5,7 @@ import { useRouter, useSearchParams } from "next/navigation";
 import { MapPin } from "lucide-react";
 import { ADD_CITIES, ADD_DISTRICTS, JOB_EXPERIENCE, JOB_PERKS, JOB_TYPES, emptyJob, jobPayload, moneyText, saveAddForm, validateJobForm, type JobInput } from "@/lib/add-forms";
 import { formatGroupedNumber } from "@/lib/format";
-import { AddPage, AreaField, Banners, Chips, FormActions, PhoneField, SelectField, Step, TelegramField, TextField, Toggle } from "@/components/add-forms/widgets";
+import { AddPage, AreaField, Banners, Chips, FormActions, PhoneField, SelectField, SourceLinks, Step, TelegramField, TextField, Toggle } from "@/components/add-forms/widgets";
 
 type Row = {
   id: string;
@@ -27,6 +27,8 @@ type Row = {
   phone?: string;
   telegram?: string | null;
   email?: string | null;
+  sourceUrl?: string | null;
+  instagram?: string | null;
   acceptApplications?: boolean;
 };
 
@@ -69,6 +71,8 @@ export function JobForm() {
         phone: row.phone ?? "",
         telegram: row.telegram ?? "",
         email: row.email ?? "",
+        sourceUrl: row.sourceUrl ?? "",
+        instagram: row.instagram ?? "",
         acceptApplications: row.acceptApplications !== false,
       });
     }).catch(() => undefined);
@@ -120,9 +124,9 @@ export function JobForm() {
             <TextField label="Klinika nomi" required testId="job-clinic" value={form.clinic} error={errors.clinic} placeholder="Klinika nomi" onChange={(clinic) => patch({ clinic })} />
             <div className="af-row">
               <SelectField label="Shahar" required testId="job-city" value={form.city} error={errors.city} placeholder="Shaharni tanlang" options={ADD_CITIES} onChange={(city) => patch({ city })} />
-              <SelectField label="Tuman" required value={form.district} error={errors.district} placeholder="Tumanni tanlang" options={ADD_DISTRICTS} onChange={(district) => patch({ district })} />
+              <SelectField label="Tuman" value={form.district} error={errors.district} placeholder="Tumanni tanlang" options={ADD_DISTRICTS} onChange={(district) => patch({ district })} />
             </div>
-            <TextField label="Manzil" required testId="job-address" value={form.address} error={errors.address} placeholder="Ko‘cha, uy" onChange={(address) => patch({ address })} />
+            <TextField label="Manzil" testId="job-address" value={form.address} error={errors.address} placeholder="Ko‘cha, uy" onChange={(address) => patch({ address })} />
           </Step>
           <Step n={2} title="Ish sharoitlari">
             <p className="af-label">Bandlik turi</p>
@@ -138,7 +142,7 @@ export function JobForm() {
           </Step>
           <Step n={3} title="Tavsif">
             <AreaField label="Talablar" required testId="job-req" value={form.requirements} error={errors.requirements} placeholder="Nomzoddan nima kutiladi" onChange={(requirements) => patch({ requirements })} />
-            <AreaField label="Majburiyatlar" required testId="job-duties" value={form.duties} error={errors.duties} placeholder="Nimalar qilinadi" onChange={(duties) => patch({ duties })} />
+            <AreaField label="Majburiyatlar" testId="job-duties" value={form.duties} error={errors.duties} placeholder="Nimalar qilinadi" onChange={(duties) => patch({ duties })} />
             <p className="af-label">Afzalliklar</p>
             <div className="af-pills">
               {JOB_PERKS.map((item) => {
@@ -157,6 +161,8 @@ export function JobForm() {
               <TelegramField testId="job-tg" value={form.telegram} error={errors.telegram} onChange={(telegram) => patch({ telegram })} />
             </div>
             <TextField label="Email" testId="job-email" value={form.email} error={errors.email} placeholder="hr@klinika.uz" onChange={(email) => patch({ email })} />
+            <TextField label="Manba yoki sayt havolasi" testId="job-source" value={form.sourceUrl} error={errors.sourceUrl} placeholder="https://" maxLength={400} onChange={(sourceUrl) => patch({ sourceUrl })} />
+            <TextField label="Instagram" testId="job-instagram" value={form.instagram} error={errors.instagram} placeholder="@username yoki https://" maxLength={200} onChange={(instagram) => patch({ instagram })} />
             <Toggle on={form.acceptApplications} label="Saytda ariza qabul qilish" testId="job-apply" onChange={(acceptApplications) => patch({ acceptApplications })} />
             {errors.contact ? <p className="af-err" data-testid="job-contact-error">{errors.contact}</p> : null}
           </Step>
@@ -173,6 +179,7 @@ export function JobForm() {
               <p className="muted">{form.requirements.trim() || "Talablar shu yerda ko‘rinadi."}</p>
               <p className="af-line">{form.acceptApplications ? "Saytda ariza ochiq" : "Ariza saytda yopiq"}</p>
               <p className="af-line">{[form.phone, form.telegram && `@${form.telegram.replace(/^@/, "")}`, form.email].filter(Boolean).join(" · ") || "Aloqa kiritilmagan"}</p>
+              <SourceLinks source={form.sourceUrl} instagram={form.instagram} />
               <button type="button" className="af-msg blue">Ariza qoldirish</button>
             </div>
           </article>

@@ -82,6 +82,7 @@
 .af-price { margin: 8px 0 0; font-size: 20px; font-weight: 800; color: #0066ff; }
 .af-k { display: inline-block; margin-left: 6px; background: #e8f8ef; color: #128a4a; border-radius: 8px; font-size: 11px; padding: 2px 6px; font-weight: 750; vertical-align: middle; }
 .af-line { display: flex; gap: 6px; align-items: center; margin-top: 8px; color: #4b5568; font-size: 13px; }
+.af-source { display: block; margin-top: 8px; color: #0066FF; font-size: 13px; font-weight: 600; word-break: break-all; }
 .af-msg { margin-top: 12px; width: 100%; height: 40px; border-radius: 12px; border: 1px solid #dbe3ef; background: #fff; font: inherit; font-weight: 750; cursor: pointer; }
 .af-msg.blue { background: #0066ff; color: #fff; border-color: #0066ff; }
 .sh .af button.af-btn, .sh .af button.af-pill, .sh .af button.af-chip, .sh .af button.af-check, .sh .af button.af-profile, .sh .af button.af-msg, .sh .af button.af-add, .sh .af .af-switch { font: inherit; }

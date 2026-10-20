@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { ArrowRight, MapPin, User } from "lucide-react";
 import { useSeminarRegs } from "@/components/seminar-provider";
-import { seminarHref, seminars, seminarDayMonth } from "@/data/seminars";
+import { seminarHref, seminarPriceText, seminars, seminarDayMonth } from "@/data/seminars";
 
 export function SectionHead({ title, link = "Barchasini ko‘rish", href, extra }: { title: string; link?: string; href: string; extra?: boolean }) {
   return (
@@ -31,7 +31,7 @@ export default function Seminars() {
               <div className="bd">
                 <h5>{s.title}</h5><p>{s.venue}</p>
                 <div className="meta"><span><MapPin className="i" />{s.city}</span><span><User className="i" />{s.speaker}</span></div>
-                <div className="ft"><strong>{s.price ? `${s.price.toLocaleString("ru-RU")} so‘m` : "Bepul"}</strong><Link className="btn-teal sm" href={seminarHref(s.id)}>Batafsil</Link></div>
+                <div className="ft"><strong>{seminarPriceText(s)}</strong><Link className="btn-teal sm" href={seminarHref(s.id)}>Batafsil</Link></div>
               </div>
             </article>
           ))}

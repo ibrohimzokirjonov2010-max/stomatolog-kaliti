@@ -133,6 +133,8 @@ export type Master = {
   priceNegotiable?: boolean;
   phone?: string | null;
   telegram?: string | null;
+  sourceUrl?: string | null;
+  instagram?: string | null;
 };
 
 export function phoneHref(phone: string) {

@@ -33,6 +33,8 @@ export type Lab = {
   phone?: string | null;
   telegram?: string | null;
   email?: string | null;
+  sourceUrl?: string | null;
+  instagram?: string | null;
   delivery?: boolean;
 };
 

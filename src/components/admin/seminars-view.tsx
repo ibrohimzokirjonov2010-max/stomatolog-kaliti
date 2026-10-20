@@ -4,7 +4,7 @@ import { useState } from "react";
 import Link from "next/link";
 import { Check, ExternalLink, GraduationCap, UserCog, X } from "lucide-react";
 import { Card, Empty, ErrorBox, Loading, PageHead, Pill, adminPost, btn, fmtDate, useAdminData, useToast, type Tone } from "@/components/admin/ui";
-import { SEMINAR_STATUS_LABEL, type SeminarRow } from "@/lib/seminar-remote";
+import { SEMINAR_STATUS_LABEL, seminarRowPriceText, type SeminarRow } from "@/lib/seminar-remote";
 import { cn } from "@/lib/utils";
 
 type App = { id: string; applicantName: string | null; orgName: string; phone: string; city: string | null; bio: string | null; telegram: string | null; status: "pending" | "approved" | "rejected"; rejectReason: string | null; createdAt: string };
@@ -126,7 +126,7 @@ export function SeminarsView() {
                       <div className="min-w-0">
                         <p className="font-semibold">{s.title}</p>
                         <p className="text-[12px] text-slate-500">
-                          {s.organizerName ?? "—"} · {s.date ? fmtDate(s.date) : "—"} {s.time} · {s.city} · {s.price > 0 ? `${s.price.toLocaleString("ru-RU")} so‘m` : "Bepul"} · {s.registered}/{s.seats} yozilgan
+                          {s.organizerName ?? "—"} · {s.date ? fmtDate(s.date) : "—"} {s.time} · {s.city} · {seminarRowPriceText(s.price)} · {s.registered}/{s.seats} yozilgan
                         </p>
                         {s.rejectReason ? <p className="mt-1 text-[#b91c1c]">Sabab: {s.rejectReason}</p> : null}
                       </div>

@@ -27,7 +27,8 @@ import {
 import { BookmarkButton, SeminarCover, ToothOutline, cardTags, initials } from "@/components/seminar-mobile-list";
 import { SeminarStatusBadge } from "@/components/seminar-status";
 import type { SeminarRegistration } from "@/lib/seminar-registrations";
-import { getSeminarSpeakers, seminarSeatsShort, seminars, type Seminar } from "@/data/seminars";
+import { getSeminarSpeakers, seminarPriceText, seminarSeatsShort, seminars, type Seminar } from "@/data/seminars";
+import { SeminarPublicLinks } from "@/components/seminar-links";
 import { formatMoney } from "@/lib/format";
 import { discountPercent, mapsHref, programSteps } from "@/lib/seminar-mobile";
 import { cn } from "@/lib/utils";
@@ -285,7 +286,7 @@ export function SeminarDetailMobile({ seminar: s, left, mine, upcoming, onRegist
       {/* Price card */}
       <section className="relative z-10 mx-4 -mt-4 flex items-center justify-between gap-3 rounded-[18px] bg-white p-3.5 shadow-[0_10px_28px_rgba(15,23,42,0.1)]" data-testid="seminar-price-card">
         <div className="min-w-0">
-          <p className="text-[clamp(17px,5vw,21px)] leading-tight font-extrabold whitespace-nowrap text-[#0B1F4D]">{s.price > 0 ? formatMoney(s.price, "UZS") : "Bepul"}</p>
+          <p className="text-[clamp(17px,5vw,21px)] leading-tight font-extrabold whitespace-nowrap text-[#0B1F4D]">{seminarPriceText(s)}</p>
           {pct > 0 && s.oldPrice ? (
             <p className="mt-0.5 flex items-center gap-1.5">
               <span className="rounded-md bg-[#ff3b30] px-1.5 py-[3px] text-[10px] leading-none font-bold text-white">-{pct}%</span>
@@ -543,6 +544,7 @@ export function SeminarDetailMobile({ seminar: s, left, mine, upcoming, onRegist
               </a>
             ) : null}
           </div>
+          <SeminarPublicLinks sourceUrl={s.sourceUrl} instagram={s.instagram} testId="seminar-links-mobile" />
         </Card>
 
         <Card id="sem-reviews">

@@ -31,10 +31,12 @@ export async function POST(request: Request) {
     description: str(body.description, 8000),
     speakers: Array.isArray(body.speakers) ? body.speakers.slice(0, 8).map((s) => ({ name: str((s as Record<string, unknown>)?.name, 200), role: str((s as Record<string, unknown>)?.role, 200) })) : [],
     date: str(body.date, 10),
+    dateEnd: str(body.dateEnd, 10),
     startTime: str(body.startTime, 5),
     endTime: str(body.endTime, 5),
-    city: str(body.city, 20),
+    city: str(body.city, 40),
     venue: str(body.venue, 400),
+    priceMode: body.priceMode === "free" || body.priceMode === "hidden" ? body.priceMode : "paid",
     price: str(String(body.price ?? ""), 20),
     seats: str(String(body.seats ?? ""), 10),
     specialty: str(body.specialty, 20),
@@ -42,6 +44,8 @@ export async function POST(request: Request) {
     tags: str(body.tags, 600),
     program: Array.isArray(body.program) ? body.program.slice(0, 20).map((p) => ({ time: str((p as Record<string, unknown>)?.time, 60), title: str((p as Record<string, unknown>)?.title, 300) })) : [],
     learnings: str(body.learnings, 3000),
+    sourceUrl: str(body.sourceUrl, 400),
+    instagram: str(body.instagram, 200),
   };
   const { errors, clean } = validateSeminar(input, { isNew: !id });
   // Images must come from our own Storage upload mechanism (seminars/ folder).

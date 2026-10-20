@@ -30,6 +30,7 @@ import {
   compareListed,
   featuredSeminar,
   isSeminarUpcoming,
+  seminarPriceText,
   seminarSeatsShort,
   seminarCities,
   seminarHref,
@@ -348,7 +349,7 @@ function ListCard({ seminar }: { seminar: Seminar }) {
             </p>
           ) : null}
           <p className={cn("text-[16px] leading-tight font-extrabold text-[#0B1F4D]", pct > 0 && live.oldPrice ? "mt-0.5" : "mt-1.5")}>
-            {live.price > 0 ? formatMoney(live.price, "UZS") : "Bepul"}
+            {seminarPriceText(live)}
           </p>
         </div>
         {!upcoming ? (

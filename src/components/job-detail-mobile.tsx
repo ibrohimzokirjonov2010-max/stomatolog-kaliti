@@ -37,6 +37,7 @@ import {
 import { CategoryBadge, EmployerLogo, JobPhoto, mapHref, placeText, salaryText, timeAgo, useSavedJobs } from "@/components/ishlar-ui";
 import { mobileTypeText } from "@/components/ishlar-mobile-list";
 import { experienceLabel, jobBenefits, type Job, type JobBenefit } from "@/data/jobs";
+import { instagramHref, instagramValue, sourceUrlValue } from "@/lib/add-forms";
 import { cn } from "@/lib/utils";
 
 const benefitStyle: Record<JobBenefit, { icon: ReactNode; cls: string }> = {
@@ -195,6 +196,16 @@ export function JobDetailMobile({ job, applied, applySub, onApply, onMessage }: 
         {/* Tavsif */}
         <Section icon={<FileText className="size-[18px]" />} title="Tavsif">
           <p className="text-[13px] leading-relaxed whitespace-pre-line text-[#4b5568]">{job.description}</p>
+          {sourceUrlValue(job.sourceUrl ?? "") ? (
+            <a href={sourceUrlValue(job.sourceUrl ?? "")} target="_blank" rel="noopener nofollow" className="mt-2 inline-flex break-all text-[13px] font-semibold text-[#0066FF]" data-testid="job-source-mobile">
+              {sourceUrlValue(job.sourceUrl ?? "")}
+            </a>
+          ) : null}
+          {instagramHref(job.instagram ?? "") ? (
+            <a href={instagramHref(job.instagram ?? "")} target="_blank" rel="noopener nofollow" className="mt-2 inline-flex break-all text-[13px] font-semibold text-[#0066FF]" data-testid="job-instagram-mobile">
+              {instagramValue(job.instagram ?? "")}
+            </a>
+          ) : null}
         </Section>
 
         {/* Asosiy talablar */}

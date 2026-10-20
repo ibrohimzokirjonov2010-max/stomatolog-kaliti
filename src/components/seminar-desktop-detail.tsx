@@ -32,6 +32,7 @@ import {
   getSeminarSpeakers,
   isSeminarUpcoming,
   seminarDayMonth,
+  seminarPriceText,
   seminars,
   sortedSeminars,
   specialtyLabels,
@@ -41,6 +42,7 @@ import { formatMoney } from "@/lib/format";
 import { discountPercent, mapsHref, seminarTags } from "@/lib/seminar-mobile";
 import { toggleSavedSeminar, useSavedSeminars } from "@/lib/seminar-saved";
 import type { SeminarRegistration } from "@/lib/seminar-registrations";
+import { SeminarPublicLinks } from "@/components/seminar-links";
 import { cn } from "@/lib/utils";
 import { seminarDate } from "@/data/seminars";
 
@@ -503,7 +505,7 @@ export function SeminarDetailDesktop({
             </div>
             <div className="mt-1 flex items-baseline gap-2">
               <p className="text-[28px] leading-none font-extrabold text-[#0066FF]">
-                {s.price > 0 ? formatMoney(s.price, "UZS") : "Bepul"}
+                {seminarPriceText(s)}
               </p>
               {pct > 0 && s.oldPrice ? (
                 <>
@@ -620,7 +622,7 @@ export function SeminarDetailDesktop({
                       <span className="min-w-0 flex-1">
                         <span className="line-clamp-2 block text-[12.5px] leading-snug font-semibold text-[#1a1d26] group-hover:text-[#0066FF]">{x.title}</span>
                         <span className="mt-0.5 block truncate text-[11px] text-[#8b93a7]">
-                          {seminarDayMonth(x.date)} · {x.city} · {x.price > 0 ? formatMoney(x.price, "UZS") : "Bepul"}
+                          {seminarDayMonth(x.date)} · {x.city} · {seminarPriceText(x)}
                         </span>
                       </span>
                       <ChevronRight className="size-4 shrink-0 text-[#9aa3b5]" />
@@ -670,28 +672,31 @@ function ShareBtn({ label, onClick, className, children }: { label: string; onCl
 function AddressCard({ s, online, compact }: { s: Seminar; online: boolean; compact?: boolean }) {
   const hasVenue = Boolean(s.venue);
   return (
-    <div className={cn("flex items-center gap-3 rounded-2xl border border-[#e3e9f5] bg-[#f5f8ff]", compact ? "p-3" : "p-4")}>
-      <span className="grid size-11 shrink-0 place-items-center rounded-xl bg-white text-[#ef4444] shadow-sm">
-        <MapPin className="size-5" />
-      </span>
-      <div className="min-w-0 flex-1">
-        {online ? (
-          <p className="text-[13px] font-semibold text-[#1a1d26]">Online format</p>
-        ) : hasVenue ? (
-          <>
-            <p className="truncate text-[13px] font-semibold text-[#1a1d26]">{s.venue}</p>
-            <p className="text-[12px] text-[#6b7280]">{s.city}</p>
-          </>
-        ) : (
-          <p className="text-[13px] text-[#6b7280]">Manzil tez orada e’lon qilinadi.</p>
-        )}
+    <div className={cn("rounded-2xl border border-[#e3e9f5] bg-[#f5f8ff]", compact ? "p-3" : "p-4")}>
+      <div className="flex items-center gap-3">
+        <span className="grid size-11 shrink-0 place-items-center rounded-xl bg-white text-[#ef4444] shadow-sm">
+          <MapPin className="size-5" />
+        </span>
+        <div className="min-w-0 flex-1">
+          {online ? (
+            <p className="text-[13px] font-semibold text-[#1a1d26]">Online format</p>
+          ) : hasVenue ? (
+            <>
+              <p className="truncate text-[13px] font-semibold text-[#1a1d26]">{s.venue}</p>
+              <p className="text-[12px] text-[#6b7280]">{s.city}</p>
+            </>
+          ) : (
+            <p className="text-[13px] text-[#6b7280]">Manzil tez orada e’lon qilinadi.</p>
+          )}
+        </div>
+        {!online && hasVenue ? (
+          <a href={mapsHref(s)} target="_blank" rel="noopener noreferrer" className="inline-flex shrink-0 items-center gap-1 text-[12px] font-semibold text-[#0066FF] hover:underline">
+            Xaritada
+            <ArrowRight className="size-3.5" />
+          </a>
+        ) : null}
       </div>
-      {!online && hasVenue ? (
-        <a href={mapsHref(s)} target="_blank" rel="noopener noreferrer" className="inline-flex shrink-0 items-center gap-1 text-[12px] font-semibold text-[#0066FF] hover:underline">
-          Xaritada
-          <ArrowRight className="size-3.5" />
-        </a>
-      ) : null}
+      <SeminarPublicLinks sourceUrl={s.sourceUrl} instagram={s.instagram} testId={compact ? "seminar-links-side" : "seminar-links"} />
     </div>
   );
 }

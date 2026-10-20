@@ -2,6 +2,7 @@
 
 import { useRef, type ReactNode } from "react";
 import Link from "next/link";
+import { instagramHref, instagramValue, sourceUrlValue } from "@/lib/add-forms";
 import { formatUzPhone } from "@/lib/phone-uz";
 import "./add-form.css";
 
@@ -103,6 +104,18 @@ export function PhoneField(props: { value: string; onChange: (value: string) => 
         <input data-testid={props.testId} inputMode="numeric" placeholder="90 123 45 67" value={formatUzPhone(props.value).replace(/^\+998\s?/, "")} onChange={(event) => props.onChange(formatUzPhone(event.target.value))} />
       </div>
     </Field>
+  );
+}
+
+export function SourceLinks({ source, instagram }: { source: string; instagram: string }) {
+  const href = sourceUrlValue(source);
+  const ig = instagramHref(instagram);
+  if (!href && !ig) return null;
+  return (
+    <>
+      {href ? <a className="af-source" href={href} target="_blank" rel="noopener nofollow">{href}</a> : null}
+      {ig ? <a className="af-source" href={ig} target="_blank" rel="noopener nofollow">{instagramValue(instagram)}</a> : null}
+    </>
   );
 }
 

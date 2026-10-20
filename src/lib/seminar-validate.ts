@@ -1,15 +1,20 @@
-import { seminarCities } from "@/data/seminars";
+import { UZ_REGIONS } from "@/data/regions";
+import { instagramValue, sourceUrlValue } from "@/lib/add-forms";
 import { SPECIALTIES } from "@/lib/seminar-remote";
+
+export type SeminarPriceMode = "free" | "paid" | "hidden";
 
 export type SeminarInput = {
   title: string;
   description: string;
   speakers: { name: string; role: string }[];
   date: string;
+  dateEnd: string;
   startTime: string;
   endTime: string;
   city: string;
   venue: string;
+  priceMode: SeminarPriceMode;
   price: string | number;
   seats: string | number;
   specialty: string;
@@ -19,6 +24,8 @@ export type SeminarInput = {
   program: { time: string; title: string }[];
   /** one per line */
   learnings: string;
+  sourceUrl: string;
+  instagram: string;
 };
 
 export type SeminarClean = {
@@ -26,23 +33,28 @@ export type SeminarClean = {
   description: string;
   speakers: { name: string; role: string }[];
   date: string;
+  dateEnd: string;
   startTime: string;
   endTime: string;
   city: string;
   venue: string;
-  price: number;
+  price: number | null;
+  priceHidden: boolean;
   seats: number;
   specialty: string;
   image: string;
   tags: string[];
   program: { time: string; title: string }[];
   learnings: string[];
+  sourceUrl: string;
+  instagram: string;
 };
 
 export type SeminarErrors = Partial<Record<string, string>>;
 
 const TIME_RE = /^([01]\d|2[0-3]):[0-5]\d$/;
 const DATE_RE = /^\d{4}-\d{2}-\d{2}$/;
+const LEGACY_CITIES = ["Toshkent", "Samarqand", "Online"];
 
 function tashkentToday() {
   return new Intl.DateTimeFormat("en-CA", { timeZone: "Asia/Tashkent", year: "numeric", month: "2-digit", day: "2-digit" }).format(new Date());
@@ -54,10 +66,12 @@ export function emptySeminarInput(): SeminarInput {
     description: "",
     speakers: [{ name: "", role: "" }],
     date: "",
+    dateEnd: "",
     startTime: "",
     endTime: "",
-    city: "Toshkent",
+    city: "Toshkent shahri",
     venue: "",
+    priceMode: "paid",
     price: "",
     seats: "",
     specialty: "implantologiya",
@@ -65,6 +79,8 @@ export function emptySeminarInput(): SeminarInput {
     tags: "",
     program: [],
     learnings: "",
+    sourceUrl: "",
+    instagram: "",
   };
 }
 
@@ -95,6 +111,13 @@ export function validateSeminar(input: SeminarInput, opts: { isNew: boolean }): 
   else if (opts.isNew && date < tashkentToday()) errors.date = "O‘tib ketgan sanani tanlab bo‘lmaydi.";
   if (errors.date) date = "";
 
+  let dateEnd = (input.dateEnd ?? "").trim();
+  if (dateEnd) {
+    if (!DATE_RE.test(dateEnd) || Number.isNaN(Date.parse(dateEnd))) errors.dateEnd = "Sana noto‘g‘ri.";
+    else if (date && dateEnd < date) errors.dateEnd = "Tugash sanasi boshlanishdan oldin bo‘lmasin.";
+  }
+  if (errors.dateEnd) dateEnd = "";
+
   const startTime = (input.startTime ?? "").trim();
   const endTime = (input.endTime ?? "").trim();
   if (!startTime) errors.startTime = "Boshlanish vaqtini kiriting.";
@@ -104,19 +127,22 @@ export function validateSeminar(input: SeminarInput, opts: { isNew: boolean }): 
   else if (!errors.startTime && endTime <= startTime) errors.endTime = "Tugash vaqti boshlanishdan keyin bo‘lsin.";
 
   const city = (input.city ?? "").trim();
-  if (!(seminarCities as string[]).includes(city)) errors.city = "Shaharni tanlang.";
+  if (!(UZ_REGIONS as readonly string[]).includes(city) && !LEGACY_CITIES.includes(city)) errors.city = "Shaharni tanlang.";
 
   const venue = (input.venue ?? "").trim();
   if (!venue) errors.venue = city === "Online" ? "Platforma yoki havolani kiriting." : "Manzil yoki joyni kiriting.";
   else if (venue.length < 3) errors.venue = "Joy nomi juda qisqa.";
   else if (venue.length > 200) errors.venue = "Joy nomi 200 belgidan oshmasin.";
 
+  const priceMode: SeminarPriceMode = input.priceMode === "free" || input.priceMode === "hidden" ? input.priceMode : "paid";
   const priceRaw = String(input.price ?? "").replace(/[\s_,]/g, "");
   let price = 0;
-  if (priceRaw === "") errors.price = "Narxni kiriting (bepul bo‘lsa 0).";
-  else if (!/^\d+$/.test(priceRaw)) errors.price = "Narx faqat raqamlardan iborat bo‘lsin.";
-  else if (Number(priceRaw) > 100_000_000) errors.price = "Narx 100 000 000 so‘mdan oshmasin.";
-  else price = Number(priceRaw);
+  if (priceMode === "paid") {
+    if (priceRaw === "" || priceRaw === "0") errors.price = "Narxni kiriting.";
+    else if (!/^\d+$/.test(priceRaw)) errors.price = "Narx faqat raqamlardan iborat bo‘lsin.";
+    else if (Number(priceRaw) > 100_000_000) errors.price = "Narx 100 000 000 so‘mdan oshmasin.";
+    else price = Number(priceRaw);
+  }
 
   const seatsRaw = String(input.seats ?? "").replace(/[\s_,]/g, "");
   let seats = 0;
@@ -131,6 +157,13 @@ export function validateSeminar(input: SeminarInput, opts: { isNew: boolean }): 
   const image = (input.image ?? "").trim();
   if (!image) errors.image = "Seminar uchun rasm yuklang.";
   else if (!/^https:\/\//.test(image) || image.length > 600) errors.image = "Rasm manzili noto‘g‘ri — qayta yuklang.";
+
+  const sourceRaw = (input.sourceUrl ?? "").trim();
+  if (sourceRaw) {
+    if (sourceRaw.length > 400) errors.sourceUrl = "Havola 400 belgidan oshmasin.";
+    else if (!sourceUrlValue(sourceRaw)) errors.sourceUrl = "Havola http:// yoki https:// bilan boshlansin.";
+  }
+  if ((input.instagram ?? "").trim() && !instagramValue(input.instagram)) errors.instagram = "Instagram nomi yoki https:// havolasini kiriting.";
 
   const tags = [...new Set((input.tags ?? "").split(/[,\n]/).map((t) => t.trim().replace(/^#/, "")).filter(Boolean))];
   if (tags.length > 6) errors.tags = "Teglar soni 6 tadan oshmasin.";
@@ -152,17 +185,21 @@ export function validateSeminar(input: SeminarInput, opts: { isNew: boolean }): 
       description,
       speakers: speakersClean,
       date,
+      dateEnd,
       startTime,
       endTime,
       city,
       venue,
-      price,
+      price: priceMode === "hidden" ? null : price,
+      priceHidden: priceMode === "hidden",
       seats,
       specialty,
       image,
       tags: tags.slice(0, 6),
       program: progRaw.slice(0, 12),
       learnings: learnings.slice(0, 8),
+      sourceUrl: sourceUrlValue(input.sourceUrl ?? ""),
+      instagram: instagramValue(input.instagram ?? ""),
     },
   };
 }
