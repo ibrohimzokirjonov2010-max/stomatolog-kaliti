@@ -1,10 +1,11 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import Link from "next/link";
 import { BadgeCheck, Bookmark, Heart, MapPin, Phone, SlidersHorizontal, Star, Users } from "lucide-react";
 import { PhoneFrame, SearchBox, Sheet } from "@/components/phone14/chrome";
-import { phoneCourses, phoneSpecialists } from "@/data/phone14";
+import { phoneCourses } from "@/data/phone14";
+import { fetchSpecialists, type PublicSpecialist } from "@/lib/specialists-public";
 import { formatGroupedNumber } from "@/lib/format";
 
 export function PhoneCourses() {
@@ -76,13 +77,33 @@ export function PhoneCourses() {
 }
 
 export function PhoneSpecialists() {
+  const [people, setPeople] = useState<PublicSpecialist[]>([]);
+  const [ready, setReady] = useState(false);
+  useEffect(() => {
+    let stop = false;
+    void fetchSpecialists().then((rows) => {
+      if (stop) return;
+      setPeople(rows);
+      setReady(true);
+    });
+    return () => {
+      stop = true;
+    };
+  }, []);
   return (
     <PhoneFrame testId="phone-mutaxassislar">
       <div>
         <h1>Mutaxassislar</h1>
-        <p className="sub">Ro‘yxat hali ochilmagan</p>
+        <p className="sub">{!ready ? "Yuklanmoqda..." : `${people.length} ta mutaxassis`}</p>
       </div>
-      <p className="p14-empty" data-testid="spec-empty">Hozircha mutaxassislar ro‘yxati yo‘q.</p>
+      {!ready || people.length === 0 ? (
+        <p className="p14-empty" data-testid="spec-empty">{!ready ? "Yuklanmoqda..." : "Hozircha mutaxassislar ro‘yxati yo‘q."}</p>
+      ) : people.map((person) => (
+        <Link key={person.id} href={person.href} className="p14-card" data-testid="spec-card">
+          <h3>{person.name}</h3>
+          <p>{person.specialty}{person.city ? ` · ${person.city}` : ""}{person.clinic ? ` · ${person.clinic}` : ""}</p>
+        </Link>
+      ))}
     </PhoneFrame>
   );
 }

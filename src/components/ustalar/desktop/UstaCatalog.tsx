@@ -36,7 +36,8 @@ import { useFavMasters } from "@/components/usta-ui";
 import { useUstaWork } from "@/components/usta-provider";
 import type { UstaRequestDraft } from "./usta-view";
 import { timeRanges, toshkentDistricts, type RequestServiceV2 } from "@/data/masters";
-import { ustaBrandFilters, ustaCities, ustaServices, type UstaService } from "@/data/desktop-ustalar";
+import { ustaBrandFilters, ustaServices, type UstaService } from "@/data/desktop-ustalar";
+import { UZ_REGIONS } from "@/data/regions";
 import { useEscape, useUstaActions } from "./UstaActions";
 import { initials, ustaList, type UstaView } from "./usta-view";
 import "./usta.css";
@@ -96,7 +97,7 @@ export function UstaCatalog() {
     const raw = params.get("xizmat");
     return ustaServices.some((item) => item.id === raw) ? (raw as UstaService) : "all";
   });
-  const [city, setCity] = useState("Toshkent");
+  const [city, setCity] = useState("Barchasi");
   const [district, setDistrict] = useState("Barchasi");
   const [brand, setBrand] = useState("Barchasi");
   const [free, setFree] = useState("Barchasi");
@@ -186,8 +187,8 @@ export function UstaCatalog() {
             </div>
 
             <div className="us-filters">
-              <Field label="Shahar" value={city} onChange={(value) => { setCity(value); setDistrict("Barchasi"); }} options={["Barchasi", ...ustaCities]} />
-              <Field label="Tuman" value={district} onChange={setDistrict} options={["Barchasi", ...(city === "Toshkent" ? toshkentDistricts : [])]} />
+              <Field label="Shahar" value={city} onChange={(value) => { setCity(value); setDistrict("Barchasi"); }} options={["Barchasi", ...UZ_REGIONS]} />
+              <Field label="Tuman" value={district} onChange={setDistrict} options={["Barchasi", ...(city === "Toshkent" || city === "Toshkent shahri" ? toshkentDistricts : [])]} />
               <Field label="Brend tajribasi" value={brand} onChange={setBrand} options={["Barchasi", ...ustaBrandFilters]} />
               <Field label="Hozir bo‘sh" value={free} onChange={setFree} options={[["Barchasi", "Barchasi"], ["online", "Hozir onlayn"], ["fast", "Tez javob beradi"]]} />
               <Field label="Reyting" value={rating} onChange={setRating} options={[["Barchasi", "Barchasi"], ["4.8", "4.8 va yuqori"], ["4.5", "4.5 va yuqori"]]} />
@@ -346,7 +347,7 @@ function RepairForm({ onFind }: { onFind: (draft: UstaRequestDraft & { equipment
   const [model, setModel] = useState("");
   const [text, setText] = useState("");
   const [file, setFile] = useState<File | null>(null);
-  const [city, setCity] = useState("Toshkent");
+  const [city, setCity] = useState("Toshkent shahri");
   const [district, setDistrict] = useState("");
   const [when, setWhen] = useState("today");
   const [slot, setSlot] = useState<string>(timeRanges[2]);
@@ -421,9 +422,9 @@ function RepairForm({ onFind }: { onFind: (draft: UstaRequestDraft & { equipment
       {errors.file ? <em className="us-err" role="alert">{errors.file}</em> : null}
       <span className="us-label">Manzil</span>
       <div className="us-two">
-        <div className="sel"><select aria-label="Shahar" value={city} onChange={(event) => { setCity(event.target.value); setDistrict(""); }}>{ustaCities.map((name) => <option key={name}>{name}</option>)}</select><ChevronDown className="i" /></div>
+        <div className="sel"><select aria-label="Shahar" value={city} onChange={(event) => { setCity(event.target.value); setDistrict(""); }}>{UZ_REGIONS.map((name) => <option key={name}>{name}</option>)}</select><ChevronDown className="i" /></div>
         <div className="sel">
-          <select aria-label="Tuman" value={district} disabled={city !== "Toshkent"} onChange={(event) => setDistrict(event.target.value)}>
+          <select aria-label="Tuman" value={district} disabled={city !== "Toshkent" && city !== "Toshkent shahri"} onChange={(event) => setDistrict(event.target.value)}>
             <option value="">Tuman</option>
             {toshkentDistricts.map((name) => <option key={name}>{name}</option>)}
           </select>

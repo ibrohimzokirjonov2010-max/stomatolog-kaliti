@@ -4,7 +4,6 @@
 import { useEffect, useMemo, useState } from "react";
 import { useSearchParams } from "next/navigation";
 import {
-  Award,
   BadgeCheck,
   Clock3,
   GraduationCap,
@@ -110,7 +109,7 @@ export function TalimDesktop() {
       return b.popularity - a.popularity;
     });
     return list;
-  }, [q, direction, level, format, price, sort]);
+  }, [courses, q, direction, level, format, price, sort]);
 
   function play(course: Course) {
     setPlayer(course);
@@ -129,6 +128,9 @@ export function TalimDesktop() {
   }
 
   const sortLabel = sorts.find((item) => item.id === sort)?.label ?? "Eng ommabop";
+  const lessonsDone = live.reduce((sum, course) => sum + course.lessons.filter((lesson) => lesson.done).length, 0);
+  const coursesDone = live.filter((course) => course.enrolled && course.progress >= 100).length;
+  const coursesNow = live.filter((course) => course.enrolled && course.progress < 100).length;
 
   return (
     <ShopShell searchPath="/talim" cartCount={cartCount} placeholder="Stomatologga nima kerak?" showCamera={false}>
@@ -335,8 +337,8 @@ export function TalimDesktop() {
                   <Clock3 className="i" />
                 </span>
                 <div>
-                  <b>42</b>
-                  <small>Ko‘rilgan soat</small>
+                  <b>{lessonsDone}</b>
+                  <small>Ko‘rilgan dars</small>
                 </div>
               </div>
               <div className="hub-stat">
@@ -344,17 +346,8 @@ export function TalimDesktop() {
                   <GraduationCap className="i" />
                 </span>
                 <div>
-                  <b>6</b>
+                  <b>{coursesDone}</b>
                   <small>Tugatilgan kurslar</small>
-                </div>
-              </div>
-              <div className="hub-stat">
-                <span className="ic">
-                  <Award className="i" />
-                </span>
-                <div>
-                  <b>3</b>
-                  <small>Sertifikat</small>
                 </div>
               </div>
               <div className="hub-stat">
@@ -362,7 +355,7 @@ export function TalimDesktop() {
                   <Users className="i" />
                 </span>
                 <div>
-                  <b>1</b>
+                  <b>{coursesNow}</b>
                   <small>Joriy kurs</small>
                 </div>
               </div>

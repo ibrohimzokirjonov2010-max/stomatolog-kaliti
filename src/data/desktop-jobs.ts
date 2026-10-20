@@ -21,12 +21,21 @@ export type DesktopJob = {
 };
 
 export const jobCities = [
+  { id: "Toshkent shahri", label: "Toshkent shahri" },
   { id: "Toshkent", label: "Toshkent" },
-  { id: "Samarqand", label: "Samarqand" },
-  { id: "Buxoro", label: "Buxoro" },
+  { id: "Toshkent viloyati", label: "Toshkent viloyati" },
   { id: "Andijon", label: "Andijon" },
+  { id: "Buxoro", label: "Buxoro" },
   { id: "Farg‘ona", label: "Farg‘ona" },
+  { id: "Jizzax", label: "Jizzax" },
+  { id: "Xorazm", label: "Xorazm" },
   { id: "Namangan", label: "Namangan" },
+  { id: "Navoiy", label: "Navoiy" },
+  { id: "Qashqadaryo", label: "Qashqadaryo" },
+  { id: "Qoraqalpog‘iston", label: "Qoraqalpog‘iston" },
+  { id: "Samarqand", label: "Samarqand" },
+  { id: "Sirdaryo", label: "Sirdaryo" },
+  { id: "Surxondaryo", label: "Surxondaryo" },
   { id: "Boshqa", label: "Boshqa" },
 ];
 

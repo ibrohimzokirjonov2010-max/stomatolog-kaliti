@@ -1,6 +1,7 @@
 /** Public marketplace rows from GET /api/catalog. */
 
 import type { ApparelGender, ApparelKind, Product, ProductAttrs, ProductCategory } from "@/data/products";
+import { resolveStoredImage } from "@/lib/media-url";
 
 export type CatalogCard = {
   id: string;
@@ -130,7 +131,7 @@ export function catalogCardFrom(raw: Record<string, unknown>): CatalogCard | nul
     rating: Number(raw.rating) || 0,
     reviews: Number(raw.reviews) || 0,
     inStock: raw.inStock !== false,
-    image: typeof raw.image === "string" ? raw.image : "",
+    image: resolveStoredImage(raw.image) || (Array.isArray(raw.images) ? resolveStoredImage(raw.images.find((item) => typeof item === "string")) : ""),
     createdAt: typeof raw.createdAt === "string" ? raw.createdAt : "",
     shopId: typeof raw.shopId === "string" ? raw.shopId : "",
     shopName: typeof raw.shopName === "string" ? raw.shopName : "",
@@ -140,7 +141,7 @@ export function catalogCardFrom(raw: Record<string, unknown>): CatalogCard | nul
     gender: typeof raw.gender === "string" ? raw.gender : "",
     sizes: Array.isArray(raw.sizes) ? raw.sizes.filter((item): item is string => typeof item === "string") : [],
     colors: Array.isArray(raw.colors) ? raw.colors.filter((item): item is string => typeof item === "string") : [],
-    images: Array.isArray(raw.images) ? raw.images.filter((item): item is string => typeof item === "string") : [],
+    images: Array.isArray(raw.images) ? raw.images.map(resolveStoredImage).filter(Boolean) : [],
     sku: typeof raw.sku === "string" ? raw.sku : "",
     stockQty: Number.isFinite(Number(raw.stockQty)) ? Math.max(0, Math.floor(Number(raw.stockQty))) : 0,
     attrs: raw.attrs && typeof raw.attrs === "object" && !Array.isArray(raw.attrs) ? (raw.attrs as Record<string, unknown>) : {},

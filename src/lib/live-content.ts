@@ -312,8 +312,8 @@ export function toDesktopJihoz(card: CatalogCard): DesktopJihoz {
     rating: card.rating,
     reviews: card.reviews,
     sold: 0,
-    image: card.image,
-    gallery: card.images.length ? card.images : card.image ? [card.image] : [],
+    image: card.image || "/images/product-unit.png",
+    gallery: card.images.length ? card.images : card.image ? [card.image] : ["/images/product-unit.png"],
     popularity: card.reviews,
   };
 }

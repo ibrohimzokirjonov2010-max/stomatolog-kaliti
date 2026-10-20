@@ -1,4 +1,15 @@
-.ckx { color: #142033; }
+.ckx {
+  --u: 15px;
+  color: #142033;
+  font-family: var(--font-plus-jakarta), ui-sans-serif, system-ui, sans-serif;
+  max-width: 1180px;
+}
+@supports (width: 1cqw) {
+  .ckx { --u: clamp(12px, 1.05cqw, 16px); }
+}
+.ckx button, .ckx input, .ckx select, .ckx textarea { font-family: inherit; color: inherit; }
+.ckx button { cursor: pointer; }
+.ckx button:disabled { cursor: not-allowed; }
 .ckx h1 { margin: calc(.2 * var(--u)) 0 0; font-size: clamp(26px, 2.109375vw, 32px); font-weight: 800; }
 .ckx-sub, .ckx-crumb { color: #8b97a8; font-size: calc(.68 * var(--u)); font-weight: 650; }
 .ckx-crumb { display: flex; gap: calc(.3 * var(--u)); }
@@ -55,3 +66,8 @@
 .ckx-nav .back { border: 1px solid #d7e2ea; background: #fff; }
 .ckx-nav .next { background: #3773fe; color: #fff; border: 0; }
 .ckx-error { color: #dc2626; font-weight: 750; font-size: calc(.66 * var(--u)); }
+.ckx-review { display: grid; gap: 4px; margin: 0 0 12px; padding: 12px 14px; border: 1px solid #e3eaf2; border-radius: 12px; background: #f8fbff; }
+.ckx-review b { color: #142033; font-size: 15px; }
+.ckx-review span { color: #52637a; font-size: 14px; }
+.ckx select { appearance: none; background-image: linear-gradient(45deg, transparent 50%, #64748b 50%), linear-gradient(135deg, #64748b 50%, transparent 50%); background-position: calc(100% - 18px) 50%, calc(100% - 12px) 50%; background-size: 6px 6px, 6px 6px; background-repeat: no-repeat; padding-right: 28px; }
+.ckx-pays button, .ckx-ship button, .ckx-addr, .ckx-nav .back, .ckx-nav .next { box-shadow: none; }

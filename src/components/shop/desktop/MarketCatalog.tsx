@@ -53,6 +53,12 @@ function isSortKey(value: string): value is SortKey {
   return value === "ommabop" || value === "arzon" || value === "qimmat" || value === "yangi";
 }
 
+function CatalogPhoto({ src }: { src: string }) {
+  const [failed, setFailed] = useState(false);
+  const current = !failed && src ? src : "/images/product-composite.png";
+  return <img src={current} alt="" onError={() => setFailed(true)} />;
+}
+
 function isNew(createdAt: string) {
   const time = Date.parse(createdAt);
   return Number.isFinite(time) && time > Date.now() - 14 * 86_400_000;
@@ -274,7 +280,7 @@ export function MarketCatalog() {
                 {items.map((item) => (
                   <article className="dk-card" key={item.id}>
                     <Link href={marketHref(item.id)} className="ph">
-                      {item.image ? <img src={item.image} alt="" /> : null}
+                      <CatalogPhoto src={item.image} />
                       {item.discount ? <span className="dk-badge red">-{item.discount}%</span> : null}
                     </Link>
                     <div className="brand">{item.brand}</div>

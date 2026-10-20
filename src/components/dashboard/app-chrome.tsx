@@ -21,6 +21,7 @@ import { JihozCatalog } from "@/components/jihoz/desktop/JihozCatalog";
 import { JobsDesktop } from "@/components/jobs/desktop/JobsDesktop";
 import { NewsDesktop } from "@/components/news/desktop/NewsDesktop";
 import { MutaxassislarDesktop } from "@/components/specialists/desktop/MutaxassislarDesktop";
+import { MutaxassisProfileDesktop } from "@/components/specialists/desktop/MutaxassisProfileDesktop";
 import { UstaCatalog } from "@/components/ustalar/desktop/UstaCatalog";
 import { SavatDesktop } from "@/components/savat/desktop/SavatDesktop";
 import { OrdersDesktop } from "@/components/savat/desktop/OrdersDesktop";
@@ -191,6 +192,8 @@ function desktopNews(pathname: string | null): ReactNode | null {
 
 function desktopSpec(pathname: string | null): ReactNode | null {
   if (pathname === "/mutaxassislar") return <MutaxassislarDesktop />;
+  const profile = pathname?.match(/^\/mutaxassislar\/([^/]+)$/);
+  if (profile) return <MutaxassisProfileDesktop id={decodeURIComponent(profile[1])} />;
   return null;
 }
 
