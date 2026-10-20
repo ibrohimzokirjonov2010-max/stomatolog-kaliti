@@ -44,7 +44,7 @@ import { cn } from "@/lib/utils";
 import { MARKETPLACE_COMMISSION_PERCENT } from "@/lib/commission";
 
 type Kpis = {
-  commission: number; ads: number; channels: number; subs: number; refunds: number; gmv: number; net: number;
+  commission: number; ads: number; channels: number; subs: number; refunds: number; gmv: number; gmvPending?: number; net: number;
   orders: number; delivered: number; paidOrders: number; activeUsers: number; newUsers: number; newTelegram: number;
 };
 type Data = {
@@ -155,9 +155,9 @@ export function DashboardView() {
               spark={recent.map((s) => s.net)}>
               <Money v={c.net} big />
             </Kpi>
-            <Kpi title="GMV (umumiy savdo)" icon={ShoppingBag} cur={c.gmv} prev={p.gmv} tone="blue" spark={recent.map((s) => s.gmv)}
-              foot={avgCheck ? `o‘rt. chek ${moneyShort(avgCheck)}` : "to‘langan buyurtmalar"}
-              def="Davrda to‘langan (escrowga tushgan) barcha buyurtmalar summasi, qaytarilganlar hisobga olinmaydi. Bu platforma daromadi emas.">
+            <Kpi title="GMV (to‘langan)" icon={ShoppingBag} cur={c.gmv} prev={p.gmv} tone="blue" spark={recent.map((s) => s.gmv)}
+              foot={`kutilmoqda, naqd ${moneyShort(c.gmvPending ?? 0)}${avgCheck ? ` · o‘rt. chek ${moneyShort(avgCheck)}` : ""}`}
+              def="To‘langan GMV — pul tushgan buyurtmalar. To‘lanmagan naqd buyurtmalar alohida, GMV kutilmoqda. Ikkalasi aralashtirilmaydi.">
               <Money v={c.gmv} />
             </Kpi>
             <Kpi title="MRR" icon={Repeat} cur={0} prev={0} tone="violet" foot="takroriy oylik daromad"

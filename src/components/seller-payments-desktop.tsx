@@ -9,15 +9,15 @@ import {
   Clock,
   CreditCard,
   Percent,
-  Plus,
   Trash2,
   Wallet,
   Hourglass,
   Landmark,
 } from "lucide-react";
 import { useSellerWork } from "@/components/seller-provider";
-import { DemoTag, LineChart, Panel, PillTabs, SelectBox, SoonTag, shortMoney } from "@/components/seller-desktop-ui";
+import { LineChart, Panel, PillTabs, SelectBox, SoonTag, shortMoney } from "@/components/seller-desktop-ui";
 import { cardBrandLabel } from "@/data/shops";
+import { displayCommissionRate } from "@/lib/order-money";
 import { formatMoney } from "@/lib/format";
 import { pingSellerLive } from "@/lib/use-seller-live";
 import { cn } from "@/lib/utils";
@@ -61,7 +61,7 @@ const fmtDate = (iso: string) => {
   const d = new Date(iso);
   return Number.isNaN(d.getTime()) ? "—" : `${pad(d.getDate())}.${pad(d.getMonth() + 1)}.${d.getFullYear()}`;
 };
-const payLabel = (p?: string) => (p === "click" ? "Click" : p === "payme" ? "Payme" : p === "naqd" ? "Naqd (yetkazganda)" : "—");
+const payLabel = (p?: string) => (p === "click" ? "Click" : p === "payme" ? "Payme" : p === "naqd" ? "Naqd pul" : "—");
 
 const cardErrors: Record<string, string> = {
   holder: "Karta egasining ismini kiriting.",
@@ -283,15 +283,15 @@ export function SellerPaymentsDesktop({ cardSettings }: { cardSettings: ReactNod
               <dl className="mt-3 divide-y divide-[#f1f4f9] text-[13px]">
                 <div className="flex items-center justify-between gap-2 py-2.5">
                   <dt className="text-[#6b7280]">To‘lov usullari</dt>
-                  <dd className="flex items-center gap-1.5 font-semibold text-[#0B1F4D]">
-                    Click, Payme, Naqd <DemoTag />
-                  </dd>
+                  <dd className="font-semibold text-[#0B1F4D]">Naqd pul</dd>
+                </div>
+                <div className="flex items-center justify-between gap-2 py-2.5">
+                  <dt className="text-[#6b7280]">Click, Payme, Uzum</dt>
+                  <dd className="font-semibold text-[#8b93a7]">Tez orada</dd>
                 </div>
                 <div className="flex items-center justify-between gap-2 py-2.5">
                   <dt className="text-[#6b7280]">Hisob-kitob davri</dt>
-                  <dd className="flex items-center gap-1.5 font-semibold text-[#0B1F4D]">
-                    — <DemoTag />
-                  </dd>
+                  <dd className="font-semibold text-[#8b93a7]">Tez orada</dd>
                 </div>
                 <div className="flex items-center justify-between gap-2 py-2.5">
                   <dt className="text-[#6b7280]">Minimal chiqarib olish</dt>
@@ -299,11 +299,11 @@ export function SellerPaymentsDesktop({ cardSettings }: { cardSettings: ReactNod
                 </div>
                 <div className="flex items-center justify-between gap-2 py-2.5">
                   <dt className="text-[#6b7280]">Komissiya</dt>
-                  <dd className="font-semibold text-[#0B1F4D]">{fin ? `${fin.commissionRate}%` : "…"}</dd>
+                  <dd className="font-semibold text-[#0B1F4D]">{fin ? `${displayCommissionRate(fin.commissionRate)}%` : "…"}</dd>
                 </div>
               </dl>
               <p className="mt-1 text-[11.5px] leading-relaxed text-[#8b93a7]">
-                Komissiyani platforma belgilaydi. Click/Payme ulanishi va hisob-kitob davri hozircha demo — haqiqiy to‘lov shlyuzi yo‘q.
+                Komissiyani platforma belgilaydi. Hozircha faqat Naqd pul ishlaydi. Click, Payme va Uzum ulanmagan.
               </p>
             </Panel>
             <PayoutPanel fin={fin} card={card} onDone={load} money={money} />
@@ -329,7 +329,7 @@ export function SellerPaymentsDesktop({ cardSettings }: { cardSettings: ReactNod
 
       {tab === "fees" ? (
         <div className="grid grid-cols-3 gap-4">
-          <Metric icon={<Percent className="size-5 text-[#7c3aed]" />} tone="bg-[#f3e8ff]" title="Komissiya stavkasi" value={fin ? `${fin.commissionRate}%` : "…"} hint="Platforma belgilaydi" />
+          <Metric icon={<Percent className="size-5 text-[#7c3aed]" />} tone="bg-[#f3e8ff]" title="Komissiya stavkasi" value={fin ? `${displayCommissionRate(fin.commissionRate)}%` : "…"} hint="Buyurtmadagi stavka bilan bir xil" />
           <Metric icon={<Landmark className="size-5 text-[#0066FF]" />} tone="bg-[#e8f1ff]" title="Ushlangan komissiya" value={fin ? money(fin.commission) : "…"} hint="Yetkazilgan buyurtmalardan" />
           <Metric icon={<Clock className="size-5 text-[#d97706]" />} tone="bg-[#fff4e5]" title="Kutilayotgan komissiya" value={fin ? money(fin.heldCommission) : "…"} hint="Escrowdagi buyurtmalardan" />
           <Panel title="Chegirmalar" className="col-span-3">
@@ -442,18 +442,15 @@ function CardsPanel({
   return (
     <Panel
       title={
-        <span className="flex items-center gap-2">
-          To‘lov kartalari <DemoTag />
-        </span>
+        <span className="flex items-center gap-2">To‘lov kartalari</span>
       }
       action={
         <button
           type="button"
-          onClick={() => setOpen((v) => !v)}
-          className="inline-flex h-9 items-center gap-1 rounded-xl bg-[#0066FF] px-3 text-[12.5px] font-semibold text-white hover:bg-[#0055d4]"
+          disabled
+          className="inline-flex h-9 cursor-not-allowed items-center gap-1 rounded-xl border border-[#e4e9f2] px-3 text-[12.5px] font-semibold text-[#8b93a7]"
         >
-          <Plus className="size-4" />
-          Karta qo‘shish
+          Karta qo‘shish · Tez orada
         </button>
       }
     >
@@ -524,7 +521,7 @@ function CardsPanel({
               onChange={(e) => setForm({ ...form, holder: e.target.value })}
             />
           </label>
-          {card ? <p className="col-span-2 text-[11.5px] text-[#8b93a7]">Mavjud karta yangisiga almashtiriladi (demo: 1 ta karta).</p> : null}
+          {card ? <p className="col-span-2 text-[11.5px] text-[#8b93a7]">Hozircha bitta karta saqlanadi.</p> : null}
           {err ? <p className="col-span-2 text-[12.5px] text-[#dc2626]">{err}</p> : null}
           <div className="col-span-2 flex gap-2">
             <button type="submit" className="h-10 rounded-xl bg-[#0066FF] px-4 text-[13px] font-semibold text-white hover:bg-[#0055d4]">

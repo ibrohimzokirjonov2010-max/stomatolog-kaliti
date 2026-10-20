@@ -33,6 +33,7 @@ import {
   type SellerDoc,
   type SellerProductInput,
 } from "@/lib/seller-work";
+import { orderBelongsToShop } from "@/lib/order-money";
 import { loadSellerOrders, syncOrders, type Order } from "@/lib/orders";
 
 type AuthResult = { ok: true; shop: Shop } | { ok: false; reason: "invalid" | "auth" };
@@ -231,7 +232,7 @@ export function SellerWorkProvider({ children }: { children: ReactNode }) {
 
   const shopOrders = useMemo(() => {
     void ordersTick;
-    return session ? loadSellerOrders() : [];
+    return session ? loadSellerOrders().filter((order) => orderBelongsToShop(order, session.id)) : [];
   }, [ordersTick, session]);
 
   const stats = useMemo(() => {
@@ -446,7 +447,7 @@ export function SellerWorkProvider({ children }: { children: ReactNode }) {
         linkedAt: new Date().toISOString(),
       };
       persistCards([next, ...cards.filter((item) => item.shopId !== session.id)]);
-      setToast({ text: "Karta ulandi (demo)." });
+      setToast({ text: "Karta saqlandi." });
       return { ok: true, card: next };
     },
     [cards, persistCards, session],

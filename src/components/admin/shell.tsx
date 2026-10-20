@@ -17,6 +17,7 @@ import {
   Megaphone,
   Menu,
   ListChecks,
+  Package,
   Settings,
   MessageSquareText,
   Search,
@@ -65,6 +66,7 @@ export const ADMIN_NAV: NavDef[] = [
   { href: "/admin/seminarlar", label: "Seminarlar", icon: GraduationCap, crumb: "Seminarlar" },
   { href: "/admin/kutubxona", label: "Kutubxona", icon: BookOpen, crumb: "Kutubxona" },
   { href: "/admin/moderatsiya", label: "Moderatsiya", icon: ListChecks, crumb: "Moderatsiya" },
+  { href: "/admin/mahsulotlar", label: "Mahsulotlar", icon: Package, crumb: "Mahsulotlar" },
   { href: "/admin/sozlamalar", label: "Sozlamalar", icon: Settings, crumb: "Sozlamalar" },
 ];
 

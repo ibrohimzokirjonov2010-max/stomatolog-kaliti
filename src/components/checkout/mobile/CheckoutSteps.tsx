@@ -33,6 +33,7 @@ import { apparelMetaLabel } from "@/data/forma";
 import { type MobileOrder } from "@/data/mobile-orders";
 import { formatMoney } from "@/lib/format";
 import { shopDeliveryFee } from "@/lib/cart-totals";
+import { formatUzPhone, isUzPhone } from "@/lib/phone-uz";
 import { useSavedPlaces } from "@/lib/saved-addresses";
 import { createOrder, type PaymentMethod } from "@/lib/orders";
 import "./checkout-steps.css";
@@ -44,13 +45,13 @@ type ShipId = "courier" | "pickup";
 const CITIES = ["Toshkent", "Samarqand", "Buxoro", "Andijon", "Farg‘ona", "Namangan", "Nukus", "Qarshi"];
 const TASHKENT = ["Yunusobod", "Chilonzor", "Shayxontohur", "Mirzo Ulug‘bek", "Yakkasaroy", "Sergeli", "Uchtepa", "Olmazor", "Mirobod", "Yashnobod", "Bektemir"];
 
-const PAYS: { id: PayId; title: string; hint: string; mark: string; color: string }[] = [
-  { id: "click", title: "Click", hint: "Click ilovasi orqali", mark: "C", color: "#00b4d8" },
-  { id: "payme", title: "Payme", hint: "Payme ilovasi orqali", mark: "P", color: "#14b87a" },
-  { id: "uzum", title: "Uzum", hint: "Uzum ilovasi orqali", mark: "U", color: "#7c3aed" },
-  { id: "card", title: "Bank kartasi", hint: "Visa / Mastercard", mark: "card", color: "#0066ff" },
-  { id: "naqd", title: "Naqd", hint: "Yetkazilganda to‘lash", mark: "cash", color: "#12b981" },
-  { id: "installment", title: "Muddatli to‘lov", hint: "Bo‘lib to‘lash (Uzum Nasiya)", mark: "pie", color: "#f59e0b" },
+const PAYS: { id: PayId; title: string; hint: string; mark: string; color: string; soon?: boolean }[] = [
+  { id: "naqd", title: "Naqd pul", hint: "Yetkazilganda yoki olib ketganda", mark: "cash", color: "#12b981" },
+  { id: "click", title: "Click", hint: "Tez orada", mark: "C", color: "#00b4d8", soon: true },
+  { id: "payme", title: "Payme", hint: "Tez orada", mark: "P", color: "#14b87a", soon: true },
+  { id: "uzum", title: "Uzum", hint: "Tez orada", mark: "U", color: "#7c3aed", soon: true },
+  { id: "card", title: "Bank kartasi", hint: "Tez orada", mark: "card", color: "#0066ff", soon: true },
+  { id: "installment", title: "Muddatli to‘lov", hint: "Tez orada", mark: "pie", color: "#f59e0b", soon: true },
 ];
 
 const STEPS = [
@@ -86,10 +87,8 @@ function etaLabel(date = new Date()) {
   return `Ertaga, ${next.getDate()} ${months[next.getMonth()]}`;
 }
 
-function apiPay(id: PayId): PaymentMethod {
-  if (id === "payme") return "payme";
-  if (id === "naqd") return "naqd";
-  return "click";
+function apiPay(): PaymentMethod {
+  return "naqd";
 }
 
 function PayMark({ mark, color }: { mark: string; color: string }) {
@@ -130,6 +129,7 @@ export function CheckoutSteps() {
   const [promoError, setPromoError] = useState("");
   const [oferta, setOferta] = useState(false);
   const [error, setError] = useState("");
+  const [fields, setFields] = useState<{ name?: string; phone?: string; address?: string }>({});
   const [mapOpen, setMapOpen] = useState(false);
   const [placed, setPlaced] = useState<MobileOrder | null>(null);
 
@@ -177,21 +177,17 @@ export function CheckoutSteps() {
     setError("");
   }
 
-  function validateDelivery() {
-    if (!name.trim()) return "Ismni kiriting";
-    if (digits(phone).length < 9) return "Telefon raqamini kiriting";
-    if (!city) return "Shaharni tanlang";
-    if (!district) return "Tumanni tanlang";
-    if (!address.trim()) return "Manzilni kiriting";
-    return "";
-  }
-
   function nextFromDelivery() {
-    const message = validateDelivery();
-    if (message) {
-      setError(message);
+    const next: { name?: string; phone?: string; address?: string } = {};
+    if (!name.trim()) next.name = "Ismni kiriting";
+    if (!isUzPhone(phone)) next.phone = "Telefon +998 XX XXX XX XX ko‘rinishida bo‘lsin";
+    if (!address.trim()) next.address = "Manzilni kiriting";
+    setFields(next);
+    if (next.name || next.phone || next.address) {
+      setError("Qizil maydonlarni to‘ldiring");
       return;
     }
+    setError("");
     go(2);
   }
 
@@ -211,7 +207,7 @@ export function CheckoutSteps() {
       city,
       address: address.trim(),
       note,
-      payment: apiPay(pay),
+      payment: apiPay(),
       items: items.map((item) => ({
         productId: item.product.id,
         qty: item.qty,
@@ -343,15 +339,17 @@ export function CheckoutSteps() {
                     </div>
                   </div>
                   <div className="ck-grid">
-                    <label className="ck-field">
+                    <label className={fields.name ? "ck-field bad" : "ck-field"}>
                       <em>Ism va familiya</em>
                       <User className="lead" />
-                      <input aria-label="Ism va familiya" value={name} onChange={(event) => setName(event.target.value)} />
+                      <input aria-label="Ism va familiya" value={name} onChange={(event) => { setName(event.target.value); setFields((cur) => ({ ...cur, name: undefined })); }} />
+                      {fields.name ? <small className="err">{fields.name}</small> : null}
                     </label>
-                    <label className="ck-field">
+                    <label className={fields.phone ? "ck-field bad" : "ck-field"}>
                       <em>Telefon raqami</em>
                       <Phone className="lead" />
-                      <input aria-label="Telefon raqami" inputMode="tel" value={phone} onChange={(event) => setPhone(event.target.value)} />
+                      <input aria-label="Telefon raqami" inputMode="tel" placeholder="+998 XX XXX XX XX" value={phone} onChange={(event) => { setPhone(formatUzPhone(event.target.value)); setFields((cur) => ({ ...cur, phone: undefined })); }} />
+                      {fields.phone ? <small className="err">{fields.phone}</small> : null}
                     </label>
                     <label className="ck-field">
                       <em>Shahar</em>
@@ -370,10 +368,11 @@ export function CheckoutSteps() {
                       <span className="tail"><ChevronDown /></span>
                     </label>
                   </div>
-                  <label className="ck-field">
+                  <label className={fields.address ? "ck-field bad" : "ck-field"}>
                     <em>Aniq manzil</em>
                     <MapPin className="lead" />
-                    <input aria-label="Aniq manzil" value={address} onChange={(event) => { setAddress(event.target.value); setSaved(""); }} />
+                    <input aria-label="Aniq manzil" value={address} onChange={(event) => { setAddress(event.target.value); setSaved(""); setFields((cur) => ({ ...cur, address: undefined })); }} />
+                    {fields.address ? <small className="err">{fields.address}</small> : null}
                     {address ? (
                       <button type="button" className="tail clear" aria-label="Tozalash" onClick={() => { setAddress(""); setSaved(""); }}>
                         <X />
@@ -470,10 +469,12 @@ export function CheckoutSteps() {
                         key={item.id}
                         type="button"
                         role="radio"
-                        aria-checked={pay === item.id}
+                        aria-checked={!item.soon && pay === item.id}
+                        aria-disabled={item.soon || undefined}
+                        disabled={item.soon}
                         data-testid={`ck-pay-${item.id}`}
-                        className={pay === item.id ? "ck-pay on" : "ck-pay"}
-                        onClick={() => setPay(item.id)}
+                        className={!item.soon && pay === item.id ? "ck-pay on" : "ck-pay"}
+                        onClick={() => { if (!item.soon) setPay(item.id); }}
                       >
                         <PayMark mark={item.mark} color={item.color} />
                         <span>

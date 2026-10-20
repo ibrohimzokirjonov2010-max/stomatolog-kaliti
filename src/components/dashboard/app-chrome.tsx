@@ -52,6 +52,7 @@ function needsAccount(pathname: string) {
   if (pathname === "/profil" || pathname === "/buyurtmalarim" || pathname.startsWith("/buyurtmalarim/")) return true;
   if (pathname === "/buyurtma" || pathname === "/checkout") return true;
   if (pathname.startsWith("/crm/")) return true;
+  if (pathname === "/bildirishnomalar" || pathname === "/profil/manzillar" || pathname === "/seminarlar/mening") return true;
   return false;
 }
 

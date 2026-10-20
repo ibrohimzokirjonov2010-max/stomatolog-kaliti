@@ -116,7 +116,7 @@ export function JihozMobileCatalog() {
     };
   }, []);
   const brands = [...new Set(mobileJihoz.map((item) => item.brand))];
-  const filterCount = 1 + (brand ? 1 : 0) + (maxPrice ? 1 : 0);
+  const filterCount = (kindOn ? 1 : 0) + (condOn ? 1 : 0) + (brand ? 1 : 0) + (maxPrice ? 1 : 0);
 
   const list = useMemo(() => {
     const q = query.trim().toLowerCase();
@@ -178,7 +178,7 @@ export function JihozMobileCatalog() {
           <button type="button" className={cond === "yangi" ? "on" : undefined} onClick={() => { setCond("yangi"); setCondOn(true); }}>Yangi</button>
           <button type="button" className={cond === "bu" ? "on" : undefined} onClick={() => { setCond("bu"); setCondOn(true); }}>B.U.</button>
           <button type="button" className="count" onClick={() => setFilters(true)}>
-            <SlidersHorizontal /> Filtrlar <em>{filterCount}</em>
+            <SlidersHorizontal /> Filtrlar {filterCount > 0 ? <em>{filterCount}</em> : null}
           </button>
           <span className="n">{resultLabel}</span>
           <label>

@@ -4,7 +4,7 @@ import { AdBanner } from "@/components/ad-banner";
 import { BonusNotice } from "@/components/bonus/bonus";
 import { MarketplaceMobileHero } from "@/components/marketplace-mobile-hero";
 import { JihozlarMobileHero, type JihozPreset } from "@/components/jihozlar-mobile-hero";
-import { useMemo, useState, type ReactNode } from "react";
+import { useEffect, useMemo, useState, type ReactNode } from "react";
 import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
 import {
@@ -18,6 +18,7 @@ import {
   Package,
   Scissors,
   Search,
+  Shirt,
   SlidersHorizontal,
   type LucideIcon, X as XIcon } from "lucide-react";
 import { JihozlarDesktop } from "@/components/jihozlar-desktop";
@@ -53,6 +54,7 @@ const mobileCategoryIcons: Partial<Record<ProductCategory, LucideIcon>> = {
   asboblar: Scissors,
   jihozlar: Monitor,
   laboratoriya: FlaskConical,
+  forma: Shirt,
 };
 
 export function MarketplaceBrowse({
@@ -67,13 +69,13 @@ export function MarketplaceBrowse({
   const { catalog } = useSellerWork();
   const qParam = (params.get("q") ?? "").trim().toLowerCase();
   const brandParam = (params.get("brand") ?? "").trim().toLowerCase();
-  const catParam = (forcedCategory ?? params.get("cat")) as ProductCategory | null;
+  const catParam = (forcedCategory ?? params.get("category") ?? params.get("cat")) as ProductCategory | null;
   const [query, setQuery] = useState("");
   const [sheet, setSheet] = useState<"brand" | "price" | "stock" | null>(null);
   const [mobileView, setMobileView] = useState<"grid" | "list">("grid");
   const q = (query.trim() || qParam).toLowerCase();
 
-  const [tab, setTab] = useState<ProductCategory | "">(catParam || "materiallar");
+  const [tab, setTab] = useState<ProductCategory | "">(catParam || "");
   const [checkedCats, setCheckedCats] = useState<ProductCategory[]>(catParam ? [catParam] : []);
   const [brandQuery, setBrandQuery] = useState("");
   const [checkedBrands, setCheckedBrands] = useState<string[]>(() => {
@@ -88,6 +90,14 @@ export function MarketplaceBrowse({
   const [inStockOnly, setInStockOnly] = useState(false);
   const [sort, setSort] = useState<SortKey>("featured");
   const [jihozPreset, setJihozPreset] = useState<JihozPreset>(null);
+
+  const categoryQuery = params.get("category") || params.get("cat") || "";
+  useEffect(() => {
+    if (forcedCategory) return;
+    const next = categoryQuery as ProductCategory | "";
+    setTab(next);
+    setCheckedCats(next ? [next] : []);
+  }, [categoryQuery, forcedCategory]);
 
   const brandCounts = useMemo(() => {
     const map = new Map<string, number>();
@@ -144,6 +154,7 @@ export function MarketplaceBrowse({
   function pushCat(next: ProductCategory | "") {
     if (forcedCategory) return;
     const usp = new URLSearchParams(params.toString());
+    usp.delete("category");
     if (!next) usp.delete("cat");
     else usp.set("cat", next);
     router.replace(`/marketplace${usp.toString() ? `?${usp}` : ""}`, { scroll: false });
@@ -180,12 +191,12 @@ export function MarketplaceBrowse({
 
   const tabsLocked = Boolean(forcedCategory);
   const resultCount = visible.length;
-  const mobileTabs = categoryTabs.filter((item) => item.id !== "forma");
+  const mobileTabs = categoryTabs;
   const mobileActive = forcedCategory ? forcedCategory : tab;
   const mobileList = useMemo(() => visible, [visible]);
 
   const filterBadge =
-    (mobileActive ? 1 : 0) +
+    (mobileActive && !forcedCategory ? 1 : 0) +
     checkedBrands.length +
     (priceDirty ? 1 : 0) +
     (inStockOnly ? 1 : 0) +

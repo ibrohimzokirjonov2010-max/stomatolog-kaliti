@@ -71,9 +71,6 @@ export function VideosCommunityMarketing() {
                 <span className="absolute inset-0 m-auto flex size-9 items-center justify-center rounded-full bg-black/55 text-white">
                   <Play className="size-4 fill-white" />
                 </span>
-                <span className="absolute right-2 bottom-2 rounded bg-black/70 px-1.5 py-0.5 text-[10px] text-white">
-                  {video.duration}
-                </span>
               </div>
               <div className="p-3">
                 <h3 className="line-clamp-2 text-[13px] font-semibold">{video.title}</h3>

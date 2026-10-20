@@ -12,8 +12,6 @@ import "./desktop-chrome.css";
 
 export const DESKTOP_LOGO_SRC = "/brand/stomahub-mark.svg";
 
-const DEMO_AVATAR = "/img/design-pr13/ui/avatar.png";
-
 const CITIES = ["Toshkent", "Samarqand", "Buxoro", "Andijon", "Namangan", "Farg‘ona", "Nukus"];
 
 const SEARCH_CATS = [
@@ -53,7 +51,7 @@ export function DesktopHeader({
   const pathname = usePathname() ?? "/";
   const router = useRouter();
   const { count } = useCart();
-  const { profile, logout, updateProfile } = useDoctorProfile();
+  const { profile, ready, logout, updateProfile } = useDoctorProfile();
   const [localQuery, setLocalQuery] = useState("");
   const [menu, setMenu] = useState(false);
   const [catsOpen, setCatsOpen] = useState(false);
@@ -89,9 +87,9 @@ export function DesktopHeader({
     router.push(q ? `${searchPath}?q=${encodeURIComponent(q)}` : searchPath);
   }
 
-  const name = profile?.fullName || "Dr. Ibrohim";
-  const role = profile?.specialty || "Stomatolog";
-  const avatar = profile?.avatarUrl || DEMO_AVATAR;
+  const name = profile?.fullName?.trim() || "";
+  const role = profile?.specialty?.trim() || "";
+  const avatar = profile?.avatarUrl || "";
 
   return (
     <header className="dh-top" data-testid="desktop-header">
@@ -181,21 +179,23 @@ export function DesktopHeader({
             </em>
           ) : null}
         </Link>
-        <div className="dh-user">
-          <button type="button" aria-label="Profil" aria-expanded={menu} aria-haspopup="menu" data-testid="desktop-profile" onClick={() => setMenu((open) => !open)}>
-            <img src={avatar} alt="" />
-            <span>
-              <b>{name}</b>
-              <small>{role}</small>
-            </span>
-            <ChevronDown className="chev" />
-          </button>
-          {menu ? (
-            <div className="dh-menu" role="menu">
-              <Link href="/profil" role="menuitem" onClick={() => setMenu(false)}>
-                Profil
-              </Link>
-              {profile ? (
+        {!ready ? (
+          <div className="dh-user" data-testid="desktop-profile-pending" aria-hidden="true" />
+        ) : profile && name ? (
+          <div className="dh-user">
+            <button type="button" aria-label="Profil" aria-expanded={menu} aria-haspopup="menu" data-testid="desktop-profile" onClick={() => setMenu((open) => !open)}>
+              {avatar ? <img src={avatar} alt="" /> : <span className="dh-initials" aria-hidden="true">{name.slice(0, 1).toUpperCase()}</span>}
+              <span>
+                <b>{name}</b>
+                {role ? <small>{role}</small> : null}
+              </span>
+              <ChevronDown className="chev" />
+            </button>
+            {menu ? (
+              <div className="dh-menu" role="menu">
+                <Link href="/profil" role="menuitem" onClick={() => setMenu(false)}>
+                  Profil
+                </Link>
                 <button
                   type="button"
                   role="menuitem"
@@ -206,14 +206,19 @@ export function DesktopHeader({
                 >
                   Chiqish
                 </button>
-              ) : (
-                <Link href="/kirish" role="menuitem" onClick={() => setMenu(false)}>
-                  Kirish
-                </Link>
-              )}
-            </div>
-          ) : null}
-        </div>
+              </div>
+            ) : null}
+          </div>
+        ) : (
+          <div className="dh-auth" data-testid="desktop-guest">
+            <Link className="dh-login" href="/kirish" data-testid="header-login">
+              Kirish
+            </Link>
+            <Link className="dh-login dh-login-solid" href="/royxat" data-testid="header-register">
+              Ro‘yxatdan o‘tish
+            </Link>
+          </div>
+        )}
       </div>
     </header>
   );

@@ -26,6 +26,7 @@ import { ShopAvatar } from "@/components/seller-ui";
 import { cabinetHref, type CabinetTab } from "@/components/seller-cabinet-nav";
 import { shopHref, type Shop } from "@/data/shops";
 import { formatMoney } from "@/lib/format";
+import { deliveryLines, goodsLines, lineSum } from "@/lib/order-money";
 import { orderStatusLabel, statusBadgeClass, type Order } from "@/lib/orders";
 import { topSoldProducts } from "@/lib/seller-work";
 import { useReviewSummary } from "@/lib/use-seller-live";
@@ -33,10 +34,13 @@ import { cn } from "@/lib/utils";
 
 /* ───────────── helpers ───────────── */
 
+/** Goods subtotal for this shop. Delivery is not a sale. */
 export function orderSum(order: Order, shopId: string) {
-  const mine = order.items.filter((i) => i.shopId === shopId);
-  const lines = mine.length ? mine : order.items;
-  return lines.reduce((a, i) => a + i.price * i.qty, 0);
+  return lineSum(goodsLines(order, shopId));
+}
+
+export function deliverySum(order: Order) {
+  return lineSum(deliveryLines(order));
 }
 
 type Mode = "day" | "week" | "month" | "year";
@@ -238,6 +242,11 @@ export function SellerOverviewDesktop({ shop, onAdd }: { shop: Shop; onAdd: () =
 
   const week = useMemo(() => buildSeries(orders, shopId, "day"), [orders, shopId]);
   const today = week[week.length - 1];
+  const todayDelivery = useMemo(() => {
+    const start = new Date();
+    start.setHours(0, 0, 0, 0);
+    return orders.reduce((sum, order) => (new Date(order.createdAt) >= start ? sum + deliverySum(order) : sum), 0);
+  }, [orders]);
   const newOrders = orders.filter((o) => o.status === "pending_accept").length;
   const lowStock = myProducts.filter((p) => p.active !== false && (p.stockQty ?? 0) > 0 && (p.stockQty ?? 0) <= 5).length;
   const outStock = myProducts.filter((p) => p.active !== false && (p.stockQty ?? 0) <= 0).length;
@@ -363,7 +372,7 @@ export function SellerOverviewDesktop({ shop, onAdd }: { shop: Shop; onAdd: () =
 
       {/* stat cards */}
       <div className="grid grid-cols-4 gap-4">
-        <StatBox icon={Wallet} tone="blue" label="Bugungi savdo" value={formatMoney(today?.total ?? 0, "UZS")} sub={`${today?.count ?? 0} ta buyurtmadan`}>
+        <StatBox icon={Wallet} tone="blue" label="Bugungi savdo" value={formatMoney(today?.total ?? 0, "UZS")} sub={todayDelivery > 0 ? `${today?.count ?? 0} ta buyurtma · yetkazish ${formatMoney(todayDelivery, "UZS")}` : `${today?.count ?? 0} ta buyurtma · mahsulotlar`}>
           <Spark values={week.map((d) => d.total)} />
         </StatBox>
         <StatBox icon={ShoppingBag} tone="green" label="Buyurtmalar" value={String(orders.length)} sub={newOrders ? `${newOrders} ta yangi` : "Yangi yo‘q"} subTone={newOrders ? "green" : "gray"}>

@@ -48,6 +48,27 @@ export function catalogHref(category: string, id: string) {
   return `/marketplace/${id}`;
 }
 
+export const CATALOG_CATS = ["all", "materiallar", "implantlar", "asboblar", "jihozlar", "laboratoriya", "forma"] as const;
+export type CatalogCat = (typeof CATALOG_CATS)[number];
+
+const CATALOG_CAT_ALIAS: Record<string, CatalogCat> = {
+  kompozitlar: "materiallar",
+  terapiya: "materiallar",
+  bondlar: "materiallar",
+  endodontiya: "asboblar",
+  uchliklar: "asboblar",
+  uskunalar: "jihozlar",
+  gigiyena: "forma",
+};
+
+/** `?category=` and `?cat=` select the same catalog chip on desktop and mobile. */
+export function catalogCatFromQuery(raw: string | null | undefined): CatalogCat {
+  const value = (raw ?? "").trim().toLowerCase();
+  if (!value) return "all";
+  if ((CATALOG_CATS as readonly string[]).includes(value)) return value as CatalogCat;
+  return CATALOG_CAT_ALIAS[value] ?? "all";
+}
+
 export function productFromCatalog(item: CatalogCard): Product {
   const category = ((PRODUCT_CATEGORIES as readonly string[]).includes(item.category) ? item.category : "materiallar") as ProductCategory;
   const attrs = item.attrs as ProductAttrs;

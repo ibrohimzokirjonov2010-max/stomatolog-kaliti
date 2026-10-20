@@ -305,7 +305,7 @@ function OverviewPanel({
           icon={<ShoppingBag className="size-3.5 sm:size-4" />}
           label="Buyurtmalar"
           value={String(stats.orders)}
-          hint="Demo buyurtmalar"
+          hint="Shu do‘kon buyurtmalari"
           onClick={onOpenOrders}
         />
         <StatCard icon={<Eye className="size-3.5 sm:size-4" />} label="Ko‘rishlar" value={String(stats.views)} hint="Do‘kon sahifasi" />
@@ -1019,7 +1019,7 @@ function CardPanel() {
               {card.bank ? ` · ${card.bank}` : ""} · {card.expiryMasked}
             </p>
           ) : (
-            <p className="mt-0.5 text-[12.5px] text-[#8b93a7]">Hisob-kitob uchun karta — keyin Click/Payme.</p>
+            <p className="mt-0.5 text-[12.5px] text-[#8b93a7]">Hisob-kitob kartasi hali ulanmagan.</p>
           )}
         </div>
         {card ? (
@@ -1027,13 +1027,13 @@ function CardPanel() {
             Uzish
           </Button>
         ) : (
-          <Button type="button" className="h-9 !rounded-xl" onClick={() => setOpen((v) => !v)}>
-            Kartani ulash
+          <Button type="button" className="h-9 !rounded-xl" disabled>
+            Tez orada
           </Button>
         )}
       </div>
       <p className="mt-3 rounded-xl bg-[#eaf2ff] px-3 py-2 text-[12.5px] leading-relaxed text-[#3b82f6]">
-        Demo — haqiqiy to‘lov yo‘q; keyin Click/Payme ulanadi. Raqam saqlanmaydi, faqat oxirgi 4 raqam va brend.
+        Hozircha faqat Naqd pul ishlaydi. Karta, Click, Payme va Uzum ulanmagan.
       </p>
       {open && !card ? (
         <form className="mt-4 grid gap-3 sm:grid-cols-2" onSubmit={submit}>

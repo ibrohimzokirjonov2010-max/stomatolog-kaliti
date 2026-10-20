@@ -13,6 +13,7 @@ import {
   type Product,
   type ProductCategory,
 } from "@/data/products";
+import { isDeliveryItem } from "@/lib/order-money";
 import { loadSellerOrders } from "@/lib/orders";
 
 export const SESSION_KEY = "sk-seller-session-v1";
@@ -427,8 +428,8 @@ export function salesLast7Days(orders: ReturnType<typeof loadSellerOrders>, shop
     if (Number.isNaN(when.getTime())) continue;
     const bucket = index.get(localDateKey(when));
     if (!bucket) continue;
-    const relevant = order.items.filter((item) => item.shopId === shopId);
-    const lines = relevant.length ? relevant : order.items;
+    const lines = order.items.filter((item) => !isDeliveryItem(item) && (!item.shopId || item.shopId === shopId));
+    if (!lines.length) continue;
     const sum = lines.reduce((acc, item) => acc + item.price * item.qty, 0);
     bucket.total += sum;
     bucket.count += 1;
@@ -448,7 +449,8 @@ export function topSoldProducts(
   const agg = new Map<string, TopSoldRow>();
   for (const order of orders) {
     for (const item of order.items) {
-      if (item.shopId && item.shopId !== shopId && !mine.has(item.productId)) continue;
+      if (isDeliveryItem(item)) continue;
+      if (item.shopId && item.shopId !== shopId) continue;
       if (!item.shopId && !mine.has(item.productId)) continue;
       const key = item.productId || item.name;
       const prev = agg.get(key) ?? {

@@ -2,6 +2,7 @@
 /* eslint-disable @next/next/no-img-element -- desktop shell sizes raw images with --u */
 
 import { useState } from "react";
+import { returnWindowText } from "@/lib/commerce-terms";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import {
@@ -185,7 +186,7 @@ function View({ product }: { product: DesktopForma }) {
           <button type="button" className="fxp-now" onClick={buyNow}>Hozir sotib olish</button>
 
           <ul className="fxp-guar">
-            <li><span className="ic"><ShieldCheck className="i" /></span><span><b>Sifat kafolati</b><small>30 kun ichida qaytarish</small></span></li>
+            <li><span className="ic"><ShieldCheck className="i" /></span><span><b>Sifat kafolati</b><small>{returnWindowText()}</small></span></li>
             <li><span className="ic"><Truck className="i" /></span><span><b>Tez yetkazib berish</b><small>Toshkent 1 kun<br />Viloyatlar 2–3 kun</small></span></li>
             <li><span className="ic"><CreditCard className="i" /></span><span><b>Xavfsiz to‘lov</b><small>Click, Payme, Uzcard</small></span></li>
           </ul>

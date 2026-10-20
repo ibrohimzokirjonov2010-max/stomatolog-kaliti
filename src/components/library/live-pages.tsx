@@ -4,6 +4,8 @@
 import { useEffect, useState, type ReactNode } from "react";
 import Link from "next/link";
 import { useCart } from "@/components/cart-provider";
+import { useDoctorProfile } from "@/components/doctor-profile-provider";
+import { ProductReviewsList, useProductReviews } from "@/components/product-reviews";
 import { catalogCardFrom, catalogHref, fetchCatalogProducts, productFromCatalog, type CatalogCard } from "@/lib/catalog-client";
 import { colorLabel, formaColors, formaGenders, formaKinds } from "@/data/forma";
 import { enrollCourse, fetchBooks, fetchCourses, fetchNews, saveLessonDone, type LiveBook, type LiveCourse, type LiveNews } from "@/lib/live-content";
@@ -32,11 +34,14 @@ function deliveryLabel(card: CatalogCard) {
 
 export function CatalogDetail({ id, expect }: { id: string; expect?: "forma" | "jihozlar" }) {
   const { add } = useCart();
+  const { profile } = useDoctorProfile();
+  const reviews = useProductReviews(id);
   const [card, setCard] = useState<CatalogCard | null | undefined>(undefined);
   const [related, setRelated] = useState<CatalogCard[]>([]);
   const [size, setSize] = useState("");
   const [color, setColor] = useState("");
   const [photo, setPhoto] = useState(0);
+  const [qty, setQty] = useState(1);
   const [error, setError] = useState("");
 
   useEffect(() => {
@@ -45,6 +50,7 @@ export function CatalogDetail({ id, expect }: { id: string; expect?: "forma" | "
     setSize("");
     setColor("");
     setPhoto(0);
+    setQty(1);
     setError("");
     void fetch(`/api/catalog/${id}`, { credentials: "same-origin" })
       .then((res) => res.json())
@@ -105,19 +111,19 @@ export function CatalogDetail({ id, expect }: { id: string; expect?: "forma" | "
       return;
     }
     setError("");
-    add(card.id, productFromCatalog(card), 1, { size: size || undefined, color: color || undefined });
+    add(card.id, productFromCatalog(card), qty, { size: size || undefined, color: color || undefined });
   }
 
   return (
-    <article className="mx-auto max-w-5xl px-4 py-6" data-testid="product-live">
+    <article className="mx-auto max-w-5xl px-4 py-6 pb-28 lg:pb-6" data-testid="product-live">
       <Link href={back} className="text-[13px] font-semibold text-[#0066FF]">Orqaga</Link>
       <div className="mt-3 grid gap-6 lg:grid-cols-[minmax(0,1fr)_minmax(0,1fr)]">
-        <div>
-          {shot ? <img src={shot} alt="" className="max-h-[420px] w-full rounded-2xl bg-[#f4f7fc] object-contain" /> : <div className="grid h-64 place-items-center rounded-2xl bg-[#f4f7fc] text-sm text-[#6b7280]">Rasm yo‘q</div>}
+        <div data-testid="product-gallery">
+          {shot ? <img src={shot} alt="" className="max-h-[420px] w-full rounded-2xl bg-[#f4f7fc] object-contain" /> : <div className="grid h-64 place-items-center rounded-2xl bg-[#f4f7fc] text-sm text-[#6b7280]" data-testid="product-no-photo">Rasm yo‘q</div>}
           {gallery.length > 1 ? (
             <div className="mt-3 flex gap-2 overflow-x-auto">
               {gallery.map((src, index) => (
-                <button key={src} type="button" className={index === photo ? "rounded-xl ring-2 ring-[#0066FF]" : "rounded-xl"} onClick={() => setPhoto(index)}>
+                <button key={src} type="button" aria-label={`Rasm ${index + 1}`} className={index === photo ? "rounded-xl ring-2 ring-[#0066FF]" : "rounded-xl"} onClick={() => setPhoto(index)}>
                   <img src={src} alt="" className="h-16 w-16 rounded-xl object-cover" />
                 </button>
               ))}
@@ -127,7 +133,17 @@ export function CatalogDetail({ id, expect }: { id: string; expect?: "forma" | "
         <div>
           <p className="text-[13px] font-semibold text-[#52637c]" data-testid="product-brand">{card.brand}</p>
           <h1 className="mt-1 text-[26px] font-extrabold tracking-tight text-[#0B1F4D]">{card.name}</h1>
-          {card.shopName ? <p className="mt-1 text-[14px] text-[#6b7280]">{card.shopName}</p> : null}
+          {card.shopName ? (
+            <aside className="mt-3 rounded-2xl border border-[#e6edf5] bg-white p-3" data-testid="product-seller">
+              <p className="text-[12px] font-semibold text-[#6b7280]">Sotuvchi</p>
+              <p className="text-[15px] font-bold text-[#0B1F4D]">{card.shopName}</p>
+              {card.shopSlug ? (
+                <Link href={`/marketplace/dokon/${card.shopSlug}`} className="mt-1 inline-block text-[13px] font-semibold text-[#0066FF]">
+                  Do‘konni ko‘rish
+                </Link>
+              ) : null}
+            </aside>
+          ) : null}
           <p className="mt-3 text-[22px] font-extrabold text-[#0066FF]">{formatMoney(card.price, "UZS")}</p>
           {short ? <p className="mt-3 text-[15px] leading-relaxed text-[#24344d]" data-testid="product-short">{short}</p> : null}
           <dl className="mt-4 grid grid-cols-2 gap-2 text-[14px]">
@@ -169,13 +185,34 @@ export function CatalogDetail({ id, expect }: { id: string; expect?: "forma" | "
             </ul>
           ) : null}
           {months > 0 ? <p className="mt-2 text-[14px]">{months} oyga bo‘lib to‘lash</p> : null}
+          <div className="mt-5 flex items-center gap-3" data-testid="product-qty">
+            <span className="text-[13px] font-semibold text-[#52637c]">Soni</span>
+            <div className="inline-flex h-11 items-center overflow-hidden rounded-xl border border-[#d7e0ee]">
+              <button type="button" className="grid h-11 w-11 place-items-center text-[18px] font-bold" aria-label="Kamaytirish" disabled={qty <= 1} onClick={() => setQty((value) => Math.max(1, value - 1))}>−</button>
+              <span className="min-w-8 text-center text-[15px] font-bold">{qty}</span>
+              <button type="button" className="grid h-11 w-11 place-items-center text-[18px] font-bold" aria-label="Oshirish" disabled={qty >= Math.max(1, card.stockQty)} onClick={() => setQty((value) => Math.min(Math.max(1, card.stockQty), value + 1))}>+</button>
+            </div>
+          </div>
           {error ? <p className="mt-3 text-[13px] font-semibold text-[#dc2626]">{error}</p> : null}
-          <button type="button" className="mt-5 inline-flex h-11 items-center rounded-xl bg-[#0066FF] px-4 text-[14px] font-bold text-white disabled:opacity-50" data-testid="product-add" disabled={card.stockQty < 1} onClick={addLine}>
+          <button type="button" className="mt-4 inline-flex h-11 items-center rounded-xl bg-[#0066FF] px-4 text-[14px] font-bold text-white disabled:opacity-50" data-testid="product-add" disabled={card.stockQty < 1} onClick={addLine}>
             Savatga
           </button>
         </div>
       </div>
       {card.description ? <p className="mt-6 whitespace-pre-wrap text-[15px] leading-relaxed text-[#24344d]" data-testid="product-description">{card.description}</p> : null}
+      <section className="mt-8" data-testid="product-reviews">
+        <h2 className="text-[18px] font-extrabold text-[#0B1F4D]">Sharhlar</h2>
+        <div className="mt-3">
+          <ProductReviewsList data={reviews} columns={1} />
+        </div>
+        <p className="mt-3 text-[13px]">
+          {profile ? (
+            <Link href="/buyurtmalarim" className="font-semibold text-[#0066FF]">Yetkazilgan buyurtma bo‘lsa, sharhni buyurtma sahifasida qoldiring</Link>
+          ) : (
+            <Link href="/kirish" className="font-semibold text-[#0066FF]">Sharh qoldirish uchun kiring</Link>
+          )}
+        </p>
+      </section>
       {same.length ? (
         <section className="mt-8" data-testid="product-related">
           <h2 className="text-[18px] font-extrabold text-[#0B1F4D]">Shu turkumdagi mahsulotlar</h2>

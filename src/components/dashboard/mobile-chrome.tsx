@@ -34,6 +34,7 @@ import { useNavTree } from "@/components/nav/use-nav-tree";
 import { useDoctorProfile } from "@/components/doctor-profile-provider";
 import { initialsFromName } from "@/lib/doctor-profile";
 import { NotificationBell } from "@/components/notification-bell";
+import { shopDeliveryFee } from "@/lib/cart-totals";
 import { formatMoney } from "@/lib/format";
 import { cn } from "@/lib/utils";
 import { useSoonToast } from "@/components/soon-toast";
@@ -329,7 +330,7 @@ export function MobileTopbar() {
                   STOMA<span className="text-[#0B1F4D]">HUB</span>
                 </span>
                 <span className="block truncate text-[10px] font-semibold tracking-[0.14em] text-[#8b93a7]">
-                  STOMATOLOG KALITI
+                  StomaHub
                 </span>
               </span>
             ) : onUstalarHome || onFormaHome || onCommunityHome ? (
@@ -765,12 +766,16 @@ export function MobileCartPad() {
 
 export function MobileCartBar() {
   const pathname = usePathname();
-  const { count, subtotal } = useCart();
+  const { count, subtotal, items } = useCart();
   if (count === 0 || !showCartBar(pathname)) return null;
+  const delivery = shopDeliveryFee(items.map((item) => item.product));
+  const payable = subtotal + delivery;
 
   return (
     <div
       className="fixed inset-x-3 z-30 lg:hidden"
+      data-testid="mobile-cart-bar"
+      data-sticky-cta=""
       style={{ bottom: "calc(72px + env(safe-area-inset-bottom))" }}
     >
       <Link
@@ -790,9 +795,9 @@ export function MobileCartBar() {
           </span>
         </span>
         <span className="ml-auto text-right leading-tight">
-          <span className="block text-[11px] text-[#8b93a7]">Jami:</span>
-          <span className="block text-[14px] font-bold text-[#0066FF]">
-            {formatMoney(subtotal, "UZS")}
+          <span className="block text-[11px] text-[#8b93a7]">{delivery > 0 ? "Jami, yetkazish bilan" : "Jami"}</span>
+          <span className="block text-[14px] font-bold text-[#0066FF]" data-testid="mini-cart-total">
+            {formatMoney(payable, "UZS")}
           </span>
         </span>
       </Link>

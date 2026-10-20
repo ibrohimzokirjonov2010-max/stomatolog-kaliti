@@ -22,6 +22,7 @@ import { ShopShell } from "@/components/shop/desktop/ShopShell";
 import { Drop } from "@/components/shop/desktop/parts";
 import { useSeminarRegs } from "@/components/seminar-provider";
 import { getSeminar, seminars, specialtyLabels, type Seminar } from "@/data/seminars";
+import { tashkentDateParts } from "@/lib/tashkent-date";
 import {
   seminarCategories,
   seminarHref,
@@ -60,20 +61,6 @@ function monthCells(year: number, month: number) {
 
 function iso(year: number, month: number, day: number) {
   return `${year}-${String(month + 1).padStart(2, "0")}-${String(day).padStart(2, "0")}`;
-}
-
-function tashkentToday(date = new Date()) {
-  const parts = new Intl.DateTimeFormat("en-US", {
-    timeZone: "Asia/Tashkent",
-    year: "numeric",
-    month: "2-digit",
-    day: "2-digit",
-  }).formatToParts(date);
-  const pick = (type: Intl.DateTimeFormatPartTypes) => Number(parts.find((part) => part.type === type)?.value);
-  const year = pick("year");
-  const month = pick("month") - 1;
-  const day = pick("day");
-  return { year, month, iso: iso(year, month, day) };
 }
 
 const DAY_NAMES = ["Yakshanba", "Dushanba", "Seshanba", "Chorshanba", "Payshanba", "Juma", "Shanba"];
@@ -128,7 +115,7 @@ export function SeminarList() {
   const [to, setTo] = useState("");
   const [sort, setSort] = useState<SortKey>("near");
   const [open, setOpen] = useState<"city" | "format" | "price" | "sort" | null>(null);
-  const [today] = useState(tashkentToday);
+  const [today] = useState(() => tashkentDateParts());
   const [cursor, setCursor] = useState({ year: today.year, month: today.month });
   const [selected, setSelected] = useState(today.iso);
   const [filtering, setFiltering] = useState(false);
@@ -365,12 +352,14 @@ export function SeminarList() {
                 if (!day) return <button key={`e${index}`} type="button" disabled />;
                 const id = iso(cursor.year, cursor.month, day);
                 const on = selected === id;
+                const isToday = id === today.iso;
                 return (
                   <button
                     key={id}
                     type="button"
-                    className={`${on ? "on" : ""} ${marked.has(id) ? "has" : ""}`}
-                    aria-current={id === today.iso ? "date" : undefined}
+                    className={`${on ? "on" : ""} ${isToday ? "today" : ""} ${marked.has(id) ? "has" : ""}`.trim()}
+                    aria-current={isToday ? "date" : undefined}
+                    data-testid={isToday ? "seminar-today" : undefined}
                     onClick={() => pickDay(day)}
                   >
                     {day}

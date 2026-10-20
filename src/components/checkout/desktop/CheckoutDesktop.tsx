@@ -9,6 +9,7 @@ import { shopClear } from "@/components/shop/desktop/shop-cart";
 import { useCart } from "@/components/cart-provider";
 import { useDoctorProfile } from "@/components/doctor-profile-provider";
 import { formatPhoneDisplay } from "@/lib/doctor-profile";
+import { formatUzPhone, isUzPhone } from "@/lib/phone-uz";
 import { createOrder, type PaymentMethod } from "@/lib/orders";
 import { shopDeliveryFee } from "@/lib/cart-totals";
 import { useSavedPlaces } from "@/lib/saved-addresses";
@@ -17,11 +18,17 @@ import "./checkout-desktop.css";
 
 type Step = 1 | 2 | 3;
 
-function apiPayment(id: string): PaymentMethod {
-  if (id === "payme") return "payme";
-  if (id === "naqd") return "naqd";
-  return "click";
+function apiPayment(): PaymentMethod {
+  return "naqd";
 }
+
+const SOON_PAYS = [
+  ["click", "Click", "Tez orada"],
+  ["payme", "Payme", "Tez orada"],
+  ["uzum", "Uzum", "Tez orada"],
+  ["card", "Bank kartasi", "Tez orada"],
+  ["muddatli", "Muddatli to‘lov", "Tez orada"],
+] as const;
 
 function som(n: number) {
   return `${formatGroupedNumber(n)} so‘m`;
@@ -47,6 +54,7 @@ export function CheckoutDesktop() {
   const [invoice, setInvoice] = useState(false);
   const [oferta, setOferta] = useState(false);
   const [error, setError] = useState("");
+  const [fields, setFields] = useState<{ name?: string; phone?: string; address?: string }>({});
   const [busy, setBusy] = useState(false);
   const lines = cart.selectedItems.length ? cart.selectedItems : cart.items;
   const goods = lines.reduce((sum, item) => sum + item.lineTotal, 0);
@@ -61,8 +69,13 @@ export function CheckoutDesktop() {
   }, [profile]);
 
   function nextFromDelivery() {
+    const next: { name?: string; phone?: string; address?: string } = {};
+    if (!name.trim()) next.name = "Ismni kiriting";
+    if (!isUzPhone(phone)) next.phone = "Telefon +998 XX XXX XX XX ko‘rinishida bo‘lsin";
+    if (!address.trim()) next.address = "Manzilni kiriting";
+    setFields(next);
     if (!lines.length) { setError("Savat bo‘sh"); return; }
-    if (!name.trim() || !phone.trim() || !address.trim()) { setError("Manzil maydonlarini to‘ldiring"); return; }
+    if (next.name || next.phone || next.address) { setError("Qizil maydonlarni to‘ldiring"); return; }
     setError("");
     setStep(2);
   }
@@ -77,7 +90,7 @@ export function CheckoutDesktop() {
       city,
       address: [district, address].filter(Boolean).join(", "),
       note: [note.trim(), ship === "pickup" ? "Olib ketaman" : "", invoice ? "Hisob-faktura" : ""].filter(Boolean).join(". "),
-      payment: apiPayment(pay),
+      payment: apiPayment(),
       items: lines.map((item) => ({
         productId: item.product.id,
         qty: item.qty,
@@ -120,11 +133,11 @@ export function CheckoutDesktop() {
                 <h2>Yetkazish manzili</h2>
                 <p>Buyurtmangiz qayerga yetkazilishini kiriting</p>
                 <div className="ckx-2">
-                  <label>Ism *<input data-testid="ckd-name" value={name} onChange={(event) => setName(event.target.value)} /></label>
-                  <label>Telefon *<input data-testid="ckd-phone" value={phone} onChange={(event) => setPhone(event.target.value)} /></label>
+                  <label className={fields.name ? "bad" : undefined}>Ism *<input data-testid="ckd-name" value={name} onChange={(event) => { setName(event.target.value); setFields((cur) => ({ ...cur, name: undefined })); }} />{fields.name ? <small className="err">{fields.name}</small> : null}</label>
+                  <label className={fields.phone ? "bad" : undefined}>Telefon *<input data-testid="ckd-phone" inputMode="tel" placeholder="+998 XX XXX XX XX" value={phone} onChange={(event) => { setPhone(formatUzPhone(event.target.value)); setFields((cur) => ({ ...cur, phone: undefined })); }} />{fields.phone ? <small className="err">{fields.phone}</small> : null}</label>
                   <label>Shahar *<select aria-label="Shahar" value={city} onChange={(event) => setCity(event.target.value)}>{["Toshkent", "Samarqand", "Buxoro"].map((item) => <option key={item}>{item}</option>)}</select></label>
                   <label>Tuman *<select aria-label="Tuman" value={district} onChange={(event) => setDistrict(event.target.value)}>{["Yunusobod tumani", "Chilonzor tumani", "Mirzo Ulug‘bek tumani"].map((item) => <option key={item}>{item}</option>)}</select></label>
-                  <label className="wide">Aniq manzil *<input data-testid="ckd-address" value={address} onChange={(event) => setAddress(event.target.value)} /></label>
+                  <label className={fields.address ? "wide bad" : "wide"}>Aniq manzil *<input data-testid="ckd-address" value={address} onChange={(event) => { setAddress(event.target.value); setFields((cur) => ({ ...cur, address: undefined })); }} />{fields.address ? <small className="err">{fields.address}</small> : null}</label>
                 </div>
                 <button type="button" className="ckx-mapbtn" onClick={() => setMap((value) => !value)}>Xaritada manzilni tanlang</button>
                 {map ? <img className="ckx-map" src="/img/designs/toshkent-map.png" alt="Toshkent xaritasi" /> : null}
@@ -153,20 +166,16 @@ export function CheckoutDesktop() {
                 <h2>To‘lov usulini tanlang</h2>
                 <p>Sizga qulay to‘lov usulini tanlang</p>
                 <div className="ckx-pays">
-                  {[
-                    ["click", "Click", "Click orqali to‘lov", "Tavsiya etiladi"],
-                    ["payme", "Payme", "Payme orqali to‘lov", ""],
-                    ["uzum", "Uzum", "Uzum orqali to‘lov", ""],
-                    ["card", "Bank kartasi", "Visa, Mastercard, Humo", ""],
-                    ["naqd", "Naqd to‘lov", "Yetkazishda naqd", ""],
-                    ["muddatli", "Muddatli to‘lov", "Uzum nasiya / Bank", ""],
-                  ].map(([id, title, hint, badge]) => (
-                    <button key={id} type="button" className={pay === id ? "on" : undefined} data-testid={`ckd-pay-${id}`} onClick={() => setPay(id)}>
-                      {badge ? <em>{badge}</em> : null}<b>{title}</b><span>{hint}</span>
+                  <button type="button" className={pay === "naqd" ? "on" : undefined} data-testid="ckd-pay-naqd" onClick={() => setPay("naqd")}>
+                    <b>Naqd pul</b><span>Yetkazishda yoki olib ketganda</span>
+                  </button>
+                  {SOON_PAYS.map(([id, title]) => (
+                    <button key={id} type="button" disabled data-testid={`ckd-pay-${id}`}>
+                      <em>Tez orada</em><b>{title}</b><span>Hozircha ulanmagan</span>
                     </button>
                   ))}
                 </div>
-                <p className="ckx-safe">To‘lovlar xavfsiz. Barcha to‘lovlar shifrlangan va to‘liq himoyalangan.</p>
+                <p className="ckx-safe">Hozircha faqat Naqd pul ishlaydi. Click, Payme va Uzum ulanmagan.</p>
                 <label className="ckx-check"><input type="checkbox" checked={invoice} onChange={(event) => setInvoice(event.target.checked)} /> Menga elektron hisob-faktura (PDF) yuborilsin</label>
                 <div className="ckx-mini">
                   <span>Mahsulotlar ({lines.length} ta)<b>{som(goods)}</b></span>
@@ -186,7 +195,7 @@ export function CheckoutDesktop() {
                 <div className="ckx-saved-head"><h2>Yetkazish vaqti</h2><button type="button" onClick={() => setStep(1)}>O‘zgartirish</button></div>
                 <p>{ship === "courier" ? "Kuryer orqali" : "Olib ketish"}</p>
                 <div className="ckx-saved-head"><h2>To‘lov usuli</h2><button type="button" onClick={() => setStep(2)}>O‘zgartirish</button></div>
-                <p>{pay === "click" ? "Click · Click orqali to‘lov" : pay}</p>
+                <p>Naqd pul</p>
                 <label className="ckx-check"><input type="checkbox" checked={oferta} data-testid="ckd-oferta" onChange={(event) => setOferta(event.target.checked)} /> Men oferta shartlari bilan tanishib chiqdim va roziman</label>
                 <p className="ckx-fine">Buyurtma berish orqali siz StomaHub’ning foydalanish shartlari va maxfiylik siyosatiga rozilik bildirasiz.</p>
               </section>

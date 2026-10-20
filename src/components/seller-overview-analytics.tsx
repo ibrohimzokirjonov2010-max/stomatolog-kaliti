@@ -1,21 +1,11 @@
 "use client";
 
 import { useMemo } from "react";
-import { BarChart3, Package, TrendingUp } from "lucide-react";
+import { BarChart3, Package } from "lucide-react";
 import { useSellerWork } from "@/components/seller-provider";
 import { formatMoney } from "@/lib/format";
 import { salesLast7Days, topSoldProducts } from "@/lib/seller-work";
 import { cn } from "@/lib/utils";
-
-const SAMPLE_SALES = [
-  { label: "18.09", total: 1_200_000, count: 1 },
-  { label: "19.09", total: 0, count: 0 },
-  { label: "20.09", total: 2_450_000, count: 2 },
-  { label: "21.09", total: 890_000, count: 1 },
-  { label: "22.09", total: 3_100_000, count: 3 },
-  { label: "23.09", total: 1_750_000, count: 2 },
-  { label: "24.09", total: 2_200_000, count: 2 },
-];
 
 function BarChart({
   points,
@@ -125,7 +115,7 @@ export function SellerOverviewAnalytics() {
 
   const sales = useMemo(() => (shopId ? salesLast7Days(shopOrders, shopId) : []), [shopId, shopOrders]);
   const hasSales = sales.some((d) => d.total > 0 || d.count > 0);
-  const chartPoints = hasSales ? sales : SAMPLE_SALES;
+  const chartPoints = sales;
 
   const top = useMemo(
     () => (shopId ? topSoldProducts(shopOrders, shopId, myProducts, 5) : []),
@@ -144,15 +134,11 @@ export function SellerOverviewAnalytics() {
               Sotuv — oxirgi 7 kun
             </h2>
             <p className="mt-0.5 text-[12px] text-[#8b93a7] sm:text-[13px]">
-              {hasSales ? `Jami: ${formatMoney(weekTotal, "UZS")}` : "Hali buyurtma yo‘q — namuna ko‘rinish"}
+              {hasSales ? `Jami (mahsulotlar): ${formatMoney(weekTotal, "UZS")}` : "Hali savdo yo‘q"}
             </p>
           </div>
-          <span className="inline-flex items-center gap-1 rounded-full bg-[#e8f1ff] px-2 py-0.5 text-[11px] font-semibold text-[#0066FF]">
-            <TrendingUp className="size-3" />
-            Demo
-          </span>
         </div>
-        <BarChart points={chartPoints} sample={!hasSales} />
+        {hasSales ? <BarChart points={chartPoints} /> : <p className="mt-4 text-[13px] text-[#8b93a7]">Buyurtma tushganda kunlik savdo shu yerda chiqadi.</p>}
       </section>
 
       <section className="rounded-[14px] border border-[#eceff5] bg-white p-3 shadow-[0_1px_2px_rgba(15,23,42,0.04)] sm:rounded-[16px] sm:p-5">
@@ -170,7 +156,7 @@ export function SellerOverviewAnalytics() {
           <Package className="size-4 text-[#0066FF]" />
           Eng ko‘p sotilganlar
         </h2>
-        <p className="mt-0.5 text-[12px] text-[#8b93a7]">Demo buyurtmalardan</p>
+        <p className="mt-0.5 text-[12px] text-[#8b93a7]">Yetkazish haqi hisobga kirmaydi</p>
         {top.length ? (
           <ol className="mt-3 space-y-2">
             {top.map((row, i) => (

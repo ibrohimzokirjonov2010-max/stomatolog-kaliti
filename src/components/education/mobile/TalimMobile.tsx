@@ -263,7 +263,6 @@ function Thumb({ lesson, onPlay }: { lesson: MobileLesson; onPlay: () => void })
       <span className="tl-play">
         <Play fill="currentColor" />
       </span>
-      <span className="tl-time">{lesson.duration}</span>
     </button>
   );
 }

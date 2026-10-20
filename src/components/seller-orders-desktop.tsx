@@ -25,7 +25,8 @@ import {
   type LucideIcon,
 } from "lucide-react";
 import { useSellerWork } from "@/components/seller-provider";
-import { orderSum } from "@/components/seller-overview-desktop";
+import { deliverySum, orderSum } from "@/components/seller-overview-desktop";
+import { commissionView, goodsLines } from "@/lib/order-money";
 import { formatMoney } from "@/lib/format";
 import {
   advanceOrderStatus,
@@ -471,13 +472,13 @@ export function SellerOrdersDesktop() {
                       </td>
                       <td className="px-3 py-3">
                         <div className="flex items-center gap-1">
-                          {o.items.slice(0, 3).map((it, i) => (
+                          {goodsLines(o, shopId).slice(0, 3).map((it, i) => (
                             <span key={i} className="flex size-9 items-center justify-center overflow-hidden rounded-lg border border-[#eef1f6] bg-[#f7f9fc]" title={`${it.qty}× ${it.name}`}>
                               {/* eslint-disable-next-line @next/next/no-img-element */}
                               <img src={it.image} alt="" className="size-full object-contain p-0.5" />
                             </span>
                           ))}
-                          {o.items.length > 3 ? <span className="flex size-9 items-center justify-center rounded-lg bg-[#f1f4f9] text-[11.5px] font-bold text-[#6b7280]">+{o.items.length - 3}</span> : null}
+                          {goodsLines(o, shopId).length > 3 ? <span className="flex size-9 items-center justify-center rounded-lg bg-[#f1f4f9] text-[11.5px] font-bold text-[#6b7280]">+{goodsLines(o, shopId).length - 3}</span> : null}
                         </div>
                       </td>
                       <td className="px-3 py-3 text-[13px] font-bold whitespace-nowrap text-[#1a1d26]">{formatMoney(o.total, "UZS")}</td>
@@ -573,9 +574,12 @@ function DetailPanel({
   onSaveTrack: (toYolda: boolean) => void;
 }) {
   const pill = PILL[o.status];
-  const payLabel = paymentMethods.find((m) => m.id === o.payment)?.label ?? o.payment;
+  const payLabel = paymentMethods.find((m) => m.id === o.payment)?.label ?? (o.payment === "naqd" ? "Naqd pul" : o.payment);
   const sum = orderSum(o, shopId);
-  const bonus = Math.max(0, sum - o.total);
+  const shipping = deliverySum(o);
+  const bonus = Math.max(0, Number(o.bonusUsed) || 0);
+  const fee = commissionView(o, shopId);
+  const goods = goodsLines(o, shopId);
   const action = sellerActionLabel(o.status);
   const isShip = o.status === "yigish_tugadi";
   const showTrack =
@@ -600,7 +604,7 @@ function DetailPanel({
         <p className="mt-1.5 text-[12px] text-[#8b93a7]">
           {fmtDate(o.createdAt)}, {fmtTime(o.createdAt)} · {payLabel}
         </p>
-        <p className="mt-0.5 text-[12px] text-[#8b93a7]">Tranzaksiya ID: <span className="text-[#c0c7d6]">—</span> <span className="ml-1 rounded bg-[#f1f4f9] px-1 text-[9.5px] font-semibold">Demo to‘lov</span></p>
+        <p className="mt-0.5 text-[12px] text-[#8b93a7]">{payLabel}</p>
       </div>
 
       <div className="space-y-5 p-4">
@@ -634,7 +638,7 @@ function DetailPanel({
         <section>
           <h3 className={sectionTitle}>Buyurtma mahsulotlari</h3>
           <ul className="mt-2.5 max-h-[210px] space-y-2.5 overflow-y-auto pr-1">
-            {o.items.map((it, i) => (
+            {goods.map((it, i) => (
               <li key={i} className="flex items-center gap-3">
                 <span className="flex size-11 shrink-0 items-center justify-center overflow-hidden rounded-xl border border-[#eef1f6] bg-[#f7f9fc]">
                   {/* eslint-disable-next-line @next/next/no-img-element */}
@@ -656,9 +660,9 @@ function DetailPanel({
 
         <section className="space-y-1.5 rounded-xl bg-[#f7f9fc] p-3 text-[12.5px]">
           <div className="flex justify-between text-[#6b7280]"><span>Mahsulotlar jami</span><span className="font-semibold text-[#1a1d26]">{formatMoney(sum, "UZS")}</span></div>
-          <div className="flex justify-between text-[#6b7280]"><span>Yetkazib berish</span><span className="text-[#a3abbd]">—</span></div>
+          <div className="flex justify-between text-[#6b7280]"><span>Yetkazib berish</span><span className="font-semibold text-[#1a1d26]">{shipping > 0 ? formatMoney(shipping, "UZS") : "Bepul"}</span></div>
           <div className="flex justify-between text-[#6b7280]"><span>Chegirma / bonus</span><span className="font-semibold text-[#1a1d26]">{formatMoney(bonus, "UZS")}</span></div>
-          {o.commission ? <div className="flex justify-between text-[#6b7280]"><span>Platforma komissiyasi</span><span className="font-semibold text-[#1a1d26]">{formatMoney(o.commission, "UZS")}</span></div> : null}
+          <div className="flex justify-between text-[#6b7280]"><span>Platforma komissiyasi</span><span className="font-semibold text-[#1a1d26]" data-testid="seller-commission">{fee.text}</span></div>
           <div className="flex items-baseline justify-between border-t border-[#e3e8f1] pt-2">
             <span className="text-[13px] font-bold text-[#1a1d26]">Jami to‘lov</span>
             <span className="text-[19px] font-extrabold text-[#0066FF]">{formatMoney(o.total, "UZS")}</span>

@@ -1,6 +1,6 @@
 export type OrderStatus = "pending" | "preparing" | "shipping" | "delivered" | "cancelled";
 export type OrderKind = "product" | "service" | "lab";
-export type PayMethod = "Click" | "Payme" | "Uzum" | "Naqd";
+export type PayMethod = "Click" | "Payme" | "Uzum" | "Naqd" | "Naqd pul";
 
 export type DesktopOrder = {
   id: string;

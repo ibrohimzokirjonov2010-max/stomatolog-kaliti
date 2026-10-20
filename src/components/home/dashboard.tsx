@@ -348,9 +348,6 @@ function HomeVideos() {
               <span className="pointer-events-none absolute inset-0 m-auto flex size-9 items-center justify-center rounded-full bg-black/50 text-white">
                 <Play className="ml-0.5 size-4 fill-white" />
               </span>
-              <span className="absolute bottom-2 left-2 rounded bg-black/70 px-1.5 py-0.5 text-[10px] font-medium text-white">
-                {video.duration}
-              </span>
             </div>
             <p className="line-clamp-2 p-2.5 text-[12.5px] font-semibold leading-snug">{video.title}</p>
           </Link>

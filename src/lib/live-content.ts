@@ -2,6 +2,7 @@
 
 import type { CatalogCard } from "@/lib/catalog-client";
 import { fetchCatalogProducts } from "@/lib/catalog-client";
+import { colorLabel } from "@/data/forma";
 import type { Book, BookFormat, ContinueItem, Course } from "@/data/desktop-hub";
 import type { DesktopForma, FormaCat, FormaGender } from "@/data/desktop-forma";
 import type { DesktopJihoz, JihozCat, JihozCond } from "@/data/desktop-jihozlar";
@@ -254,7 +255,7 @@ export function toDesktopForma(card: CatalogCard): DesktopForma {
     price: card.price,
     oldPrice: card.oldPrice,
     off: card.discount,
-    colors: (card.colors.length ? card.colors : ["teal"]).map((id) => ({ id, hex: SWATCH[id] ?? "#d7dee8", label: id })),
+    colors: card.colors.map((id) => ({ id, hex: SWATCH[id] ?? "#d7dee8", label: colorLabel(id) })),
     sizes: card.sizes,
     gender,
     cat: formaCat(card.kind),
@@ -278,7 +279,7 @@ export function toMobileForma(card: CatalogCard): MobileForma {
     discount: card.discount,
     rating: card.rating,
     reviews: card.reviews,
-    colors: (card.colors.length ? card.colors : ["teal"]).map((id) => ({ id, hex: SWATCH[id] ?? "#d7dee8", label: id })),
+    colors: card.colors.map((id) => ({ id, hex: SWATCH[id] ?? "#d7dee8", label: colorLabel(id) })),
     sizes: card.sizes,
     image: card.image,
     gallery: card.images,

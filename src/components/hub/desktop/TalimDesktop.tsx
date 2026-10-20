@@ -21,7 +21,6 @@ import {
 import { ShopShell } from "@/components/shop/desktop/ShopShell";
 import { som, useShopLineCount } from "@/components/shop/desktop/shop-cart";
 import {
-  certificates,
   directions,
   formats,
   levels,
@@ -326,21 +325,7 @@ export function TalimDesktop() {
                 {certsOpen ? "Yig‘ish" : "Barchasini ko‘rish"}
               </button>
             </h3>
-            {certificates.map((item) => (
-              <div className="hub-cert" key={item.id}>
-                <span className="ic">
-                  <Award className="i" />
-                </span>
-                <div>
-                  <b>{item.title}</b>
-                  <small>
-                    {item.meta}
-                    {certsOpen ? ` · ${item.date}` : ""}
-                  </small>
-                  {!certsOpen ? <small>{item.date}</small> : null}
-                </div>
-              </div>
-            ))}
+            <p className="by">Hozircha sertifikat yo‘q. Seminar yoki kursni tugatgach shu yerda chiqadi.</p>
           </section>
           <section className="hub-box">
             <h3>Mening natijalarim</h3>
