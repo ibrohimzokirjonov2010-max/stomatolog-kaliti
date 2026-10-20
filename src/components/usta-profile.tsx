@@ -28,6 +28,7 @@ import { useUstaWork } from "@/components/usta-provider";
 import { UstaRequestSheet } from "@/components/usta-request-sheet";
 import { MasterAvatar, NoRating, VerifiedBadge, placeLine, useFavMasters } from "@/components/usta-ui";
 import { phoneHref, serviceTagLabels, telegramHref, type Master } from "@/data/masters";
+import { ReportButton, RevealPhone } from "@/components/forms/RevealPhone";
 import { instagramHref, instagramValue, sourceUrlValue, USTA_SPECIALTIES } from "@/lib/add-forms";
 import { cn } from "@/lib/utils";
 
@@ -205,6 +206,15 @@ export function UstaProfile({ id }: { id: string }) {
             testId="usta-telegram"
           />
         </div>
+        {!m.mine && !phone ? (
+          <p className="mt-2 text-[13px]">
+            <RevealPhone kind="master" id={m.id} />
+            {" · "}
+            <ReportButton kind="master" id={m.id} />
+          </p>
+        ) : !m.mine ? (
+          <p className="mt-2"><ReportButton kind="master" id={m.id} /></p>
+        ) : null}
         {sourceUrlValue(m.sourceUrl ?? "") ? (
           <a className="mt-2.5 inline-flex text-[13.5px] font-semibold text-[#0066FF] break-all" href={sourceUrlValue(m.sourceUrl ?? "")} target="_blank" rel="noopener nofollow" data-testid="usta-source">
             {sourceUrlValue(m.sourceUrl ?? "")}

@@ -8,6 +8,7 @@ import { ShopShell } from "@/components/shop/desktop/ShopShell";
 import { useShopLineCount } from "@/components/shop/desktop/shop-cart";
 import { useCommunityWork } from "@/components/community-provider";
 import { uploadImage } from "@/lib/image-upload";
+import { CASE_TAGS, caseProblem } from "@/lib/forms/p0";
 import {
   communityCategories,
   communityRules,
@@ -72,6 +73,9 @@ export function CommunityDesktop() {
   const [reply, setReply] = useState("");
   const [trendOn, setTrendOn] = useState<string | null>(null);
   const [rulesOpen, setRulesOpen] = useState(true);
+  const [consent, setConsent] = useState(false);
+  const [faceAck, setFaceAck] = useState(false);
+  const [note, setNote] = useState("");
 
   useEffect(() => {
     setQ(paramQ);
@@ -95,6 +99,20 @@ export function CommunityDesktop() {
   async function publish() {
     const body = text.trim();
     if (!body) return;
+    if (kind === "keys") {
+      const problem = caseProblem({
+        text: body,
+        tags: CASE_TAGS.slice(0, 1),
+        images: [],
+        consent,
+        faceAck,
+        complaint: body,
+        diagnosis: body,
+        steps: body,
+      });
+      setNote(problem || "Klinik holatni /community dagi to‘liq formada joylang: rozilik, oldin/keyin rasmlar va bosqichlar.");
+      return;
+    }
     let images: string[] | undefined;
     if (photoFile) {
       try {
@@ -104,12 +122,16 @@ export function CommunityDesktop() {
       }
     }
     const result = await work.publish({
-      kind: kind === "savol" ? "savol" : kind === "muhokama" ? "yangilik" : "case",
+      kind: kind === "savol" ? "savol" : "yangilik",
       text: body,
       tags: category === "Barchasi" ? [] : [category],
       images,
     });
-    if (!result.ok) return;
+    if (!result.ok) {
+      setNote(result.error);
+      return;
+    }
+    setNote("");
     setText("");
     setPhoto(null);
     setPhotoFile(null);
@@ -159,6 +181,13 @@ export function CommunityDesktop() {
                   Post joylash
                 </button>
               </div>
+              {kind === "keys" ? (
+                <div className="mt-2 grid gap-1 text-[12.5px]">
+                  <label className="flex items-center gap-2"><input type="checkbox" checked={consent} onChange={(event) => setConsent(event.target.checked)} /> Bemor roziligi</label>
+                  <label className="flex items-center gap-2"><input type="checkbox" checked={faceAck} onChange={(event) => setFaceAck(event.target.checked)} /> Yuz ko‘rinmaydi</label>
+                </div>
+              ) : null}
+              {note ? <p className="mt-2 text-[13px] text-[#9a3412]">{note}</p> : null}
               {photo ? <img className="hub-preview" src={photo} alt="" /> : null}
             </div>
           </section>

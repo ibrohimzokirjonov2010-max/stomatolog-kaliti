@@ -1,4 +1,5 @@
 /** Shared (client + server) validators for the DB-backed sections: Ustalar, Laboratoriya, Ishlar, Ortiqcha material. Messages are Uzbek. */
+import { expiryFromParts, surplusDrugProblem, videoMetaProblem, type SurplusVideoMeta } from "@/lib/forms/p0";
 export type FieldErrors = Record<string, string>;
 
 export const MASTER_SERVICES = ["rentgen", "kreslo", "ornatish", "tamirlash", "mebel", "servis", "konsultatsiya"] as const;
@@ -195,7 +196,7 @@ export function validateLabOrder(input: Record<string, unknown>) {
 export const JOB_TYPES = ["full", "part", "shift", "freelance", "amaliyot"] as const;
 export const JOB_CATEGORIES = ["klinika", "texnik", "shifokor"] as const;
 export const JOB_BENEFITS = ["rasmiy", "oqim", "malaka", "jamoa", "sharoit", "avtoturargoh", "tushlik", "bonus"] as const;
-export const SURPLUS_CATEGORIES = ["kompozit", "bonding", "sement", "endodontiya", "implantlar", "anesteziya", "borlar", "instrument", "ortodontiya"] as const;
+export const SURPLUS_CATEGORIES = ["kompozit", "bonding", "sement", "endodontiya", "implantlar", "borlar", "instrument", "ortodontiya"] as const;
 
 function moneyOrNull(v: unknown, label: string, errors: FieldErrors, key: string) {
   if (v === "" || v == null) return null;
@@ -307,23 +308,37 @@ export function validateSurplus(input: Record<string, unknown>) {
   const errors: FieldErrors = {};
   const price = intIn(String(input.price ?? "").replace(/[\s,]/g, ""), 1, 10_000_000_000);
   const newPrice = input.newPrice === "" || input.newPrice == null ? null : intIn(String(input.newPrice).replace(/[\s,]/g, ""), 1, 10_000_000_000);
-  const expiry = intIn(String(input.expiryMonths ?? "").replace(/\D/g, ""), 1, 120);
+  const dated = expiryFromParts(String(input.expiryMonth ?? ""), String(input.expiryYear ?? ""));
+  const expiryMonths = dated.ok ? dated.expiryMonths : 0;
+  const qty = intIn(String(input.qty ?? "").replace(/\D/g, ""), 1, 999);
+  const meta = input.videoMeta && typeof input.videoMeta === "object" ? (input.videoMeta as SurplusVideoMeta) : null;
+  const declared = input.declaration === true;
+  let note = t(input.note, 600);
+  if (declared && note.length < 12) note = "Qadoq ochilmagan, tavsiya etilgan sharoitda saqlangan, muddat va LOT to‘g‘ri.";
   const clean = {
     name: t(input.name, 100),
-    brand: t(input.brand, 60),
+    brand: t(input.brand, 60) || "Boshqa",
     category: String(input.category ?? ""),
     price: price ?? 0,
     newPrice,
-    pkg: input.pkg === "ochilgan" ? "ochilgan" : input.pkg === "yopiq" ? "yopiq" : "",
-    expiryMonths: expiry ?? 0,
+    pkg: "yopiq" as const,
+    expiryMonths,
+    expiryOn: dated.ok ? dated.expiryOn : "",
+    expiryMonth: String(input.expiryMonth ?? ""),
+    expiryYear: String(input.expiryYear ?? ""),
+    lot: t(input.lot, 30).toUpperCase(),
+    qty: qty ?? 0,
+    qtyUnit: t(input.qtyUnit, 20),
+    declaration: declared,
     city: t(input.city, 60),
     district: t(input.district, 60),
     phone: t(input.phone, 40),
     telegram: t(input.telegram, 80),
     image: t(input.image, 400),
-    note: t(input.note, 600),
+    note,
     images: Array.isArray(input.images) ? input.images.filter((x): x is string => typeof x === "string" && x.trim() !== "").map((x) => x.trim().slice(0, 400)).slice(0, 8) : [],
     video: t(input.video, 400),
+    videoMeta: meta,
     description: t(input.description, 2000),
     address: t(input.address, 200),
     lat: typeof input.lat === "number" && Number.isFinite(input.lat) && Math.abs(input.lat) <= 90 ? input.lat : null,
@@ -333,17 +348,22 @@ export function validateSurplus(input: Record<string, unknown>) {
     clean.lat = null;
     clean.lng = null;
   }
-  if (clean.name.length < 2) errors.name = "Mahsulot nomini kiriting.";
-  if (!clean.brand) errors.brand = "Brendni kiriting.";
+  const drug = surplusDrugProblem(clean.name, clean.brand === "Boshqa" ? "" : clean.brand, clean.category);
+  if (drug) errors.name = drug;
+  if (clean.name.length < 2) errors.name = errors.name || "Mahsulot nomini kiriting.";
   if (!(SURPLUS_CATEGORIES as readonly string[]).includes(clean.category)) errors.category = "Kategoriyani tanlang.";
-  if (price === null) errors.price = "Narxni raqam bilan kiriting.";
+  if (qty === null) errors.qty = "Miqdorni kiriting.";
+  if (!["dona", "shprits", "quti", "toplam", "ml", "g"].includes(clean.qtyUnit)) errors.qtyUnit = "Birlikni tanlang.";
+  if (!dated.ok) errors.expiryMonth = dated.error;
+  if (!/^[A-Z0-9][A-Z0-9._-]{1,29}$/.test(clean.lot)) errors.lot = "LOT raqamini qadoqdan ko‘chiring — odatda LOT yoki Batch yozuvi yonida bo‘ladi.";
+  if (price === null) errors.price = "Narxni kiriting.";
   if (input.newPrice !== "" && input.newPrice != null && newPrice === null) errors.newPrice = "Asl narxni raqam bilan kiriting yoki bo‘sh qoldiring.";
-  if (!clean.pkg) errors.pkg = "Holatni tanlang (Yopiq yoki Ochilgan).";
-  if (expiry === null) errors.expiryMonths = "Yaroqlilik muddatini oyda kiriting (1–120).";
+  if (input.pkg === "ochilgan") errors.pkg = "Ochilgan steril mahsulotni sotib bo‘lmaydi.";
   if (clean.city.length < 2) errors.city = "Shaharni tanlang.";
   if (!phoneOk(clean.phone)) errors.phone = PHONE_MSG;
-  const noteErr = surplusNoteProblem(clean.note, clean.name);
-  if (noteErr) errors.note = noteErr;
+  const videoError = videoMetaProblem(meta);
+  if (videoError || !clean.video) errors.video = videoError || "Mahsulotni 15–60 soniyalik video bilan ko‘rsating: muddat va LOT aniq ko‘rinsin.";
+  if (!declared) errors.declaration = "Davom etish uchun tasdiqlang: qadoq ochilmagan va ma’lumotlar to‘g‘ri.";
   return { errors, clean };
 }
 

@@ -1,4 +1,5 @@
 import { NextResponse } from "next/server";
+import { caseProblem } from "@/lib/forms/p0";
 import { dbErrorJson, publicObjectUrl, readCache, rpc } from "@/lib/server/db";
 import { getSessionUserId, jsonError, sameOrigin } from "@/lib/server/session";
 
@@ -41,14 +42,43 @@ export async function POST(request: Request) {
     ? body.images.filter((u): u is string => typeof u === "string" && u.startsWith(prefix)).slice(0, 6)
     : [];
   if (!text) return jsonError("Post matnini yozing.");
+  const complaint = typeof body?.complaint === "string" ? body.complaint.trim().slice(0, 400) : "";
+  const diagnosis = typeof body?.diagnosis === "string" ? body.diagnosis.trim().slice(0, 400) : "";
+  const steps = typeof body?.steps === "string" ? body.steps.trim().slice(0, 2000) : "";
+  if (kind === "case") {
+    const problem = caseProblem({
+      text,
+      tags,
+      images,
+      consent: body?.consent === true,
+      faceAck: body?.faceAck === true,
+      complaint,
+      diagnosis,
+      steps,
+    });
+    if (problem) return jsonError(problem);
+  }
   try {
-    const post = await rpc("sh_community_create_post", {
+    const post = await rpc<Record<string, unknown> | null>("sh_community_create_post", {
       p_user: userId,
       p_kind: kind,
       p_body: text,
       p_tags: tags,
       p_images: images,
     });
+    const postId = post && typeof post.id === "string" ? post.id : "";
+    if (kind === "case" && postId) {
+      try {
+        await rpc("sh_form_p0_set", {
+          p_user: userId,
+          p_kind: "case",
+          p_id: postId,
+          p_extra: { consent: true, faceAck: true, complaint, diagnosis, steps, tags },
+        });
+      } catch {
+        /* migration 20261020e is applied by the owner; the post text already holds the case */
+      }
+    }
     return NextResponse.json({ ok: true, post });
   } catch (error) {
     return dbErrorJson(error, "Postni saqlab bo‘lmadi.");

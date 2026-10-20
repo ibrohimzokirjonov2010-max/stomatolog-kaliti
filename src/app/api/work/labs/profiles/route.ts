@@ -46,6 +46,8 @@ export async function POST(request: Request) {
     instagram: String(body.instagram ?? ""),
     logo: typeof body.logo === "string" ? body.logo : "",
     photos: Array.isArray(body.photos) ? body.photos.filter((item): item is string => typeof item === "string") : [],
+    turnaround: typeof body.turnaround === "string" ? body.turnaround : "",
+    digitalFlow: typeof body.digitalFlow === "string" ? body.digitalFlow : "",
   };
   const errors = validateLabForm(input, mode);
   const own = (url: string) => !url || [publicObjectUrl(`labs/${guard.userId}/`), publicObjectUrl(`logos/${guard.userId}/`), publicObjectUrl(`listings/${guard.userId}/`)].some((prefix) => url.startsWith(prefix));

@@ -11,12 +11,14 @@ export function AddPage({
   title,
   sub,
   testId,
+  minutes,
   children,
 }: {
   crumbs: { href?: string; label: string }[];
   title: string;
   sub?: string;
   testId: string;
+  minutes?: number;
   children: ReactNode;
 }) {
   return (
@@ -33,6 +35,7 @@ export function AddPage({
         <div>
           <h1>{title}</h1>
           {sub ? <p>{sub}</p> : null}
+          {minutes ? <p data-testid="form-minutes">~{minutes} daqiqa</p> : null}
         </div>
       </div>
       {children}

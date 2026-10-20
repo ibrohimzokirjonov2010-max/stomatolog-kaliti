@@ -31,6 +31,7 @@ import { Modal, OrderForm } from "@/components/lab-browse";
 import { useLabWork } from "@/components/lab-provider";
 import { findPhoneLab } from "@/data/phone14";
 import { instagramHref, instagramValue, sourceUrlValue } from "@/lib/add-forms";
+import { ReportButton, RevealPhone } from "@/components/forms/RevealPhone";
 import {
   LabLogo,
   LabPhoto,
@@ -399,7 +400,9 @@ function LabProfileView({ lab }: { lab: Lab }) {
         {tab === "aloqa" ? (
           <Card icon={<Phone className="size-[19px]" />} title="Aloqa">
             <InfoRow label="Manzil" value={labPlace(lab)} />
-            <InfoRow label="Telefon" value={labPhone ?? "Buyurtma qabul qilingach ochiladi"} />
+            <InfoRow label="Telefon" value={labPhone ?? "Raqamni ko‘rsatish orqali ochiladi"} />
+            {!lab.mine && !labPhone ? <p className="mt-2 text-[13px]"><RevealPhone kind="lab" id={lab.id} /></p> : null}
+            {!lab.mine ? <p className="mt-2"><ReportButton kind="lab" id={lab.id} /></p> : null}
             <InfoRow label="Telegram" value={labTg ?? (labPhone ? "Ko‘rsatilmagan" : "Buyurtma qabul qilingach ochiladi")} />
             <InfoRow label="Kurier" value={lab.courier === "ha" ? `Bor${lab.courierArea ? ` · ${lab.courierArea}` : ""}` : lab.courier === "yoq" ? "Yo‘q" : "Aniqlanmoqda"} />
             {sourceUrlValue(lab.sourceUrl ?? "") ? (

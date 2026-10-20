@@ -61,7 +61,14 @@ export type PublishSurplusInput = {
   brand: string;
   category: SurplusCategory;
   pkg: PackageStatus | "";
-  expiryMonths: string;
+  expiryMonths?: string;
+  expiryMonth?: string;
+  expiryYear?: string;
+  lot?: string;
+  qty?: string;
+  qtyUnit?: string;
+  declaration?: boolean;
+  videoMeta?: unknown;
   price: string;
   newPrice: string;
   city: string;

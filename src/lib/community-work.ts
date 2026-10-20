@@ -5,6 +5,11 @@ export type PublishPostInput = {
   text: string;
   tags: string[];
   images?: string[];
+  consent?: boolean;
+  faceAck?: boolean;
+  complaint?: string;
+  diagnosis?: string;
+  steps?: string;
 };
 
 type ApiAuthor = {

@@ -1,11 +1,15 @@
 "use client";
 
-import { useRef, useState, type ChangeEvent, type FormEvent, type ReactNode } from "react";
+import { useEffect, useRef, useState, type ChangeEvent, type FormEvent, type ReactNode } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { ImagePlus, MapPin, Send, Trash2, Upload, X } from "lucide-react";
-import { JobMediaPicker } from "@/components/job-media-picker";
+import { LiveVideoRecorder } from "@/components/forms/LiveVideoRecorder";
+import { PublishNote } from "@/components/forms/PublishNote";
 import { MapPicker } from "@/components/map-picker";
+import { ADD_CITIES } from "@/lib/add-forms";
+import { SURPLUS_QTY_UNITS } from "@/lib/forms/p0";
+import type { SurplusVideoMeta } from "@/lib/forms/p0";
 import { Button, buttonVariants } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -18,7 +22,6 @@ import {
   placeholderImage,
   statusLabel,
   surplusCategories,
-  surplusCities,
   type PackageStatus,
   type SurplusCategory,
   type SurplusListing,
@@ -51,22 +54,37 @@ export function PostForm({ listing, onDone, onCancel }: { listing?: SurplusListi
   const [formError, setFormError] = useState("");
   const [uploading, setUploading] = useState(false);
   const [busy, setBusy] = useState(false);
+  const profile = useDoctorProfile();
+  useEffect(() => {
+    if (listing) return;
+    const city = profile.profile?.city ?? "";
+    const phone = profile.profile?.phone ?? "";
+    if (!city && !phone) return;
+    setForm((prev) => ({ ...prev, city: prev.city || city, phone: prev.phone || phone }));
+  }, [listing, profile.profile?.city, profile.profile?.phone]);
+  const [step, setStep] = useState(1);
   const [form, setForm] = useState({
     name: listing?.name ?? "",
     brand: listing?.brand ?? "",
-    category: (listing?.category ?? "kompozit") as SurplusCategory,
+    category: (listing?.category === "anesteziya" ? "kompozit" : listing?.category ?? "kompozit") as SurplusCategory,
     price: listing ? String(listing.price) : "",
     newPrice: listing && listing.newPrice > listing.price ? String(listing.newPrice) : "",
-    pkg: (listing?.status ?? "") as "" | PackageStatus,
-    expiryMonths: listing ? String(listing.expiryMonths) : "",
-    city: listing?.city ?? "Toshkent",
+    pkg: "yopiq" as PackageStatus,
+    expiryMonth: "",
+    expiryYear: "",
+    lot: "",
+    qty: "",
+    qtyUnit: "dona",
+    declaration: false,
+    city: listing?.city || profile.profile?.city || "",
     district: listing?.district ?? "",
     note: listing?.note ?? "",
-    phone: listing?.phone ?? "",
+    phone: listing?.phone || profile.profile?.phone || "",
     telegram: listing?.telegram ?? "",
     image: listing?.image && listing.image.startsWith("http") ? listing.image : "",
     images: listing?.images ?? [],
     video: listing?.video ?? "",
+    videoMeta: null as SurplusVideoMeta | null,
     description: listing?.description ?? "",
     address: listing?.address ?? "",
     lat: listing?.lat ?? null,
@@ -100,12 +118,16 @@ export function PostForm({ listing, onDone, onCancel }: { listing?: SurplusListi
   async function submit(event: FormEvent) {
     event.preventDefault();
     if (busy) return;
+    if (step < 3) {
+      setStep(step + 1);
+      return;
+    }
     const check = validateSurplus(form);
     setErrors(check.errors);
     setFormError("");
     if (Object.keys(check.errors).length) return;
     setBusy(true);
-    const result = await publish(form, listing?.id);
+    const result = await publish({ ...form, qty: form.qty, declaration: form.declaration }, listing?.id);
     setBusy(false);
     if (!result.ok) {
       if (result.errors) setErrors(result.errors);
@@ -154,7 +176,7 @@ export function PostForm({ listing, onDone, onCancel }: { listing?: SurplusListi
             <Err text={errors.name} />
           </Field>
           <div className="grid grid-cols-2 gap-2.5">
-            <Field label="Brend *" requiredMark>
+            <Field label="Brend">
               <Input className="mt-1 h-10" aria-invalid={bad("brand")} value={form.brand} onChange={(e) => set({ brand: e.target.value })} placeholder="3M" />
               <Err text={errors.brand} />
             </Field>
@@ -170,89 +192,77 @@ export function PostForm({ listing, onDone, onCancel }: { listing?: SurplusListi
         </div>
       </div>
 
-      <div>
-        <Label className="mb-1.5 block">Holat <span className="text-[#0066FF]">*</span></Label>
-        <div className="grid grid-cols-2 gap-1 rounded-xl bg-[#f4f6fa] p-1">
-          {([{ id: "yopiq", label: "Yopiq" }, { id: "ochilgan", label: "Ochilgan" }] as const).map((opt) => (
-            <button
-              key={opt.id}
-              type="button"
-              onClick={() => set({ pkg: opt.id })}
-              className={cn("h-10 rounded-lg text-sm font-semibold transition-colors", form.pkg === opt.id ? "bg-white text-[#0066FF] shadow-sm" : "text-[#6b7280] hover:text-[#1a1d26]")}
-            >
-              {opt.label}
-            </button>
-          ))}
-        </div>
-        <Err text={errors.pkg} />
-      </div>
+      <p className="text-[13px] font-semibold text-[#0066FF]" data-testid="surplus-step">{step}/3 · {step === 1 ? "Mahsulot" : step === 2 ? "Jonli video" : "Narx va joylash"}</p>
+      <p className="text-[12px] text-[#6b7280]">~3 daqiqa. Ochilgan yoki muddati yaqin material, anestetik va boshqa dorilar qabul qilinmaydi.</p>
+      {step === 1 ? (
+        <>
+          <div className="grid grid-cols-2 gap-2">
+            <Field label="Miqdor" requiredMark>
+              <Input className="mt-1 h-12 text-base" inputMode="numeric" value={form.qty} onChange={(e) => set({ qty: e.target.value.replace(/\D/g, "").slice(0, 3) })} placeholder="3" />
+              <Err text={errors.qty} />
+            </Field>
+            <Field label="Birlik" requiredMark>
+              <select className="mt-1 h-12 w-full rounded-lg border border-input bg-white px-2 text-base" value={form.qtyUnit} onChange={(e) => set({ qtyUnit: e.target.value })}>
+                {SURPLUS_QTY_UNITS.map((unit) => <option key={unit} value={unit}>{unit}</option>)}
+              </select>
+              <Err text={errors.qtyUnit} />
+            </Field>
+          </div>
+          <div className="grid grid-cols-2 gap-2">
+            <Field label="Yaroqlilik oyi" requiredMark>
+              <Input className="mt-1 h-12 text-base" inputMode="numeric" value={form.expiryMonth} onChange={(e) => set({ expiryMonth: e.target.value.replace(/\D/g, "").slice(0, 2) })} placeholder="08" />
+              <Err text={errors.expiryMonth} />
+            </Field>
+            <Field label="Yil" requiredMark>
+              <Input className="mt-1 h-12 text-base" inputMode="numeric" value={form.expiryYear} onChange={(e) => set({ expiryYear: e.target.value.replace(/\D/g, "").slice(0, 4) })} placeholder="2027" />
+            </Field>
+          </div>
+          <Field label="LOT / partiya" requiredMark>
+            <Input className="mt-1 h-12 text-base" value={form.lot} onChange={(e) => set({ lot: e.target.value.toUpperCase() })} placeholder="N123456" maxLength={30} />
+            <Err text={errors.lot} />
+          </Field>
+          <p className="text-[12px] text-[#6b7280]">Qadoq ochilmagan bo‘lishi shart. Ochilgan steril mahsulot joylanmaydi.</p>
+        </>
+      ) : null}
+      {step === 2 ? <LiveVideoRecorder error={errors.video} onChange={(value) => set({ video: value?.url ?? "", videoMeta: value?.meta ?? null })} /> : null}
+      {step === 3 ? (
+        <>
+          <div className="grid grid-cols-2 gap-3">
+            <Field label="Narx" requiredMark>
+              <Input className="mt-1 h-12 text-base" inputMode="numeric" aria-invalid={bad("price")} value={form.price} onChange={(e) => set({ price: e.target.value })} placeholder="180000" />
+              <Err text={errors.price} />
+            </Field>
+            <Field label="Asl narx (ixtiyoriy)">
+              <Input className="mt-1 h-12 text-base" inputMode="numeric" value={form.newPrice} onChange={(e) => set({ newPrice: e.target.value })} placeholder="250000" />
+              <Err text={errors.newPrice} />
+            </Field>
+          </div>
+          <div className="grid grid-cols-2 gap-3">
+            <Field label="Shahar" requiredMark>
+              <select className="mt-1 h-12 w-full rounded-lg border border-input bg-white px-2 text-base" value={form.city} onChange={(e) => set({ city: e.target.value })}>
+                <option value="">Shaharni tanlang</option>
+                {ADD_CITIES.map((item) => <option key={item}>{item}</option>)}
+              </select>
+              <Err text={errors.city} />
+            </Field>
+            <Field label="Telefon" requiredMark>
+              <Input className="mt-1 h-12 text-base" inputMode="tel" autoComplete="tel" value={form.phone} onChange={(e) => set({ phone: e.target.value })} placeholder="90 123 45 67" />
+              <Err text={errors.phone} />
+            </Field>
+          </div>
+          <label className="flex items-start gap-2 text-[13px] leading-snug">
+            <input type="checkbox" className="mt-1 size-5" checked={form.declaration} onChange={(e) => set({ declaration: e.target.checked })} data-testid="surplus-declaration" />
+            <span>Qadoq ochilmagan, material tavsiya etilgan sharoitda saqlangan, muddati to‘g‘ri ko‘rsatilgan. Noto‘g‘ri ma’lumot uchun javobgarlikni o‘z zimmamga olaman.</span>
+          </label>
+          <Err text={errors.declaration} />
+          <Field label="Izoh (ixtiyoriy)">
+            <Textarea className="mt-1 min-h-[72px] text-base" value={form.note} onChange={(e) => set({ note: e.target.value })} placeholder="Nima uchun ortiqcha qoldi" />
+          </Field>
+          <PublishNote />
+        </>
+      ) : null}
 
-      <Field label="Yaroqlilik muddati (oy) *" requiredMark>
-        <Input className="mt-1 h-10" inputMode="numeric" aria-invalid={bad("expiryMonths")} value={form.expiryMonths} onChange={(e) => set({ expiryMonths: e.target.value })} placeholder="4" />
-        <Err text={errors.expiryMonths} />
-      </Field>
-
-      <div className="grid grid-cols-2 gap-3">
-        <Field label="Sizning narxingiz *" requiredMark>
-          <Input className="mt-1 h-10" inputMode="numeric" aria-invalid={bad("price")} value={form.price} onChange={(e) => set({ price: e.target.value })} placeholder="1 250 000" />
-          <Err text={errors.price} />
-        </Field>
-        <Field label="Asl narx (ixtiyoriy)">
-          <Input className="mt-1 h-10" inputMode="numeric" aria-invalid={bad("newPrice")} value={form.newPrice} onChange={(e) => set({ newPrice: e.target.value })} placeholder="1 850 000" />
-          <Err text={errors.newPrice} />
-        </Field>
-      </div>
-      <p className="-mt-1.5 text-[11px] text-[#8b93a7]">Asl narx — do‘kondagi yangi narx; kartada chizilgan holda ko‘rinadi.</p>
-
-      <div className="grid grid-cols-2 gap-3">
-        <Field label="Shahar *" requiredMark>
-          <select className="mt-1 h-10 w-full rounded-lg border border-input bg-white px-2.5 text-sm" value={form.city} onChange={(e) => set({ city: e.target.value })}>
-            {surplusCities.map((item) => (
-              <option key={item}>{item}</option>
-            ))}
-          </select>
-          <Err text={errors.city} />
-        </Field>
-        <Field label="Tuman (ixtiyoriy)">
-          <Input className="mt-1 h-10" value={form.district} onChange={(e) => set({ district: e.target.value })} placeholder="Yunusobod" />
-        </Field>
-      </div>
-
-      <div className="grid grid-cols-2 gap-3">
-        <Field label="Telefon * (yopiq)" requiredMark>
-          <Input className="mt-1 h-10" inputMode="tel" aria-invalid={bad("phone")} value={form.phone} onChange={(e) => set({ phone: e.target.value })} placeholder="90 123 45 67" />
-          <Err text={errors.phone} />
-        </Field>
-        <Field label="Telegram">
-          <Input className="mt-1 h-10" value={form.telegram} onChange={(e) => set({ telegram: e.target.value })} placeholder="@username" />
-        </Field>
-      </div>
-      <p className="-mt-1.5 text-[11px] text-[#8b93a7]">Telefon va Telegram faqat siz so‘rovni qabul qilgan foydalanuvchiga ko‘rinadi.</p>
-
-      <Field label="Qisqa izoh *" requiredMark>
-        <Textarea className="mt-1 min-h-[72px]" aria-invalid={bad("note")} value={form.note} onChange={(e) => set({ note: e.target.value })} placeholder="Nima uchun ortiqcha, qayerda saqlangan (kamida 12 belgi)." />
-        <Err text={errors.note} />
-      </Field>
-
-      <Field label="Batafsil tavsif (ixtiyoriy)">
-        <Textarea className="mt-1 min-h-[96px]" maxLength={2000} value={form.description} onChange={(e) => set({ description: e.target.value })} placeholder="Tarkibi, hajmi, qadoqda nechta qolgan, saqlash sharoiti, hujjat/chek bor-yo‘qligi…" />
-        <span className="mt-1 block text-right text-[11px] text-[#8b93a7]">{form.description.length}/2000</span>
-      </Field>
-
-      <div>
-        <Label className="mb-1.5 block">Qo‘shimcha rasmlar va video obzor (ixtiyoriy)</Label>
-        <JobMediaPicker
-          purpose="listing"
-          photos={form.images}
-          video={form.video}
-          onPhotos={(urls) => set({ images: urls })}
-          onVideo={(url) => set({ video: url })}
-          error={errors.images || errors.video}
-          hint="Galereya: 8 tagacha rasm. Video obzor 10 MB gacha (MP4, MOV, WEBM). Asosiy rasm yuqorida."
-        />
-      </div>
-
-      <div>
+      {step === 3 ? <div>
         <Label className="mb-1.5 block">Olib ketish joyi (ixtiyoriy)</Label>
         <div className="flex gap-2">
           <Input className="h-10 flex-1" maxLength={200} value={form.address} onChange={(e) => set({ address: e.target.value })} placeholder="Masalan: Yunusobod, Mega Planet yonida" />
@@ -268,7 +278,7 @@ export function PostForm({ listing, onDone, onCancel }: { listing?: SurplusListi
           </button>
         ) : null}
         <p className="mt-1 text-[11px] text-[#8b93a7]">E’londa hamma ko‘radi — uy/xonadon raqamini yozmang, mo‘ljal yetarli.</p>
-      </div>
+      </div> : null}
       <MapPicker
         simple
         open={mapOpen}
@@ -286,11 +296,13 @@ export function PostForm({ listing, onDone, onCancel }: { listing?: SurplusListi
       />
 
       {formError ? <p role="alert" className="text-sm font-medium text-destructive">{formError}</p> : null}
-      <div className="flex justify-end gap-2 pt-1">
-        <Button type="button" variant="outline" className="!rounded-xl" onClick={onCancel}>Bekor</Button>
-        <Button type="submit" className="!rounded-xl" disabled={busy || uploading}>
-          {busy ? "Yuborilmoqda…" : listing ? "Saqlash" : "E’lon qilish"}
-        </Button>
+      <div className="sticky bottom-0 flex gap-2 bg-white pt-2">
+        {step > 1 ? <Button type="button" variant="outline" className="h-12 !rounded-xl" onClick={() => setStep((value) => value - 1)}>Ortga</Button> : <Button type="button" variant="outline" className="h-12 !rounded-xl" onClick={onCancel}>Bekor</Button>}
+        {step < 3 ? (
+          <Button type="button" className="h-12 flex-1 !rounded-xl" onClick={() => setStep((value) => value + 1)}>Davom etish</Button>
+        ) : (
+          <Button type="submit" className="h-12 flex-1 !rounded-xl" disabled={busy || uploading}>{busy ? "Yuborilmoqda…" : "Joylash"}</Button>
+        )}
       </div>
     </form>
   );

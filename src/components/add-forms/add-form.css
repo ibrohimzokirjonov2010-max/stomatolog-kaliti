@@ -19,6 +19,8 @@
 .af-area { height: 110px; padding: 10px 12px; resize: vertical; }
 .af-input:focus, .af-select:focus, .af-area:focus { border-color: #0066ff; box-shadow: 0 0 0 3px rgba(0, 102, 255, 0.12); }
 .af-input.bad, .af-select.bad, .af-area.bad { border-color: #e11d48; }
+.af-extra { margin-top: 14px; }
+.af-extra > summary { cursor: pointer; font-weight: 700; margin-bottom: 8px; }
 .af-err { margin: 6px 0 0; color: #e11d48; font-size: 12.5px; font-weight: 600; }
 .af-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
 .af-row3 { display: grid; grid-template-columns: 1.4fr 0.8fr auto; gap: 12px; align-items: end; }

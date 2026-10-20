@@ -3,7 +3,10 @@
 import { useEffect, useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { MapPin } from "lucide-react";
-import { ADD_CITIES, ADD_DISTRICTS, USTA_HOURS, USTA_SPECIALTIES, USTA_YEARS, emptyUsta, moneyText, saveAddForm, ustaPayload, ustaTitle, validateUsta, type UstaInput } from "@/lib/add-forms";
+import { ADD_CITIES, ADD_DISTRICTS, USTA_HOURS, USTA_SPECIALTIES, USTA_VISIT, USTA_YEARS, emptyUsta, moneyText, saveAddForm, ustaPayload, ustaTitle, validateUsta, type UstaInput } from "@/lib/add-forms";
+import { PublishNote } from "@/components/forms/PublishNote";
+import { DraftBanner } from "@/components/forms/DraftBanner";
+import { saveFormP0, useFormDraft } from "@/lib/forms/use-draft";
 import { formatGroupedNumber } from "@/lib/format";
 import { AddPage, AreaField, Banners, Checks, FormActions, LogoPicker, PhoneField, PhotoPicker, ProfileSwitch, SelectField, SourceLinks, Step, TelegramField, TextField, Toggle, type LocalPhoto } from "@/components/add-forms/widgets";
 import { photosFromUrls, resolvePhotos } from "@/components/add-forms/upload-local";
@@ -42,6 +45,7 @@ export function UstaForm() {
   const [note, setNote] = useState("");
   const [fail, setFail] = useState("");
   const [pending, setPending] = useState(false);
+  const draft = useFormDraft("draft:usta", form, !id);
 
   function apply(row: Row) {
     setId(row.id);
@@ -62,6 +66,7 @@ export function UstaForm() {
       instagram: row.instagram ?? "",
       photo: row.photo ?? "",
       works: row.works ?? [],
+      visitMode: "",
     });
     setLogo(row.photo ? photosFromUrls([row.photo])[0] : null);
     setWorks(photosFromUrls(row.works ?? []));
@@ -96,7 +101,7 @@ export function UstaForm() {
   async function save(mode: "draft" | "publish") {
     setNote("");
     setFail("");
-    const found = validateUsta(form, mode);
+    const found = validateUsta({ ...form, photo: logo ? form.photo || "pending" : "" }, mode);
     setErrors(found);
     if (Object.keys(found).length) return;
     setPending(true);
@@ -110,6 +115,10 @@ export function UstaForm() {
         return;
       }
       setId(result.id);
+      if (result.id) {
+        const extra = await saveFormP0("master", result.id, { visitMode: form.visitMode, services: form.services });
+        if (extra.pending) setNote("Profil saqlandi. Qo‘shimcha maydonlar migratsiya qo‘llangach yoziladi.");
+      }
       if (mode === "draft") {
         setNote("Qoralama saqlandi.");
         router.replace(`/ustalar/yangi?id=${result.id}`);
@@ -124,8 +133,9 @@ export function UstaForm() {
   const price = form.priceFrom.trim() ? `${moneyText(form.priceFrom)} so‘mdan` : "Narx kiritilmagan";
 
   return (
-    <AddPage testId="add-usta" title="Usta profili qo‘shish" sub="Xizmatlar · Ustalar" crumbs={[{ href: "/", label: "Bosh sahifa" }, { href: "/ustalar", label: "Ustalar" }, { label: "Usta profili qo‘shish" }]}>
+    <AddPage testId="add-usta" minutes={2} title="Usta profili qo‘shish" sub="Xizmatlar · Ustalar" crumbs={[{ href: "/", label: "Bosh sahifa" }, { href: "/ustalar", label: "Ustalar" }, { label: "Usta profili qo‘shish" }]}>
       <Banners note={note} error={fail} />
+      <DraftBanner draft={draft} onRestore={(value) => setForm(value)} />
       <ProfileSwitch
         active={id}
         onCreate={blank}
@@ -145,24 +155,35 @@ export function UstaForm() {
               <LogoPicker photo={logo} onChange={setLogo} />
               <TextField label="Ustaxona nomi" required testId="usta-name" value={form.name} error={errors.name} placeholder="Ustaxona nomi" onChange={(name) => patch({ name })} />
             </div>
-            <p className="af-label">Mutaxassislik</p>
+            <p className="af-label">Xizmatlar</p>
             <Checks options={USTA_SPECIALTIES} value={form.services} error={errors.services} onChange={(services) => patch({ services })} />
+            <p className="af-label">Joyiga chiqib ishlaysizmi?</p>
+            <div className="af-pills">
+              {USTA_VISIT.map((item) => (
+                <button key={item.id} type="button" className={`af-pill${form.visitMode === item.id ? " on" : ""}`} onClick={() => patch({ visitMode: item.id })}>{item.label}</button>
+              ))}
+            </div>
+            {errors.visitMode ? <p className="af-err">{errors.visitMode}</p> : null}
+            {errors.photo ? <p className="af-err">{errors.photo}</p> : null}
             <div className="af-row">
               <SelectField label="Tajriba" value={form.years} placeholder="Tajribani tanlang" options={USTA_YEARS} onChange={(years) => patch({ years })} />
               <SelectField label="Shahar" required testId="usta-city" value={form.city} error={errors.city} placeholder="Shaharni tanlang" options={ADD_CITIES} onChange={(city) => patch({ city })} />
             </div>
             <div className="af-row">
               <SelectField label="Tuman" testId="usta-district" value={form.district} error={errors.district} placeholder="Tumanni tanlang" options={ADD_DISTRICTS} onChange={(district) => patch({ district })} />
-              <TextField label="Manzil" required testId="usta-address" value={form.address} error={errors.address} placeholder="Ko‘cha, uy" onChange={(address) => patch({ address })} />
+              <TextField label="Manzil" testId="usta-address" value={form.address} error={errors.address} placeholder="Ko‘cha, uy" onChange={(address) => patch({ address })} />
             </div>
-            <SelectField label="Ish vaqti" value={form.hours} placeholder="Ish vaqtini tanlang" options={USTA_HOURS} onChange={(hours) => patch({ hours })} />
-            <div className="af-row" style={{ alignItems: "end" }}>
-              <TextField label="Xizmat narxlari dan" testId="usta-price" value={form.priceFrom} error={errors.priceFrom} placeholder="0" onChange={(priceFrom) => patch({ priceFrom: moneyText(priceFrom) })} />
-              <Toggle on={form.priceNegotiable} label="Narxlar kelishiladi" onChange={(priceNegotiable) => patch({ priceNegotiable })} />
-            </div>
-            <AreaField label="Tavsif" value={form.description} placeholder="Qanday ish qilasiz" onChange={(description) => patch({ description })} />
-            <p className="af-label">Portfolio rasmlar</p>
-            <PhotoPicker photos={works} onChange={setWorks} title="Portfolio rasmi" hint="8 tagacha" />
+            <details className="af-extra">
+              <summary>Qo‘shimcha ma’lumot</summary>
+              <SelectField label="Ish vaqti" value={form.hours} placeholder="Ish vaqtini tanlang" options={USTA_HOURS} onChange={(hours) => patch({ hours })} />
+              <div className="af-row" style={{ alignItems: "end" }}>
+                <TextField label="Xizmat narxlari dan" testId="usta-price" value={form.priceFrom} error={errors.priceFrom} placeholder="0" onChange={(priceFrom) => patch({ priceFrom: moneyText(priceFrom) })} />
+                <Toggle on={form.priceNegotiable} label="Narxlar kelishiladi" onChange={(priceNegotiable) => patch({ priceNegotiable })} />
+              </div>
+              <AreaField label="Tavsif" value={form.description} placeholder="Qanday ish qilasiz" onChange={(description) => patch({ description })} />
+              <p className="af-label">Portfolio rasmlar</p>
+              <PhotoPicker photos={works} onChange={setWorks} title="Portfolio rasmi" hint="8 tagacha" />
+            </details>
           </Step>
           <Step n={3} title="Aloqa">
             <div className="af-row">
@@ -172,7 +193,8 @@ export function UstaForm() {
             <TextField label="Manba yoki sayt havolasi" testId="usta-source" value={form.sourceUrl} error={errors.sourceUrl} placeholder="https://" maxLength={400} onChange={(sourceUrl) => patch({ sourceUrl })} />
             <TextField label="Instagram" testId="usta-instagram" value={form.instagram} error={errors.instagram} placeholder="@username yoki https://" maxLength={200} onChange={(instagram) => patch({ instagram })} />
           </Step>
-          <FormActions pending={pending} draftLabel="Saqlash (qoralama)" publishLabel="Profilni e‘lon qilish" draft={() => void save("draft")} publish={() => void save("publish")} />
+          <PublishNote />
+          <FormActions pending={pending} draftLabel="Saqlash (qoralama)" publishLabel="Profilni joylash" draft={() => void save("draft")} publish={() => void save("publish")} />
         </div>
         <aside className="af-side">
           <article className="af-prev" data-testid="usta-preview">

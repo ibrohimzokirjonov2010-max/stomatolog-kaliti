@@ -3,7 +3,10 @@
 import { useEffect, useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { MapPin } from "lucide-react";
-import { ADD_CITIES, ADD_DISTRICTS, LAB_DAY_LABEL, LAB_DAYS, LAB_MATERIALS, LAB_SPECIALTIES, emptyLab, labPayload, moneyText, saveAddForm, validateLabForm, type LabInput, type LabRow } from "@/lib/add-forms";
+import { ADD_CITIES, ADD_DISTRICTS, LAB_DAY_LABEL, LAB_DAYS, LAB_FLOW, LAB_MATERIALS, LAB_SPECIALTIES, LAB_TURNAROUND, emptyLab, labPayload, moneyText, saveAddForm, validateLabForm, type LabInput, type LabRow } from "@/lib/add-forms";
+import { PublishNote } from "@/components/forms/PublishNote";
+import { DraftBanner } from "@/components/forms/DraftBanner";
+import { saveFormP0, useFormDraft } from "@/lib/forms/use-draft";
 import { AddPage, Banners, Checks, FormActions, LogoPicker, PhoneField, PhotoPicker, ProfileSwitch, SelectField, SourceLinks, Step, TelegramField, TextField, Toggle, type LocalPhoto } from "@/components/add-forms/widgets";
 import { photosFromUrls, resolvePhotos } from "@/components/add-forms/upload-local";
 
@@ -42,6 +45,7 @@ export function LabForm() {
   const [note, setNote] = useState("");
   const [fail, setFail] = useState("");
   const [pending, setPending] = useState(false);
+  const draft = useFormDraft("draft:lab", form, !id);
 
   function apply(row: Stored) {
     setId(row.id);
@@ -105,7 +109,7 @@ export function LabForm() {
   async function save(mode: "draft" | "publish") {
     setNote("");
     setFail("");
-    const found = validateLabForm(form, mode);
+    const found = validateLabForm({ ...form, logo: logo ? form.logo || "pending" : "" }, mode);
     setErrors(found);
     if (Object.keys(found).length) return;
     setPending(true);
@@ -119,6 +123,10 @@ export function LabForm() {
         return;
       }
       setId(result.id);
+      if (result.id) {
+        const extra = await saveFormP0("lab", result.id, { turnaround: form.turnaround, digitalFlow: form.digitalFlow, services: form.services });
+        if (extra.pending) setNote("Profil saqlandi. Qo‘shimcha maydonlar migratsiya qo‘llangach yoziladi.");
+      }
       if (mode === "draft") {
         setNote("Qoralama saqlandi.");
         router.replace(`/laboratoriya/yangi?id=${result.id}`);
@@ -133,8 +141,9 @@ export function LabForm() {
   const names = form.services.map((item) => LAB_SPECIALTIES.find((spec) => spec.id === item)?.label ?? item).join(", ");
 
   return (
-    <AddPage testId="add-lab" title="Laboratoriya qo‘shish" sub="Xizmatlar · Laboratoriyalar" crumbs={[{ href: "/", label: "Bosh sahifa" }, { href: "/laboratoriya", label: "Laboratoriyalar" }, { label: "Laboratoriya qo‘shish" }]}>
+    <AddPage testId="add-lab" minutes={3} title="Laboratoriya qo‘shish" sub="Xizmatlar · Laboratoriyalar" crumbs={[{ href: "/", label: "Bosh sahifa" }, { href: "/laboratoriya", label: "Laboratoriyalar" }, { label: "Laboratoriya qo‘shish" }]}>
       <Banners note={note} error={fail} />
+      <DraftBanner draft={draft} onRestore={(value) => setForm(value)} />
       <ProfileSwitch
         active={id}
         onCreate={blank}
@@ -154,8 +163,23 @@ export function LabForm() {
               <LogoPicker photo={logo} onChange={setLogo} />
               <TextField label="Laboratoriya nomi" required testId="lab-name" value={form.name} error={errors.name} placeholder="Laboratoriya nomi" onChange={(name) => patch({ name })} />
             </div>
-            <p className="af-label">Mutaxassislik</p>
+            <p className="af-label">Ishlar turi</p>
             <Checks options={LAB_SPECIALTIES} value={form.services} error={errors.services} onChange={(services) => patch({ services })} />
+            {errors.logo ? <p className="af-err">{errors.logo}</p> : null}
+            <p className="af-label">Odatda necha kunda tayyor?</p>
+            <div className="af-pills">
+              {LAB_TURNAROUND.map((item) => (
+                <button key={item.id} type="button" className={`af-pill${form.turnaround === item.id ? " on" : ""}`} onClick={() => patch({ turnaround: item.id })}>{item.label}</button>
+              ))}
+            </div>
+            {errors.turnaround ? <p className="af-err">{errors.turnaround}</p> : null}
+            <p className="af-label">Raqamli oqim</p>
+            <div className="af-pills">
+              {LAB_FLOW.map((item) => (
+                <button key={item.id} type="button" className={`af-pill${form.digitalFlow === item.id ? " on" : ""}`} onClick={() => patch({ digitalFlow: item.id })}>{item.label}</button>
+              ))}
+            </div>
+            {errors.digitalFlow ? <p className="af-err">{errors.digitalFlow}</p> : null}
           </Step>
           <Step n={2} title="Xizmatlar va narxlar">
             <table className="af-table">
@@ -182,7 +206,7 @@ export function LabForm() {
               <SelectField label="Shahar" required testId="lab-city" value={form.city} error={errors.city} placeholder="Shaharni tanlang" options={ADD_CITIES} onChange={(city) => patch({ city })} />
               <SelectField label="Tuman" value={form.district} error={errors.district} placeholder="Tumanni tanlang" options={ADD_DISTRICTS} onChange={(district) => patch({ district })} />
             </div>
-            <TextField label="Manzil" required testId="lab-address" value={form.address} error={errors.address} placeholder="Ko‘cha, uy" onChange={(address) => patch({ address })} />
+            <TextField label="Manzil" testId="lab-address" value={form.address} error={errors.address} placeholder="Ko‘cha, uy" onChange={(address) => patch({ address })} />
             <p className="af-label">Ish kunlari</p>
             <div className="af-pills">
               {LAB_DAYS.map((day) => (
@@ -208,7 +232,8 @@ export function LabForm() {
             <TextField label="Manba yoki sayt havolasi" testId="lab-source" value={form.sourceUrl} error={errors.sourceUrl} placeholder="https://" maxLength={400} onChange={(sourceUrl) => patch({ sourceUrl })} />
             <TextField label="Instagram" testId="lab-instagram" value={form.instagram} error={errors.instagram} placeholder="@username yoki https://" maxLength={200} onChange={(instagram) => patch({ instagram })} />
           </Step>
-          <FormActions pending={pending} draftLabel="Saqlash (qoralama)" publishLabel="Laboratoriyani e‘lon qilish" draft={() => void save("draft")} publish={() => void save("publish")} />
+          <PublishNote />
+          <FormActions pending={pending} draftLabel="Saqlash (qoralama)" publishLabel="Laboratoriyani joylash" draft={() => void save("draft")} publish={() => void save("publish")} />
         </div>
         <aside className="af-side">
           <article className="af-prev" data-testid="lab-preview">

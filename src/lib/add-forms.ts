@@ -1,4 +1,5 @@
 import { UZ_REGIONS } from "@/data/regions";
+import { ELON_WEAR, JOB_STYLE, LAB_FLOW, LAB_TURNAROUND, LAB_WORK_CHIPS, USTA_SERVICE_CHIPS, USTA_VISIT } from "@/lib/forms/p0";
 import { formatGroupedNumber } from "@/lib/format";
 import { formatUzPhone, isUzPhone, uzPhoneDigits } from "@/lib/phone-uz";
 import type { FieldErrors } from "@/lib/work-validate";
@@ -9,13 +10,8 @@ export const ADD_DISTRICTS = ["Yunusobod", "Mirzo Ulug‘bek", "Mirobod", "Yakka
 
 export const ELON_CATEGORIES = ["Uskunalar", "Asboblar", "Materiallar", "Ijara", "Boshqa"] as const;
 
-export const USTA_SPECIALTIES = [
-  { id: "unit", label: "Unit ta‘mirlash" },
-  { id: "kompressor", label: "Kompressor" },
-  { id: "rentgen", label: "Rentgen" },
-  { id: "avtoklav", label: "Avtoklav" },
-  { id: "turbina", label: "Turbina" },
-] as const;
+export const USTA_SPECIALTIES = USTA_SERVICE_CHIPS;
+export { USTA_VISIT, LAB_TURNAROUND, LAB_FLOW, LAB_WORK_CHIPS, JOB_STYLE, ELON_WEAR };
 
 export const USTA_HOURS = ["Du–Sha, 09:00–18:00", "Du–Sha, 08:00–20:00", "Du–Juma, 09:00–18:00", "Har kuni, 09:00–21:00"] as const;
 
@@ -28,14 +24,7 @@ export const USTA_YEARS = [
   { id: "10", label: "10+ yil" },
 ] as const;
 
-export const LAB_SPECIALTIES = [
-  { id: "crown", label: "Krona" },
-  { id: "veneer", label: "Vinir" },
-  { id: "implant", label: "Implant" },
-  { id: "removable", label: "Protez" },
-  { id: "ortodontiya", label: "Ortodontiya" },
-  { id: "cadcam", label: "CAD/CAM" },
-] as const;
+export const LAB_SPECIALTIES = LAB_WORK_CHIPS;
 
 export const LAB_MATERIALS = [
   { id: "zirconia", label: "Zirkon" },
@@ -50,12 +39,7 @@ export const LAB_MATERIALS = [
 export const LAB_DAYS = ["du", "se", "ch", "pa", "ju", "sh", "ya"] as const;
 export const LAB_DAY_LABEL: Record<(typeof LAB_DAYS)[number], string> = { du: "Du", se: "Se", ch: "Ch", pa: "Pa", ju: "Ju", sh: "Sh", ya: "Ya" };
 
-export const JOB_TYPES = [
-  { id: "full", label: "To‘liq stavka" },
-  { id: "part", label: "Yarim stavka" },
-  { id: "shift", label: "Smena" },
-  { id: "amaliyot", label: "Amaliyot" },
-] as const;
+export const JOB_TYPES = JOB_STYLE;
 
 export const JOB_EXPERIENCE = [
   { id: "0", label: "Tajriba talab qilinmaydi" },
@@ -203,6 +187,7 @@ export function validateElon(input: ElonInput, mode: "draft" | "publish"): Field
   if (input.phone && !isUzPhone(input.phone)) errors.phone = "Telefon raqamini to‘liq kiriting yoki bo‘sh qoldiring.";
   if (input.telegram && telegramHandle(input.telegram).length < 3) errors.telegram = "Telegram manzilini to‘g‘ri kiriting.";
   if (input.description.trim().length > 0 && input.description.trim().length < 10) errors.description = "Tavsif kamida 10 ta belgi bo‘lsin yoki bo‘sh qoldiring.";
+  if (input.photos.filter(Boolean).length < 3) errors.photos = "Yana rasm qo‘shing — kamida 3 ta. Xaridor uskunani har tomondan ko‘rishni xohlaydi.";
   requireChannel(input, errors);
   return errors;
 }
@@ -244,10 +229,11 @@ export type UstaInput = {
   instagram: string;
   photo: string;
   works: string[];
+  visitMode: string;
 };
 
 export function emptyUsta(): UstaInput {
-  return { name: "", services: [], years: "", city: "", district: "", address: "", hours: "", priceFrom: "", priceNegotiable: false, description: "", phone: "", telegram: "", sourceUrl: "", instagram: "", photo: "", works: [] };
+  return { name: "", services: [], years: "", city: "", district: "", address: "", hours: "", priceFrom: "", priceNegotiable: false, description: "", phone: "", telegram: "", sourceUrl: "", instagram: "", photo: "", works: [], visitMode: "" };
 }
 
 export function ustaTitle(services: string[]) {
@@ -258,10 +244,12 @@ export function validateUsta(input: UstaInput, mode: "draft" | "publish"): Field
   const errors: FieldErrors = {};
   sourceError(input.sourceUrl, errors);
   instagramError(input.instagram, errors);
-  if (input.name.trim().length < 2) errors.name = "Ustaxona nomini kiriting.";
+  if (input.name.trim().length < 2) errors.name = "Ismingiz yoki ustaxona nomini yozing — mijozlar sizni shunday topadi.";
   if (mode === "draft") return errors;
   if (!input.city) errors.city = "Shaharni tanlang.";
-  if (input.address.trim().length < 3) errors.address = "Manzilni kiriting.";
+  if (!input.services.length) errors.services = "Kamida bitta xizmatni tanlang.";
+  if (!USTA_VISIT.some((item) => item.id === input.visitMode)) errors.visitMode = "Joyiga chiqib ishlaysizmi — bittasini tanlang.";
+  if (!input.photo) errors.photo = "Rasm qo‘shing — rasmli profilga ko‘proq murojaat bo‘ladi.";
   if (input.phone && !isUzPhone(input.phone)) errors.phone = "Telefon raqamini to‘liq kiriting yoki bo‘sh qoldiring.";
   if (input.telegram && telegramHandle(input.telegram).length < 3) errors.telegram = "Telegram manzilini to‘g‘ri kiriting.";
   if (input.priceFrom && !moneyDigits(input.priceFrom)) errors.priceFrom = "Narxni raqam bilan kiriting.";
@@ -316,6 +304,8 @@ export type LabInput = {
   instagram: string;
   logo: string;
   photos: string[];
+  turnaround: string;
+  digitalFlow: string;
 };
 
 export function emptyLab(): LabInput {
@@ -338,6 +328,8 @@ export function emptyLab(): LabInput {
     instagram: "",
     logo: "",
     photos: [],
+    turnaround: "",
+    digitalFlow: "",
   };
 }
 
@@ -347,9 +339,11 @@ export function validateLabForm(input: LabInput, mode: "draft" | "publish"): Fie
   instagramError(input.instagram, errors);
   if (input.name.trim().length < 2) errors.name = "Laboratoriya nomini kiriting.";
   if (mode === "draft") return errors;
-  if (!input.services.length) errors.services = "Kamida bitta mutaxassislikni tanlang.";
+  if (!input.services.length) errors.services = "Kamida bitta ish turini tanlang.";
   if (!input.city) errors.city = "Shaharni tanlang.";
-  if (input.address.trim().length < 3) errors.address = "Manzilni kiriting.";
+  if (!input.logo) errors.logo = "Logo yoki laboratoriya rasmini qo‘shing.";
+  if (!LAB_TURNAROUND.some((item) => item.id === input.turnaround)) errors.turnaround = "Odatda ish necha kunda tayyor bo‘ladi? Shifokorlar uchun bu eng muhim ma’lumot.";
+  if (!LAB_FLOW.some((item) => item.id === input.digitalFlow)) errors.digitalFlow = "Raqamli oqimni tanlang: STL, qolip yoki ikkalasi.";
   if (!input.weekdays.length) errors.weekdays = "Ish kunlarini tanlang.";
   if (input.phone && !isUzPhone(input.phone)) errors.phone = "Telefon raqamini to‘liq kiriting yoki bo‘sh qoldiring.";
   if (input.telegram && telegramHandle(input.telegram).length < 3) errors.telegram = "Telegram manzilini to‘g‘ri kiriting.";
@@ -396,7 +390,7 @@ export function labPayload(input: LabInput, mode: "draft" | "publish", id?: stri
     district: clip(input.district, 60),
     services: input.services,
     materials: input.materials,
-    description: "",
+    description: [LAB_TURNAROUND.find((item) => item.id === input.turnaround)?.label, LAB_FLOW.find((item) => item.id === input.digitalFlow)?.label].filter(Boolean).join(" · ").slice(0, 600),
     days: days.length ? Math.min(...days) : null,
     priceFrom: prices.length ? Math.min(...prices) : null,
     photo: input.photos[0] ?? "",
@@ -440,12 +434,13 @@ export type JobInput = {
   sourceUrl: string;
   instagram: string;
   acceptApplications: boolean;
+  salaryMode: string;
 };
 
 export function emptyJob(): JobInput {
   return {
     title: "", clinic: "", city: "", district: "", address: "", type: "full", salaryMin: "", salaryMax: "", negotiable: false,
-    experienceYears: "0", requirements: "", duties: "", benefits: [], benefitNote: "", phone: "", telegram: "", email: "", sourceUrl: "", instagram: "", acceptApplications: true,
+    experienceYears: "0", requirements: "", duties: "", benefits: [], benefitNote: "", phone: "", telegram: "", email: "", sourceUrl: "", instagram: "", acceptApplications: true, salaryMode: "amount",
   };
 }
 
@@ -460,9 +455,12 @@ export function validateJobForm(input: JobInput, mode: "draft" | "publish"): Fie
   if (!JOB_TYPES.some((item) => item.id === input.type)) errors.type = "Bandlik turini tanlang.";
   const min = moneyNumber(input.salaryMin);
   const max = moneyNumber(input.salaryMax);
-  if (!input.negotiable && min == null && max == null) errors.salaryMin = "Maoshni kiriting yoki Kelishiladi ni belgilang.";
-  if (min != null && max != null && max < min) errors.salaryMax = "Maksimal maosh minimaldan kam bo‘lmasin.";
-  if (input.requirements.trim().length < 10) errors.requirements = "Talablarni yozing (kamida 10 belgi).";
+  if (input.salaryMode === "percent") {
+    const percent = Number(input.salaryMin.replace(/\D/g, ""));
+    if (!Number.isInteger(percent) || percent < 1 || percent > 90) errors.salaryMin = "Foizni 1 dan 90 gacha kiriting.";
+  } else if (!input.negotiable && min == null && max == null) errors.salaryMin = "Maosh oralig‘ini yozing yoki Kelishiladi ni tanlang. Maosh ko‘rsatilgan vakansiyalar ko‘proq javob oladi.";
+  if (min != null && max != null && max < min && input.salaryMode !== "percent") errors.salaryMax = "Boshlang‘ich summa yuqori summadan katta bo‘lmasin.";
+  if (/oldindan to‘lov|oldindan tolov|o‘qish uchun to‘lov/i.test(`${input.requirements} ${input.duties}`)) errors.requirements = "Nomzoddan pul so‘rash qoidalarimizga zid. Iltimos, matnni o‘zgartiring.";
   if (input.phone && !isUzPhone(input.phone)) errors.phone = "Telefon raqamini to‘liq kiriting yoki bo‘sh qoldiring.";
   if (input.telegram && telegramHandle(input.telegram).length < 3) errors.telegram = "Telegram manzilini to‘g‘ri kiriting.";
   if (input.email && !emailOk(input.email.trim())) errors.email = "Email manzilini to‘g‘ri kiriting.";
@@ -481,7 +479,9 @@ export function validateJobForm(input: JobInput, mode: "draft" | "publish"): Fie
 export function jobPayload(input: JobInput, mode: "draft" | "publish", id?: string) {
   const requirements = input.requirements.split("\n").map((line) => line.trim()).filter(Boolean).slice(0, 8);
   const duties = input.duties.split("\n").map((line) => line.trim()).filter(Boolean).slice(0, 8);
+  const percent = input.salaryMode === "percent" ? input.salaryMin.replace(/\D/g, "") : "";
   const description = [
+    percent ? `Maosh: ish haqining ${percent}%` : "",
     input.requirements.trim() ? `Talablar:\n${input.requirements.trim()}` : "",
     input.duties.trim() ? `Majburiyatlar:\n${input.duties.trim()}` : "",
   ].filter(Boolean).join("\n\n").slice(0, 2000);
@@ -494,9 +494,9 @@ export function jobPayload(input: JobInput, mode: "draft" | "publish", id?: stri
     district: clip(input.district, 60),
     address: clip(input.address, 200),
     type: input.type || "full",
-    salaryMin: moneyNumber(input.salaryMin),
-    salaryMax: moneyNumber(input.salaryMax),
-    salaryNegotiable: input.negotiable,
+    salaryMin: input.salaryMode === "percent" ? null : moneyNumber(input.salaryMin),
+    salaryMax: input.salaryMode === "percent" ? null : moneyNumber(input.salaryMax),
+    salaryNegotiable: input.salaryMode === "negotiable" || input.negotiable,
     experienceYears: Number(input.experienceYears || 0),
     description: description || clip(input.title, 100),
     requirements: requirements.length ? requirements : input.requirements.trim() ? [clip(input.requirements, 160)] : [],
