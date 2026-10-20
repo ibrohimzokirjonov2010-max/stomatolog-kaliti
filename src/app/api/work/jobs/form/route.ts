@@ -29,6 +29,7 @@ export async function POST(request: Request) {
     phone: String(body.phone ?? ""),
     telegram: String(body.telegram ?? ""),
     email: String(body.email ?? ""),
+    sourceUrl: String(body.sourceUrl ?? ""),
     acceptApplications: body.acceptApplications !== false,
   };
   const errors = validateJobForm(input, mode);

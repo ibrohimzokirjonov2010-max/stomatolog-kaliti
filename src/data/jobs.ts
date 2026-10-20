@@ -77,6 +77,7 @@ export type Job = {
   benefitNote?: string | null;
   telegram?: string | null;
   email?: string | null;
+  sourceUrl?: string | null;
 };
 
 export type Candidate = {

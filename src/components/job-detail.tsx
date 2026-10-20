@@ -15,6 +15,7 @@ import {
   type JobType,
 } from "@/data/jobs";
 import { formatSalaryRange } from "@/lib/format";
+import { sourceUrlValue } from "@/lib/add-forms";
 import { ClinicInitials } from "@/components/clinic-initials";
 import { cn } from "@/lib/utils";
 
@@ -151,7 +152,7 @@ export function JobDetail({ id }: { id: string }) {
           <p className="mt-2 whitespace-pre-line text-sm leading-relaxed text-[#4b5568]">{job.description}</p>
         </div>
 
-        {job.phone || job.telegram || job.email ? (
+        {job.phone || job.telegram || job.email || sourceUrlValue(job.sourceUrl ?? "") ? (
           <p className="mt-4 inline-flex flex-wrap items-center gap-2 text-sm text-[#4b5568]">
             <Phone className="size-4 text-primary" />
             {job.phone ? (
@@ -161,6 +162,11 @@ export function JobDetail({ id }: { id: string }) {
             ) : null}
             {job.telegram ? <span>@{job.telegram.replace(/^@/, "")}</span> : null}
             {job.email ? <span>{job.email}</span> : null}
+            {sourceUrlValue(job.sourceUrl ?? "") ? (
+              <a href={sourceUrlValue(job.sourceUrl ?? "")} target="_blank" rel="noopener nofollow" className="font-medium text-primary hover:underline break-all" data-testid="job-source">
+                {sourceUrlValue(job.sourceUrl ?? "")}
+              </a>
+            ) : null}
             {job.mine ? <Link href={`/ishlar/yangi?id=${job.id}`} className="font-semibold text-primary">Tahrirlash</Link> : null}
           </p>
         ) : null}

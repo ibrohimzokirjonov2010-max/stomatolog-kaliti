@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { MapPin } from "lucide-react";
-import { ADD_CITIES, ADD_DISTRICTS, LAB_DAY_LABEL, LAB_DAYS, LAB_MATERIALS, LAB_SPECIALTIES, emptyLab, labPayload, moneyText, saveAddForm, validateLabForm, type LabInput, type LabRow } from "@/lib/add-forms";
+import { ADD_CITIES, ADD_DISTRICTS, LAB_DAY_LABEL, LAB_DAYS, LAB_MATERIALS, LAB_SPECIALTIES, emptyLab, labPayload, moneyText, saveAddForm, sourceUrlValue, validateLabForm, type LabInput, type LabRow } from "@/lib/add-forms";
 import { AddPage, Banners, Checks, FormActions, LogoPicker, PhoneField, PhotoPicker, ProfileSwitch, SelectField, Step, TelegramField, TextField, Toggle, type LocalPhoto } from "@/components/add-forms/widgets";
 import { photosFromUrls, resolvePhotos } from "@/components/add-forms/upload-local";
 
@@ -22,6 +22,7 @@ type Stored = {
   phone?: string;
   telegram?: string;
   email?: string;
+  sourceUrl?: string | null;
   logo?: string | null;
   photos?: string[];
   priceItems?: { id?: string; service?: string; title?: string; material?: string; price?: number | null; days?: number | null; daysMin?: number | null; tags?: string[] }[];
@@ -66,6 +67,7 @@ export function LabForm() {
       phone: row.phone ?? "",
       telegram: row.telegram ?? "",
       email: row.email ?? "",
+      sourceUrl: row.sourceUrl ?? "",
       logo: row.logo ?? "",
       photos: row.photos ?? [],
     });
@@ -127,6 +129,7 @@ export function LabForm() {
   }
 
   const names = form.services.map((item) => LAB_SPECIALTIES.find((spec) => spec.id === item)?.label ?? item).join(", ");
+  const source = sourceUrlValue(form.sourceUrl);
 
   return (
     <AddPage testId="add-lab" title="Laboratoriya qo‘shish" sub="Xizmatlar · Laboratoriyalar" crumbs={[{ href: "/", label: "Bosh sahifa" }, { href: "/laboratoriya", label: "Laboratoriyalar" }, { label: "Laboratoriya qo‘shish" }]}>
@@ -176,7 +179,7 @@ export function LabForm() {
           <Step n={3} title="Manzil va ish tartibi">
             <div className="af-row">
               <SelectField label="Shahar" required testId="lab-city" value={form.city} error={errors.city} placeholder="Shaharni tanlang" options={ADD_CITIES} onChange={(city) => patch({ city })} />
-              <SelectField label="Tuman" required value={form.district} error={errors.district} placeholder="Tumanni tanlang" options={ADD_DISTRICTS} onChange={(district) => patch({ district })} />
+              <SelectField label="Tuman" value={form.district} error={errors.district} placeholder="Tumanni tanlang" options={ADD_DISTRICTS} onChange={(district) => patch({ district })} />
             </div>
             <TextField label="Manzil" required testId="lab-address" value={form.address} error={errors.address} placeholder="Ko‘cha, uy" onChange={(address) => patch({ address })} />
             <p className="af-label">Ish kunlari</p>
@@ -197,10 +200,12 @@ export function LabForm() {
           </Step>
           <Step n={5} title="Aloqa">
             <div className="af-row">
-              <PhoneField required testId="lab-phone" value={form.phone} error={errors.phone} onChange={(phone) => patch({ phone })} />
-              <TelegramField value={form.telegram} onChange={(telegram) => patch({ telegram })} />
+              <PhoneField testId="lab-phone" value={form.phone} error={errors.phone} onChange={(phone) => patch({ phone })} />
+              <TelegramField value={form.telegram} error={errors.telegram} onChange={(telegram) => patch({ telegram })} />
             </div>
             <TextField label="Email" testId="lab-email" value={form.email} error={errors.email} placeholder="lab@example.com" onChange={(email) => patch({ email })} />
+            <TextField label="Manba yoki sayt havolasi" testId="lab-source" value={form.sourceUrl} error={errors.sourceUrl} placeholder="https://" maxLength={400} onChange={(sourceUrl) => patch({ sourceUrl })} />
+            {errors.contact ? <p className="af-err" data-testid="lab-contact-error">{errors.contact}</p> : null}
           </Step>
           <FormActions pending={pending} draftLabel="Saqlash (qoralama)" publishLabel="Laboratoriyani e‘lon qilish" draft={() => void save("draft")} publish={() => void save("publish")} />
         </div>
@@ -216,6 +221,7 @@ export function LabForm() {
                 <p key={row.key} className="af-line">{row.service}{row.price ? ` · ${row.price} so‘m` : ""}{row.days ? ` · ${row.days} kun` : ""}</p>
               ))}
               <p className="af-line">{form.phone.trim() || "Telefon"}{form.email.trim() ? ` · ${form.email.trim()}` : ""}</p>
+              {source ? <a className="af-source" href={source} target="_blank" rel="noopener nofollow">{source}</a> : null}
               <button type="button" className="af-msg blue">Buyurtma berish</button>
             </div>
           </article>

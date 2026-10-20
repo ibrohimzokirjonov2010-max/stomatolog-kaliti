@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { MapPin } from "lucide-react";
-import { ADD_CITIES, ADD_DISTRICTS, USTA_HOURS, USTA_SPECIALTIES, USTA_YEARS, emptyUsta, moneyText, saveAddForm, ustaPayload, ustaTitle, validateUsta, type UstaInput } from "@/lib/add-forms";
+import { ADD_CITIES, ADD_DISTRICTS, USTA_HOURS, USTA_SPECIALTIES, USTA_YEARS, emptyUsta, moneyText, saveAddForm, sourceUrlValue, ustaPayload, ustaTitle, validateUsta, type UstaInput } from "@/lib/add-forms";
 import { formatGroupedNumber } from "@/lib/format";
 import { AddPage, AreaField, Banners, Checks, FormActions, LogoPicker, PhoneField, PhotoPicker, ProfileSwitch, SelectField, Step, TelegramField, TextField, Toggle, type LocalPhoto } from "@/components/add-forms/widgets";
 import { photosFromUrls, resolvePhotos } from "@/components/add-forms/upload-local";
@@ -23,6 +23,7 @@ type Row = {
   description?: string;
   phone?: string;
   telegram?: string;
+  sourceUrl?: string | null;
   photo?: string | null;
   works?: string[];
   status?: string;
@@ -56,6 +57,7 @@ export function UstaForm() {
       description: row.description ?? "",
       phone: row.phone ?? "",
       telegram: row.telegram ?? "",
+      sourceUrl: row.sourceUrl ?? "",
       photo: row.photo ?? "",
       works: row.works ?? [],
     });
@@ -118,6 +120,7 @@ export function UstaForm() {
   }
 
   const price = form.priceFrom.trim() ? `${moneyText(form.priceFrom)} so‘mdan` : "Narx kiritilmagan";
+  const source = sourceUrlValue(form.sourceUrl);
 
   return (
     <AddPage testId="add-usta" title="Usta profili qo‘shish" sub="Xizmatlar · Ustalar" crumbs={[{ href: "/", label: "Bosh sahifa" }, { href: "/ustalar", label: "Ustalar" }, { label: "Usta profili qo‘shish" }]}>
@@ -148,7 +151,7 @@ export function UstaForm() {
               <SelectField label="Shahar" required testId="usta-city" value={form.city} error={errors.city} placeholder="Shaharni tanlang" options={ADD_CITIES} onChange={(city) => patch({ city })} />
             </div>
             <div className="af-row">
-              <SelectField label="Tuman" required testId="usta-district" value={form.district} error={errors.district} placeholder="Tumanni tanlang" options={ADD_DISTRICTS} onChange={(district) => patch({ district })} />
+              <SelectField label="Tuman" testId="usta-district" value={form.district} error={errors.district} placeholder="Tumanni tanlang" options={ADD_DISTRICTS} onChange={(district) => patch({ district })} />
               <TextField label="Manzil" required testId="usta-address" value={form.address} error={errors.address} placeholder="Ko‘cha, uy" onChange={(address) => patch({ address })} />
             </div>
             <SelectField label="Ish vaqti" value={form.hours} placeholder="Ish vaqtini tanlang" options={USTA_HOURS} onChange={(hours) => patch({ hours })} />
@@ -162,9 +165,11 @@ export function UstaForm() {
           </Step>
           <Step n={3} title="Aloqa">
             <div className="af-row">
-              <PhoneField required testId="usta-phone" value={form.phone} error={errors.phone} onChange={(phone) => patch({ phone })} />
-              <TelegramField testId="usta-tg" value={form.telegram} onChange={(telegram) => patch({ telegram })} />
+              <PhoneField testId="usta-phone" value={form.phone} error={errors.phone} onChange={(phone) => patch({ phone })} />
+              <TelegramField testId="usta-tg" value={form.telegram} error={errors.telegram} onChange={(telegram) => patch({ telegram })} />
             </div>
+            <TextField label="Manba yoki sayt havolasi" testId="usta-source" value={form.sourceUrl} error={errors.sourceUrl} placeholder="https://" maxLength={400} onChange={(sourceUrl) => patch({ sourceUrl })} />
+            {errors.contact ? <p className="af-err" data-testid="usta-contact-error">{errors.contact}</p> : null}
           </Step>
           <FormActions pending={pending} draftLabel="Saqlash (qoralama)" publishLabel="Profilni e‘lon qilish" draft={() => void save("draft")} publish={() => void save("publish")} />
         </div>
@@ -181,6 +186,7 @@ export function UstaForm() {
               <p className="muted">{form.hours || "Ish vaqti"}</p>
               <p className="muted">{form.description.trim() || "Tavsif shu yerda ko‘rinadi."}</p>
               <p className="af-line">{form.phone.trim() || "Telefon"}{form.telegram.trim() ? ` · @${form.telegram.replace(/^@/, "")}` : ""}</p>
+              {source ? <a className="af-source" href={source} target="_blank" rel="noopener nofollow">{source}</a> : null}
               <button type="button" className="af-msg blue">Xabar yozish</button>
             </div>
           </article>

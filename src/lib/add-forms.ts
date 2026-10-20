@@ -98,6 +98,40 @@ function emailOk(value: string) {
   return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value);
 }
 
+/** Empty is allowed. A filled value must be an http(s) URL of at most 400 characters. */
+export function sourceUrlValue(value: string) {
+  const raw = value.trim();
+  if (!raw || raw.length > 400 || /\s/.test(raw)) return "";
+  try {
+    const url = new URL(raw);
+    if (url.protocol !== "http:" && url.protocol !== "https:") return "";
+    if (!url.hostname) return "";
+    return raw;
+  } catch {
+    return "";
+  }
+}
+
+function sourceError(value: string, errors: FieldErrors) {
+  const raw = value.trim();
+  if (!raw) return;
+  if (raw.length > 400) errors.sourceUrl = "Havola 400 belgidan oshmasin.";
+  else if (!sourceUrlValue(raw)) errors.sourceUrl = "Havola http:// yoki https:// bilan boshlansin.";
+}
+
+function reached(phone: string, telegram: string, email: string, sourceUrl: string, apply = false) {
+  return isUzPhone(phone) || telegramHandle(telegram).length >= 3 || emailOk(email.trim()) || Boolean(sourceUrlValue(sourceUrl)) || apply;
+}
+
+function partialContact(phone: string, telegram: string, email: string, sourceUrl: string) {
+  return Boolean(
+    (phone.trim() && !isUzPhone(phone))
+    || (telegram.trim() && telegramHandle(telegram).length < 3)
+    || (email.trim() && !emailOk(email.trim()))
+    || (sourceUrl.trim() && !sourceUrlValue(sourceUrl)),
+  );
+}
+
 export type ElonInput = {
   title: string;
   category: string;
@@ -109,15 +143,17 @@ export type ElonInput = {
   district: string;
   phone: string;
   telegram: string;
+  sourceUrl: string;
   photos: string[];
 };
 
 export function emptyElon(): ElonInput {
-  return { title: "", category: "", condition: "yangi", price: "", negotiable: false, description: "", city: "", district: "", phone: "", telegram: "", photos: [] };
+  return { title: "", category: "", condition: "yangi", price: "", negotiable: false, description: "", city: "", district: "", phone: "", telegram: "", sourceUrl: "", photos: [] };
 }
 
 export function validateElon(input: ElonInput, mode: "draft" | "publish"): FieldErrors {
   const errors: FieldErrors = {};
+  sourceError(input.sourceUrl, errors);
   if (mode === "draft") {
     if (input.title.trim().length < 2) errors.title = "Qoralama uchun sarlavha kiriting.";
     return errors;
@@ -127,9 +163,12 @@ export function validateElon(input: ElonInput, mode: "draft" | "publish"): Field
   if (!input.city) errors.city = "Shaharni tanlang.";
   if (!input.negotiable && !moneyDigits(input.price)) errors.price = "Narxni kiriting yoki Kelishiladi ni belgilang.";
   if (input.price && !moneyDigits(input.price)) errors.price = "Narxni raqam bilan kiriting.";
-  if (!isUzPhone(input.phone)) errors.phone = "Telefon raqamini to‘liq kiriting.";
+  if (input.phone && !isUzPhone(input.phone)) errors.phone = "Telefon raqamini to‘liq kiriting yoki bo‘sh qoldiring.";
   if (input.telegram && telegramHandle(input.telegram).length < 3) errors.telegram = "Telegram manzilini to‘g‘ri kiriting.";
   if (input.description.trim().length > 0 && input.description.trim().length < 10) errors.description = "Tavsif kamida 10 ta belgi bo‘lsin yoki bo‘sh qoldiring.";
+  if (!reached(input.phone, input.telegram, "", input.sourceUrl) && !partialContact(input.phone, input.telegram, "", input.sourceUrl)) {
+    errors.contact = "Telefon, Telegram yoki manba havolasidan bittasini kiriting.";
+  }
   return errors;
 }
 
@@ -147,6 +186,7 @@ export function elonPayload(input: ElonInput, mode: "draft" | "publish", id?: st
     district: clip(input.district, 60),
     phone: formatUzPhone(input.phone),
     telegram: telegramHandle(input.telegram),
+    sourceUrl: sourceUrlValue(input.sourceUrl),
     photos: input.photos.slice(0, 8),
   };
 }
@@ -164,12 +204,13 @@ export type UstaInput = {
   description: string;
   phone: string;
   telegram: string;
+  sourceUrl: string;
   photo: string;
   works: string[];
 };
 
 export function emptyUsta(): UstaInput {
-  return { name: "", services: [], years: "", city: "", district: "", address: "", hours: "", priceFrom: "", priceNegotiable: false, description: "", phone: "", telegram: "", photo: "", works: [] };
+  return { name: "", services: [], years: "", city: "", district: "", address: "", hours: "", priceFrom: "", priceNegotiable: false, description: "", phone: "", telegram: "", sourceUrl: "", photo: "", works: [] };
 }
 
 export function ustaTitle(services: string[]) {
@@ -178,14 +219,17 @@ export function ustaTitle(services: string[]) {
 
 export function validateUsta(input: UstaInput, mode: "draft" | "publish"): FieldErrors {
   const errors: FieldErrors = {};
+  sourceError(input.sourceUrl, errors);
   if (input.name.trim().length < 2) errors.name = "Ustaxona nomini kiriting.";
   if (mode === "draft") return errors;
-  if (!input.services.length) errors.services = "Kamida bitta mutaxassislikni tanlang.";
   if (!input.city) errors.city = "Shaharni tanlang.";
-  if (!input.district) errors.district = "Tumanni tanlang.";
   if (input.address.trim().length < 3) errors.address = "Manzilni kiriting.";
-  if (!isUzPhone(input.phone)) errors.phone = "Telefon raqamini to‘liq kiriting.";
+  if (input.phone && !isUzPhone(input.phone)) errors.phone = "Telefon raqamini to‘liq kiriting yoki bo‘sh qoldiring.";
+  if (input.telegram && telegramHandle(input.telegram).length < 3) errors.telegram = "Telegram manzilini to‘g‘ri kiriting.";
   if (input.priceFrom && !moneyDigits(input.priceFrom)) errors.priceFrom = "Narxni raqam bilan kiriting.";
+  if (!reached(input.phone, input.telegram, "", input.sourceUrl) && !partialContact(input.phone, input.telegram, "", input.sourceUrl)) {
+    errors.contact = "Telefon, Telegram yoki manba havolasidan bittasini kiriting.";
+  }
   return errors;
 }
 
@@ -208,6 +252,7 @@ export function ustaPayload(input: UstaInput, mode: "draft" | "publish", id?: st
     description: clip(input.description, 600),
     phone: formatUzPhone(input.phone),
     telegram: telegramHandle(input.telegram),
+    sourceUrl: sourceUrlValue(input.sourceUrl),
     photo: input.photo,
     works: input.works.slice(0, 8),
   };
@@ -230,6 +275,7 @@ export type LabInput = {
   phone: string;
   telegram: string;
   email: string;
+  sourceUrl: string;
   logo: string;
   photos: string[];
 };
@@ -250,6 +296,7 @@ export function emptyLab(): LabInput {
     phone: "",
     telegram: "",
     email: "",
+    sourceUrl: "",
     logo: "",
     photos: [],
   };
@@ -257,17 +304,21 @@ export function emptyLab(): LabInput {
 
 export function validateLabForm(input: LabInput, mode: "draft" | "publish"): FieldErrors {
   const errors: FieldErrors = {};
+  sourceError(input.sourceUrl, errors);
   if (input.name.trim().length < 2) errors.name = "Laboratoriya nomini kiriting.";
   if (mode === "draft") return errors;
   if (!input.services.length) errors.services = "Kamida bitta mutaxassislikni tanlang.";
   if (!input.city) errors.city = "Shaharni tanlang.";
-  if (!input.district) errors.district = "Tumanni tanlang.";
   if (input.address.trim().length < 3) errors.address = "Manzilni kiriting.";
   if (!input.weekdays.length) errors.weekdays = "Ish kunlarini tanlang.";
-  if (!isUzPhone(input.phone)) errors.phone = "Telefon raqamini to‘liq kiriting.";
+  if (input.phone && !isUzPhone(input.phone)) errors.phone = "Telefon raqamini to‘liq kiriting yoki bo‘sh qoldiring.";
+  if (input.telegram && telegramHandle(input.telegram).length < 3) errors.telegram = "Telegram manzilini to‘g‘ri kiriting.";
   if (input.email && !emailOk(input.email.trim())) errors.email = "Email manzilini to‘g‘ri kiriting.";
   const badRow = input.rows.some((row) => (row.service || row.material || row.price || row.days) && row.service.trim().length < 2);
   if (badRow) errors.rows = "Xizmat turini kiriting yoki qatorni o‘chiring.";
+  if (!reached(input.phone, input.telegram, input.email, input.sourceUrl) && !partialContact(input.phone, input.telegram, input.email, input.sourceUrl)) {
+    errors.contact = "Telefon, Telegram, email yoki manba havolasidan bittasini kiriting.";
+  }
   return errors;
 }
 
@@ -314,6 +365,7 @@ export function labPayload(input: LabInput, mode: "draft" | "publish", id?: stri
     phone: formatUzPhone(input.phone),
     telegram: telegramHandle(input.telegram),
     email: clip(input.email, 120),
+    sourceUrl: sourceUrlValue(input.sourceUrl),
     logo: input.logo,
     photos: input.photos.slice(0, 8),
     portfolio: input.photos.slice(0, 8),
@@ -346,38 +398,36 @@ export type JobInput = {
   phone: string;
   telegram: string;
   email: string;
+  sourceUrl: string;
   acceptApplications: boolean;
 };
 
 export function emptyJob(): JobInput {
   return {
     title: "", clinic: "", city: "", district: "", address: "", type: "full", salaryMin: "", salaryMax: "", negotiable: false,
-    experienceYears: "0", requirements: "", duties: "", benefits: [], benefitNote: "", phone: "", telegram: "", email: "", acceptApplications: true,
+    experienceYears: "0", requirements: "", duties: "", benefits: [], benefitNote: "", phone: "", telegram: "", email: "", sourceUrl: "", acceptApplications: true,
   };
 }
 
 export function validateJobForm(input: JobInput, mode: "draft" | "publish"): FieldErrors {
   const errors: FieldErrors = {};
+  sourceError(input.sourceUrl, errors);
   if (input.title.trim().length < 3) errors.title = mode === "draft" ? "Qoralama uchun lavozim nomini kiriting." : "Lavozim nomini kiriting (kamida 3 belgi).";
   if (mode === "draft") return errors;
   if (input.clinic.trim().length < 2) errors.clinic = "Klinika nomini kiriting.";
   if (!input.city) errors.city = "Shaharni tanlang.";
-  if (!input.district) errors.district = "Tumanni tanlang.";
-  if (input.address.trim().length < 3) errors.address = "Manzilni kiriting.";
   if (!JOB_TYPES.some((item) => item.id === input.type)) errors.type = "Bandlik turini tanlang.";
   const min = moneyNumber(input.salaryMin);
   const max = moneyNumber(input.salaryMax);
   if (!input.negotiable && min == null && max == null) errors.salaryMin = "Maoshni kiriting yoki Kelishiladi ni belgilang.";
   if (min != null && max != null && max < min) errors.salaryMax = "Maksimal maosh minimaldan kam bo‘lmasin.";
   if (input.requirements.trim().length < 10) errors.requirements = "Talablarni yozing (kamida 10 belgi).";
-  if (input.duties.trim().length < 10) errors.duties = "Majburiyatlarni yozing (kamida 10 belgi).";
-  const phone = isUzPhone(input.phone);
-  const tg = telegramHandle(input.telegram).length >= 3;
-  const email = emailOk(input.email.trim());
-  if (!phone && !tg && !email) errors.contact = "Kamida bitta aloqa usulini kiriting: telefon, Telegram yoki email.";
-  if (input.phone && !phone) errors.phone = "Telefon raqamini to‘liq kiriting yoki bo‘sh qoldiring.";
-  if (input.telegram && !tg) errors.telegram = "Telegram manzilini to‘g‘ri kiriting.";
-  if (input.email && !email) errors.email = "Email manzilini to‘g‘ri kiriting.";
+  if (input.phone && !isUzPhone(input.phone)) errors.phone = "Telefon raqamini to‘liq kiriting yoki bo‘sh qoldiring.";
+  if (input.telegram && telegramHandle(input.telegram).length < 3) errors.telegram = "Telegram manzilini to‘g‘ri kiriting.";
+  if (input.email && !emailOk(input.email.trim())) errors.email = "Email manzilini to‘g‘ri kiriting.";
+  if (!reached(input.phone, input.telegram, input.email, input.sourceUrl, input.acceptApplications) && !partialContact(input.phone, input.telegram, input.email, input.sourceUrl)) {
+    errors.contact = "Telefon, Telegram, email, manba havolasi yoki saytda ariza qabul qilishdan bittasini qoldiring.";
+  }
   return errors;
 }
 
@@ -409,6 +459,7 @@ export function jobPayload(input: JobInput, mode: "draft" | "publish", id?: stri
     phone: input.phone ? formatUzPhone(input.phone) : "",
     telegram: telegramHandle(input.telegram),
     email: clip(input.email, 120),
+    sourceUrl: sourceUrlValue(input.sourceUrl),
     acceptApplications: input.acceptApplications,
     remote: false,
     category: "",

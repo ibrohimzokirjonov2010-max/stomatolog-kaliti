@@ -30,6 +30,7 @@ import {
 import { Modal, OrderForm } from "@/components/lab-browse";
 import { useLabWork } from "@/components/lab-provider";
 import { findPhoneLab } from "@/data/phone14";
+import { sourceUrlValue } from "@/lib/add-forms";
 import {
   LabLogo,
   LabPhoto,
@@ -401,6 +402,11 @@ function LabProfileView({ lab }: { lab: Lab }) {
             <InfoRow label="Telefon" value={labPhone ?? "Buyurtma qabul qilingach ochiladi"} />
             <InfoRow label="Telegram" value={labTg ?? (labPhone ? "Ko‘rsatilmagan" : "Buyurtma qabul qilingach ochiladi")} />
             <InfoRow label="Kurier" value={lab.courier === "ha" ? `Bor${lab.courierArea ? ` · ${lab.courierArea}` : ""}` : lab.courier === "yoq" ? "Yo‘q" : "Aniqlanmoqda"} />
+            {sourceUrlValue(lab.sourceUrl ?? "") ? (
+              <a href={sourceUrlValue(lab.sourceUrl ?? "")} target="_blank" rel="noopener nofollow" className="mt-3 inline-flex text-[13px] font-semibold text-[#0066FF] break-all" data-testid="lab-source">
+                {sourceUrlValue(lab.sourceUrl ?? "")}
+              </a>
+            ) : null}
             <a href={labMapHref(lab)} target="_blank" rel="noreferrer" className="mt-3 inline-flex h-10 items-center gap-1.5 rounded-xl border border-[#dbe3f0] px-3.5 text-[13px] font-semibold text-[#0066FF]">
               <MapPin className="size-4" />
               Xaritada ko‘rish

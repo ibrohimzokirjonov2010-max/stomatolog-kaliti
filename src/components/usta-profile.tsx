@@ -28,7 +28,7 @@ import { useUstaWork } from "@/components/usta-provider";
 import { UstaRequestSheet } from "@/components/usta-request-sheet";
 import { MasterAvatar, NoRating, VerifiedBadge, placeLine, useFavMasters } from "@/components/usta-ui";
 import { phoneHref, serviceTagLabels, telegramHref, type Master } from "@/data/masters";
-import { USTA_SPECIALTIES } from "@/lib/add-forms";
+import { sourceUrlValue, USTA_SPECIALTIES } from "@/lib/add-forms";
 import { cn } from "@/lib/utils";
 
 const TABS = [
@@ -205,6 +205,11 @@ export function UstaProfile({ id }: { id: string }) {
             testId="usta-telegram"
           />
         </div>
+        {sourceUrlValue(m.sourceUrl ?? "") ? (
+          <a className="mt-2.5 inline-flex text-[13.5px] font-semibold text-[#0066FF] break-all" href={sourceUrlValue(m.sourceUrl ?? "")} target="_blank" rel="noopener nofollow" data-testid="usta-source">
+            {sourceUrlValue(m.sourceUrl ?? "")}
+          </a>
+        ) : null}
       </section>
 
       {/* Tabs */}

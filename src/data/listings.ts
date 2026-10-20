@@ -19,6 +19,7 @@ export type Listing = {
   telegram?: string;
   photos?: string[];
   district?: string;
+  sourceUrl?: string;
 };
 
 export const listingTypes: { id: ListingType | ""; label: string }[] = [

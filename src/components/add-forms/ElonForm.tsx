@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { MapPin, MessageCircle } from "lucide-react";
-import { ADD_CITIES, ADD_DISTRICTS, ELON_CATEGORIES, elonPayload, emptyElon, moneyText, saveAddForm, validateElon, type ElonInput } from "@/lib/add-forms";
+import { ADD_CITIES, ADD_DISTRICTS, ELON_CATEGORIES, elonPayload, emptyElon, moneyText, saveAddForm, sourceUrlValue, validateElon, type ElonInput } from "@/lib/add-forms";
 import { formatGroupedNumber } from "@/lib/format";
 import { AddPage, AreaField, Banners, Field, FormActions, PhoneField, PhotoPicker, SelectField, Step, TelegramField, TextField, Toggle, type LocalPhoto } from "@/components/add-forms/widgets";
 import { photosFromUrls, resolvePhotos } from "@/components/add-forms/upload-local";
@@ -39,6 +39,7 @@ export function ElonForm() {
         district: row.district ?? "",
         phone: row.phone ?? "",
         telegram: row.telegram ?? "",
+        sourceUrl: row.sourceUrl ?? "",
         photos: row.photos ?? [],
       });
       setPhotos(photosFromUrls(row.photos ?? []));
@@ -80,6 +81,7 @@ export function ElonForm() {
 
   const priceLabel = form.negotiable && !form.price.trim() ? "Kelishiladi" : form.price.trim() ? `${moneyText(form.price)} so‘m` : "Narx kiritilmagan";
   const cover = photos[0]?.preview || photos[0]?.url;
+  const source = sourceUrlValue(form.sourceUrl);
 
   return (
     <AddPage testId="add-elon" title="Yangi e‘lon qo‘shish" sub="Jihoz, asbob yoki material e’lonini joylang." crumbs={[{ href: "/", label: "Bosh sahifa" }, { href: "/elonlar", label: "E‘lonlar" }, { label: "Yangi e‘lon qo‘shish" }]}>
@@ -111,9 +113,11 @@ export function ElonForm() {
           </Step>
           <Step n={3} title="Aloqa">
             <div className="af-row">
-              <PhoneField required testId="elon-phone" value={form.phone} error={errors.phone} onChange={(phone) => patch({ phone })} />
+              <PhoneField testId="elon-phone" value={form.phone} error={errors.phone} onChange={(phone) => patch({ phone })} />
               <TelegramField testId="elon-tg" value={form.telegram} error={errors.telegram} onChange={(telegram) => patch({ telegram })} />
             </div>
+            <TextField label="Manba yoki sayt havolasi" testId="elon-source" value={form.sourceUrl} error={errors.sourceUrl} placeholder="https://" maxLength={400} onChange={(sourceUrl) => patch({ sourceUrl })} />
+            {errors.contact ? <p className="af-err" data-testid="elon-contact-error">{errors.contact}</p> : null}
           </Step>
           <FormActions pending={pending} draftLabel="Saqlash (qoralama)" publishLabel="E‘lon berish" draft={() => void save("draft")} publish={() => void save("publish")} />
         </div>
@@ -129,6 +133,7 @@ export function ElonForm() {
               <p className="af-line"><MapPin size={14} /> {[form.city, form.district].filter(Boolean).join(", ") || "Shahar"}</p>
               <p className="muted">{form.description.trim() || "Tavsif shu yerda ko‘rinadi."}</p>
               <p className="af-line"><MessageCircle size={14} /> {form.phone.trim() || "Telefon"}{form.telegram.trim() ? ` · @${form.telegram.replace(/^@/, "")}` : ""}</p>
+              {source ? <a className="af-source" href={source} target="_blank" rel="noopener nofollow">{source}</a> : null}
               <button type="button" className="af-msg blue">Xabar yozish</button>
             </div>
           </article>
@@ -150,5 +155,6 @@ type ElonRow = {
   district?: string;
   phone?: string;
   telegram?: string;
+  sourceUrl?: string | null;
   photos?: string[];
 };

@@ -40,6 +40,7 @@ export type DbJob = {
   benefitNote?: string | null;
   telegram?: string | null;
   email?: string | null;
+  sourceUrl?: string | null;
 };
 
 /** Application. `phone` = applicant phone (employer view); `employerPhone` appears for the applicant only after acceptance. */
@@ -139,6 +140,7 @@ export function jobFromDb(d: DbJob): Job {
     benefitNote: d.benefitNote ?? null,
     telegram: d.telegram ?? null,
     email: d.email ?? null,
+    sourceUrl: d.sourceUrl ?? null,
   };
 }
 

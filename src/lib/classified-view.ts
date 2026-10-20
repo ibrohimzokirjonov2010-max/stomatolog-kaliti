@@ -13,6 +13,7 @@ export type ClassifiedRow = {
   district?: string;
   phone?: string | null;
   telegram?: string | null;
+  sourceUrl?: string | null;
   photos?: string[];
   createdAt?: string;
 };
@@ -44,5 +45,6 @@ export function classifiedToListing(row: ClassifiedRow): Listing {
     description: row.description || "",
     phone: row.phone || "",
     telegram: row.telegram || "",
+    sourceUrl: row.sourceUrl || "",
   };
 }
