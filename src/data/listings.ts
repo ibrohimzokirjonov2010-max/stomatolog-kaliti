@@ -15,6 +15,10 @@ export type Listing = {
   image: string;
   category: string;
   description: string;
+  phone?: string;
+  telegram?: string;
+  photos?: string[];
+  district?: string;
 };
 
 export const listingTypes: { id: ListingType | ""; label: string }[] = [

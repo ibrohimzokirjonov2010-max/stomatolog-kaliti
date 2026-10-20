@@ -1,4 +1,4 @@
-export type LabService = "crown" | "veneer" | "implant" | "bridge" | "removable" | "cadcam";
+export type LabService = "crown" | "veneer" | "implant" | "bridge" | "removable" | "cadcam" | "ortodontiya";
 export type LabMaterial = "zirconia" | "emax" | "metal-ceramic" | "premium";
 
 /** Public lab profile from the database (moderated). Phone/telegram are never part of the public payload. */
@@ -28,6 +28,12 @@ export type Lab = {
   verified?: boolean;
   online?: boolean;
   lastSeen?: string | null;
+  address?: string | null;
+  hours?: string | null;
+  phone?: string | null;
+  telegram?: string | null;
+  email?: string | null;
+  delivery?: boolean;
 };
 
 export type LabPriceCat = "metall-keramika" | "sirkon" | "emax" | "viner" | "implant" | "protez" | "jarrohlik" | "aligner" | "boshqa";
@@ -68,6 +74,7 @@ export const labServiceWords: Record<LabService, string> = {
   bridge: "ko‘prik",
   removable: "protez",
   cadcam: "CAD/CAM",
+  ortodontiya: "ortodontiya",
 };
 
 export const labServiceFilters: { id: LabService; label: string }[] = [

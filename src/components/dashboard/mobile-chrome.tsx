@@ -267,12 +267,12 @@ export function MobileTopbar() {
   // Ustalar list + usta profile draw their own headers (mock: logo + "Usta qo‘shish" / back · heart · share).
   if (
     pathname === "/ustalar" ||
-    (/^\/ustalar\/[^/]+\/?$/.test(pathname) && !pathname.startsWith("/ustalar/mening") && !pathname.startsWith("/ustalar/sorovlarim"))
+    (/^\/ustalar\/[^/]+\/?$/.test(pathname) && !pathname.startsWith("/ustalar/mening") && !pathname.startsWith("/ustalar/yangi") && !pathname.startsWith("/ustalar/sorovlarim"))
   )
     return null;
   // Vacancy detail draws its own hero header (back · heart · share).
-  if (/^\/laboratoriya\/[^/]+\/?$/.test(pathname) && !pathname.startsWith("/laboratoriya/buyurtmalarim") && !pathname.startsWith("/laboratoriya/mening")) return null;
-  if (/^\/ishlar\/[^/]+\/?$/.test(pathname) && !pathname.startsWith("/ishlar/arizalarim") && !pathname.startsWith("/ishlar/vakansiyalarim")) return null;
+  if (/^\/laboratoriya\/[^/]+\/?$/.test(pathname) && !pathname.startsWith("/laboratoriya/buyurtmalarim") && !pathname.startsWith("/laboratoriya/mening") && !pathname.startsWith("/laboratoriya/yangi")) return null;
+  if (/^\/ishlar\/[^/]+\/?$/.test(pathname) && !pathname.startsWith("/ishlar/arizalarim") && !pathname.startsWith("/ishlar/vakansiyalarim") && !pathname.startsWith("/ishlar/yangi")) return null;
   if (/^\/jihozlar\/[^/]+\/?$/.test(pathname)) return null;
   if (/^\/yangiliklar\/[^/]+\/?$/.test(pathname)) return null;
   if (/^\/buyurtmalarim\/[^/]+\/?$/.test(pathname)) return null;

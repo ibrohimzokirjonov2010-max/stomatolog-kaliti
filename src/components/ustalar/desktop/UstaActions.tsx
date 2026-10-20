@@ -64,7 +64,7 @@ export function useUstaActions() {
           <p>Bu profil sahifa dizaynini ko‘rsatish uchun qo‘yilgan: unga so‘rov yuborilmaydi va telefon raqami ko‘rsatilmaydi.</p>
           <p>Moderatsiyadan o‘tgan haqiqiy ustalar ro‘yxatning boshida chiqadi va ularga so‘rov to‘g‘ridan-to‘g‘ri yuboriladi.</p>
           <div className="us-acts">
-            <Link href="/ustalar/mening" className="us-ghost"><UserPlus className="i" /> Usta sifatida ro‘yxatdan o‘tish</Link>
+            <Link href="/ustalar/yangi" className="us-ghost"><UserPlus className="i" /> Usta sifatida ro‘yxatdan o‘tish</Link>
             <button type="button" className="us-btn" onClick={close}>Tushunarli</button>
           </div>
         </>

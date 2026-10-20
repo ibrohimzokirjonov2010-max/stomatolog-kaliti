@@ -228,7 +228,7 @@ export function JobsDesktop() {
             </div>
             <div className="ij-head-acts">
               <button type="button" className="ij-outline" onClick={() => setForm("resume")}>Rezyume joylash</button>
-              <button type="button" className="ij-post" onClick={() => setForm("vacancy")}><Plus className="i" /> Vakansiya joylash</button>
+              <Link href="/ishlar/yangi" className="ij-post"><Plus className="i" /> Vakansiya joylash</Link>
             </div>
           </div>
 

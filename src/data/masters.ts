@@ -127,6 +127,12 @@ export type Master = {
   works?: string[];
   online?: boolean;
   createdAt?: string;
+  address?: string | null;
+  hours?: string | null;
+  priceFrom?: number | null;
+  priceNegotiable?: boolean;
+  phone?: string | null;
+  telegram?: string | null;
 };
 
 export function phoneHref(phone: string) {

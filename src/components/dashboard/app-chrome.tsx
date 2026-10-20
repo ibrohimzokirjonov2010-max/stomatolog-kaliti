@@ -38,6 +38,11 @@ import { CheckoutDesktop } from "@/components/checkout/desktop/CheckoutDesktop";
 import { BookProductDesktop } from "@/components/books/desktop/BookProductDesktop";
 import { ReaderDesktop } from "@/components/books/desktop/ReaderDesktop";
 import { ListingDetailDesktop, ListingsDesktop } from "@/components/crm/desktop/ListingsDesktop";
+import { AddFormDesktop } from "@/components/add-forms/AddFormDesktop";
+import { ElonForm } from "@/components/add-forms/ElonForm";
+import { UstaForm } from "@/components/add-forms/UstaForm";
+import { LabForm } from "@/components/add-forms/LabForm";
+import { JobForm } from "@/components/add-forms/JobForm";
 import { useDoctorProfile } from "@/components/doctor-profile-provider";
 
 /** Routes that render without sidebar / topbar / mobile chrome. */
@@ -87,7 +92,7 @@ export function AppChrome({ children }: { children: ReactNode }) {
     router.replace(`/kirish?next=${encodeURIComponent(pathname)}`);
   }, [gated, pathname, profile, ready, router]);
 
-  const shop = desktopShop(pathname) ?? desktopSeminar(pathname) ?? desktopHub(pathname) ?? desktopForma(pathname) ?? desktopJihoz(pathname) ?? desktopJobs(pathname) ?? desktopNews(pathname) ?? desktopSpec(pathname) ?? desktopUsta(pathname) ?? desktopCart(pathname) ?? desktopFlow(pathname) ?? desktopCrm(pathname);
+  const shop = desktopShop(pathname) ?? desktopAdd(pathname) ?? desktopSeminar(pathname) ?? desktopHub(pathname) ?? desktopForma(pathname) ?? desktopJihoz(pathname) ?? desktopJobs(pathname) ?? desktopNews(pathname) ?? desktopSpec(pathname) ?? desktopUsta(pathname) ?? desktopCart(pathname) ?? desktopFlow(pathname) ?? desktopCrm(pathname);
 
   if (gated && ready && !profile) {
     return <div className="grid min-h-[50vh] place-items-center text-sm text-slate-500">Hisobga kirish kerak.</div>;
@@ -154,6 +159,14 @@ function desktopHub(pathname: string | null): ReactNode | null {
   return null;
 }
 
+function desktopAdd(pathname: string | null): ReactNode | null {
+  if (pathname === "/elonlar/yangi") return <AddFormDesktop searchPath="/elonlar" placeholder="E‘lonlar bo‘yicha qidiring..."><ElonForm /></AddFormDesktop>;
+  if (pathname === "/ustalar/yangi") return <AddFormDesktop searchPath="/ustalar" placeholder="Usta yoki xizmat bo‘yicha qidiring..."><UstaForm /></AddFormDesktop>;
+  if (pathname === "/laboratoriya/yangi") return <AddFormDesktop searchPath="/laboratoriya" placeholder="Laboratoriya bo‘yicha qidiring..."><LabForm /></AddFormDesktop>;
+  if (pathname === "/ishlar/yangi") return <AddFormDesktop searchPath="/ishlar" placeholder="Lavozim, klinika yoki shahar bo‘yicha qidirish..."><JobForm /></AddFormDesktop>;
+  return null;
+}
+
 function desktopForma(pathname: string | null): ReactNode | null {
   if (!pathname) return null;
   if (pathname === "/forma") return <FormaCatalog />;
@@ -206,6 +219,7 @@ function desktopCrm(pathname: string | null): ReactNode | null {
   if (pathname === "/crm/xizmatlar") return <CrmStubDesktop active="services" title="Xizmatlar" text="Klinika xizmatlari narxlari shu bo‘limda yuritiladi." />;
   if (pathname === "/crm/hisobotlar") return <ReportsDesktop />;
   if (pathname === "/elonlar") return <ListingsDesktop />;
+  if (pathname === "/elonlar/yangi") return null;
   const listing = pathname.match(/^\/elonlar\/([^/]+)$/);
   if (listing) return <ListingDetailDesktop id={decodeURIComponent(listing[1])} />;
   return null;

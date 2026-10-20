@@ -3,7 +3,7 @@
 import { useMemo, useState, type FormEvent, type ReactNode } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { useSearchParams } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import {
   ArrowRight,
   BadgeCheck,
@@ -71,6 +71,7 @@ function formatSalaryCompact(min: number, max?: number) {
 
 export function IshlarBrowse() {
   const params = useSearchParams();
+  const router = useRouter();
   const q = (params.get("q") ?? "").trim().toLowerCase();
   const { catalog, resumes, myJobs, hasApplied, resume } = useJobsWork();
 
@@ -141,7 +142,7 @@ export function IshlarBrowse() {
           MOBILE LAYOUT (≤768px phone / lg shell)
           ════════════════════════════════════════════════ */}
       <div className="lg:hidden">
-        <IshlarMobileList onPost={() => setModal("post")} onResume={() => setModal("resume")} hasResume={Boolean(resume)} />
+        <IshlarMobileList onPost={() => router.push("/ishlar/yangi")} onResume={() => setModal("resume")} hasResume={Boolean(resume)} />
       </div>
 
       {/* ════════════════════════════════════════════════
@@ -153,7 +154,7 @@ export function IshlarBrowse() {
           people={people}
           hasApplied={hasApplied}
           q={q}
-          onPost={() => setModal("post")}
+          onPost={() => router.push("/ishlar/yangi")}
           onResume={() => setModal("resume")}
           onApply={openApply}
           onProfile={openProfile}

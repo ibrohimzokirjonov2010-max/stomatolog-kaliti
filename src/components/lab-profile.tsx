@@ -82,6 +82,7 @@ const derivedTitles: Record<LabService, string> = {
   bridge: "Ko‘prik",
   removable: "Protez",
   cadcam: "CAD/CAM frezerlash",
+  ortodontiya: "Ortodontiya",
 };
 
 /** Rows shown in "Xizmatlar va narxlar": the owner's price list, else the declared service types with neutral price/time. */
@@ -143,8 +144,8 @@ function LabProfileView({ lab }: { lab: Lab }) {
 
   // Contacts open only after the lab accepted one of my orders (same rule as the rest of the app).
   const accepted = orders.find((o) => o.labId === lab.id && o.labPhone);
-  const labPhone = accepted?.labPhone ?? null;
-  const labTg = accepted?.labTelegram ?? null;
+  const labPhone = accepted?.labPhone ?? lab.phone ?? null;
+  const labTg = accepted?.labTelegram ?? lab.telegram ?? null;
 
   const current = gallery[Math.min(idx, Math.max(0, gallery.length - 1))] ?? null;
   const seen = timeAgo(lab.lastSeen);
@@ -410,7 +411,7 @@ function LabProfileView({ lab }: { lab: Lab }) {
         {lab.mine ? (
           <p className="mt-3 rounded-xl bg-[#eef4ff] px-3 py-2.5 text-[12.5px] text-[#2f4a7a]">
             Bu sizning laboratoriyangiz.{" "}
-            <Link href="/laboratoriya/mening" className="font-semibold text-[#0066FF]">
+            <Link href={`/laboratoriya/yangi?id=${lab.id}`} className="font-semibold text-[#0066FF]">
               Profilni tahrirlash
             </Link>
           </p>

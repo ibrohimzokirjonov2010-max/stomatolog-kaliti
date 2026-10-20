@@ -232,7 +232,7 @@ export function LabMobileList() {
           </span>
           <p className="mt-4 text-[16px] font-semibold text-[#1a1d26]">Hali laboratoriya yo‘q</p>
           <p className="mx-auto mt-1 max-w-xs text-[13px] text-[#8b93a7]">Tasdiqlangan laboratoriyalar shu yerda chiqadi. Laboratoriyangiz bo‘lsa, profilingizni joylang.</p>
-          <Link href="/laboratoriya/mening" className="mt-5 inline-flex h-11 items-center justify-center rounded-2xl bg-[#0066FF] px-5 text-[14px] font-semibold text-white">
+          <Link href="/laboratoriya/yangi" className="mt-5 inline-flex h-11 items-center justify-center rounded-2xl bg-[#0066FF] px-5 text-[14px] font-semibold text-white">
             Laboratoriya sifatida e’lon berish
           </Link>
         </div>
@@ -255,7 +255,7 @@ export function LabMobileList() {
       )}
 
       <section className="mt-4 grid gap-2.5">
-        <Link href="/laboratoriya/mening" className="flex items-center gap-3 rounded-2xl border border-[#eceff5] bg-white px-3.5 py-3.5">
+        <Link href="/laboratoriya/yangi" className="flex items-center gap-3 rounded-2xl border border-[#eceff5] bg-white px-3.5 py-3.5">
           <span className="grid size-10 shrink-0 place-items-center rounded-xl bg-[#e8f1ff] text-[#0066FF]">
             <Building2 className="size-4" />
           </span>

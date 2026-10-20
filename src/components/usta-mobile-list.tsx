@@ -51,7 +51,7 @@ export function UstaMobileList() {
         subtitle="Tajribali ustalar · Toshkent va viloyatlar"
         topPad="0.75rem"
         extra={
-          <Link href="/ustalar/mening" aria-label="Usta qo‘shish" data-testid="usta-add" className={mobileHeaderActionCls}>
+          <Link href="/ustalar/yangi" aria-label="Usta qo‘shish" data-testid="usta-add" className={mobileHeaderActionCls}>
             <Plus className="size-5" strokeWidth={2.4} />
           </Link>
         }
@@ -172,7 +172,7 @@ export function UstaMobileList() {
               Filtrlarni tozalash
             </button>
           ) : (
-            <Link href="/ustalar/mening" className="mt-4 inline-flex h-11 items-center rounded-xl bg-[#0066FF] px-5 text-[14px] font-semibold text-white">
+            <Link href="/ustalar/yangi" className="mt-4 inline-flex h-11 items-center rounded-xl bg-[#0066FF] px-5 text-[14px] font-semibold text-white">
               Usta qo‘shish
             </Link>
           )}
@@ -255,7 +255,7 @@ function MasterCard({ master: m, solid, saved, onSave, onOpen, onRequest }: { ma
           )}
         </button>
         {m.mine ? (
-          <Link href="/ustalar/mening" className="inline-flex h-10 shrink-0 items-center rounded-xl border border-[#dbe3f0] px-3 text-[12px] font-semibold text-[#4b5568]">
+          <Link href={`/ustalar/yangi?id=${m.id}`} className="inline-flex h-10 shrink-0 items-center rounded-xl border border-[#dbe3f0] px-3 text-[12px] font-semibold text-[#4b5568]">
             Profilim
           </Link>
         ) : (
