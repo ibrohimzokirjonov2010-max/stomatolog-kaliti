@@ -155,10 +155,20 @@ export function DashboardView() {
               spark={recent.map((s) => s.net)}>
               <Money v={c.net} big />
             </Kpi>
-            <Kpi title="GMV (to‘langan)" icon={ShoppingBag} cur={c.gmv} prev={p.gmv} tone="blue" spark={recent.map((s) => s.gmv)}
-              foot={`kutilmoqda, naqd ${moneyShort(c.gmvPending ?? 0)}${avgCheck ? ` · o‘rt. chek ${moneyShort(avgCheck)}` : ""}`}
-              def="To‘langan GMV — pul tushgan buyurtmalar. To‘lanmagan naqd buyurtmalar alohida, GMV kutilmoqda. Ikkalasi aralashtirilmaydi.">
+            <Kpi title="To‘langan GMV" icon={ShoppingBag} cur={c.gmv} prev={p.gmv} tone="blue" spark={recent.map((s) => s.gmv)}
+              foot={avgCheck ? `o‘rtacha chek ${moneyShort(avgCheck)}` : "pul tushgan buyurtmalar"}
+              def="To‘langan GMV — pul tushgan buyurtmalar. To‘lanmagan naqd buyurtmalar bu raqamga kirmaydi.">
               <Money v={c.gmv} />
+            </Kpi>
+            <Kpi title="Kutilayotgan (naqd)" icon={Clock} cur={c.gmvPending ?? 0} prev={p.gmvPending ?? 0} tone="orange"
+              foot="hali to‘lanmagan naqd buyurtmalar"
+              def="Kutilayotgan (naqd) — naqd pul bilan rasmiylashtirilgan, lekin paid_at bo‘sh va qaytarilmagan buyurtmalar.">
+              <Money v={c.gmvPending ?? 0} />
+            </Kpi>
+            <Kpi title="Jami GMV" icon={Wallet} cur={(c.gmv ?? 0) + (c.gmvPending ?? 0)} prev={(p.gmv ?? 0) + (p.gmvPending ?? 0)} tone="green"
+              foot="to‘langan + kutilayotgan naqd"
+              def="Jami — to‘langan GMV va kutilayotgan naqd buyurtmalar yig‘indisi.">
+              <Money v={(c.gmv ?? 0) + (c.gmvPending ?? 0)} />
             </Kpi>
             <Kpi title="MRR" icon={Repeat} cur={0} prev={0} tone="violet" foot="takroriy oylik daromad"
               def="Har oy takrorlanadigan daromad: faol sotuvchi obunalari + faol reklama shartnomalarining oylik qiymati + joriy oyning avto-yangilanuvchi kanal stavkalari.">

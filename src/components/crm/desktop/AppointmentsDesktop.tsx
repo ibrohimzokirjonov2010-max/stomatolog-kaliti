@@ -7,13 +7,15 @@ import { CrmFrame } from "@/components/crm/desktop/CrmFrame";
 import { NewAppointmentModal } from "@/components/crm/CrmCreateModals";
 import { useDoctorProfile } from "@/components/doctor-profile-provider";
 import {
-  CLINIC_TODAY,
   apptRooms,
   apptStatusLabel,
   type Appointment,
   type ApptStatus,
 } from "@/data/crm";
 import { useCrmAppointments } from "@/lib/use-crm-list";
+import { tashkentDateParts } from "@/lib/tashkent-date";
+
+const MONTHS = ["yanvar", "fevral", "mart", "aprel", "may", "iyun", "iyul", "avgust", "sentabr", "oktabr", "noyabr", "dekabr"];
 
 const DEMO_DOCTOR_IDS = new Set(["ibrohim", "karimov", "aliyeva", "toxtayev", "saidova"]);
 
@@ -53,16 +55,25 @@ function labelFor(value: string) {
   return REAL[new Date(`${value}T00:00:00Z`).getUTCDay()];
 }
 
+function monthLabel(iso: string) {
+  return `${MONTHS[Number(iso.slice(5, 7)) - 1] ?? ""} ${iso.slice(0, 4)}`;
+}
+
+function dayLabel(iso: string) {
+  return `${iso.slice(8, 10)}.${iso.slice(5, 7)}.${iso.slice(0, 4)}`;
+}
+
 export function AppointmentsDesktop() {
   const { profile } = useDoctorProfile();
+  const today = tashkentDateParts().iso;
   const [items, setItems] = useCrmAppointments<Appointment>();
   const [q, setQ] = useState("");
-  const [cursor, setCursor] = useState(CLINIC_TODAY);
+  const [cursor, setCursor] = useState(today);
   const [view, setView] = useState<"kun" | "hafta" | "oy">("hafta");
   const [doctor, setDoctor] = useState("");
   const [room, setRoom] = useState("");
   const [adding, setAdding] = useState(false);
-  const [form, setForm] = useState({ patient: "", service: "Konsultatsiya", doctorId: "self", room: "Xona 1", date: CLINIC_TODAY, start: "09:00", end: "10:00", status: "tasdiq" as ApptStatus, note: "" });
+  const [form, setForm] = useState({ patient: "", service: "Konsultatsiya", doctorId: "self", room: "Xona 1", date: today, start: "09:00", end: "10:00", status: "tasdiq" as ApptStatus, note: "" });
   const doctors = useMemo(() => {
     const map = new Map<string, string>();
     const self = profile?.fullName?.trim();
@@ -85,7 +96,7 @@ export function AppointmentsDesktop() {
   }), [doctor, items, q, room]);
 
   const gridDay = view === "kun" ? [cursor] : days;
-  const todayItems = visible.filter((item) => item.date === cursor);
+  const todayItems = visible.filter((item) => item.date === today);
   const shownToday = todayItems.filter((item) => item.grid !== false);
   const avg = shownToday.length ? Math.round(shownToday.reduce((sum, item) => sum + (minutes(item.end) - minutes(item.start)), 0) / shownToday.length) : 0;
   const load = Math.min(100, Math.round((shownToday.reduce((sum, item) => sum + (minutes(item.end) - minutes(item.start)), 0) / (10 * 60)) * 100));
@@ -103,14 +114,14 @@ export function AppointmentsDesktop() {
             <p>Klinika jadvali va bemor qabuli</p>
           </div>
           <div className="crm-actions">
-            <button type="button" className="crm-btn" data-testid="appt-today" onClick={() => { setCursor(CLINIC_TODAY); setView("hafta"); }}>Bugun</button>
+            <button type="button" className="crm-btn" data-testid="appt-today" onClick={() => { setCursor(today); setView("hafta"); }}>Bugun</button>
             <button type="button" className="crm-btn blue" data-testid="appt-add" onClick={() => setAdding(true)}><Plus className="i" /> Yangi uchrashuv</button>
           </div>
         </div>
         <div className="ap-bar">
           <button type="button" aria-label="Oldingi" onClick={() => setCursor(addDays(cursor, view === "oy" ? -30 : view === "kun" ? -1 : -7))}><ChevronLeft /></button>
           <button type="button" aria-label="Keyingi" onClick={() => setCursor(addDays(cursor, view === "oy" ? 30 : view === "kun" ? 1 : 7))}><ChevronRight /></button>
-          <b>{view === "oy" ? "Oktyabr 2026" : `${days[0].slice(8)}.${days[0].slice(5, 7)} – ${days[6].slice(8)} oktyabr 2026`}</b>
+          <b>{view === "oy" ? monthLabel(cursor) : `${Number(days[0].slice(8))} ${monthLabel(days[0]).split(" ")[0]} – ${Number(days[6].slice(8))} ${monthLabel(days[6])}`}</b>
           <div className="ap-view">
             {(["kun", "hafta", "oy"] as const).map((item) => (
               <button key={item} type="button" className={view === item ? "on" : undefined} data-testid={`appt-${item}`} onClick={() => setView(item)}>{item === "kun" ? "Kun" : item === "hafta" ? "Hafta" : "Oy"}</button>
@@ -146,7 +157,7 @@ export function AppointmentsDesktop() {
             <div className="ap-grid" style={view === "kun" ? { gridTemplateColumns: "calc(3 * var(--u)) minmax(0,1fr)" } : undefined}>
               <header>Vaqt</header>
               {gridDay.map((day) => (
-                <header key={day} className={day === CLINIC_TODAY ? "on" : undefined}><b>{labelFor(day)}</b><div>{Number(day.slice(-2))} okt</div></header>
+                <header key={day} className={day === today ? "on" : undefined}><b>{labelFor(day)}</b><div>{Number(day.slice(-2))} {MONTHS[Number(day.slice(5, 7)) - 1]?.slice(0, 3)}</div></header>
               ))}
               <div className="ap-hours">{HOURS.map((hour, index) => <div key={hour} style={{ height: index === HOURS.length - 1 ? 0 : "calc(2.2 * var(--u))" }}>{hour}</div>)}</div>
               {gridDay.map((day) => (
@@ -168,7 +179,7 @@ export function AppointmentsDesktop() {
           )}
           <aside>
             <div className="ap-today">
-              <div style={{ display: "flex", justifyContent: "space-between" }}><b>Bugungi uchrashuvlar</b><span className="crm-muted">{cursor.split("-").reverse().join(".")}</span></div>
+              <div style={{ display: "flex", justifyContent: "space-between" }}><b>Bugungi uchrashuvlar</b><span className="crm-muted">{dayLabel(today)}</span></div>
               {shownToday.length === 0 ? <p className="crm-muted">Uchrashuv yo‘q</p> : shownToday.map((item) => (
                 <div key={item.id} className="row">
                   <img src={item.avatar} alt="" />

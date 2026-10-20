@@ -191,11 +191,11 @@ export function CheckoutDesktop() {
                   <div key={item.key} className="ckx-line"><img src={item.product.image} alt="" /><div><b>{item.product.name}</b><small>{item.qty} dona</small></div><em>{som(item.lineTotal)}</em></div>
                 ))}
                 <div className="ckx-saved-head"><h2>Yetkazish manzili</h2><button type="button" onClick={() => setStep(1)}>O‘zgartirish</button></div>
-                <p><b>{name}</b><br />{phone}<br />{city}, {district}<br />{address}</p>
+                <div className="ckx-review"><b>{name}</b><span>{phone}</span><span>{city}, {district}</span><span>{address}</span></div>
                 <div className="ckx-saved-head"><h2>Yetkazish vaqti</h2><button type="button" onClick={() => setStep(1)}>O‘zgartirish</button></div>
-                <p>{ship === "courier" ? "Kuryer orqali" : "Olib ketish"}</p>
+                <div className="ckx-review"><b>{ship === "courier" ? "Kuryer orqali" : "Olib ketish"}</b><span>{ship === "courier" ? "1–2 kun" : "Do‘kondan, bugun"}</span></div>
                 <div className="ckx-saved-head"><h2>To‘lov usuli</h2><button type="button" onClick={() => setStep(2)}>O‘zgartirish</button></div>
-                <p>Naqd pul</p>
+                <div className="ckx-review"><b>Naqd pul</b><span>Yetkazishda yoki olib ketganda</span></div>
                 <label className="ckx-check"><input type="checkbox" checked={oferta} data-testid="ckd-oferta" onChange={(event) => setOferta(event.target.checked)} /> Men oferta shartlari bilan tanishib chiqdim va roziman</label>
                 <p className="ckx-fine">Buyurtma berish orqali siz StomaHub’ning foydalanish shartlari va maxfiylik siyosatiga rozilik bildirasiz.</p>
               </section>

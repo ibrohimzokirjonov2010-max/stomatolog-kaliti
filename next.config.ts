@@ -17,6 +17,7 @@ const nextConfig: NextConfig = {
       { protocol: "https", hostname: "**.alibaba.com" },
       { protocol: "https", hostname: "sc01.alicdn.com" },
       { protocol: "https", hostname: "sc04.alicdn.com" },
+      { protocol: "https", hostname: "*.supabase.co" },
       { protocol: "https", hostname: "**.supabase.co" },
       { protocol: "https", hostname: "images.unsplash.com" },
       { protocol: "https", hostname: "lh3.googleusercontent.com" },

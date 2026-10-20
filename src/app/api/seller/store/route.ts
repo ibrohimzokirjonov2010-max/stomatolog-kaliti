@@ -3,6 +3,7 @@ import { dbErrorJson, rpc } from "@/lib/server/db";
 import { docsOwnedBy, safeImage, slugify, validateApplication } from "@/lib/server/seller";
 import { readJson, requireUser, str } from "@/lib/server/user";
 import { getSessionUserId } from "@/lib/server/session";
+import { publicizeProduct } from "@/lib/media-url";
 
 export const dynamic = "force-dynamic";
 
@@ -12,7 +13,10 @@ export async function GET() {
   if (!userId) return NextResponse.json({ ok: true, shop: null, application: null, products: [] });
   try {
     const data = await rpc<Record<string, unknown>>("sh_my_store", { p_user: userId });
-    return NextResponse.json({ ok: true, ...data });
+    const products = Array.isArray(data.products)
+      ? data.products.map((row) => (row && typeof row === "object" ? publicizeProduct(row as Record<string, unknown>) : row))
+      : data.products;
+    return NextResponse.json({ ok: true, ...data, products });
   } catch (e) {
     return dbErrorJson(e, "Do‘kon ma’lumotini yuklab bo‘lmadi.");
   }

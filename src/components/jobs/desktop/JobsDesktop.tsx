@@ -117,7 +117,7 @@ export function JobsDesktop() {
   const work = useJobsWork();
   const q = (params.get("q") ?? "").trim().toLowerCase();
   const [tab, setTab] = useState<Tab>(() => (params.get("tab") === "rezyumelar" ? "resumes" : params.get("tab") === "saqlangan" ? "saved" : "jobs"));
-  const [cities, setCities] = useState<string[]>(["Toshkent"]);
+  const [cities, setCities] = useState<string[]>([]);
   const [specs, setSpecs] = useState<JobSpec[]>([]);
   const [types, setTypes] = useState<JobType[]>([]);
   const [exps, setExps] = useState<JobExp[]>([]);
@@ -153,7 +153,7 @@ export function JobsDesktop() {
     });
   }
 
-  const all = useMemo<JobView[]>(() => work.catalog.filter((job) => !job.mine).map(fromDb), [work.catalog]);
+  const all = useMemo<JobView[]>(() => work.catalog.map(fromDb), [work.catalog]);
   const salaryOn = salary[0] > SALARY_MIN || salary[1] < SALARY_MAX;
 
   const matches = (item: JobView, skip?: "city" | "spec" | "type" | "exp") => {
