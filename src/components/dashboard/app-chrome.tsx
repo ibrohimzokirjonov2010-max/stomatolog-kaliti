@@ -39,6 +39,8 @@ import { CheckoutDesktop } from "@/components/checkout/desktop/CheckoutDesktop";
 import { BookProductDesktop } from "@/components/books/desktop/BookProductDesktop";
 import { ReaderDesktop } from "@/components/books/desktop/ReaderDesktop";
 import { ListingDetailDesktop, ListingsDesktop } from "@/components/crm/desktop/ListingsDesktop";
+import { CatalogProductDesktop } from "@/components/shop/desktop/CatalogProductDesktop";
+import { UstaProfileDesktop } from "@/components/ustalar/desktop/UstaProfileDesktop";
 import { AddFormDesktop } from "@/components/add-forms/AddFormDesktop";
 import { ElonForm } from "@/components/add-forms/ElonForm";
 import { UstaForm } from "@/components/add-forms/UstaForm";
@@ -145,6 +147,8 @@ function desktopShop(pathname: string | null): ReactNode | null {
   const brandPage = pathname.match(/^\/marketplace\/brendlar\/([^/]+)$/);
   if (brandPage) return <BrandsDesktop slug={decodeURIComponent(brandPage[1])} />;
   if (pathname === "/ortiqcha-material") return <SurplusDesktopCatalog />;
+  const product = pathname.match(/^\/(?:marketplace|product)\/([0-9a-f-]{36})$/i);
+  if (product) return <CatalogProductDesktop id={product[1]} />;
   const surplus = pathname.match(/^\/ortiqcha-material\/([^/]+)$/);
   if (surplus && surplus[1] !== "elonlarim") return <SurplusDesktopDetail id={decodeURIComponent(surplus[1])} />;
   return null;
@@ -171,12 +175,16 @@ function desktopAdd(pathname: string | null): ReactNode | null {
 function desktopForma(pathname: string | null): ReactNode | null {
   if (!pathname) return null;
   if (pathname === "/forma") return <FormaCatalog />;
+  const item = pathname.match(/^\/forma\/([^/]+)$/);
+  if (item && item[1] !== "buyurtmalarim") return <CatalogProductDesktop id={decodeURIComponent(item[1])} expect="forma" />;
   return null;
 }
 
 function desktopJihoz(pathname: string | null): ReactNode | null {
   if (!pathname) return null;
   if (pathname === "/jihozlar") return <JihozCatalog />;
+  const item = pathname.match(/^\/jihozlar\/([^/]+)$/);
+  if (item) return <CatalogProductDesktop id={decodeURIComponent(item[1])} expect="jihozlar" />;
   return null;
 }
 
@@ -199,6 +207,8 @@ function desktopSpec(pathname: string | null): ReactNode | null {
 
 function desktopUsta(pathname: string | null): ReactNode | null {
   if (pathname === "/ustalar") return <UstaCatalog />;
+  const usta = pathname?.match(/^\/ustalar\/([^/]+)$/);
+  if (usta && !["mening", "sorovlarim", "yangi"].includes(usta[1])) return <UstaProfileDesktop slug={decodeURIComponent(usta[1])} />;
   return null;
 }
 
