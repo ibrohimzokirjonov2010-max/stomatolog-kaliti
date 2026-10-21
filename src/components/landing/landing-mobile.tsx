@@ -22,11 +22,11 @@ const contactIcon = {
 function StoreBadges() {
   return (
     <div className="grid grid-cols-2 gap-3">
-      <a href="/" className="inline-flex min-h-11 items-center gap-2 rounded-xl bg-[#0f172a] px-3 text-white">
+      <a href="#ilova" className="inline-flex min-h-11 items-center gap-2 rounded-xl bg-[#0f172a] px-3 text-white">
         <span className="text-[18px] leading-none" aria-hidden="true"></span>
         <span className="text-left leading-tight"><span className="block text-[12px] opacity-80">App Store’dan</span><span className="block text-[13px] font-bold">yuklab oling</span></span>
       </a>
-      <a href="/" className="inline-flex min-h-11 items-center gap-2 rounded-xl bg-[#0f172a] px-3 text-white">
+      <a href="#ilova" className="inline-flex min-h-11 items-center gap-2 rounded-xl bg-[#0f172a] px-3 text-white">
         <span className="text-[16px] leading-none" aria-hidden="true">▶</span>
         <span className="text-left leading-tight"><span className="block text-[12px] opacity-80">Google Play’dan</span><span className="block text-[13px] font-bold">yuklab oling</span></span>
       </a>
