@@ -3,10 +3,11 @@
 
 import { useEffect, useMemo, useState } from "react";
 import { useSearchParams } from "next/navigation";
-import { Bookmark, Heart, ImagePlus, MessageCircle, Plus, Send, Star } from "lucide-react";
+import { ArrowRight, BadgeCheck, Bookmark, ClipboardList, Flame, Heart, HelpCircle, ImagePlus, MessageCircle, MessagesSquare, Plus, Send, ShieldCheck, Star, Trophy } from "lucide-react";
 import { ShopShell } from "@/components/shop/desktop/ShopShell";
 import { useShopLineCount } from "@/components/shop/desktop/shop-cart";
 import { useCommunityWork } from "@/components/community-provider";
+import { useDoctorProfile } from "@/components/doctor-profile-provider";
 import { uploadImage } from "@/lib/image-upload";
 import { CASE_TAGS, caseProblem } from "@/lib/forms/p0";
 import {
@@ -17,11 +18,12 @@ import {
 } from "@/data/desktop-hub";
 import type { CommunityPost as LivePost } from "@/data/community";
 import "./hub.css";
+import "./community.css";
 
-const kinds: { id: PostKind; label: string }[] = [
-  { id: "keys", label: "Klinik keys" },
-  { id: "savol", label: "Savol" },
-  { id: "muhokama", label: "Muhokama" },
+const kinds = [
+  { id: "keys" as PostKind, label: "Klinik keys", icon: ClipboardList },
+  { id: "savol" as PostKind, label: "Savol", icon: HelpCircle },
+  { id: "muhokama" as PostKind, label: "Muhokama", icon: MessagesSquare },
 ];
 
 const tabs = [
@@ -32,6 +34,7 @@ const tabs = [
 ] as const;
 
 function mapLive(post: LivePost, viewerId: string | null): CommunityPost {
+  const lines = post.text.split("\n").filter((line) => line.trim());
   const kind: PostKind = post.kind === "savol" ? "savol" : post.kind === "yangilik" ? "muhokama" : "keys";
   return {
     id: post.id,
@@ -39,12 +42,13 @@ function mapLive(post: LivePost, viewerId: string | null): CommunityPost {
     role: post.author.specialty,
     city: post.author.city,
     avatar: post.author.avatar || "/img/design-pr13/ui/avatar.png",
-    title: post.text.split("\n")[0].slice(0, 90),
-    body: post.text,
+    // The first line is the headline and the rest is the body; a one-line post is body only.
+    title: lines.length > 1 ? lines[0].slice(0, 120) : "",
+    body: lines.length > 1 ? lines.slice(1).join("\n").trim() : post.text,
     kind,
     time: post.time,
     category: post.tags[0] || "Klinik holatlar",
-    photos: (post.images ?? []).map((src) => ({ src, label: "Rasm" })),
+    photos: (post.images ?? []).map((src) => ({ src, label: "" })),
     tags: post.tags,
     likes: post.likes,
     comments: post.comments,
@@ -55,6 +59,7 @@ function mapLive(post: LivePost, viewerId: string | null): CommunityPost {
 export function CommunityDesktop() {
   const cartCount = useShopLineCount();
   const work = useCommunityWork();
+  const { profile } = useDoctorProfile();
   const params = useSearchParams();
   const paramQ = params.get("q") ?? "";
   const [q, setQ] = useState(paramQ);
@@ -140,7 +145,7 @@ export function CommunityDesktop() {
 
   return (
     <ShopShell searchPath="/community" cartCount={cartCount} placeholder="Stomatologga nima kerak?" showCamera={false}>
-      <div className="hub-split">
+      <div className="hub-split cmd">
         <div className="hub-page">
           <div className="hub-head">
             <div>
@@ -152,16 +157,25 @@ export function CommunityDesktop() {
             </button>
           </div>
           <section className="hub-box hub-compose">
-            <img src="/img/design-pr13/ui/avatar.png" alt="" />
+            {profile?.avatarUrl ? (
+              <img src={profile.avatarUrl} alt="" />
+            ) : (
+              <span className="cm-ini" aria-hidden>
+                {(profile?.fullName || "S").replace(/^Dr\.?\s*/i, "").slice(0, 1).toUpperCase()}
+              </span>
+            )}
             <div style={{ flex: 1 }}>
               <textarea id="hub-composer" value={text} onChange={(event) => setText(event.target.value)} placeholder="Keys yoki savolingizni yozing..." />
               <div className="hub-kinds">
-                {kinds.map((item) => (
-                  <button key={item.id} type="button" className={kind === item.id ? "hub-chip on" : "hub-chip"} onClick={() => setKind(item.id)}>
-                    {item.label}
-                  </button>
-                ))}
-                <label className="hub-chip" style={{ cursor: "pointer" }}>
+                {kinds.map((item) => {
+                  const Icon = item.icon;
+                  return (
+                    <button key={item.id} type="button" className={kind === item.id ? "cm-kind on" : "cm-kind"} aria-pressed={kind === item.id} onClick={() => setKind(item.id)}>
+                      <Icon className="i" /> {item.label}
+                    </button>
+                  );
+                })}
+                <label className="cm-photo">
                   <ImagePlus className="i" /> Rasm qo‘shish
                   <input
                     type="file"
@@ -177,7 +191,7 @@ export function CommunityDesktop() {
                     }}
                   />
                 </label>
-                <button type="button" className="hub-btn" style={{ marginLeft: "auto" }} onClick={publish} disabled={!text.trim()}>
+                <button type="button" className="hub-btn cm-publish" onClick={publish} disabled={!text.trim()}>
                   Post joylash
                 </button>
               </div>
@@ -191,9 +205,9 @@ export function CommunityDesktop() {
               {photo ? <img className="hub-preview" src={photo} alt="" /> : null}
             </div>
           </section>
-          <div className="hub-frow">
+          <div className="hub-frow cm-tabs" role="tablist">
             {tabs.map((item) => (
-              <button key={item.id} type="button" className={tab === item.id ? "hub-tab on" : "hub-tab"} onClick={() => setTab(item.id)}>
+              <button key={item.id} type="button" role="tab" aria-selected={tab === item.id} className={tab === item.id ? "cm-tab on" : "cm-tab"} onClick={() => setTab(item.id)}>
                 {item.label}
               </button>
             ))}
@@ -215,7 +229,7 @@ export function CommunityDesktop() {
               </div>
             </div>
           </div>
-          <div className="hub-frow">
+          <div className="hub-frow cmd-cats">
             {communityCategories.map((item) => (
               <button key={item} type="button" className={category === item ? "hub-chip on" : "hub-chip"} onClick={() => setCategory(item)}>
                 {item}
@@ -230,16 +244,21 @@ export function CommunityDesktop() {
                 <div className="top">
                   <img src={post.avatar} alt="" />
                   <div>
-                    <b>{post.author}</b>
+                    <b>
+                      {post.author} <BadgeCheck className="cm-verified" aria-label="Tasdiqlangan" />
+                    </b>
                     <small>
                       {post.role} · {post.city}
                     </small>
                   </div>
-                  <span className="hub-pill">{post.kind === "keys" ? "Klinik keys" : post.kind === "savol" ? "Savol" : "Muhokama"}</span>
+                  <span className="hub-pill">
+                    {post.kind === "keys" ? <ClipboardList className="i" /> : post.kind === "savol" ? <HelpCircle className="i" /> : <MessagesSquare className="i" />}
+                    {post.kind === "keys" ? "Klinik keys" : post.kind === "savol" ? "Savol" : "Muhokama"}
+                  </span>
                   <small>{post.time}</small>
                 </div>
-                <h3>{post.title}</h3>
-                <p className="body">{post.body}</p>
+                {post.title ? <h3>{post.title}</h3> : null}
+                {post.body ? <p className="body">{post.body}</p> : null}
                 {post.fdi ? (
                   <div className="hub-facts">
                     <div className="hub-fact">
@@ -262,17 +281,17 @@ export function CommunityDesktop() {
                 ) : null}
                 {post.photos.length ? (
                   <div className={post.photos.length > 4 ? "hub-photos five" : "hub-photos"}>
-                    {post.photos.map((photoItem) => (
-                      <figure key={photoItem.src + photoItem.label}>
-                        <img src={photoItem.src} alt={photoItem.label} />
-                        <figcaption>{photoItem.label}</figcaption>
+                    {post.photos.slice(0, 5).map((photoItem, index) => (
+                      <figure key={`${index}-${photoItem.src}`}>
+                        <img src={photoItem.src} alt={photoItem.label || `${post.title || post.author}, rasm ${index + 1}`} />
+                        {photoItem.label ? <figcaption>{photoItem.label}</figcaption> : null}
                       </figure>
                     ))}
                   </div>
                 ) : null}
                 <div className="hub-ptags">
                   {post.tags.map((tag) => (
-                    <span key={tag}>{tag}</span>
+                    <span key={tag}>#{tag.replace(/\s+/g, "")}</span>
                   ))}
                 </div>
                 <div className="hub-react">
@@ -280,14 +299,14 @@ export function CommunityDesktop() {
                     <Heart className="i" /> {post.likes}
                   </button>
                   {post.mine ? <button type="button" onClick={() => void work.deletePost(post.id)}>O‘chirish</button> : null}
-                  <span>
+                  <button type="button" onClick={() => setReplyFor(replyFor === post.id ? null : post.id)}>
                     <MessageCircle className="i" /> {post.comments}
-                  </span>
+                  </button>
                   <button type="button" className={saved.includes(post.id) ? "on" : ""} onClick={() => setSaved((prev) => (prev.includes(post.id) ? prev.filter((id) => id !== post.id) : [...prev, post.id]))}>
                     <Bookmark className="i" /> {saved.includes(post.id) ? "Saqlangan" : "Saqlash"}
                   </button>
                   <button type="button" className="go" onClick={() => setReplyFor(replyFor === post.id ? null : post.id)}>
-                    Javob berish →
+                    Javob berish <ArrowRight className="i" />
                   </button>
                 </div>
                 {replyFor === post.id ? (
@@ -315,29 +334,36 @@ export function CommunityDesktop() {
         </div>
         <aside className="hub-rail">
           <section className="hub-box">
-            <h3>Haftaning top a’zolari</h3>
+            <h3>
+              <span className="cm-h">
+                <Trophy className="i gold" /> Haftaning top a’zolari
+              </span>
+            </h3>
             {work.doctors.length === 0 ? <p className="hub-empty">Hali a’zo yo‘q</p> : work.doctors.map((member, index) => (
               <div className="hub-member" key={member.id}>
-                <span className="n">{index + 1}</span>
+                <span className={`n r${index + 1}`}>{index + 1}</span>
                 <img src={member.avatar || "/img/design-pr13/ui/avatar.png"} alt="" />
                 <div>
                   <b>{member.name}</b>
-                  <small>
-                    {member.specialty} · {member.score} ball
-                  </small>
+                  <small>{member.specialty}</small>
                 </div>
                 <em>
-                  <Star className="i" />
+                  <Star className="i" /> {member.score}
+                  <small>ball</small>
                 </em>
               </div>
             ))}
           </section>
           <section className="hub-box">
-            <h3>Trend mavzular</h3>
+            <h3>
+              <span className="cm-h">
+                <Flame className="i fire" /> Trend mavzular
+              </span>
+            </h3>
             {work.trends.length === 0 ? <p className="hub-empty">Hali trend yo‘q</p> : work.trends.map((item, index) => (
               <button key={item.tag} type="button" className="hub-trend" onClick={() => setTrendOn(trendOn === item.tag ? null : item.tag)}>
                 <span>{index + 1}</span>
-                <b>{item.tag}</b>
+                <b>#{item.tag.replace(/\s+/g, "")}</b>
                 <em>{item.posts} ta post</em>
               </button>
             ))}
@@ -347,7 +373,9 @@ export function CommunityDesktop() {
           </section>
           <section className="hub-box">
             <h3>
-              Community qoidalari
+              <span className="cm-h">
+                <ShieldCheck className="i shield" /> Community qoidalari
+              </span>
               <button type="button" onClick={() => setRulesOpen((open) => !open)}>
                 {rulesOpen ? "Yig‘ish" : "Ochish"}
               </button>

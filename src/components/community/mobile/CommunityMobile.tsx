@@ -292,8 +292,8 @@ export function CommunityMobile() {
                   <img className="big" src={post.mosaic.big} alt="" />
                   {post.mosaic.stack.length ? (
                     <div className="cm-stack">
-                      {post.mosaic.stack.map((src) => (
-                        <figure key={src}>
+                      {post.mosaic.stack.map((src, index) => (
+                        <figure key={`${index}-${src}`}>
                           <img src={src} alt="" />
                         </figure>
                       ))}
