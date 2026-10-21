@@ -70,8 +70,8 @@ export function LoginForm() {
       <SocialAuthButtons placement="after" verb="kirish" />
       <p className="text-center text-[12.5px] leading-relaxed text-[#8b93a7]" data-testid="login-consent">
         Kirish yoki Google orqali davom etish bilan siz{" "}
-        <Link href="/shartlar" className="font-semibold text-[#0b8f8a] hover:underline">Foydalanish shartlari</Link> va{" "}
-        <Link href="/maxfiylik" className="font-semibold text-[#0b8f8a] hover:underline">Maxfiylik siyosati</Link>ga rozilik bildirasiz.
+        <Link href="/shartlar" className="font-semibold text-[#1d6cf2] hover:underline">Foydalanish shartlari</Link> va{" "}
+        <Link href="/maxfiylik" className="font-semibold text-[#1d6cf2] hover:underline">Maxfiylik siyosati</Link>ga rozilik bildirasiz.
       </p>
     </AuthCard>
   );

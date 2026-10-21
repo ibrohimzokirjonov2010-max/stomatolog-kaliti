@@ -228,15 +228,15 @@ export function RegisterForm() {
                 aria-pressed={role === id}
                 onClick={() => setRole(id)}
                 className={`relative flex flex-col items-center gap-1 rounded-xl border px-2 py-3 text-center transition ${index < 3 ? "sm:col-span-2" : "sm:col-span-3"} ${
-                  role === id ? "border-[#0b8f8a] bg-[#f0faf9]" : "border-[#e3e9f1] bg-white hover:border-[#9edbd6]"
+                  role === id ? "border-[#1d6cf2] bg-[#eef4ff]" : "border-[#e3e9f1] bg-white hover:border-[#a9c6fb]"
                 }`}
               >
                 {role === id ? (
-                  <span className="absolute top-1.5 right-1.5 grid size-5 place-items-center rounded-full bg-[#0b8f8a] text-white">
+                  <span className="absolute top-1.5 right-1.5 grid size-5 place-items-center rounded-full bg-[#1d6cf2] text-white">
                     <Check className="size-3" />
                   </span>
                 ) : null}
-                <Icon className="size-6 text-[#0b8f8a]" />
+                <Icon className="size-6 text-[#1d6cf2]" />
                 <span className="text-[12.5px] font-bold text-[#0f1e3d]">{label}</span>
                 <span className="text-[10.5px] leading-tight text-[#6b7a90]">{sub}</span>
               </button>
@@ -252,12 +252,12 @@ export function RegisterForm() {
               setAccepted(e.target.checked);
               if (e.target.checked && error === CONSENT_ERROR) setError("");
             }}
-            className="mt-0.5 size-[18px] shrink-0 accent-[#0b8f8a]"
+            className="mt-0.5 size-[18px] shrink-0 accent-[#1d6cf2]"
             data-testid="consent-checkbox"
           />
           <span>
-            <Link href="/shartlar" target="_blank" className="font-semibold text-[#0b8f8a] hover:underline">Foydalanish shartlari</Link> va{" "}
-            <Link href="/maxfiylik" target="_blank" className="font-semibold text-[#0b8f8a] hover:underline">Maxfiylik siyosati</Link>ga roziman
+            <Link href="/shartlar" target="_blank" className="font-semibold text-[#1d6cf2] hover:underline">Foydalanish shartlari</Link> va{" "}
+            <Link href="/maxfiylik" target="_blank" className="font-semibold text-[#1d6cf2] hover:underline">Maxfiylik siyosati</Link>ga roziman
           </span>
         </label>
         {error ? (

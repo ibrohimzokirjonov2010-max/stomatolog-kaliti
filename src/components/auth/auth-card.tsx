@@ -55,7 +55,7 @@ export function AuthCard({
           </Link>
           <div>
             <h2 className="max-w-[min(480px,42vw)] text-[clamp(32px,3vw,48px)] leading-[1.08] font-extrabold tracking-tight text-[#0f1e3d]">
-              Stomatologlar uchun <span className="text-[#0b8f8a]">yagona platforma</span>
+              Stomatologlar uchun <span className="text-[#1d6cf2]">yagona platforma</span>
             </h2>
             <p className="mt-4 max-w-[420px] text-[clamp(14px,1.2vw,17px)] leading-relaxed text-[#4a5a72]">
               Do‘kon, ta’lim va klinika boshqaruvini bir joyda. Stomatologlar uchun zamonaviy ekosistema.
@@ -102,9 +102,9 @@ export function AuthCard({
         </div>
 
         <nav aria-label="Huquqiy havolalar" className="mt-5 flex flex-wrap items-center justify-center gap-x-4 gap-y-1 text-[13px] text-[#8b93a7]">
-          <Link href="/maxfiylik" className="hover:text-[#0b8f8a] hover:underline">Maxfiylik siyosati</Link>
-          <Link href="/shartlar" className="hover:text-[#0b8f8a] hover:underline">Foydalanish shartlari</Link>
-          <Link href="/hisobni-ochirish" className="hover:text-[#0b8f8a] hover:underline">Hisobni o‘chirish</Link>
+          <Link href="/maxfiylik" className="hover:text-[#1d6cf2] hover:underline">Maxfiylik siyosati</Link>
+          <Link href="/shartlar" className="hover:text-[#1d6cf2] hover:underline">Foydalanish shartlari</Link>
+          <Link href="/hisobni-ochirish" className="hover:text-[#1d6cf2] hover:underline">Hisobni o‘chirish</Link>
         </nav>
       </main>
     </div>
@@ -140,7 +140,7 @@ export function authInputClassName(extra?: string) {
   return [
     "h-12 w-full rounded-xl border border-[#e3e9f1] bg-white px-4 text-[16px] text-[#1a1d26]",
     "outline-none transition placeholder:text-[#9aa5b8]",
-    "focus:border-[#0b8f8a] focus:ring-3 focus:ring-[#0b8f8a]/15",
+    "focus:border-[#1d6cf2] focus:ring-3 focus:ring-[#1d6cf2]/15",
     extra ?? "",
   ].join(" ");
 }
@@ -148,7 +148,7 @@ export function authInputClassName(extra?: string) {
 /** Phone input with a fixed +998 prefix; the value is the national 9 digits as typed. */
 export function PhoneInput({ value, onChange }: { value: string; onChange: (value: string) => void }) {
   return (
-    <span className="flex h-12 w-full items-center overflow-hidden rounded-xl border border-[#e3e9f1] bg-white transition focus-within:border-[#0b8f8a] focus-within:ring-3 focus-within:ring-[#0b8f8a]/15">
+    <span className="flex h-12 w-full items-center overflow-hidden rounded-xl border border-[#e3e9f1] bg-white transition focus-within:border-[#1d6cf2] focus-within:ring-3 focus-within:ring-[#1d6cf2]/15">
       <span className="flex h-full shrink-0 items-center gap-2 border-r border-[#eef2f7] px-3.5 text-[15px] font-semibold text-[#1a1d26]">
         <span aria-hidden className="flex h-3.5 w-5 flex-col overflow-hidden rounded-[2px] ring-1 ring-black/10">
           <i className="flex-1 bg-[#1eb4e6]" />
@@ -193,7 +193,7 @@ export function PasswordInput(props: InputHTMLAttributes<HTMLInputElement>) {
 
 export function AuthLink({ href, children }: { href: string; children: ReactNode }) {
   return (
-    <Link href={href} className="font-semibold text-[#0b8f8a] hover:underline">
+    <Link href={href} className="font-semibold text-[#1d6cf2] hover:underline">
       {children}
     </Link>
   );
@@ -210,7 +210,7 @@ export function AuthPrimaryButton({
     <button
       type="submit"
       disabled={disabled}
-      className="flex h-12 w-full items-center justify-center gap-2 rounded-xl bg-[#0b8f8a] text-[16px] font-bold text-white shadow-[0_8px_20px_rgba(11,143,138,0.25)] transition hover:bg-[#0a7f7b] disabled:opacity-60"
+      className="flex h-12 w-full items-center justify-center gap-2 rounded-xl bg-[#1d6cf2] text-[16px] font-bold text-white shadow-[0_8px_20px_rgba(29,108,242,0.25)] transition hover:bg-[#1557d0] disabled:opacity-60"
     >
       {children}
     </button>
