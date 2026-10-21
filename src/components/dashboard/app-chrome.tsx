@@ -40,6 +40,7 @@ import { BookProductDesktop } from "@/components/books/desktop/BookProductDeskto
 import { ReaderDesktop } from "@/components/books/desktop/ReaderDesktop";
 import { ListingDetailDesktop, ListingsDesktop } from "@/components/crm/desktop/ListingsDesktop";
 import { CatalogProductDesktop } from "@/components/shop/desktop/CatalogProductDesktop";
+import { UstaProfileDesktop } from "@/components/ustalar/desktop/UstaProfileDesktop";
 import { AddFormDesktop } from "@/components/add-forms/AddFormDesktop";
 import { ElonForm } from "@/components/add-forms/ElonForm";
 import { UstaForm } from "@/components/add-forms/UstaForm";
@@ -206,6 +207,8 @@ function desktopSpec(pathname: string | null): ReactNode | null {
 
 function desktopUsta(pathname: string | null): ReactNode | null {
   if (pathname === "/ustalar") return <UstaCatalog />;
+  const usta = pathname?.match(/^\/ustalar\/([^/]+)$/);
+  if (usta && !["mening", "sorovlarim", "yangi"].includes(usta[1])) return <UstaProfileDesktop slug={decodeURIComponent(usta[1])} />;
   return null;
 }
 
