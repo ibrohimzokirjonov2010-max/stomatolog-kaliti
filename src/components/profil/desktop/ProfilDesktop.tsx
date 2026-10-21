@@ -225,7 +225,7 @@ export function ProfilDesktop() {
             </button>
             <input ref={fileRef} type="file" accept="image/*" hidden aria-label="Profil rasmi" onChange={onAvatar} />
           </div>
-          <div>
+          <div className="pf-who">
             <h1>{form.name.trim() || "Ism ko‘rsatilmagan"}</h1>
             <p className="pf-role">{form.spec.trim() || EMPTY_FIELD}</p>
             <div className="pf-meta">
@@ -247,30 +247,29 @@ export function ProfilDesktop() {
           >
             <Pencil className="i" /> Profilni tahrirlash
           </button>
+          <div className="pf-stats">
+            <Link className="pf-stat" href="/buyurtmalarim">
+              <span className="mark"><ShoppingBag className="i" /></span>
+              <span><b>{orderCount}</b><span>Buyurtmalar</span></span>
+            </Link>
+            <button type="button" className="pf-stat" onClick={() => setSection("kurslar")}>
+              <span className="mark"><Award className="i" /></span>
+              <span><b>0</b><span>Sertifikatlar</span></span>
+            </button>
+            <button type="button" className="pf-stat" onClick={() => setSection("kurslar")}>
+              <span className="mark"><GraduationCap className="i" /></span>
+              <span><b>0</b><span>Kurslar</span></span>
+            </button>
+            <button type="button" className="pf-stat" onClick={() => setNote(`Bonus balans: ${bonus.toLocaleString("fr-FR")} so‘m`)}>
+              <span className="mark"><Star className="i" /></span>
+              <span><b>{bonus.toLocaleString("fr-FR")}</b><span>Bonus, so‘m</span></span>
+            </button>
+            <button type="button" className="pf-stat" onClick={() => setSection("saqlangan")}>
+              <span className="mark"><Heart className="i" /></span>
+              <span><b>{favs.length}</b><span>Saqlanganlar</span></span>
+            </button>
+          </div>
         </header>
-
-        <div className="pf-stats">
-          <Link className="pf-stat" href="/buyurtmalarim">
-            <span className="mark"><ShoppingBag className="i" /></span>
-            <span><b>{orderCount}</b><span>Buyurtmalar</span></span>
-          </Link>
-          <button type="button" className="pf-stat" onClick={() => setSection("kurslar")}>
-            <span className="mark"><Award className="i" /></span>
-            <span><b>0</b><span>Sertifikatlar</span></span>
-          </button>
-          <button type="button" className="pf-stat" onClick={() => setSection("kurslar")}>
-            <span className="mark"><GraduationCap className="i" /></span>
-            <span><b>0</b><span>Kurslar</span></span>
-          </button>
-          <button type="button" className="pf-stat" onClick={() => setNote(`Bonus balans: ${bonus.toLocaleString("fr-FR")} so‘m`)}>
-            <span className="mark"><Star className="i" /></span>
-            <span><b>{bonus.toLocaleString("fr-FR")}</b><span>Bonus, so‘m</span></span>
-          </button>
-          <button type="button" className="pf-stat" onClick={() => setSection("saqlangan")}>
-            <span className="mark"><Heart className="i" /></span>
-            <span><b>{favs.length}</b><span>Saqlanganlar</span></span>
-          </button>
-        </div>
 
         <div className="pf-body">
           <nav className="pf-menu" aria-label="Profil bo‘limlari">

@@ -94,3 +94,61 @@
 .sh .pf-page .i { width: calc(.72 * var(--u)); height: calc(.72 * var(--u)); flex: none; }
 .sh .pf-stat .i { width: calc(.85 * var(--u)); height: calc(.85 * var(--u)); }
 .sh .pf-save { margin-top: calc(.4 * var(--u)); }
+
+/* Mockup pass: a single hero card (big round photo, facts, completeness, edit) holding the five
+   stat tiles; filled inputs and a solid active menu row. Sizes are mockup pixels times --k. */
+.sh .pf-page { --k: clamp(.86px, calc(var(--u) / 13.5), 1.06px); gap: calc(10 * var(--k)); }
+.sh .pf-page .i { width: calc(14 * var(--k)); height: calc(14 * var(--k)); }
+.sh .pf-hero { grid-template-columns: calc(116 * var(--k)) minmax(0, 1fr) minmax(0, calc(175 * var(--k))) auto; grid-template-rows: auto auto; column-gap: calc(18 * var(--k)); row-gap: calc(12 * var(--k)); align-items: start; padding: calc(16 * var(--k)) calc(18 * var(--k)); border-radius: calc(14 * var(--k)); }
+.sh .pf-hero .pf-ava { grid-row: 1 / span 2; align-self: center; width: calc(112 * var(--k)); height: calc(112 * var(--k)); }
+.sh .pf-hero .pf-ava img, .sh .pf-hero .pf-ava-empty { border-radius: 50%; }
+.sh .pf-hero .pf-ava-empty .i { width: calc(40 * var(--k)); height: calc(40 * var(--k)); }
+.sh .pf-hero .pf-ava button { right: calc(4 * var(--k)); bottom: calc(4 * var(--k)); width: calc(30 * var(--k)); height: calc(30 * var(--k)); background: #fff; color: #24344d; box-shadow: 0 2px 8px rgba(15, 30, 61, .18); }
+.sh .pf-who { min-width: 0; padding-top: calc(4 * var(--k)); }
+.sh .pf-hero h1 { font-size: calc(21 * var(--k)); font-weight: 800; letter-spacing: -.01em; }
+.sh .pf-role { font-size: calc(12 * var(--k)); margin: calc(4 * var(--k)) 0 calc(10 * var(--k)); }
+.sh .pf-meta { gap: calc(22 * var(--k)); font-size: calc(11.5 * var(--k)); }
+.sh .pf-meta span { gap: calc(6 * var(--k)); }
+.sh .pf-bar { padding-top: calc(8 * var(--k)); }
+.sh .pf-bar label { font-size: calc(11.5 * var(--k)); }
+.sh .pf-bar b { height: calc(8 * var(--k)); margin-top: calc(8 * var(--k)); }
+.sh .pf-edit { height: calc(38 * var(--k)); padding: 0 calc(26 * var(--k)); border-radius: calc(9 * var(--k)); font-size: calc(12.5 * var(--k)); gap: calc(8 * var(--k)); font-weight: 700; margin-top: calc(4 * var(--k)); }
+.sh .pf-hero .pf-stats { grid-column: 2 / -1; gap: calc(10 * var(--k)); }
+.sh .pf-stat { padding: calc(10 * var(--k)) calc(14 * var(--k)); gap: calc(12 * var(--k)); border-radius: calc(12 * var(--k)); }
+.sh .pf-stat .mark { width: calc(42 * var(--k)); height: calc(42 * var(--k)); border-radius: calc(12 * var(--k)); }
+.sh .pf-stat .i { width: calc(20 * var(--k)); height: calc(20 * var(--k)); }
+.sh .pf-stat:nth-child(1) .mark { background: #e3f6f4; color: #0b8f8a; }
+.sh .pf-stat:nth-child(2) .mark { background: #e8effd; color: #2f6bff; }
+.sh .pf-stat:nth-child(3) .mark { background: #eef0fe; color: #5b5bd6; }
+.sh .pf-stat:nth-child(4) .mark { background: #fff6e0; color: #e6a100; }
+.sh .pf-stat:nth-child(5) .mark { background: #fdecef; color: #e0325f; }
+.sh .pf-stat b { font-size: calc(18 * var(--k)); font-weight: 800; }
+.sh .pf-stat span span { font-size: calc(11 * var(--k)); }
+.sh .pf-body { grid-template-columns: minmax(0, calc(165 * var(--k))) minmax(0, 1fr); gap: calc(10 * var(--k)); }
+.sh .pf-menu { padding: calc(8 * var(--k)); border: 0; background: transparent; }
+.sh .pf-menu .head { padding: calc(10 * var(--k)) calc(12 * var(--k)); border-radius: calc(9 * var(--k)); font-size: calc(12 * var(--k)); font-weight: 700; gap: calc(9 * var(--k)); background: #0b8f8a; }
+.sh .pf-menu button.item, .sh .pf-menu a.item { padding: calc(9 * var(--k)) calc(12 * var(--k)); font-size: calc(12 * var(--k)); font-weight: 500; gap: calc(9 * var(--k)); color: #33425b; }
+.sh .pf-menu button.item:hover, .sh .pf-menu a.item:hover { background: #f1f5f9; }
+.sh .pf-card { padding: calc(14 * var(--k)); border-radius: calc(12 * var(--k)); }
+.sh .pf-card h3 { font-size: calc(14 * var(--k)); font-weight: 800; margin-bottom: calc(12 * var(--k)); }
+.sh .pf-card h3 button, .sh .pf-link { font-size: calc(11 * var(--k)); font-weight: 600; }
+.sh .pf-grid { gap: calc(10 * var(--k)) calc(12 * var(--k)); }
+.sh .pf-grid label, .sh .pf-wide { gap: calc(5 * var(--k)); font-size: calc(10.5 * var(--k)); font-weight: 500; }
+.sh .pf-grid input, .sh .pf-grid select, .sh .pf-wide textarea, .sh .pf-card input, .sh .pf-card select { height: calc(34 * var(--k)); border: 1px solid transparent; border-radius: calc(8 * var(--k)); padding: 0 calc(11 * var(--k)); font-size: calc(11.5 * var(--k)); background: #f3f6fa; }
+.sh .pf-wide textarea { height: calc(52 * var(--k)); padding: calc(9 * var(--k)) calc(11 * var(--k)); line-height: 1.45; }
+.sh .pf-grid input:enabled, .sh .pf-grid select:enabled, .sh .pf-wide textarea:enabled, .sh .pf-card input:enabled { background: #fff; border-color: #cfe9e6; }
+.sh .pf-clinic img, .sh .pf-shot { min-height: calc(100 * var(--k)); height: calc(100 * var(--k)); border-radius: calc(10 * var(--k)); }
+.sh .pf-shot b { display: none; }
+.sh .pf-clinic .name { font-size: calc(13 * var(--k)); margin-top: calc(10 * var(--k)); }
+.sh .pf-clinic p { font-size: calc(11 * var(--k)); margin-top: calc(6 * var(--k)); gap: calc(7 * var(--k)); align-items: center; }
+.sh .pf-row { font-size: calc(11.5 * var(--k)); padding: calc(8 * var(--k)) 0; border-top: 0; }
+.sh .pf-switch { width: calc(34 * var(--k)); height: calc(19 * var(--k)); }
+.sh .pf-switch i { top: calc(2.5 * var(--k)); left: calc(2.5 * var(--k)); width: calc(14 * var(--k)); height: calc(14 * var(--k)); transition: left .15s; }
+.sh .pf-switch.on i { left: calc(17.5 * var(--k)); }
+.sh .pf-add { max-width: none; border-radius: calc(10 * var(--k)); font-size: calc(11.5 * var(--k)); font-weight: 600; }
+.sh .pf-addr, .sh .pf-pay { border-radius: calc(10 * var(--k)); padding: calc(10 * var(--k)); }
+.sh .pf-card .pf-empty, .sh .pf-card > p { font-size: calc(11.5 * var(--k)); color: #6a7c93; }
+.sh .pf-hero .pf-who { grid-column: 2; grid-row: 1; }
+.sh .pf-hero .pf-bar { grid-column: 3; grid-row: 1; }
+.sh .pf-hero .pf-edit { grid-column: 4; grid-row: 1; }
+.sh .pf-hero .pf-stats { grid-row: 2; }
