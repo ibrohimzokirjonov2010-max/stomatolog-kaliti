@@ -398,3 +398,48 @@
 .sh .crm-teal .ap-today { max-height: calc(470 * var(--k)); overflow-y: auto; scrollbar-width: thin; }
 .sh .crm-teal [data-testid="appointments-desktop"] .crm-split { grid-template-columns: minmax(0, 1fr) clamp(calc(320 * var(--k)), 30%, calc(380 * var(--k))); }
 .sh .crm-teal .ap-today .row > .ap-act { grid-column: auto; justify-self: center; width: calc(26 * var(--k)); padding: 0; }
+
+/* Davolash rejalari: patient | odontogram | plan summary on top, steps and payments below. */
+.sh .crm-teal .pl-layout { display: grid; grid-template-columns: calc(210 * var(--k)) minmax(0, 1fr) clamp(calc(270 * var(--k)), 26%, calc(320 * var(--k))); grid-template-areas: "pat chart sum" "steps steps pays"; gap: calc(12 * var(--k)); align-items: start; }
+.sh .crm-teal .pl-box { padding: calc(16 * var(--k)); border-radius: calc(14 * var(--k)); min-width: 0; }
+.sh .crm-teal .pl-box h3 { font-size: calc(14 * var(--k)); font-weight: 800; margin: 0 0 calc(12 * var(--k)); }
+.sh .crm-teal .pl-patient { grid-area: pat; }
+.sh .crm-teal .pl-chart { grid-area: chart; }
+.sh .crm-teal .pl-summary { grid-area: sum; }
+.sh .crm-teal .pl-steps { grid-area: steps; }
+.sh .crm-teal .pl-pays { grid-area: pays; }
+.sh .pl-who { display: flex; gap: calc(12 * var(--k)); align-items: center; }
+.sh .pl-who img, .sh .pl-who .pt-ini { width: calc(62 * var(--k)); height: calc(62 * var(--k)); border-radius: 50%; object-fit: cover; flex: none; }
+.sh .pl-who > div { display: flex; flex-direction: column; gap: calc(3 * var(--k)); min-width: 0; }
+.sh .pl-who b { font-size: calc(13.5 * var(--k)); }
+.sh .pl-who small { font-size: calc(10.5 * var(--k)); color: #7b8ba3; }
+.sh .pl-tags { display: flex; gap: calc(5 * var(--k)); }
+.sh .pl-tags i { font-style: normal; font-size: calc(10 * var(--k)); padding: calc(2 * var(--k)) calc(7 * var(--k)); border-radius: calc(5 * var(--k)); background: #f1f5f9; color: #475569; }
+.sh .pl-link { display: inline-flex; align-items: center; gap: calc(9 * var(--k)); color: #0b7f7b; font-weight: 600; }
+.sh .pl-list { margin-top: calc(14 * var(--k)); border-top: 1px solid #eef2f7; padding-top: calc(8 * var(--k)); display: flex; flex-direction: column; gap: calc(4 * var(--k)); }
+.sh .pl-list button { text-align: left; padding: calc(7 * var(--k)) calc(8 * var(--k)); border-radius: calc(8 * var(--k)); display: flex; flex-direction: column; gap: calc(2 * var(--k)); }
+.sh .pl-list button:hover { background: #f6f9fc; }
+.sh .pl-list button.on { background: #eaf7f6; }
+.sh .pl-list b { font-size: calc(11.5 * var(--k)); }
+.sh .pl-list small { font-size: calc(10 * var(--k)); color: #7b8ba3; }
+.sh .crm-teal .pl-chart .tooth { width: calc(26 * var(--k)); }
+.sh .crm-teal .pl-chart .tooth svg { height: calc(38 * var(--k)); }
+.sh .crm-teal .pl-chart .tooth-row { gap: calc(4 * var(--k)); }
+.sh .pl-summary-h { display: flex; justify-content: space-between; align-items: center; gap: calc(8 * var(--k)); margin-bottom: calc(8 * var(--k)); }
+.sh .crm-teal .pl-summary-h h3 { margin: 0; }
+.sh .crm-teal .pl-summary h2 { margin: 0; font-size: calc(15 * var(--k)); font-weight: 800; }
+.sh .pl-facts { display: grid; grid-template-columns: auto 1fr; gap: calc(10 * var(--k)) calc(12 * var(--k)); margin: calc(14 * var(--k)) 0; font-size: calc(11.5 * var(--k)); }
+.sh .pl-facts dt { display: flex; align-items: center; gap: calc(8 * var(--k)); color: #5d6e86; }
+.sh .pl-facts dd { margin: 0; text-align: right; font-weight: 700; }
+.sh .pl-progress { display: flex; justify-content: space-between; font-size: calc(11 * var(--k)); color: #5d6e86; margin-bottom: calc(6 * var(--k)); }
+.sh .pl-progress b { color: #0b7f7b; }
+.sh .crm-teal .pl-summary .bar { height: calc(8 * var(--k)); }
+.sh .crm-teal .pl-wide { width: 100%; justify-content: center; height: calc(40 * var(--k)) !important; margin-top: calc(14 * var(--k)); }
+.sh .pl-two { display: grid; grid-template-columns: 1fr 1fr; gap: calc(8 * var(--k)); margin-top: calc(8 * var(--k)); }
+.sh .crm-teal .pl-two .crm-btn { justify-content: center; padding: 0 calc(8 * var(--k)); font-size: calc(11 * var(--k)); }
+.sh .pl-foot { display: flex; justify-content: space-between; align-items: center; margin-top: calc(12 * var(--k)); }
+.sh .pl-foot p { margin: 0; font-size: calc(12 * var(--k)); color: #5d6e86; }
+.sh .pl-foot b { font-size: calc(16 * var(--k)); color: #0b7f7b; margin-left: calc(6 * var(--k)); }
+.sh .pl-method { display: inline-block; padding: calc(2 * var(--k)) calc(8 * var(--k)); border-radius: calc(5 * var(--k)); background: #eef6ff; color: #1d4ed8; font-size: calc(10 * var(--k)); font-weight: 600; }
+.sh .pl-sum { margin: calc(8 * var(--k)) 0 0; display: flex; justify-content: space-between; font-size: calc(11.5 * var(--k)); }
+.sh .crm-teal .pl-pays .crm-btn.blue { height: calc(30 * var(--k)); padding: 0 calc(12 * var(--k)); font-size: calc(11 * var(--k)); }
