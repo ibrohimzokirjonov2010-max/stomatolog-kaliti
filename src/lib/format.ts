@@ -66,6 +66,14 @@ export function formatUzDate(isoDate: string) {
   };
 }
 
+/** "2026-10-24" or "24.10.2026" → "24.10.2026"; anything else → the fallback. */
+export function formatDotDate(value: string | null | undefined, fallback = "–") {
+  if (!value) return fallback;
+  const iso = /^(\d{4})-(\d{2})-(\d{2})/.exec(value);
+  if (iso) return `${iso[3]}.${iso[2]}.${iso[1]}`;
+  return /^\d{2}\.\d{2}\.\d{4}/.test(value) ? value.slice(0, 10) : fallback;
+}
+
 /** Deterministic grouping — avoids Intl NBSP/NNBSP SSR/client hydration #418. */
 export function formatGroupedNumber(amount: number) {
   const n = Math.round(Number.isFinite(amount) ? amount : 0);

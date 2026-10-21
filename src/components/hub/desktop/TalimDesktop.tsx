@@ -4,11 +4,14 @@
 import { useEffect, useMemo, useState } from "react";
 import { useSearchParams } from "next/navigation";
 import {
+  ArrowRight,
   BadgeCheck,
   Clock3,
+  Globe,
   GraduationCap,
   LayoutGrid,
   List,
+  MonitorPlay,
   MonitorSmartphone,
   Search,
   Send,
@@ -295,22 +298,28 @@ export function TalimDesktop() {
                           <small>{course.role}</small>
                         </div>
                       </div>
-                      <div className="hub-meta">
-                        <Star className="i" />
+                      {course.reviews > 0 ? (
+                        <div className="hub-meta">
+                          <Star className="i" /> {course.rating.toFixed(1)} ({course.reviews} ta sharh)
+                        </div>
+                      ) : null}
+                      <div className="hub-facts-row">
                         <span>
-                          {course.rating.toFixed(1)} ({course.reviews} ta sharh)
+                          <MonitorPlay className="i" /> {course.lessons} dars
                         </span>
-                        <span>{course.lessons} dars</span>
-                        <span>{course.hours} soat</span>
-                        <span>{course.lang}</span>
+                        <span>
+                          <Globe className="i" /> {course.lang}
+                        </span>
                       </div>
-                      <div className="hub-price">
-                        <strong>{course.price === 0 ? "Bepul" : som(course.price)}</strong>
-                        {course.oldPrice ? <s>{som(course.oldPrice)}</s> : null}
+                      <div className="hub-buy">
+                        <div className="hub-price">
+                          {course.oldPrice ? <s>{som(course.oldPrice)}</s> : null}
+                          <strong>{course.price === 0 ? "Bepul" : som(course.price)}</strong>
+                        </div>
+                        <button type="button" className="hub-btn" onClick={() => play(course)}>
+                          {course.price === 0 ? "Tomosha qilish" : "Kursni boshlash"} <ArrowRight className="i" />
+                        </button>
                       </div>
-                      <button type="button" className="hub-btn" onClick={() => play(course)}>
-                        {course.price === 0 ? "Tomosha qilish" : "Kursni boshlash"} →
-                      </button>
                     </div>
                   </article>
                 );

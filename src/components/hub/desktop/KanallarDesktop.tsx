@@ -1,7 +1,7 @@
 "use client";
 /* eslint-disable @next/next/no-img-element */
 
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useState, type CSSProperties } from "react";
 import { useSearchParams } from "next/navigation";
 import { Bookmark, Camera, Heart, Mic, Plus, Send, Star, Tv } from "lucide-react";
 import { ShopShell } from "@/components/shop/desktop/ShopShell";
@@ -33,6 +33,22 @@ function PlatformIcon({ id }: { id: Platform }) {
   return <Send className="i" />;
 }
 
+/** Channel photo, or its initials on the channel's own colour when there is no photo. */
+function ChannelAvatar({ name, image, color, className = "hub-ch-mini" }: { name: string; image: string; color?: string; className?: string }) {
+  if (image) return <img className={className} src={image} alt="" />;
+  const letters = name
+    .split(/\s+/)
+    .filter(Boolean)
+    .slice(0, 2)
+    .map((part) => part[0]?.toUpperCase() ?? "")
+    .join("");
+  return (
+    <span className={className} style={{ background: color || "#0fa6a0" }} aria-hidden>
+      {letters}
+    </span>
+  );
+}
+
 export function KanallarDesktop() {
   const cartCount = useShopLineCount();
   const params = useSearchParams();
@@ -48,6 +64,7 @@ export function KanallarDesktop() {
   const [saved, setSaved] = useState<string[]>([]);
   const [savedOpen, setSavedOpen] = useState(false);
   const [offer, setOffer] = useState(false);
+  const [colors, setColors] = useState<Record<string, string>>({});
 
   useEffect(() => {
     setQ(paramQ);
@@ -57,8 +74,9 @@ export function KanallarDesktop() {
     let stop = false;
     void fetch("/api/channels", { credentials: "same-origin" })
       .then((res) => res.json())
-      .then((json: { ok?: boolean; channels?: { id: string; username: string; name: string; category: ChannelCategory }[] }) => {
+      .then((json: { ok?: boolean; channels?: { id: string; username: string; name: string; category: ChannelCategory; avatarColor?: string }[] }) => {
         if (stop || !json.ok) return;
+        setColors(Object.fromEntries((json.channels ?? []).map((item) => [item.id, item.avatarColor || ""])));
         const topicOf = (category: string) => channelCategoryLabel[category as ChannelCategory] ?? "Umumiy";
         setList(
           (json.channels ?? []).map((item, index) => ({
@@ -122,13 +140,13 @@ export function KanallarDesktop() {
           </div>
           <div className="hub-tabs">
             {platforms.map((item) => (
-              <button key={item.id} type="button" className={platform === item.id ? "hub-tab on" : "hub-tab"} onClick={() => setPlatform(item.id)}>
+              <button key={item.id} type="button" className={`hub-tab ch-plat ${item.id}${platform === item.id ? " on" : ""}`} onClick={() => setPlatform(item.id)}>
                 {item.id !== "all" ? <PlatformIcon id={item.id} /> : null}
                 {item.label}
               </button>
             ))}
           </div>
-          <div className="hub-frow">
+          <div className="hub-frow ch-filter">
             <span>Mavzu:</span>
             {channelTopics.map((item) => (
               <button key={item} type="button" className={topic === item ? "hub-chip on" : "hub-chip"} onClick={() => setTopic(item)}>
@@ -136,7 +154,7 @@ export function KanallarDesktop() {
               </button>
             ))}
           </div>
-          <div className="hub-frow">
+          <div className="hub-frow ch-filter">
             <span>Til:</span>
             {langs.map((item) => (
               <button key={item} type="button" className={lang === item ? "hub-chip on" : "hub-chip"} onClick={() => setLang(item)}>
@@ -180,8 +198,13 @@ export function KanallarDesktop() {
             <div className="hub-grid">
               {shown.map((item) => (
                 <article className="hub-ch" key={item.id}>
-                    <div className="ph">
-                    {item.image ? <img src={item.image} alt="" /> : null}
+                  <div className="ph">
+                    {item.image ? (
+                      <img src={item.image} alt="" />
+                    ) : (
+                      <span className="hub-ch-cover" style={{ "--ch": colors[item.id] || "#0fa6a0" } as CSSProperties} aria-hidden />
+                    )}
+                    <ChannelAvatar name={item.name} image={item.image} color={colors[item.id]} className="hub-ch-ava" />
                     {item.verified ? <span className="hub-ver">Tasdiqlangan</span> : null}
                     <button type="button" className={saved.includes(item.id) ? "hub-heart on" : "hub-heart"} onClick={() => toggleSave(item.id)} aria-label="Saqlash">
                       <Heart className="i" />
@@ -189,23 +212,33 @@ export function KanallarDesktop() {
                   </div>
                   <div className="bd">
                     <h3>{item.name}</h3>
-                    <span className="hub-handle">{item.handle}</span>
+                    <span className="hub-handle">@{item.handle.replace(/^@/, "")}</span>
                     <div className="hub-meta">
-                      <span>{subsFull(item.subscribers)} obunachi</span>
+                      {item.subscribers > 0 ? <span>{subsFull(item.subscribers)} obunachi</span> : null}
                       <span>{item.lang}</span>
                     </div>
-                    <p>{item.about}</p>
+                    {item.about && item.about !== item.handle ? <p>{item.about}</p> : null}
                     <div className="hub-tags">
                       {item.tags.map((tag) => (
                         <i key={tag}>{tag}</i>
                       ))}
                     </div>
-                    <div className="hub-meta">
-                      <Star className="i" /> {item.rating.toFixed(1)} ({item.reviews} ta baho)
+                    <div className="hub-ch-foot">
+                      {item.reviews > 0 ? (
+                        <span className="hub-meta">
+                          <Star className="i" /> {item.rating.toFixed(1)} <small>({item.reviews} ta baho)</small>
+                        </span>
+                      ) : null}
+                      <a
+                        className={subs.includes(item.id) ? "hub-subbtn on" : "hub-subbtn"}
+                        href={`https://t.me/${item.handle.replace(/^@/, "")}`}
+                        target="_blank"
+                        rel="noreferrer"
+                        onClick={() => toggleSub(item.id)}
+                      >
+                        {subs.includes(item.id) ? "Obuna bo‘ldingiz" : "Obuna bo‘lish"}
+                      </a>
                     </div>
-                    <button type="button" className={subs.includes(item.id) ? "hub-subbtn on" : "hub-subbtn"} onClick={() => toggleSub(item.id)}>
-                      {subs.includes(item.id) ? "Obuna bo‘ldingiz" : "Obuna bo‘lish"}
-                    </button>
                   </div>
                 </article>
               ))}
@@ -220,10 +253,10 @@ export function KanallarDesktop() {
             </p>
             {picks.map((item) => (
               <div className="hub-pick" key={item.id}>
-                <img src={item.image} alt="" />
+                <ChannelAvatar name={item.name} image={item.image} color={colors[item.id]} />
                 <div>
                   <b>{item.name}</b>
-                  <small>{subsK(item.subscribers)} obunachi</small>
+                  <small>{item.subscribers > 0 ? `${subsK(item.subscribers)} obunachi` : `@${item.handle.replace(/^@/, "")}`}</small>
                 </div>
                 <button type="button" className={subs.includes(item.id) ? "hub-subbtn on" : "hub-subbtn"} onClick={() => toggleSub(item.id)}>
                   {subs.includes(item.id) ? "Obuna" : "Obuna bo‘lish"}
@@ -241,7 +274,7 @@ export function KanallarDesktop() {
             {savedRows.length === 0 ? <p className="by">Hali saqlanmagan.</p> : null}
             {(savedOpen ? savedRows : savedRows.slice(0, 3)).map((item) => (
               <div className="hub-pick" key={item.id}>
-                <img src={item.image} alt="" />
+                <ChannelAvatar name={item.name} image={item.image} color={colors[item.id]} />
                 <b>{item.name}</b>
                 <Bookmark className="i" />
               </div>

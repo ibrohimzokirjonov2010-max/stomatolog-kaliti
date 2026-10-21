@@ -186,12 +186,12 @@ export function JobsDesktop() {
     }).length;
 
   const clinics = useMemo(() => {
-    const byName = new Map<string, { openings: number; city: string }>();
+    const byName = new Map<string, { openings: number; city: string; logo: string }>();
     all.forEach((item) => {
       const name = item.clinic.trim();
       if (!name) return;
       const cur = byName.get(name);
-      byName.set(name, { openings: (cur?.openings ?? 0) + 1, city: item.city });
+      byName.set(name, { openings: (cur?.openings ?? 0) + 1, city: item.city, logo: cur?.logo || item.job?.logo || "" });
     });
     return [...byName.entries()].map(([name, row]) => ({ name, ...row }));
   }, [all]);
@@ -342,6 +342,7 @@ export function JobsDesktop() {
               {clinics.map((row) => (
                 <li key={row.name}>
                   <button type="button" className={clinic === row.name ? "on" : ""} onClick={() => { setTab("jobs"); setClinic(clinic === row.name ? "" : row.name); }}>
+                    {row.logo ? <img src={row.logo} alt="" /> : <i className="ij-clinic-ini" aria-hidden>{row.name.slice(0, 1).toUpperCase()}</i>}
                     <span><b>{row.name}</b><small>{row.city}</small></span>
                     <em>{row.openings} ta vakansiya</em>
                   </button>

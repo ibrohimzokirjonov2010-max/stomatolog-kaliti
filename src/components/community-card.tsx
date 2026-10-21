@@ -564,9 +564,9 @@ function MobileFeedPost({
             imageCount >= 3 ? "grid-cols-3" : imageCount === 2 ? "grid-cols-2" : "grid-cols-1",
           )}
         >
-          {post.images.map((src) => (
+          {post.images.map((src, index) => (
             <button
-              key={src}
+              key={`${index}-${src}`}
               type="button"
               onClick={() => onOpenImage(src)}
               className="overflow-hidden rounded-2xl bg-[#f4f7fb]"

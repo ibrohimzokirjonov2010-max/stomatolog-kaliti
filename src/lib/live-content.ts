@@ -444,7 +444,10 @@ const MOBILE_KINDS = new Set<NewsKind>(["texnologiya", "seminarlar", "klinikalar
 
 export function toDesktopNews(item: LiveNews, index: number): DesktopArticle {
   const tag = item.tags.find((value): value is NewsCat => NEWS_CATS.has(value as NewsCat)) ?? "soha";
-  const date = item.publishedAt ? new Date(item.publishedAt).toLocaleDateString("ru-RU", { day: "2-digit", month: "short", year: "numeric" }) : "";
+  const published = item.publishedAt ? new Date(item.publishedAt) : null;
+  const date = published && !Number.isNaN(published.getTime())
+    ? `${String(published.getDate()).padStart(2, "0")}.${String(published.getMonth() + 1).padStart(2, "0")}.${published.getFullYear()}`
+    : "";
   return {
     id: item.id,
     cat: tag,

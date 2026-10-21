@@ -2,7 +2,7 @@
 /* eslint-disable @next/next/no-img-element */
 
 import { useMemo, useState } from "react";
-import { ChevronLeft, ChevronRight, Plus } from "lucide-react";
+import { Check, ChevronLeft, ChevronRight, Play, Plus } from "lucide-react";
 import { CrmFrame } from "@/components/crm/desktop/CrmFrame";
 import { NewAppointmentModal } from "@/components/crm/CrmCreateModals";
 import { useDoctorProfile } from "@/components/doctor-profile-provider";
@@ -48,6 +48,43 @@ function weekOf(value: string) {
 function minutes(value: string) {
   const [hour, min] = value.split(":").map(Number);
   return hour * 60 + min;
+}
+
+/** Visit length in minutes; a booking saved without an end time counts as 30 minutes. */
+function duration(item: { start: string; end: string }) {
+  const span = minutes(item.end) - minutes(item.start);
+  return span > 0 ? span : 30;
+}
+
+/** Side-by-side lanes for visits that overlap in time: [lane, lanes in its cluster] per id. */
+function lanes<T extends { id: string; start: string; end: string }>(rows: T[]) {
+  const sorted = [...rows].sort((a, b) => minutes(a.start) - minutes(b.start));
+  const out = new Map<string, [number, number]>();
+  let cluster: T[] = [];
+  let clusterEnd = -1;
+  const ends: number[] = [];
+  const flush = () => {
+    const width = Math.max(1, ends.length);
+    for (const row of cluster) out.set(row.id, [out.get(row.id)?.[0] ?? 0, width]);
+    cluster = [];
+    ends.length = 0;
+  };
+  for (const row of sorted) {
+    const start = minutes(row.start);
+    if (start >= clusterEnd) flush();
+    let lane = ends.findIndex((end) => end <= start);
+    if (lane === -1) lane = ends.length;
+    ends[lane] = start + duration(row);
+    out.set(row.id, [lane, 0]);
+    cluster.push(row);
+    clusterEnd = Math.max(clusterEnd, start + duration(row));
+  }
+  flush();
+  return out;
+}
+
+function clock(total: number) {
+  return `${String(Math.floor(total / 60)).padStart(2, "0")}:${String(total % 60).padStart(2, "0")}`;
 }
 
 function labelFor(value: string) {
@@ -98,15 +135,15 @@ export function AppointmentsDesktop() {
   const gridDay = view === "kun" ? [cursor] : days;
   const todayItems = visible.filter((item) => item.date === today);
   const shownToday = todayItems.filter((item) => item.grid !== false);
-  const avg = shownToday.length ? Math.round(shownToday.reduce((sum, item) => sum + (minutes(item.end) - minutes(item.start)), 0) / shownToday.length) : 0;
-  const load = Math.min(100, Math.round((shownToday.reduce((sum, item) => sum + (minutes(item.end) - minutes(item.start)), 0) / (10 * 60)) * 100));
+  const avg = shownToday.length ? Math.round(shownToday.reduce((sum, item) => sum + duration(item), 0) / shownToday.length) : 0;
+  const load = Math.min(100, Math.round((shownToday.reduce((sum, item) => sum + duration(item), 0) / (10 * 60)) * 100));
   const seedDay = false;
 
   const monthStart = `${cursor.slice(0, 8)}01`;
   const monthDays = Array.from({ length: 31 }, (_, index) => addDays(monthStart, index)).filter((item) => item.slice(5, 7) === cursor.slice(5, 7));
 
   return (
-    <CrmFrame inlineSearch active="appointments" placeholder="Bemor, telefon, ID yoki xizmat bo‘yicha qidiring..." headerQuery={q} onHeaderQuery={setQ}>
+    <CrmFrame active="appointments" placeholder="Bemor, telefon, ID yoki xizmat bo‘yicha qidiring..." headerQuery={q} onHeaderQuery={setQ}>
       <div data-testid="appointments-desktop">
         <div className="crm-head">
           <div>
@@ -162,34 +199,50 @@ export function AppointmentsDesktop() {
               <div className="ap-hours">{HOURS.map((hour, index) => <div key={hour} style={{ height: index === HOURS.length - 1 ? 0 : "calc(2.2 * var(--u))" }}>{hour}</div>)}</div>
               {gridDay.map((day) => (
                 <div key={day} className="ap-col">
-                  {visible.filter((item) => item.date === day && item.grid !== false).map((item) => {
+                  {(() => {
+                    const dayRows = visible.filter((item) => item.date === day && item.grid !== false);
+                    const placed = lanes(dayRows);
+                    return dayRows.map((item) => {
                     const top = ((minutes(item.start) - 8 * 60) / (10 * 60)) * 100;
-                    const height = ((minutes(item.end) - minutes(item.start)) / (10 * 60)) * 100;
+                    const height = (duration(item) / (10 * 60)) * 100;
+                    const [lane, count] = placed.get(item.id) ?? [0, 1];
                     return (
-                      <button key={item.id} type="button" className={`ap-block ${item.status}`} style={{ top: `${top}%`, height: `${height}%` }} data-testid="appt-block">
-                        <small>{item.start} – {item.end}</small>
+                      <button
+                        key={item.id}
+                        type="button"
+                        className={`ap-block ${item.status}${count > 1 ? " narrow" : ""}`}
+                        style={{ top: `${top}%`, height: `${height}%`, left: `calc(${(lane / count) * 100}% + 2px)`, width: `calc(${100 / count}% - 4px)`, right: "auto" }}
+                        title={`${item.start} ${item.patient} · ${item.service}`}
+                        data-testid="appt-block"
+                      >
+                        <small>{item.start} – {clock(minutes(item.start) + duration(item))}</small>
                         <b>{item.patient}</b>
                         <span>{item.service}</span>
                       </button>
                     );
-                  })}
+                    });
+                  })()}
                 </div>
               ))}
             </div>
           )}
           <aside>
             <div className="ap-today">
-              <div style={{ display: "flex", justifyContent: "space-between" }}><b>Bugungi uchrashuvlar</b><span className="crm-muted">{dayLabel(today)}</span></div>
-              {shownToday.length === 0 ? <p className="crm-muted">Uchrashuv yo‘q</p> : shownToday.map((item) => (
+              <div className="ap-today-h"><b>Bugungi uchrashuvlar</b><span className="crm-muted">{dayLabel(today)}</span></div>
+              {shownToday.length === 0 ? <p className="crm-muted">Uchrashuv yo‘q</p> : [...shownToday].sort((a, b) => a.start.localeCompare(b.start)).map((item) => (
                 <div key={item.id} className="row">
-                  <img src={item.avatar} alt="" />
-                  <span style={{ flex: 1 }}><b>{item.patient}</b><small className="crm-muted">{item.service} · {item.room}</small></span>
+                  <time>
+                    {item.start}
+                    <small>{clock(minutes(item.start) + duration(item))}</small>
+                  </time>
+                  {item.avatar ? <img src={item.avatar} alt="" /> : <span className="ap-ini" aria-hidden>{item.patient.slice(0, 1)}</span>}
+                  <span className="who"><b>{item.patient}</b><small className="crm-muted">{item.service}</small></span>
                   <span className={`crm-pill ${item.status}`}>{apptStatusLabel[item.status]}</span>
                   {item.status !== "davol" && item.status !== "yakun" && item.status !== "bekor" ? (
-                    <button type="button" className="crm-btn blue" data-testid="appt-start" onClick={() => setItems((prev) => prev.map((row) => (row.id === item.id ? { ...row, status: "davol" } : row)))}>Boshlash</button>
+                    <button type="button" className="ap-act" data-testid="appt-start" aria-label={`${item.patient}: qabulni boshlash`} title="Boshlash" onClick={() => setItems((prev) => prev.map((row) => (row.id === item.id ? { ...row, status: "davol" } : row)))}><Play className="i" /></button>
                   ) : null}
                   {item.status === "davol" ? (
-                    <button type="button" className="crm-btn" data-testid="appt-finish" onClick={() => setItems((prev) => prev.map((row) => (row.id === item.id ? { ...row, status: "yakun" } : row)))}>Yakunlash</button>
+                    <button type="button" className="ap-act done" data-testid="appt-finish" aria-label={`${item.patient}: qabulni yakunlash`} title="Yakunlash" onClick={() => setItems((prev) => prev.map((row) => (row.id === item.id ? { ...row, status: "yakun" } : row)))}><Check className="i" /></button>
                   ) : null}
                 </div>
               ))}

@@ -1,10 +1,10 @@
 "use client";
 /* eslint-disable @next/next/no-img-element -- desktop shell sizes raw images with --u */
 
-import { useMemo } from "react";
+import { useEffect, useMemo, useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { BadgeCheck, Check, Heart, Lock, Minus, Plus, RotateCcw, ShieldCheck, Store, Trash2, Truck } from "lucide-react";
+import { ArrowRight, BadgeCheck, Check, Heart, Lock, Minus, Plus, RotateCcw, ShieldCheck, ShoppingCart, Store, Trash2, Truck } from "lucide-react";
 import { useCart } from "@/components/cart-provider";
 import { useFavorites } from "@/components/favorites-provider";
 import { ShopShell } from "@/components/shop/desktop/ShopShell";
@@ -12,6 +12,7 @@ import { som } from "@/components/shop/desktop/shop-cart";
 import { apparelMetaLabel } from "@/data/forma";
 import { shopDeliveryFee } from "@/lib/cart-totals";
 import { returnWindowText } from "@/lib/commerce-terms";
+import { catalogHref, fetchCatalogProducts, productFromCatalog, type CatalogCard } from "@/lib/catalog-client";
 import "./cart.css";
 
 const steps = ["Savat", "Yetkazib berish", "To‘lov", "Tasdiqlash"];
@@ -20,7 +21,27 @@ export function SavatDesktop() {
   const router = useRouter();
   const cart = useCart();
   const favorites = useFavorites();
-  const { items, setQty, remove, clear, isSelected, toggleSelected, setAllSelected, selectedItems, selectedSubtotal } = cart;
+  const { items, add, setQty, remove, clear, isSelected, toggleSelected, setAllSelected, selectedItems, selectedSubtotal } = cart;
+  const [catalog, setCatalog] = useState<CatalogCard[]>([]);
+
+  useEffect(() => {
+    let stop = false;
+    void fetchCatalogProducts().then((rows) => {
+      if (!stop) setCatalog(rows);
+    });
+    return () => {
+      stop = true;
+    };
+  }, []);
+
+  // Suggestions: live catalog items not already in the cart, best reviewed first.
+  const picks = useMemo(() => {
+    const inCart = new Set(items.map((line) => line.product.id));
+    return catalog
+      .filter((item) => !inCart.has(item.id) && item.category !== "forma")
+      .sort((a, b) => b.reviews - a.reviews)
+      .slice(0, 4);
+  }, [catalog, items]);
 
   const groups = useMemo(() => {
     const map = new Map<string, typeof items>();
@@ -41,7 +62,9 @@ export function SavatDesktop() {
     <ShopShell searchPath="/marketplace" cartCount={cart.count} placeholder="Stomatologiya mahsulotlarini qidiring..." showCamera={false}>
       <div className="sv-page" data-testid="savat-desktop">
         <div className="sv-head">
-          <h1>Savat ({qtySum} ta mahsulot)</h1>
+          <h1>
+            Savat <span>({qtySum} ta mahsulot)</span>
+          </h1>
           <div className="sv-steps">
             {steps.map((label, index) => (
               <span key={label} className={index === 0 ? "sv-step on" : "sv-step"}>
@@ -118,6 +141,31 @@ export function SavatDesktop() {
                 );
               })}
             </section>
+            {picks.length ? (
+              <section className="sv-picks">
+                <h2>
+                  Siz uchun tavsiyalar
+                  <Link href="/marketplace">
+                    Barchasini ko‘rish <ArrowRight className="i" />
+                  </Link>
+                </h2>
+                <div className="sv-grid">
+                  {picks.map((item) => (
+                    <article className="sv-pick" key={item.id}>
+                      <Link href={catalogHref(item.category, item.id)}>{item.image ? <img src={item.image} alt="" /> : <span />}</Link>
+                      <div>
+                        <b>{item.name}</b>
+                        <span>{item.brand}</span>
+                        <div className="price">{som(item.price)}</div>
+                        <button type="button" className="sv-add" onClick={() => add(item.id, productFromCatalog(item), 1)}>
+                          <ShoppingCart className="i" /> Savatga
+                        </button>
+                      </div>
+                    </article>
+                  ))}
+                </div>
+              </section>
+            ) : null}
           </div>
 
           <aside className="sv-rail">
@@ -127,7 +175,7 @@ export function SavatDesktop() {
               <div className="sv-row"><span>Yetkazib berish</span><b data-testid="savat-delivery">{delivery > 0 ? som(delivery) : "Bepul"}</b></div>
               <div className="sv-total"><span>JAMI</span><b data-testid="savat-total">{som(total)}</b></div>
               <button type="button" className="sv-go" data-testid="savat-checkout" disabled={selectedItems.length === 0} onClick={() => router.push("/buyurtma")}>
-                Rasmiylashtirish →
+                Rasmiylashtirish <ArrowRight className="i" />
               </button>
             </section>
             <section className="sv-box">

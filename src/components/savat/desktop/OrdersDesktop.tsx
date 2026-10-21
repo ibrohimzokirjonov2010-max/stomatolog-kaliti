@@ -55,7 +55,6 @@ export function OrdersDesktop() {
   const [to, setTo] = useState("");
   const [dateOpen, setDateOpen] = useState(false);
   const [period, setPeriod] = useState(periods[0]);
-  const [patch, setPatch] = useState<Record<string, Partial<DesktopOrder>>>({});
   const [open, setOpen] = useState<DesktopOrder | null>(null);
   const [chat, setChat] = useState(false);
   const [help, setHelp] = useState("");
@@ -74,7 +73,7 @@ export function OrdersDesktop() {
     window.addEventListener("sk-orders-changed", load);
     return () => window.removeEventListener("sk-orders-changed", load);
   }, []);
-  const orders = rows.map((order) => ({ ...order, ...patch[order.id] }));
+  const orders = rows;
   const scoped = orders.filter((order) => order.kind === kind);
   const filtered = useMemo(() => {
     const needle = q.trim().toLowerCase();
@@ -94,10 +93,6 @@ export function OrdersDesktop() {
     setKind(next);
     setStatus("all");
     setPage(1);
-  }
-
-  function update(id: string, next: Partial<DesktopOrder>) {
-    setPatch((current) => ({ ...current, [id]: { ...current[id], ...next } }));
   }
 
   function receipt(order: DesktopOrder) {
@@ -172,13 +167,13 @@ export function OrdersDesktop() {
             {view.map((order) => {
               const shown = order.images.slice(0, 3);
               const extra = order.count - shown.length;
-              const activeStep = order.steps ? Math.max(0, order.steps.findIndex((step) => step.label === "Yo‘lda")) : -1;
+              const activeStep = order.stepAt ?? -1;
               return (
                 <article className="bo-card" key={order.id}>
                   <div>
                     <div className="bo-no"><b>Buyurtma № {order.number}</b><span>{order.when}</span></div>
                     <div className="bo-thumbs">
-                      {shown.map((src) => <img key={src} src={src} alt="" />)}
+                      {shown.map((src, index) => <img key={`${index}-${src}`} src={src} alt="" />)}
                       {extra > 0 ? <span className="bo-more">+{extra}</span> : null}
                     </div>
                     <h3>{order.title}</h3>
@@ -192,7 +187,7 @@ export function OrdersDesktop() {
                     {order.steps ? (
                       <div className="bo-track">
                         {order.steps.map((step, index) => (
-                          <div key={step.label} className={index <= activeStep ? "on" : ""}>
+                          <div key={step.label} className={index < activeStep ? "on" : index === activeStep ? "on now" : ""}>
                             <b />
                             {step.label}
                             <div>{step.date}</div>
@@ -211,7 +206,6 @@ export function OrdersDesktop() {
                       {order.status === "pending" ? <span className="var">To‘lov hali ulanmagan</span> : null}
                       {order.status === "delivered" ? <button type="button" onClick={() => receipt(order)}><Download className="i" /> Chek yuklab olish</button> : null}
                       {order.status === "delivered" || order.status === "cancelled" ? <button type="button" onClick={() => reorder(order)}><RefreshCcw className="i" /> Qayta buyurtma</button> : null}
-                      {order.status === "preparing" ? <button type="button" className="danger" onClick={() => { update(order.id, { status: "cancelled", note: "Bekor qilingan: bugun" }); setNote("Buyurtma bekor qilindi"); }}>Bekor qilish</button> : null}
                       <button type="button" onClick={() => setOpen(order)}>Batafsil</button>
                     </div>
                   </div>

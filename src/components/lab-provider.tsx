@@ -44,6 +44,8 @@ export function LabWorkProvider({ children }: { children: ReactNode }) {
   const pathname = usePathname();
   const { profile, ready: profileReady } = useDoctorProfile();
   const active = pathname.startsWith("/laboratoriya");
+  // The clinic dashboard lists the doctor's open lab orders too.
+  const ordersActive = active || pathname.startsWith("/mening-klinikam") || pathname.startsWith("/klinika");
   const userId = profile?.id ?? null;
   const [labs, setLabs] = useState<Lab[]>([]);
   const [labsReady, setLabsReady] = useState(false);
@@ -73,10 +75,10 @@ export function LabWorkProvider({ children }: { children: ReactNode }) {
   }, [active, loadCatalog, userId]);
 
   useEffect(() => {
-    if (!active || !profileReady) return;
+    if (!ordersActive || !profileReady) return;
     if (!userId) return;
     void loadOrders();
-  }, [active, profileReady, userId, loadOrders]);
+  }, [ordersActive, profileReady, userId, loadOrders]);
 
   useEffect(() => {
     if (!toast) return;

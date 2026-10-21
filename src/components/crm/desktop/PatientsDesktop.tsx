@@ -4,7 +4,7 @@
 import { useEffect, useMemo, useState } from "react";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
-import { ChevronRight, Download, MoreHorizontal, Plus, Search, Upload } from "lucide-react";
+import { Cake, ChevronRight, Download, Mail, MapPin, MoreHorizontal, Phone, Plus, Search, Upload } from "lucide-react";
 import { CrmFrame, CrmModal, CrmPager } from "@/components/crm/desktop/CrmFrame";
 import { ADULT_LOWER, ADULT_UPPER, BABY_LOWER, BABY_UPPER, ToothChart, cycleTooth } from "@/components/crm/desktop/ToothChart";
 import {
@@ -16,7 +16,7 @@ import {
 } from "@/data/crm";
 import { useCrmPatients } from "@/lib/use-crm-list";
 import { downloadText } from "@/lib/simple-pdf";
-import { formatGroupedNumber } from "@/lib/format";
+import { formatDotDate, formatGroupedNumber } from "@/lib/format";
 import { NewPatientModal, patientFromDraft, type NewPatientDraft } from "@/components/crm/NewPatientModal";
 
 const PATIENT_STATES: ToothState[] = ["soglom", "davolanmoqda", "davolangan", "muammo"];
@@ -141,16 +141,16 @@ export function PatientsDesktop() {
                 </tr>
               </thead>
               <tbody>
-                {slice.map((item) => (
+                {slice.map((item, index) => (
                   <tr key={item.id} className={item.id === current?.id ? "on" : undefined} data-testid="patient-row" onClick={() => setSelected(item.id)}>
                     <td><input type="checkbox" aria-label={item.name} checked={checked.includes(item.id)} onChange={(event) => setChecked((prev) => event.target.checked ? [...prev, item.id] : prev.filter((id) => id !== item.id))} onClick={(event) => event.stopPropagation()} /></td>
-                    <td>{item.num}</td>
+                    <td className="num">{(safePage - 1) * size + index + 1}</td>
                     <td><span className="crm-person pt-who"><img src={item.avatar} alt="" /><span><b><Link href={`/crm/bemorlar/${item.id}`} data-testid="patient-profile-link" onClick={(event) => event.stopPropagation()}>{item.name}</Link></b><small>{item.age} yosh · {item.gender}</small></span></span></td>
                     <td>{item.phone}</td>
                     <td>{item.city}</td>
                     <td><span className={`crm-pill ${item.status}`}>{patientStatuses.find((entry) => entry.id === item.status)?.label}</span></td>
-                    <td>{item.lastVisit || "–"}</td>
-                    <td>{item.nextVisit || "–"}</td>
+                    <td>{formatDotDate(item.lastVisit)}</td>
+                    <td className={item.nextVisit ? "next" : undefined}>{formatDotDate(item.nextVisit)}</td>
                     <td><button type="button" aria-label="Amallar" onClick={(event) => { event.stopPropagation(); setSelected(item.id); }}>···</button></td>
                   </tr>
                 ))}
@@ -160,12 +160,20 @@ export function PatientsDesktop() {
           </div>
           {current ? (
             <aside className="pt-side" data-testid="patient-panel">
-              <span className="crm-person"><img src={current.avatar} alt="" /><span><b>{current.name}</b><small>#{current.id.toUpperCase()}</small></span></span>
-              <h2>{current.name}</h2>
-              <p className="crm-muted">{current.age} yosh · {current.gender}</p>
-              <p className="crm-muted">{current.phone}</p>
-              <p className="crm-muted">{current.city}</p>
-              <p className="crm-muted">{current.email}</p>
+              <div className="pt-card">
+                {current.avatar ? <img src={current.avatar} alt="" /> : <span className="pt-ini" aria-hidden>{current.name.slice(0, 1)}</span>}
+                <div>
+                  <h2>{current.name}</h2>
+                  <small>#{current.id.toUpperCase()}</small>
+                  <span className={`crm-pill ${current.status}`}>{patientStatuses.find((entry) => entry.id === current.status)?.label}</span>
+                </div>
+              </div>
+              <ul className="pt-facts">
+                <li><Cake className="i" /> {current.age ? `${current.age} yosh` : "Yoshi ko‘rsatilmagan"}{current.birth ? ` (${formatDotDate(current.birth)})` : ""} <span>· {current.gender}</span></li>
+                {current.phone ? <li><Phone className="i" /> {current.phone}</li> : null}
+                {current.city ? <li><MapPin className="i" /> {current.city}</li> : null}
+                {current.email ? <li><Mail className="i" /> {current.email}</li> : null}
+              </ul>
               <button type="button" className="crm-btn blue" style={{ width: "100%", justifyContent: "center", marginTop: "calc(.4 * var(--u))" }} data-testid="patient-visit" onClick={() => setVisit(true)}>Qabul qo‘shish</button>
               <div className="pt-tabs">
                 {([["umumiy", "Umumiy"], ["davolash", "Davolash"], ["tolov", "To‘lovlar"], ["hujjat", "Hujjatlar"]] as const).map(([id, label]) => (

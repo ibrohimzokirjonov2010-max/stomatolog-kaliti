@@ -19,6 +19,11 @@ const sorts = [
   { id: "new", label: "Yangi" },
 ];
 
+/** Year, length and language, skipping whatever the book record does not have. */
+function bookFacts(book: { year: number; pages: string; lang: string }) {
+  return [book.year ? String(book.year) : "", book.pages && book.pages !== "—" ? book.pages : "", book.lang].filter(Boolean).join(" · ");
+}
+
 export function KitoblarDesktop() {
   const cartCount = useShopLineCount();
   const params = useSearchParams();
@@ -317,14 +322,14 @@ export function KitoblarDesktop() {
                       </div>
                       <h3><Link href={`/kitoblar/${book.id}`}>{book.title}</Link></h3>
                       <p className="by">{book.authors}</p>
-                      <p className="by">
-                        {book.year} · {book.pages} · {book.lang}
-                      </p>
-                      <div className="hub-meta">
-                        <Star className="i" /> {book.rating.toFixed(1)} ({book.reviews} ta sharh)
-                      </div>
+                      <p className="by">{bookFacts(book)}</p>
+                      {book.reviews > 0 ? (
+                        <div className="hub-meta">
+                          <Star className="i" /> {book.rating.toFixed(1)} ({book.reviews} ta sharh)
+                        </div>
+                      ) : null}
                       <div className="hub-price">
-                        <strong>{som(book.price)}</strong>
+                        <strong>{book.price > 0 ? som(book.price) : "Bepul"}</strong>
                         {book.oldPrice ? <s>{som(book.oldPrice)}</s> : null}
                       </div>
                       <Link href={`/kitoblar/${book.id}/oqish`} className="hub-btn">
@@ -349,11 +354,9 @@ export function KitoblarDesktop() {
               </div>
               <h3>{featuredBook.title}</h3>
               <p className="by">{featuredBook.authors}</p>
-              <p className="by">
-                {featuredBook.year} · {featuredBook.pages} · {featuredBook.lang}
-              </p>
+              <p className="by">{bookFacts(featuredBook)}</p>
               <div className="hub-price">
-                <strong>{som(featuredBook.price)}</strong>
+                <strong>{featuredBook.price > 0 ? som(featuredBook.price) : "Bepul"}</strong>
               </div>
               <Link href={`/kitoblar/${featuredBook.id}/oqish`} className="hub-btn block">
                 <BookOpen className="i" /> O‘qish
