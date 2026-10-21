@@ -3,7 +3,7 @@
 import { useState, type ReactNode } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { Check, Headphones, MessageCircle, Minus, Plus, ShieldCheck, Star, Trash2, Truck, Undo2, X } from "lucide-react";
+import { Check, ChevronDown, Headphones, MessageCircle, Minus, Plus, ShieldCheck, Star, Trash2, Truck, Undo2, X } from "lucide-react";
 import { useCart } from "@/components/cart-provider";
 import { freeDeliveryText, returnWindowText } from "@/lib/commerce-terms";
 import type { Product } from "@/data/products";
@@ -249,5 +249,25 @@ export function Drop({ label, open, onToggle, children }: { label: string; open:
       </button>
       {open ? <div className="dk-pop">{children}</div> : null}
     </div>
+  );
+}
+
+/** Two-line filter box (small label over the chosen value) backed by a native select. */
+export function SelectField({ label, value, onChange, options }: { label: string; value: string; onChange: (value: string) => void; options: (string | [string, string])[] }) {
+  return (
+    <label className="dk-field">
+      <small>{label}</small>
+      <select value={value} aria-label={label} onChange={(event) => onChange(event.target.value)}>
+        {options.map((option) => {
+          const [id, text] = typeof option === "string" ? [option, option] : option;
+          return (
+            <option key={id} value={id}>
+              {text}
+            </option>
+          );
+        })}
+      </select>
+      <ChevronDown className="i" />
+    </label>
   );
 }

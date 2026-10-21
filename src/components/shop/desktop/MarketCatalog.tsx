@@ -186,7 +186,7 @@ export function MarketCatalog() {
         </section>
         <h1 className="dk-h1">Stomatologik mahsulotlar</h1>
         <p className="dk-sub">Sifatli materiallar, zamonaviy asboblar va ishonchli brendlar - StomaHub’da</p>
-        <div className="dk-chips">
+        <div className="dk-chips fill">
           {catalogChips.map((chip) => {
             const Icon = chipIcon[chip.id];
             return (

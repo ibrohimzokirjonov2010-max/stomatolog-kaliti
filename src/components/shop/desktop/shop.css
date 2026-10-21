@@ -30,14 +30,15 @@
 
 .sh .dk-chips { display: flex; gap: calc(.45 * var(--u)); flex-wrap: wrap; margin-bottom: calc(.7 * var(--u)); }
 .sh .dk-chip {
-  flex: 1 1 0; min-width: max-content; justify-content: center;
-  height: calc(2.5 * var(--u)); padding: 0 calc(.75 * var(--u)); border-radius: calc(.55 * var(--u));
+  height: calc(1.85 * var(--u)); padding: 0 calc(.75 * var(--u)); border-radius: calc(1 * var(--u));
   background: #fff; border: 1px solid #e6edf5; color: #24344d; font-size: clamp(11px, 0.9375vw, 13px); font-weight: 600;
   display: inline-flex; align-items: center; gap: calc(.45 * var(--u));
 }
 .sh .dk-chip.on { background: var(--teal); color: #fff; border-color: var(--teal); }
 .sh .dk-chip .i { font-size: calc(.95 * var(--ut)); }
 .sh .dk-chip:not(.on):hover { border-color: var(--teal); color: var(--teal); }
+/* Marketplace tabs: square tiles that share the row, as in the marketplace mockup. */
+.sh .dk-chips.fill .dk-chip { flex: 1 1 0; min-width: max-content; justify-content: center; height: calc(2.5 * var(--u)); border-radius: calc(.55 * var(--u)); }
 
 .sh .dk-tools { display: flex; align-items: center; gap: calc(.7 * var(--u)); margin-bottom: calc(.55 * var(--u)); }
 .sh .dk-tools .count { color: #7d8da3; font-size: calc(.66 * var(--ut)); margin-right: auto; }
@@ -242,3 +243,13 @@
 .sh .safe .i { color: #12a06a; font-size: calc(.75 * var(--ut)); }
 .sh .cam-prev { width: calc(1.5 * var(--u)); height: calc(1.5 * var(--u)); object-fit: cover; border-radius: calc(.25 * var(--u)); }
 .sh .dk-toast { position: fixed; bottom: calc(1 * var(--u)); left: 50%; transform: translateX(-50%); background: #123; color: #fff; padding: calc(.45 * var(--u)) calc(.8 * var(--u)); border-radius: calc(.4 * var(--u)); font-size: calc(.68 * var(--ut)); z-index: 50; }
+
+/* Two-line filter box (seminarlar, shared with other catalogs). */
+.sh .dk-field { position: relative; flex: 1 1 calc(8 * var(--u)); min-width: 0; height: calc(2.75 * var(--u)); border: 1px solid #e6edf5; border-radius: calc(.5 * var(--u)); background: #fff; display: flex; flex-direction: column; justify-content: center; padding: 0 calc(1.6 * var(--u)) 0 calc(.6 * var(--u)); cursor: pointer; }
+.sh .dk-field:hover { border-color: #9edbd6; }
+.sh .dk-field small { color: #7d8da3; font-size: calc(.54 * var(--ut)); }
+.sh .dk-field select, .sh .dk-field input { appearance: none; border: 0; background: transparent; padding: 0; font: inherit; font-size: calc(.64 * var(--ut)); font-weight: 650; color: var(--ink); cursor: pointer; width: 100%; min-width: 0; }
+.sh .dk-field select:focus, .sh .dk-field input:focus { outline: none; }
+.sh .dk-field:focus-within { border-color: var(--teal); box-shadow: 0 0 0 2px rgba(0, 168, 163, .15); }
+.sh .dk-field > .i { position: absolute; right: calc(.55 * var(--u)); top: 50%; transform: translateY(-50%); font-size: calc(.8 * var(--ut)); color: #4a5470; pointer-events: none; }
+.sh .dk-field .pair { display: flex; align-items: center; gap: calc(.25 * var(--u)); }

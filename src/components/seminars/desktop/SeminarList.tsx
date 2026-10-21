@@ -19,7 +19,7 @@ import {
 } from "lucide-react";
 import { shopToggleFav, som, useShopFavs, useShopLineCount } from "@/components/shop/desktop/shop-cart";
 import { ShopShell } from "@/components/shop/desktop/ShopShell";
-import { Drop } from "@/components/shop/desktop/parts";
+import { SelectField } from "@/components/shop/desktop/parts";
 import { useSeminarRegs } from "@/components/seminar-provider";
 import { getSeminar, seminars, specialtyLabels, type Seminar } from "@/data/seminars";
 import { tashkentDateParts } from "@/lib/tashkent-date";
@@ -61,6 +61,16 @@ function monthCells(year: number, month: number) {
 
 function iso(year: number, month: number, day: number) {
   return `${year}-${String(month + 1).padStart(2, "0")}-${String(day).padStart(2, "0")}`;
+}
+
+function initialsOf(name: string) {
+  return name
+    .replace(/^Dr\.?\s*/i, "")
+    .split(/\s+/)
+    .filter(Boolean)
+    .slice(0, 2)
+    .map((part) => part[0]?.toUpperCase() ?? "")
+    .join("");
 }
 
 const DAY_NAMES = ["Yakshanba", "Dushanba", "Seshanba", "Chorshanba", "Payshanba", "Juma", "Shanba"];
@@ -114,7 +124,6 @@ export function SeminarList() {
   const [from, setFrom] = useState("");
   const [to, setTo] = useState("");
   const [sort, setSort] = useState<SortKey>("near");
-  const [open, setOpen] = useState<"city" | "format" | "price" | "sort" | null>(null);
   const [today] = useState(() => tashkentDateParts());
   const [cursor, setCursor] = useState({ year: today.year, month: today.month });
   const [selected, setSelected] = useState(today.iso);
@@ -157,9 +166,6 @@ export function SeminarList() {
 
   const marked = new Set(source.map((item) => item.date));
   const cells = monthCells(cursor.year, cursor.month);
-  const sortLabel = { near: "Sana bo‘yicha (eng yaqin)", far: "Sana bo‘yicha (uzoq)", cheap: "Narx (arzon)", rich: "Narx (qimmat)" }[sort];
-  const priceLabel = { all: "Barchasi", low: "1 mln gacha", mid: "1–2 mln", high: "2 mln dan" }[price];
-  const formatLabel = { all: "Barchasi", offline: "Offline", online: "Online", hybrid: "Offline + jonli efir" }[format];
 
   function pickDay(day: number) {
     const next = iso(cursor.year, cursor.month, day);
@@ -196,43 +202,34 @@ export function SeminarList() {
             })}
           </div>
           <div className="sem-filters">
-            <Drop label={`Shahar: ${city}`} open={open === "city"} onToggle={() => setOpen(open === "city" ? null : "city")}>
-              {["Barchasi", "Toshkent", "Samarqand"].map((item) => (
-                <button key={item} type="button" className={city === item ? "dk-check on" : "dk-check"} onClick={() => { setCity(item); setOpen(null); }}>
-                  {item}
-                </button>
-              ))}
-            </Drop>
-            <Drop label={`Format: ${formatLabel}`} open={open === "format"} onToggle={() => setOpen(open === "format" ? null : "format")}>
-              {(["all", "offline", "hybrid", "online"] as const).map((item) => (
-                <button key={item} type="button" className={format === item ? "dk-check on" : "dk-check"} onClick={() => { setFormat(item); setOpen(null); }}>
-                  {{ all: "Barchasi", offline: "Offline", hybrid: "Offline + jonli efir", online: "Online" }[item]}
-                </button>
-              ))}
-            </Drop>
-            <Drop label={`Narx: ${priceLabel}`} open={open === "price"} onToggle={() => setOpen(open === "price" ? null : "price")}>
-              {(["all", "low", "mid", "high"] as const).map((item) => (
-                <button key={item} type="button" className={price === item ? "dk-check on" : "dk-check"} onClick={() => { setPrice(item); setOpen(null); }}>
-                  {{ all: "Barchasi", low: "1 mln gacha", mid: "1–2 mln", high: "2 mln dan" }[item]}
-                </button>
-              ))}
-            </Drop>
-            <label className="dk-drop">
-              <span className="dk-drop" style={{ display: "inline-flex" }}>
-                <span style={{ height: "calc(1.8 * var(--u))", padding: "0 calc(.65 * var(--u))", background: "#fff", border: "1px solid #e6edf5", borderRadius: "calc(.4 * var(--u))", fontSize: "calc(.64 * var(--u))", fontWeight: 650, display: "inline-flex", alignItems: "center", gap: "calc(.3 * var(--u))" }}>
-                  <CalendarRange className="i" /> Sana oralig‘i
-                  <input aria-label="Boshlanish sanasi" type="date" value={from} onChange={(event) => setFrom(event.target.value)} />
-                  <input aria-label="Tugash sanasi" type="date" value={to} onChange={(event) => setTo(event.target.value)} />
-                </span>
+            <SelectField label="Shahar" value={city} onChange={setCity} options={["Barchasi", "Toshkent shahri", "Samarqand", "Buxoro", "Andijon", "Farg‘ona", "Namangan"]} />
+            <SelectField
+              label="Format"
+              value={format}
+              onChange={(value) => setFormat(value as SeminarFormat | "all")}
+              options={[["all", "Barchasi"], ["offline", "Offline"], ["hybrid", "Offline + jonli efir"], ["online", "Online"]]}
+            />
+            <SelectField
+              label="Narx"
+              value={price}
+              onChange={(value) => setPrice(value as PriceFilter)}
+              options={[["all", "Barchasi"], ["low", "1 mln gacha"], ["mid", "1–2 mln"], ["high", "2 mln dan"]]}
+            />
+            <label className="dk-field sem-dates">
+              <small>Sana oralig‘i</small>
+              <span className="pair">
+                <CalendarRange className="ic" aria-hidden />
+                <input aria-label="Boshlanish sanasi" type="date" value={from} onChange={(event) => setFrom(event.target.value)} />
+                <span aria-hidden>–</span>
+                <input aria-label="Tugash sanasi" type="date" value={to} onChange={(event) => setTo(event.target.value)} />
               </span>
             </label>
-            <Drop label={sortLabel} open={open === "sort"} onToggle={() => setOpen(open === "sort" ? null : "sort")}>
-              {(["near", "far", "cheap", "rich"] as const).map((item) => (
-                <button key={item} type="button" className={sort === item ? "dk-check on" : "dk-check"} onClick={() => { setSort(item); setOpen(null); }}>
-                  {{ near: "Sana bo‘yicha (eng yaqin)", far: "Sana bo‘yicha (uzoq)", cheap: "Narx (arzon)", rich: "Narx (qimmat)" }[item]}
-                </button>
-              ))}
-            </Drop>
+            <SelectField
+              label="Saralash"
+              value={sort}
+              onChange={(value) => setSort(value as SortKey)}
+              options={[["near", "Sana bo‘yicha (eng yaqin)"], ["far", "Sana bo‘yicha (uzoq)"], ["cheap", "Narx (arzon)"], ["rich", "Narx (qimmat)"]]}
+            />
           </div>
           {groups.length === 0 ? (
             <div className="dk-empty">
@@ -268,9 +265,11 @@ export function SeminarList() {
                   const loved = favs.includes(item.id);
                   return (
                     <article className="sem-card" key={item.id}>
-                      <div className="sem-date">
-                        <b>{item.dayNum}</b>
-                        <span>{item.monthShort}</span>
+                      <div className="sem-when">
+                        <div className="sem-date">
+                          <b>{item.dayNum}</b>
+                          <span>{item.monthShort}</span>
+                        </div>
                         <small>{item.dayLabel}</small>
                       </div>
                       <Link href={seminarHref(item.id)}>
@@ -284,17 +283,17 @@ export function SeminarList() {
                         <p className="sum">{item.summary}</p>
                         <div className="sem-meta">
                           <span>
-                            <MapPin className="i" /> {item.city} · {item.venue}
+                            <MapPin className="i" /> <b>{item.city.replace(" shahri", "")}</b> {item.venue}
                           </span>
                           <span>
                             <Clock3 className="i" /> {item.start} – {item.end}
                           </span>
-                          <span>{item.hours}</span>
+                          {item.hours ? <span>{item.hours}</span> : null}
                         </div>
                       </div>
                       <div>
                         <div className="sem-who">
-                          {item.speakerImage ? <img src={item.speakerImage} alt="" /> : <span className="sem-who" />}
+                          {item.speakerImage ? <img src={item.speakerImage} alt="" /> : <span className="sem-ini" aria-hidden>{initialsOf(item.speaker)}</span>}
                           <span>
                             <b>{item.speaker}</b>
                             <small>{item.speakerRole}</small>
@@ -312,15 +311,13 @@ export function SeminarList() {
                         ) : null}
                       </div>
                       <div className="sem-buy">
-                        <div className="sem-price">{som(item.price)}</div>
-                        <div className="sem-actions">
-                          <Link className="sem-go" href={`${seminarHref(item.id)}#royxat`}>
-                            Ro‘yxatdan o‘tish
-                          </Link>
-                          <button type="button" className={loved ? "sem-heart on" : "sem-heart"} aria-label="Sevimli" aria-pressed={loved} onClick={() => shopToggleFav(item.id)}>
-                            <Heart className="i" />
-                          </button>
-                        </div>
+                        <div className="sem-price">{item.price > 0 ? som(item.price) : "Bepul"}</div>
+                        <button type="button" className={loved ? "sem-heart on" : "sem-heart"} aria-label="Sevimli" aria-pressed={loved} onClick={() => shopToggleFav(item.id)}>
+                          <Heart className="i" />
+                        </button>
+                        <Link className="sem-go" href={`${seminarHref(item.id)}#royxat`}>
+                          Ro‘yxatdan o‘tish
+                        </Link>
                       </div>
                     </article>
                   );

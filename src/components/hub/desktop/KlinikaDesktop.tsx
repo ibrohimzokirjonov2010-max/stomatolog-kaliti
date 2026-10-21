@@ -25,9 +25,10 @@ import { useCrmAppointments, useCrmPatients } from "@/lib/use-crm-list";
 import { useStoredList } from "@/lib/stored-list";
 import { useDoctorProfile } from "@/components/doctor-profile-provider";
 import { useLabWork } from "@/components/lab-provider";
-import { apptDoctors, apptRooms, patientStatuses, type Appointment, type ClinicPayment, type Patient, type StockItem } from "@/data/crm";
+import { apptRooms, patientStatuses, type Appointment, type ClinicPayment, type Patient, type StockItem } from "@/data/crm";
 import { labMaterialLabel, labServiceLabel } from "@/data/labs";
 import { orderStatusCopy } from "@/lib/lab-work";
+import { api } from "@/lib/work-client";
 import "./hub.css";
 import "./klinika.css";
 
@@ -41,6 +42,8 @@ const CHAIRS = [
 const SLOT_TIMES = ["09:00", "10:00", "11:30", "14:00", "15:30", "17:00"];
 const LUNCH = "13:00";
 const DAY_MS = 86_400_000;
+
+type StaffRow = { id: string; name: string; role: string; onDuty: boolean };
 
 type SlotView =
   | { time: string; kind: "lunch" }
@@ -126,6 +129,19 @@ export function KlinikaDesktop() {
   const [patientOpen, setPatientOpen] = useState(false);
   const [bookOpen, setBookOpen] = useState<{ chair: string; time: string } | null>(null);
   const [settings, setSettings] = useState(false);
+  const [team, setTeam] = useState<StaffRow[]>([]);
+
+  // Staff live in the clinic record (clinic_staff); managed on /klinika.
+  useEffect(() => {
+    if (!profile?.id) return;
+    let stop = false;
+    void api<{ state: { staff?: StaffRow[] } | null }>("/api/work/clinic").then((res) => {
+      if (!stop && res.ok) setTeam(res.data.state?.staff ?? []);
+    });
+    return () => {
+      stop = true;
+    };
+  }, [profile?.id]);
 
   // Clock only on the client so server and client markup agree.
   useEffect(() => {
@@ -240,21 +256,11 @@ export function KlinikaDesktop() {
   };
 
   const staff = useMemo(() => {
-    const list: { name: string; role: string; avatar: string; online: boolean }[] = [];
-    const seen = new Set<string>();
-    const add = (name: string, role: string, avatar: string, online: boolean) => {
-      const key = name.trim().toLowerCase();
-      if (!key || seen.has(key)) return;
-      seen.add(key);
-      list.push({ name: name.trim(), role, avatar, online });
-    };
-    if (profile?.fullName) add(profile.fullName, profile.specialty || "Shifokor", profile.avatarUrl || "", true);
-    for (const appt of appointments) {
-      const meta = apptDoctors.find((doc) => doc.id === appt.doctorId || doc.name === appt.doctor);
-      add(appt.doctor, meta?.role || "Shifokor", "", dayAppts.some((item) => item.doctor === appt.doctor));
-    }
+    const list: { id: string; name: string; role: string; avatar: string; online: boolean }[] = [];
+    if (profile?.fullName) list.push({ id: "me", name: profile.fullName, role: profile.specialty || "Shifokor", avatar: profile.avatarUrl || "", online: true });
+    for (const person of team) list.push({ id: person.id, name: person.name, role: person.role, avatar: "", online: person.onDuty });
     return list.slice(0, 4);
-  }, [appointments, dayAppts, profile]);
+  }, [profile, team]);
 
   const openLab = labOrders.filter((order) => order.status !== "yetkazildi" && order.status !== "bekor").slice(0, 4);
 
@@ -465,16 +471,16 @@ export function KlinikaDesktop() {
               <section className="kd-card">
                 <div className="kd-card-h">
                   <h2>Xodimlar</h2>
-                  <Link className="kd-link" href="/crm/uchrashuvlar">
-                    Barchasini ko‘rish <ArrowRight className="i" />
+                  <Link className="kd-link" href="/klinika">
+                    {team.length ? "Barchasini ko‘rish" : "Xodim qo‘shish"} <ArrowRight className="i" />
                   </Link>
                 </div>
                 {staff.length === 0 ? (
-                  <p className="kd-empty">Uchrashuvlarga shifokor biriktirilganda xodimlar shu yerda ko‘rinadi.</p>
+                  <p className="kd-empty">Xodimlarni qo‘shsangiz, ular shu yerda ko‘rinadi.</p>
                 ) : (
                   <ul className="kd-staff">
                     {staff.map((person) => (
-                      <li key={person.name}>
+                      <li key={person.id}>
                         <span className="kd-staff-ph">
                           {person.avatar ? <img src={person.avatar} alt="" /> : <span className="kd-initials">{initials(person.name)}</span>}
                           {person.online ? <i aria-label="Bugun ishda" /> : null}
