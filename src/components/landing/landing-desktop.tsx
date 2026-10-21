@@ -6,6 +6,7 @@ import {
   Check,
   ChevronRight,
   Home,
+  Play,
   LayoutDashboard,
   Search,
   ShoppingBag,
@@ -246,10 +247,12 @@ export function LandingDesktop() {
             </h1>
             <p className="mt-4 max-w-xl text-[16px] leading-relaxed text-[#52637a]">{heroText}</p>
             <div className="mt-5 flex flex-wrap gap-3">
-              <Link href="/royxat" className="inline-flex h-14 items-center rounded-full bg-[#0066FF] px-7 text-[16px] font-bold text-white shadow-[0_10px_24px_rgba(0,102,255,0.28)] transition hover:bg-[#0052cc]">
+              <Link href="/royxat" className="inline-flex h-14 items-center gap-2.5 rounded-xl bg-[#0066FF] px-7 text-[16px] font-bold text-white shadow-[0_10px_24px_rgba(0,102,255,0.28)] transition hover:bg-[#0052cc]">
                 Bepul ro‘yxatdan o‘tish
+                <ArrowRight className="size-5" />
               </Link>
-              <Link href="/marketplace" className="inline-flex h-14 items-center rounded-full border border-[#d7e2f0] bg-white px-7 text-[16px] font-bold text-[#16324f] transition hover:border-[#0066FF] hover:text-[#0066FF]">
+              <Link href="/marketplace" className="inline-flex h-14 items-center gap-3 rounded-xl border border-[#d7e2f0] bg-white pr-7 pl-4 text-[16px] font-bold text-[#16324f] transition hover:border-[#0066FF] hover:text-[#0066FF]">
+                <span className="grid size-8 place-items-center rounded-full bg-[#0066FF] text-white"><Play className="size-3.5 translate-x-px fill-current" /></span>
                 Marketplace’ni ko‘rish
               </Link>
             </div>
@@ -271,12 +274,12 @@ export function LandingDesktop() {
         <p className="mt-2 max-w-xl text-[16px] text-[#52637a]">Stomatologlar uchun kerakli barcha imkoniyatlar bir joyda</p>
         <div className="mt-6 grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
           {features.map((item) => (
-            <Link key={item.href} href={item.href} className="flex h-[120px] items-start gap-3 rounded-[18px] border border-[#e8eef6] bg-white p-3 shadow-[0_8px_20px_rgba(15,23,42,0.04)] transition hover:-translate-y-0.5 hover:shadow-[0_14px_28px_rgba(15,23,42,0.08)]">
-              <span className="grid size-12 shrink-0 place-items-center rounded-2xl bg-[#e8f1ff] text-[#0066FF]">
-                <item.icon className="size-6" strokeWidth={1.75} />
+            <Link key={item.href} href={item.href} className="flex min-h-[176px] flex-col items-start gap-4 rounded-[18px] border border-[#e8eef6] bg-white p-5 shadow-[0_8px_20px_rgba(15,23,42,0.04)] transition hover:-translate-y-0.5 hover:border-[#cfe0ff] hover:shadow-[0_14px_28px_rgba(15,23,42,0.08)]">
+              <span className="grid size-14 shrink-0 place-items-center rounded-2xl bg-[#eaf6f5] text-[#0b8f8a]">
+                <item.icon className="size-7" strokeWidth={1.75} />
               </span>
               <span className="min-w-0">
-                <h3 className="font-[family-name:var(--font-outfit)] text-[16px] font-bold leading-tight">{item.title}</h3>
+                <h3 className="font-[family-name:var(--font-outfit)] text-[17px] font-bold leading-tight">{item.title}</h3>
                 <p className="mt-1 line-clamp-2 text-[14px] leading-snug text-[#52637a]">{item.text}</p>
               </span>
             </Link>
@@ -404,11 +407,15 @@ export function LandingDesktop() {
       </section>
 
       <section data-section="cta" className={`${wrap} py-6`}>
-        <div className="rounded-[28px] bg-gradient-to-r from-[#0066FF] to-[#3d8bff] px-8 py-10 text-center text-white shadow-[0_16px_40px_rgba(0,102,255,0.25)]">
-          <h2 className="font-[family-name:var(--font-outfit)] text-[clamp(32px,2.6vw,44px)] font-bold tracking-tight">Stomatologlar hamjamiyatiga qo‘shiling</h2>
-          <p className="mx-auto mt-3 max-w-2xl text-[16px] text-white/90">Kasbiy o‘sish, yangi imkoniyatlar va ishonchli hamkorlar — barchasi StomaHub’da.</p>
-          <Link href="/royxat" className="mt-7 inline-flex h-12 items-center rounded-full bg-white px-6 text-[16px] font-bold text-[#0066FF] transition hover:bg-[#f3f8ff]">
+        <div className="flex flex-wrap items-center gap-6 rounded-[28px] border border-[#d6e6ff] bg-gradient-to-r from-[#e9f2ff] via-[#f2f8ff] to-[#e9f2ff] px-8 py-8 shadow-[0_16px_40px_rgba(0,102,255,0.08)] lg:px-10">
+          <ToothBadge className="size-20 shrink-0" />
+          <div className="min-w-[260px] flex-1">
+            <h2 className="font-[family-name:var(--font-outfit)] text-[clamp(26px,2.2vw,36px)] font-bold tracking-tight text-[#0f2744]">Stomatologlar hamjamiyatiga qo‘shiling</h2>
+            <p className="mt-2 max-w-2xl text-[16px] text-[#52637a]">Kasbiy o‘sish, yangi imkoniyatlar va ishonchli hamkorlar — barchasi StomaHub’da.</p>
+          </div>
+          <Link href="/royxat" className="inline-flex h-14 shrink-0 items-center gap-2.5 rounded-xl bg-[#0066FF] px-7 text-[16px] font-bold text-white shadow-[0_10px_24px_rgba(0,102,255,0.28)] transition hover:bg-[#0052cc]">
             Bepul ro‘yxatdan o‘tish
+            <ArrowRight className="size-5" />
           </Link>
         </div>
       </section>
