@@ -28,6 +28,7 @@ import { useLabWork } from "@/components/lab-provider";
 import { apptRooms, patientStatuses, type Appointment, type ClinicPayment, type Patient, type StockItem } from "@/data/crm";
 import { labMaterialLabel, labServiceLabel } from "@/data/labs";
 import { orderStatusCopy } from "@/lib/lab-work";
+import { formatDotDate } from "@/lib/format";
 import { api } from "@/lib/work-client";
 import "./hub.css";
 import "./klinika.css";
@@ -70,11 +71,6 @@ function parseDay(value: string | undefined): Date | null {
   return null;
 }
 
-function dotDate(value: string | undefined) {
-  const date = parseDay(value);
-  if (!date) return "—";
-  return `${String(date.getDate()).padStart(2, "0")}.${String(date.getMonth() + 1).padStart(2, "0")}.${date.getFullYear()}`;
-}
 
 function monthKey(date: Date) {
   return date.getFullYear() * 12 + date.getMonth();
@@ -454,8 +450,8 @@ export function KlinikaDesktop() {
                               <Link href={`/crm/bemorlar/${patient.id}`}>{patient.name}</Link>
                             </td>
                             <td>{patient.phone || "—"}</td>
-                            <td>{dotDate(patient.lastVisit)}</td>
-                            <td>{dotDate(patient.nextVisit)}</td>
+                            <td>{formatDotDate(patient.lastVisit, "—")}</td>
+                            <td>{formatDotDate(patient.nextVisit, "—")}</td>
                             <td className={debt ? "debt" : ""}>{som(debt)}</td>
                             <td>
                               <span className={`kd-st ${patient.status}`}>{status?.label ?? "Faol"}</span>
@@ -603,7 +599,7 @@ export function KlinikaDesktop() {
                             <td>
                               <span className={`kd-lab-st ${order.status}`}>{orderStatusCopy[order.status].label}</span>
                             </td>
-                            <td>{dotDate(iso(due))}</td>
+                            <td>{formatDotDate(iso(due), "—")}</td>
                           </tr>
                         );
                       })}

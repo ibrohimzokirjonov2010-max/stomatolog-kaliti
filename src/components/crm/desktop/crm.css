@@ -267,3 +267,64 @@
 .sh .rp-bars { display: flex; align-items: flex-end; gap: calc(.28 * var(--u)); height: calc(8 * var(--u)); padding: calc(.4 * var(--u)); }
 .sh .rp-bars i { flex: 1; background: var(--teal); border-radius: calc(.2 * var(--u)) calc(.2 * var(--u)) 0 0; min-height: 4px; }
 .sh .rp-split { display: grid; grid-template-columns: 1.2fr .8fr; gap: calc(.5 * var(--u)); }
+
+/* CRM mockup pass, shared by Bemorlar, Uchrashuvlar, Davolash rejalari, To'lovlar and Ombor.
+   Sizes are mockup pixels times --k, which follows the viewport within limits. */
+.sh .crm-teal { --k: clamp(.86px, calc(var(--u) / 13.5), 1.06px); gap: 0; }
+.sh .crm-teal .i { width: calc(14 * var(--k)); height: calc(14 * var(--k)); }
+.sh .crm-teal .crm-head { align-items: center; margin-bottom: calc(14 * var(--k)); }
+.sh .crm-teal .crm-head h1 { font-size: calc(26 * var(--k)); font-weight: 800; letter-spacing: -.02em; }
+.sh .crm-teal .crm-head p { font-size: calc(12.5 * var(--k)); margin-top: calc(4 * var(--k)); }
+.sh .crm-teal .crm-actions { gap: calc(8 * var(--k)); }
+.sh .crm-teal .crm-btn, .sh .crm-teal .crm-actions a { height: calc(36 * var(--k)); padding: 0 calc(16 * var(--k)); border-radius: calc(9 * var(--k)); font-size: calc(12 * var(--k)); font-weight: 600; gap: calc(7 * var(--k)); }
+.sh .crm-teal .crm-btn.blue { background: #0b8f8a; border-color: #0b8f8a; padding: 0 calc(20 * var(--k)); }
+.sh .crm-teal .crm-tools { gap: calc(10 * var(--k)); margin-bottom: calc(12 * var(--k)); }
+.sh .crm-teal .crm-search, .sh .crm-teal .crm-select { height: calc(38 * var(--k)); border-radius: calc(10 * var(--k)); padding: 0 calc(12 * var(--k)); gap: calc(8 * var(--k)); }
+.sh .crm-teal .crm-select { width: calc(150 * var(--k)); position: relative; }
+.sh .crm-teal .crm-search input, .sh .crm-teal .crm-select select { font-size: calc(12 * var(--k)); }
+.sh .crm-teal .crm-select select { font-weight: 500; color: #24344d; }
+.sh .crm-teal .crm-split { grid-template-columns: minmax(0, 1fr) clamp(calc(280 * var(--k)), 27%, calc(340 * var(--k))); gap: calc(12 * var(--k)); }
+.sh .crm-teal .crm-card { padding: calc(4 * var(--k)) calc(12 * var(--k)) calc(12 * var(--k)); border-radius: calc(14 * var(--k)); }
+.sh .crm-teal .crm-table { font-size: calc(11.5 * var(--k)); }
+.sh .crm-teal .crm-table th { font-size: calc(11 * var(--k)); font-weight: 600; color: #7b8ba3; padding: calc(12 * var(--k)) calc(8 * var(--k)); }
+.sh .crm-teal .crm-table td { padding: calc(9 * var(--k)) calc(8 * var(--k)); white-space: nowrap; font-variant-numeric: tabular-nums; color: #33425b; }
+.sh .crm-teal .crm-table td.num { color: #7b8ba3; }
+.sh .crm-teal .crm-table td.next { color: #0b7f7b; font-weight: 600; }
+.sh .crm-teal .crm-table tbody tr { cursor: pointer; }
+.sh .crm-teal .crm-table tbody tr:hover { background: #f7fafc; }
+.sh .crm-teal .crm-table tr.on { background: #eaf7f6; }
+.sh .crm-teal .crm-table input[type="checkbox"] { width: calc(16 * var(--k)); height: calc(16 * var(--k)); accent-color: #0b8f8a; }
+.sh .crm-teal .crm-person { gap: calc(10 * var(--k)); }
+.sh .crm-teal .crm-person img { width: calc(34 * var(--k)); height: calc(34 * var(--k)); }
+.sh .crm-teal .crm-person b { font-size: calc(12 * var(--k)); font-weight: 700; }
+.sh .crm-teal .crm-person small { font-size: calc(10.5 * var(--k)); }
+.sh .crm-teal .pt-who b, .sh .crm-teal .pt-who b a { color: var(--ink); }
+.sh .crm-teal .pt-who b a:hover { color: #0b7f7b; }
+.sh .crm-teal .crm-pill { height: calc(24 * var(--k)); padding: 0 calc(12 * var(--k)); border-radius: calc(7 * var(--k)); font-size: calc(10.5 * var(--k)); font-weight: 600; }
+.sh .crm-teal .crm-pager { padding: calc(14 * var(--k)) calc(4 * var(--k)) calc(2 * var(--k)); font-size: calc(11.5 * var(--k)); }
+.sh .crm-teal .crm-pager > div { gap: calc(6 * var(--k)); }
+.sh .crm-teal .crm-pager button { min-width: calc(30 * var(--k)); height: calc(30 * var(--k)); border-radius: calc(8 * var(--k)); font-weight: 600; }
+.sh .crm-teal .crm-pager select { height: calc(30 * var(--k)); padding: 0 calc(8 * var(--k)); border-radius: calc(8 * var(--k)); }
+
+/* Patient side card */
+.sh .crm-teal .pt-side { padding: calc(16 * var(--k)); border-radius: calc(14 * var(--k)); }
+.sh .pt-card { display: flex; gap: calc(14 * var(--k)); align-items: center; }
+.sh .pt-card > img, .sh .pt-ini { width: calc(68 * var(--k)); height: calc(68 * var(--k)); border-radius: 50%; object-fit: cover; flex: none; }
+.sh .pt-ini { display: grid; place-items: center; background: #e3f6f4; color: #0b7f7b; font-weight: 800; font-size: calc(22 * var(--k)); }
+.sh .pt-card > div { display: flex; flex-direction: column; align-items: flex-start; gap: calc(3 * var(--k)); min-width: 0; }
+.sh .crm-teal .pt-card h2 { margin: 0; font-size: calc(15 * var(--k)); font-weight: 800; }
+.sh .pt-card small { color: #7b8ba3; font-size: calc(10.5 * var(--k)); }
+.sh .pt-facts { list-style: none; margin: calc(14 * var(--k)) 0 0; padding: 0; display: flex; flex-direction: column; gap: calc(8 * var(--k)); font-size: calc(11.5 * var(--k)); color: #33425b; }
+.sh .pt-facts li { display: flex; align-items: center; gap: calc(9 * var(--k)); }
+.sh .pt-facts li span { color: #7b8ba3; }
+.sh .pt-facts .i { color: #5d6e86; }
+.sh .crm-teal .pt-side .crm-btn.blue { height: calc(40 * var(--k)); margin-top: calc(14 * var(--k)) !important; }
+.sh .crm-teal .pt-tabs { margin: calc(14 * var(--k)) 0 calc(12 * var(--k)); gap: calc(4 * var(--k)); }
+.sh .crm-teal .pt-tabs button { height: calc(34 * var(--k)); padding: 0 calc(10 * var(--k)); font-size: calc(11.5 * var(--k)); font-weight: 600; }
+.sh .crm-teal .pt-side .ap-view button { height: calc(28 * var(--k)); padding: 0 calc(12 * var(--k)); font-size: calc(11 * var(--k)); }
+.sh .crm-teal .pt-side > div > b, .sh .crm-teal .pt-side h3 { font-size: calc(13 * var(--k)) !important; font-weight: 800; }
+.sh .crm-teal .pt-side .tooth { width: calc(16 * var(--k)); }
+.sh .crm-teal .pt-side .tooth svg { height: calc(24 * var(--k)); }
+.sh .crm-teal .tooth-legend { font-size: calc(10.5 * var(--k)); gap: calc(10 * var(--k)); margin-top: calc(10 * var(--k)); }
+.sh .crm-teal .visit { font-size: calc(11 * var(--k)); padding: calc(8 * var(--k)) 0; }
+.sh .crm-teal .crm-muted { font-size: calc(11 * var(--k)); }
