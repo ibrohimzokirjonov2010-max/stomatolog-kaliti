@@ -15,6 +15,6 @@ export async function assertPublicProduct(id: string, expect?: string) {
   } catch {
     return;
   }
-  if (!product) notFound();
-  if (expect && product.category !== expect) notFound();
+  if (!product) return;
+  if (expect && product.category !== expect) return;
 }
