@@ -293,17 +293,20 @@ export function MarketProduct({ id }: { id: string }) {
                   <Link href={item.href}>{item.name}</Link>
                 </h3>
                 <StarsInline value={item.rating} reviews={item.reviews} />
-                <div className="dk-price">
-                  <strong>{som(item.price)}</strong>
-                  {item.oldPrice ? <s>{som(item.oldPrice)}</s> : null}
+                <div className="dk-buy">
+                  <div className="dk-price">
+                    {item.oldPrice ? <s>{som(item.oldPrice)}</s> : null}
+                    <strong>{som(item.price)}</strong>
+                  </div>
+                  <button
+                    type="button"
+                    className="dk-add"
+                    aria-label={`${item.name} savatga`}
+                    onClick={() => shopAdd({ id: item.id, name: item.name, price: item.price, image: item.image, href: item.href })}
+                  >
+                    <ShoppingCart className="i" />
+                  </button>
                 </div>
-                <button
-                  type="button"
-                  className="dk-add"
-                  onClick={() => shopAdd({ id: item.id, name: item.name, price: item.price, image: item.image, href: item.href })}
-                >
-                  <ShoppingCart className="i" />
-                </button>
               </article>
             ))}
           </div>

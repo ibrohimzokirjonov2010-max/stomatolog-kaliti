@@ -135,9 +135,9 @@
 .sh .kd-lab-st.yangi { background: #fff4e0; color: #d27b0c; }
 .sh .kd-lab-st.ishlanmoqda { background: #fff4e0; color: #d27b0c; }
 .sh .kd-lab-st.tayyor { background: #e5f7ee; color: #129a5c; }
-/* The lab table sits in the narrow rail: drop the material column when the rail is tight. */
-.sh .kd-right { container-type: inline-size; }
-@container (max-width: 330px) {
+/* The lab table sits in the narrow rail: drop the material column when the rail is tight.
+   A media query, not a container query: --u is in cqw and a container would rescale the rail. */
+@media (max-width: 1499px) {
   .sh .kd-lab .mat { display: none; }
 }
 

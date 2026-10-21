@@ -172,13 +172,14 @@ export function MarketCatalog() {
     <ShopShell searchPath="/marketplace" cartCount={lines.reduce((sum, line) => sum + line.qty, 0)}>
       <div data-testid="market-catalog">
         <section className="dk-banner">
-          <span className="gift">
-            <Gift className="i" />
-          </span>
-          <span>
+          <span className="dk-banner-l">
+            <span className="gift">
+              <Gift className="i" />
+            </span>
             <b>10 000 so‘m bonus sizga!</b>
-            <small>StomaHub marketplace’da birinchi xaridingiz uchun</small>
           </span>
+          <small>StomaHub marketplace’da birinchi xaridingiz uchun</small>
+          <img className="dk-banner-art" src="/images/marketplace/mp-slayd-4-bonus-mobil.webp" alt="" />
           <Link className="go" href="/bonuslarim">
             Batafsil <ChevronRight className="i" />
           </Link>
@@ -289,13 +290,15 @@ export function MarketCatalog() {
                     </h3>
                     <Stars value={item.rating} reviews={item.reviews} />
                     <div className="dk-stock">{item.inStock ? "Omborda bor" : "Buyurtma asosida"}</div>
-                    <div className="dk-price">
-                      <strong>{som(item.price)}</strong>
-                      {item.oldPrice ? <s>{som(item.oldPrice)}</s> : null}
+                    <div className="dk-buy">
+                      <div className="dk-price">
+                        {item.oldPrice ? <s>{som(item.oldPrice)}</s> : null}
+                        <strong>{som(item.price)}</strong>
+                      </div>
+                      <button type="button" className={`dk-add${som(item.price).length > 13 ? " long" : ""}${pulse === item.id ? " pulse" : ""}`} aria-label={`${item.name} savatga`} onClick={() => add(item.id)}>
+                        <ShoppingCart className="i" /> <span>Savatga</span>
+                      </button>
                     </div>
-                    <button type="button" className={pulse === item.id ? "dk-add pulse" : "dk-add"} onClick={() => add(item.id)}>
-                      <ShoppingCart className="i" /> Savatga
-                    </button>
                   </article>
                 ))}
               </div>
