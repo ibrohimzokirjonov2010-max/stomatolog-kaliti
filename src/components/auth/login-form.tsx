@@ -6,13 +6,8 @@ import { useEffect, useState, type FormEvent } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useDoctorProfile } from "@/components/doctor-profile-provider";
-import {
-  AuthCard,
-  AuthField,
-  AuthLink,
-  AuthPrimaryButton,
-  authInputClassName,
-} from "@/components/auth/auth-card";
+import { LogIn } from "lucide-react";
+import { AuthCard, AuthField, AuthLink, AuthPrimaryButton, PasswordInput, PhoneInput } from "@/components/auth/auth-card";
 import { SocialAuthButtons } from "@/components/auth/social-auth-buttons";
 
 export function LoginForm() {
@@ -47,50 +42,36 @@ export function LoginForm() {
   return (
     <AuthCard
       title="Kirish"
-      subtitle="Hisobingizga kiring"
+      subtitle="Hisobingizga kiring va barcha imkoniyatlardan foydalaning"
+      caption="Mening klinikam, do‘kon va ta’lim"
       footer={
         <>
-          Akkauntingiz yo‘qmi? <AuthLink href="/royxat">Ro‘yxatdan o‘tish</AuthLink>
+          Hisobingiz yo‘qmi? <AuthLink href="/royxat">Ro‘yxatdan o‘tish</AuthLink>
         </>
       }
     >
-      <SocialAuthButtons />
-
       <form onSubmit={submit} className="space-y-4">
-        <AuthField label="Telefon">
-          <input
-            type="tel"
-            inputMode="tel"
-            autoComplete="tel"
-            value={phone}
-            onChange={(e) => setPhone(e.target.value)}
-            placeholder="+998 90 123 45 67"
-            className={authInputClassName()}
-          />
+        <AuthField label="Telefon raqam">
+          <PhoneInput value={phone} onChange={setPhone} />
         </AuthField>
         <AuthField label="Parol">
-          <input
-            type="password"
-            autoComplete="current-password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            placeholder="Parolingiz"
-            className={authInputClassName()}
-          />
+          <PasswordInput autoComplete="current-password" value={password} onChange={(e) => setPassword(e.target.value)} placeholder="Parol" />
         </AuthField>
         {error ? (
-          <p className="rounded-xl bg-[#fff1f0] px-3 py-2.5 text-[14px] font-medium text-[#d92d20]">
+          <p role="alert" className="rounded-xl bg-[#fff1f0] px-3 py-2.5 text-[14px] font-medium text-[#d92d20]">
             {error}
           </p>
         ) : null}
         <AuthPrimaryButton disabled={busy || !ready}>
+          <LogIn className="size-5" />
           {busy ? "Kutilmoqda…" : "Kirish"}
         </AuthPrimaryButton>
       </form>
-      <p className="text-center text-[13px] leading-relaxed text-[#8b93a7]" data-testid="login-consent">
+      <SocialAuthButtons placement="after" verb="kirish" />
+      <p className="text-center text-[12.5px] leading-relaxed text-[#8b93a7]" data-testid="login-consent">
         Kirish yoki Google orqali davom etish bilan siz{" "}
-        <Link href="/shartlar" className="font-semibold text-[#0066FF] hover:underline">Foydalanish shartlari</Link> va{" "}
-        <Link href="/maxfiylik" className="font-semibold text-[#0066FF] hover:underline">Maxfiylik siyosati</Link>ga rozilik bildirasiz.
+        <Link href="/shartlar" className="font-semibold text-[#1d6cf2] hover:underline">Foydalanish shartlari</Link> va{" "}
+        <Link href="/maxfiylik" className="font-semibold text-[#1d6cf2] hover:underline">Maxfiylik siyosati</Link>ga rozilik bildirasiz.
       </p>
     </AuthCard>
   );
