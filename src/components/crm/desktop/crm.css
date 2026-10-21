@@ -328,3 +328,73 @@
 .sh .crm-teal .tooth-legend { font-size: calc(10.5 * var(--k)); gap: calc(10 * var(--k)); margin-top: calc(10 * var(--k)); }
 .sh .crm-teal .visit { font-size: calc(11 * var(--k)); padding: calc(8 * var(--k)) 0; }
 .sh .crm-teal .crm-muted { font-size: calc(11 * var(--k)); }
+
+/* Uchrashuvlar */
+.sh .crm-teal .ap-bar { gap: calc(8 * var(--k)); margin-bottom: calc(12 * var(--k)); }
+.sh .crm-teal .ap-bar > button { width: calc(36 * var(--k)); height: calc(36 * var(--k)); border: 1px solid #e6edf5; border-radius: calc(9 * var(--k)); background: #fff; display: grid; place-items: center; }
+.sh .crm-teal .ap-bar > button svg { width: calc(16 * var(--k)); height: calc(16 * var(--k)); }
+.sh .crm-teal .ap-bar > b { height: calc(36 * var(--k)); padding: 0 calc(16 * var(--k)); border: 1px solid #e6edf5; border-radius: calc(9 * var(--k)); background: #fff; display: inline-flex; align-items: center; font-size: calc(12.5 * var(--k)); font-weight: 600; }
+.sh .crm-teal .ap-view { border-radius: calc(9 * var(--k)); padding: calc(3 * var(--k)); gap: calc(3 * var(--k)); }
+.sh .crm-teal .ap-view button { height: calc(30 * var(--k)); padding: 0 calc(22 * var(--k)); border-radius: calc(7 * var(--k)); font-size: calc(12 * var(--k)); font-weight: 600; }
+.sh .crm-teal .ap-docs { gap: calc(8 * var(--k)); margin-bottom: calc(12 * var(--k)); }
+.sh .crm-teal .ap-docs button { height: calc(34 * var(--k)); padding: 0 calc(16 * var(--k)); border-radius: calc(9 * var(--k)); font-size: calc(11.5 * var(--k)); font-weight: 600; }
+.sh .crm-teal .ap-docs button.on { background: #0b8f8a; border-color: #0b8f8a; color: #fff; }
+.sh .crm-teal .ap-legend { gap: calc(14 * var(--k)); font-size: calc(10.5 * var(--k)); }
+.sh .crm-teal .ap-legend i { width: calc(8 * var(--k)); height: calc(8 * var(--k)); margin-right: calc(5 * var(--k)); }
+.sh .crm-teal .ap-grid { grid-template-columns: calc(52 * var(--k)) repeat(7, minmax(0, 1fr)); border-radius: calc(14 * var(--k)); }
+.sh .crm-teal .ap-grid header { padding: calc(10 * var(--k)) calc(4 * var(--k)); font-size: calc(10.5 * var(--k)); }
+.sh .crm-teal .ap-grid header b { display: block; font-size: calc(12 * var(--k)); color: var(--ink); }
+.sh .crm-teal .ap-grid header.on { background: #e8f7f6; color: #0b7f7b; }
+.sh .crm-teal .ap-grid header.on b { color: #0b7f7b; }
+.sh .crm-teal .ap-hours { font-size: calc(10.5 * var(--k)); padding: 0; border: 0; }
+.sh .crm-teal .ap-hours > div { display: flex; align-items: flex-start; justify-content: center; padding-top: calc(4 * var(--k)); }
+.sh .crm-teal .ap-block { left: calc(4 * var(--k)); right: calc(4 * var(--k)); min-height: calc(30 * var(--k)); border-radius: calc(7 * var(--k)); border-left-width: 3px; padding: calc(4 * var(--k)) calc(6 * var(--k)); text-align: left; display: flex; flex-direction: column; gap: calc(1 * var(--k)); font-size: calc(9.5 * var(--k)); color: #5d6e86; }
+.sh .crm-teal .ap-block small { font-size: calc(9.5 * var(--k)); font-weight: 600; color: inherit; }
+.sh .crm-teal .ap-block b { font-size: calc(10.5 * var(--k)); color: var(--ink); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.sh .crm-teal .ap-block span { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.sh .crm-teal .ap-block.tasdiq small { color: #16803c; }
+.sh .crm-teal .ap-block.kutil small { color: #c2410c; }
+.sh .crm-teal .ap-block.davol small { color: #0b7f7b; }
+.sh .crm-teal .ap-today { padding: calc(14 * var(--k)); border-radius: calc(14 * var(--k)); margin-bottom: calc(12 * var(--k)); }
+.sh .crm-teal .ap-today-h { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: calc(6 * var(--k)); }
+.sh .crm-teal .ap-today-h b { font-size: calc(14 * var(--k)); font-weight: 800; }
+.sh .crm-teal .ap-today .row { display: grid; grid-template-columns: calc(38 * var(--k)) calc(32 * var(--k)) minmax(0, 1fr) auto; gap: calc(9 * var(--k)); align-items: center; padding: calc(9 * var(--k)) 0; font-size: calc(11 * var(--k)); }
+.sh .crm-teal .ap-today .row > button { grid-column: 3 / -1; justify-self: end; height: calc(26 * var(--k)); padding: 0 calc(12 * var(--k)); font-size: calc(10.5 * var(--k)); }
+.sh .crm-teal .ap-today time { font-size: calc(11.5 * var(--k)); font-weight: 700; line-height: 1.2; font-variant-numeric: tabular-nums; }
+.sh .crm-teal .ap-today time small { display: block; color: #8b9bb0; font-weight: 500; font-size: calc(10 * var(--k)); }
+.sh .crm-teal .ap-today img, .sh .ap-ini { width: calc(32 * var(--k)); height: calc(32 * var(--k)); border-radius: 50%; object-fit: cover; }
+.sh .ap-ini { display: grid; place-items: center; background: #e3f6f4; color: #0b7f7b; font-weight: 800; }
+.sh .crm-teal .ap-today .who { display: flex; flex-direction: column; min-width: 0; }
+.sh .crm-teal .ap-today .who b { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; font-size: calc(11.5 * var(--k)); }
+.sh .crm-teal .ap-today .who small { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; font-size: calc(10 * var(--k)); }
+.sh .crm-teal .ap-today .crm-pill { height: calc(22 * var(--k)); padding: 0 calc(8 * var(--k)); font-size: calc(9.5 * var(--k)); }
+.sh .crm-teal aside > h3 { font-size: calc(14 * var(--k)) !important; font-weight: 800; margin: 0 0 calc(10 * var(--k)); }
+.sh .crm-teal .ap-stats { grid-template-columns: repeat(4, minmax(0, 1fr)); gap: calc(8 * var(--k)); }
+.sh .crm-teal .ap-stats div { padding: calc(10 * var(--k)) calc(6 * var(--k)); text-align: center; font-size: calc(10 * var(--k)); border: 1px solid #e8eef6; border-radius: calc(10 * var(--k)); }
+.sh .crm-teal .ap-stats b { font-size: calc(18 * var(--k)); }
+.sh .crm-teal .ap-stats div:nth-child(1) { background: #eef6ff; }
+.sh .crm-teal .ap-stats div:nth-child(2) { background: #f1f0ff; }
+.sh .crm-teal .ap-stats div:nth-child(3) { background: #eaf8f0; }
+.sh .crm-teal .ap-stats div:nth-child(4) { background: #fff0f0; }
+.sh .crm-teal aside .pl-box { padding: calc(14 * var(--k)); border-radius: calc(12 * var(--k)); background: #f3f9fb; }
+.sh .crm-teal aside .pl-box b { font-size: calc(18 * var(--k)); }
+.sh .crm-teal .ap-load { height: calc(8 * var(--k)); margin: calc(6 * var(--k)) 0; }
+.sh .crm-teal .ap-col { height: calc(420 * var(--k)); background-image: repeating-linear-gradient(to bottom, transparent, transparent calc(42 * var(--k) - 1px), #f1f4f8 calc(42 * var(--k) - 1px), #f1f4f8 calc(42 * var(--k))); }
+.sh .crm-teal .ap-hours > div { height: calc(42 * var(--k)) !important; }
+.sh .crm-teal .ap-hours > div:last-child { height: 0 !important; }
+.sh .crm-teal .ap-block.narrow { padding: calc(3 * var(--k)) calc(4 * var(--k)); }
+.sh .crm-teal .ap-block.narrow span, .sh .crm-teal .ap-block.narrow small { display: none; }
+.sh .crm-teal .ap-block.narrow b { font-size: calc(9.5 * var(--k)); }
+.sh .crm-teal .ap-today .row { grid-template-columns: calc(38 * var(--k)) calc(32 * var(--k)) minmax(0, 1fr) auto auto; }
+.sh .ap-act { width: calc(26 * var(--k)); height: calc(26 * var(--k)); border-radius: 50%; display: grid; place-items: center; background: #e3f6f4; color: #0b7f7b; }
+.sh .ap-act:hover { background: #0b8f8a; color: #fff; }
+.sh .ap-act.done { background: #eaf8f0; color: #16803c; }
+.sh .crm-teal .ap-col { height: calc(480 * var(--k)); background-image: repeating-linear-gradient(to bottom, transparent, transparent calc(48 * var(--k) - 1px), #f1f4f8 calc(48 * var(--k) - 1px), #f1f4f8 calc(48 * var(--k))); }
+.sh .crm-teal .ap-hours > div { height: calc(48 * var(--k)) !important; }
+.sh .crm-teal .ap-block span { display: none; }
+.sh .crm-teal .ap-block { justify-content: flex-start; line-height: 1.15; }
+.sh .crm-teal .ap-today .row { grid-template-columns: calc(34 * var(--k)) calc(30 * var(--k)) minmax(0, 1fr) auto auto; gap: calc(6 * var(--k)); }
+.sh .crm-teal .ap-today .crm-pill { padding: 0 calc(6 * var(--k)); font-size: calc(9 * var(--k)); }
+.sh .crm-teal .ap-today { max-height: calc(470 * var(--k)); overflow-y: auto; scrollbar-width: thin; }
+.sh .crm-teal [data-testid="appointments-desktop"] .crm-split { grid-template-columns: minmax(0, 1fr) clamp(calc(320 * var(--k)), 30%, calc(380 * var(--k))); }
+.sh .crm-teal .ap-today .row > .ap-act { grid-column: auto; justify-self: center; width: calc(26 * var(--k)); padding: 0; }

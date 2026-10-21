@@ -677,13 +677,13 @@ export function KlinikaDesktop() {
                 id: `user-${Date.now()}`,
                 date: day,
                 start: bookOpen.time,
-                end: bookOpen.time,
+                end: `${String(Math.floor((minutes(bookOpen.time) + 30) / 60)).padStart(2, "0")}:${String((minutes(bookOpen.time) + 30) % 60).padStart(2, "0")}`,
                 patient: name,
                 avatar: patients.find((item) => item.name === name)?.avatar || "",
                 service: note,
                 doctor: profile?.fullName || "Shifokor",
                 doctorId: "self",
-                room: bookOpen.chair,
+                room: apptRooms[CHAIRS.findIndex((chair) => chair.id === bookOpen.chair)] ?? bookOpen.chair,
                 status: "tasdiq",
               };
               setAppointments((prev) => [appt, ...prev]);
