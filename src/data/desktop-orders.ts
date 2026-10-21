@@ -17,6 +17,8 @@ export type DesktopOrder = {
   when: string;
   note?: string;
   steps?: { label: string; date: string }[];
+  /** Index of the last step reached (-1 before the seller accepts). */
+  stepAt?: number;
   countdown?: number;
 };
 

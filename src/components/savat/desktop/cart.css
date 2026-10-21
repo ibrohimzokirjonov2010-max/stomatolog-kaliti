@@ -199,3 +199,60 @@
 .sh .sv-line h3 a { color: var(--ink); }
 .sh .sv-line h3 a:hover { color: #0b7f7b; }
 .sh .sv-pick .price { white-space: nowrap; }
+
+/* Buyurtmalarim mockup pass (mockup pixels times --k). The track is dots joined by a line; reached
+   steps are teal, the current one carries a ring. */
+.sh .bo-page { --k: clamp(.86px, calc(var(--u) / 13.5), 1.06px); gap: calc(12 * var(--k)); }
+.sh .bo-page .i { width: calc(14 * var(--k)); height: calc(14 * var(--k)); }
+.sh .bo-head h1 { font-size: calc(26 * var(--k)); font-weight: 800; }
+.sh .bo-head p { font-size: calc(12 * var(--k)); }
+.sh .bo-search, .sh .bo-date { height: calc(36 * var(--k)); border-radius: 999px; padding: 0 calc(14 * var(--k)); gap: calc(8 * var(--k)); display: flex; align-items: center; }
+.sh .bo-search { min-width: calc(190 * var(--k)); }
+.sh .bo-search input { font-size: calc(11.5 * var(--k)); }
+.sh .bo-date { border-radius: calc(10 * var(--k)); }
+.sh .bo-date > button { display: inline-flex; align-items: center; gap: calc(8 * var(--k)); font-size: calc(11.5 * var(--k)); font-weight: 500; white-space: nowrap; }
+.sh .bo-tabs { background: #fff; border: 1px solid #e8eef6; border-radius: calc(12 * var(--k)); padding: calc(6 * var(--k)); gap: calc(6 * var(--k)); flex-wrap: nowrap; }
+.sh .bo-tab { flex: 1; height: calc(38 * var(--k)); border: 0; border-radius: calc(9 * var(--k)); font-size: calc(12 * var(--k)); font-weight: 600; background: transparent; }
+.sh .bo-tab.on { background: #0b8f8a; }
+.sh .bo-chips { gap: calc(8 * var(--k)); }
+.sh .bo-chip { height: calc(32 * var(--k)); padding: 0 calc(16 * var(--k)); font-size: calc(11.5 * var(--k)); font-weight: 600; }
+.sh .bo-chip.on { background: #0b8f8a; border-color: #0b8f8a; }
+.sh .bo-cols { grid-template-columns: minmax(0, 1fr) clamp(calc(250 * var(--k)), 23%, calc(320 * var(--k))); gap: calc(14 * var(--k)); }
+.sh .bo-list { gap: calc(10 * var(--k)); }
+.sh .bo-card { grid-template-columns: minmax(0, 1.1fr) minmax(0, 1.05fr) minmax(calc(150 * var(--k)), auto); gap: 0; padding: calc(12 * var(--k)) calc(14 * var(--k)); border-radius: calc(12 * var(--k)); align-items: stretch; }
+.sh .bo-card > div:first-child { padding-right: calc(14 * var(--k)); }
+.sh .bo-mid { border-left: 1px solid #eef2f7; padding: 0 calc(14 * var(--k)); display: flex; flex-direction: column; gap: calc(8 * var(--k)); }
+.sh .bo-no { justify-content: flex-start; gap: calc(14 * var(--k)); font-size: calc(10.5 * var(--k)); align-items: baseline; }
+.sh .bo-no b { font-size: calc(12.5 * var(--k)); font-weight: 800; }
+.sh .bo-thumbs { gap: calc(6 * var(--k)); margin: calc(10 * var(--k)) 0 calc(8 * var(--k)); }
+.sh .bo-thumbs img, .sh .bo-more { width: calc(46 * var(--k)); height: calc(46 * var(--k)); border-radius: calc(8 * var(--k)); border: 1px solid #eef2f7; background: #f7fafc; object-fit: contain; }
+.sh .bo-more { font-size: calc(13 * var(--k)); color: #3d4d66; background: #f3f6fa; }
+.sh .bo-card h3 { font-size: calc(12.5 * var(--k)); font-weight: 700; margin: 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.sh .bo-card .var { font-size: calc(10.5 * var(--k)); margin-top: calc(2 * var(--k)); }
+.sh .bo-seller { font-size: calc(10.5 * var(--k)); gap: calc(5 * var(--k)); margin-top: calc(4 * var(--k)); }
+.sh .bo-badge { align-self: flex-start; height: calc(24 * var(--k)); padding: 0 calc(10 * var(--k)); border-radius: calc(7 * var(--k)); font-size: calc(11 * var(--k)); font-weight: 700; }
+.sh .bo-track { position: relative; margin-top: calc(6 * var(--k)); gap: 0; }
+.sh .bo-track > div { position: relative; font-size: calc(10 * var(--k)); color: #8b9bb0; font-weight: 500; padding-top: calc(22 * var(--k)); }
+.sh .bo-track > div::before { content: ""; position: absolute; top: calc(8 * var(--k)); left: -50%; right: 50%; height: 2px; background: #e3e9f1; }
+.sh .bo-track > div:first-child::before { display: none; }
+.sh .bo-track > div.on::before { background: #0fa6a0; }
+.sh .bo-track b { position: absolute; top: 0; left: 50%; transform: translateX(-50%); z-index: 1; width: calc(18 * var(--k)); height: calc(18 * var(--k)); margin: 0; border-radius: 50%; background: #fff; border: 2px solid #d5dee8; }
+.sh .bo-track .on b { background: #0fa6a0; border-color: #0fa6a0; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath d='M4 8.5l2.5 2.5L12 5.5' fill='none' stroke='white' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E"); background-size: 80%; background-position: center; background-repeat: no-repeat; }
+.sh .bo-track .now b { box-shadow: 0 0 0 4px rgba(15, 166, 160, .18); }
+.sh .bo-track .on { color: #3d4d66; font-weight: 600; }
+.sh .bo-track > div > div { font-size: calc(9.5 * var(--k)); color: #8b9bb0; font-weight: 400; margin-top: calc(2 * var(--k)); }
+.sh .bo-side { border-left: 1px solid #eef2f7; padding-left: calc(14 * var(--k)); align-items: flex-start; gap: calc(3 * var(--k)); }
+.sh .bo-side > span, .sh .bo-side small { font-size: calc(10.5 * var(--k)); }
+.sh .bo-side small { margin-top: calc(6 * var(--k)); }
+.sh .bo-side strong { font-size: calc(15 * var(--k)); font-weight: 800; }
+.sh .bo-side > b { font-size: calc(11.5 * var(--k)); }
+.sh .bo-acts { margin-top: auto; padding-top: calc(10 * var(--k)); gap: calc(6 * var(--k)); justify-content: flex-start; }
+.sh .bo-acts button { height: calc(30 * var(--k)); padding: 0 calc(12 * var(--k)); border-radius: calc(8 * var(--k)); font-size: calc(11 * var(--k)); font-weight: 600; display: inline-flex; align-items: center; gap: calc(5 * var(--k)); white-space: nowrap; }
+.sh .bo-acts .solid { background: #0b8f8a; border-color: #0b8f8a; }
+.sh .bo-count { font-size: calc(11 * var(--k)); }
+.sh .bo-pages button { width: calc(30 * var(--k)); height: calc(30 * var(--k)); border-radius: calc(8 * var(--k)); font-size: calc(11.5 * var(--k)); }
+.sh .bo-card { grid-template-columns: minmax(0, 1fr) minmax(0, calc(290 * var(--k))) calc(178 * var(--k)); }
+.sh .bo-acts { flex-wrap: wrap; }
+.sh .bo-acts button { flex: 1 1 auto; justify-content: center; }
+.sh .bo-rail .bo-box h3 { font-size: calc(14 * var(--k)); font-weight: 800; }
+.sh .bo-rail .bo-select { font-size: calc(11 * var(--k)); }

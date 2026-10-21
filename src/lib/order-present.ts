@@ -21,28 +21,55 @@ function payLabel(payment: Order["payment"]): PayMethod {
   return "Click";
 }
 
+function dayMonth(iso: string) {
+  const date = new Date(iso);
+  if (Number.isNaN(date.getTime())) return "";
+  return `${String(date.getDate()).padStart(2, "0")}.${String(date.getMonth() + 1).padStart(2, "0")}.${date.getFullYear()}`;
+}
+
+function stamp(iso: string) {
+  const date = new Date(iso);
+  if (Number.isNaN(date.getTime())) return "";
+  return `${dayMonth(iso)}, ${String(date.getHours()).padStart(2, "0")}:${String(date.getMinutes()).padStart(2, "0")}`;
+}
+
+/** Four buyer-facing steps, each dated from the order's status history. */
+const DESKTOP_STEPS: { label: string; statuses: Order["status"][] }[] = [
+  { label: "Qabul qilindi", statuses: ["qabul_qilindi"] },
+  { label: "Tayyorlandi", statuses: ["yigilmoqda", "yigish_tugadi"] },
+  { label: "Yo‘lda", statuses: ["yolda"] },
+  { label: "Yetkazildi", statuses: ["yetkazildi"] },
+];
+
+function desktopSteps(order: Order) {
+  const history = order.statusHistory ?? [];
+  const steps = DESKTOP_STEPS.map((step) => {
+    const hit = history.filter((entry) => step.statuses.includes(entry.status)).pop();
+    return { label: step.label, date: hit ? dayMonth(hit.at) : "" };
+  });
+  const stepAt = DESKTOP_STEPS.findIndex((step) => step.statuses.includes(order.status));
+  return { steps, stepAt };
+}
+
 export function toDesktopOrder(order: Order): DesktopOrder {
   const lines = productLines(order.items);
+  const { steps, stepAt } = desktopSteps(order);
   return {
     id: order.id,
     number: order.id,
     kind: "product",
     status: desktopStatus(order),
-    title: lines.map((item) => item.name).filter(Boolean).join(", ") || "Buyurtma",
+    title: lines.length > 1 ? `${lines[0].name} va yana ${lines.length - 1} ta` : lines[0]?.name || "Buyurtma",
     seller: order.shopName || lines[0]?.shopName || "StomaHub Market",
     total: order.total,
     pay: payLabel(order.payment),
     count: lines.reduce((sum, item) => sum + item.qty, 0) || lines.length,
     images: lines.map((item) => item.image).filter(Boolean),
     sortKey: order.createdAt.slice(0, 10),
-    when: new Date(order.createdAt).toLocaleString("uz-UZ"),
+    when: stamp(order.createdAt),
     note: order.paymentState === "awaiting_payment" ? "To‘lov kutilmoqda" : undefined,
-    steps: [
-      { label: "Qabul", date: "" },
-      { label: "Yig‘ish", date: "" },
-      { label: "Yo‘lda", date: "" },
-      { label: "Yetkazildi", date: "" },
-    ],
+    steps,
+    stepAt,
   };
 }
 
