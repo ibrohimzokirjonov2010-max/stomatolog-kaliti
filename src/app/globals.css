@@ -202,6 +202,10 @@
   .rg-brand, .vd-brand, .rd-name { display: none !important; }
 }
 
+/* Tailwind's preflight makes headings inherit weight 400; the mockups set them bold. :where keeps
+   this at class-level specificity so any rule that names a weight still wins. */
+.sh :where(h1) { font-weight: 800; }
+.sh :where(h2, h3, h4, h5, h6) { font-weight: 700; }
 .sh .i { width:1em; height:1em; flex:none; stroke-width:2; }
 .sh button { cursor:pointer; font:inherit; color:inherit; background:none; border:0; padding:0; }
 .sh a { color:inherit; text-decoration:none; }
