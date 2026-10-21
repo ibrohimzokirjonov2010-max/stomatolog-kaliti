@@ -4,7 +4,7 @@
 .sh .cl-sub {
   padding-left: calc(1.55 * var(--u));
   min-height: calc(1.65 * var(--u));
-  font-size: calc(.64 * var(--ut));
+  font-size: calc(1.041 * var(--uf));
 }
 
 .sh .cl-foot {
@@ -29,13 +29,13 @@
   padding: calc(.55 * var(--u));
 }
 
-.sh .cl-pop b { display: block; font-size: calc(.7 * var(--ut)); margin-bottom: calc(.3 * var(--u)); }
+.sh .cl-pop b { display: block; font-size: calc(1.1 * var(--uf)); margin-bottom: calc(.3 * var(--u)); }
 .sh .cl-pop button, .sh .cl-pop a {
   display: block;
   width: 100%;
   text-align: left;
   padding: calc(.28 * var(--u)) calc(.2 * var(--u));
-  font-size: calc(.62 * var(--ut));
+  font-size: calc(1.021 * var(--uf));
   font-weight: 650;
   border-radius: calc(.3 * var(--u));
 }
@@ -47,7 +47,7 @@
   border-radius: calc(.35 * var(--u));
   padding: calc(.35 * var(--u));
   font: inherit;
-  font-size: calc(.6 * var(--ut));
+  font-size: calc(1.001 * var(--uf));
   resize: vertical;
 }
 .sh .cl-send {
