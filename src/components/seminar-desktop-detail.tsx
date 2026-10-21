@@ -1,29 +1,29 @@
 "use client";
 
-import { useEffect, useMemo, useState, type ReactNode } from "react";
+import { useMemo, useState, type ReactNode } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import {
   ArrowRight,
   Award,
-  Bookmark,
-  BookmarkCheck,
   Building2,
   CalendarDays,
-  ChevronRight,
+  CalendarPlus,
+  CheckCircle2,
   ClipboardList,
   Clock,
   FileText,
   GraduationCap,
+  Heart,
   Link2,
   MapPin,
   MessageCircle,
-  Play,
   Scissors,
   Send,
   Share2,
   Star,
   Users,
+  Video,
   type LucideIcon,
 } from "lucide-react";
 import { useSeminarRegs } from "@/components/seminar-provider";
@@ -47,15 +47,6 @@ import { cn } from "@/lib/utils";
 import { seminarDate } from "@/data/seminars";
 
 const BLUE = "#0b8f8a";
-
-const TABS = [
-  { id: "umumiy", label: "Umumiy ma’lumot" },
-  { id: "spikerlar", label: "Spikerlar" },
-  { id: "dastur", label: "Dastur" },
-  { id: "materiallar", label: "Materiallar" },
-  { id: "fikrlar", label: "Fikrlar" },
-  { id: "joylashuv", label: "Joylashuv" },
-];
 
 /** Feature cards are "confirmed" only when the organizer's own text (title/description/tags/program/learnings) mentions them. */
 const FEATURES: { icon: LucideIcon; title: string; re: RegExp }[] = [
@@ -113,14 +104,12 @@ export function SeminarDetailDesktop({
   const date = seminarDate(s);
   const online = s.city === "Online";
   const speakers = getSeminarSpeakers(s).filter((sp) => sp.name);
-  const lead = speakers[0];
   const learnings = s.learnings ?? [];
   const gallery = getSeminarPastGallery(s);
   const program = s.program ?? [];
   const pct = discountPercent(s);
   const saved = useSavedSeminars().includes(s.id);
   const tags = seminarTags(s);
-  const [tab, setTab] = useState(TABS[0].id);
   const [toast, setToast] = useState("");
   const [slide, setSlide] = useState(0);
 
@@ -131,7 +120,6 @@ export function SeminarDetailDesktop({
   const heroImg = slides[slide % Math.max(1, slides.length)] ?? "";
 
   const hay = [s.title, s.description, ...(s.tags ?? []), ...learnings, ...program.map((p) => p.title)].join(" ");
-  const chipLabel = [specialtyLabels[s.specialty], s.badge ?? tags[0]?.label].filter(Boolean).join(" + ");
   const days = s.programDays ?? [];
   const featureCards: { icon: LucideIcon; title: string; sub?: string; on: boolean }[] = s.features?.length
     ? s.features.map((f, i) => ({ icon: [FileText, ClipboardList, GraduationCap, Award][i % 4], title: f.title, sub: f.subtitle, on: true }))
@@ -144,20 +132,6 @@ export function SeminarDetailDesktop({
     return others.slice(0, 3);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [s.id, s.specialty, catalogVersion, seminars.length]);
-
-  useEffect(() => {
-    if (typeof IntersectionObserver === "undefined") return;
-    const els = TABS.map((t) => document.getElementById(`dsem-${t.id}`)).filter((e): e is HTMLElement => Boolean(e));
-    const io = new IntersectionObserver(
-      (entries) => {
-        const hit = entries.find((e) => e.isIntersecting);
-        if (hit) setTab(hit.target.id.replace("dsem-", ""));
-      },
-      { rootMargin: "-120px 0px -65% 0px" },
-    );
-    els.forEach((el) => io.observe(el));
-    return () => io.disconnect();
-  }, []);
 
   function flash(msg: string) {
     setToast(msg);
@@ -196,338 +170,271 @@ export function SeminarDetailDesktop({
     }[kind];
     window.open(href, "_blank", "noopener,noreferrer");
   }
-  function go(id: string) {
-    setTab(id);
-    document.getElementById(`dsem-${id}`)?.scrollIntoView({ behavior: "smooth", block: "start" });
-  }
   function scrollToForm() {
     formRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
   }
 
-  const seatLabel = s.seatsTbd ? "Joylar soni cheklangan" : s.seatsTotal > 0 ? `${left}/${s.seatsTotal} Joy qoldi` : "O‘rinlar tez orada";
   const showCta = upcoming && !mine && left > 0;
 
-  const meta: { icon: LucideIcon; text: string }[] = [
-    { icon: CalendarDays, text: date.when },
-    { icon: Clock, text: `${s.time} - ${s.timeEnd}` },
-    { icon: MapPin, text: place || "Joy tez orada" },
-    { icon: Users, text: seatLabel },
+  const certificate = /sertifikat|certificate|cme/i.test(hay);
+  const facts: { icon: LucideIcon; title: string; sub: string }[] = [
+    { icon: CalendarDays, title: date.when, sub: `${weekday(s.date)}${weekday(s.date) ? ", " : ""}${s.time} – ${s.timeEnd}` },
+    { icon: MapPin, title: online ? "Online" : s.city.replace(" shahri", ""), sub: s.venue || "Manzil tez orada" },
+    { icon: Video, title: online ? "Online" : "Offline", sub: online ? "Jonli efirda qatnashish" : "Zalda qatnashish" },
+    ...(certificate ? [{ icon: Award, title: tags.find((t) => /cme/i.test(t.label))?.label ?? "Sertifikat", sub: "Sertifikat beriladi" }] : []),
   ];
+  const taken = s.seatsTotal > 0 ? Math.max(0, s.seatsTotal - left) : 0;
+  const fill = s.seatsTotal > 0 ? Math.round((taken / s.seatsTotal) * 100) : 0;
+
+  function addToCalendar() {
+    const stamp = (d: string, t: string) => `${d.replace(/-/g, "")}T${(t || "00:00").replace(":", "")}00`;
+    const ics = [
+      "BEGIN:VCALENDAR",
+      "VERSION:2.0",
+      "PRODID:-//StomaHub//Seminar//UZ",
+      "BEGIN:VEVENT",
+      `UID:${s.id}@stomahub`,
+      `DTSTART;TZID=Asia/Tashkent:${stamp(s.date, s.time)}`,
+      `DTEND;TZID=Asia/Tashkent:${stamp(s.dateEnd || s.date, s.timeEnd)}`,
+      `SUMMARY:${s.title}`,
+      `LOCATION:${place}`,
+      `URL:${pageUrl()}`,
+      "END:VEVENT",
+      "END:VCALENDAR",
+    ].join("\r\n");
+    const url = URL.createObjectURL(new Blob([ics], { type: "text/calendar" }));
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = `${s.id}.ics`;
+    a.click();
+    URL.revokeObjectURL(url);
+    flash("Kalendar fayli yuklab olindi");
+  }
 
   return (
     <div className="relative mx-auto max-w-[1180px] 2xl:max-w-[1360px]">
-      <p className="mb-3 text-[12.5px] text-[#8b93a7]">
-        <Link href="/seminarlar" className="text-[#0b8f8a] hover:underline">
-          Seminarlar
-        </Link>
+      <p className="mb-3 text-[12px] text-[#8b93a7]">
+        <Link href="/seminarlar" className="hover:text-[#0b8f8a]">Seminarlar</Link>
+        <span className="mx-1.5">/</span>
+        <Link href={`/seminarlar?cat=${s.specialty}`} className="text-[#0b8f8a] hover:underline">{specialtyLabels[s.specialty]}</Link>
         <span className="mx-1.5">/</span>
         <span className="text-[#4b5568]">{s.title}</span>
       </p>
 
-      <div className="grid grid-cols-[minmax(0,1fr)_340px] gap-5 2xl:grid-cols-[minmax(0,1fr)_380px]">
-        {/* ───────── main column ───────── */}
+      <div className="grid grid-cols-[minmax(0,1fr)_300px] gap-5 2xl:grid-cols-[minmax(0,1fr)_360px]">
         <div className="min-w-0">
-          <section className="relative overflow-hidden rounded-[20px] bg-[#0B1F4D] shadow-[0_10px_30px_rgba(15,23,42,0.14)]">
-            <div className="relative h-[320px] 2xl:h-[360px]">
-              {heroImg ? (
-                <Image key={heroImg} src={heroImg} alt="" fill priority className="object-cover" sizes="(min-width:1536px) 960px, 760px" />
-              ) : null}
-              <div className="absolute inset-0 bg-gradient-to-r from-[#0B1F4D]/90 via-[#0B1F4D]/55 to-[#0B1F4D]/20" />
-              <div className="absolute inset-0 bg-gradient-to-t from-[#0B1F4D]/85 via-transparent to-transparent" />
+          {/* title row */}
+          <div className="flex items-start justify-between gap-4">
+            <div className="min-w-0">
+              <div className="flex flex-wrap items-center gap-2">
+                <span className="rounded-full bg-[#e3f6f4] px-2.5 py-0.5 text-[11.5px] font-semibold text-[#0b7f7b]">{specialtyLabels[s.specialty]}</span>
+                {!upcoming ? <span className="rounded-full bg-[#f1f3f8] px-2.5 py-0.5 text-[11.5px] font-semibold text-[#6b7280]">{s.status === "closed" ? "Yopilgan" : "O‘tgan"}</span> : null}
+                {s.organizer ? <span className="inline-flex items-center gap-1 text-[11.5px] text-[#6b7280]"><Building2 className="size-3.5" /> {s.organizer}</span> : null}
+              </div>
+              <h1 className="mt-2 text-[27px] leading-[1.15] font-extrabold tracking-tight text-[#0f1e3d] 2xl:text-[31px]">{s.title}</h1>
+              {s.description ? <p className="mt-1.5 line-clamp-2 max-w-[760px] text-[13.5px] leading-snug text-[#5d6e86]">{s.description}</p> : null}
+            </div>
+            <div className="flex shrink-0 gap-2">
+              <button
+                type="button"
+                aria-label={saved ? "Saqlanganlardan olib tashlash" : "Saqlash"}
+                aria-pressed={saved}
+                onClick={() => {
+                  toggleSavedSeminar(s.id);
+                  flash(saved ? "Saqlanganlardan olib tashlandi" : "Saqlandi");
+                }}
+                className={cn("grid size-10 place-items-center rounded-xl border bg-white transition-colors", saved ? "border-[#0b8f8a] text-[#0b8f8a]" : "border-[#e3e9f5] text-[#4b5568] hover:border-[#9edbd6]")}
+              >
+                <Heart className={cn("size-[18px]", saved && "fill-current")} />
+              </button>
+              <button type="button" aria-label="Ulashish" onClick={shareNative} className="grid size-10 place-items-center rounded-xl border border-[#e3e9f5] bg-white text-[#4b5568] hover:border-[#9edbd6]">
+                <Share2 className="size-[18px]" />
+              </button>
+            </div>
+          </div>
 
-              <div className="absolute inset-0 flex flex-col justify-end p-6 2xl:p-8">
-                <div className="mb-3 flex flex-wrap items-center gap-2">
-                  <span
-                    className={cn(
-                      "rounded-full px-3 py-1 text-[11px] font-bold tracking-wide uppercase text-white",
-                      upcoming ? "bg-[#0b8f8a]" : "bg-white/25 backdrop-blur-sm",
-                    )}
-                  >
-                    {upcoming ? "Joriy seminar" : s.status === "closed" ? "Yopilgan" : "O‘tgan"}
-                  </span>
-                  <span className="rounded-full bg-white/15 px-3 py-1 text-[11px] font-semibold text-white backdrop-blur-sm">
-                    {chipLabel}
-                  </span>
-                  {s.organizer ? (
-                    <span className="inline-flex items-center gap-1 rounded-full bg-white/15 px-3 py-1 text-[11px] font-semibold text-white backdrop-blur-sm">
-                      <Building2 className="size-3.5" />
-                      Tashkilotchi: {s.organizer}
-                    </span>
-                  ) : null}
+          {/* fact cards */}
+          <div className={cn("mt-4 grid gap-3", facts.length === 4 ? "grid-cols-4" : "grid-cols-3")}>
+            {facts.map(({ icon: Icon, title, sub }) => (
+              <div key={title + sub} className="flex items-center gap-2.5 rounded-2xl border border-[#e3e9f5] bg-white px-3 py-2.5">
+                <span className="grid size-9 shrink-0 place-items-center rounded-xl bg-[#e3f6f4] text-[#0b8f8a]">
+                  <Icon className="size-4" />
+                </span>
+                <span className="min-w-0">
+                  <span className="block text-[12.5px] leading-tight font-bold text-[#0f1e3d]">{title}</span>
+                  <span className="mt-0.5 block line-clamp-2 text-[11px] leading-snug text-[#0b7f7b]">{sub}</span>
+                </span>
+              </div>
+            ))}
+          </div>
+
+          {/* hero strip */}
+          <section className="relative mt-4 h-[200px] overflow-hidden rounded-[18px] bg-[#e3eaf3] 2xl:h-[240px]">
+            {heroImg ? <Image key={heroImg} src={heroImg} alt={s.title} fill priority className="object-cover" sizes="(min-width:1536px) 980px, 780px" /> : null}
+            {slides.length > 1 ? (
+              <button
+                type="button"
+                onClick={() => setSlide((i) => (i + 1) % slides.length)}
+                aria-label="Keyingi rasm"
+                className="absolute right-3 bottom-3 rounded-full bg-black/45 px-3 py-1 text-[12px] font-semibold text-white backdrop-blur-sm"
+              >
+                {(slide % slides.length) + 1}/{slides.length}
+              </button>
+            ) : null}
+          </section>
+
+          {/* about + speaker */}
+          <div className="mt-4 grid grid-cols-[minmax(0,1fr)_300px] gap-4 2xl:grid-cols-[minmax(0,1fr)_340px]">
+            <section className="rounded-[18px] border border-[#e3e9f5] bg-white p-5">
+              <SectionTitle>Seminar haqida</SectionTitle>
+              {s.description ? <p className="text-[13.5px] leading-relaxed text-[#4b5568]">{s.description}</p> : <Soon>Seminar tavsifi tez orada qo‘shiladi.</Soon>}
+              <div className="mt-4 grid grid-cols-[minmax(0,1.15fr)_minmax(0,1fr)] gap-4">
+                <div className="rounded-2xl bg-[#f6f9fc] p-4">
+                  <p className="mb-2.5 text-[13.5px] font-bold text-[#0f1e3d]">Nimalarni o‘rganasiz?</p>
+                  {learnings.length || days.length ? (
+                    <ul className="space-y-2">
+                      {(learnings.length ? learnings : days.flatMap((d) => d.topics)).slice(0, 8).map((item, i) => (
+                        <li key={`${i}-${item}`} className="flex items-start gap-2 text-[12.5px] leading-snug text-[#24344d]">
+                          <CheckCircle2 className="mt-px size-4 shrink-0 text-[#0b8f8a]" />
+                          {item}
+                        </li>
+                      ))}
+                    </ul>
+                  ) : (
+                    <p className="text-[12.5px] text-[#6b7280]">O‘quv maqsadlari tez orada e’lon qilinadi.</p>
+                  )}
                 </div>
-                <h1 className="max-w-[560px] text-[30px] leading-[1.12] font-extrabold tracking-tight text-white 2xl:max-w-[720px] 2xl:text-[36px]">
-                  {s.title}
-                </h1>
-                <p className="mt-2 max-w-[520px] line-clamp-2 text-[13.5px] leading-snug text-white/85 2xl:max-w-[640px]">
-                  {s.description || "Seminar tavsifi tez orada qo‘shiladi."}
-                </p>
-                <ul className="mt-4 flex flex-wrap items-center gap-x-5 gap-y-2 text-[13px] font-medium text-white">
-                  {meta.map(({ icon: Icon, text }) => (
-                    <li key={text} className="flex items-center gap-2">
-                      <span className="grid size-7 place-items-center rounded-full bg-[#0b8f8a]">
-                        <Icon className="size-3.5 text-white" />
+                <div className="rounded-2xl bg-[#f3fbf9] p-4">
+                  <p className="mb-2.5 text-[13.5px] font-bold text-[#0f1e3d]">Seminar formati</p>
+                  <ul className="space-y-2.5">
+                    {featureCards.filter((f) => f.on).length === 0 ? <li className="text-[12.5px] text-[#6b7280]">Tafsilotlar tez orada.</li> : null}
+                    {featureCards.filter((f) => f.on).map(({ icon: Icon, title, sub }) => (
+                      <li key={title} className="flex items-start gap-2.5">
+                        <span className="grid size-7 shrink-0 place-items-center rounded-lg bg-white text-[#0b8f8a]"><Icon className="size-4" /></span>
+                        <span>
+                          <span className="block text-[12.5px] font-semibold text-[#0f1e3d]">{title}</span>
+                          {sub ? <span className="block text-[11px] text-[#6b7280]">{sub}</span> : null}
+                        </span>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              </div>
+            </section>
+
+            <section className="rounded-[18px] border border-[#e3e9f5] bg-white p-5">
+              <SectionTitle>{speakers.length > 1 ? "Spikerlar" : "Spiker"}</SectionTitle>
+              {speakers.length ? (
+                <ul className="space-y-4">
+                  {speakers.slice(0, 3).map((sp) => (
+                    <li key={`${sp.name}-${sp.role}`} className="flex items-center gap-3">
+                      {sp.photo ? (
+                        <Image src={sp.photo} alt="" width={64} height={64} className="size-16 shrink-0 rounded-full object-cover ring-2 ring-[#e3f6f4]" />
+                      ) : (
+                        <span className="grid size-16 shrink-0 place-items-center rounded-full bg-[#e3f6f4] text-[17px] font-bold text-[#0b8f8a]">{initials(sp.name)}</span>
+                      )}
+                      <span className="min-w-0">
+                        <span className="block text-[14px] font-bold text-[#0f1e3d]">{sp.name}</span>
+                        {sp.role ? <span className="block text-[12px] text-[#5d6e86]">{sp.role}</span> : null}
+                        {sp.bio ? <span className="mt-1 block text-[11.5px] leading-snug text-[#6b7280]">{sp.bio}</span> : null}
                       </span>
-                      {text}
                     </li>
                   ))}
                 </ul>
-              </div>
+              ) : (
+                <Soon>Ma’ruzachi aniqlanmoqda.</Soon>
+              )}
+            </section>
+          </div>
 
-              <button
-                type="button"
-                onClick={() => flash("Video tez orada")}
-                aria-label="Video (tez orada)"
-                className="absolute top-1/2 right-[12%] grid size-16 -translate-y-1/2 place-items-center rounded-full bg-white/20 text-white ring-1 ring-white/50 backdrop-blur-md transition hover:bg-white/30"
-              >
-                <Play className="ml-0.5 size-7 fill-white" />
-              </button>
-              <button
-                type="button"
-                onClick={() => setSlide((i) => (i + 1) % Math.max(1, slides.length))}
-                aria-label="Keyingi rasm"
-                className="absolute right-4 bottom-4 rounded-full bg-black/45 px-3 py-1 text-[12px] font-semibold text-white backdrop-blur-sm"
-              >
-                {slides.length ? `${(slide % slides.length) + 1}/${slides.length}` : "Rasm tez orada"}
-              </button>
-            </div>
-          </section>
-
-          {/* tabs */}
-          <nav className="sticky top-0 z-20 -mx-1 mt-4 flex gap-1 overflow-x-auto border-b border-[#e6eaf2] bg-[#f6f8fc]/95 px-1 backdrop-blur [scrollbar-width:none]">
-            {TABS.map((t) => (
-              <button
-                key={t.id}
-                type="button"
-                onClick={() => go(t.id)}
-                className={cn(
-                  "-mb-px shrink-0 border-b-2 px-3.5 py-3 text-[13.5px] font-semibold transition-colors",
-                  tab === t.id ? "border-[#0b8f8a] text-[#0b8f8a]" : "border-transparent text-[#6b7280] hover:text-[#1a1d26]",
-                )}
-              >
-                {t.label}
-                {t.id === "fikrlar" ? " (0)" : ""}
-              </button>
-            ))}
-          </nav>
-
-          {/* umumiy */}
-          <section id="dsem-umumiy" className="scroll-mt-16 pt-6">
-            <SectionTitle>Seminar haqida</SectionTitle>
-            {s.description ? (
-              <p className="text-[14px] leading-relaxed text-[#4b5568]">{s.description}</p>
-            ) : (
-              <Soon>Seminar tavsifi tez orada qo‘shiladi.</Soon>
-            )}
-            <div className={cn("mt-4 grid gap-3", featureCards.length === 4 ? "grid-cols-4" : "grid-cols-5")}>
-              {featureCards.map(({ icon: Icon, title, sub, on }) => {
-                return (
-                  <div
-                    key={title}
-                    className={cn(
-                      "flex aspect-square flex-col items-center justify-center rounded-2xl border bg-white p-3 text-center shadow-[0_1px_2px_rgba(15,23,42,0.03)]",
-                      on ? "border-[#e3e9f5]" : "border-dashed border-[#e3e9f5] opacity-60",
-                    )}
-                  >
-                    <span className={cn("grid size-11 place-items-center rounded-xl", on ? "bg-[#e3f6f4] text-[#0b8f8a]" : "bg-[#f1f3f8] text-[#9aa3b5]")}>
-                      <Icon className="size-5" />
-                    </span>
-                    <p className="mt-2.5 text-[12.5px] leading-snug font-semibold text-[#1a1d26]">{title}</p>
-                    {sub ? <p className="mt-1 text-[11.5px] leading-snug text-[#6b7280]">{sub}</p> : null}
-                    {!on ? <p className="mt-1 text-[10.5px] text-[#8b93a7]">Aniqlanmoqda</p> : null}
-                  </div>
-                );
-              })}
-            </div>
-
-            <div className="mt-7">
-              <SectionTitle>Nima o‘rganasiz?</SectionTitle>
-              {!learnings.length && days.length ? (
-                <div className={cn("grid gap-4", days.length > 1 && "grid-cols-2")} data-testid="seminar-day-topics">
+          {/* program + venue */}
+          <div className="mt-4 grid grid-cols-[minmax(0,1fr)_300px] gap-4 2xl:grid-cols-[minmax(0,1fr)_340px]">
+            <section className="rounded-[18px] border border-[#e3e9f5] bg-white p-5">
+              <SectionTitle sub={date.when}>Dastur</SectionTitle>
+              {days.length ? (
+                <div className={cn("grid gap-4", days.length > 1 && "grid-cols-2")} data-testid="seminar-program">
                   {days.map((d) => (
-                    <div key={d.label} className="rounded-2xl border border-[#e3e9f5] bg-white p-4">
-                      <p className="mb-2.5 text-[13px] font-bold text-[#0b8f8a]">
-                        {d.label.toUpperCase()} — {d.title}{d.date ? ` · ${d.date}` : ""}
-                      </p>
-                      <ul className="space-y-2">
-                        {d.topics.map((t) => (
-                          <li key={t} className="flex items-start gap-2.5 text-[13.5px] leading-snug font-medium text-[#1a1d26]">
-                            <span className="mt-[7px] size-1.5 shrink-0 rounded-full bg-[#0b8f8a]" />
-                            {t}
-                          </li>
-                        ))}
-                      </ul>
+                    <div key={d.label}>
+                      <p className="mb-2 text-[13px] font-bold text-[#0f1e3d]">{d.label} <span className="font-semibold text-[#0b8f8a]">· {d.title}</span></p>
+                      <ProgramList rows={d.schedule} />
                     </div>
                   ))}
                 </div>
-              ) : learnings.length ? (
-                <ol className="grid grid-cols-2 gap-x-6 gap-y-3">
-                  {learnings.slice(0, 8).map((item, i) => (
-                    <li key={`${i}-${item}`} className="flex items-start gap-3">
-                      <span className="grid size-7 shrink-0 place-items-center rounded-full bg-[#e3f6f4] text-[12px] font-bold text-[#0b8f8a]">
-                        {i + 1}
-                      </span>
-                      <span className="pt-0.5 text-[14px] leading-snug font-medium text-[#1a1d26]">{item}</span>
-                    </li>
-                  ))}
-                </ol>
+              ) : program.length ? (
+                <ProgramList rows={program} />
               ) : (
-                <Soon>O‘quv maqsadlari tashkilotchi tomonidan tez orada e’lon qilinadi.</Soon>
+                <Soon>Dastur tez orada. Seminar vaqti: {s.time} — {s.timeEnd}.</Soon>
               )}
-            </div>
+            </section>
+            <section className="rounded-[18px] border border-[#e3e9f5] bg-white p-5">
+              <SectionTitle>Joylashuv</SectionTitle>
+              <AddressCard s={s} online={online} />
+              <ul className="mt-4 space-y-3 text-[13px]">
+                <DetailRow icon={Clock} label="Vaqt">{s.time} - {s.timeEnd}</DetailRow>
+                <DetailRow icon={Users} label="O‘rinlar">{s.seatsTbd ? "Joylar soni cheklangan" : s.seatsTotal > 0 ? `${left} / ${s.seatsTotal}` : "Tez orada"}</DetailRow>
+              </ul>
+            </section>
+          </div>
 
-            <div className="mt-7">
+          {gallery.length ? (
+            <section className="mt-4 rounded-[18px] border border-[#e3e9f5] bg-white p-5">
               <SectionTitle>Seminar lavhalari</SectionTitle>
-              {gallery.length ? (
-                <div className="grid grid-cols-4 gap-3">
-                  {gallery.slice(0, 4).map((g) => (
-                    <figure key={`${g.image}-${g.caption}`} className="group relative aspect-[4/3] overflow-hidden rounded-xl">
-                      <Image src={g.image} alt={g.caption ?? ""} fill className="object-cover transition-transform duration-500 group-hover:scale-105" sizes="240px" />
-                      {g.caption ? (
-                        <>
-                          <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" />
-                          <figcaption className="absolute inset-x-0 bottom-0 p-2 text-[11.5px] font-semibold text-white">{g.caption}</figcaption>
-                        </>
-                      ) : null}
-                    </figure>
-                  ))}
-                </div>
-              ) : (
-                <Soon>Lavhalar seminar o‘tgach shu yerda ko‘rinadi.</Soon>
-              )}
-            </div>
-          </section>
-
-          {/* spikerlar */}
-          <section id="dsem-spikerlar" className="scroll-mt-16 pt-8">
-            <SectionTitle>Spikerlar</SectionTitle>
-            {speakers.length ? (
-              <div className="grid grid-cols-2 gap-3">
-                {speakers.map((sp) => (
-                  <article key={`${sp.name}-${sp.role}`} className="flex gap-3 rounded-2xl border border-[#e3e9f5] bg-white p-3.5">
-                    {sp.photo ? (
-                      <Image src={sp.photo} alt="" width={52} height={52} className="size-[52px] shrink-0 rounded-full object-cover ring-2 ring-[#e3f6f4]" />
-                    ) : (
-                      <span className="grid size-[52px] shrink-0 place-items-center rounded-full bg-[#e3f6f4] text-sm font-bold text-[#0b8f8a]">{initials(sp.name)}</span>
-                    )}
-                    <div className="min-w-0">
-                      <p className="text-[14px] font-semibold text-[#1a1d26]">{sp.name}</p>
-                      {sp.role ? <p className="mt-0.5 text-[12.5px] text-[#0b8f8a]">{sp.role}</p> : null}
-                      {sp.bio ? <p className="mt-1 text-[12px] leading-snug text-[#6b7280]">{sp.bio}</p> : null}
-                    </div>
-                  </article>
+              <div className="grid grid-cols-4 gap-3">
+                {gallery.slice(0, 4).map((g) => (
+                  <figure key={`${g.image}-${g.caption}`} className="relative aspect-[4/3] overflow-hidden rounded-xl">
+                    <Image src={g.image} alt={g.caption ?? ""} fill className="object-cover" sizes="240px" />
+                  </figure>
                 ))}
               </div>
-            ) : (
-              <Soon>Ma’ruzachi aniqlanmoqda.</Soon>
-            )}
-          </section>
-
-          {/* dastur */}
-          <section id="dsem-dastur" className="scroll-mt-16 pt-8">
-            <SectionTitle>Dastur</SectionTitle>
-            {days.length ? (
-              <div className={cn("grid gap-4", days.length > 1 && "grid-cols-2")} data-testid="seminar-program">
-                {days.map((d) => (
-                  <div key={d.label}>
-                    <p className="mb-2 text-[14px] font-bold text-[#1a1d26]">
-                      {d.label} <span className="font-semibold text-[#0b8f8a]">· {d.title}</span>
-                      {d.date ? <span className="ml-1.5 text-[12.5px] font-medium text-[#8b93a7]">{d.date}</span> : null}
-                    </p>
-                    <ol className="space-y-1.5">
-                      {d.schedule.map((p, i) => {
-                        const brk = /kofe|tushlik/i.test(p.title);
-                        return (
-                          <li key={`${p.time}-${i}`} className={cn("flex items-center gap-3 rounded-xl border px-3 py-2.5", brk ? "border-dashed border-[#e3e9f5] bg-[#f8faff]" : "border-[#e3e9f5] bg-white")}>
-                            <span className="w-[92px] shrink-0 text-[12.5px] font-bold text-[#0b8f8a]">{p.time}</span>
-                            <span className={cn("text-[13px]", brk ? "text-[#8b93a7]" : "font-medium text-[#1a1d26]")}>{p.title}</span>
-                          </li>
-                        );
-                      })}
-                    </ol>
-                  </div>
-                ))}
-              </div>
-            ) : program.length ? (
-              <ol className="space-y-2">
-                {program.map((p, i) => (
-                  <li key={`${p.time}-${i}`} className="flex items-center gap-4 rounded-xl border border-[#e3e9f5] bg-white px-4 py-3">
-                    <span className="w-[110px] shrink-0 text-[13px] font-bold text-[#0b8f8a]">{p.time}</span>
-                    <span className="text-[13.5px] font-medium text-[#1a1d26]">{p.title}</span>
-                  </li>
-                ))}
-              </ol>
-            ) : (
-              <Soon>
-                Dastur tez orada. Seminar vaqti: {s.time} — {s.timeEnd}.
-              </Soon>
-            )}
-          </section>
-
-          {/* materiallar */}
-          <section id="dsem-materiallar" className="scroll-mt-16 pt-8">
-            <SectionTitle>Materiallar</SectionTitle>
-            <Soon>Materiallar haqida ma’lumot tez orada.</Soon>
-          </section>
-
-          {/* fikrlar */}
-          <section id="dsem-fikrlar" className="scroll-mt-16 pt-8">
-            <SectionTitle>Fikrlar</SectionTitle>
-            <div className="flex items-center gap-3 rounded-2xl border border-dashed border-[#d6def0] bg-[#f8faff] px-4 py-5 text-[13px] text-[#6b7280]">
-              <Star className="size-5 text-[#9aa3b5]" />
-              Hali fikr yo‘q. Seminardan keyin ishtirokchilar fikr qoldirishi mumkin bo‘ladi.
-            </div>
-          </section>
-
-          {/* joylashuv */}
-          <section id="dsem-joylashuv" className="scroll-mt-16 pt-8">
-            <SectionTitle>Joylashuv</SectionTitle>
-            <AddressCard s={s} online={online} />
-          </section>
+            </section>
+          ) : null}
 
           {/* registration (existing flow) */}
-          <div className="mt-8 pb-4">{children}</div>
+          <div className="mt-6 pb-4">{children}</div>
         </div>
 
-        {/* ───────── right column ───────── */}
+        {/* right column */}
         <aside className="min-w-0 space-y-4 self-start xl:sticky xl:top-0">
           <div className="rounded-[18px] border border-[#e3e9f5] bg-white p-5 shadow-[0_4px_16px_rgba(15,23,42,0.05)]">
-            <div className="flex items-start justify-between gap-2">
-              <p className="text-[12px] font-medium text-[#8b93a7]">Narx</p>
-              {upcoming && s.seatsTbd ? (
-                <span className="rounded-full bg-[#fee2e2] px-2.5 py-0.5 text-[11.5px] font-bold text-[#dc2626]">Joylar soni cheklangan</span>
-              ) : upcoming && s.seatsTotal > 0 ? (
-                left > 0 ? (
-                  <span className="rounded-full bg-[#fee2e2] px-2.5 py-0.5 text-[11.5px] font-bold text-[#dc2626]">{left} ta o‘rin qoldi</span>
-                ) : (
-                  <span className="rounded-full bg-[#f1f3f8] px-2.5 py-0.5 text-[11.5px] font-bold text-[#6b7280]">Joy qolmadi</span>
-                )
+            <div className="flex items-center justify-between gap-2">
+              <p className="text-[16px] font-extrabold text-[#0f1e3d]">Ro‘yxatdan o‘tish</p>
+              {upcoming && s.seatsTotal > 0 && !s.seatsTbd ? (
+                <span className={cn("rounded-full px-2.5 py-0.5 text-[11.5px] font-bold", left > 0 ? "bg-[#fee2e2] text-[#dc2626]" : "bg-[#f1f3f8] text-[#6b7280]")}>
+                  {left > 0 ? `${left} ta o‘rin qoldi` : "Joy qolmadi"}
+                </span>
               ) : null}
             </div>
-            <div className="mt-1 flex items-baseline gap-2">
-              <p className="text-[28px] leading-none font-extrabold text-[#0b8f8a]">
-                {seminarPriceText(s)}
-              </p>
-              {pct > 0 && s.oldPrice ? (
-                <>
-                  <span className="text-[13px] text-[#9aa3b5] line-through">{formatMoney(s.oldPrice, "UZS")}</span>
-                  <span className="rounded-md bg-[#e3f6f4] px-1.5 py-0.5 text-[11px] font-bold text-[#0b8f8a]">-{pct}%</span>
-                </>
+
+            <div className="mt-4 rounded-2xl border-2 border-[#0b8f8a] bg-[#f3fbf9] p-4">
+              <p className="text-[12.5px] font-semibold text-[#0b7f7b]">{online ? "Online qatnashish" : "Zalda qatnashish"}</p>
+              <div className="mt-1 flex flex-wrap items-baseline gap-2">
+                <p className="text-[24px] leading-none font-extrabold text-[#0f1e3d]">{seminarPriceText(s)}</p>
+                {pct > 0 && s.oldPrice ? (
+                  <>
+                    <span className="text-[12px] text-[#9aa3b5] line-through">{formatMoney(s.oldPrice, "UZS")}</span>
+                    <span className="rounded-md bg-[#dcf3ee] px-1.5 py-0.5 text-[11px] font-bold text-[#129a5c]">-{pct}%</span>
+                  </>
+                ) : null}
+              </div>
+              <ul className="mt-3 space-y-1.5 text-[12px] text-[#24344d]">
+                <li className="flex items-center gap-2"><CheckCircle2 className="size-3.5 text-[#0b8f8a]" /> {online ? "Jonli efirga kirish" : "Zalda qatnashish"}</li>
+                {program.some((p) => /kofe|tushlik/i.test(p.title)) ? <li className="flex items-center gap-2"><CheckCircle2 className="size-3.5 text-[#0b8f8a]" /> Kofe-breyk va tushlik</li> : null}
+                {certificate ? <li className="flex items-center gap-2"><CheckCircle2 className="size-3.5 text-[#0b8f8a]" /> Sertifikat beriladi</li> : null}
+              </ul>
+              {s.seatsTotal > 0 && !s.seatsTbd ? (
+                <div className="mt-3">
+                  <div className="flex justify-between text-[11px] text-[#5d6e86]"><span>Band joylar</span><span>{taken}/{s.seatsTotal}</span></div>
+                  <div className="mt-1 h-2 overflow-hidden rounded-full bg-[#dde8ef]"><div className="h-full rounded-full bg-[#0b8f8a]" style={{ width: `${fill}%` }} /></div>
+                </div>
               ) : null}
             </div>
 
             {mine ? (
-              <Link
-                href={`/seminarlar/yozuvlarim/${mine.id}`}
-                className="mt-4 flex h-12 w-full items-center justify-center gap-2 rounded-xl bg-[#0b8f8a] text-[15px] font-semibold text-white shadow-[0_8px_20px_rgba(0,102,255,0.3)] hover:bg-[#0052cc]"
-              >
+              <Link href={`/seminarlar/yozuvlarim/${mine.id}`} className="mt-4 flex h-12 w-full items-center justify-center gap-2 rounded-xl bg-[#0b8f8a] text-[15px] font-semibold text-white hover:bg-[#0a7f7b]">
                 Chiptani ochish <ArrowRight className="size-5" />
               </Link>
             ) : showCta ? (
-              <button
-                type="button"
-                onClick={scrollToForm}
-                className="mt-4 flex h-12 w-full items-center justify-center gap-2 rounded-xl bg-[#0b8f8a] text-[15px] font-semibold text-white shadow-[0_8px_20px_rgba(0,102,255,0.3)] hover:bg-[#0052cc]"
-              >
+              <button type="button" onClick={scrollToForm} className="mt-4 flex h-12 w-full items-center justify-center gap-2 rounded-xl bg-[#0b8f8a] text-[15px] font-semibold text-white hover:bg-[#0a7f7b]">
                 Ro‘yxatdan o‘tish <ArrowRight className="size-5" />
               </button>
             ) : (
@@ -535,97 +442,45 @@ export function SeminarDetailDesktop({
                 {!upcoming ? "Seminar o‘tgan" : "Joy qolmadi"}
               </button>
             )}
-
-            <div className="mt-3 grid grid-cols-2 gap-2">
-              <button
-                type="button"
-                onClick={() => {
-                  toggleSavedSeminar(s.id);
-                  flash(saved ? "Saqlanganlardan olib tashlandi" : "Saqlandi");
-                }}
-                className={cn(
-                  "flex h-10 items-center justify-center gap-1.5 rounded-xl border text-[13px] font-semibold transition-colors",
-                  saved ? "border-[#0b8f8a] bg-[#e3f6f4] text-[#0b8f8a]" : "border-[#d9e0ee] text-[#1a1d26] hover:bg-[#f5f8ff]",
-                )}
-              >
-                {saved ? <BookmarkCheck className="size-4" /> : <Bookmark className="size-4" />}
-                {saved ? "Saqlangan" : "Saqlash"}
+            {upcoming && !s.dateTbd ? (
+              <button type="button" onClick={addToCalendar} className="mt-2 flex h-11 w-full items-center justify-center gap-2 rounded-xl border border-[#9edbd6] bg-white text-[13.5px] font-semibold text-[#0b7f7b] hover:bg-[#f3fbf9]">
+                <CalendarPlus className="size-4" /> Kalendarga qo‘shish
               </button>
-              <button
-                type="button"
-                onClick={shareNative}
-                className="flex h-10 items-center justify-center gap-1.5 rounded-xl border border-[#d9e0ee] text-[13px] font-semibold text-[#1a1d26] hover:bg-[#f5f8ff]"
-              >
-                <Share2 className="size-4" />
-                Ulashish
-              </button>
-            </div>
-          </div>
-
-          <div className="rounded-[18px] border border-[#e3e9f5] bg-white p-5">
-            <p className="mb-3 text-[14px] font-bold text-[#1a1d26]">Asosiy spiker</p>
-            {lead ? (
-              <div className="flex items-center gap-3">
-                {lead.photo ? (
-                  <Image src={lead.photo} alt="" width={56} height={56} className="size-14 shrink-0 rounded-full object-cover ring-2 ring-[#e3f6f4]" />
-                ) : (
-                  <span className="grid size-14 shrink-0 place-items-center rounded-full bg-[#e3f6f4] text-base font-bold text-[#0b8f8a]">{initials(lead.name)}</span>
-                )}
-                <div className="min-w-0">
-                  <p className="text-[14.5px] font-semibold text-[#1a1d26]">{lead.name}</p>
-                  {lead.role ? <p className="mt-0.5 text-[12.5px] text-[#0b8f8a]">{lead.role}</p> : null}
-                  {speakers.length > 1 ? <p className="mt-1 text-[11.5px] text-[#8b93a7]">va yana {speakers.length - 1} ta spiker</p> : null}
-                </div>
+            ) : null}
+            {certificate ? (
+              <div className="mt-4 flex items-center gap-3 rounded-xl bg-[#f6f9fc] p-3">
+                <span className="grid size-9 shrink-0 place-items-center rounded-lg bg-white text-[#0b8f8a]"><Award className="size-[18px]" /></span>
+                <span className="text-[12px] leading-snug text-[#24344d]"><b className="block text-[12.5px]">Sertifikat beriladi</b>Seminar yakunida</span>
               </div>
-            ) : (
-              <p className="text-[13px] text-[#6b7280]">Ma’ruzachi aniqlanmoqda</p>
-            )}
+            ) : null}
           </div>
 
           <div className="rounded-[18px] border border-[#e3e9f5] bg-white p-5">
-            <ul className="space-y-3 text-[13px]">
-              <DetailRow icon={CalendarDays} label="Sana">{date.when}</DetailRow>
-              <DetailRow icon={Clock} label="Vaqt">{s.time} - {s.timeEnd}</DetailRow>
-              <DetailRow icon={MapPin} label="Joy">{place || "Tez orada"}</DetailRow>
-              <DetailRow icon={Users} label="O‘rinlar">{s.seatsTbd ? "Joylar soni cheklangan" : s.seatsTotal > 0 ? `${left} / ${s.seatsTotal}` : "Tez orada"}</DetailRow>
-              {s.organizer ? <DetailRow icon={Building2} label="Tashkilotchi">{s.organizer}</DetailRow> : null}
-            </ul>
-            <div className="mt-4">
-              <AddressCard s={s} online={online} compact />
-            </div>
-          </div>
-
-          <div className="rounded-[18px] border border-[#e3e9f5] bg-white p-5">
-            <p className="mb-3 text-[14px] font-bold text-[#1a1d26]">Ulashish</p>
-            <div className="flex items-center gap-2.5">
-              <ShareBtn label="Telegram" onClick={() => openShare("telegram")} className="bg-[#229ED9]"><Send className="size-4" /></ShareBtn>
-              <ShareBtn label="WhatsApp" onClick={() => openShare("whatsapp")} className="bg-[#25D366]"><MessageCircle className="size-4" /></ShareBtn>
-              <ShareBtn label="Facebook" onClick={() => openShare("facebook")} className="bg-[#1877F2]"><span className="text-[15px] leading-none font-extrabold">f</span></ShareBtn>
-              <ShareBtn label="LinkedIn" onClick={() => openShare("linkedin")} className="bg-[#0A66C2]"><span className="text-[12px] leading-none font-extrabold">in</span></ShareBtn>
-              <ShareBtn label="Havolani nusxalash" onClick={copyLink} className="bg-[#6b7280]"><Link2 className="size-4" /></ShareBtn>
+            <p className="mb-3 text-[14px] font-bold text-[#0f1e3d]">Ishtirokchilar sharhlari</p>
+            <div className="flex items-center gap-3 text-[12.5px] text-[#6b7280]">
+              <Star className="size-5 shrink-0 text-[#9aa3b5]" />
+              Hali sharh yo‘q. Seminardan keyin ishtirokchilar fikr qoldiradi.
             </div>
           </div>
 
           <div className="rounded-[18px] border border-[#e3e9f5] bg-white p-5">
             <div className="mb-3 flex items-center justify-between">
-              <p className="text-[14px] font-bold text-[#1a1d26]">O‘xshash seminarlar</p>
-              <Link href="/seminarlar" className="text-[12px] font-semibold text-[#0b8f8a] hover:underline">Barchasini ko‘rish</Link>
+              <p className="text-[14px] font-bold text-[#0f1e3d]">O‘xshash seminarlar</p>
+              <Link href="/seminarlar" className="inline-flex items-center gap-1 text-[12px] font-semibold text-[#0b8f8a] hover:underline">Barchasi <ArrowRight className="size-3.5" /></Link>
             </div>
             {similar.length ? (
               <ul className="space-y-3">
                 {similar.map((x) => (
                   <li key={x.id}>
                     <Link href={`/seminarlar/${x.id}`} className="group flex items-center gap-3">
-                      <span className="relative size-[54px] shrink-0 overflow-hidden rounded-xl bg-[#e3f6f4]">
-                        {x.image ? <Image src={x.image} alt="" fill className="object-cover" sizes="54px" /> : null}
+                      <span className="relative h-[46px] w-[64px] shrink-0 overflow-hidden rounded-lg bg-[#e3f6f4]">
+                        {x.image ? <Image src={x.image} alt="" fill className="object-cover" sizes="64px" /> : null}
                       </span>
                       <span className="min-w-0 flex-1">
-                        <span className="line-clamp-2 block text-[12.5px] leading-snug font-semibold text-[#1a1d26] group-hover:text-[#0b8f8a]">{x.title}</span>
-                        <span className="mt-0.5 block truncate text-[11px] text-[#8b93a7]">
-                          {seminarDayMonth(x.date)} · {x.city} · {seminarPriceText(x)}
-                        </span>
+                        <span className="line-clamp-1 block text-[12.5px] font-semibold text-[#0f1e3d] group-hover:text-[#0b8f8a]">{x.title}</span>
+                        <span className="mt-0.5 block truncate text-[11px] text-[#8b93a7]">{seminarDayMonth(x.date)} · {x.city.replace(" shahri", "")}</span>
                       </span>
-                      <ChevronRight className="size-4 shrink-0 text-[#9aa3b5]" />
+                      <span className="shrink-0 text-[12px] font-bold text-[#0b7f7b]">{seminarPriceText(x)}</span>
                     </Link>
                   </li>
                 ))}
@@ -633,6 +488,17 @@ export function SeminarDetailDesktop({
             ) : (
               <p className="text-[13px] text-[#6b7280]">Boshqa seminarlar tez orada.</p>
             )}
+          </div>
+
+          <div className="rounded-[18px] border border-[#e3e9f5] bg-white p-5">
+            <p className="mb-3 text-[14px] font-bold text-[#0f1e3d]">Ulashish</p>
+            <div className="flex items-center gap-2.5">
+              <ShareBtn label="Telegram" onClick={() => openShare("telegram")} className="bg-[#229ED9]"><Send className="size-4" /></ShareBtn>
+              <ShareBtn label="WhatsApp" onClick={() => openShare("whatsapp")} className="bg-[#25D366]"><MessageCircle className="size-4" /></ShareBtn>
+              <ShareBtn label="Facebook" onClick={() => openShare("facebook")} className="bg-[#1877F2]"><span className="text-[15px] leading-none font-extrabold">f</span></ShareBtn>
+              <ShareBtn label="LinkedIn" onClick={() => openShare("linkedin")} className="bg-[#0A66C2]"><span className="text-[12px] leading-none font-extrabold">in</span></ShareBtn>
+              <ShareBtn label="Havolani nusxalash" onClick={copyLink} className="bg-[#6b7280]"><Link2 className="size-4" /></ShareBtn>
+            </div>
           </div>
         </aside>
       </div>
@@ -643,6 +509,32 @@ export function SeminarDetailDesktop({
         </div>
       ) : null}
     </div>
+  );
+}
+
+const WEEKDAYS = ["Yakshanba", "Dushanba", "Seshanba", "Chorshanba", "Payshanba", "Juma", "Shanba"];
+
+function weekday(iso: string) {
+  if (!/^\d{4}-\d{2}-\d{2}$/.test(iso)) return "";
+  const [y, m, d] = iso.split("-").map(Number);
+  return WEEKDAYS[new Date(y, m - 1, d).getDay()];
+}
+
+function ProgramList({ rows }: { rows: { time: string; title: string }[] }) {
+  return (
+    <ol className="divide-y divide-[#f1f4f8]">
+      {rows.map((p, i) => {
+        const next = rows[i + 1]?.time;
+        const brk = /kofe|tushlik/i.test(p.title);
+        return (
+          <li key={`${p.time}-${i}`} className="flex items-center gap-3 py-2">
+            <Clock className="size-3.5 shrink-0 text-[#9aa3b5]" />
+            <span className="w-[96px] shrink-0 text-[12px] font-semibold text-[#5d6e86] tabular-nums">{p.time}{next ? ` – ${next}` : ""}</span>
+            <span className={cn("text-[12.5px]", brk ? "text-[#8b93a7]" : "font-medium text-[#0f1e3d]")}>{p.title}</span>
+          </li>
+        );
+      })}
+    </ol>
   );
 }
 
