@@ -191,7 +191,7 @@ export function JobsDesktop() {
       const name = item.clinic.trim();
       if (!name) return;
       const cur = byName.get(name);
-      byName.set(name, { openings: (cur?.openings ?? 0) + 1, city: item.city, logo: cur?.logo || item.logo || "" });
+      byName.set(name, { openings: (cur?.openings ?? 0) + 1, city: item.city, logo: cur?.logo || item.job?.logo || "" });
     });
     return [...byName.entries()].map(([name, row]) => ({ name, ...row }));
   }, [all]);
