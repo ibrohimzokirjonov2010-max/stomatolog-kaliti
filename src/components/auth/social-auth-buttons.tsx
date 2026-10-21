@@ -70,7 +70,19 @@ function TelegramMark() {
   );
 }
 
-export function SocialAuthButtons({ locked = false, onLockedClick }: { locked?: boolean; onLockedClick?: () => void }) {
+export function SocialAuthButtons({
+  locked = false,
+  onLockedClick,
+  placement = "before",
+  verb = "davom etish",
+}: {
+  locked?: boolean;
+  onLockedClick?: () => void;
+  /** "before": buttons above the phone form with "yoki" under them; "after": "yoki" first, buttons below the form. */
+  placement?: "before" | "after";
+  /** Ending of the fallback Google label, e.g. "kirish" or "ro‘yxatdan o‘tish". */
+  verb?: string;
+}) {
   const router = useRouter();
   const { acceptServerProfile, ready } = useDoctorProfile();
   const [modal, setModal] = useState<ModalKind>(null);
@@ -247,37 +259,42 @@ export function SocialAuthButtons({ locked = false, onLockedClick }: { locked?: 
     );
   }
 
+  const divider = (
+    <div className="relative flex items-center gap-3 py-1">
+      <div className="h-px flex-1 bg-[#e8eef4]" />
+      <span className="text-[13px] font-medium text-[#8b93a7]">yoki</span>
+      <div className="h-px flex-1 bg-[#e8eef4]" />
+    </div>
+  );
+
   return (
     <div className="relative space-y-3">
+      {placement === "after" ? divider : null}
       {locked ? (
         <button
           type="button"
           aria-label="Avval Shartlar va Maxfiylik siyosatiga rozilik bering"
           onClick={onLockedClick}
-          className="absolute inset-x-0 top-0 z-10 h-12 cursor-not-allowed rounded-full bg-white/60"
+          className={`absolute inset-x-0 z-10 h-12 cursor-not-allowed rounded-xl bg-white/60 ${placement === "after" ? "top-[42px]" : "top-0"}`}
         />
       ) : null}
       {googleClientId ? (
-        <div ref={googleBtnRef} className="flex min-h-12 w-full justify-center overflow-hidden rounded-full" />
+        <div ref={googleBtnRef} className="flex min-h-12 w-full justify-center overflow-hidden rounded-xl" />
       ) : (
         <button
           type="button"
           disabled={!ready || busy}
           onClick={() => openFallback("google")}
-          className="flex h-12 w-full items-center justify-center gap-3 rounded-full border border-[#e2e8f0] bg-white text-[15px] font-semibold text-[#1a1d26] shadow-sm transition hover:bg-[#f8fafc] disabled:opacity-60"
+          className="flex h-12 w-full items-center justify-center gap-3 rounded-xl border border-[#e2e8f0] bg-white text-[15px] font-semibold text-[#1a1d26] transition hover:bg-[#f8fafc] disabled:opacity-60"
         >
           <GoogleMark />
-          Google orqali davom etish
+          Google bilan {verb}
         </button>
       )}
 
       {telegramBot ? <div ref={tgMountRef} className="flex min-h-12 w-full justify-center" /> : null}
 
-      <div className="relative flex items-center gap-3 py-1">
-        <div className="h-px flex-1 bg-[#e8eef4]" />
-        <span className="text-[13px] font-medium text-[#8b93a7]">yoki</span>
-        <div className="h-px flex-1 bg-[#e8eef4]" />
-      </div>
+      {placement === "before" ? divider : null}
 
       {error && !modal ? (
         <p className="rounded-xl bg-[#fff1f0] px-3 py-2.5 text-[13px] font-medium text-[#d92d20]">
