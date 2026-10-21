@@ -136,3 +136,66 @@
 .sh .bo-chat button { height: calc(1.6 * var(--u)); padding: 0 calc(.5 * var(--u)); border-radius: calc(.4 * var(--u)); background: var(--teal); color: #fff; font-weight: 800; font-size: calc(0.962 * var(--uf)); }
 .sh .bo-select { height: calc(1.5 * var(--u)); border: 1px solid #e1e8f0; border-radius: calc(.3 * var(--u)); font-size: calc(0.952 * var(--uf)); padding: 0 calc(.25 * var(--u)); background: #fff; }
 .sh .sv-empty { padding: calc(1 * var(--u)); text-align: center; color: #5d6e86; }
+
+/* Savat mockup pass. Mockup pixels times --k; the row grid gives price, quantity, total and actions
+   their own columns so long sums no longer run into each other. */
+.sh .sv-page { --k: clamp(.86px, calc(var(--u) / 13.5), 1.06px); gap: calc(14 * var(--k)); }
+.sh .sv-page .i { width: calc(14 * var(--k)); height: calc(14 * var(--k)); }
+.sh .sv-head { align-items: center; }
+.sh .sv-head h1 { font-size: calc(26 * var(--k)); font-weight: 800; }
+.sh .sv-head h1 span { font-size: calc(17 * var(--k)); font-weight: 500; color: #3d4d66; margin-left: calc(4 * var(--k)); }
+.sh .sv-steps { gap: calc(10 * var(--k)); flex: 1; justify-content: center; }
+.sh .sv-step { font-size: calc(12 * var(--k)); font-weight: 600; color: #3d4d66; gap: calc(8 * var(--k)); }
+.sh .sv-step i { width: calc(26 * var(--k)); height: calc(26 * var(--k)); font-size: calc(12 * var(--k)); background: #fff; border: 1px solid #d5dee8; color: #5d6e86; }
+.sh .sv-step .line { width: calc(70 * var(--k)); background: #dfe6ee; margin-right: calc(4 * var(--k)); }
+.sh .sv-step.on { color: #0b7f7b; }
+.sh .sv-step.on i { border-color: #0b8f8a; background: #0b8f8a; }
+.sh .sv-cols { grid-template-columns: minmax(0, 1fr) clamp(calc(290 * var(--k)), 26%, calc(360 * var(--k))); gap: calc(14 * var(--k)); }
+.sh .sv-panel { border-radius: calc(12 * var(--k)); overflow: hidden; }
+.sh .sv-tools { padding: calc(12 * var(--k)) calc(14 * var(--k)); }
+.sh .sv-tools em { margin-left: auto; font-size: calc(11.5 * var(--k)); color: #3d4d66; font-weight: 500; }
+.sh .sv-tools > button:last-child { font-size: calc(11 * var(--k)); color: #8b9bb0; }
+.sh .sv-check { gap: calc(10 * var(--k)); font-size: calc(11.5 * var(--k)); font-weight: 500; }
+.sh .sv-boxi { width: calc(17 * var(--k)); height: calc(17 * var(--k)); border-radius: calc(4 * var(--k)); }
+.sh .sv-boxi .i { width: calc(11 * var(--k)); height: calc(11 * var(--k)); }
+.sh .sv-seller { background: #f4f8fb; padding: calc(10 * var(--k)) calc(14 * var(--k)); font-size: calc(13 * var(--k)); gap: calc(10 * var(--k)); }
+.sh .sv-seller .mark { width: calc(24 * var(--k)); height: calc(24 * var(--k)); border-radius: calc(6 * var(--k)); }
+.sh .sv-line { grid-template-columns: calc(17 * var(--k)) calc(60 * var(--k)) minmax(0, 1fr) calc(108 * var(--k)) calc(84 * var(--k)) calc(118 * var(--k)) calc(92 * var(--k)); gap: calc(14 * var(--k)); padding: calc(10 * var(--k)) calc(14 * var(--k)); align-items: center; border-top: 1px solid #f1f4f8; }
+.sh .sv-line img { width: calc(60 * var(--k)); height: calc(60 * var(--k)); border-radius: calc(8 * var(--k)); border: 1px solid #eef2f7; }
+.sh .sv-line h3 { font-size: calc(12.5 * var(--k)); font-weight: 700; }
+.sh .sv-line .var { font-size: calc(11 * var(--k)); margin-top: calc(3 * var(--k)); }
+.sh .sv-official { margin-top: calc(6 * var(--k)); padding: calc(2 * var(--k)) calc(7 * var(--k)); border-radius: calc(5 * var(--k)); background: #e7f7ef; color: #129a5c; font-size: calc(10 * var(--k)); font-weight: 600; gap: calc(4 * var(--k)); }
+.sh .sv-official .i { width: calc(11 * var(--k)); height: calc(11 * var(--k)); }
+.sh .sv-money { font-size: calc(12 * var(--k)); font-weight: 600; text-align: right; font-variant-numeric: tabular-nums; }
+.sh .sv-line .total { color: var(--ink); font-weight: 800; font-size: calc(13 * var(--k)); }
+.sh .sv-qty { justify-self: center; border-radius: calc(8 * var(--k)); height: calc(32 * var(--k)); }
+.sh .sv-qty button { width: calc(26 * var(--k)); height: 100%; color: #3d4d66; display: grid; place-items: center; }
+.sh .sv-qty span { min-width: calc(24 * var(--k)); font-size: calc(12 * var(--k)); }
+.sh .sv-acts { gap: calc(10 * var(--k)); align-items: flex-start; }
+.sh .sv-acts button { font-size: calc(11 * var(--k)); font-weight: 500; gap: calc(6 * var(--k)); }
+.sh .sv-picks { margin-top: calc(6 * var(--k)); }
+.sh .sv-picks h2 { font-size: calc(16 * var(--k)); font-weight: 800; }
+.sh .sv-picks h2 a { display: inline-flex; align-items: center; gap: calc(4 * var(--k)); font-size: calc(11.5 * var(--k)); font-weight: 600; }
+.sh .sv-grid { gap: calc(12 * var(--k)); margin-top: calc(10 * var(--k)); }
+.sh .sv-pick { flex-direction: row; gap: calc(12 * var(--k)); padding: calc(10 * var(--k)); border-radius: calc(12 * var(--k)); align-items: stretch; }
+.sh .sv-pick img { width: calc(84 * var(--k)); height: calc(84 * var(--k)); flex: none; border-radius: calc(8 * var(--k)); }
+.sh .sv-pick > div { display: flex; flex-direction: column; gap: calc(3 * var(--k)); min-width: 0; flex: 1; }
+.sh .sv-pick b { font-size: calc(11.5 * var(--k)); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.sh .sv-pick span { font-size: calc(10.5 * var(--k)); }
+.sh .sv-pick .price { font-size: calc(12.5 * var(--k)); margin-top: auto; }
+.sh .sv-add { height: calc(30 * var(--k)); border-radius: calc(8 * var(--k)); font-size: calc(11 * var(--k)); font-weight: 600; gap: calc(6 * var(--k)); justify-content: center; width: 100%; }
+.sh .sv-box { padding: calc(16 * var(--k)); border-radius: calc(12 * var(--k)); }
+.sh .sv-box h3 { font-size: calc(16 * var(--k)); font-weight: 800; margin-bottom: calc(14 * var(--k)); }
+.sh .sv-row { font-size: calc(12 * var(--k)); padding: calc(6 * var(--k)) 0; }
+.sh .sv-row b { font-weight: 600; white-space: nowrap; }
+.sh .sv-total { display: flex; justify-content: space-between; align-items: baseline; margin: calc(14 * var(--k)) 0; padding-top: calc(14 * var(--k)); border-top: 1px solid #eef2f7; }
+.sh .sv-total span { font-size: calc(15 * var(--k)); font-weight: 800; }
+.sh .sv-total b { font-size: calc(24 * var(--k)); font-weight: 800; color: #0b7f7b; white-space: nowrap; }
+.sh .sv-go { width: 100%; height: calc(44 * var(--k)); border-radius: calc(10 * var(--k)); font-size: calc(13.5 * var(--k)); font-weight: 700; display: inline-flex; align-items: center; justify-content: center; gap: calc(8 * var(--k)); background: #0b8f8a; }
+.sh .sv-go:disabled { opacity: .5; cursor: not-allowed; }
+.sh .sv-trust { display: flex; gap: calc(10 * var(--k)); align-items: flex-start; padding: calc(7 * var(--k)) 0; font-size: calc(11.5 * var(--k)); font-weight: 600; }
+.sh .sv-trust > .i { width: calc(18 * var(--k)); height: calc(18 * var(--k)); color: #0b8f8a; margin-top: calc(1 * var(--k)); }
+.sh .sv-trust span { display: block; font-size: calc(10.5 * var(--k)); color: #7d8da3; font-weight: 400; }
+.sh .sv-line h3 a { color: var(--ink); }
+.sh .sv-line h3 a:hover { color: #0b7f7b; }
+.sh .sv-pick .price { white-space: nowrap; }
