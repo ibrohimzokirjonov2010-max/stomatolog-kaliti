@@ -46,7 +46,7 @@ import { SeminarPublicLinks } from "@/components/seminar-links";
 import { cn } from "@/lib/utils";
 import { seminarDate } from "@/data/seminars";
 
-const BLUE = "#0066FF";
+const BLUE = "#0b8f8a";
 
 const TABS = [
   { id: "umumiy", label: "Umumiy ma’lumot" },
@@ -217,7 +217,7 @@ export function SeminarDetailDesktop({
   return (
     <div className="relative mx-auto max-w-[1180px] 2xl:max-w-[1360px]">
       <p className="mb-3 text-[12.5px] text-[#8b93a7]">
-        <Link href="/seminarlar" className="text-[#0066FF] hover:underline">
+        <Link href="/seminarlar" className="text-[#0b8f8a] hover:underline">
           Seminarlar
         </Link>
         <span className="mx-1.5">/</span>
@@ -240,7 +240,7 @@ export function SeminarDetailDesktop({
                   <span
                     className={cn(
                       "rounded-full px-3 py-1 text-[11px] font-bold tracking-wide uppercase text-white",
-                      upcoming ? "bg-[#0066FF]" : "bg-white/25 backdrop-blur-sm",
+                      upcoming ? "bg-[#0b8f8a]" : "bg-white/25 backdrop-blur-sm",
                     )}
                   >
                     {upcoming ? "Joriy seminar" : s.status === "closed" ? "Yopilgan" : "O‘tgan"}
@@ -264,7 +264,7 @@ export function SeminarDetailDesktop({
                 <ul className="mt-4 flex flex-wrap items-center gap-x-5 gap-y-2 text-[13px] font-medium text-white">
                   {meta.map(({ icon: Icon, text }) => (
                     <li key={text} className="flex items-center gap-2">
-                      <span className="grid size-7 place-items-center rounded-full bg-[#0066FF]">
+                      <span className="grid size-7 place-items-center rounded-full bg-[#0b8f8a]">
                         <Icon className="size-3.5 text-white" />
                       </span>
                       {text}
@@ -301,7 +301,7 @@ export function SeminarDetailDesktop({
                 onClick={() => go(t.id)}
                 className={cn(
                   "-mb-px shrink-0 border-b-2 px-3.5 py-3 text-[13.5px] font-semibold transition-colors",
-                  tab === t.id ? "border-[#0066FF] text-[#0066FF]" : "border-transparent text-[#6b7280] hover:text-[#1a1d26]",
+                  tab === t.id ? "border-[#0b8f8a] text-[#0b8f8a]" : "border-transparent text-[#6b7280] hover:text-[#1a1d26]",
                 )}
               >
                 {t.label}
@@ -328,7 +328,7 @@ export function SeminarDetailDesktop({
                       on ? "border-[#e3e9f5]" : "border-dashed border-[#e3e9f5] opacity-60",
                     )}
                   >
-                    <span className={cn("grid size-11 place-items-center rounded-xl", on ? "bg-[#e8f1ff] text-[#0066FF]" : "bg-[#f1f3f8] text-[#9aa3b5]")}>
+                    <span className={cn("grid size-11 place-items-center rounded-xl", on ? "bg-[#e3f6f4] text-[#0b8f8a]" : "bg-[#f1f3f8] text-[#9aa3b5]")}>
                       <Icon className="size-5" />
                     </span>
                     <p className="mt-2.5 text-[12.5px] leading-snug font-semibold text-[#1a1d26]">{title}</p>
@@ -345,13 +345,13 @@ export function SeminarDetailDesktop({
                 <div className={cn("grid gap-4", days.length > 1 && "grid-cols-2")} data-testid="seminar-day-topics">
                   {days.map((d) => (
                     <div key={d.label} className="rounded-2xl border border-[#e3e9f5] bg-white p-4">
-                      <p className="mb-2.5 text-[13px] font-bold text-[#0066FF]">
+                      <p className="mb-2.5 text-[13px] font-bold text-[#0b8f8a]">
                         {d.label.toUpperCase()} — {d.title}{d.date ? ` · ${d.date}` : ""}
                       </p>
                       <ul className="space-y-2">
                         {d.topics.map((t) => (
                           <li key={t} className="flex items-start gap-2.5 text-[13.5px] leading-snug font-medium text-[#1a1d26]">
-                            <span className="mt-[7px] size-1.5 shrink-0 rounded-full bg-[#0066FF]" />
+                            <span className="mt-[7px] size-1.5 shrink-0 rounded-full bg-[#0b8f8a]" />
                             {t}
                           </li>
                         ))}
@@ -363,7 +363,7 @@ export function SeminarDetailDesktop({
                 <ol className="grid grid-cols-2 gap-x-6 gap-y-3">
                   {learnings.slice(0, 8).map((item, i) => (
                     <li key={`${i}-${item}`} className="flex items-start gap-3">
-                      <span className="grid size-7 shrink-0 place-items-center rounded-full bg-[#e8f1ff] text-[12px] font-bold text-[#0066FF]">
+                      <span className="grid size-7 shrink-0 place-items-center rounded-full bg-[#e3f6f4] text-[12px] font-bold text-[#0b8f8a]">
                         {i + 1}
                       </span>
                       <span className="pt-0.5 text-[14px] leading-snug font-medium text-[#1a1d26]">{item}</span>
@@ -405,13 +405,13 @@ export function SeminarDetailDesktop({
                 {speakers.map((sp) => (
                   <article key={`${sp.name}-${sp.role}`} className="flex gap-3 rounded-2xl border border-[#e3e9f5] bg-white p-3.5">
                     {sp.photo ? (
-                      <Image src={sp.photo} alt="" width={52} height={52} className="size-[52px] shrink-0 rounded-full object-cover ring-2 ring-[#e8f1ff]" />
+                      <Image src={sp.photo} alt="" width={52} height={52} className="size-[52px] shrink-0 rounded-full object-cover ring-2 ring-[#e3f6f4]" />
                     ) : (
-                      <span className="grid size-[52px] shrink-0 place-items-center rounded-full bg-[#e8f1ff] text-sm font-bold text-[#0066FF]">{initials(sp.name)}</span>
+                      <span className="grid size-[52px] shrink-0 place-items-center rounded-full bg-[#e3f6f4] text-sm font-bold text-[#0b8f8a]">{initials(sp.name)}</span>
                     )}
                     <div className="min-w-0">
                       <p className="text-[14px] font-semibold text-[#1a1d26]">{sp.name}</p>
-                      {sp.role ? <p className="mt-0.5 text-[12.5px] text-[#0066FF]">{sp.role}</p> : null}
+                      {sp.role ? <p className="mt-0.5 text-[12.5px] text-[#0b8f8a]">{sp.role}</p> : null}
                       {sp.bio ? <p className="mt-1 text-[12px] leading-snug text-[#6b7280]">{sp.bio}</p> : null}
                     </div>
                   </article>
@@ -430,7 +430,7 @@ export function SeminarDetailDesktop({
                 {days.map((d) => (
                   <div key={d.label}>
                     <p className="mb-2 text-[14px] font-bold text-[#1a1d26]">
-                      {d.label} <span className="font-semibold text-[#0066FF]">· {d.title}</span>
+                      {d.label} <span className="font-semibold text-[#0b8f8a]">· {d.title}</span>
                       {d.date ? <span className="ml-1.5 text-[12.5px] font-medium text-[#8b93a7]">{d.date}</span> : null}
                     </p>
                     <ol className="space-y-1.5">
@@ -438,7 +438,7 @@ export function SeminarDetailDesktop({
                         const brk = /kofe|tushlik/i.test(p.title);
                         return (
                           <li key={`${p.time}-${i}`} className={cn("flex items-center gap-3 rounded-xl border px-3 py-2.5", brk ? "border-dashed border-[#e3e9f5] bg-[#f8faff]" : "border-[#e3e9f5] bg-white")}>
-                            <span className="w-[92px] shrink-0 text-[12.5px] font-bold text-[#0066FF]">{p.time}</span>
+                            <span className="w-[92px] shrink-0 text-[12.5px] font-bold text-[#0b8f8a]">{p.time}</span>
                             <span className={cn("text-[13px]", brk ? "text-[#8b93a7]" : "font-medium text-[#1a1d26]")}>{p.title}</span>
                           </li>
                         );
@@ -451,7 +451,7 @@ export function SeminarDetailDesktop({
               <ol className="space-y-2">
                 {program.map((p, i) => (
                   <li key={`${p.time}-${i}`} className="flex items-center gap-4 rounded-xl border border-[#e3e9f5] bg-white px-4 py-3">
-                    <span className="w-[110px] shrink-0 text-[13px] font-bold text-[#0066FF]">{p.time}</span>
+                    <span className="w-[110px] shrink-0 text-[13px] font-bold text-[#0b8f8a]">{p.time}</span>
                     <span className="text-[13.5px] font-medium text-[#1a1d26]">{p.title}</span>
                   </li>
                 ))}
@@ -504,13 +504,13 @@ export function SeminarDetailDesktop({
               ) : null}
             </div>
             <div className="mt-1 flex items-baseline gap-2">
-              <p className="text-[28px] leading-none font-extrabold text-[#0066FF]">
+              <p className="text-[28px] leading-none font-extrabold text-[#0b8f8a]">
                 {seminarPriceText(s)}
               </p>
               {pct > 0 && s.oldPrice ? (
                 <>
                   <span className="text-[13px] text-[#9aa3b5] line-through">{formatMoney(s.oldPrice, "UZS")}</span>
-                  <span className="rounded-md bg-[#e8f1ff] px-1.5 py-0.5 text-[11px] font-bold text-[#0066FF]">-{pct}%</span>
+                  <span className="rounded-md bg-[#e3f6f4] px-1.5 py-0.5 text-[11px] font-bold text-[#0b8f8a]">-{pct}%</span>
                 </>
               ) : null}
             </div>
@@ -518,7 +518,7 @@ export function SeminarDetailDesktop({
             {mine ? (
               <Link
                 href={`/seminarlar/yozuvlarim/${mine.id}`}
-                className="mt-4 flex h-12 w-full items-center justify-center gap-2 rounded-xl bg-[#0066FF] text-[15px] font-semibold text-white shadow-[0_8px_20px_rgba(0,102,255,0.3)] hover:bg-[#0052cc]"
+                className="mt-4 flex h-12 w-full items-center justify-center gap-2 rounded-xl bg-[#0b8f8a] text-[15px] font-semibold text-white shadow-[0_8px_20px_rgba(0,102,255,0.3)] hover:bg-[#0052cc]"
               >
                 Chiptani ochish <ArrowRight className="size-5" />
               </Link>
@@ -526,7 +526,7 @@ export function SeminarDetailDesktop({
               <button
                 type="button"
                 onClick={scrollToForm}
-                className="mt-4 flex h-12 w-full items-center justify-center gap-2 rounded-xl bg-[#0066FF] text-[15px] font-semibold text-white shadow-[0_8px_20px_rgba(0,102,255,0.3)] hover:bg-[#0052cc]"
+                className="mt-4 flex h-12 w-full items-center justify-center gap-2 rounded-xl bg-[#0b8f8a] text-[15px] font-semibold text-white shadow-[0_8px_20px_rgba(0,102,255,0.3)] hover:bg-[#0052cc]"
               >
                 Ro‘yxatdan o‘tish <ArrowRight className="size-5" />
               </button>
@@ -545,7 +545,7 @@ export function SeminarDetailDesktop({
                 }}
                 className={cn(
                   "flex h-10 items-center justify-center gap-1.5 rounded-xl border text-[13px] font-semibold transition-colors",
-                  saved ? "border-[#0066FF] bg-[#e8f1ff] text-[#0066FF]" : "border-[#d9e0ee] text-[#1a1d26] hover:bg-[#f5f8ff]",
+                  saved ? "border-[#0b8f8a] bg-[#e3f6f4] text-[#0b8f8a]" : "border-[#d9e0ee] text-[#1a1d26] hover:bg-[#f5f8ff]",
                 )}
               >
                 {saved ? <BookmarkCheck className="size-4" /> : <Bookmark className="size-4" />}
@@ -567,13 +567,13 @@ export function SeminarDetailDesktop({
             {lead ? (
               <div className="flex items-center gap-3">
                 {lead.photo ? (
-                  <Image src={lead.photo} alt="" width={56} height={56} className="size-14 shrink-0 rounded-full object-cover ring-2 ring-[#e8f1ff]" />
+                  <Image src={lead.photo} alt="" width={56} height={56} className="size-14 shrink-0 rounded-full object-cover ring-2 ring-[#e3f6f4]" />
                 ) : (
-                  <span className="grid size-14 shrink-0 place-items-center rounded-full bg-[#e8f1ff] text-base font-bold text-[#0066FF]">{initials(lead.name)}</span>
+                  <span className="grid size-14 shrink-0 place-items-center rounded-full bg-[#e3f6f4] text-base font-bold text-[#0b8f8a]">{initials(lead.name)}</span>
                 )}
                 <div className="min-w-0">
                   <p className="text-[14.5px] font-semibold text-[#1a1d26]">{lead.name}</p>
-                  {lead.role ? <p className="mt-0.5 text-[12.5px] text-[#0066FF]">{lead.role}</p> : null}
+                  {lead.role ? <p className="mt-0.5 text-[12.5px] text-[#0b8f8a]">{lead.role}</p> : null}
                   {speakers.length > 1 ? <p className="mt-1 text-[11.5px] text-[#8b93a7]">va yana {speakers.length - 1} ta spiker</p> : null}
                 </div>
               </div>
@@ -609,18 +609,18 @@ export function SeminarDetailDesktop({
           <div className="rounded-[18px] border border-[#e3e9f5] bg-white p-5">
             <div className="mb-3 flex items-center justify-between">
               <p className="text-[14px] font-bold text-[#1a1d26]">O‘xshash seminarlar</p>
-              <Link href="/seminarlar" className="text-[12px] font-semibold text-[#0066FF] hover:underline">Barchasini ko‘rish</Link>
+              <Link href="/seminarlar" className="text-[12px] font-semibold text-[#0b8f8a] hover:underline">Barchasini ko‘rish</Link>
             </div>
             {similar.length ? (
               <ul className="space-y-3">
                 {similar.map((x) => (
                   <li key={x.id}>
                     <Link href={`/seminarlar/${x.id}`} className="group flex items-center gap-3">
-                      <span className="relative size-[54px] shrink-0 overflow-hidden rounded-xl bg-[#e8f1ff]">
+                      <span className="relative size-[54px] shrink-0 overflow-hidden rounded-xl bg-[#e3f6f4]">
                         {x.image ? <Image src={x.image} alt="" fill className="object-cover" sizes="54px" /> : null}
                       </span>
                       <span className="min-w-0 flex-1">
-                        <span className="line-clamp-2 block text-[12.5px] leading-snug font-semibold text-[#1a1d26] group-hover:text-[#0066FF]">{x.title}</span>
+                        <span className="line-clamp-2 block text-[12.5px] leading-snug font-semibold text-[#1a1d26] group-hover:text-[#0b8f8a]">{x.title}</span>
                         <span className="mt-0.5 block truncate text-[11px] text-[#8b93a7]">
                           {seminarDayMonth(x.date)} · {x.city} · {seminarPriceText(x)}
                         </span>
@@ -649,7 +649,7 @@ export function SeminarDetailDesktop({
 function DetailRow({ icon: Icon, label, children }: { icon: LucideIcon; label: string; children: ReactNode }) {
   return (
     <li className="flex items-start gap-3">
-      <span className="grid size-8 shrink-0 place-items-center rounded-lg bg-[#e8f1ff]">
+      <span className="grid size-8 shrink-0 place-items-center rounded-lg bg-[#e3f6f4]">
         <Icon className="size-4" style={{ color: BLUE }} />
       </span>
       <span className="min-w-0">
@@ -690,7 +690,7 @@ function AddressCard({ s, online, compact }: { s: Seminar; online: boolean; comp
           )}
         </div>
         {!online && hasVenue ? (
-          <a href={mapsHref(s)} target="_blank" rel="noopener noreferrer" className="inline-flex shrink-0 items-center gap-1 text-[12px] font-semibold text-[#0066FF] hover:underline">
+          <a href={mapsHref(s)} target="_blank" rel="noopener noreferrer" className="inline-flex shrink-0 items-center gap-1 text-[12px] font-semibold text-[#0b8f8a] hover:underline">
             Xaritada
             <ArrowRight className="size-3.5" />
           </a>
