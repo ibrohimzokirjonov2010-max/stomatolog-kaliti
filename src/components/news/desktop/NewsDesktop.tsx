@@ -3,12 +3,20 @@
 
 import { useEffect, useMemo, useState } from "react";
 import { useSearchParams } from "next/navigation";
-import { Bookmark, Clock, Eye, Send } from "lucide-react";
+import Link from "next/link";
+import { ArrowRight, Bookmark, CalendarDays, Clock, Eye, MapPin, Send } from "lucide-react";
 import { ShopShell } from "@/components/shop/desktop/ShopShell";
 import { useShopLineCount } from "@/components/shop/desktop/shop-cart";
 import { newsBadge, newsCats, type DesktopArticle, type NewsCat } from "@/data/desktop-news";
 import { fetchNews, toDesktopNews } from "@/lib/live-content";
-import "@/components/jihoz/desktop/jihoz.css";
+import { useSeminarRegs } from "@/components/seminar-provider";
+import { seminars } from "@/data/seminars";
+import { seminarHref } from "@/data/desktop-seminars";
+import { som } from "@/components/shop/desktop/shop-cart";
+import { site } from "@/data/site";
+import "./news.css";
+
+const MONTHS_SHORT = ["YAN", "FEV", "MAR", "APR", "MAY", "IYN", "IYL", "AVG", "SEN", "OKT", "NOY", "DEK"];
 
 export function NewsDesktop() {
   const cartCount = useShopLineCount();
@@ -32,8 +40,17 @@ export function NewsDesktop() {
       stop = true;
     };
   }, []);
-  const [note, setNote] = useState("");
   const [showAllPopular, setShowAllPopular] = useState(false);
+  const { catalogVersion } = useSeminarRegs();
+  // Upcoming seminars stand in for "Yaqin tadbirlar"; news has no events of its own.
+  const events = useMemo(() => {
+    void catalogVersion;
+    const today = new Date().toISOString().slice(0, 10);
+    return seminars
+      .filter((item) => item.date && item.date >= today)
+      .sort((a, b) => a.date.localeCompare(b.date))
+      .slice(0, 3);
+  }, [catalogVersion]);
 
   const visible = useMemo(() => articles.filter((item) => {
     if (cat !== "all" && item.cat !== cat) return false;
@@ -71,7 +88,9 @@ export function NewsDesktop() {
                 <div className="txt">
                   <button type="button" className={saved.includes(hero.id) ? "yn-mark on" : "yn-mark"} aria-label="Saqlash" onClick={() => toggleSave(hero.id)}><Bookmark className="i" /></button>
                   <span className="yn-badge" style={{ position: "static" }}>{newsBadge(hero.cat)}</span>
-                  <h2>{hero.title}</h2>
+                  <h2>
+                    <Link href={`/yangiliklar/${hero.id}`}>{hero.title}</Link>
+                  </h2>
                   <p>{hero.lead}</p>
                   <div className="yn-author">
                     {hero.authorImage ? <img src={hero.authorImage} alt="" /> : null}
@@ -80,11 +99,14 @@ export function NewsDesktop() {
                       <span>{hero.role ?? "Tahririyat"}</span>
                     </div>
                   </div>
-                  <div className="yn-meta" style={{ marginTop: "calc(.4 * var(--u))" }}>
-                    <span>{hero.date}</span>
-                    <span><Eye className="i" /> {hero.views.toLocaleString("fr-FR")}</span>
+                  <div className="yn-meta">
+                    <span><CalendarDays className="i" /> {hero.date}</span>
+                    {hero.views > 0 ? <span><Eye className="i" /> {hero.views.toLocaleString("fr-FR")}</span> : null}
                     <span><Clock className="i" /> {hero.minutes} daqiqa</span>
                   </div>
+                  <Link className="yn-read" href={`/yangiliklar/${hero.id}`}>
+                    O‘qish <ArrowRight className="i" />
+                  </Link>
                 </div>
               </article>
             ) : <div className="yn-box">{!ready ? "Yuklanmoqda..." : articles.length === 0 ? "Hozircha yangilik yo‘q" : "Yangilik topilmadi"}</div>}
@@ -97,42 +119,73 @@ export function NewsDesktop() {
                     <button type="button" className={saved.includes(item.id) ? "yn-mark on" : "yn-mark"} aria-label="Saqlash" onClick={() => toggleSave(item.id)}><Bookmark className="i" /></button>
                   </div>
                   <div className="bd">
-                    <h3><button type="button" onClick={() => setHeroId(item.id)} style={{ textAlign: "left" }}>{item.title}</button></h3>
+                    <h3>
+                      <Link href={`/yangiliklar/${item.id}`}>{item.title}</Link>
+                    </h3>
                     <div className="meta">
-                      <span>{item.date}</span>
-                      <span><Eye className="i" /> {item.views.toLocaleString("fr-FR")}</span>
+                      <span><CalendarDays className="i" /> {item.date}</span>
+                      {item.views > 0 ? <span><Eye className="i" /> {item.views.toLocaleString("fr-FR")}</span> : null}
                       <span><Clock className="i" /> {item.minutes} daqiqa</span>
                     </div>
                   </div>
                 </article>
               ))}
             </div>
-            {note ? <p className="yn-note">{note}</p> : null}
           </div>
           <aside className="yn-rail">
             <section className="yn-box">
-              <h3>Ko‘p o‘qilganlar <button type="button" className="yn-link" onClick={() => setShowAllPopular(true)}>Barchasini ko‘rish</button></h3>
+              <h3>
+                So‘nggi yangiliklar
+                {visible.length > 5 ? (
+                  <button type="button" className="yn-link" onClick={() => setShowAllPopular((open) => !open)}>
+                    {showAllPopular ? "Yig‘ish" : "Barchasini ko‘rish"} <ArrowRight className="i" />
+                  </button>
+                ) : null}
+              </h3>
               {popular.length === 0 ? <p className="yn-note">Hozircha yangilik yo‘q</p> : null}
               {popular.map((item, index) => (
-                <div className="yn-pop" key={item.id}>
+                <Link className="yn-pop" key={item.id} href={`/yangiliklar/${item.id}`}>
                   <em>{index + 1}</em>
                   <img src={item.image} alt="" />
                   <div>
                     <b>{item.title}</b>
-                    <span><Eye className="i" /> {item.views.toLocaleString("fr-FR")} · {item.date}</span>
+                    <span><CalendarDays className="i" /> {item.date}</span>
                   </div>
-                </div>
+                </Link>
               ))}
-              {showAllPopular ? <p className="yn-note">Eng ko‘p o‘qilgan 5 ta maqola.</p> : null}
             </section>
             <section className="yn-box">
-              <h3>Yaqin tadbirlar</h3>
-              <p className="yn-note">Hozircha tadbir yo‘q. Tadbirlar alohida bo‘lim emas.</p>
+              <h3>
+                Yaqin tadbirlar
+                <Link className="yn-link" href="/seminarlar">
+                  Barchasini ko‘rish <ArrowRight className="i" />
+                </Link>
+              </h3>
+              {events.length === 0 ? <p className="yn-note">Yaqin kunlarda tadbir yo‘q.</p> : null}
+              {events.map((item) => {
+                const [, month, day] = item.date.split("-");
+                return (
+                  <Link className="yn-event" key={item.id} href={seminarHref(item.id)}>
+                    <span className="d">
+                      <b>{Number(day)}</b>
+                      <small>{MONTHS_SHORT[Number(month) - 1]}</small>
+                    </span>
+                    {item.image ? <img src={item.image} alt="" /> : null}
+                    <span className="t">
+                      <b>{item.title}</b>
+                      <small><MapPin className="i" /> {item.city.replace(" shahri", "")}{item.venue ? `, ${item.venue}` : ""}</small>
+                      <strong>{item.price > 0 ? som(item.price) : "Bepul"}</strong>
+                    </span>
+                  </Link>
+                );
+              })}
             </section>
             <section className="yn-box yn-tg">
               <h3><Send className="i" /> Telegram kanalimizga obuna bo‘ling</h3>
               <p>Stomatologiya yangiliklari, tadbirlar va foydali materiallar birinchi bo‘lib sizda.</p>
-              <button type="button" onClick={() => setNote("Obuna so‘rovi qabul qilindi.")}>Obuna bo‘lish</button>
+              <a href={site.telegram} target="_blank" rel="noreferrer">
+                Obuna bo‘lish <ArrowRight className="i" />
+              </a>
             </section>
           </aside>
         </div>
