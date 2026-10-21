@@ -389,7 +389,10 @@
 @media (max-width:1199px)  {
   .sh .sh-side { width:calc(4.4 * var(--u)); padding:calc(1 * var(--u)) calc(.5 * var(--u)); }
   .sh .sh-pro { display:none; }
-  .sh .sh-side span, .sh .sh-group h4 { display:none; }
+  .sh .sh-side span, .sh .sh-group h4, .sh .sh-side .nt-chev, .sh .sh-side .sh-help-go { display:none; }
+  .sh .sh-side .nt-head { justify-content:center; padding:0; }
+  .sh .sh-side .sh-collapse { display:none; }
+  .sh .sh-side .sh-help { justify-content:center; padding:8px 0; }
   .sh .sh-nav { justify-content:center; padding:0; } .sh .sh-nav.active { padding:0; }
   .sh .sh-logo { width:auto; margin-right:calc(1.5 * var(--u)); }
   .sh .sh-hero { flex-basis:auto; flex:1.65; } .sh .sh-left { width:auto; flex:1; } .sh .sh-rail { flex:0 0 calc(21 * var(--u)); }
