@@ -2,7 +2,8 @@
 .home-desktop-scroll,
 .sh,
 .shell-root {
-  --dh: clamp(44px, 3.59375vw, 56px);
+  --dh: clamp(46px, 3.59375vw, 56px);
+  --side-w: clamp(184px, 14.4vw, 220px);
 }
 
 .dh-top {
@@ -13,7 +14,7 @@
   display: flex;
   align-items: center;
   gap: 10px;
-  padding: 0 10px 0 12px;
+  padding: 0 16px 0 0;
   border-bottom: 1px solid #eef2f7;
   position: sticky;
   top: 0;
@@ -25,29 +26,32 @@
 .dh-logo {
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: 7px;
   flex: none;
+  width: var(--side-w);
+  padding-left: 16px;
+  box-sizing: border-box;
   min-width: 0;
   color: #16324f;
   text-decoration: none;
 }
 .sh .dh-logo { color: #16324f; }
 .dh-logo img {
-  width: 22px;
-  height: 24px;
+  width: 24px;
+  height: 26px;
   object-fit: contain;
   flex: none;
 }
 .dh-word {
   display: block;
-  font-size: clamp(14px, 1.171875vw, 16px);
+  font-size: clamp(19px, 1.5625vw, 22px);
   line-height: 1;
   font-weight: 800;
-  letter-spacing: -0.03em;
+  letter-spacing: -0.035em;
   color: #16324f;
 }
 .dh-word b {
-  color: #00a8a3;
+  color: #16324f;
   font-weight: 800;
 }
 

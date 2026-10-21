@@ -4,7 +4,8 @@ import { useEffect, useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { ChevronRight, Crown, Headset, PanelLeftClose, PanelLeftOpen } from "lucide-react";
-import { ShNavTree } from "@/components/nav/sh-nav-tree";
+import { ShNavTree, useProfilActive } from "@/components/nav/sh-nav-tree";
+import { navBottom } from "@/data/nav";
 import "./desktop-chrome.css";
 
 const HELP_PREFIXES = ["/mening-klinikam", "/klinika", "/crm", "/profil", "/buyurtmalarim"];
@@ -18,6 +19,8 @@ function wantsHelp(pathname: string) {
 export function DesktopSidebar() {
   const pathname = usePathname() ?? "/";
   const help = wantsHelp(pathname);
+  const profilActive = useProfilActive();
+  const ProfilIcon = navBottom.icon;
   const [collapsed, setCollapsed] = useState(false);
 
   useEffect(() => {
@@ -42,28 +45,39 @@ export function DesktopSidebar() {
 
   return (
     <aside className={collapsed ? "sh-side is-collapsed" : "sh-side"} data-testid="desktop-sidebar" data-collapsed={collapsed ? "true" : "false"}>
-      <button
-        type="button"
-        className="sh-collapse"
-        aria-pressed={collapsed}
-        aria-label={collapsed ? "Menyuni yoyish" : "Menyuni yig‘ish"}
-        onClick={toggleCollapsed}
-      >
-        {collapsed ? <PanelLeftOpen className="i" /> : <PanelLeftClose className="i" />}
-        <span>{collapsed ? "Yoyish" : "Yig‘ish"}</span>
-      </button>
       <ShNavTree />
+      <div className="sh-side-row">
+        <Link
+          className={profilActive ? "sh-nav active" : "sh-nav"}
+          href={navBottom.href}
+          aria-current={profilActive ? "page" : undefined}
+          title={navBottom.label}
+        >
+          <ProfilIcon className="i" />
+          <span>{navBottom.label}</span>
+        </Link>
+        <button
+          type="button"
+          className="sh-collapse"
+          aria-pressed={collapsed}
+          aria-label={collapsed ? "Menyuni yoyish" : "Menyuni yig‘ish"}
+          onClick={toggleCollapsed}
+          title={collapsed ? "Menyuni yoyish" : "Menyuni yig‘ish"}
+        >
+          {collapsed ? <PanelLeftOpen className="i" /> : <PanelLeftClose className="i" />}
+        </button>
+      </div>
       {help ? (
-        <div className="sh-pro sh-help" data-testid="sidebar-help">
+        <Link className="sh-help" href="/community" data-testid="sidebar-help">
           <span className="crown help">
             <Headset className="i" />
           </span>
-          <b>Yordam kerakmi?</b>
-          <small>24/7 qo‘llab-quvvatlash. Savolingizni yozing.</small>
-          <Link className="go" href="/community">
-            Yozish <ChevronRight className="i" />
-          </Link>
-        </div>
+          <span className="sh-help-t">
+            <b>Yordam kerakmi?</b>
+            <small>24/7 Support xizmati</small>
+          </span>
+          <ChevronRight className="i sh-help-go" />
+        </Link>
       ) : (
         <Link className="sh-pro" href="/marketing" data-testid="sidebar-pro">
           <span className="crown">
