@@ -150,3 +150,17 @@
   font-weight: 800;
   font-size: calc(1.297 * var(--uf));
 }
+
+/* Sizes and teal badges from designs/add-forms-1020/aksiayalr bolimi dizyini.png */
+.sh .ax-head p { font-size: 14px; }
+.sh .ax-chips { margin-bottom: 16px; gap: 8px; }
+.sh .ax-chips button { height: 34px; padding: 0 16px; border-radius: 9px; font-size: 13px; }
+.sh .ax-grid { gap: 14px; }
+.sh .ax-ph { height: 150px; }
+.sh .ax-off { background: #0b8f8a; }
+.sh .ax-card h3 { font-size: 14px; font-weight: 700; min-height: 0; margin-top: 10px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.sh .ax-brand { font-size: 12px; }
+.sh .ax-meta { font-size: 12px; margin-top: 4px; }
+.sh .ax-meta .star { font-size: 14px; }
+.sh .ax-buy b { font-size: 17px; }
+.sh .ax-buy s { font-size: 12px; }
