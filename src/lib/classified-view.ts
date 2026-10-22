@@ -26,7 +26,7 @@ export function classifiedToListing(row: ClassifiedRow): Listing {
   const date = Number.isNaN(created.getTime()) ? "" : created.toISOString().slice(0, 10);
   const price = row.price ?? null;
   const category = row.category || "Boshqa";
-  const type = category === "Ijara" ? "ijara" : "sotiladi";
+  const type: Listing["type"] = category === "Ijara" ? "ijara" : category === "Ish" ? "ish" : category === "Laboratoriya" || category === "Xizmat" ? "xizmat" : category === "Hamkorlik" ? "hamkor" : "sotiladi";
   return {
     id: row.id,
     type,
