@@ -127,10 +127,12 @@
 
 .sh .pt-who b { color: #0066ff; cursor: pointer; }
 .sh .tooth-row { display: flex; justify-content: center; gap: calc(.12 * var(--u)); }
-.sh .tooth { width: calc(1.15 * var(--u)); background: none; border: 0; padding: 0; color: #94a3b8; }
-.sh .tooth svg { width: 100%; height: calc(1.45 * var(--u)); display: block; }
+.sh .tooth { width: calc(1.15 * var(--u)); background: none; border: 0; padding: 0; color: #94a3b8; display: flex; flex-direction: column; align-items: center; gap: 2px; }
+.sh .tooth small { font-size: 9px; line-height: 1; }
+.sh .tooth:hover path { stroke: #0066ff; }
+.sh .tooth svg { width: 100%; height: calc(1.9 * var(--u)); display: block; }
 .sh .pt-side .tooth { width: calc(.9 * var(--u)); }
-.sh .pt-side .tooth svg { height: calc(1.15 * var(--u)); }
+.sh .pt-side .tooth svg { height: calc(1.5 * var(--u)); }
 .sh .tooth-legend { display: flex; flex-wrap: wrap; gap: calc(.3 * var(--u)); margin-top: calc(.3 * var(--u)); font-size: calc(0.883 * var(--uf)); color: #5b6b82; }
 .sh .tooth-legend i { width: calc(.45 * var(--u)); height: calc(.45 * var(--u)); border-radius: calc(.1 * var(--u)); display: inline-block; margin-right: calc(.12 * var(--u)); vertical-align: middle; }
 .sh .pt-tabs { display: flex; gap: calc(.2 * var(--u)); border-bottom: 1px solid #eef2f7; margin: calc(.4 * var(--u)) 0; }
@@ -324,7 +326,7 @@
 .sh .crm-teal .pt-side .ap-view button { height: calc(28 * var(--k)); padding: 0 calc(12 * var(--k)); font-size: calc(11 * var(--k)); }
 .sh .crm-teal .pt-side > div > b, .sh .crm-teal .pt-side h3 { font-size: calc(13 * var(--k)) !important; font-weight: 800; }
 .sh .crm-teal .pt-side .tooth { width: calc(16 * var(--k)); }
-.sh .crm-teal .pt-side .tooth svg { height: calc(24 * var(--k)); }
+.sh .crm-teal .pt-side .tooth svg { height: calc(30 * var(--k)); }
 .sh .crm-teal .tooth-legend { font-size: calc(10.5 * var(--k)); gap: calc(10 * var(--k)); margin-top: calc(10 * var(--k)); }
 .sh .crm-teal .visit { font-size: calc(11 * var(--k)); padding: calc(8 * var(--k)) 0; }
 .sh .crm-teal .crm-muted { font-size: calc(11 * var(--k)); }
@@ -422,8 +424,10 @@
 .sh .pl-list button.on { background: #eaf7f6; }
 .sh .pl-list b { font-size: calc(11.5 * var(--k)); }
 .sh .pl-list small { font-size: calc(10 * var(--k)); color: #7b8ba3; }
-.sh .crm-teal .pl-chart .tooth { width: calc(26 * var(--k)); }
-.sh .crm-teal .pl-chart .tooth svg { height: calc(38 * var(--k)); }
+.sh .crm-teal .pl-chart .tooth { width: calc(30 * var(--k)); }
+.sh .crm-teal .pl-chart .tooth svg { height: calc(58 * var(--k)); }
+.sh .crm-teal .pl-chart .tooth small { font-size: calc(10 * var(--k)); }
+.sh .crm-teal .pl-chart .tooth-row.low { margin-top: calc(10 * var(--k)); }
 .sh .crm-teal .pl-chart .tooth-row { gap: calc(4 * var(--k)); }
 .sh .pl-summary-h { display: flex; justify-content: space-between; align-items: center; gap: calc(8 * var(--k)); margin-bottom: calc(8 * var(--k)); }
 .sh .crm-teal .pl-summary-h h3 { margin: 0; }
