@@ -1,5 +1,6 @@
 "use client";
 
+import { useId } from "react";
 import type { ToothState } from "@/data/crm";
 
 /** Upper-jaw outlines (roots up, crown down) in a 24×40 box; the lower jaw mirrors them. */
@@ -25,15 +26,15 @@ export const BABY_LOWER = ["85", "84", "83", "82", "81", "71", "72", "73", "74",
 
 export const toothFill: Record<ToothState, string> = {
   soglom: "#e8eef5",
-  davolanmoqda: "#60a5fa",
-  davolangan: "#86efac",
-  muammo: "#f87171",
-  kariyes: "#3b82f6",
-  plomba: "#a78bfa",
-  endo: "#22c55e",
-  implant: "#ef4444",
-  koronka: "#c4b5fd",
-  ekstraksiya: "#b91c1c",
+  davolanmoqda: "#5b9df5",
+  davolangan: "#2fbf8f",
+  muammo: "#ef4444",
+  kariyes: "#a9cdf5",
+  plomba: "#0f9a94",
+  endo: "#ef4444",
+  implant: "#2fbf8f",
+  koronka: "#c4a7f5",
+  ekstraksiya: "#9ca3af",
 };
 
 export function cycleTooth(current: ToothState | undefined, order: ToothState[]) {
@@ -54,16 +55,21 @@ export function ToothChart({
   onCycle: (id: string) => void;
   legend: { id: ToothState; label: string }[];
 }) {
+  const uid = useId().replace(/:/g, "");
   const row = (ids: string[], lower: boolean) => (
     <div className={lower ? "tooth-row low" : "tooth-row"}>
       {ids.map((id) => {
         const baby = Number(id[0]) >= 5;
         const state = teeth[id] ?? "soglom";
+        const flip = lower ? "matrix(1 0 0 -1 0 40)" : undefined;
+        const gone = state === "ekstraksiya";
         return (
-          <button key={id} type="button" className={`tooth${state === "soglom" ? "" : " marked"}`} aria-label={`${id} tish`} onClick={() => onCycle(id)}>
+          <button key={id} type="button" className={`tooth${state === "soglom" ? "" : " marked"}`} aria-label={`${id} tish`} title={legend.find((item) => item.id === state)?.label} onClick={() => onCycle(id)}>
             {lower ? null : <small>{id}</small>}
-            <svg viewBox="0 0 24 40" aria-hidden="true">
-              <path d={shapeOf(id, baby)} transform={lower ? "matrix(1 0 0 -1 0 40)" : undefined} fill={state === "soglom" ? "#f8fafc" : toothFill[state]} stroke={state === "soglom" ? "#c3cfde" : toothFill[state]} strokeWidth="1.1" strokeLinejoin="round" />
+            <svg viewBox="0 0 24 40" aria-hidden="true" opacity={gone ? 0.45 : 1}>
+              <path d={shapeOf(id, baby)} transform={flip} fill={state === "soglom" ? "#fbfcfe" : toothFill[state]} stroke={state === "soglom" ? "#c3cfde" : toothFill[state]} strokeWidth="1.1" strokeLinejoin="round" strokeDasharray={gone ? "2 1.6" : undefined} />
+              <path d={shapeOf(id, baby)} transform={flip} fill={`url(#${uid}-shade)`} />
+              <path d="M6.5 18.5Q12 21 17.5 18.5" transform={flip} fill="none" stroke={state === "soglom" ? "#d5deea" : "rgba(255,255,255,.45)"} strokeWidth=".8" strokeLinecap="round" />
             </svg>
             {lower ? <small>{id}</small> : null}
           </button>
@@ -73,6 +79,16 @@ export function ToothChart({
   );
   return (
     <div>
+      <svg width="0" height="0" style={{ position: "absolute" }} aria-hidden="true">
+        <defs>
+          <linearGradient id={`${uid}-shade`} x1="0" y1="0" x2="1" y2="0">
+            <stop offset="0" stopColor="#fff" stopOpacity=".55" />
+            <stop offset=".35" stopColor="#fff" stopOpacity=".12" />
+            <stop offset=".75" stopColor="#0f1d33" stopOpacity="0" />
+            <stop offset="1" stopColor="#0f1d33" stopOpacity=".14" />
+          </linearGradient>
+        </defs>
+      </svg>
       {row(upper, false)}
       <div style={{ height: "calc(.35 * var(--u))" }} />
       {row(lower, true)}

@@ -475,7 +475,7 @@
 .sh .pay-axis { display: flex; flex-direction: column; justify-content: space-between; padding-bottom: calc(16 * var(--k)); font-size: calc(10 * var(--k)); color: #8b9bb0; text-align: right; }
 .sh .crm-teal .pay-plot .bars { height: 100%; gap: calc(3 * var(--k)); align-items: stretch; background: repeating-linear-gradient(to bottom, transparent 0, transparent calc(25% - 1px), #f1f4f8 calc(25% - 1px), #f1f4f8 25%); background-size: 100% calc(100% - 16 * var(--k)); background-repeat: no-repeat; }
 .sh .pay-plot .bar-col { flex: 1; display: flex; flex-direction: column; justify-content: flex-end; align-items: center; gap: calc(4 * var(--k)); min-width: 0; }
-.sh .crm-teal .pay-plot .bar-col i { width: 70%; flex: none; height: calc((100% - 16 * var(--k)) * var(--h, 0)); background: #3fb5c4; border-radius: calc(3 * var(--k)) calc(3 * var(--k)) 0 0; min-height: 0; }
+.sh .crm-teal .pay-plot .bar-col i { width: 70%; flex: none; height: calc((100% - 16 * var(--k)) * var(--h, 0)); background: linear-gradient(180deg, #0b8f8a, #7fd3cb); border-radius: calc(3 * var(--k)) calc(3 * var(--k)) 0 0; min-height: 0; }
 .sh .pay-plot .bar-col small { height: calc(12 * var(--k)); font-size: calc(9.5 * var(--k)); color: #8b9bb0; white-space: nowrap; }
 .sh .pay-donut-in { display: flex; align-items: center; gap: calc(18 * var(--k)); margin-top: calc(12 * var(--k)); }
 .sh .crm-teal .pay-donut .donut { width: calc(140 * var(--k)); height: calc(140 * var(--k)); flex: none; }
@@ -541,5 +541,12 @@
 .sh .crm-teal [data-testid="stock-desktop"] .crm-person { gap: calc(7 * var(--k)); }
 .sh .crm-teal [data-testid="stock-desktop"] .crm-person b { font-size: calc(11 * var(--k)); }
 .sh .crm-teal [data-testid="stock-desktop"] .crm-pill { padding: 0 calc(7 * var(--k)); font-size: calc(9.5 * var(--k)); }
-.sh .crm-teal [data-testid="stock-desktop"] .pay-tools .crm-select { width: calc(132 * var(--k)); }
+.sh .crm-teal [data-testid="stock-desktop"] .pay-tools .crm-select { width: auto; flex: none; min-width: calc(150 * var(--k)); }
 .sh .crm-teal [data-testid="stock-desktop"] .pay-tools .crm-search { flex: 1 1 auto; }
+
+/* Odontogram legend: round dots on one line (designs bemorlar / davolash rejalari) */
+.sh .tooth-legend span { display: inline-flex; align-items: center; white-space: nowrap; }
+.sh .tooth-legend i { border-radius: 50%; }
+.sh .crm-teal .pt-side .tooth-legend { gap: calc(8 * var(--k)); font-size: calc(9.5 * var(--k)); }
+.sh .pl-chart-h { display: flex; justify-content: space-between; align-items: center; gap: 10px; }
+.sh .pl-chart-h h3 { margin: 0; }
