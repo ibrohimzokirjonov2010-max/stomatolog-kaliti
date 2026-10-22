@@ -1,6 +1,7 @@
 /** Public marketplace rows from GET /api/catalog. */
 
 import type { ApparelGender, ApparelKind, Product, ProductAttrs, ProductCategory } from "@/data/products";
+import { discountPercent } from "@/lib/delivery-label";
 import { resolveStoredImage } from "@/lib/media-url";
 
 export type CatalogCard = {
@@ -29,6 +30,14 @@ export type CatalogCard = {
   sku: string;
   stockQty: number;
   attrs: Record<string, unknown>;
+  active: boolean;
+  shopLogo: string;
+  deliveryDays: number | null;
+  cutoffTime: string | null;
+  worksOnWeekends: boolean;
+  reviewCount: number;
+  reviewAvg: number | null;
+  orderCount: number;
 };
 
 export type CatalogShop = {
@@ -115,10 +124,15 @@ export function catalogCardFrom(raw: Record<string, unknown>): CatalogCard | nul
   const id = typeof raw.id === "string" ? raw.id : "";
   const name = typeof raw.name === "string" ? raw.name : "";
   if (!id || !name) return null;
-  const brand = typeof raw.brand === "string" && raw.brand.trim() ? raw.brand.trim() : "Brend";
+  const brand = typeof raw.brand === "string" ? raw.brand.trim() : "";
   const price = Number(raw.price) || 0;
   const oldPrice = Number(raw.oldPrice) || 0;
-  const discount = Number(raw.discount) || 0;
+  const reviewCount = Number.isFinite(Number(raw.reviewCount)) ? Math.max(0, Math.floor(Number(raw.reviewCount))) : Math.max(0, Math.floor(Number(raw.reviews) || 0));
+  const reviewAvgRaw = raw.reviewAvg == null ? raw.rating : raw.reviewAvg;
+  const reviewAvg = reviewCount > 0 && Number.isFinite(Number(reviewAvgRaw)) ? Number(reviewAvgRaw) : null;
+  const daysRaw = raw.deliveryDays;
+  const stockQty = Number.isFinite(Number(raw.stockQty)) ? Math.max(0, Math.floor(Number(raw.stockQty))) : 0;
+  const active = raw.active !== false;
   return {
     id,
     name,
@@ -127,10 +141,10 @@ export function catalogCardFrom(raw: Record<string, unknown>): CatalogCard | nul
     category: typeof raw.category === "string" ? raw.category : "",
     price,
     oldPrice: oldPrice > price ? oldPrice : undefined,
-    discount: discount > 0 ? discount : undefined,
-    rating: Number(raw.rating) || 0,
-    reviews: Number(raw.reviews) || 0,
-    inStock: raw.inStock !== false,
+    discount: discountPercent(price, oldPrice) || undefined,
+    rating: reviewAvg ?? 0,
+    reviews: reviewCount,
+    inStock: active && raw.inStock !== false && stockQty > 0,
     image: resolveStoredImage(raw.image) || (Array.isArray(raw.images) ? resolveStoredImage(raw.images.find((item) => typeof item === "string")) : ""),
     createdAt: typeof raw.createdAt === "string" ? raw.createdAt : "",
     shopId: typeof raw.shopId === "string" ? raw.shopId : "",
@@ -143,16 +157,24 @@ export function catalogCardFrom(raw: Record<string, unknown>): CatalogCard | nul
     colors: Array.isArray(raw.colors) ? raw.colors.filter((item): item is string => typeof item === "string") : [],
     images: Array.isArray(raw.images) ? raw.images.map(resolveStoredImage).filter(Boolean) : [],
     sku: typeof raw.sku === "string" ? raw.sku : "",
-    stockQty: Number.isFinite(Number(raw.stockQty)) ? Math.max(0, Math.floor(Number(raw.stockQty))) : 0,
+    stockQty,
     attrs: raw.attrs && typeof raw.attrs === "object" && !Array.isArray(raw.attrs) ? (raw.attrs as Record<string, unknown>) : {},
+    active,
+    shopLogo: typeof raw.shopLogo === "string" ? raw.shopLogo : "",
+    deliveryDays: daysRaw == null || daysRaw === "" || !Number.isInteger(Number(daysRaw)) ? null : Number(daysRaw),
+    cutoffTime: typeof raw.cutoffTime === "string" ? raw.cutoffTime : null,
+    worksOnWeekends: raw.worksOnWeekends === true,
+    reviewCount,
+    reviewAvg,
+    orderCount: Number.isFinite(Number(raw.orderCount)) ? Math.max(0, Math.floor(Number(raw.orderCount))) : 0,
   };
 }
 
-export async function fetchCatalog(): Promise<{ products: CatalogCard[]; shops: CatalogShop[] }> {
+export async function fetchCatalog(): Promise<{ products: CatalogCard[]; shops: CatalogShop[]; ok: boolean; count: number }> {
   try {
     const res = await fetch("/api/catalog", { credentials: "same-origin" });
-    const json = (await res.json()) as { ok?: boolean; products?: Record<string, unknown>[]; shops?: Record<string, unknown>[] };
-    if (!json.ok) return { products: [], shops: [] };
+    const json = (await res.json()) as { ok?: boolean; count?: number; products?: Record<string, unknown>[]; shops?: Record<string, unknown>[] };
+    if (!json.ok) return { products: [], shops: [], ok: false, count: 0 };
     const products = Array.isArray(json.products) ? json.products.map(catalogCardFrom).filter((item): item is CatalogCard => Boolean(item)) : [];
     const shops: CatalogShop[] = [];
     if (Array.isArray(json.shops)) {
@@ -169,9 +191,10 @@ export async function fetchCatalog(): Promise<{ products: CatalogCard[]; shops: 
         });
       }
     }
-    return { products, shops };
+    const count = Number.isFinite(Number(json.count)) ? Number(json.count) : products.length;
+    return { products, shops, ok: true, count };
   } catch {
-    return { products: [], shops: [] };
+    return { products: [], shops: [], ok: false, count: 0 };
   }
 }
 

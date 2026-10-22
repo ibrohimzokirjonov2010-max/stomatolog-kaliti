@@ -22,9 +22,9 @@ import {
   Menu,
   MessageSquare,
   ShieldCheck,
-  MonitorPlay,
   ShoppingBag,
   ShoppingCart,
+  Stethoscope,
   User,
   X,
   } from "lucide-react";
@@ -708,16 +708,19 @@ export function MobileDrawer() {
 
 const homeTabs = [
   { href: "/", label: "Bosh sahifa", icon: Home, match: (path: string) => path === "/" || path.startsWith("/bosh-sahifa") || path === "/kitoblar" || path === "/foydali-kanallar" },
-  { href: "/marketplace", label: "Marketplace", icon: ShoppingBag, match: (path: string) => marketplacePath(path) || path === "/savat" || path === "/buyurtma" || path.startsWith("/buyurtma/") || /^\/buyurtmalarim\/[^/]+/.test(path) || surplusMobilePath(path) || jihozMobilePath(path) },
-  { href: "/seminarlar", label: "Seminarlar", icon: CalendarDays, match: (path: string) => path === "/seminarlar" || path.startsWith("/seminarlar/") },
-  { href: "/talim", label: "Onlayn darslar", icon: MonitorPlay, match: (path: string) => path === "/talim" || path.startsWith("/talim/") },
+  { href: "/marketplace", label: "Marketplace", icon: ShoppingBag, match: (path: string) => marketplacePath(path) || path === "/buyurtma" || path.startsWith("/buyurtma/") || /^\/buyurtmalarim\/[^/]+/.test(path) || surplusMobilePath(path) || jihozMobilePath(path) },
+  { href: "/savat", label: "Savat", icon: ShoppingCart, match: (path: string) => path === "/savat" || path === "/cart" },
+  { href: "/crm/bemorlar", label: "CRM", icon: Stethoscope, match: (path: string) => path === "/crm" || path.startsWith("/crm/") },
   { href: "/profil", label: "Profil", icon: User, match: (path: string) => path === "/profil" || path.startsWith("/profil/") || path === "/community" || path === "/mening-klinikam" || path === "/buyurtmalarim" },
 ] as const;
 
 export function MobileTabBar() {
   const pathname = usePathname();
+  const { items } = useCart();
   const onKlinika = pathname === "/klinika" || pathname.startsWith("/klinika/");
-  if (onKlinika || isPhone14(pathname) || /\/oqish\/?$/.test(pathname) || /\/talim\/[^/]+\/video\/?$/.test(pathname) || /\/seminarlar\/[^/]+\/royxat\/?$/.test(pathname)) return null;
+  const stickyProduct = isProductDetailPath(pathname) && !pathname.startsWith("/ortiqcha-material/");
+  if (stickyProduct || onKlinika || isPhone14(pathname) || /\/oqish\/?$/.test(pathname) || /\/talim\/[^/]+\/video\/?$/.test(pathname) || /\/seminarlar\/[^/]+\/royxat\/?$/.test(pathname)) return null;
+  const positions = items.length;
   return (
     <nav aria-label="Mobil menyu" className="mh-tabs lg:hidden">
       {homeTabs.map((tab) => {
@@ -725,7 +728,10 @@ export function MobileTabBar() {
         const active = tab.match(pathname);
         return (
           <Link key={tab.href} href={tab.href} className={active ? "on" : undefined}>
-            <Icon strokeWidth={active ? 2.4 : 1.8} />
+            <span className="mh-tab-ic">
+              <Icon strokeWidth={active ? 2.4 : 1.8} />
+              {tab.href === "/savat" && positions > 0 ? <span className="mh-tab-badge">{positions > 99 ? "99+" : positions}</span> : null}
+            </span>
             {tab.label}
           </Link>
         );

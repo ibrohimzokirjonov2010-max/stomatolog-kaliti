@@ -311,8 +311,8 @@
   grid-template-columns: repeat(5, minmax(0, 1fr));
   align-items: stretch;
   box-sizing: border-box;
-  height: calc(64px + env(safe-area-inset-bottom));
-  padding: 6px 0 env(safe-area-inset-bottom);
+  height: calc(56px + env(safe-area-inset-bottom));
+  padding: 0 0 env(safe-area-inset-bottom);
   background: #fff;
   border-top: 1px solid #e6ebf3;
   box-shadow: 0 -4px 16px rgba(15, 23, 42, 0.06);
@@ -326,13 +326,31 @@
   min-width: 0;
   padding: 0 2px;
   color: #8b93a7;
-  font-size: 11px;
-  line-height: 1.15;
+  font-size: 14px;
+  line-height: 1.05;
   font-weight: 600;
+  letter-spacing: -0.03em;
   white-space: nowrap;
 }
-.mh-tabs a.on { color: #0f9f75; }
+.mh-tabs a.on { color: #0F766E; }
 .mh-tabs svg, .mh-tabs img { width: 24px; height: 24px; flex: none; }
+.mh-tab-ic { position: relative; display: grid; place-items: center; width: 24px; height: 24px; }
+.mh-tab-badge {
+  position: absolute;
+  top: -7px;
+  right: -12px;
+  min-width: 18px;
+  height: 18px;
+  padding: 0 4px;
+  border-radius: 999px;
+  background: #0F766E;
+  color: #fff;
+  font-size: 14px;
+  font-weight: 700;
+  line-height: 18px;
+  letter-spacing: 0;
+  text-align: center;
+}
 @media (min-width: 1024px) {
   .mh-tabs { display: none; }
 }

@@ -6,6 +6,7 @@ import Link from "next/link";
 import { useCart } from "@/components/cart-provider";
 import { useDoctorProfile } from "@/components/doctor-profile-provider";
 import { ProductReviewsList, useProductReviews } from "@/components/product-reviews";
+import { ProductMobile } from "@/components/market/mobile/ProductMobile";
 import { catalogCardFrom, catalogHref, fetchCatalogProducts, productFromCatalog, type CatalogCard } from "@/lib/catalog-client";
 import { colorLabel, formaColors, formaGenders, formaKinds } from "@/data/forma";
 import { enrollCourse, fetchBooks, fetchCourses, fetchNews, saveLessonDone, type LiveBook, type LiveCourse, type LiveNews } from "@/lib/live-content";
@@ -43,30 +44,38 @@ export function CatalogDetail({ id, expect }: { id: string; expect?: "forma" | "
   const [photo, setPhoto] = useState(0);
   const [qty, setQty] = useState(1);
   const [error, setError] = useState("");
+  const [failed, setFailed] = useState(false);
+  const [attempt, setAttempt] = useState(0);
 
   useEffect(() => {
     let stop = false;
     setCard(undefined);
+    setFailed(false);
     setSize("");
     setColor("");
     setPhoto(0);
     setQty(1);
     setError("");
     void fetch(`/api/catalog/${id}`, { credentials: "same-origin" })
-      .then((res) => res.json())
-      .then((json: { ok?: boolean; product?: Record<string, unknown> }) => {
+      .then(async (res) => {
+        const json = (await res.json()) as { ok?: boolean; product?: Record<string, unknown> };
         if (stop) return;
-        const next = json.ok && json.product ? catalogCardFrom(json.product) : null;
+        const next = res.ok && json.ok && json.product ? catalogCardFrom(json.product) : null;
         if (!next || (expect && next.category !== expect)) {
+          setFailed(!res.ok && res.status >= 500);
           setCard(null);
           return;
         }
+        setFailed(false);
         setCard(next);
         if (next.sizes.length === 1) setSize(next.sizes[0]);
         if (next.colors.length === 1) setColor(next.colors[0]);
       })
       .catch(() => {
-        if (!stop) setCard(null);
+        if (!stop) {
+          setFailed(true);
+          setCard(null);
+        }
       });
     void fetchCatalogProducts().then((rows) => {
       if (stop) return;
@@ -75,12 +84,27 @@ export function CatalogDetail({ id, expect }: { id: string; expect?: "forma" | "
     return () => {
       stop = true;
     };
-  }, [expect, id]);
+  }, [attempt, expect, id]);
 
   const back = expect === "forma" ? "/forma" : expect === "jihozlar" ? "/jihozlar" : "/marketplace";
+  const backLabel = expect === "forma" ? "Formalarga qaytish" : expect === "jihozlar" ? "Jihozlarga qaytish" : "Marketplace‘ga qaytish";
   const missing = expect === "forma" ? "Forma topilmadi" : expect === "jihozlar" ? "Jihoz topilmadi" : "Mahsulot topilmadi";
-  if (card === undefined) return <Shell title="Yuklanmoqda...">{null}</Shell>;
-  if (!card) return <Shell title={missing}><Link href={back} className="text-[#0066FF]">Orqaga</Link></Shell>;
+  if (card === undefined) {
+    return (
+      <>
+        <ProductMobile status="loading" />
+        <div className="hidden lg:block"><Shell title="Yuklanmoqda...">{null}</Shell></div>
+      </>
+    );
+  }
+  if (!card) {
+    return (
+      <>
+        <ProductMobile status={failed ? "failed" : "missing"} title={missing} back={back} backLabel={backLabel} onRetry={() => setAttempt((value) => value + 1)} />
+        <div className="hidden lg:block"><Shell title={missing}><Link href={back} className="text-[#0066FF]">Orqaga</Link></Shell></div>
+      </>
+    );
+  }
 
   const gallery = [card.image, ...card.images].filter((src, index, all) => src && all.indexOf(src) === index);
   const shot = gallery[photo] || gallery[0] || "";
@@ -115,7 +139,18 @@ export function CatalogDetail({ id, expect }: { id: string; expect?: "forma" | "
   }
 
   return (
-    <article className="mx-auto max-w-5xl px-4 py-6 pb-28 lg:pb-6" data-testid="product-live">
+    <>
+    <ProductMobile
+      status="ready"
+      card={card}
+      back={back}
+      reviews={reviews}
+      size={size}
+      color={color}
+      onSize={setSize}
+      onColor={setColor}
+    />
+    <article className="mx-auto hidden max-w-5xl px-4 py-6 pb-28 lg:block lg:pb-6" data-testid="product-live">
       <Link href={back} className="text-[13px] font-semibold text-[#0066FF]">Orqaga</Link>
       <div className="mt-3 grid gap-6 lg:grid-cols-[minmax(0,1fr)_minmax(0,1fr)]">
         <div data-testid="product-gallery">
@@ -231,6 +266,7 @@ export function CatalogDetail({ id, expect }: { id: string; expect?: "forma" | "
         </section>
       ) : null}
     </article>
+    </>
   );
 }
 
