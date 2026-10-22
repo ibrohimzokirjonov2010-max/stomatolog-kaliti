@@ -31,3 +31,4 @@
 .sh .kat-body h2 { font-size: 15px; font-weight: 800; }
 .sh .kat-body p { font-size: 12px; line-height: 1.4; }
 .sh .kat-body em { font-size: 12.5px; }
+.sh .kat-card.empty .kat-body em { color: #8b9bb0; }

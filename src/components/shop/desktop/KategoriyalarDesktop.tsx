@@ -10,11 +10,14 @@ import { formatGroupedNumber } from "@/lib/format";
 import { MarketFrame, } from "./MarketFrame";
 import "./kategoriyalar.css";
 
-function countFor(item: (typeof CATEGORIES)[number], products: CatalogCard[]) {
-  if (item.cat) return products.filter((product) => product.category === item.cat).length;
-  const q = (item.q ?? "").toLowerCase();
-  if (!q) return 0;
-  return products.filter((product) => `${product.name} ${product.brand} ${product.description}`.toLowerCase().includes(q)).length;
+type Cat = (typeof CATEGORIES)[number];
+
+/** Keyword cards win over the broad catalog category, so a product is never counted twice. */
+function cardOf(product: CatalogCard): Cat["id"] | null {
+  const text = `${product.name} ${product.brand}`.toLowerCase();
+  const byWord = CATEGORIES.find((item) => item.q && text.includes(item.q.toLowerCase()));
+  if (byWord) return byWord.id;
+  return CATEGORIES.find((item) => item.cat && item.cat === product.category)?.id ?? null;
 }
 
 export function KategoriyalarDesktop() {
@@ -22,6 +25,13 @@ export function KategoriyalarDesktop() {
   useEffect(() => {
     void fetchCatalogProducts().then(setProducts);
   }, []);
+  const counts = new Map<string, number>();
+  for (const product of products) {
+    const id = cardOf(product);
+    if (id) counts.set(id, (counts.get(id) ?? 0) + 1);
+  }
+  const total = [...counts.values()].reduce((sum, n) => sum + n, 0);
+  const cards = [...CATEGORIES].sort((a, b) => Number((counts.get(b.id) ?? 0) > 0) - Number((counts.get(a.id) ?? 0) > 0));
   return (
     <MarketFrame
       active="cats"
@@ -29,7 +39,7 @@ export function KategoriyalarDesktop() {
       promoText="Do‘kon oching va mahsulotlaringizni soting"
       promoCta="Ro‘yxatdan o‘tish"
       promoHref="/marketplace/sotuvchi"
-      promoImage="/img/design-pr13/promo/toothbrush.png"
+      promoImage="/img/design-pr13/categories/gigiyena.png"
     >
       <div data-testid="cats-desktop">
         <div className="brd-head">
@@ -43,17 +53,17 @@ export function KategoriyalarDesktop() {
             </span>
             <span>
               <b>{CATEGORIES.length} ta kategoriya</b>
-              <span>{formatGroupedNumber(products.length)} ta mahsulot</span>
+              <span>{formatGroupedNumber(total)} ta mahsulot</span>
             </span>
           </div>
         </div>
         <div className="kat-grid">
-          {CATEGORIES.map((item) => {
+          {cards.map((item) => {
             const Icon = item.icon;
-            const count = countFor(item, products);
+            const count = counts.get(item.id) ?? 0;
             const href = item.cat ? `/marketplace?cat=${item.cat}` : `/marketplace?q=${encodeURIComponent(item.q ?? item.name)}`;
             return (
-              <Link key={item.id} className="kat-card" href={href} data-testid={`kat-${item.id}`}>
+              <Link key={item.id} className={count ? "kat-card" : "kat-card empty"} href={href} data-testid={`kat-${item.id}`}>
                 <div className="kat-ph">
                   <img src={`/img/design-pr13/categories/${item.id}.png`} alt="" />
                 </div>
@@ -64,7 +74,7 @@ export function KategoriyalarDesktop() {
                   <div>
                     <h2>{item.name}</h2>
                     <p>{item.desc}</p>
-                    <em>{formatGroupedNumber(count)} ta mahsulot</em>
+                    <em>{count ? `${formatGroupedNumber(count)} ta mahsulot` : "Tez orada"}</em>
                   </div>
                   <span className="brd-go" aria-hidden="true">
                     <ChevronRight className="i" />

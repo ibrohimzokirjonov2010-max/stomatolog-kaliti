@@ -253,3 +253,22 @@
 .sh .dk-field:focus-within { border-color: var(--teal); box-shadow: 0 0 0 2px rgba(0, 168, 163, .15); }
 .sh .dk-field > .i { position: absolute; right: calc(.55 * var(--u)); top: 50%; transform: translateY(-50%); font-size: calc(.8 * var(--ut)); color: #4a5470; pointer-events: none; }
 .sh .dk-field .pair { display: flex; align-items: center; gap: calc(.25 * var(--u)); }
+
+/* Readability floor for the marketplace (review: 9–11px text was too small). */
+.sh .dk-card .brand, .sh .dk-meta b, .sh .dk-meta span, .sh .dk-card .dk-stock, .sh .dk-price s { font-size: 12px; }
+.sh .dk-card h3 a, .sh .dk-card h3 { font-size: 13px; }
+.sh .dk-add span { font-size: 12px; }
+.sh .dk-badge { font-size: 11px; }
+.sh .dk-check span, .sh .dk-check em, .sh .dk-radio span, .sh .dk-radio em, .sh .dk-range-labs span { font-size: 12px; }
+.sh .dk-sorts button, .sh .dk-tools .count, .sh .dk-link, .sh .dk-more { font-size: 12px; }
+.sh .dk-step span, .sh .dk-chatbtn { font-size: 12px; }
+.sh .dk-cart .dk-line b, .sh .dk-cart .dk-line small { font-size: 12px; }
+.sh .dk-panel button, .sh .dk-tools > span { font-size: 12px; }
+.sh .dk-cart small, .sh .dk-cart b { font-size: max(11.5px, 1em); }
+.sh .dk-perk b { font-size: 12.5px; }
+.sh .dk-perk small { font-size: 11.5px; }
+.sh .dk-sum span { font-size: 12px; }
+.sh .dk-shop .dk-tools span:not(.count), .sh .dk-tools span:not(.count) { font-size: 12px; }
+.sh .dk-panel .hd button, .sh .dk-panel button.dk-link { font-size: 12px; }
+.sh .dk-panel h4 button { font-size: 12px; }
+.sh .dk-help small { font-size: 12px; }

@@ -42,7 +42,7 @@ function LabRow({ lab, onOrder }: { lab: Lab; onOrder: () => void }) {
   const items = (lab.priceItems ?? []).slice(0, 3);
   const thumbs = items.length ? [] : (lab.portfolio ?? lab.photos ?? []).slice(0, 3);
   const perks = [
-    lab.materials.length ? { icon: Gem, text: `${lab.materials.map(labMaterialLabel).join(", ")} materiallar` } : null,
+    lab.materials.length ? { icon: Gem, text: `Materiallar: ${lab.materials.map(labMaterialLabel).join(", ")}` } : null,
     lab.days ? { icon: Clock, text: `Muddat: ${lab.days} kundan` } : null,
     lab.courier === "ha" ? { icon: Truck, text: lab.courierArea ? `Kuryer: ${lab.courierArea}` : "Kuryer orqali yetkazib berish" } : null,
     lab.services.includes("cadcam") ? { icon: FlaskConical, text: "Raqamli texnologiya (CAD/CAM)" } : null,
@@ -57,7 +57,7 @@ function LabRow({ lab, onOrder }: { lab: Lab; onOrder: () => void }) {
         <h3><Link href={`/laboratoriya/${lab.id}`}>{lab.name}</Link>{lab.verified ? <BadgeCheck size={16} className="ok" /> : null}</h3>
         <p><MapPin size={13} />{[lab.city, lab.district].filter(Boolean).join(", ") || "—"}</p>
         <p><Briefcase size={13} />{[lab.years ? `${lab.years} yil tajriba` : "", lab.done ? `${lab.done}+ buyurtma` : ""].filter(Boolean).join(" • ") || "Yangi laboratoriya"}</p>
-        {lab.courier === "ha" ? <span className="tag">Tezkor yetkazib berish</span> : lab.online ? <span className="tag">Onlayn</span> : null}
+        {lab.days !== null && lab.days <= 2 ? <span className="tag">Tezkor: {lab.days} kunda</span> : lab.online ? <span className="tag">Onlayn</span> : null}
       </div>
       <div className="lbx-svc">
         <div className="head"><b>Asosiy xizmatlar</b><Link href={`/laboratoriya/${lab.id}`}>Barchasi</Link></div>
@@ -75,7 +75,10 @@ function LabRow({ lab, onOrder }: { lab: Lab; onOrder: () => void }) {
         ) : thumbs.length ? (
           <div className="items">{thumbs.map((src) => <div key={src}><span className="th"><img src={src} alt="" /></span></div>)}</div>
         ) : (
-          <p className="chips">{lab.services.map((id) => <span key={id}>{labServiceLabel(id)}</span>)}</p>
+          <>
+            <p className="chips">{lab.services.map((id) => <span key={id}>{labServiceLabel(id)}</span>)}</p>
+            <p className="ask">{lab.priceFrom ? `Narxlar ${formatGroupedNumber(lab.priceFrom)} so‘mdan` : "Narxlar so‘rov bo‘yicha"} · narxlar ro‘yxatini lab hali kiritmagan</p>
+          </>
         )}
       </div>
       <div className="lbx-side">

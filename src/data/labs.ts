@@ -80,18 +80,18 @@ export const labServiceWords: Record<LabService, string> = {
 };
 
 export const labServiceFilters: { id: LabService; label: string }[] = [
-  { id: "crown", label: "Crown" },
-  { id: "veneer", label: "Veneer" },
-  { id: "implant", label: "Implant" },
-  { id: "bridge", label: "Bridge" },
-  { id: "removable", label: "Removable" },
+  { id: "crown", label: "Koronka" },
+  { id: "veneer", label: "Vinir" },
+  { id: "implant", label: "Implant protez" },
+  { id: "bridge", label: "Ko‘prik" },
+  { id: "removable", label: "Olinadigan protez" },
   { id: "cadcam", label: "CAD/CAM" },
 ];
 
 export const labMaterialFilters: { id: LabMaterial; label: string }[] = [
-  { id: "zirconia", label: "Zirconia" },
+  { id: "zirconia", label: "Sirkoniy" },
   { id: "emax", label: "E.max" },
-  { id: "metal-ceramic", label: "Metal-ceramic" },
+  { id: "metal-ceramic", label: "Metallokeramika" },
   { id: "premium", label: "Premium" },
 ];
 

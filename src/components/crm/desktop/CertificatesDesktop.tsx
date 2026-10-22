@@ -47,7 +47,7 @@ const paperFill: Record<Certificate["theme"], string> = {
 };
 
 const designPreview: Record<string, string> = {
-  "cert-implant": "/img/design-pr13/certs/cert-implant.png",
+  "cert-implant": "/img/design-pr13/categories/endodontiya.png",
   "cert-endo": "/img/design-pr13/certs/cert-endo.png",
   "cert-orto": "/img/design-pr13/certs/cert-orto.png",
   "cert-cad": "/img/design-pr13/certs/cert-cad.png",
@@ -210,7 +210,7 @@ export function CertificatesDesktop() {
       promoTitle="Bilimingiz har doim siz bilan!"
       promoText="Barcha sertifikatlaringiz bir joyda"
       promoCta="Sertifikatlaringiz"
-      promoImage="/img/design-pr13/promo/medal.png"
+      promoImage="/img/design-pr13/categories/endodontiya.png"
       promoIcon={<Award className="i" />}
       onPromo={() => {
         setQ("");

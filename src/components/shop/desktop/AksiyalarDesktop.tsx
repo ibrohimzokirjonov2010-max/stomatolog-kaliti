@@ -72,7 +72,7 @@ export function AksiyalarDesktop() {
       promoTitle="Maxsus aksiyalar va chegirmalar"
       promoText="Stomatologiya mahsulotlarini arzon narxlarda xarid qiling!"
       promoCta="Barcha aksiyalar"
-      promoImage="/img/design-pr13/promo/gift.png"
+      promoImage="/img/design-pr13/categories/terapiya.png"
       promoIcon={<span className="ax-pct">%</span>}
       onPromo={reset}
     >

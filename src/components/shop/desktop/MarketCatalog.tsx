@@ -123,7 +123,7 @@ export function MarketCatalog() {
     const rows = products.filter((item) => {
       if (cat !== "all" && item.category !== cat) return false;
       if (brands.length && !brands.includes(item.brandKey)) return false;
-      if (item.price < price[0] || item.price > price[1]) return false;
+      if (item.price < price[0] || (price[1] < PRICE_CAP && item.price > price[1])) return false;
       if (stock === "ombor" && !item.inStock) return false;
       if (stock === "buyurtma" && item.inStock) return false;
       if (rating === "5" && item.rating < 4.5) return false;
@@ -242,7 +242,7 @@ export function MarketCatalog() {
           <div>
             <div className="dk-tools">
               <span className="count">{items.length.toLocaleString("ru-RU")} ta mahsulot</span>
-              <span style={{ color: "#7d8da3", fontSize: "calc(.64 * var(--u))" }}>Saralash:</span>
+              <span style={{ color: "#7d8da3", fontSize: 12 }}>Saralash:</span>
               <div className="dk-sorts">
                 {(
                   [
