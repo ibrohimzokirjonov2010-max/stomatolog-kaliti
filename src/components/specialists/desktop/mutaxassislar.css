@@ -176,3 +176,17 @@
   object-fit: contain;
   object-position: right bottom;
 }
+.sh .mx-actions .mx-profil { flex: 1; background: #0a6f6b; border-color: #0a6f6b; color: #fff; }
+/* Sizes from designs/add-forms-1020/mutahasislar bolimi dizyini.png */
+.sh .mx-head p { font-size: 14px; }
+.sh .mx-tools { margin: 16px 0 12px; }
+.sh .mx-search, .sh .mx-select { height: 40px; border-radius: 10px; }
+.sh .mx-search input, .sh .mx-select select { font-size: 13px; font-weight: 500; }
+.sh .mx-chips { margin-bottom: 16px; flex-wrap: wrap; gap: 8px; }
+.sh .mx-chips button { height: 34px; padding: 0 16px; border-radius: 9px; font-size: 13px; font-weight: 500; }
+.sh .mx-chips button.on { background: #0a6f6b; border-color: #0a6f6b; color: #fff; font-weight: 700; }
+.sh .mx-grid { gap: 14px; }
+.sh .mx-card h3 { font-size: 14.5px; font-weight: 700; margin-top: 10px; }
+.sh .mx-role { font-size: 12.5px; }
+.sh .mx-meta { font-size: 12px; gap: 10px; }
+.sh .mx-actions .mx-profil { height: 36px; border-radius: 9px; font-size: 13px; }

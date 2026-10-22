@@ -1,0 +1,85 @@
+/* Laboratoriyalar (desktop) — designs/add-forms-1020/ustlar labnarotiyasi diyini.png */
+.sh .lbx { --lb: #0b8f8a; --lb-dark: #0a6f6b; --lb-soft: #e6f6f4; --lb-line: #e3eaf1; --lb-ink: #0f1d33; --lb-mute: #6b7a90; color: var(--lb-ink); max-width: 1260px; }
+.sh .lbx a { color: inherit; text-decoration: none; }
+.sh .lbx button { font-family: inherit; cursor: pointer; }
+.sh .lbx-head { display: flex; justify-content: space-between; align-items: flex-start; gap: 16px; margin-bottom: 14px; }
+.sh .lbx-head h1 { margin: 0; font-size: 32px; font-weight: 800; letter-spacing: -.02em; line-height: 1.1; }
+.sh .lbx-head p { margin: 4px 0 0; color: var(--lb-mute); font-size: 14px; }
+.sh .lbx-acts { display: flex; gap: 10px; }
+.sh .lbx .lbx-ghost, .sh .lbx .lbx-primary { height: 42px; display: inline-flex; align-items: center; gap: 8px; padding: 0 18px; border-radius: 10px; font-size: 14px; font-weight: 700; white-space: nowrap; }
+.sh .lbx .lbx-ghost { border: 1px solid var(--lb-line); background: #fff; color: var(--lb-dark); }
+.sh .lbx .lbx-primary { border: 0; background: var(--lb-dark); color: #fff; }
+.sh .lbx .lbx-primary:disabled { opacity: .5; cursor: not-allowed; }
+.sh .lbx-grid { display: grid; grid-template-columns: minmax(0, 1fr) 240px; gap: 16px; align-items: start; }
+.sh .lbx-main { min-width: 0; }
+
+.sh .lbx-tools { display: grid; grid-template-columns: minmax(0, 1.5fr) repeat(4, minmax(0, 1fr)); gap: 10px; margin-bottom: 12px; }
+.sh .lbx-search, .sh .lbx-sel { position: relative; display: flex; align-items: center; height: 40px; border: 1px solid var(--lb-line); border-radius: 10px; background: #fff; }
+.sh .lbx-search svg { position: absolute; left: 12px; color: var(--lb-mute); }
+.sh .lbx-search input { width: 100%; height: 100%; border: 0; background: none; padding: 0 12px 0 36px; font: inherit; font-size: 13px; outline: none; }
+.sh .lbx-sel select { width: 100%; height: 100%; appearance: none; border: 0; background: none; padding: 0 28px 0 12px; font: inherit; font-size: 13px; color: var(--lb-ink); cursor: pointer; outline: none; }
+.sh .lbx-sel svg { position: absolute; right: 10px; color: #3d4b60; pointer-events: none; }
+.sh .lbx-search:focus-within, .sh .lbx-sel:focus-within { border-color: var(--lb); }
+
+.sh .lbx-status { display: flex; align-items: center; gap: 16px; flex-wrap: wrap; margin-bottom: 12px; padding: 10px 14px; border-radius: 10px; background: var(--lb-soft); font-size: 12.5px; color: var(--lb-mute); }
+.sh .lbx-status b { color: var(--lb-ink); font-size: 13px; }
+.sh .lbx-status span { display: inline-flex; align-items: center; gap: 6px; }
+.sh .lbx-status i { width: 10px; height: 10px; border-radius: 50%; background: #c5d0dc; }
+.sh .lbx-status .done i { background: var(--lb); }
+.sh .lbx-status .now { color: var(--lb-dark); font-weight: 700; }
+.sh .lbx-status .now i { background: var(--lb-dark); box-shadow: 0 0 0 3px rgba(11, 143, 138, .2); }
+
+.sh .lbx-list { display: flex; flex-direction: column; gap: 12px; }
+.sh .lbx-row { display: grid; grid-template-columns: 150px minmax(150px, .9fr) minmax(0, 1.6fr) 220px; gap: 16px; align-items: center; padding: 12px; background: #fff; border: 1px solid var(--lb-line); border-radius: 12px; }
+.sh .lbx-ph { position: relative; display: block; height: 112px; border-radius: 9px; overflow: visible; }
+.sh .lbx-ph > img, .sh .lbx-ph .ph-blank { width: 100%; height: 100%; border-radius: 9px; object-fit: cover; display: grid; place-items: center; background: #eef3f6; color: var(--lb); }
+.sh .lbx-ph .logo { position: absolute; right: -10px; top: 10px; width: 40px; height: 40px; border-radius: 50%; display: grid; place-items: center; overflow: hidden; background: #0f1d33; color: #fff; font-size: 13px; font-weight: 800; border: 2px solid #fff; box-shadow: 0 2px 6px rgba(15, 29, 51, .2); }
+.sh .lbx-ph .logo img { width: 100%; height: 100%; object-fit: cover; }
+.sh .lbx-info { min-width: 0; }
+.sh .lbx-info h3 { display: flex; align-items: center; gap: 6px; margin: 0 0 6px; font-size: 15.5px; font-weight: 800; }
+.sh .lbx-info h3 a:hover { color: var(--lb); }
+.sh .lbx-info .ok { color: var(--lb); flex: none; }
+.sh .lbx-info p { display: flex; align-items: center; gap: 6px; margin: 3px 0 0; color: var(--lb-mute); font-size: 12px; }
+.sh .lbx-info .tag { display: inline-block; margin-top: 8px; padding: 3px 9px; border-radius: 6px; background: #e7f7ec; color: #15803d; font-size: 11.5px; font-weight: 600; }
+.sh .lbx-svc { min-width: 0; }
+.sh .lbx-svc .head { display: flex; justify-content: space-between; margin-bottom: 8px; font-size: 12.5px; }
+.sh .lbx-svc .head a { color: var(--lb); font-weight: 600; }
+.sh .lbx-svc .items { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 10px; }
+.sh .lbx-svc .th { display: grid; place-items: center; height: 56px; border-radius: 8px; background: #f3f6f9; color: var(--lb); overflow: hidden; }
+.sh .lbx-svc .th img { width: 100%; height: 100%; object-fit: cover; }
+.sh .lbx-svc .items b { display: block; margin-top: 5px; font-size: 11.5px; font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.sh .lbx-svc .items strong { display: block; font-size: 12.5px; font-weight: 800; }
+.sh .lbx-svc .items small { display: block; color: var(--lb-mute); font-size: 11px; }
+.sh .lbx-svc .chips { display: flex; gap: 6px; flex-wrap: wrap; margin: 0; }
+.sh .lbx-svc .chips span { padding: 4px 10px; border-radius: 7px; background: var(--lb-soft); color: var(--lb-dark); font-size: 12px; font-weight: 600; }
+.sh .lbx-side { display: flex; flex-direction: column; gap: 6px; }
+.sh .lbx-side .from { margin: 0; font-size: 13px; font-weight: 800; color: var(--lb-dark); }
+.sh .lbx-side ul { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 5px; }
+.sh .lbx-side li { display: flex; align-items: flex-start; gap: 6px; font-size: 12px; color: #34445a; line-height: 1.35; }
+.sh .lbx-side li svg { color: var(--lb); flex: none; margin-top: 1px; }
+.sh .lbx .lbx-order { margin-top: 4px; height: 38px; display: inline-flex; align-items: center; justify-content: center; gap: 8px; border: 0; border-radius: 9px; background: var(--lb-dark); color: #fff; font-size: 13px; font-weight: 700; }
+.sh .lbx .lbx-order:hover { background: #085e5b; }
+.sh .lbx-empty { display: flex; flex-direction: column; align-items: center; gap: 10px; padding: 48px 16px; border: 1px dashed #cfdbe6; border-radius: 12px; background: #fff; color: var(--lb-mute); }
+.sh .lbx-empty b { color: var(--lb-ink); font-size: 15px; }
+.sh .lbx .lbx-empty button, .sh .lbx .lbx-empty a { height: 36px; display: inline-flex; align-items: center; padding: 0 16px; border: 0; border-radius: 9px; background: var(--lb-dark); color: #fff; font-weight: 700; font-size: 13px; }
+
+.sh .lbx-rail { display: flex; flex-direction: column; gap: 12px; }
+.sh .lbx-rail section { background: #fff; border: 1px solid var(--lb-line); border-radius: 12px; padding: 12px; }
+.sh .lbx-rail h3 { margin: 0 0 6px; font-size: 14.5px; font-weight: 800; }
+.sh .lbx .lbx-rail button { width: 100%; display: flex; align-items: center; gap: 8px; height: 32px; padding: 0 8px; border: 0; border-radius: 8px; background: none; color: var(--lb-ink); font-size: 12.5px; text-align: left; }
+.sh .lbx-rail button svg { color: var(--lb); flex: none; }
+.sh .lbx-rail button span { flex: 1; }
+.sh .lbx-rail button b { color: var(--lb-mute); font-weight: 600; font-size: 12px; }
+.sh .lbx .lbx-rail button:hover, .sh .lbx .lbx-rail button.on { background: var(--lb-soft); }
+.sh .lbx .lbx-rail button.on span { font-weight: 700; color: var(--lb-dark); }
+.sh .lbx-join { display: block; text-align: center; padding: 10px; border: 1px dashed #b9dcd8; border-radius: 10px; color: var(--lb-dark) !important; font-size: 12.5px; font-weight: 700; }
+
+@media (max-width: 1240px) {
+  .sh .lbx-row { grid-template-columns: 130px minmax(0, 1fr) 200px; }
+  .sh .lbx-svc { grid-column: 2 / -1; grid-row: 2; }
+  .sh .lbx-tools { grid-template-columns: minmax(0, 1fr) repeat(2, minmax(0, 1fr)); }
+}
+.sh .lbx-row { grid-template-columns: 140px minmax(140px, .8fr) minmax(0, 1.7fr) 200px; gap: 14px; }
+.sh .lbx-svc .items > div { min-width: 0; }
+.sh .lbx-svc .items strong { font-size: 11.5px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.sh .lbx-tools { grid-template-columns: minmax(0, 1.2fr) repeat(4, minmax(0, 1fr)); }
