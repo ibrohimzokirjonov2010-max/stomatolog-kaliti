@@ -12,12 +12,12 @@
   top: 0;
   z-index: 20;
 }
-.brd-logo { display: flex; align-items: center; gap: calc(.4 * var(--u)); flex: none; color: #0066ff; }
+.brd-logo { display: flex; align-items: center; gap: calc(.4 * var(--u)); flex: none; color: #0b8f8a; }
 .brd-logo i {
   width: calc(1.7 * var(--u));
   height: calc(1.7 * var(--u));
   border-radius: calc(.4 * var(--u));
-  background: #0066ff;
+  background: #0b8f8a;
   color: #fff;
   display: grid;
   place-items: center;
@@ -52,7 +52,7 @@
   padding: calc(.35 * var(--u)) calc(.4 * var(--u)) calc(.4 * var(--u));
   white-space: nowrap;
 }
-.brd-nav a.on { color: #0066ff; }
+.brd-nav a.on { color: #0b8f8a; }
 .brd-nav a.on::after {
   content: "";
   position: absolute;
@@ -61,7 +61,7 @@
   bottom: calc(.05 * var(--u));
   height: calc(.12 * var(--u));
   border-radius: 99px;
-  background: #0066ff;
+  background: #0b8f8a;
 }
 .brd-actions { display: flex; align-items: center; gap: calc(.7 * var(--u)); flex: none; margin-left: calc(.2 * var(--u)); }
 .brd-ic { position: relative; width: calc(1.7 * var(--u)); height: calc(1.7 * var(--u)); display: grid; place-items: center; color: #1d2b45; font-size: calc(1.15 * var(--u)); }
@@ -73,7 +73,7 @@
   height: calc(.95 * var(--u));
   padding: 0 calc(.2 * var(--u));
   border-radius: 99px;
-  background: #0066ff;
+  background: #0b8f8a;
   color: #fff;
   font-size: calc(.52 * var(--u));
   font-style: normal;
@@ -127,8 +127,8 @@
 }
 .brd-item .i { font-size: calc(1.42 * var(--u)); color: #3d4f6a; }
 .brd-item:hover { background: #eef3f9; }
-.brd-item.on { background: #e8f1ff; color: #0066ff; }
-.brd-item.on .i { color: #0066ff; }
+.brd-item.on { background: #e6f6f4; color: #0b8f8a; }
+.brd-item.on .i { color: #0b8f8a; }
 .brd-split { height: 1px; background: #e6ecf3; margin: calc(.45 * var(--u)) calc(.3 * var(--u)); }
 .brd-promo {
   margin-top: calc(.55 * var(--u));
@@ -148,7 +148,7 @@
   height: calc(1.7 * var(--u));
   padding: 0 calc(.7 * var(--u));
   border-radius: calc(.4 * var(--u));
-  background: #0066ff;
+  background: #0b8f8a;
   color: #fff;
   font-size: calc(.92 * var(--u));
   font-weight: 700;
@@ -185,7 +185,7 @@
   max-width: min(520px, 68%);
 }
 .sh.brd.dh .brd-main > .brd-promo .go {
-  background: #0066ff;
+  background: #0b8f8a;
   color: #fff;
   border: 0;
   height: calc(1.7 * var(--u));
@@ -221,12 +221,12 @@
   height: calc(1.8 * var(--u));
   border-radius: calc(.45 * var(--u));
   background: #fff;
-  color: #0066ff;
+  color: #0b8f8a;
   display: grid;
   place-items: center;
   font-size: calc(.95 * var(--u));
 }
-.brd-badge b { display: block; font-size: calc(1 * var(--u)); font-weight: 700; color: #0066ff; }
+.brd-badge b { display: block; font-size: calc(1 * var(--u)); font-weight: 700; color: #0b8f8a; }
 .brd-badge span { display: block; color: #6a7c93; font-size: calc(.86 * var(--u)); font-weight: 500; }
 
 .brd-tools { display: flex; gap: calc(.55 * var(--u)); margin-bottom: calc(1.6 * var(--u)); }
@@ -285,7 +285,7 @@
   padding: 0;
 }
 .sh .brd-letters button.all { flex: 1.7; }
-.sh .brd-letters button.on { background: #0066ff; border-color: #0066ff; color: #fff; }
+.sh .brd-letters button.on { background: #0b8f8a; border-color: #0b8f8a; color: #fff; }
 
 .brd-grid { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: calc(.95 * var(--u)); }
 .brd-card {
@@ -299,12 +299,12 @@
   min-width: 0;
   min-height: calc(7.6 * var(--u));
 }
-.brd-card:hover { border-color: #c5d9ff; box-shadow: 0 calc(.15 * var(--u)) calc(.5 * var(--u)) rgba(0, 102, 255, .08); }
+.brd-card:hover { border-color: #bfe3df; box-shadow: 0 calc(.15 * var(--u)) calc(.5 * var(--u)) rgba(11, 143, 138, .08); }
 .brd-mark { height: calc(4.5 * var(--u)); display: grid; place-items: center; }
 .brd-card h2 { margin: calc(.15 * var(--u)) 0 0; font-size: calc(1.07 * var(--u)); font-weight: 600; line-height: 1.2; }
 .brd-card .where { display: flex; align-items: center; gap: calc(.25 * var(--u)); margin-top: calc(.12 * var(--u)); color: #6a7c93; font-size: calc(.86 * var(--u)); font-weight: 500; }
 .brd-foot { margin-top: auto; display: flex; align-items: center; justify-content: space-between; gap: calc(.3 * var(--u)); padding-top: calc(.35 * var(--u)); }
-.brd-foot em { color: #0066ff; font-style: normal; font-weight: 700; font-size: calc(.92 * var(--u)); }
+.brd-foot em { color: #0b8f8a; font-style: normal; font-weight: 700; font-size: calc(.92 * var(--u)); }
 .brd-go {
   width: calc(1.45 * var(--u));
   height: calc(1.45 * var(--u));
@@ -316,13 +316,13 @@
   flex: none;
   font-size: calc(.7 * var(--u));
 }
-.brd-card:hover .brd-go { background: #0066ff; border-color: #0066ff; color: #fff; }
+.brd-card:hover .brd-go { background: #0b8f8a; border-color: #0b8f8a; color: #fff; }
 .brd-empty { background: #fff; border-radius: calc(.6 * var(--u)); padding: calc(1.6 * var(--u)); text-align: center; }
 .sh .brd-empty button, .brd-empty a.go {
   margin-top: calc(.5 * var(--u));
   height: calc(1.8 * var(--u));
   padding: 0 calc(.9 * var(--u));
-  background: #0066ff;
+  background: #0b8f8a;
   color: #fff;
   border-radius: calc(.4 * var(--u));
   font-weight: 750;
@@ -361,7 +361,7 @@
 .brd .mk-mindray { color: #e10600; font-size: calc(1 * var(--u)); font-weight: 750; }
 .brd .mk-angelus { color: #1a1a1a; font-size: calc(.85 * var(--u)); font-weight: 650; }
 
-.brd-back { display: inline-flex; align-items: center; gap: calc(.2 * var(--u)); color: #0066ff; font-size: calc(.66 * var(--u)); font-weight: 700; margin-bottom: calc(.45 * var(--u)); }
+.brd-back { display: inline-flex; align-items: center; gap: calc(.2 * var(--u)); color: #0b8f8a; font-size: calc(.66 * var(--u)); font-weight: 700; margin-bottom: calc(.45 * var(--u)); }
 .brd-hero {
   display: flex;
   align-items: center;
@@ -386,4 +386,10 @@
 .brd-prod .ph { height: calc(5.2 * var(--u)); background: #f4f7fb; border-radius: calc(.4 * var(--u)); display: grid; place-items: center; overflow: hidden; }
 .brd-prod img { width: 100%; height: 100%; object-fit: contain; }
 .brd-prod h3 { margin: calc(.35 * var(--u)) 0 calc(.15 * var(--u)); font-size: calc(.66 * var(--u)); line-height: 1.3; font-weight: 700; min-height: calc(1.7 * var(--u)); }
-.brd-prod b { color: #0066ff; font-size: calc(.78 * var(--u)); }
+.brd-prod b { color: #0b8f8a; font-size: calc(.78 * var(--u)); }
+/* Brand directory: typographic mark when no logo file exists, flag before country */
+.brd-word { font-size: calc(1.35 * var(--u)); font-weight: 800; letter-spacing: -.02em; color: #0a6f6b; text-align: center; line-height: 1.1; }
+.brd-card .where svg { flex: none; border-radius: 2px; }
+.brd-tools .brd-search, .brd-tools .brd-country { height: 40px; border-radius: 10px; }
+.brd-tools .brd-search input, .brd-tools .brd-country select { font-size: 13px; }
+.brd-tools .brd-country { min-width: 200px; }

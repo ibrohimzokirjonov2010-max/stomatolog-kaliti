@@ -37,8 +37,8 @@
 }
 .sh .dh-logo { color: #16324f; }
 .dh-logo img {
-  width: 24px;
-  height: 26px;
+  width: 30px;
+  height: 30px;
   object-fit: contain;
   flex: none;
 }
@@ -51,7 +51,7 @@
   color: #16324f;
 }
 .dh-word b {
-  color: #16324f;
+  color: #0b8f8a;
   font-weight: 800;
 }
 

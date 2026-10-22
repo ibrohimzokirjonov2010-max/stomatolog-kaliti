@@ -4,13 +4,28 @@
 import { useEffect, useMemo, useState } from "react";
 import Link from "next/link";
 import { Award, ChevronLeft, ChevronRight, Search } from "lucide-react";
-import { brandLetters } from "@/data/desktop-brands";
+import { brandLetters, deskBrands, type DeskBrand } from "@/data/desktop-brands";
 import { fetchCatalogProducts, type CatalogCard } from "@/lib/catalog-client";
 import { marketHref } from "@/data/desktop-shop";
 import { formatMoney } from "@/lib/format";
-import { MarketFrame } from "./MarketFrame";
+import { BrandMark, CountrySelect, MarketFrame } from "./MarketFrame";
+import { Flag } from "./Flag";
 
 type LiveBrand = { slug: string; name: string; count: number };
+
+/** Origin of catalog brands that have no logo card in deskBrands. */
+const EXTRA_COUNTRY: Record<string, string> = { anthos: "Italiya", bestex: "Xitoy", cherokee: "AQSH", diplomat: "Slovakiya", fengdan: "Xitoy", woodpecker: "Xitoy", woson: "Xitoy", dentsply: "Germaniya" };
+
+function metaOf(brand: LiveBrand): { logo: DeskBrand | null; country: string } {
+  const key = brand.slug.toLowerCase();
+  const name = brand.name.toLowerCase();
+  const logo = deskBrands.find((item) => item.brandKey === key || item.slug === key || item.name.toLowerCase() === name || (name === "w&h" && item.slug === "wh")) ?? null;
+  return { logo, country: logo?.country ?? EXTRA_COUNTRY[key] ?? EXTRA_COUNTRY[name] ?? "" };
+}
+
+function Wordmark({ name }: { name: string }) {
+  return <span className="brd-word">{name}</span>;
+}
 
 export function BrandsDesktop({ slug }: { slug?: string }) {
   if (slug) return <BrandDetail slug={slug} />;
@@ -48,18 +63,22 @@ function BrandDirectory() {
   const { products, ready } = useCatalog();
   const [q, setQ] = useState("");
   const [letter, setLetter] = useState("");
+  const [country, setCountry] = useState("");
+  const countries = useMemo(() => [...new Set(brandsOf(products).map((item) => metaOf(item).country).filter(Boolean))].sort((a, b) => a.localeCompare(b, "uz")), [products]);
   const items = useMemo(() => {
     const query = q.trim().toLowerCase();
     return brandsOf(products).filter((item) => {
       if (letter && !item.name.toUpperCase().startsWith(letter)) return false;
+      if (country && metaOf(item).country !== country) return false;
       if (query && !item.name.toLowerCase().includes(query)) return false;
       return true;
     });
-  }, [letter, products, q]);
+  }, [country, letter, products, q]);
 
   function reset() {
     setQ("");
     setLetter("");
+    setCountry("");
   }
 
   return (
@@ -85,6 +104,7 @@ function BrandDirectory() {
             <Search className="i" />
             <input data-testid="brand-search" aria-label="Brend nomi" value={q} placeholder="Brend nomi bo‘yicha qidiring..." onChange={(event) => setQ(event.target.value)} />
           </label>
+          {countries.length ? <CountrySelect value={country} onChange={setCountry} countries={countries} testId="brand-country" /> : null}
         </div>
         <div className="brd-letters" role="tablist" aria-label="Harf">
           <button type="button" className={letter === "" ? "all on" : "all"} data-testid="brand-letter-all" onClick={() => setLetter("")}>
@@ -99,7 +119,7 @@ function BrandDirectory() {
         {!ready || items.length === 0 ? (
           <div className="brd-empty" data-testid="brand-empty">
             <p>{!ready ? "Yuklanmoqda..." : products.length === 0 ? "Hozircha brend yo‘q" : "Brend topilmadi"}</p>
-            {q || letter ? (
+            {q || letter || country ? (
               <button type="button" onClick={reset}>
                 Tozalash
               </button>
@@ -107,12 +127,15 @@ function BrandDirectory() {
           </div>
         ) : (
           <div className="brd-grid">
-            {items.map((item) => (
+            {items.map((item) => {
+              const meta = metaOf(item);
+              return (
               <Link key={item.slug} className="brd-card" href={`/marketplace/brendlar/${item.slug}`} data-testid="brand-card">
                 <div className="brd-mark">
-                  <b>{item.name.slice(0, 1)}</b>
+                  {meta.logo ? <BrandMark slug={meta.logo.slug} /> : <Wordmark name={item.name} />}
                 </div>
                 <h2>{item.name}</h2>
+                {meta.country ? <span className="where"><Flag country={meta.country} />{meta.country}</span> : null}
                 <div className="brd-foot">
                   <em>{item.count} ta mahsulot</em>
                   <span className="brd-go" aria-hidden="true">
@@ -120,7 +143,8 @@ function BrandDirectory() {
                   </span>
                 </div>
               </Link>
-            ))}
+              );
+            })}
           </div>
         )}
       </div>
@@ -154,11 +178,11 @@ function BrandDetail({ slug }: { slug: string }) {
           <>
             <article className="brd-hero">
               <div className="brd-mark">
-                <b>{brand.name.slice(0, 1)}</b>
+                {metaOf(brand).logo ? <BrandMark slug={metaOf(brand).logo!.slug} /> : <Wordmark name={brand.name} />}
               </div>
               <div>
                 <h1>{brand.name}</h1>
-                <p>{brand.count} ta mahsulot</p>
+                <p>{[metaOf(brand).country, `${brand.count} ta mahsulot`].filter(Boolean).join(" · ")}</p>
               </div>
             </article>
             {rows.length === 0 ? (

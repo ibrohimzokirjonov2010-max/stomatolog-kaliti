@@ -127,10 +127,12 @@
 
 .sh .pt-who b { color: #0066ff; cursor: pointer; }
 .sh .tooth-row { display: flex; justify-content: center; gap: calc(.12 * var(--u)); }
-.sh .tooth { width: calc(1.15 * var(--u)); background: none; border: 0; padding: 0; color: #94a3b8; }
-.sh .tooth svg { width: 100%; height: calc(1.45 * var(--u)); display: block; }
+.sh .tooth { width: calc(1.15 * var(--u)); background: none; border: 0; padding: 0; color: #94a3b8; display: flex; flex-direction: column; align-items: center; gap: 2px; }
+.sh .tooth small { font-size: 9px; line-height: 1; }
+.sh .tooth:hover path { stroke: #0066ff; }
+.sh .tooth svg { width: 100%; height: calc(1.9 * var(--u)); display: block; }
 .sh .pt-side .tooth { width: calc(.9 * var(--u)); }
-.sh .pt-side .tooth svg { height: calc(1.15 * var(--u)); }
+.sh .pt-side .tooth svg { height: calc(1.5 * var(--u)); }
 .sh .tooth-legend { display: flex; flex-wrap: wrap; gap: calc(.3 * var(--u)); margin-top: calc(.3 * var(--u)); font-size: calc(0.883 * var(--uf)); color: #5b6b82; }
 .sh .tooth-legend i { width: calc(.45 * var(--u)); height: calc(.45 * var(--u)); border-radius: calc(.1 * var(--u)); display: inline-block; margin-right: calc(.12 * var(--u)); vertical-align: middle; }
 .sh .pt-tabs { display: flex; gap: calc(.2 * var(--u)); border-bottom: 1px solid #eef2f7; margin: calc(.4 * var(--u)) 0; }
@@ -324,7 +326,7 @@
 .sh .crm-teal .pt-side .ap-view button { height: calc(28 * var(--k)); padding: 0 calc(12 * var(--k)); font-size: calc(11 * var(--k)); }
 .sh .crm-teal .pt-side > div > b, .sh .crm-teal .pt-side h3 { font-size: calc(13 * var(--k)) !important; font-weight: 800; }
 .sh .crm-teal .pt-side .tooth { width: calc(16 * var(--k)); }
-.sh .crm-teal .pt-side .tooth svg { height: calc(24 * var(--k)); }
+.sh .crm-teal .pt-side .tooth svg { height: calc(30 * var(--k)); }
 .sh .crm-teal .tooth-legend { font-size: calc(10.5 * var(--k)); gap: calc(10 * var(--k)); margin-top: calc(10 * var(--k)); }
 .sh .crm-teal .visit { font-size: calc(11 * var(--k)); padding: calc(8 * var(--k)) 0; }
 .sh .crm-teal .crm-muted { font-size: calc(11 * var(--k)); }
@@ -422,8 +424,10 @@
 .sh .pl-list button.on { background: #eaf7f6; }
 .sh .pl-list b { font-size: calc(11.5 * var(--k)); }
 .sh .pl-list small { font-size: calc(10 * var(--k)); color: #7b8ba3; }
-.sh .crm-teal .pl-chart .tooth { width: calc(26 * var(--k)); }
-.sh .crm-teal .pl-chart .tooth svg { height: calc(38 * var(--k)); }
+.sh .crm-teal .pl-chart .tooth { width: calc(30 * var(--k)); }
+.sh .crm-teal .pl-chart .tooth svg { height: calc(58 * var(--k)); }
+.sh .crm-teal .pl-chart .tooth small { font-size: calc(10 * var(--k)); }
+.sh .crm-teal .pl-chart .tooth-row.low { margin-top: calc(10 * var(--k)); }
 .sh .crm-teal .pl-chart .tooth-row { gap: calc(4 * var(--k)); }
 .sh .pl-summary-h { display: flex; justify-content: space-between; align-items: center; gap: calc(8 * var(--k)); margin-bottom: calc(8 * var(--k)); }
 .sh .crm-teal .pl-summary-h h3 { margin: 0; }
@@ -471,7 +475,7 @@
 .sh .pay-axis { display: flex; flex-direction: column; justify-content: space-between; padding-bottom: calc(16 * var(--k)); font-size: calc(10 * var(--k)); color: #8b9bb0; text-align: right; }
 .sh .crm-teal .pay-plot .bars { height: 100%; gap: calc(3 * var(--k)); align-items: stretch; background: repeating-linear-gradient(to bottom, transparent 0, transparent calc(25% - 1px), #f1f4f8 calc(25% - 1px), #f1f4f8 25%); background-size: 100% calc(100% - 16 * var(--k)); background-repeat: no-repeat; }
 .sh .pay-plot .bar-col { flex: 1; display: flex; flex-direction: column; justify-content: flex-end; align-items: center; gap: calc(4 * var(--k)); min-width: 0; }
-.sh .crm-teal .pay-plot .bar-col i { width: 70%; flex: none; height: calc((100% - 16 * var(--k)) * var(--h, 0)); background: #3fb5c4; border-radius: calc(3 * var(--k)) calc(3 * var(--k)) 0 0; min-height: 0; }
+.sh .crm-teal .pay-plot .bar-col i { width: 70%; flex: none; height: calc((100% - 16 * var(--k)) * var(--h, 0)); background: linear-gradient(180deg, #0b8f8a, #7fd3cb); border-radius: calc(3 * var(--k)) calc(3 * var(--k)) 0 0; min-height: 0; }
 .sh .pay-plot .bar-col small { height: calc(12 * var(--k)); font-size: calc(9.5 * var(--k)); color: #8b9bb0; white-space: nowrap; }
 .sh .pay-donut-in { display: flex; align-items: center; gap: calc(18 * var(--k)); margin-top: calc(12 * var(--k)); }
 .sh .crm-teal .pay-donut .donut { width: calc(140 * var(--k)); height: calc(140 * var(--k)); flex: none; }
@@ -537,5 +541,43 @@
 .sh .crm-teal [data-testid="stock-desktop"] .crm-person { gap: calc(7 * var(--k)); }
 .sh .crm-teal [data-testid="stock-desktop"] .crm-person b { font-size: calc(11 * var(--k)); }
 .sh .crm-teal [data-testid="stock-desktop"] .crm-pill { padding: 0 calc(7 * var(--k)); font-size: calc(9.5 * var(--k)); }
-.sh .crm-teal [data-testid="stock-desktop"] .pay-tools .crm-select { width: calc(132 * var(--k)); }
+.sh .crm-teal [data-testid="stock-desktop"] .pay-tools .crm-select { width: auto; flex: none; min-width: calc(150 * var(--k)); }
 .sh .crm-teal [data-testid="stock-desktop"] .pay-tools .crm-search { flex: 1 1 auto; }
+
+/* Odontogram legend: round dots on one line (designs bemorlar / davolash rejalari) */
+.sh .tooth-legend span { display: inline-flex; align-items: center; white-space: nowrap; }
+.sh .tooth-legend i { border-radius: 50%; }
+.sh .crm-teal .pt-side .tooth-legend { gap: calc(8 * var(--k)); font-size: calc(9.5 * var(--k)); }
+.sh .pl-chart-h { display: flex; justify-content: space-between; align-items: center; gap: 10px; }
+.sh .pl-chart-h h3 { margin: 0; }
+
+/* Sertifikatlar — designs/add-forms-1020/sertifikaktrl bolimi dizayini.png (teal) */
+.sh .cert-chips button { height: 34px; padding: 0 16px; border-radius: 9px; font-size: 13px; font-weight: 500; }
+.sh .cert-chips button.on { background: #0a6f6b; border-color: #0a6f6b; color: #fff; font-weight: 700; }
+.sh .cert-grid { gap: 14px; }
+.sh .cert-card { padding: 8px; border-radius: 12px; box-shadow: 0 1px 2px rgba(15, 29, 51, .04); }
+.sh .cert-paper { height: 168px; border-radius: 8px; padding: 12px 14px; text-align: center; display: flex; flex-direction: column; align-items: center; color: #0f3b3a; border-color: rgba(201, 162, 39, .8); }
+.sh .cert-paper.blue, .sh .cert-paper.sky, .sh .cert-paper.royal { background: linear-gradient(135deg, #e6f6f4, #fbfefe 45%, #d3eeeb); }
+.sh .cert-paper.mint { background: linear-gradient(135deg, #e3f7f1, #ffffff 45%, #c9ece4); }
+.sh .cert-paper.navy { background: linear-gradient(160deg, #0c3d3b, #0f5552 60%, #08302e); color: #fff; }
+.sh .cert-paper b.brand { font-size: 10px; color: #0a6f6b; }
+.sh .cert-paper.navy b.brand { color: #9fe3dc; }
+.sh .cert-paper h3 { font-size: 15px; letter-spacing: .18em; margin-top: 6px; color: #0a6f6b; }
+.sh .cert-paper.navy h3 { color: #f3d27a; }
+.sh .cert-paper .who { font-size: 13px; margin-top: 6px; }
+.sh .cert-paper .course { font-size: 11px; color: #0a6f6b; }
+.sh .cert-paper.navy .course { color: #9fe3dc; }
+.sh .cert-paper .sub { font-size: 10px; }
+.sh .cert-sign { margin-top: auto; align-self: flex-start; text-align: left; }
+.sh .cert-sign svg { width: 70px; height: 18px; }
+.sh .cert-sign span { font-size: 10px; }
+.sh .cert-cme { top: 8px; right: 8px; height: 22px; padding: 0 9px; font-size: 11px; font-weight: 700; display: inline-flex; align-items: center; gap: 4px; }
+.sh .cert-seal { width: 34px; height: 34px; right: 10px; bottom: 8px; }
+.sh .cert-card h2 { margin-top: 10px; font-size: 14.5px; font-weight: 700; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.sh .cert-card .meta { font-size: 12px; margin-top: 2px; }
+.sh .cert-card .when { font-size: 12px; gap: 14px; margin-top: 6px; }
+.sh .cert-ops { gap: 8px; margin-top: 10px; }
+.sh .cert-ops button { height: 34px; border-radius: 8px; border-color: #cfe3e1; color: #0a6f6b; font-size: 12.5px; font-weight: 600; }
+.sh .cert-ops button:last-child { flex: none; width: 38px; }
+.sh .cert-full .go { background: #0a6f6b; }
+.sh .cert-stats .brd-badge { padding: 6px 12px; }

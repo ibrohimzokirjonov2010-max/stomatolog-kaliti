@@ -82,7 +82,7 @@
 .sh .pdx-side .seller .ava .i { width: calc(20 * var(--k)); height: calc(20 * var(--k)); }
 .sh .pdx-side .seller span:not(.ava) { display: flex; flex-direction: column; min-width: 0; }
 .sh .pdx-side .seller b { display: flex; align-items: center; gap: calc(4 * var(--k)); font-size: calc(13 * var(--k)); }
-.sh .pdx-side .seller b .ok { color: #2f6bff; }
+.sh .pdx-side .seller b .ok { color: #0b8f8a; }
 .sh .pdx-side .seller small { font-size: calc(10.5 * var(--k)); color: #8b9bb0; }
 .sh .pdx-side .seller a { grid-column: 1 / -1; display: flex; align-items: center; justify-content: center; gap: calc(4 * var(--k)); height: calc(32 * var(--k)); border: 1px solid #d7e0ee; border-radius: calc(8 * var(--k)); font-size: calc(11.5 * var(--k)); font-weight: 600; color: #0b7f7b; }
 .sh .pdx-side .perks { display: flex; flex-direction: column; gap: calc(8 * var(--k)); background: #f3fbf8 !important; border-color: #dcefe8 !important; }
