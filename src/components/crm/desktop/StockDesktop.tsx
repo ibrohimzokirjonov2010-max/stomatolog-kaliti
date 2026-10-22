@@ -123,7 +123,7 @@ export function StockDesktop() {
   }
 
   const kpis = [
-    { label: "Jami mahsulotlar", value: String(rows.length), icon: Boxes, tone: "blue", sub: `${new Set(rows.map((item) => item.category)).size} ta kategoriya` },
+    { label: "Jami mahsulotlar", value: String(rows.length), icon: Boxes, tone: "teal", sub: `${new Set(rows.map((item) => item.category)).size} ta kategoriya` },
     { label: "Ombordagi qiymat", value: formatMoney(value, "UZS"), icon: Wallet, tone: "green", sub: "Narx × qoldiq" },
     { label: "Kam zaxira", value: String(low.length), icon: AlertTriangle, tone: "red", sub: low.length ? "Diqqat talab qiladi" : "Hammasi yetarli" },
   ];

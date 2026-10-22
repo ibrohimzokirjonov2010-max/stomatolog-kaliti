@@ -6,7 +6,7 @@ import Link from "next/link";
 import { CalendarDays, ChevronRight, CircleDollarSign, Download, MapPin, Pencil, Phone, Plus, Printer, Search, UserRound, Wallet } from "lucide-react";
 import { CrmFrame, CrmModal } from "@/components/crm/desktop/CrmFrame";
 import { NewPlanModal } from "@/components/crm/CrmCreateModals";
-import { ADULT_LOWER, ADULT_UPPER, ToothChart, cycleTooth } from "@/components/crm/desktop/ToothChart";
+import { ADULT_LOWER, ADULT_UPPER, BABY_LOWER, BABY_UPPER, ToothChart, cycleTooth } from "@/components/crm/desktop/ToothChart";
 import { type Patient, type PlanStep, type ToothState, type TreatmentPlan } from "@/data/crm";
 import { useCrmPatients } from "@/lib/use-crm-list";
 import { tashkentDateParts } from "@/lib/tashkent-date";
@@ -36,6 +36,7 @@ export function PlansDesktop() {
   const [plans, setPlans] = useStoredList<TreatmentPlan>("sk-crm-plans-v1", []);
   const [patients] = useCrmPatients<Patient>();
   const [dateFilter, setDateFilter] = useState("");
+  const [baby, setBaby] = useState(false);
   const [q, setQ] = useState("");
   const [status, setStatus] = useState("");
   const [doctor, setDoctor] = useState("");
@@ -137,8 +138,14 @@ export function PlansDesktop() {
             </section>
 
             <section className="pl-box pl-chart">
-              <h3>Tish kartasi (odontogramma)</h3>
-              <ToothChart upper={ADULT_UPPER} lower={ADULT_LOWER} teeth={plan.teeth} legend={LEGEND} onCycle={(id) => update(plan.id, (item) => ({ ...item, teeth: { ...item.teeth, [id]: cycleTooth(item.teeth[id], STATES) } }))} />
+              <div className="pl-chart-h">
+                <h3>Tish kartasi (odontogramma)</h3>
+                <div className="ap-view">
+                  <button type="button" className={baby ? undefined : "on"} onClick={() => setBaby(false)}>Doimiy tishlar</button>
+                  <button type="button" className={baby ? "on" : undefined} data-testid="plan-baby" onClick={() => setBaby(true)}>Sut tishlari</button>
+                </div>
+              </div>
+              <ToothChart upper={baby ? BABY_UPPER : ADULT_UPPER} lower={baby ? BABY_LOWER : ADULT_LOWER} teeth={plan.teeth} legend={LEGEND} onCycle={(id) => update(plan.id, (item) => ({ ...item, teeth: { ...item.teeth, [id]: cycleTooth(item.teeth[id], STATES) } }))} />
             </section>
 
             <section className="pl-box pl-summary">

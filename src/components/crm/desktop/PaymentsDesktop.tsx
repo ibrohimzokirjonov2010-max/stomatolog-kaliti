@@ -14,7 +14,7 @@ import { tashkentDateParts } from "@/lib/tashkent-date";
 
 const SEED: ClinicPayment[] = [];
 const METHODS: PayMethod[] = ["Karta", "Click", "Payme", "Naqd"];
-const METHOD_COLOR: Record<string, string> = { Karta: "#3b6cff", Click: "#22c55e", Payme: "#a78bfa", Naqd: "#fb923c" };
+const METHOD_COLOR: Record<string, string> = { Karta: "#0b8f8a", Click: "#20c9a6", Payme: "#a78bfa", Naqd: "#f5a524" };
 const MONTHS_SHORT = ["Yan", "Fev", "Mar", "Apr", "May", "Iyun", "Iyul", "Avg", "Sen", "Okt", "Noy", "Dek"];
 const DAY_MS = 86_400_000;
 

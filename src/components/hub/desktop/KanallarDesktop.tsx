@@ -33,6 +33,17 @@ function PlatformIcon({ id }: { id: Platform }) {
   return <Send className="i" />;
 }
 
+/** Decorative cover by topic (label), so cards read like the design until channels carry their own photo. */
+const TOPIC_COVER: Record<string, string> = {
+  Implantologiya: "/img/design-pr13/courses/implant-nazariya.png",
+  Endodontiya: "/img/design-pr13/courses/endo-kanal.png",
+  Ortodontiya: "/img/design-pr13/courses/ortodont-zamonaviy.png",
+  Marketing: "/img/mobile/kl-clinic.jpg",
+  "Ta’lim": "/img/design-pr13/courses/terapiya-kompozit.png",
+  Jihozlar: "/img/jihoz/chair.jpg",
+  Umumiy: "/img/design-pr13/courses/raqamli-cadcam.png",
+};
+
 /** Channel photo, or its initials on the channel's own colour when there is no photo. */
 function ChannelAvatar({ name, image, color, className = "hub-ch-mini" }: { name: string; image: string; color?: string; className?: string }) {
   if (image) return <img className={className} src={image} alt="" />;
@@ -202,7 +213,9 @@ export function KanallarDesktop() {
                     {item.image ? (
                       <img src={item.image} alt="" />
                     ) : (
-                      <span className="hub-ch-cover" style={{ "--ch": colors[item.id] || "#0fa6a0" } as CSSProperties} aria-hidden />
+                      <span className="hub-ch-cover" style={{ "--ch": colors[item.id] || "#0fa6a0" } as CSSProperties} aria-hidden>
+                        {TOPIC_COVER[item.topic] ? <img src={TOPIC_COVER[item.topic]} alt="" /> : null}
+                      </span>
                     )}
                     <ChannelAvatar name={item.name} image={item.image} color={colors[item.id]} className="hub-ch-ava" />
                     {item.verified ? <span className="hub-ver">Tasdiqlangan</span> : null}

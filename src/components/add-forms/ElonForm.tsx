@@ -2,13 +2,13 @@
 
 import { useEffect, useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
-import { MapPin, MessageCircle } from "lucide-react";
+import { MapPin, MessageCircle, Phone, Send } from "lucide-react";
 import { ADD_CITIES, ADD_DISTRICTS, ELON_CATEGORIES, ELON_WEAR, elonPayload, emptyElon, moneyText, saveAddForm, validateElon, type ElonInput } from "@/lib/add-forms";
 import { PublishNote } from "@/components/forms/PublishNote";
 import { DraftBanner } from "@/components/forms/DraftBanner";
 import { saveFormP0, useFormDraft } from "@/lib/forms/use-draft";
 import { formatGroupedNumber } from "@/lib/format";
-import { AddPage, AreaField, Banners, Field, FormActions, PhoneField, PhotoPicker, SelectField, SourceLinks, Step, TelegramField, TextField, Toggle, type LocalPhoto } from "@/components/add-forms/widgets";
+import { AddPage, AreaField, Banners, Field, FormActions, PhoneField, PhotoPicker, PreviewCard, SelectField, SourceLinks, Step, TelegramField, TextField, Toggle, type LocalPhoto } from "@/components/add-forms/widgets";
 import { photosFromUrls, resolvePhotos } from "@/components/add-forms/upload-local";
 
 export function ElonForm() {
@@ -91,79 +91,110 @@ export function ElonForm() {
   }
 
   const priceLabel = form.negotiable && !form.price.trim() ? "Kelishiladi" : form.price.trim() ? `${moneyText(form.price)} so‘m` : "Narx kiritilmagan";
-  const cover = photos[0]?.preview || photos[0]?.url;
+  const shots = photos.map((photo) => photo.preview || photo.url);
+  const wearLabel = ELON_WEAR.find((item) => item.id === wear)?.label ?? "Yangi";
+  const linkError = Boolean(errors.sourceUrl || errors.instagram);
 
   return (
-    <AddPage testId="add-elon" minutes={2} title="Yangi e‘lon qo‘shish" sub="Jihoz, asbob yoki material e’lonini joylang." crumbs={[{ href: "/", label: "Bosh sahifa" }, { href: "/elonlar", label: "E‘lonlar" }, { label: "Yangi e‘lon qo‘shish" }]}>
+    <AddPage testId="add-elon" minutes={2} title="Yangi e‘lon qo‘shish" sub="Stomatologik jihoz, material, xizmat yoki boshqa e’loningizni joylashtiring." crumbs={[{ href: "/", label: "Bosh sahifa" }, { href: "/elonlar", label: "E‘lonlar" }, { label: "Yangi e‘lon qo‘shish" }]}>
       <Banners note={note} error={fail} />
       <DraftBanner draft={draft} onRestore={(value) => setForm(value)} />
       <div className="af-grid">
-        <div>
-          <Step n={1} title="Rasmlar" hint="8 tagacha. Birinchi rasm asosiy bo‘ladi. Sudrab tartiblang.">
-            <PhotoPicker photos={photos} onChange={setPhotos} title="Rasm qo‘shish" hint="Kamida 3 ta · JPG, PNG, WEBP" />
+        <div className="af-main">
+          <Step n={1} title="Rasmlar" hint="Jami 8 tagacha rasm yuklashingiz mumkin. Birinchi rasm asosiy rasm sifatida tanlanadi.">
+            <PhotoPicker photos={photos} onChange={setPhotos} title="Rasm yuklash" hint="yoki sudrab tashlang · JPG, PNG (maks. 8 ta)" />
             {errors.photos ? <p className="af-err">{errors.photos}</p> : null}
           </Step>
           <Step n={2} title="Asosiy ma’lumotlar">
-            <TextField label="Sarlavha" required testId="elon-title" value={form.title} error={errors.title} placeholder="Masalan, Stomatologik unit" onChange={(title) => patch({ title })} />
-            <SelectField label="Kategoriya" required testId="elon-category" value={form.category} error={errors.category} placeholder="Kategoriyani tanlang" options={ELON_CATEGORIES} onChange={(category) => patch({ category })} />
-            <Field label="Holati" required>
-              <div className="af-pills">
-                {ELON_WEAR.map((item) => (
-                  <button
-                    key={item.id}
-                    type="button"
-                    className={`af-pill${wear === item.id ? " on" : ""}`}
-                    onClick={() => {
-                      setWear(item.id);
-                      patch({ condition: item.condition });
-                    }}
-                  >
-                    {item.label}
-                  </button>
-                ))}
-              </div>
-            </Field>
-            <div className="af-row" style={{ alignItems: "end" }}>
-              <TextField label="Narx" testId="elon-price" value={form.price} error={errors.price} placeholder="0" onChange={(price) => patch({ price: moneyText(price) })} />
-              <Toggle on={form.negotiable} label="Kelishiladi" testId="elon-negotiable" onChange={(negotiable) => patch({ negotiable })} />
+            <div className="af-row-wide">
+              <TextField label="Sarlavha" required testId="elon-title" value={form.title} error={errors.title} placeholder="Masalan: Yangi stomatologik unit, A’zo yil kafolat bilan" maxLength={100} onChange={(title) => patch({ title })} />
+              <SelectField label="Kategoriya" required testId="elon-category" value={form.category} error={errors.category} placeholder="Kategoriyani tanlang" options={ELON_CATEGORIES} onChange={(category) => patch({ category })} />
             </div>
-            <AreaField label="Tavsif" testId="elon-desc" value={form.description} error={errors.description} placeholder="Holati, komplekt, yetkazib berish" onChange={(description) => patch({ description })} />
-            <div className="af-row">
+            <div className="af-row-wide" style={{ alignItems: "end" }}>
+              <Field label="Holati" required>
+                <div className="af-radios">
+                  {ELON_WEAR.map((item) => (
+                    <button
+                      key={item.id}
+                      type="button"
+                      className={`af-radio${wear === item.id ? " on" : ""}`}
+                      aria-pressed={wear === item.id}
+                      title={item.label}
+                      onClick={() => {
+                        setWear(item.id);
+                        patch({ condition: item.condition });
+                      }}
+                    >
+                      <i />
+                      {shortWear(item.label)}
+                    </button>
+                  ))}
+                </div>
+              </Field>
+              <div className="af-pricebox">
+                <TextField label="Narx (so‘m)" testId="elon-price" value={form.price} error={errors.price} placeholder="Masalan: 25 000 000" onChange={(price) => patch({ price: moneyText(price) })} />
+                <Toggle on={form.negotiable} label="Kelishiladi" testId="elon-negotiable" onChange={(negotiable) => patch({ negotiable })} />
+              </div>
+            </div>
+            <AreaField label="Tavsif" testId="elon-desc" value={form.description} error={errors.description} placeholder="Mahsulot holati, xususiyatlari, komplektatsiya, kafolat va boshqa ma’lumotlarni yozing..." onChange={(description) => patch({ description })} />
+            <div className="af-geo">
               <SelectField label="Shahar" required testId="elon-city" value={form.city} error={errors.city} placeholder="Shaharni tanlang" options={ADD_CITIES} onChange={(city) => patch({ city })} />
               <SelectField label="Tuman" testId="elon-district" value={form.district} placeholder="Tumanni tanlang" options={ADD_DISTRICTS} onChange={(district) => patch({ district })} />
+              <div className="af-stack">
+                <PhoneField label="Aloqa ma’lumotlari" testId="elon-phone" value={form.phone} error={errors.phone} onChange={(phone) => patch({ phone })} />
+                <TelegramField bare testId="elon-tg" value={form.telegram} error={errors.telegram} onChange={(telegram) => patch({ telegram })} />
+              </div>
             </div>
-          </Step>
-          <Step n={3} title="Aloqa">
-            <div className="af-row">
-              <PhoneField testId="elon-phone" value={form.phone} error={errors.phone} onChange={(phone) => patch({ phone })} />
-              <TelegramField testId="elon-tg" value={form.telegram} error={errors.telegram} onChange={(telegram) => patch({ telegram })} />
-            </div>
-            <TextField label="Manba yoki sayt havolasi" testId="elon-source" value={form.sourceUrl} error={errors.sourceUrl} placeholder="https://" maxLength={400} onChange={(sourceUrl) => patch({ sourceUrl })} />
-            <TextField label="Instagram" testId="elon-instagram" value={form.instagram} error={errors.instagram} placeholder="@username yoki https://" maxLength={200} onChange={(instagram) => patch({ instagram })} />
+            <details className="af-extra" open={linkError || Boolean(form.sourceUrl || form.instagram)}>
+              <summary>Manba havolasi yoki Instagram</summary>
+              <div className="af-row">
+                <TextField label="Manba yoki sayt havolasi" testId="elon-source" value={form.sourceUrl} error={errors.sourceUrl} placeholder="https://" maxLength={400} onChange={(sourceUrl) => patch({ sourceUrl })} />
+                <TextField label="Instagram" testId="elon-instagram" value={form.instagram} error={errors.instagram} placeholder="@username yoki https://" maxLength={200} onChange={(instagram) => patch({ instagram })} />
+              </div>
+            </details>
           </Step>
           <PublishNote />
-          <FormActions pending={pending} draftLabel="Saqlash (qoralama)" publishLabel="E‘lonni joylash" draft={() => void save("draft")} publish={() => void save("publish")} />
+          <FormActions pending={pending} draftLabel="Saqlash (qoralama)" publishLabel="E‘lon berish" draft={() => void save("draft")} publish={() => void save("publish")} />
         </div>
-        <aside className="af-side">
-          <article className="af-prev" data-testid="elon-preview">
-            <div className="af-gallery">
-              {cover ? <img src={cover} alt="" /> : <span>Rasm yo‘q</span>}
-              <span className="af-badge">{ELON_WEAR.find((item) => item.id === wear)?.label ?? "Yangi"}</span>
+        <PreviewCard title="E’lon ko‘rinishi (oldindan)" sub="E’loningiz shunday ko‘rinishda bo‘ladi." testId="elon-preview">
+          <div className="af-gallery">
+            {shots[0] ? <img src={shots[0]} alt="" /> : <span>Rasm yo‘q</span>}
+          </div>
+          {shots.length > 1 ? (
+            <div className="af-thumbs">
+              {shots.slice(0, 4).map((src, index) => (
+                <span key={src}>
+                  <img src={src} alt="" />
+                  {index === 3 && shots.length > 4 ? <b>+{shots.length - 3}</b> : null}
+                </span>
+              ))}
             </div>
-            <div className="cap">
-              <h3>{form.title.trim() || "Sarlavha"}</h3>
+          ) : null}
+          <div className="cap">
+            <h3>{form.title.trim() || "Sarlavha"}</h3>
+            <div className="af-pricerow">
               <p className="af-price">{priceLabel}{form.negotiable && form.price.trim() ? <span className="af-k">Kelishiladi</span> : null}</p>
-              <p className="af-line"><MapPin size={14} /> {[form.city, form.district].filter(Boolean).join(", ") || "Shahar"}</p>
-              <p className="muted">{form.description.trim() || "Tavsif shu yerda ko‘rinadi."}</p>
-              <p className="af-line"><MessageCircle size={14} /> {form.phone.trim() || "Telefon"}{form.telegram.trim() ? ` · @${form.telegram.replace(/^@/, "")}` : ""}</p>
-              <SourceLinks source={form.sourceUrl} instagram={form.instagram} />
-              <button type="button" className="af-msg blue">Xabar yozish</button>
+              <span className="af-tag">{wearLabel}</span>
             </div>
-          </article>
-        </aside>
+            <p className="af-line"><MapPin size={14} /> {[form.city, form.district].filter(Boolean).join(", ") || "Shahar"}<span className="when">Bugun</span></p>
+            <p className="muted">{form.description.trim() || "Tavsif shu yerda ko‘rinadi."}</p>
+            <div className="af-contact">
+              <p><Phone size={15} className="ph" /> <span>{form.phone.trim() || "Telefon"}</span></p>
+              {form.telegram.trim() ? <p><span className="tg"><Send size={11} /></span> <span>@{form.telegram.replace(/^@/, "")}</span></p> : null}
+            </div>
+            <SourceLinks source={form.sourceUrl} instagram={form.instagram} />
+            <button type="button" className="af-msg blue"><MessageCircle size={16} /> Xabar yozish</button>
+          </div>
+        </PreviewCard>
       </div>
     </AddPage>
   );
+}
+
+/** "Ishlatilgan — a’lo" → "A’lo" so the four options fit on one row like the design's two. */
+function shortWear(label: string) {
+  const tail = label.replace("Ishlatilgan — ", "");
+  return tail.charAt(0).toUpperCase() + tail.slice(1);
 }
 
 type ElonRow = {

@@ -105,7 +105,7 @@
 .sh .bo-side small { color: #7d8da3; font-size: calc(0.922 * var(--uf)); }
 .sh .bo-acts { display: flex; flex-wrap: wrap; justify-content: flex-end; gap: calc(.2 * var(--u)); }
 .sh .bo-card .var { color: #7d8da3; font-size: calc(0.952 * var(--uf)); }
-.sh .bo-acts button { height: calc(1.55 * var(--u)); padding: 0 calc(.4 * var(--u)); border-radius: calc(.35 * var(--u)); border: 1px solid #d5e3ea; color: var(--teal); font-weight: 800; font-size: calc(0.903 * var(--uf)); background: #fff; display: inline-flex; align-items: center; gap: calc(.15 * var(--u)); }
+.sh .bo-acts button, .sh .bo-acts a { height: calc(1.55 * var(--u)); padding: 0 calc(.4 * var(--u)); border-radius: calc(.35 * var(--u)); border: 1px solid #d5e3ea; color: var(--teal); font-weight: 800; font-size: calc(0.903 * var(--uf)); background: #fff; display: inline-flex; align-items: center; gap: calc(.15 * var(--u)); }
 .sh .sv-modal { position: fixed; inset: 0; background: rgba(15, 30, 50, .45); display: grid; place-items: center; z-index: 40; padding: calc(.8 * var(--u)); }
 .sh .sv-dialog { width: min(calc(28 * var(--u)), 92vw); background: #fff; border-radius: calc(.6 * var(--u)); padding: calc(.8 * var(--u)); }
 .sh .sv-dialog h3 { margin: 0 0 calc(.35 * var(--u)); }
@@ -247,12 +247,12 @@
 .sh .bo-side strong { font-size: calc(15 * var(--k)); font-weight: 800; }
 .sh .bo-side > b { font-size: calc(11.5 * var(--k)); }
 .sh .bo-acts { margin-top: auto; padding-top: calc(10 * var(--k)); gap: calc(6 * var(--k)); justify-content: flex-start; }
-.sh .bo-acts button { height: calc(30 * var(--k)); padding: 0 calc(12 * var(--k)); border-radius: calc(8 * var(--k)); font-size: calc(11 * var(--k)); font-weight: 600; display: inline-flex; align-items: center; gap: calc(5 * var(--k)); white-space: nowrap; }
+.sh .bo-acts button, .sh .bo-acts a { height: calc(30 * var(--k)); padding: 0 calc(12 * var(--k)); border-radius: calc(8 * var(--k)); font-size: calc(11 * var(--k)); font-weight: 600; display: inline-flex; align-items: center; gap: calc(5 * var(--k)); white-space: nowrap; }
 .sh .bo-acts .solid { background: #0b8f8a; border-color: #0b8f8a; }
 .sh .bo-count { font-size: calc(11 * var(--k)); }
 .sh .bo-pages button { width: calc(30 * var(--k)); height: calc(30 * var(--k)); border-radius: calc(8 * var(--k)); font-size: calc(11.5 * var(--k)); }
 .sh .bo-card { grid-template-columns: minmax(0, 1fr) minmax(0, calc(290 * var(--k))) calc(178 * var(--k)); }
 .sh .bo-acts { flex-wrap: wrap; }
-.sh .bo-acts button { flex: 1 1 auto; justify-content: center; }
+.sh .bo-acts button, .sh .bo-acts a { flex: 1 1 auto; justify-content: center; }
 .sh .bo-rail .bo-box h3 { font-size: calc(14 * var(--k)); font-weight: 800; }
 .sh .bo-rail .bo-select { font-size: calc(11 * var(--k)); }

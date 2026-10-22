@@ -2,6 +2,7 @@
 
 import { useRef, type ReactNode } from "react";
 import Link from "next/link";
+import { ArrowLeft, ImageIcon, ImagePlus, Save, Send } from "lucide-react";
 import { instagramHref, instagramValue, sourceUrlValue } from "@/lib/add-forms";
 import { formatUzPhone } from "@/lib/phone-uz";
 import "./add-form.css";
@@ -21,25 +22,36 @@ export function AddPage({
   minutes?: number;
   children: ReactNode;
 }) {
+  const back = crumbs.length > 1 ? crumbs[crumbs.length - 2] : null;
   return (
     <div className="af" data-testid={testId}>
-      <nav className="af-crumbs" aria-label="Breadcrumb">
-        {crumbs.map((item, index) => (
-          <span key={item.label}>
-            {index > 0 ? <span> › </span> : null}
-            {item.href ? <Link href={item.href}>{item.label}</Link> : <b>{item.label}</b>}
-          </span>
-        ))}
-      </nav>
+      {back?.href ? (
+        <Link className="af-back" href={back.href}>
+          <ArrowLeft size={15} /> {back.label}
+        </Link>
+      ) : null}
       <div className="af-head">
         <div>
           <h1>{title}</h1>
           {sub ? <p>{sub}</p> : null}
-          {minutes ? <p data-testid="form-minutes">~{minutes} daqiqa</p> : null}
         </div>
+        {minutes ? <span className="af-min" data-testid="form-minutes">~{minutes} daqiqa</span> : null}
       </div>
       {children}
     </div>
+  );
+}
+
+/** Right-hand live preview with the design's "(oldindan)" heading. */
+export function PreviewCard({ title, sub, testId, children }: { title: string; sub: string; testId: string; children: ReactNode }) {
+  return (
+    <aside className="af-side">
+      <div className="af-prevcard">
+        <h3 className="af-prevtitle">{title}</h3>
+        <p className="af-prevsub">{sub}</p>
+        <article className="af-prev" data-testid={testId}>{children}</article>
+      </div>
+    </aside>
   );
 }
 
@@ -99,11 +111,11 @@ export function SelectField(props: { label: string; value: string; onChange: (va
   );
 }
 
-export function PhoneField(props: { value: string; onChange: (value: string) => void; error?: string; required?: boolean; testId?: string }) {
+export function PhoneField(props: { value: string; onChange: (value: string) => void; error?: string; required?: boolean; testId?: string; label?: string }) {
   return (
-    <Field label="Telefon" error={props.error} required={props.required}>
+    <Field label={props.label ?? "Telefon"} error={props.error} required={props.required}>
       <div className={`af-phone${props.error ? " bad" : ""}`}>
-        <span>+998</span>
+        <span><i className="af-flag" aria-hidden />+998</span>
         <input data-testid={props.testId} inputMode="numeric" placeholder="90 123 45 67" value={formatUzPhone(props.value).replace(/^\+998\s?/, "")} onChange={(event) => props.onChange(formatUzPhone(event.target.value))} />
       </div>
     </Field>
@@ -122,13 +134,24 @@ export function SourceLinks({ source, instagram }: { source: string; instagram: 
   );
 }
 
-export function TelegramField(props: { value: string; onChange: (value: string) => void; error?: string; testId?: string }) {
+export function TelegramField(props: { value: string; onChange: (value: string) => void; error?: string; testId?: string; bare?: boolean }) {
+  const box = (
+    <div className={`af-tg${props.error ? " bad" : ""}`}>
+      <span className="af-tgicon" aria-hidden><Send size={10} /></span>
+      <input data-testid={props.testId} aria-label="Telegram" placeholder={props.bare ? "Telegram foydalanuvchi nomi (ixtiyoriy)" : "username"} value={props.value.replace(/^@/, "")} onChange={(event) => props.onChange(event.target.value.replace(/^@/, ""))} />
+    </div>
+  );
+  if (props.bare) {
+    return (
+      <div className="af-label">
+        {box}
+        {props.error ? <p className="af-err">{props.error}</p> : null}
+      </div>
+    );
+  }
   return (
     <Field label="Telegram" error={props.error}>
-      <div className={`af-tg${props.error ? " bad" : ""}`}>
-        <span>@</span>
-        <input data-testid={props.testId} placeholder="username" value={props.value.replace(/^@/, "")} onChange={(event) => props.onChange(event.target.value.replace(/^@/, ""))} />
-      </div>
+      {box}
     </Field>
   );
 }
@@ -181,12 +204,15 @@ export function PhotoPicker({
   max = 8,
   title,
   hint,
+  compact = false,
 }: {
   photos: LocalPhoto[];
   onChange: (photos: LocalPhoto[]) => void;
   max?: number;
   title: string;
   hint: string;
+  /** One row of small tiles (portfolio, gallery). */
+  compact?: boolean;
 }) {
   const input = useRef<HTMLInputElement>(null);
   function add(files: FileList | null) {
@@ -199,42 +225,52 @@ export function PhotoPicker({
     }
     onChange(next);
   }
+  function move(from: number, to: number) {
+    if (Number.isNaN(from) || from === to) return;
+    const next = [...photos];
+    const [item] = next.splice(from, 1);
+    next.splice(to, 0, item);
+    onChange(next);
+  }
+  const blanks = Math.max(0, Math.min(max, 8) - photos.length - 1);
   return (
     <div>
-      <div
-        className="af-drop"
-        onClick={() => input.current?.click()}
-        onDragOver={(event) => event.preventDefault()}
-        onDrop={(event) => {
-          event.preventDefault();
-          add(event.dataTransfer.files);
-        }}
-      >
-        <div>
-          <strong>{title}</strong>
-          <small>{hint}</small>
-        </div>
+      <div className={compact ? "af-tiles compact" : "af-tiles"}>
+        {photos.map((photo, index) => (
+          <div key={photo.key} className="af-photo" draggable onDragStart={(event) => event.dataTransfer.setData("text/plain", String(index))} onDragOver={(event) => event.preventDefault()} onDrop={(event) => {
+            event.preventDefault();
+            move(Number(event.dataTransfer.getData("text/plain")), index);
+          }}>
+            <img src={photo.preview || photo.url} alt="" />
+            {index === 0 ? <em>Asosiy rasm</em> : null}
+            <button type="button" aria-label="Rasmni olib tashlash" onClick={() => onChange(photos.filter((item) => item.key !== photo.key))}>×</button>
+          </div>
+        ))}
+        {photos.length < max ? (
+          <div
+            className="af-drop"
+            role="button"
+            tabIndex={0}
+            onClick={() => input.current?.click()}
+            onKeyDown={(event) => { if (event.key === "Enter" || event.key === " ") input.current?.click(); }}
+            onDragOver={(event) => event.preventDefault()}
+            onDrop={(event) => {
+              event.preventDefault();
+              add(event.dataTransfer.files);
+            }}
+          >
+            <ImagePlus size={20} />
+            <strong>{title}</strong>
+            <small>{hint}</small>
+          </div>
+        ) : null}
+        {Array.from({ length: blanks }, (_, index) => (
+          <div key={`blank-${index}`} className="af-blank" aria-hidden onClick={() => input.current?.click()}>
+            <ImageIcon size={18} />
+          </div>
+        ))}
       </div>
       <input ref={input} hidden type="file" accept="image/*" multiple={max > 1} onChange={(event) => { add(event.target.files); event.target.value = ""; }} />
-      {photos.length ? (
-        <div className="af-photos">
-          {photos.map((photo, index) => (
-            <div key={photo.key} className="af-photo" draggable onDragStart={(event) => event.dataTransfer.setData("text/plain", String(index))} onDragOver={(event) => event.preventDefault()} onDrop={(event) => {
-              event.preventDefault();
-              const from = Number(event.dataTransfer.getData("text/plain"));
-              if (Number.isNaN(from) || from === index) return;
-              const next = [...photos];
-              const [item] = next.splice(from, 1);
-              next.splice(index, 0, item);
-              onChange(next);
-            }}>
-              <img src={photo.preview || photo.url} alt="" />
-              {index === 0 ? <em>Asosiy</em> : null}
-              <button type="button" aria-label="Rasmni olib tashlash" onClick={() => onChange(photos.filter((item) => item.key !== photo.key))}>×</button>
-            </div>
-          ))}
-        </div>
-      ) : null}
     </div>
   );
 }
@@ -244,7 +280,7 @@ export function LogoPicker({ photo, onChange }: { photo: LocalPhoto | null; onCh
   return (
     <div>
       <button type="button" className="af-logo" onClick={() => input.current?.click()}>
-        {photo ? <img src={photo.preview || photo.url} alt="" /> : "Logo"}
+        {photo ? <img src={photo.preview || photo.url} alt="" /> : <><ImagePlus size={20} /><span>Logo</span></>}
       </button>
       <input ref={input} hidden type="file" accept="image/*" onChange={(event) => {
         const file = event.target.files?.[0];
@@ -268,7 +304,7 @@ export function ProfileSwitch({
   onCreate: () => void;
 }) {
   return (
-    <section className="af-card">
+    <section className="af-card af-profsec">
       <div className="af-step">
         <span className="af-num">↔</span>
         <div>
@@ -297,8 +333,8 @@ export function ProfileSwitch({
 export function FormActions({ draft, publish, pending, draftLabel, publishLabel }: { draft: () => void; publish: () => void; pending: boolean; draftLabel: string; publishLabel: string }) {
   return (
     <div className="af-actions">
-      <button type="button" className="af-btn" disabled={pending} onClick={draft}>{draftLabel}</button>
-      <button type="button" className="af-btn primary" disabled={pending} data-testid="add-publish" onClick={publish}>{publishLabel}</button>
+      <button type="button" className="af-btn" disabled={pending} onClick={draft}><Save size={16} /> {draftLabel}</button>
+      <button type="button" className="af-btn primary" disabled={pending} data-testid="add-publish" onClick={publish}><Send size={16} /> {publishLabel}</button>
     </div>
   );
 }

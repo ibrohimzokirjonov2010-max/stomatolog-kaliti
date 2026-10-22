@@ -2,6 +2,7 @@
 /* eslint-disable @next/next/no-img-element -- desktop shell sizes raw images with --u */
 
 import { useEffect, useMemo, useState } from "react";
+import Link from "next/link";
 import { useSearchParams } from "next/navigation";
 import { Calendar, Download, MessageCircle, RefreshCcw, Search, ShoppingBag, Star, Store, Truck } from "lucide-react";
 import { ShopShell } from "@/components/shop/desktop/ShopShell";
@@ -16,7 +17,8 @@ import {
   type OrderStatus,
 } from "@/data/desktop-orders";
 import { freeDeliveryText, returnWindowText } from "@/lib/commerce-terms";
-import { loadOrders, syncOrders } from "@/lib/orders";
+import { getOrder, loadOrders, syncOrders, type Order } from "@/lib/orders";
+import { TrackDrawer } from "@/components/orders/desktop/TrackDesktop";
 import { toDesktopOrder } from "@/lib/order-present";
 import "./cart.css";
 
@@ -55,7 +57,7 @@ export function OrdersDesktop() {
   const [to, setTo] = useState("");
   const [dateOpen, setDateOpen] = useState(false);
   const [period, setPeriod] = useState(periods[0]);
-  const [open, setOpen] = useState<DesktopOrder | null>(null);
+  const [track, setTrack] = useState<Order | null>(null);
   const [chat, setChat] = useState(false);
   const [help, setHelp] = useState("");
   const [note, setNote] = useState("");
@@ -202,11 +204,11 @@ export function OrdersDesktop() {
                     <small>To‘lov usuli</small>
                     <b>{order.pay}</b>
                     <div className="bo-acts">
-                      {order.status === "shipping" ? <button type="button" className="solid" onClick={() => setNote(`${order.number} yo‘lda. Taxminiy yetkazish saqlangan.`)}>Kuzatish</button> : null}
+                      {order.status === "shipping" || order.status === "preparing" ? <button type="button" className="solid" data-testid="order-track" onClick={() => { const raw = getOrder(order.id); if (raw) setTrack(raw); }}>Kuzatish</button> : null}
                       {order.status === "pending" ? <span className="var">To‘lov hali ulanmagan</span> : null}
                       {order.status === "delivered" ? <button type="button" onClick={() => receipt(order)}><Download className="i" /> Chek yuklab olish</button> : null}
                       {order.status === "delivered" || order.status === "cancelled" ? <button type="button" onClick={() => reorder(order)}><RefreshCcw className="i" /> Qayta buyurtma</button> : null}
-                      <button type="button" onClick={() => setOpen(order)}>Batafsil</button>
+                      <Link className="bo-more-link" href={`/buyurtmalarim/${encodeURIComponent(order.id)}`}>Batafsil</Link>
                     </div>
                   </div>
                 </article>
@@ -245,18 +247,7 @@ export function OrdersDesktop() {
           </aside>
         </div>
       </div>
-      {open ? (
-        <div className="sv-modal" onClick={() => setOpen(null)}>
-          <div className="sv-dialog" onClick={(event) => event.stopPropagation()}>
-            <h3>Buyurtma № {open.number}</h3>
-            <p>{open.title}</p>
-            <p>{open.seller} · {statusLabel(open.status)}</p>
-            <p>{som(open.total)} · {open.pay}</p>
-            <p>{open.when}</p>
-            <div className="acts"><button type="button" className="sv-go" onClick={() => setOpen(null)}>Yopish</button></div>
-          </div>
-        </div>
-      ) : null}
+      {track ? <TrackDrawer order={track} onClose={() => setTrack(null)} onChanged={() => { void syncOrders(true).then(() => setTrack(getOrder(track.id) ?? null)); }} /> : null}
       {chat ? (
         <div className="sv-modal" onClick={() => setChat(false)}>
           <div className="sv-dialog" onClick={(event) => event.stopPropagation()}>

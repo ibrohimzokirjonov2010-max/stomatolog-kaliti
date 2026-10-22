@@ -9,7 +9,7 @@ import { PublishNote } from "@/components/forms/PublishNote";
 import { DraftBanner } from "@/components/forms/DraftBanner";
 import { saveFormP0, useFormDraft } from "@/lib/forms/use-draft";
 import { formatGroupedNumber } from "@/lib/format";
-import { AddPage, AreaField, Banners, Chips, FormActions, PhoneField, SelectField, SourceLinks, Step, TelegramField, TextField, Toggle } from "@/components/add-forms/widgets";
+import { PreviewCard, AddPage, AreaField, Banners, Chips, FormActions, PhoneField, SelectField, SourceLinks, Step, TelegramField, TextField, Toggle } from "@/components/add-forms/widgets";
 
 type Row = {
   id: string;
@@ -127,24 +127,26 @@ export function JobForm() {
       : [form.salaryMin && `${moneyText(form.salaryMin)} dan`, form.salaryMax && `${moneyText(form.salaryMax)} gacha`].filter(Boolean).join(" · ") || "Maosh kiritilmagan";
 
   return (
-    <AddPage testId="add-job" minutes={2} title="Vakansiya qo‘shish" sub="Ishlar" crumbs={[{ href: "/", label: "Bosh sahifa" }, { href: "/ishlar", label: "Ishlar" }, { label: "Vakansiya qo‘shish" }]}>
+    <AddPage testId="add-job" minutes={2} title="Vakansiya qo‘shish" sub="Klinikangiz uchun yangi xodim izlayapsizmi? Vakansiya e’lonini joylashtiring." crumbs={[{ href: "/", label: "Bosh sahifa" }, { href: "/ishlar", label: "Ishlar" }, { label: "Vakansiya qo‘shish" }]}>
       <Banners note={note} error={fail} />
       <DraftBanner draft={draft} onRestore={(value) => setForm(value)} />
       <div className="af-grid">
-        <div>
-          <Step n={1} title="Asosiy">
-            <TextField label="Lavozim" required testId="job-title" value={form.title} error={errors.title} placeholder="Masalan, Stomatolog-terapevt" onChange={(title) => patch({ title })} />
-            <div className="af-pills">
+        <div className="af-main">
+          <Step n={1} title="Asosiy ma’lumotlar">
+            <div className="af-row">
+              <TextField label="Lavozim" required testId="job-title" value={form.title} error={errors.title} placeholder="Masalan: Stomatolog, Assistent, Administrator" onChange={(title) => patch({ title })} />
+              <TextField label="Klinika nomi" required testId="job-clinic" value={form.clinic} error={errors.clinic} placeholder="Klinika nomini kiriting" onChange={(clinic) => patch({ clinic })} />
+            </div>
+            <div className="af-pills af-roles">
               {JOB_ROLE_CHIPS.map((role) => (
                 <button key={role} type="button" className={`af-chip${form.title === role ? " on" : ""}`} onClick={() => patch({ title: role })}>{role}</button>
               ))}
             </div>
-            <TextField label="Klinika nomi" required testId="job-clinic" value={form.clinic} error={errors.clinic} placeholder="Klinika nomi" onChange={(clinic) => patch({ clinic })} />
-            <div className="af-row">
+            <div className="af-geo" style={{ gridTemplateColumns: "1fr 1fr 1.4fr" }}>
               <SelectField label="Shahar" required testId="job-city" value={form.city} error={errors.city} placeholder="Shaharni tanlang" options={ADD_CITIES} onChange={(city) => patch({ city })} />
               <SelectField label="Tuman" value={form.district} error={errors.district} placeholder="Tumanni tanlang" options={ADD_DISTRICTS} onChange={(district) => patch({ district })} />
+              <TextField label="Manzil (ixtiyoriy)" testId="job-address" value={form.address} error={errors.address} placeholder="Aniq manzil yoki mo‘ljal" onChange={(address) => patch({ address })} />
             </div>
-            <TextField label="Manzil" testId="job-address" value={form.address} error={errors.address} placeholder="Ko‘cha, uy" onChange={(address) => patch({ address })} />
           </Step>
           <Step n={2} title="Ish sharoitlari">
             <p className="af-label">Bandlik turi</p>
@@ -186,7 +188,7 @@ export function JobForm() {
             </div>
             {other ? <TextField label="Boshqa afzallik" value={form.benefitNote} placeholder="Yozing" onChange={(benefitNote) => patch({ benefitNote })} /> : null}
           </Step>
-          <Step n={4} title="Aloqa">
+          <Step n={4} title="Aloqa ma’lumotlari">
             <div className="af-row">
               <PhoneField testId="job-phone" value={form.phone} error={errors.phone} onChange={(phone) => patch({ phone })} />
               <TelegramField testId="job-tg" value={form.telegram} error={errors.telegram} onChange={(telegram) => patch({ telegram })} />
@@ -200,8 +202,7 @@ export function JobForm() {
           <PublishNote />
           <FormActions pending={pending} draftLabel="Saqlash (qoralama)" publishLabel="Vakansiyani joylash" draft={() => void save("draft")} publish={() => void save("publish")} />
         </div>
-        <aside className="af-side">
-          <article className="af-prev" data-testid="job-preview">
+        <PreviewCard title="E’lon ko‘rinishi (oldindan)" sub="E’loningiz shunday ko‘rinishda bo‘ladi." testId="job-preview">
             <div className="cap">
               <h3>{form.title.trim() || "Lavozim"}</h3>
               <p className="muted">{form.clinic.trim() || "Klinika nomi"}</p>
@@ -214,8 +215,7 @@ export function JobForm() {
               <SourceLinks source={form.sourceUrl} instagram={form.instagram} />
               <button type="button" className="af-msg blue">Ariza qoldirish</button>
             </div>
-          </article>
-        </aside>
+        </PreviewCard>
       </div>
     </AddPage>
   );

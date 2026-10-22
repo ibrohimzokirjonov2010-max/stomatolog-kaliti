@@ -300,7 +300,7 @@
 
 /* Main */
 .sh .sh-main { flex:1; padding:calc(.75 * var(--u)) calc(0.9 * var(--u)) calc(1 * var(--u)) calc(1 * var(--u)); min-width:0; }
-.sh .sh-hero-row { display:flex; gap:calc(.8 * var(--u)); height:calc(15 * var(--u)); }
+.sh .sh-hero-row { display:flex; gap:calc(.8 * var(--u)); height:calc(13.5 * var(--u)); }
 .sh .sh-hero, .sh .sh-implant { position:relative; border-radius:calc(.7 * var(--u)); overflow:hidden; }
 .sh .sh-hero { flex:1 1 auto; min-width:0; background:linear-gradient(90deg,#BCDDFD 0%,#D3E6FA 35%,#E4ECF5 60%); }
 /* The implant banner lines up with the right rail below it; the main slide matches the left column. */
@@ -427,6 +427,7 @@
 .sh .sh-sem .card { height:auto; min-height:calc(13.4 * var(--u)); }
 .sh .sh-sem .bd { padding:calc(.55 * var(--u)) calc(.75 * var(--u)); }
 .sh .sh-sem .bd p { margin:calc(.15 * var(--u)) 0 calc(.6 * var(--u)); }
+.sh .sh-sem h5, .sh .sh-sem .bd p { white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
 .sh .sh-sem strong { font-size: calc(0.98 * var(--u)); letter-spacing:-.02em; }
 .sh .sh-sem .ft { margin-top:calc(.45 * var(--u)); }
 .sh .box { padding:calc(.8 * var(--u)) calc(.8 * var(--u)); }
