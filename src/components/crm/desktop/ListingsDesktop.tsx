@@ -57,8 +57,8 @@ export function ListingsDesktop() {
       void fetch(api).then(async (res) => {
         const data = await res.json().catch(() => null) as Record<string, unknown> | null;
         const list = Object.values(data ?? {}).find(Array.isArray) as unknown[] | undefined;
-        if (!cancel && list) setOutside((cur) => ({ ...cur, [key]: list.length }));
-      }).catch(() => undefined);
+        if (!cancel) setOutside((cur) => ({ ...cur, [key]: list?.length ?? 0 }));
+      }).catch(() => { if (!cancel) setOutside((cur) => ({ ...cur, [key]: 0 })); });
     }
     return () => { cancel = true; };
   }, []);
