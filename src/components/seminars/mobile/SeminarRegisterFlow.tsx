@@ -68,6 +68,7 @@ export function SeminarRegisterFlow({ id }: { id: string }) {
   const [promo, setPromo] = useState("");
   const [promoOn, setPromoOn] = useState(false);
   const [error, setError] = useState("");
+  const [busy, setBusy] = useState(false);
   const [ticket, setTicket] = useState<SeminarTicket | null>(null);
   const [qr, setQr] = useState("");
 
@@ -135,12 +136,13 @@ export function SeminarRegisterFlow({ id }: { id: string }) {
       setError("Promokod kiriting");
       return;
     }
-    setPromoOn(true);
-    setError("");
+    // No promo codes exist yet; do not grant a discount for any text typed here.
+    setPromoOn(false);
+    setError("Bunday promokod topilmadi");
   }
 
-  function pay() {
-    if (!seminar) return;
+  async function pay() {
+    if (!seminar || busy) return;
     const message = validate();
     if (message) {
       setError(message);
@@ -160,13 +162,26 @@ export function SeminarRegisterFlow({ id }: { id: string }) {
       code: `SH-${Math.floor(100000 + Math.random() * 900000)}`,
       createdAt: new Date().toISOString(),
     };
-    rememberSeminarTicket(next);
-    void register({
+    setBusy(true);
+    const result = await register({
       seminarId: seminar.id,
       name: name.trim(),
       phone: digits(phone),
       clinic: clinic.trim(),
     });
+    setBusy(false);
+    if (!result.ok) {
+      setError(
+        result.reason === "duplicate" ? "Siz bu seminarga allaqachon yozilgansiz."
+        : result.reason === "full" ? "Joy qolmadi."
+        : result.reason === "auth" ? "Yozilish uchun avval tizimga kiring."
+        : result.reason === "invalid" ? "Ism va telefon majburiy (kamida 9 raqam)."
+        : result.reason === "closed" ? "Ro‘yxatga olish yopilgan."
+        : result.error || "Yozib bo‘lmadi. Qayta urinib ko‘ring.",
+      );
+      return;
+    }
+    rememberSeminarTicket(next);
     setTicket(next);
     setError("");
   }
@@ -489,7 +504,7 @@ export function SeminarRegisterFlow({ id }: { id: string }) {
             <span>2-bosqich: to‘lov</span>
           </button>
         ) : (
-          <button type="button" className="rg-go" data-testid="rg-pay" onClick={pay}>
+          <button type="button" className="rg-go" data-testid="rg-pay" disabled={busy} onClick={() => void pay()}>
             <b>To‘lash {formatMoney(total, "UZS")} →</b>
           </button>
         )}
