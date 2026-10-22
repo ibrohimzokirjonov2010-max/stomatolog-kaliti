@@ -26,3 +26,8 @@
 .sh .kat-body p { margin: calc(.1 * var(--u)) 0 0; color: #6a7c93; font-size: calc(1.257 * var(--uf)); font-weight: 500; line-height: 1.35; min-height: calc(2.2 * var(--u)); }
 .sh .kat-body em { display: block; margin-top: calc(.18 * var(--u)); color: #0b8f8a; font-style: normal; font-weight: 700; font-size: calc(1.316 * var(--uf)); }
 .sh .kat-body .brd-go { margin-left: auto; align-self: center; }
+
+/* Sizes from designs/add-forms-1020/kateogriyakar bolimi dizyini.png */
+.sh .kat-body h2 { font-size: 15px; font-weight: 800; }
+.sh .kat-body p { font-size: 12px; line-height: 1.4; }
+.sh .kat-body em { font-size: 12.5px; }
