@@ -2,12 +2,12 @@
 
 import { useEffect, useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
-import { MapPin } from "lucide-react";
+import { BadgeCheck, FlaskConical, MapPin } from "lucide-react";
 import { ADD_CITIES, ADD_DISTRICTS, LAB_DAY_LABEL, LAB_DAYS, LAB_FLOW, LAB_MATERIALS, LAB_SPECIALTIES, LAB_TURNAROUND, emptyLab, labPayload, moneyText, saveAddForm, validateLabForm, type LabInput, type LabRow } from "@/lib/add-forms";
 import { PublishNote } from "@/components/forms/PublishNote";
 import { DraftBanner } from "@/components/forms/DraftBanner";
 import { saveFormP0, useFormDraft } from "@/lib/forms/use-draft";
-import { AddPage, Banners, Checks, FormActions, LogoPicker, PhoneField, PhotoPicker, ProfileSwitch, SelectField, SourceLinks, Step, TelegramField, TextField, Toggle, type LocalPhoto } from "@/components/add-forms/widgets";
+import { PreviewCard, AddPage, Banners, Checks, FormActions, LogoPicker, PhoneField, PhotoPicker, ProfileSwitch, SelectField, SourceLinks, Step, TelegramField, TextField, Toggle, type LocalPhoto } from "@/components/add-forms/widgets";
 import { photosFromUrls, resolvePhotos } from "@/components/add-forms/upload-local";
 
 type Stored = {
@@ -141,25 +141,25 @@ export function LabForm() {
   const names = form.services.map((item) => LAB_SPECIALTIES.find((spec) => spec.id === item)?.label ?? item).join(", ");
 
   return (
-    <AddPage testId="add-lab" minutes={3} title="Laboratoriya qo‘shish" sub="Xizmatlar · Laboratoriyalar" crumbs={[{ href: "/", label: "Bosh sahifa" }, { href: "/laboratoriya", label: "Laboratoriyalar" }, { label: "Laboratoriya qo‘shish" }]}>
+    <AddPage testId="add-lab" minutes={3} title="Laboratoriya qo‘shish" sub="Tish texnikasi laboratoriyangiz haqida ma’lumot qo‘shing va mijozlarni jalb qiling." crumbs={[{ href: "/", label: "Bosh sahifa" }, { href: "/laboratoriya", label: "Laboratoriyalar" }, { label: "Laboratoriya qo‘shish" }]}>
       <Banners note={note} error={fail} />
       <DraftBanner draft={draft} onRestore={(value) => setForm(value)} />
-      <ProfileSwitch
-        active={id}
-        onCreate={blank}
-        onPick={(next) => {
-          const row = saved.find((item) => item.id === next);
-          if (row) {
-            apply(row);
-            router.replace(`/laboratoriya/yangi?id=${row.id}`);
-          }
-        }}
-        items={saved.map((row) => ({ id: row.id, name: row.name || "Laboratoriya", meta: row.status === "published" ? "E’lon qilingan" : row.status === "draft" ? "Qoralama" : "Profil" }))}
-      />
       <div className="af-grid">
-        <div>
-          <Step n={1} title="Asosiy">
-            <div className="af-row" style={{ alignItems: "center" }}>
+        <div className="af-main">
+        <ProfileSwitch
+          active={id}
+          onCreate={blank}
+          onPick={(next) => {
+            const row = saved.find((item) => item.id === next);
+            if (row) {
+              apply(row);
+              router.replace(`/laboratoriya/yangi?id=${row.id}`);
+            }
+          }}
+          items={saved.map((row) => ({ id: row.id, name: row.name || "Laboratoriya", meta: row.status === "published" ? "E’lon qilingan" : row.status === "draft" ? "Qoralama" : "Profil" }))}
+        />
+          <Step n={1} title="Asosiy ma’lumotlar">
+            <div className="af-logorow">
               <LogoPicker photo={logo} onChange={setLogo} />
               <TextField label="Laboratoriya nomi" required testId="lab-name" value={form.name} error={errors.name} placeholder="Laboratoriya nomi" onChange={(name) => patch({ name })} />
             </div>
@@ -235,11 +235,13 @@ export function LabForm() {
           <PublishNote />
           <FormActions pending={pending} draftLabel="Saqlash (qoralama)" publishLabel="Laboratoriyani joylash" draft={() => void save("draft")} publish={() => void save("publish")} />
         </div>
-        <aside className="af-side">
-          <article className="af-prev" data-testid="lab-preview">
-            <div className="af-gallery">{logo ? <img src={logo.preview || logo.url} alt="" /> : photos[0] ? <img src={photos[0].preview || photos[0].url} alt="" /> : <span>Rasm yo‘q</span>}</div>
+        <PreviewCard title="Profil ko‘rinishi (oldindan)" sub="Profilingiz shu tarzda ko‘rinadi." testId="lab-preview">
+            <div className="af-cover">
+              <div className="af-gallery">{photos[0] ? <img src={photos[0].preview || photos[0].url} alt="" /> : <span>Galereya rasmi yo‘q</span>}</div>
+              <span className="logo">{logo ? <img src={logo.preview || logo.url} alt="" /> : <FlaskConical size={26} />}</span>
+            </div>
             <div className="cap">
-              <h3>{form.name.trim() || "Laboratoriya nomi"}</h3>
+              <h3 className="af-name">{form.name.trim() || "Laboratoriya nomi"}<BadgeCheck size={16} color="#0066ff" /></h3>
               <p className="muted">{names || "Mutaxassislik tanlanmagan"}</p>
               <p className="af-line"><MapPin size={14} /> {[form.city, form.district, form.address].filter(Boolean).join(", ") || "Manzil"}</p>
               <p className="muted">{form.delivery ? "Yetkazib berish bor" : "Yetkazib berish yo‘q"} · {form.openTime}–{form.closeTime}</p>
@@ -250,8 +252,7 @@ export function LabForm() {
               <SourceLinks source={form.sourceUrl} instagram={form.instagram} />
               <button type="button" className="af-msg blue">Buyurtma berish</button>
             </div>
-          </article>
-        </aside>
+        </PreviewCard>
       </div>
     </AddPage>
   );
