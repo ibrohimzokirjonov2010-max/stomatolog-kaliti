@@ -5,7 +5,7 @@ import { useEffect, useState, useMemo, type ReactNode } from "react";
 import { useStoredList } from "@/lib/stored-list";
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
-import { ArrowUpDown, Award, BadgeCheck, Building2, ChevronDown, Heart, MapPin, Search, Stethoscope } from "lucide-react";
+import { ArrowUpDown, Award, Building2, ChevronDown, Heart, MapPin, Search, Stethoscope } from "lucide-react";
 import { MarketFrame, type HeaderLink } from "@/components/shop/desktop/MarketFrame";
 import { fetchSpecialists, type PublicSpecialist } from "@/lib/specialists-public";
 import { resolveStoredImage } from "@/lib/media-url";
@@ -48,7 +48,7 @@ export function SpecialistsFrame({
       promoText="Tajribali stomatologlar bilan bog‘laning"
       promoCta="Mutaxassis qidirish"
       promoHref="/mutaxassislar"
-      promoImage="/img/design-pr13/promo/chair.png"
+      promoImage="/img/design-pr13/categories/uskunalar.png"
       promoIcon={<Stethoscope className="mx-cap i" />}
       promoClass="mx-promo"
       onPromo={onPromo}
@@ -116,15 +116,15 @@ export function MutaxassislarDesktop() {
             <p>Tajribali stomatolog mutaxassislar bilan bog‘laning</p>
           </div>
           <div className="mx-badges">
-            <div className="brd-badge"><span className="medal"><Award className="i" /></span><span><b>{ready ? `${people.length} ta mutaxassis` : "…"}</b><span>O‘zbekiston bo‘ylab</span></span></div>
-            <div className="brd-badge"><span className="medal"><BadgeCheck className="i" /></span><span><b>Tekshirilgan profillar</b><span>Haqiqiy mutaxassislar</span></span></div>
+            <div className="brd-badge"><span className="medal"><Award className="i" /></span><span><b>{ready ? `${people.length} ta shifokor` : "…"}</b><span>O‘zbekiston bo‘ylab</span></span></div>
+            <div className="brd-badge"><span className="medal"><MapPin className="i" /></span><span><b>{ready ? `${cities.length} ta shahar` : "…"}</b><span>Shifokorlar joylashuvi</span></span></div>
           </div>
         </div>
         <div className="mx-tools">
           <label className="mx-search"><Search className="i" /><input data-testid="spec-search" aria-label="Mutaxassis qidirish" value={q} placeholder="Mutaxassis yoki mutaxassislik bo‘yicha qidiring..." onChange={(event) => setQ(event.target.value)} /></label>
           <label className="mx-select"><MapPin className="i" /><select data-testid="spec-city" aria-label="Shahar" value={city} onChange={(event) => setCity(event.target.value)}><option value="">Shahar: Barchasi</option>{cities.map((item) => <option key={item}>{item}</option>)}</select><ChevronDown className="i" /></label>
           <label className="mx-select"><Stethoscope className="i" /><select data-testid="spec-specialty" aria-label="Mutaxassislik" value={specialty} onChange={(event) => setSpecialty(event.target.value)}><option value="">Mutaxassislik</option>{specialties.map((item) => <option key={item}>{item}</option>)}</select><ChevronDown className="i" /></label>
-          <label className="mx-select"><ArrowUpDown className="i" /><select aria-label="Saralash" value={sort} onChange={(event) => setSort(event.target.value as "name" | "city" | "kind")}><option value="name">Ism bo‘yicha</option><option value="city">Shahar bo‘yicha</option><option value="kind">Shifokor / usta</option></select><ChevronDown className="i" /></label>
+          <label className="mx-select"><ArrowUpDown className="i" /><select aria-label="Saralash" value={sort} onChange={(event) => setSort(event.target.value as "name" | "city" | "kind")}><option value="name">Ism bo‘yicha</option><option value="city">Shahar bo‘yicha</option></select><ChevronDown className="i" /></label>
         </div>
         {specialties.length ? (
           <div className="mx-chips">
@@ -151,7 +151,7 @@ export function MutaxassislarDesktop() {
                     <button type="button" className={on ? "mx-heart on" : "mx-heart"} aria-label="Saqlash" aria-pressed={on} onClick={() => setSaved(on ? saved.filter((id) => id !== person.id) : [...saved, person.id])}><Heart className="i" /></button>
                   </div>
                   <h3>{person.name}</h3>
-                  <p className="mx-role">{person.specialty || (person.kind === "usta" ? "Usta" : "Stomatolog")}</p>
+                  <p className="mx-role">{person.specialty || "Stomatolog"}</p>
                   <div className="mx-meta">
                     {person.city ? <span><MapPin className="i" /> {person.city}</span> : null}
                     {person.clinic ? <span><Building2 className="i" /> {person.clinic}</span> : null}

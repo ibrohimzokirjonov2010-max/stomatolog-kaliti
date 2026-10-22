@@ -83,3 +83,4 @@
 .sh .lbx-svc .items > div { min-width: 0; }
 .sh .lbx-svc .items strong { font-size: 11.5px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 .sh .lbx-tools { grid-template-columns: minmax(0, 1.2fr) repeat(4, minmax(0, 1fr)); }
+.sh .lbx-svc .ask { margin: 6px 0 0; color: #6b7a90; font-size: 11.5px; }
