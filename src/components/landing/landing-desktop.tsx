@@ -515,7 +515,8 @@ export function LandingDesktop() {
           {people.map((person) => (
             <Link key={person.title} href={person.href} className={`group overflow-hidden rounded-[20px] border bg-[linear-gradient(180deg,#eaf3fd_0%,#f5f9fe_100%)] transition hover:-translate-y-0.5 hover:shadow-[0_14px_28px_rgba(15,23,42,0.08)] ${person.selected ? "border-2 border-[#1d6cf2]" : "border-[#e3ecf7]"}`}>
               <span className="relative block h-[190px] overflow-hidden">
-                <img src={person.image} alt="" className="h-full w-full object-cover object-[center_12%]" />
+                {/* The source cards print a name along the bottom; render taller so the frame cuts it off. */}
+                <img src={person.image} alt="" className="h-[236px] w-full object-cover object-top" />
               </span>
               <span className="flex items-center justify-between gap-2 bg-white/70 px-4 py-3.5">
                 <span>
