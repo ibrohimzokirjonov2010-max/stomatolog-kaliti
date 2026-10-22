@@ -86,7 +86,7 @@
 .sh .dk-card .ph img { width: 100%; height: 100%; object-fit: contain; }
 .sh .dk-badge { position: absolute; top: calc(.35 * var(--u)); left: calc(.35 * var(--u)); height: calc(1.15 * var(--u)); padding: 0 calc(.4 * var(--u)); border-radius: calc(.28 * var(--u)); color: #fff; font-size: calc(.55 * var(--ut)); font-weight: 750; display: inline-flex; align-items: center; }
 .sh .dk-badge.red { background: #ef3b3b; }
-.sh .dk-badge.blue { background: #2f6bff; }
+.sh .dk-badge.blue { background: #0b8f8a; }
 .sh .dk-badge.mint { background: #e7f4ff; color: #1d6fe8; }
 .sh .dk-card .brand { margin-top: calc(.4 * var(--u)); color: #8b9bb0; font-size: calc(.58 * var(--ut)); }
 .sh .dk-card h3 { margin: calc(.08 * var(--u)) 0 calc(.25 * var(--u)); font-size: var(--fs); line-height: 1.25; font-weight: 700; min-height: 0; }
@@ -232,7 +232,7 @@
 .sh .sp-badges { display: flex; gap: calc(.3 * var(--u)); flex-wrap: wrap; margin: calc(.35 * var(--u)) 0; }
 .sh .sp-badge { height: calc(1.25 * var(--u)); padding: 0 calc(.45 * var(--u)); border-radius: calc(.3 * var(--u)); font-size: calc(.58 * var(--ut)); font-weight: 700; display: inline-flex; align-items: center; }
 .sh .sp-badge.green { background: #e5f8ef; color: #128a52; }
-.sh .sp-badge.blue { background: #e7f0ff; color: #2f6bff; }
+.sh .sp-badge.blue { background: #e7f0ff; color: #0b8f8a; }
 .sh .sp-badge.orange { background: #fff1e4; color: #e07a1f; }
 .sh .sp-facts { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: calc(.4 * var(--u)); margin-top: calc(.5 * var(--u)); }
 .sh .sp-low { display: grid; grid-template-columns: minmax(0, 1fr) calc(16.6 * var(--u)); gap: calc(.7 * var(--u)); margin-top: calc(.7 * var(--u)); }

@@ -51,7 +51,7 @@
   font-size: calc(1.316 * var(--uf));
   font-weight: 650;
 }
-.sh .ax-chips button.on { background: #0066ff; border-color: #0066ff; color: #fff; }
+.sh .ax-chips button.on { background: #0b8f8a; border-color: #0b8f8a; color: #fff; }
 .sh .ax-grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: calc(.85 * var(--u)); }
 .sh .ax-card {
   background: #fff;
@@ -112,13 +112,13 @@
 .sh .ax-meta .star { color: #f5b400; fill: #f5b400; font-size: calc(1.395 * var(--uf)); }
 .sh .ax-meta .sold { margin-left: auto; color: #8b9bb0; }
 .sh .ax-buy { display: flex; align-items: flex-end; justify-content: space-between; gap: calc(.4 * var(--u)); margin-top: calc(.35 * var(--u)); }
-.sh .ax-buy b { display: block; color: #0066ff; font-size: calc(1.809 * var(--uf)); font-weight: 800; letter-spacing: -.02em; line-height: 1.1; }
+.sh .ax-buy b { display: block; color: #0b8f8a; font-size: calc(1.809 * var(--uf)); font-weight: 800; letter-spacing: -.02em; line-height: 1.1; }
 .sh .ax-buy s { display: block; margin-top: calc(.08 * var(--u)); color: #a0aec0; font-size: calc(1.316 * var(--uf)); font-weight: 500; }
 .sh .ax-cart {
   width: calc(1.9 * var(--u));
   height: calc(1.9 * var(--u));
   border-radius: calc(.4 * var(--u));
-  background: #0066ff;
+  background: #0b8f8a;
   color: #fff;
   display: grid;
   place-items: center;
@@ -133,7 +133,7 @@
   margin-top: calc(.5 * var(--u));
   height: calc(1.8 * var(--u));
   padding: 0 calc(.9 * var(--u));
-  background: #0066ff;
+  background: #0b8f8a;
   color: #fff;
   border-radius: calc(.4 * var(--u));
   font-weight: 750;
@@ -144,7 +144,7 @@
   height: calc(1.6 * var(--u));
   border-radius: calc(.4 * var(--u));
   background: #fff;
-  color: #0066ff;
+  color: #0b8f8a;
   display: grid;
   place-items: center;
   font-weight: 800;

@@ -380,6 +380,19 @@ export function toMobileBook(book: LiveBook): MobileBook {
   };
 }
 
+/** Courses carry no topic/level columns yet, so derive them from the title and description. */
+function directionOf(text: string): Course["direction"] {
+  const t = text.toLowerCase();
+  if (/implant/.test(t)) return "implantologiya";
+  if (/endo|kanal/.test(t)) return "endodontiya";
+  if (/ortodont|aligner|breket|elayner/.test(t)) return "ortodontiya";
+  if (/ortoped|krona|protez|vinir/.test(t)) return "ortopediya";
+  if (/parodont|gigiyen/.test(t)) return "parodontologiya";
+  if (/digital|cad|cam|skaner|raqamli/.test(t)) return "digital";
+  if (/marketing|boshqaruv|menejment|biznes/.test(t)) return "boshqaruv";
+  return "terapiya";
+}
+
 export function toCourseCard(course: LiveCourse): Course {
   return {
     id: course.id,
@@ -388,8 +401,8 @@ export function toCourseCard(course: LiveCourse): Course {
     teacher: course.teacher,
     role: "O‘qituvchi",
     avatar: course.cover,
-    direction: "terapiya",
-    level: "orta",
+    direction: directionOf(`${course.title} ${course.description}`),
+    level: /boshlang/i.test(course.title) ? "bosh" : /ekspert|advanced|murakkab/i.test(course.title) ? "ekspert" : "orta",
     format: "video",
     price: course.price,
     badge: course.price === 0 ? "bepul" : undefined,
