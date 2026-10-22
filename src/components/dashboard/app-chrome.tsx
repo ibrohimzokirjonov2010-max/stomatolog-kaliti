@@ -25,6 +25,8 @@ import { MutaxassisProfileDesktop } from "@/components/specialists/desktop/Mutax
 import { UstaCatalog } from "@/components/ustalar/desktop/UstaCatalog";
 import { SavatDesktop } from "@/components/savat/desktop/SavatDesktop";
 import { OrdersDesktop } from "@/components/savat/desktop/OrdersDesktop";
+import { OrderDetailDesktop } from "@/components/orders/desktop/OrderDetailDesktop";
+import { TrackDesktop } from "@/components/orders/desktop/TrackDesktop";
 import { ProfilDesktop } from "@/components/profil/desktop/ProfilDesktop";
 import { CertificatesDesktop } from "@/components/crm/desktop/CertificatesDesktop";
 import { PatientsDesktop } from "@/components/crm/desktop/PatientsDesktop";
@@ -215,6 +217,10 @@ function desktopUsta(pathname: string | null): ReactNode | null {
 function desktopCart(pathname: string | null): ReactNode | null {
   if (pathname === "/savat") return <SavatDesktop />;
   if (pathname === "/buyurtmalarim") return <OrdersDesktop />;
+  const track = pathname?.match(/^\/buyurtmalarim\/([^/]+)\/kuzatish$/);
+  if (track) return <TrackDesktop id={decodeURIComponent(track[1])} />;
+  const order = pathname?.match(/^\/buyurtmalarim\/([^/]+)$/);
+  if (order) return <OrderDetailDesktop id={decodeURIComponent(order[1])} />;
   if (pathname === "/profil") return <ProfilDesktop />;
   return null;
 }
