@@ -48,14 +48,9 @@ function apiPayment(): PaymentMethod {
   return "naqd";
 }
 
-/** Design order. Only cash is wired to the order API today; the rest stay visible but disabled. */
+/** Cash on delivery is the only payment method. */
 const PAYS = [
-  { id: "click", title: "Click", hint: "Click orqali to‘lov", live: false },
-  { id: "payme", title: "Payme", hint: "Payme orqali to‘lov", live: false },
-  { id: "uzum", title: "Uzum", hint: "Uzum orqali to‘lov", live: false },
-  { id: "card", title: "Bank kartasi", hint: "Visa, Mastercard, Humo", live: false },
-  { id: "naqd", title: "Naqd to‘lov", hint: "Yetkazishda naqd", live: true },
-  { id: "muddatli", title: "Muddatli to‘lov", hint: "Uzum nasiya / Bank", live: false },
+  { id: "naqd", title: "Naqd to‘lov", hint: "Yetkazib berilganda", live: true },
 ] as const;
 
 const CITIES = ["Toshkent", "Samarqand", "Buxoro", "Farg‘ona", "Andijon", "Namangan"];
@@ -120,7 +115,7 @@ export function CheckoutDesktop() {
   const fee = shopDeliveryFee(lines.map((item) => item.product));
   const delivery = ship === "pickup" ? 0 : fee;
   const total = goods + delivery;
-  const payment = PAYS.find((item) => item.id === pay) ?? PAYS[4];
+  const payment = PAYS.find((item) => item.id === pay) ?? PAYS[0];
   const kinds = (["Uy", "Klinika"] as const).map((label) => ({ label, place: places.find((item) => kindOf(item) === label) ?? null }));
   const others = places.filter((item) => !kindOf(item));
 
@@ -322,7 +317,7 @@ export function CheckoutDesktop() {
                     </button>
                   ))}
                 </div>
-                <div className="ckx-safebar"><ShieldCheck size={30} /><span><b>To‘lovlar xavfsiz</b><small>Hozircha to‘lov yetkazib berilganda naqd qilinadi. Click, Payme va Uzum tez orada ulanadi.</small></span></div>
+                <div className="ckx-safebar"><ShieldCheck size={30} /><span><b>Naqd to‘lov</b><small>To‘lov yetkazib berilganda naqd qilinadi.</small></span></div>
                 <div className="ckx-promorow">
                   <span><b>Promokod</b><small>Agar promokodingiz bo‘lsa, kiriting</small></span>
                   {promoBox}

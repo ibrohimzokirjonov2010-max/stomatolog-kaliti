@@ -10,6 +10,7 @@ import { catalogCardFrom, catalogHref, fetchCatalogProducts, productFromCatalog,
 import { colorLabel, formaColors, formaGenders, formaKinds } from "@/data/forma";
 import { enrollCourse, fetchBooks, fetchCourses, fetchNews, saveLessonDone, type LiveBook, type LiveCourse, type LiveNews } from "@/lib/live-content";
 import { formatMoney } from "@/lib/format";
+import { MarketplaceMobileProduct } from "@/components/market/mobile/MarketplaceMobileProduct";
 
 function Shell({ title, children }: { title: string; children: ReactNode }) {
   return (
@@ -33,6 +34,11 @@ function deliveryLabel(card: CatalogCard) {
 }
 
 export function CatalogDetail({ id, expect }: { id: string; expect?: "forma" | "jihozlar" }) {
+  if (!expect) return <MarketplaceMobileProduct id={id} />;
+  return <CatalogDetailInner id={id} expect={expect} />;
+}
+
+function CatalogDetailInner({ id, expect }: { id: string; expect?: "forma" | "jihozlar" }) {
   const { add } = useCart();
   const { profile } = useDoctorProfile();
   const reviews = useProductReviews(id);

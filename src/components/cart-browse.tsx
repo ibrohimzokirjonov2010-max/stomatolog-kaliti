@@ -167,7 +167,7 @@ export function CartBrowse() {
               Forma katalogi
             </Link>
             <p className="mt-3 text-[12px] leading-relaxed text-[#8b93a7]">
-              To‘lov Click, Payme yoki naqd. Haqiqiy to‘lov shlyuzi yo‘q, pul yechilmaydi.
+              To‘lov yetkazib berilganda naqd qilinadi.
             </p>
           </aside>
         </div>
