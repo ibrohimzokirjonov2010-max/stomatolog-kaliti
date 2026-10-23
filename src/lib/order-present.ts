@@ -80,13 +80,51 @@ function mobileStatus(order: Order): MobileOrderStatus {
   return "jarayonda";
 }
 
+const MOBILE_STEPS: { title: string; statuses: Order["status"][] }[] = [
+  { title: "Buyurtma qabul qilindi", statuses: ["qabul_qilindi"] },
+  { title: "Tayyorlanmoqda", statuses: ["yigilmoqda", "yigish_tugadi"] },
+  { title: "Yetkazilmoqda", statuses: ["yolda"] },
+  { title: "Yetkazildi", statuses: ["yetkazildi"] },
+];
+
+/** Four-step tracker for orders on the way, dated from the status history. */
+function mobileSteps(order: Order): MobileOrder["steps"] {
+  if (order.status !== "yolda") return undefined;
+  const at = MOBILE_STEPS.findIndex((step) => step.statuses.includes(order.status));
+  return MOBILE_STEPS.map((step, index) => {
+    const hit = (order.statusHistory ?? []).filter((entry) => step.statuses.includes(entry.status)).pop();
+    return { title: step.title, when: hit ? shortStamp(hit.at) : "", state: index < at ? "done" : index === at ? "current" : "todo" };
+  });
+}
+
+const MONTHS = ["yan", "fev", "mar", "apr", "may", "iyun", "iyul", "avg", "sen", "okt", "noy", "dek"];
+
+/** "5 okt, 11:20" in Tashkent time. */
+function shortStamp(iso: string) {
+  const full = listStamp(iso);
+  if (!full) return "";
+  const [date, time] = full.split(" ");
+  const [, month, day] = date.split("-");
+  return `${Number(day)} ${MONTHS[Number(month) - 1]}, ${time}`;
+}
+
+/** "2026-10-08 14:30" in Tashkent time. */
+function listStamp(iso: string) {
+  const date = new Date(iso);
+  if (Number.isNaN(date.getTime())) return "";
+  const parts = new Intl.DateTimeFormat("en-GB", { timeZone: "Asia/Tashkent", year: "numeric", month: "2-digit", day: "2-digit", hour: "2-digit", minute: "2-digit", hour12: false }).formatToParts(date);
+  const pick = (type: Intl.DateTimeFormatPartTypes) => parts.find((part) => part.type === type)?.value ?? "";
+  return `${pick("year")}-${pick("month")}-${pick("day")} ${pick("hour")}:${pick("minute")}`;
+}
+
 export function toMobileOrder(order: Order): MobileOrder {
   const lines = productLines(order.items);
   const images = lines.map((item) => item.image).filter(Boolean);
   return {
     id: order.id,
     number: order.id,
-    date: new Date(order.createdAt).toLocaleString("uz-UZ"),
+    date: listStamp(order.createdAt),
+    steps: mobileSteps(order),
     seller: order.shopName || "StomaHub Market",
     status: mobileStatus(order),
     itemCount: lines.reduce((sum, item) => sum + item.qty, 0),
