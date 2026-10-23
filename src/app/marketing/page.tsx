@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { PageTitle } from "@/components/dashboard/ui";
 import { MarketingForm } from "@/components/marketing-form";
+import { MarketingMobile } from "@/components/marketing/MarketingMobile";
 
 export const metadata: Metadata = {
   title: "Marketing",
@@ -8,7 +9,9 @@ export const metadata: Metadata = {
 
 export default function MarketingPage() {
   return (
-    <div className="mx-auto grid max-w-[1100px] grid-cols-1 lg:grid-cols-[280px_minmax(0,1fr)] items-start gap-5">
+    <>
+    <MarketingMobile />
+    <div className="mx-auto hidden max-w-[1100px] items-start gap-5 lg:grid lg:grid-cols-[280px_minmax(0,1fr)]">
       <aside className="rounded-2xl border border-border bg-white p-5">
         <PageTitle
           title="Marketing va dizayn"
@@ -27,5 +30,6 @@ export default function MarketingPage() {
       </aside>
       <MarketingForm />
     </div>
+    </>
   );
 }
