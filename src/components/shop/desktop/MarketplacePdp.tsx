@@ -207,7 +207,7 @@ export function MarketplacePdp({ id }: { id: string }) {
 
         <div className="mpx-top">
           <section>
-            <div className="mpx-stage" onClick={() => shot && setLight(true)} role="button" tabIndex={0} onKeyDown={(event) => { if (event.key === "Enter") setLight(true); }}>
+            <div className={gallery.length > 1 ? "mpx-stage" : "mpx-stage solo"} onClick={() => shot && setLight(true)} role="button" tabIndex={0} onKeyDown={(event) => { if (event.key === "Enter") setLight(true); }}>
               {shot ? <img src={shot} alt={product.name} /> : <span className="mpx-spec">Rasm yo‘q</span>}
               {gallery.length > 1 ? (
                 <>
@@ -301,22 +301,22 @@ export function MarketplacePdp({ id }: { id: string }) {
               </button>
               <button type="button" className="mpx-soft" disabled={stock < 1} onClick={() => addLine(true)}>Hozir xarid qilish</button>
               <button type="button" className="mpx-linebtn" disabled={stock < 1} onClick={() => addLine()}>Tez qayta buyurtma</button>
+              {product.shopName ? (
+                <section className="mpx-seller">
+                  <span className="ava">{product.shopLogo ? <img src={product.shopLogo} alt="" /> : <Store className="i" />}</span>
+                  <span>
+                    <b>{product.shopName} {official ? <BadgeCheck className="i" /> : null}</b>
+                    <small>
+                      {official ? "Rasmiy distribyutor" : "Sotuvchi"}
+                      {product.shopReviews > 0 ? ` · ${product.shopRating.toFixed(1)} (${product.shopReviews})` : ""}
+                      {city ? ` · ${city}` : ""}
+                      {shopCount > 0 ? ` · ${shopCount} ta mahsulot` : ""}
+                    </small>
+                  </span>
+                  {product.shopSlug ? <Link href={`/marketplace/dokon/${product.shopSlug}`}>Sotuvchi profili <ChevronRight className="i" /></Link> : null}
+                </section>
+              ) : null}
             </section>
-            {product.shopName ? (
-              <section className="mpx-seller">
-                <span className="ava">{product.shopLogo ? <img src={product.shopLogo} alt="" /> : <Store className="i" />}</span>
-                <span>
-                  <b>{product.shopName} {official ? <BadgeCheck className="i" /> : null}</b>
-                  <small>
-                    {official ? "Rasmiy distribyutor" : "Sotuvchi"}
-                    {product.shopReviews > 0 ? ` · ${product.shopRating.toFixed(1)} (${product.shopReviews})` : ""}
-                    {city ? ` · ${city}` : ""}
-                    {shopCount > 0 ? ` · ${shopCount} ta mahsulot` : ""}
-                  </small>
-                </span>
-                {product.shopSlug ? <Link href={`/marketplace/dokon/${product.shopSlug}`}>Sotuvchi profili <ChevronRight className="i" /></Link> : null}
-              </section>
-            ) : null}
           </aside>
         </div>
 

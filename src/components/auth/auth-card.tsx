@@ -1,12 +1,22 @@
 "use client";
-/* eslint-disable @next/next/no-img-element -- the brand mark is a small static SVG */
 
 import { useState, type InputHTMLAttributes, type ReactNode } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { ArrowLeft, BarChart3, Eye, EyeOff, GraduationCap, ShoppingCart } from "lucide-react";
-import { Logo } from "@/components/logo";
-import { DESKTOP_LOGO_SRC } from "@/components/desktop/desktop-header";
+function AuthMark({ className }: { className?: string }) {
+  return (
+    <svg viewBox="0 0 32 32" className={className} aria-hidden="true">
+      <path
+        fill="none"
+        stroke="#0F766E"
+        strokeWidth="2.6"
+        strokeLinejoin="round"
+        d="M10 4.5c-3.1 0-5.5 2.5-5.5 5.9 0 2.4.8 4.2 1.5 6.2.7 1.9 1 4.2 1.4 6.9.3 2.1 1.2 3.7 2.5 3.7 1.5 0 2-1.7 2.4-3.9.4-2.1 1-4.5 3.7-4.5s3.3 2.4 3.7 4.5c.4 2.2.9 3.9 2.4 3.9 1.3 0 2.2-1.6 2.5-3.7.4-2.7.7-5 1.4-6.9.7-2 1.5-3.8 1.5-6.2 0-3.4-2.4-5.9-5.5-5.9-2.2 0-3.6 1.1-6 1.1s-3.8-1.1-6-1.1z"
+      />
+    </svg>
+  );
+}
 
 const FEATURES = [
   { icon: ShoppingCart, title: "Marketplace", text: "Stomatologik mahsulotlar, uskunalar va materiallar" },
@@ -18,10 +28,10 @@ const FEATURES = [
 function AuthBrand({ caption, center }: { caption: string; center?: boolean }) {
   return (
     <span className={`flex items-center gap-3 ${center ? "justify-center" : ""}`}>
-      <img src={DESKTOP_LOGO_SRC} alt="" className="h-11 w-10 object-contain" />
+      <AuthMark className="h-11 w-10" />
       <span className="leading-tight">
         <span className="block text-[30px] font-extrabold tracking-tight text-[#16324f]">
-          Stoma<span className="text-[#0b8f8a]">Hub</span>
+          Stoma<span className="text-[#0F766E]">Hub</span>
         </span>
         <span className="block text-[12.5px] text-[#5d6e86]">{caption}</span>
       </span>
@@ -55,7 +65,7 @@ export function AuthCard({
           </Link>
           <div>
             <h2 className="max-w-[min(480px,42vw)] text-[clamp(32px,3vw,48px)] leading-[1.08] font-extrabold tracking-tight text-[#0f1e3d]">
-              Stomatologlar uchun <span className="text-[#1d6cf2]">yagona platforma</span>
+              Stomatologlar uchun <span className="text-[#0F766E]">yagona platforma</span>
             </h2>
             <p className="mt-4 max-w-[420px] text-[clamp(14px,1.2vw,17px)] leading-relaxed text-[#4a5a72]">
               Do‘kon, ta’lim va klinika boshqaruvini bir joyda. Stomatologlar uchun zamonaviy ekosistema.
@@ -86,7 +96,12 @@ export function AuthCard({
             <ArrowLeft className="size-4" />
             Orqaga
           </Link>
-          <Logo compact />
+          <span className="inline-flex items-center gap-2" aria-label="StomaHub">
+            <AuthMark className="h-9 w-8" />
+            <span className="text-[16px] font-extrabold tracking-[0.08em] text-[#0F172A]">
+              STOMA<span className="text-[#0F766E]">HUB</span>
+            </span>
+          </span>
         </div>
 
         <div className="w-full max-w-[500px] rounded-[22px] border border-[#e8eef4] bg-white px-6 py-7 shadow-[0_16px_48px_rgba(15,23,42,0.08)] sm:px-8">
@@ -102,9 +117,9 @@ export function AuthCard({
         </div>
 
         <nav aria-label="Huquqiy havolalar" className="mt-5 flex flex-wrap items-center justify-center gap-x-4 gap-y-1 text-[13px] text-[#8b93a7]">
-          <Link href="/maxfiylik" className="hover:text-[#1d6cf2] hover:underline">Maxfiylik siyosati</Link>
-          <Link href="/shartlar" className="hover:text-[#1d6cf2] hover:underline">Foydalanish shartlari</Link>
-          <Link href="/hisobni-ochirish" className="hover:text-[#1d6cf2] hover:underline">Hisobni o‘chirish</Link>
+          <Link href="/maxfiylik" className="hover:text-[#0F766E] hover:underline">Maxfiylik siyosati</Link>
+          <Link href="/shartlar" className="hover:text-[#0F766E] hover:underline">Foydalanish shartlari</Link>
+          <Link href="/hisobni-ochirish" className="hover:text-[#0F766E] hover:underline">Hisobni o‘chirish</Link>
         </nav>
       </main>
     </div>
@@ -140,7 +155,7 @@ export function authInputClassName(extra?: string) {
   return [
     "h-12 w-full rounded-xl border border-[#e3e9f1] bg-white px-4 text-[16px] text-[#1a1d26]",
     "outline-none transition placeholder:text-[#9aa5b8]",
-    "focus:border-[#1d6cf2] focus:ring-3 focus:ring-[#1d6cf2]/15",
+    "focus:border-[#0F766E] focus:ring-3 focus:ring-[#0F766E]/15",
     extra ?? "",
   ].join(" ");
 }
@@ -148,7 +163,7 @@ export function authInputClassName(extra?: string) {
 /** Phone input with a fixed +998 prefix; the value is the national 9 digits as typed. */
 export function PhoneInput({ value, onChange }: { value: string; onChange: (value: string) => void }) {
   return (
-    <span className="flex h-12 w-full items-center overflow-hidden rounded-xl border border-[#e3e9f1] bg-white transition focus-within:border-[#1d6cf2] focus-within:ring-3 focus-within:ring-[#1d6cf2]/15">
+    <span className="flex h-12 w-full items-center overflow-hidden rounded-xl border border-[#e3e9f1] bg-white transition focus-within:border-[#0F766E] focus-within:ring-3 focus-within:ring-[#0F766E]/15">
       <span className="flex h-full shrink-0 items-center gap-2 border-r border-[#eef2f7] px-3.5 text-[15px] font-semibold text-[#1a1d26]">
         <span aria-hidden className="flex h-3.5 w-5 flex-col overflow-hidden rounded-[2px] ring-1 ring-black/10">
           <i className="flex-1 bg-[#1eb4e6]" />
@@ -193,7 +208,7 @@ export function PasswordInput(props: InputHTMLAttributes<HTMLInputElement>) {
 
 export function AuthLink({ href, children }: { href: string; children: ReactNode }) {
   return (
-    <Link href={href} className="font-semibold text-[#1d6cf2] hover:underline">
+    <Link href={href} className="font-semibold text-[#0F766E] hover:underline">
       {children}
     </Link>
   );
@@ -210,7 +225,7 @@ export function AuthPrimaryButton({
     <button
       type="submit"
       disabled={disabled}
-      className="flex h-12 w-full items-center justify-center gap-2 rounded-xl bg-[#1d6cf2] text-[16px] font-bold text-white shadow-[0_8px_20px_rgba(29,108,242,0.25)] transition hover:bg-[#1557d0] disabled:opacity-60"
+      className="flex h-12 w-full items-center justify-center gap-2 rounded-xl bg-[#0F766E] text-[16px] font-bold text-white shadow-[0_8px_20px_rgba(15,118,110,0.25)] transition hover:bg-[#115E59] disabled:opacity-60"
     >
       {children}
     </button>
