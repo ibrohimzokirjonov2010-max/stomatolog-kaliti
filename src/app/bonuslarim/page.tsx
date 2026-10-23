@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { BonusBalanceCard, BonusNotice } from "@/components/bonus/bonus";
+import { BonuslarimMobile } from "@/components/bonus/mobile/BonuslarimMobile";
 
 export const metadata: Metadata = {
   title: "Bonuslarim",
@@ -9,7 +10,9 @@ export const metadata: Metadata = {
 
 export default function BonuslarimPage() {
   return (
-    <div className="mx-auto max-w-2xl">
+    <>
+    <BonuslarimMobile />
+    <div className="mx-auto hidden max-w-2xl lg:block">
       <header className="mb-4">
         <p className="text-[13px] text-[#8b93a7]">
           <Link href="/marketplace" className="text-[#0066FF] hover:underline">Marketplace</Link>
@@ -26,5 +29,6 @@ export default function BonuslarimPage() {
         <BonusBalanceCard />
       </div>
     </div>
+    </>
   );
 }
