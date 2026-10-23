@@ -371,3 +371,17 @@
   .cm-method .logo, .cm-method .logo svg { width: 22px; height: 22px; }
   .cm-method .tick { width: 15px; height: 15px; top: 3px; right: 3px; }
 }
+/* Phone treatment-plan form (mock "yangi davolash rejasi telefon"). */
+@media (max-width: 760px) {
+  .cm-overlay .cm-chart { grid-template-columns: minmax(0, 1fr); gap: 10px; }
+  .cm-overlay .cm-legend { flex-direction: row; flex-wrap: wrap; gap: 5px; padding: 0; background: transparent; }
+  .cm-overlay .cm-legend button { padding: 5px 9px; border-radius: 999px; background: var(--cm-fill); font-size: 10.5px; }
+  .cm-overlay .cm-legend button.on { background: #e6f7f6; }
+  .cm-overlay .cm-jaw .cm-tooth small { font-size: 9px; }
+  .cm-overlay .cm-plan-1 { grid-template-columns: minmax(0, 1fr); }
+  .cm-overlay .cm-plan-2 { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); }
+  .cm-overlay .cm-plan-2 > :first-child { grid-column: 1 / -1; }
+  .cm-overlay .cm-plan-foot { flex-direction: row-reverse; align-items: center; gap: 10px; flex: 1; justify-content: flex-start; }
+  .cm-overlay .cm-plan-foot .cm-go { flex: 1; min-width: 0; height: 44px; }
+  .cm-overlay .cm-plan-foot .cm-check { font-size: 10.5px; max-width: 90px; line-height: 1.2; }
+}

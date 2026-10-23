@@ -346,7 +346,7 @@ export function NewPlanModal({ onClose, onSave }: { onClose: () => void; onSave:
               ))}
             </div>
           </div>
-          <p className="cm-chart-note">Holatni o‘ngdan tanlang va tishni bosing.{marked.length ? ` Belgilangan: ${marked.join(", ")}` : ""}</p>
+          <p className="cm-chart-note">Holatni tanlang va tishni bosing.{marked.length ? ` Belgilangan: ${marked.join(", ")}` : ""}</p>
         </section>
 
         <div className="cm-fin">
