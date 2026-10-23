@@ -16,7 +16,7 @@
   height: calc(3.3 * var(--u));
   padding: 0 calc(1 * var(--u));
   border-radius: calc(1.6 * var(--u));
-  background: #12b981;
+  background: #0b7f7d;
   color: #fff;
   font-weight: 800;
   font-size: calc(1.15 * var(--u));
@@ -62,7 +62,7 @@
   white-space: nowrap;
   flex: none;
 }
-.om-chips button.on { background: #12b981; color: #fff; }
+.om-chips button.on { background: #0b7f7d; color: #fff; }
 .om-tools { display: flex; align-items: center; justify-content: space-between; gap: calc(.5 * var(--u)); }
 .om-tools b { font-size: calc(1.15 * var(--u)); }
 .om-tools select {
@@ -108,7 +108,7 @@
 .om-tags span { border-radius: calc(.4 * var(--u)); padding: calc(.08 * var(--u)) calc(.35 * var(--u)); font-size: calc(.92 * var(--u)); font-weight: 700; background: #eef2f6; color: #5c6b82; }
 .om-tags span.ok { background: #e7f8ef; color: #0d9f6e; }
 .om-price { display: flex; flex-wrap: wrap; align-items: baseline; gap: calc(.25 * var(--u)); }
-.om-price b { color: #0066ff; font-size: calc(1.15 * var(--u)); }
+.om-price b { color: #0b7f7d; font-size: calc(1.15 * var(--u)); }
 .om-price s { color: #9aa3b5; font-size: calc(.95 * var(--u)); }
 .om-price em { font-style: normal; background: #ffe8ee; color: #e11d48; border-radius: calc(.4 * var(--u)); padding: 0 calc(.3 * var(--u)); font-size: calc(.92 * var(--u)); font-weight: 800; }
 .om-pin { display: flex; align-items: center; gap: calc(.2 * var(--u)); color: #8b93a7; font-size: calc(1 * var(--u)); }
@@ -135,7 +135,7 @@
 .om-thumbs { display: flex; gap: calc(.45 * var(--u)); padding: calc(.5 * var(--u)) calc(1.4 * var(--u)) calc(.7 * var(--u)); overflow-x: auto; scrollbar-width: none; }
 .om-thumbs::-webkit-scrollbar { display: none; }
 .om-thumbs button { width: calc(5.2 * var(--u)); height: calc(4.2 * var(--u)); border-radius: calc(.6 * var(--u)); border: 1px solid #e6ebf3; background: #fff; padding: 0; flex: none; overflow: hidden; }
-.om-thumbs button.on { border-color: #0066ff; }
+.om-thumbs button.on { border-color: #0b7f7d; }
 .om-thumbs img { width: 100%; height: 100%; object-fit: cover; }
 .om-pills { display: flex; flex-wrap: wrap; gap: calc(.35 * var(--u)); }
 .om-pills span { background: #ffe8ee; color: #e11d48; border-radius: calc(.45 * var(--u)); padding: calc(.15 * var(--u)) calc(.45 * var(--u)); font-size: calc(1.05 * var(--u)); font-weight: 700; }
@@ -148,7 +148,7 @@
 .om-box { margin-top: calc(.7 * var(--u)); background: #fff; border-radius: calc(1.1 * var(--u)); padding: calc(.7 * var(--u)); }
 .om-box .label { color: #8b93a7; font-size: calc(1.05 * var(--u)); }
 .om-now { display: flex; align-items: center; gap: calc(.4 * var(--u)); }
-.om-now b { font-size: calc(1.9 * var(--u)); color: #0066ff; }
+.om-now b { font-size: calc(1.9 * var(--u)); color: #0b7f7d; }
 .om-now em { font-style: normal; background: #ffe8ee; color: #e11d48; border-radius: calc(.4 * var(--u)); padding: calc(.08 * var(--u)) calc(.35 * var(--u)); font-weight: 800; font-size: calc(1.05 * var(--u)); }
 .om-box p { margin: calc(.2 * var(--u)) 0 0; color: #6a7c93; font-size: calc(1.08 * var(--u)); }
 .om-box p.save { color: #0d9f6e; font-weight: 700; }
@@ -166,8 +166,8 @@
   height: calc(3.2 * var(--u));
   padding: 0 calc(.7 * var(--u));
   border-radius: calc(1.4 * var(--u));
-  border: 1px solid #12b981;
-  color: #0f9f75;
+  border: 1px solid #0b7f7d;
+  color: #0b7f7d;
   font-weight: 800;
   font-size: calc(1.05 * var(--u));
   white-space: nowrap;
@@ -201,8 +201,8 @@
   font-size: calc(1.15 * var(--u));
   color: #fff;
 }
-.om-buy .cart { background: #0066ff; }
-.om-buy .chat { background: #12b981; }
+.om-buy .cart { background: #0b7f7d; }
+.om-buy .chat { background: #0b7f7d; }
 .om-buy svg { width: calc(1.4 * var(--u)); height: calc(1.4 * var(--u)); }
 .om-pad { height: 72px; }
 .om-note { background: #e7f8ef; color: #0d7a52; border-radius: calc(.7 * var(--u)); padding: calc(.4 * var(--u)) calc(.6 * var(--u)); font-size: calc(1.08 * var(--u)); font-weight: 700; }
@@ -220,4 +220,4 @@
   background: #fff;
 }
 .om-panel .row { display: flex; gap: calc(.4 * var(--u)); }
-.om-panel .go { flex: 1; height: calc(3.4 * var(--u)); border-radius: calc(.8 * var(--u)); background: #12b981; color: #fff; font-weight: 800; }
+.om-panel .go { flex: 1; height: calc(3.4 * var(--u)); border-radius: calc(.8 * var(--u)); background: #0b7f7d; color: #fff; font-weight: 800; }

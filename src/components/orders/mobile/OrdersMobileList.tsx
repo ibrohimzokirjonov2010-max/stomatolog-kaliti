@@ -144,7 +144,7 @@ export function OrdersMobileList() {
     <div className="od lg:hidden" data-testid="mobile-buyurtmalar">
       <header className="mh-bar">
         <MobileMenuButton />
-        <Link href="/" className="mh-logo">STOMAHUB</Link>
+        <Link href="/" className="mh-logo">STOMA<span>HUB</span></Link>
         <button type="button" className="mh-ic" aria-label="Qidiruv" aria-expanded={searchOpen} onClick={() => setSearchOpen((open) => !open)}>
           <Search />
         </button>

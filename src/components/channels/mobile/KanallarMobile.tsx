@@ -56,7 +56,7 @@ export function KanallarMobile() {
     <div className="fk lg:hidden" data-testid="mobile-kanallar">
       <header className="mh-bar">
         <MobileMenuButton />
-        <Link href="/" className="mh-logo">STOMAHUB</Link>
+        <Link href="/" className="mh-logo">STOMA<span>HUB</span></Link>
         <button type="button" className="mh-ic" aria-label="Qidirish" onClick={() => document.querySelector<HTMLInputElement>("[data-channel-search]")?.focus()}>
           <Search />
         </button>

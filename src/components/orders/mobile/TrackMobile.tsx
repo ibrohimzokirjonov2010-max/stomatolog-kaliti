@@ -56,7 +56,7 @@ export function TrackMobile({ order }: { order: MobileOrder | undefined }) {
     <div className="tr lg:hidden" data-testid="mobile-track">
       <header className="mh-bar">
         <MobileMenuButton />
-        <Link href="/" className="mh-logo">STOMAHUB</Link>
+        <Link href="/" className="mh-logo">STOMA<span>HUB</span></Link>
         <Link href="/savat" className="mh-ic" aria-label="Savat">
           <ShoppingCart />
           {lines > 0 ? <span className="mh-badge" data-testid="tr-cart-badge">{lines > 9 ? "9+" : lines}</span> : null}

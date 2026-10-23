@@ -25,11 +25,13 @@
 .mh-logo {
   margin-right: auto;
   font-size: calc(1.85 * var(--u));
-  font-weight: 800;
-  letter-spacing: 0.04em;
-  color: #0066ff;
+  font-weight: 900;
+  letter-spacing: 0.02em;
+  color: #0b1a3a;
   line-height: 1;
 }
+.mh-logo span { color: #0b7f7d; }
+.mh-bar .mh-ic { background: #eef3f7; border-radius: 50%; width: calc(3.2 * var(--u)); height: calc(3.2 * var(--u)); }
 .mh-ic {
   position: relative;
   width: calc(3.4 * var(--u));

@@ -101,7 +101,7 @@ export function UstalarMobileList() {
     <div className="ut lg:hidden" data-testid="mobile-ustalar">
       <header className="mh-bar">
         <MobileMenuButton />
-        <Link href="/" className="mh-logo">STOMAHUB</Link>
+        <Link href="/" className="mh-logo">STOMA<span>HUB</span></Link>
         <button type="button" className="mh-ic" aria-label="Qidirish" onClick={() => document.querySelector<HTMLInputElement>("[data-usta-search]")?.focus()}>
           <Search />
         </button>

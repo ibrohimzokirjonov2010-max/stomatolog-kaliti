@@ -143,7 +143,7 @@ export function JihozMobileCatalog() {
     <div className="jz lg:hidden" data-testid="mobile-jihoz">
       <header className="mh-bar">
         <MobileMenuButton />
-        <Link href="/" className="mh-logo">STOMAHUB</Link>
+        <Link href="/" className="mh-logo">STOMA<span>HUB</span></Link>
         <button type="button" className="mh-ic" aria-label="Qidirish" onClick={() => document.querySelector<HTMLInputElement>("[data-jihoz-search]")?.focus()}>
           <Search />
         </button>
@@ -225,7 +225,7 @@ export function JihozMobileCatalog() {
                 <div className="jz-buyrow">
                   <div>
                     <b>{formatMoney(item.price, "UZS")}</b>
-                    <span className="jz-month">Oyiga {formatMoney(item.monthly, "UZS")} dan</span>
+                    {item.monthly > 0 ? <span className="jz-month">Oyiga {formatMoney(item.monthly, "UZS")} dan</span> : null}
                   </div>
                   <button
                     type="button"

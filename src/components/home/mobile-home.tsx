@@ -90,7 +90,7 @@ export function MobileHome() {
     <div className="mh lg:hidden" data-testid="mobile-home">
       <header className="mh-bar">
         <MobileMenuButton />
-        <Link href="/" className="mh-logo">STOMAHUB</Link>
+        <Link href="/" className="mh-logo">STOMA<span>HUB</span></Link>
         <button type="button" className="mh-ic" aria-label="Qidirish" onClick={() => document.querySelector<HTMLInputElement>("[data-section-search]")?.focus()}>
           <Search />
         </button>

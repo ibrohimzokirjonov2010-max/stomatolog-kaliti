@@ -76,7 +76,7 @@ export function TalimMobile() {
       <header className="mh-bar">
         <MobileMenuButton />
         <Link href="/" className="mh-logo">
-          STOMAHUB
+          STOMA<span>HUB</span>
         </Link>
         <button type="button" className="mh-ic" aria-label="Qidirish" onClick={() => document.querySelector<HTMLInputElement>("[data-talim-search]")?.focus()}>
           <Search />

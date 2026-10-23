@@ -104,7 +104,7 @@ export function YangiliklarMobileList() {
     <div className="nw lg:hidden" data-testid="mobile-yangiliklar">
       <header className="mh-bar">
         <MobileMenuButton />
-        <Link href="/" className="mh-logo">STOMAHUB</Link>
+        <Link href="/" className="mh-logo">STOMA<span>HUB</span></Link>
         <button type="button" className="mh-ic" aria-label="Qidirish" onClick={() => document.querySelector<HTMLInputElement>("[data-news-search]")?.focus()}>
           <Search />
         </button>
