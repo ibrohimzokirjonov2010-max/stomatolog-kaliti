@@ -36,9 +36,9 @@ import { AppointmentsDesktop } from "@/components/crm/desktop/AppointmentsDeskto
 import { PlansDesktop } from "@/components/crm/desktop/PlansDesktop";
 import { PaymentsDesktop } from "@/components/crm/desktop/PaymentsDesktop";
 import { StockDesktop } from "@/components/crm/desktop/StockDesktop";
-import { CrmStubDesktop } from "@/components/crm/desktop/CrmStubDesktop";
 import { PatientProfileDesktop } from "@/components/crm/desktop/PatientProfileDesktop";
 import { ReportsDesktop } from "@/components/crm/desktop/ReportsDesktop";
+import { ServicesDesktop } from "@/components/crm/desktop/ServicesDesktop";
 import { CheckoutDesktop } from "@/components/checkout/desktop/CheckoutDesktop";
 import { BookProductDesktop } from "@/components/books/desktop/BookProductDesktop";
 import { ReaderDesktop } from "@/components/books/desktop/ReaderDesktop";
@@ -239,7 +239,7 @@ function desktopCrm(pathname: string | null): ReactNode | null {
   if (pathname === "/crm/davolash-rejalari" || pathname === "/crm/davolash-rejalari/yangi") return <PlansDesktop />;
   if (pathname === "/crm/tolovlar" || pathname === "/crm/tolovlar/yangi") return <PaymentsDesktop />;
   if (pathname === "/crm/ombor") return <StockDesktop />;
-  if (pathname === "/crm/xizmatlar") return <CrmStubDesktop active="services" title="Xizmatlar" text="Klinika xizmatlari narxlari shu bo‘limda yuritiladi." />;
+  if (pathname === "/crm/xizmatlar") return <ServicesDesktop />;
   if (pathname === "/crm/hisobotlar") return <ReportsDesktop />;
   if (pathname === "/elonlar") return <ListingsDesktop />;
   if (pathname === "/elonlar/yangi") return null;
