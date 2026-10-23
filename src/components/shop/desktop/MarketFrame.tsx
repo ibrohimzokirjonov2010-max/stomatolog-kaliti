@@ -39,6 +39,7 @@ export function MarketFrame({
   promoIcon,
   promoClass,
   onPromo,
+  showPromo = true,
   headerLinks = headerNav,
   headerActive = "market",
   searchPlaceholder = "Mahsulot, brend yoki kategoriya qidiring...",
@@ -56,6 +57,7 @@ export function MarketFrame({
   promoIcon?: ReactNode;
   promoClass?: string;
   onPromo?: () => void;
+  showPromo?: boolean;
   headerLinks?: HeaderLink[];
   headerActive?: string;
   searchPlaceholder?: string;
@@ -98,7 +100,7 @@ export function MarketFrame({
         <DesktopSidebar />
         <main className="brd-main">
           {children}
-          {promo}
+          {showPromo ? promo : null}
         </main>
       </div>
     </div>
