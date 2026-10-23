@@ -740,6 +740,7 @@ function isProductDetailPath(path: string) {
   if (!path.startsWith("/marketplace/")) return false;
   if (path.startsWith("/marketplace/dokon")) return false;
   if (path.startsWith("/marketplace/sotuvchi")) return false;
+  if (path.startsWith("/marketplace/brendlar")) return false;
   return true;
 }
 
