@@ -271,7 +271,6 @@ export function MobileTopbar() {
   )
     return null;
   // Vacancy detail draws its own hero header (back · heart · share).
-  if (/^\/laboratoriya\/[^/]+\/?$/.test(pathname) && !pathname.startsWith("/laboratoriya/buyurtmalarim") && !pathname.startsWith("/laboratoriya/mening") && !pathname.startsWith("/laboratoriya/yangi")) return null;
   if (/^\/ishlar\/[^/]+\/?$/.test(pathname) && !pathname.startsWith("/ishlar/arizalarim") && !pathname.startsWith("/ishlar/vakansiyalarim") && !pathname.startsWith("/ishlar/yangi")) return null;
   if (/^\/jihozlar\/[^/]+\/?$/.test(pathname)) return null;
   if (/^\/yangiliklar\/[^/]+\/?$/.test(pathname)) return null;

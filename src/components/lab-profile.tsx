@@ -28,6 +28,7 @@ import {
   X,
 } from "lucide-react";
 import { Modal, OrderForm } from "@/components/lab-browse";
+import { LabProfilePhone } from "@/components/labs/mobile/LabProfilePhone";
 import { useLabWork } from "@/components/lab-provider";
 import { findPhoneLab } from "@/data/phone14";
 import { instagramHref, instagramValue, sourceUrlValue } from "@/lib/add-forms";
@@ -120,7 +121,14 @@ export function LabProfile({ id }: { id: string }) {
         </Link>
       </div>
     );
-  return <LabProfileView lab={lab} />;
+  return (
+    <>
+      <LabProfilePhone lab={lab} />
+      <div className="hidden lg:block">
+        <LabProfileView lab={lab} />
+      </div>
+    </>
+  );
 }
 
 function LabProfileView({ lab }: { lab: Lab }) {
