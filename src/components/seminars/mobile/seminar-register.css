@@ -336,3 +336,24 @@
 .rg-miss { padding: 24px 12px; text-align: center; }
 .rg-miss a { color: #0b7f7d; font-weight: 700; }
 .rg-brand b { color: #0b1a3a; } .rg-brand b span { color: #0b7f7d; }
+/* Step 2 mockup pass: one-line brand, centred stepper, row payment cards. */
+.rg-brand b span { display: inline; margin: 0; font-size: inherit; }
+.rg-brand b { font-size: 18px; letter-spacing: 0.02em; }
+.rg-steps { margin: 4px 24px 12px; }
+.rg-pay { display: grid; grid-template-columns: 34px minmax(0, 1fr); column-gap: 10px; align-content: center; padding: 12px 28px 12px 10px; min-height: 72px; }
+.rg-pay > .rg-mark, .rg-pay > i.ic { grid-row: 1 / span 3; align-self: center; width: 34px !important; height: 34px !important; margin: 0 !important; border-radius: 50% !important; }
+.rg-pay > .rg-mark { font-size: 15px; }
+.rg-pay > b, .rg-pay > small, .rg-pay > .rg-logos { grid-column: 2; }
+.rg-logos span { font-size: 7.5px; padding: 3px 4px; color: #fff !important; }
+.rg-logos .uz { background: #13355f; }
+.rg-logos .hu { background: #0e2f4f; color: #f5c518 !important; }
+.rg-logos .vi { background: none; color: #1a3fa6 !important; font-style: italic; font-size: 10px; padding: 1px 2px; }
+.rg-block h2 svg { padding: 5px; width: 28px !important; height: 28px !important; border-radius: 8px; background: #e3f6f5; color: #0b7f7d; }
+.rg-pay { grid-template-columns: 30px minmax(0, 1fr); column-gap: 8px; padding: 10px 22px 10px 8px; }
+.rg-pay > .rg-mark, .rg-pay > i.ic { width: 30px !important; height: 30px !important; }
+.rg-pay b { font-size: 12.5px; white-space: nowrap; }
+.rg-pay small { font-size: 10px; }
+.rg-pay .rg-dot { top: 7px; right: 7px; width: 16px; height: 16px; }
+.rg-logos { flex-wrap: wrap; gap: 3px; }
+.rg-logos span { font-size: 7px; padding: 2px 3px; }
+.rg-logos .vi { font-size: 9px; }
