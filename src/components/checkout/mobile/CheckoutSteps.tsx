@@ -39,19 +39,14 @@ import { createOrder, type PaymentMethod } from "@/lib/orders";
 import "./checkout-steps.css";
 
 type Step = 1 | 2 | 3 | "success";
-type PayId = "click" | "payme" | "uzum" | "card" | "naqd" | "installment";
+type PayId = "naqd";
 type ShipId = "courier" | "pickup";
 
 const CITIES = ["Toshkent", "Samarqand", "Buxoro", "Andijon", "Farg‘ona", "Namangan", "Nukus", "Qarshi"];
 const TASHKENT = ["Yunusobod", "Chilonzor", "Shayxontohur", "Mirzo Ulug‘bek", "Yakkasaroy", "Sergeli", "Uchtepa", "Olmazor", "Mirobod", "Yashnobod", "Bektemir"];
 
 const PAYS: { id: PayId; title: string; hint: string; mark: string; color: string; soon?: boolean }[] = [
-  { id: "naqd", title: "Naqd pul", hint: "Yetkazilganda yoki olib ketganda", mark: "cash", color: "#12b981" },
-  { id: "click", title: "Click", hint: "Tez orada", mark: "C", color: "#00b4d8", soon: true },
-  { id: "payme", title: "Payme", hint: "Tez orada", mark: "P", color: "#14b87a", soon: true },
-  { id: "uzum", title: "Uzum", hint: "Tez orada", mark: "U", color: "#7c3aed", soon: true },
-  { id: "card", title: "Bank kartasi", hint: "Tez orada", mark: "card", color: "#0066ff", soon: true },
-  { id: "installment", title: "Muddatli to‘lov", hint: "Tez orada", mark: "pie", color: "#f59e0b", soon: true },
+  { id: "naqd", title: "Naqd to‘lov", hint: "Yetkazib berilganda", mark: "cash", color: "#0F766E" },
 ];
 
 const STEPS = [

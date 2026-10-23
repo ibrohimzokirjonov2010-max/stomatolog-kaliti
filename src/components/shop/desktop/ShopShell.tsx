@@ -10,16 +10,18 @@ export function ShopShell({
   cartCount,
   placeholder,
   showCamera = true,
+  className,
   children,
 }: {
   searchPath: string;
   cartCount: number;
   placeholder?: string;
   showCamera?: boolean;
+  className?: string;
   children: ReactNode;
 }) {
   return (
-    <div className="sh dh">
+    <div className={className ? `sh dh ${className}` : "sh dh"}>
       <Topbar variant="shop" searchPath={searchPath} cartCount={cartCount} placeholder={placeholder} showCamera={showCamera} />
       <div className="sh-body">
         <Sidebar />

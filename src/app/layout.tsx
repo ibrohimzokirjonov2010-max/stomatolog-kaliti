@@ -1,6 +1,6 @@
 import type { Metadata, Viewport } from "next";
 import type { ReactNode } from "react";
-import { Outfit, Plus_Jakarta_Sans } from "next/font/google";
+import { Inter, Manrope, Outfit, Plus_Jakarta_Sans } from "next/font/google";
 import { CartProvider } from "@/components/cart-provider";
 import { FavoritesProvider } from "@/components/favorites-provider";
 import { SeminarRegsProvider } from "@/components/seminar-provider";
@@ -25,6 +25,18 @@ const outfit = Outfit({
 const plusJakarta = Plus_Jakarta_Sans({
   variable: "--font-plus-jakarta",
   subsets: ["latin", "latin-ext"],
+  display: "swap",
+});
+
+const inter = Inter({
+  variable: "--font-inter",
+  subsets: ["latin", "latin-ext", "cyrillic"],
+  display: "swap",
+});
+
+const manrope = Manrope({
+  variable: "--font-manrope",
+  subsets: ["latin", "latin-ext", "cyrillic"],
   display: "swap",
 });
 
@@ -84,7 +96,7 @@ export default function RootLayout({
   return (
     <html
       lang="uz"
-      className={`${outfit.variable} ${plusJakarta.variable} h-full antialiased`}
+      className={`${outfit.variable} ${plusJakarta.variable} ${inter.variable} ${manrope.variable} h-full antialiased`}
     >
       <body className="h-full overflow-hidden bg-background text-foreground">
         <a

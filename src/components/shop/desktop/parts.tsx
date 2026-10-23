@@ -3,10 +3,8 @@
 import { useState, type ReactNode } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { Check, ChevronDown, Headphones, MessageCircle, Minus, Plus, ShieldCheck, Star, Trash2, Truck, Undo2, X } from "lucide-react";
-import { useCart } from "@/components/cart-provider";
-import { freeDeliveryText, returnWindowText } from "@/lib/commerce-terms";
-import type { Product } from "@/data/products";
+import { Check, ChevronDown, Headphones, MessageCircle, Minus, Plus, Star, Trash2, Truck, Undo2, X } from "lucide-react";
+import { FREE_DELIVERY_MIN_UZS, freeDeliveryText, returnWindowText } from "@/lib/commerce-terms";
 import { shopClear, shopRemove, shopSetQty, som, type ShopLine } from "./shop-cart";
 
 export function Stars({ value, reviews }: { value: number; reviews?: number }) {
@@ -83,32 +81,14 @@ export function RangeSlider({
   );
 }
 
-function asProduct(line: ShopLine): Product {
-  return {
-    id: line.id,
-    name: line.name,
-    brand: "StomaHub",
-    category: "materiallar",
-    price: line.price,
-    rating: 5,
-    reviews: 1,
-    inStock: true,
-    delivery: "Toshkent 24 soat",
-    image: line.image,
-    stockQty: 40,
-  };
-}
-
 const perks = [
-  [Truck, "Yetkazib berish", freeDeliveryText()],
-  [ShieldCheck, "Rasmiy distribyutor mahsulotlari", "100% original mahsulotlar"],
-  [Check, "Xavfsiz to‘lov", "Click, Payme, Uzum, Paynet"],
-  [Undo2, returnWindowText(), "Sifat kafolati"],
-] as const;
+  ...(FREE_DELIVERY_MIN_UZS > 0 ? [[Truck, "Yetkazib berish", freeDeliveryText()] as const] : []),
+  [Check, "Naqd to‘lov", "Yetkazib berilganda"] as const,
+  [Undo2, returnWindowText(), "Sifat kafolati"] as const,
+];
 
 export function CartRail({ lines }: { lines: ShopLine[] }) {
   const router = useRouter();
-  const real = useCart();
   const [chat, setChat] = useState(false);
   const [text, setText] = useState("");
   const [log, setLog] = useState<{ me?: boolean; text: string }[]>([
@@ -118,8 +98,7 @@ export function CartRail({ lines }: { lines: ShopLine[] }) {
   const sub = lines.reduce((sum, line) => sum + line.price * line.qty, 0);
 
   function checkout() {
-    for (const line of lines) real.add(line.id, asProduct(line), line.qty);
-    router.push("/checkout");
+    router.push("/savat/rasmiylashtirish");
   }
 
   return (

@@ -62,7 +62,7 @@ function isBarePath(pathname: string | null) {
 
 function needsAccount(pathname: string) {
   if (pathname === "/profil" || pathname === "/buyurtmalarim" || pathname.startsWith("/buyurtmalarim/")) return true;
-  if (pathname === "/buyurtma" || pathname === "/checkout") return true;
+  if (pathname === "/buyurtma" || pathname === "/checkout" || pathname === "/savat/rasmiylashtirish" || pathname === "/buyurtmalar") return true;
   if (pathname.startsWith("/crm/")) return true;
   if (pathname === "/bildirishnomalar" || pathname === "/profil/manzillar" || pathname === "/seminarlar/mening") return true;
   return false;
@@ -249,7 +249,7 @@ function desktopCrm(pathname: string | null): ReactNode | null {
 
 function desktopFlow(pathname: string | null): ReactNode | null {
   if (!pathname) return null;
-  if (pathname === "/buyurtma" || pathname === "/checkout") return <CheckoutDesktop />;
+  if (pathname === "/buyurtma" || pathname === "/checkout" || pathname === "/savat/rasmiylashtirish" || pathname === "/buyurtmalar") return <CheckoutDesktop />;
   const read = pathname.match(/^\/kitoblar\/([^/]+)\/oqish$/);
   if (read) return <ReaderDesktop id={decodeURIComponent(read[1])} />;
   const book = pathname.match(/^\/kitoblar\/([^/]+)$/);

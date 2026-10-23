@@ -278,7 +278,7 @@ export function CartProvider({ children }: { children: ReactNode }) {
                 <p className="mt-0.5 truncate text-[13px] text-[#6b7280]">
                   {toast.name} · {toast.qty} dona
                 </p>
-                <Link href="/savat" className="mt-2 inline-flex items-center gap-1 text-[13px] font-semibold text-[#0066FF] hover:underline">
+                <Link href="/savat" className="mt-2 inline-flex items-center gap-1 text-[13px] font-semibold text-[#0F766E] hover:underline">
                   <ShoppingCart className="size-3.5" />
                   Savatni ochish
                 </Link>

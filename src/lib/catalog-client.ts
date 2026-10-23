@@ -29,6 +29,14 @@ export type CatalogCard = {
   sku: string;
   stockQty: number;
   attrs: Record<string, unknown>;
+  subcategory: string;
+  delivery: string;
+  soldCount: number;
+  shopLogo: string;
+  shopCity: string;
+  shopRating: number;
+  shopReviews: number;
+  shopProducts: number;
 };
 
 export type CatalogShop = {
@@ -88,7 +96,7 @@ export function productFromCatalog(item: CatalogCard): Product {
     rating: item.rating,
     reviews: item.reviews,
     inStock: item.inStock && item.stockQty > 0,
-    delivery: free ? "Bepul yetkazib berish" : deliveryPrice > 0 ? `${deliveryPrice}` : "",
+    delivery: free ? "Bepul yetkazib berish" : deliveryPrice > 0 ? `${deliveryPrice}` : item.delivery,
     image: item.image,
     images: item.images,
     description: item.description,
@@ -96,6 +104,7 @@ export function productFromCatalog(item: CatalogCard): Product {
     shopName: item.shopName || undefined,
     shopSlug: item.shopSlug || undefined,
     sku: item.sku || undefined,
+    subcategory: item.subcategory || undefined,
     stockQty: item.stockQty,
     kind,
     gender,
@@ -145,6 +154,14 @@ export function catalogCardFrom(raw: Record<string, unknown>): CatalogCard | nul
     sku: typeof raw.sku === "string" ? raw.sku : "",
     stockQty: Number.isFinite(Number(raw.stockQty)) ? Math.max(0, Math.floor(Number(raw.stockQty))) : 0,
     attrs: raw.attrs && typeof raw.attrs === "object" && !Array.isArray(raw.attrs) ? (raw.attrs as Record<string, unknown>) : {},
+    subcategory: typeof raw.subcategory === "string" ? raw.subcategory : "",
+    delivery: typeof raw.delivery === "string" ? raw.delivery : "",
+    soldCount: Number(raw.soldCount) > 0 ? Math.floor(Number(raw.soldCount)) : 0,
+    shopLogo: typeof raw.shopLogo === "string" ? raw.shopLogo : "",
+    shopCity: typeof raw.shopCity === "string" ? raw.shopCity : "",
+    shopRating: Number(raw.shopRating) > 0 ? Number(raw.shopRating) : 0,
+    shopReviews: Number(raw.shopReviews) > 0 ? Math.floor(Number(raw.shopReviews)) : 0,
+    shopProducts: Number(raw.shopProducts) > 0 ? Math.floor(Number(raw.shopProducts)) : 0,
   };
 }
 

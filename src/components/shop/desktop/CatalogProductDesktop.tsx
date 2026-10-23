@@ -32,6 +32,7 @@ import { colorLabel, formaColors, formaGenders, formaKinds } from "@/data/forma"
 import { catalogCardFrom, catalogHref, fetchCatalogProducts, productFromCatalog, type CatalogCard } from "@/lib/catalog-client";
 import { formatDotDate } from "@/lib/format";
 import "./product-desktop.css";
+import { MarketplacePdp } from "./MarketplacePdp";
 
 type Section = "forma" | "jihozlar";
 
@@ -64,6 +65,11 @@ function num(attrs: Record<string, unknown>, key: string) {
 
 /** Desktop product page for marketplace, forma and jihozlar items, built from the live catalog row. */
 export function CatalogProductDesktop({ id, expect }: { id: string; expect?: Section }) {
+  if (!expect) return <MarketplacePdp id={id} />;
+  return <CatalogProductDesktopInner id={id} expect={expect} />;
+}
+
+function CatalogProductDesktopInner({ id, expect }: { id: string; expect?: Section }) {
   const router = useRouter();
   const { add } = useCart();
   const cartCount = useShopLineCount();

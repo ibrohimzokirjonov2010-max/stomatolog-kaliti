@@ -171,7 +171,7 @@ function MobileProfileChip() {
   );
 }
 
-function CartButton({ count, blue }: { count: number; blue?: boolean }) {
+function CartButton({ count, blue }: { count: number; blue?: boolean | "teal" }) {
   return (
     <Link
       href="/savat"
@@ -183,7 +183,7 @@ function CartButton({ count, blue }: { count: number; blue?: boolean }) {
         <span
           className={cn(
             "absolute top-1 right-1 flex h-[18px] min-w-[18px] items-center justify-center rounded-full px-1 text-[10px] font-bold text-white",
-            blue ? "bg-[#0066FF]" : "bg-destructive",
+            blue === "teal" ? "bg-[#0F766E]" : blue ? "bg-[#0066FF]" : "bg-destructive",
           )}
         >
           {count}
@@ -317,7 +317,9 @@ export function MobileTopbar() {
             <span
               className={cn(
                 "grid size-9 shrink-0 place-items-center rounded-[10px]",
-                onUstalarHome || onFormaHome || onCommunityHome
+                onListing
+                  ? "bg-[#0F766E] text-white"
+                  : onUstalarHome || onFormaHome || onCommunityHome
                   ? "bg-[#e8f1ff] text-[#0066FF]"
                   : "bg-[#0066FF] text-white",
               )}
@@ -341,7 +343,7 @@ export function MobileTopbar() {
               </span>
             ) : onListing ? (
               <span className="min-w-0 truncate text-[13px] font-extrabold tracking-[0.06em]">
-                <span className="text-[#0066FF]">STOMA</span>
+                <span className="text-[#0F766E]">STOMA</span>
                 <span className="text-[#8b93a7]">HUB</span>
               </span>
             ) : (
@@ -442,7 +444,7 @@ export function MobileTopbar() {
         ) : (
           <CartButton
             count={count}
-            blue={onMarketplace || onHome || onFormaHome}
+            blue={onMarketplace ? "teal" : onHome || onFormaHome}
           />
         )}
 
@@ -708,7 +710,7 @@ export function MobileDrawer() {
 
 const homeTabs = [
   { href: "/", label: "Bosh sahifa", icon: Home, match: (path: string) => path === "/" || path.startsWith("/bosh-sahifa") || path === "/kitoblar" || path === "/foydali-kanallar" },
-  { href: "/marketplace", label: "Marketplace", icon: ShoppingBag, match: (path: string) => marketplacePath(path) || path === "/savat" || path === "/buyurtma" || path.startsWith("/buyurtma/") || /^\/buyurtmalarim\/[^/]+/.test(path) || surplusMobilePath(path) || jihozMobilePath(path) },
+  { href: "/marketplace", label: "Marketplace", icon: ShoppingBag, match: (path: string) => marketplacePath(path) || path === "/savat" || path.startsWith("/savat/") || path === "/buyurtma" || path.startsWith("/buyurtma/") || path === "/buyurtmalar" || /^\/buyurtmalarim\/[^/]+/.test(path) || surplusMobilePath(path) || jihozMobilePath(path) },
   { href: "/seminarlar", label: "Seminarlar", icon: CalendarDays, match: (path: string) => path === "/seminarlar" || path.startsWith("/seminarlar/") },
   { href: "/talim", label: "Onlayn darslar", icon: MonitorPlay, match: (path: string) => path === "/talim" || path.startsWith("/talim/") },
   { href: "/profil", label: "Profil", icon: User, match: (path: string) => path === "/profil" || path.startsWith("/profil/") || path === "/community" || path === "/mening-klinikam" || path === "/buyurtmalarim" },
