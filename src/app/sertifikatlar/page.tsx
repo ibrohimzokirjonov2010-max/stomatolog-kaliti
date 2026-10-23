@@ -1,8 +1,9 @@
 import type { Metadata } from "next";
-import { PhoneCerts } from "@/components/phone14/clinic";
+import { SertifikatlarMobile } from "@/components/certificates/SertifikatlarMobile";
 
 export const metadata: Metadata = { title: "Sertifikatlar", description: "Olingan sertifikatlar va CME ballari." };
 
+/** Phone view; desktop renders CertificatesDesktop from AppChrome. */
 export default function Page() {
-  return <PhoneCerts />;
+  return <SertifikatlarMobile />;
 }
