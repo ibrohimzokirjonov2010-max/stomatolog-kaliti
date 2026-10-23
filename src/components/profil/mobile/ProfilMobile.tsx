@@ -5,6 +5,7 @@ import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import {
+  ArrowRight,
   Bell,
   Briefcase,
   Building2,
@@ -35,34 +36,41 @@ import { uploadImage } from "@/lib/image-upload";
 import { useSavedPlaces } from "@/lib/saved-addresses";
 import { loadOrders, syncOrders } from "@/lib/orders";
 import { getBonusSnapshot, refreshBonus, subscribeBonus } from "@/lib/bonus";
+import { fetchCourses } from "@/lib/live-content";
+import { isActiveStatus } from "@/lib/seminar-registrations";
+import { useSeminarRegs } from "@/components/seminar-provider";
 import "./profil-mobile.css";
 
 type Sheet = "edit" | "plus" | "fav" | "addr" | "pay" | "notes" | "lang" | "help" | "out";
+type CountKey = "orders" | "fav" | "courses" | "seminars";
 
 const LANGUAGES = ["O‘zbekcha", "Ruscha", "English"];
 const EMPTY_FIELD = "Ko‘rsatilmagan — tahrirlash orqali yozing";
 
+const BLUE = { tint: "#e6f2fe", color: "#1f5fbf" };
+
 const groupOne = [
-  { id: "orders", title: "Mening buyurtmalarim", subtitle: "Buyurtmalar tarixi va holati", icon: ClipboardList, tint: "#e8f1ff", color: "#2f6bff", href: "/buyurtmalarim" },
-  { id: "fav", title: "Sevimlilar", subtitle: "Saqlangan mahsulotlar va ustalar", icon: Heart, tint: "#fde8f0", color: "#e11d78", sheet: "fav" as const },
-  { id: "courses", title: "Kurslarim", subtitle: "Onlayn kurslar va sertifikatlar", icon: GraduationCap, tint: "#f3e8ff", color: "#7c3aed", href: "/talim" },
-  { id: "seminars", title: "Seminarlarim", subtitle: "Ro‘yxatdan o‘tgan seminarlar", icon: CalendarDays, tint: "#e8f1ff", color: "#2f6bff", href: "/seminarlar/yozuvlarim" },
-  { id: "ads", title: "E‘lonlarim", subtitle: "Ish va xizmat e‘lonlarim", icon: Briefcase, tint: "#e7f8ef", color: "#0f9f75", href: "/ishlar" },
+  { id: "orders", title: "Mening buyurtmalarim", subtitle: "Buyurtmalar tarixi va holati", icon: ClipboardList, ...BLUE, href: "/buyurtmalarim", countKey: "orders" as const },
+  { id: "fav", title: "Sevimlilar", subtitle: "Saqlangan mahsulotlar va ustalar", icon: Heart, tint: "#fbe9f2", color: "#e8336f", sheet: "fav" as const, countKey: "fav" as const },
+  { id: "courses", title: "Kurslarim", subtitle: "Onlayn kurslar va sertifikatlar", icon: GraduationCap, ...BLUE, href: "/talim", countKey: "courses" as const },
+  { id: "seminars", title: "Seminarlarim", subtitle: "Ro‘yxatdan o‘tgan seminarlar", icon: CalendarDays, ...BLUE, href: "/seminarlar/yozuvlarim", countKey: "seminars" as const },
+  { id: "ads", title: "E‘lonlarim", subtitle: "Ish va xizmat e‘lonlarim", icon: Briefcase, tint: "#e5f8f8", color: "#0fa5a4", href: "/ishlar" },
 ];
 
 const groupTwo = [
-  { id: "address", title: "Manzillarim", subtitle: "Yetkazib berish manzillari", icon: MapPin, tint: "#e8f1ff", color: "#2f6bff", sheet: "addr" as const },
-  { id: "pay", title: "To‘lov usullari", subtitle: "Saqlangan kartalar va to‘lovlar", icon: CreditCard, tint: "#e7f8ef", color: "#0f9f75", sheet: "pay" as const },
-  { id: "notes", title: "Bildirishnomalar", subtitle: "Yangiliklar va xabarlar", icon: Bell, tint: "#fff4e5", color: "#e08a00", sheet: "notes" as const },
-  { id: "lang", title: "Til", subtitle: "", icon: Globe, tint: "#e8f1ff", color: "#2f6bff", sheet: "lang" as const },
-  { id: "help", title: "Yordam", subtitle: "Savollar va qo‘llab-quvvatlash", icon: HelpCircle, tint: "#f3e8ff", color: "#7c3aed", sheet: "help" as const },
-  { id: "out", title: "Chiqish", subtitle: "Hisobdan chiqish", icon: LogOut, tint: "#fff1f0", color: "#d92d20", sheet: "out" as const },
+  { id: "address", title: "Manzillarim", subtitle: "Yetkazib berish manzillari", icon: MapPin, ...BLUE, sheet: "addr" as const },
+  { id: "pay", title: "To‘lov usullari", subtitle: "Saqlangan kartalar va to‘lovlar", icon: CreditCard, ...BLUE, sheet: "pay" as const },
+  { id: "notes", title: "Bildirishnomalar", subtitle: "Yangiliklar va xabarlar", icon: Bell, tint: "#fef4e9", color: "#f08c1a", sheet: "notes" as const },
+  { id: "lang", title: "Til", subtitle: "", icon: Globe, ...BLUE, sheet: "lang" as const },
+  { id: "help", title: "Yordam", subtitle: "Savollar va qo‘llab-quvvatlash", icon: HelpCircle, ...BLUE, sheet: "help" as const },
+  { id: "out", title: "Chiqish", subtitle: "Hisobdan chiqish", icon: LogOut, tint: "#fbe8ec", color: "#e5484d", sheet: "out" as const },
 ];
 
 export function ProfilMobile() {
   const router = useRouter();
   const cart = useCart();
   const favorites = useFavorites();
+  const { registrations } = useSeminarRegs();
   const { profile, updateProfile, logout, ready } = useDoctorProfile();
   const places = useSavedPlaces(Boolean(profile), ready);
   const fileRef = useRef<HTMLInputElement>(null);
@@ -76,6 +84,7 @@ export function ProfilMobile() {
   const [city, setCity] = useState("");
   const [orderCount, setOrderCount] = useState(0);
   const [bonus, setBonus] = useState(0);
+  const [courseCount, setCourseCount] = useState(0);
   const [avatar, setAvatar] = useState("");
   const [lang, setLang] = useState(LANGUAGES[0]);
   const [draft, setDraft] = useState({ name, specialty, clinic, city });
@@ -99,6 +108,7 @@ export function ProfilMobile() {
     const load = () => setOrderCount(loadOrders().length);
     void syncOrders(true).then(load);
     window.addEventListener("sk-orders-changed", load);
+    void fetchCourses().then((rows) => setCourseCount(rows.filter((row) => row.enrolled).length));
     void refreshBonus();
     const unsub = subscribeBonus(() => setBonus(getBonusSnapshot().info?.balance ?? 0));
     return () => {
@@ -136,6 +146,8 @@ export function ProfilMobile() {
     setNote("Saqlangan");
   }
 
+  const seminarCount = registrations.filter((reg) => isActiveStatus(reg.status)).length;
+  const counts: Record<CountKey, number> = { orders: orderCount, fav: favorites.ids.length, courses: courseCount, seminars: seminarCount };
   const q = query.trim().toLowerCase();
   const match = (title: string, subtitle: string) => !q || `${title} ${subtitle}`.toLowerCase().includes(q);
   const rowsOne = groupOne.filter((row) => match(row.title, row.subtitle));
@@ -163,6 +175,8 @@ export function ProfilMobile() {
           </label>
         ) : null}
         <article className="pm-hero">
+          <img className="pm-bg" src="/img/mobile/pf-clinic.jpg" alt="" />
+          <div className="pm-fade" />
           <div className="pm-hero-row">
             <div className="pm-ava">
               {avatar ? <img src={avatar} alt="" /> : <span className="pm-ava-empty" aria-hidden />}
@@ -191,13 +205,15 @@ export function ProfilMobile() {
               <p className="pm-role">{specialty.trim() || EMPTY_FIELD}</p>
               <p className="pm-meta"><Building2 /> {clinic.trim() || EMPTY_FIELD}</p>
               <p className="pm-meta"><MapPin /> {city.trim() || EMPTY_FIELD}</p>
-              <button type="button" className="pm-pill" data-testid="pf-edit-pill" onClick={() => openSheet("edit")}>Profilni tahrirlash →</button>
+              <button type="button" className="pm-pill" data-testid="pf-edit-pill" onClick={() => openSheet("edit")}>Profilni tahrirlash <ArrowRight /></button>
             </div>
           </div>
         </article>
         <div className="pm-stats">
-          <Link href="/buyurtmalarim" className="pm-stat"><ShoppingBag color="#12b981" /><b>{orderCount}</b><span>Buyurtmalar</span></Link>
-          <Link href="/bonuslarim" className="pm-stat"><Coins color="#12b981" /><b className="pm-money">{bonus.toLocaleString("fr-FR")} so‘m</b><span>Bonus balans</span></Link>
+          <Link href="/buyurtmalarim" className="pm-stat"><i><ShoppingBag /></i><b>{orderCount}</b><span>Buyurtmalar</span></Link>
+          <Link href="/talim" className="pm-stat"><i><GraduationCap /></i><b>{courseCount}</b><span>Kurslar</span></Link>
+          <Link href="/seminarlar/yozuvlarim" className="pm-stat"><i><CalendarDays /></i><b>{seminarCount}</b><span>Seminarlar</span></Link>
+          <Link href="/bonuslarim" className="pm-stat"><i><Coins /></i><b className="pm-money">{bonus.toLocaleString("fr-FR")} so‘m</b><span>Bonus balans</span></Link>
         </div>
         <button type="button" className="pm-plus" data-testid="pf-plus" onClick={() => openSheet("plus")}>
           <i className="pm-crown"><Crown /></i>
@@ -207,7 +223,7 @@ export function ProfilMobile() {
         {rowsOne.length + rowsTwo.length === 0 ? <p className="pm-empty">Mos bo‘lim yo‘q</p> : null}
         {rowsOne.length > 0 ? (
           <nav className="pm-group" aria-label="Kabinet">
-            {rowsOne.map((row) => <MenuRow key={row.id} row={row} onSheet={openSheet} />)}
+            {rowsOne.map((row) => <MenuRow key={row.id} row={{ ...row, count: row.countKey ? counts[row.countKey] || undefined : undefined }} onSheet={openSheet} />)}
           </nav>
         ) : null}
         {rowsTwo.length > 0 ? (
@@ -220,7 +236,7 @@ export function ProfilMobile() {
         <div className="pm-pad" />
       </div>
       <button type="button" className="pm-go" data-testid="pf-edit" onClick={() => openSheet("edit")}>
-        <Pencil /> Profilni tahrirlash →
+        <Pencil /> Profilni tahrirlash <ArrowRight />
       </button>
       {sheet ? (
         <div className="pm-sheet" role="dialog" aria-label="Profil" data-testid="pf-sheet">
