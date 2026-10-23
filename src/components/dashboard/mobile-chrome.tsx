@@ -205,7 +205,6 @@ const PHONE14 = new Set([
   "/crm/uchrashuvlar",
   "/crm/davolash-rejalari",
   "/crm/tolovlar",
-  "/crm/ombor",
   "/crm/hisobotlar",
   "/ustalar",
   "/elonlar",
