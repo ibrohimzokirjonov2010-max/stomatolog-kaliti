@@ -11,6 +11,7 @@ import { colorLabel, formaColors, formaGenders, formaKinds } from "@/data/forma"
 import { enrollCourse, fetchBooks, fetchCourses, fetchNews, saveLessonDone, type LiveBook, type LiveCourse, type LiveNews } from "@/lib/live-content";
 import { formatMoney } from "@/lib/format";
 import { MarketplaceMobileProduct } from "@/components/market/mobile/MarketplaceMobileProduct";
+import { CatalogPhoneProduct } from "@/components/forma/mobile/CatalogPhoneProduct";
 
 function Shell({ title, children }: { title: string; children: ReactNode }) {
   return (
@@ -121,7 +122,9 @@ function CatalogDetailInner({ id, expect }: { id: string; expect?: "forma" | "ji
   }
 
   return (
-    <article className="mx-auto max-w-5xl px-4 py-6 pb-28 lg:pb-6" data-testid="product-live">
+    <>
+    <CatalogPhoneProduct key={card.id} card={card} back={back} delivery={delivery} specs={specs} />
+    <article className="mx-auto hidden max-w-5xl px-4 py-6 pb-28 lg:block lg:pb-6" data-testid="product-live">
       <Link href={back} className="text-[13px] font-semibold text-[#0066FF]">Orqaga</Link>
       <div className="mt-3 grid gap-6 lg:grid-cols-[minmax(0,1fr)_minmax(0,1fr)]">
         <div data-testid="product-gallery">
@@ -237,6 +240,7 @@ function CatalogDetailInner({ id, expect }: { id: string; expect?: "forma" | "ji
         </section>
       ) : null}
     </article>
+    </>
   );
 }
 
