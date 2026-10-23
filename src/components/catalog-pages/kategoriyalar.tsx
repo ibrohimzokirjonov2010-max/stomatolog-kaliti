@@ -2,12 +2,13 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { useMemo, type ComponentType } from "react";
-import { Armchair, ChevronRight, Crown, Gem, Grip, Pipette, Slice, Smile, Sparkles, Syringe } from "lucide-react";
+import { useMemo, useState, type ComponentType, type FormEvent } from "react";
+import { useRouter } from "next/navigation";
+import { Armchair, ChevronRight, Crown, Grip, Pipette, Search, Slice, Smile, Sparkles, Syringe } from "lucide-react";
 import { useSellerWork } from "@/components/seller-provider";
 import { groupsForCatParam, productGroup } from "@/data/products";
 import { formatGroupedNumber } from "@/lib/format";
-import { CatalogLayout, PageTitle } from "./side-nav";
+import "./kategoriyalar-phone.css";
 import { ToothIcon } from "./tooth-icon";
 
 type Cat = {
@@ -37,8 +38,14 @@ function href(c: Cat) {
   return c.cat ? `/marketplace?cat=${c.cat}` : `/marketplace?q=${encodeURIComponent(c.q ?? c.name)}`;
 }
 
+const TINTS = ["#e3f6f5", "#e7f8ec", "#efe9fe", "#fff1e3", "#fde8ee", "#ece9fe", "#e3f6f5", "#e8f1ff", "#fff4dc"];
+const INKS = ["#0d8f8c", "#16a34a", "#7c3aed", "#ea7a12", "#e11d48", "#6d28d9", "#0d8f8c", "#2563eb", "#b7791f"];
+
+/** Phone /kategoriyalar (desktop renders KategoriyalarDesktop from AppChrome). */
 export function KategoriyalarPage() {
+  const router = useRouter();
   const { catalog } = useSellerWork();
+  const [query, setQuery] = useState("");
   const counts = useMemo(() => {
     const map: Record<string, number | null> = {};
     for (const c of CATEGORIES) {
@@ -51,62 +58,40 @@ export function KategoriyalarPage() {
     }
     return map;
   }, [catalog]);
+  const q = query.trim().toLowerCase();
+  const shown = q ? CATEGORIES.filter((c) => `${c.name} ${c.desc}`.toLowerCase().includes(q)) : CATEGORIES;
+
+  function onSearch(event: FormEvent) {
+    event.preventDefault();
+    const text = query.trim();
+    router.push(text ? `/marketplace?q=${encodeURIComponent(text)}` : "/marketplace");
+  }
 
   return (
-    <CatalogLayout>
-      <PageTitle
-        title="Kategoriyalar"
-        subtitle="Stomatologiya mahsulotlarini kategoriya bo‘yicha tanlang"
-        right={
-          <div className="hidden items-center gap-3 rounded-xl border border-[#e3ebfa] bg-[#EEF4FF] px-4 py-2.5 lg:flex">
-            <Gem className="size-6 text-[#0066FF]" strokeWidth={1.7} />
-            <div className="leading-tight">
-              <div className="text-[13px] font-bold text-[#0B1F4D]">{CATEGORIES.length} ta kategoriya</div>
-              {catalog.length ? (
-                <div className="mt-0.5 text-[11.5px] text-[#0066FF]">{formatGroupedNumber(catalog.length)} ta mahsulot</div>
-              ) : null}
-            </div>
-          </div>
-        }
-      />
-      <div className="grid grid-cols-2 gap-3 lg:grid-cols-3 lg:gap-4">
-        {CATEGORIES.map((c) => {
+    <div className="kt" data-testid="kategoriyalar-phone">
+      <h1>Kategoriyalar</h1>
+      <p className="kt-lead">Sizga kerakli stomatologik mahsulot va xizmatlar</p>
+      <form className="kt-search" onSubmit={onSearch}>
+        <Search />
+        <input value={query} placeholder="Mahsulot, brend yoki kategoriya qidirish..." aria-label="Qidirish" onChange={(event) => setQuery(event.target.value)} />
+      </form>
+      {shown.length === 0 ? <p className="kt-empty">Mos kategoriya yo‘q — qidiruvni marketplace’da davom ettirish uchun Enter bosing.</p> : null}
+      <div className="kt-grid">
+        {shown.map((c) => {
           const Icon = c.icon;
           const n = counts[c.id];
+          const index = CATEGORIES.indexOf(c) % TINTS.length;
           return (
-            <Link
-              key={c.id}
-              href={href(c)}
-              className="group overflow-hidden rounded-2xl border border-[#eceff5] bg-white shadow-[0_2px_12px_rgba(15,23,42,0.05)] transition-shadow hover:shadow-[0_6px_20px_rgba(15,23,42,0.09)]"
-            >
-              <div className="relative aspect-[390/134] w-full overflow-hidden bg-[#f4f6fa] max-lg:aspect-[16/9]">
-                <Image
-                  src={`/categories/${c.id}.jpg`}
-                  alt={c.name}
-                  fill
-                  sizes="(min-width:1024px) 33vw, 50vw"
-                  className="object-cover transition-transform duration-300 group-hover:scale-[1.03]"
-                />
-              </div>
-              <div className="flex items-start gap-3 p-3 lg:gap-4 lg:p-4">
-                <span className="hidden size-12 shrink-0 items-center justify-center rounded-xl bg-[#EEF4FF] text-[#0066FF] lg:flex">
-                  <Icon className="size-6" strokeWidth={1.6} />
-                </span>
-                <div className="min-w-0 flex-1">
-                  <h2 className="text-[14px] font-bold text-[#0B1F4D] lg:text-[15px]">{c.name}</h2>
-                  <p className="mt-1 line-clamp-2 text-[11.5px] leading-snug text-[#6b7590] lg:text-[12.5px]">{c.desc}</p>
-                  {n != null ? (
-                    <p className="mt-1.5 text-[12px] font-semibold text-[#0066FF]">{formatGroupedNumber(n)} ta mahsulot</p>
-                  ) : null}
-                </div>
-                <span className="flex size-8 shrink-0 items-center justify-center rounded-full bg-[#EEF4FF] text-[#0066FF] transition-colors group-hover:bg-[#0066FF] group-hover:text-white">
-                  <ChevronRight className="size-4" />
-                </span>
-              </div>
+            <Link key={c.id} href={href(c)} className="kt-card">
+              <span className="kt-ico" style={{ background: TINTS[index], color: INKS[index] }}><Icon className="kt-svg" strokeWidth={1.8} /></span>
+              <b>{c.name}</b>
+              <small>{n != null ? `${formatGroupedNumber(n)} mahsulot` : c.desc}</small>
+              <span className="kt-go"><ChevronRight /></span>
+              <span className="kt-img"><Image src={`/categories/${c.id}.jpg`} alt="" fill sizes="25vw" className="object-cover" /></span>
             </Link>
           );
         })}
       </div>
-    </CatalogLayout>
+    </div>
   );
 }
