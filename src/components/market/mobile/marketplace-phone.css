@@ -111,3 +111,31 @@
 .mpx-mprod .simrow strong { font-size: 13px; }
 .mpx-mprod .simrow strong.sale { color: #dc2626; }
 .mpx-mprod ul { margin: 8px 0 0; padding: 0; list-style: none; display: flex; flex-direction: column; gap: 4px; font-size: 14px; }
+
+/* Phone PDP mockup pass: price card, stock strip, quantity, seller. */
+.mpx-mprod .mpp-price { margin-top: 10px; padding: 12px 14px; border: 1px solid #e6eef4; border-radius: 12px; background: #fff; display: flex; flex-direction: column; gap: 4px; }
+.mpx-mprod .mpp-price > div { display: flex; align-items: center; gap: 10px; }
+.mpx-mprod .mpp-price b { font-size: 24px; font-weight: 800; color: #0b1a3a; letter-spacing: -0.01em; }
+.mpx-mprod .mpp-price em { font-style: normal; padding: 2px 8px; border-radius: 999px; background: #fde8ee; color: #e11d48; font-size: 13px; font-weight: 700; }
+.mpx-mprod .mpp-price s { color: #8b93a7; font-size: 14px; }
+.mpx-mprod .mpp-save { align-self: flex-start; padding: 2px 8px; border-radius: 6px; background: #e3f8ec; color: #15803d; font-size: 12px; font-weight: 700; }
+.mpx-mprod .mpp-stock { margin-top: 8px; display: flex; align-items: center; justify-content: space-between; gap: 10px; padding: 9px 12px; border-radius: 10px; background: #eef8f7; font-size: 12px; }
+.mpx-mprod .mpp-stock span { display: inline-flex; align-items: center; gap: 6px; min-width: 0; }
+.mpx-mprod .mpp-stock .ok { color: #0b6f6d; font-weight: 700; }
+.mpx-mprod .mpp-stock .no { color: #dc2626; font-weight: 700; }
+.mpx-mprod .mpp-del { color: #4b5568; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.mpx-mprod .mpp-qty { margin-top: 8px; display: flex; align-items: center; justify-content: space-between; }
+.mpx-mprod .mpp-qty small { color: #4b5568; font-size: 13px; }
+.mpx-mprod .mpp-qty > div { display: flex; align-items: center; gap: 4px; height: 40px; padding: 0 4px; border: 1px solid #e6eef4; border-radius: 10px; background: #fff; }
+.mpx-mprod .mpp-qty button { width: 32px; height: 32px; border-radius: 50%; background: #eef3f7; font-size: 18px; color: #0b1a3a; }
+.mpx-mprod .mpp-qty button:disabled { opacity: .4; }
+.mpx-mprod .mpp-qty b { min-width: 40px; text-align: center; font-size: 15px; }
+.mpx-mprod .mpp-seller { margin-top: 16px; }
+.mpx-mprod .mpp-seller-h { display: block; margin-bottom: 8px; font-size: 16px; }
+.mpx-mprod .mpp-seller > div { display: flex; align-items: center; gap: 10px; padding: 10px 12px; border: 1px solid #e6eef4; border-radius: 12px; background: #fff; }
+.mpx-mprod .mpp-logo { flex: none; width: 44px; height: 44px; border-radius: 50%; overflow: hidden; background: #0b5f5e; color: #fff; display: grid; place-items: center; }
+.mpx-mprod .mpp-logo img { width: 100%; height: 100%; object-fit: cover; }
+.mpx-mprod .mpp-seller-copy { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 2px; }
+.mpx-mprod .mpp-seller-copy small { display: inline-flex; align-items: center; gap: 3px; color: #6a7c93; font-size: 12px; }
+.mpx-mprod .mpp-write { flex: none; display: inline-flex; align-items: center; gap: 6px; height: 34px; padding: 0 12px; border-radius: 9px; border: 1px solid #0d8f8c; color: #0b6f6d; font-size: 12.5px; font-weight: 700; }
+.mpx-mprod .type svg { display: inline-block; vertical-align: -2px; }

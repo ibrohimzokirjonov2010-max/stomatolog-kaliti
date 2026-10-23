@@ -4,7 +4,7 @@
 import { useEffect, useMemo, useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { BadgeCheck, ChevronLeft, ChevronRight, FileText, Heart, ShoppingCart, Star } from "lucide-react";
+import { BadgeCheck, ChevronLeft, ChevronRight, FileText, Heart, MapPin, MessageCircle, Package, ShoppingCart, Star, Store, Truck } from "lucide-react";
 import { useCart } from "@/components/cart-provider";
 import { ProductReviewsList, useProductReviews } from "@/components/product-reviews";
 import { catalogCardFrom, catalogHref, fetchCatalogProducts, productFromCatalog, type CatalogCard } from "@/lib/catalog-client";
@@ -91,9 +91,7 @@ export function MarketplaceMobileProduct({ id }: { id: string }) {
     condition ? ["Holati", condition === "yangi" ? "Yangi" : condition] : null,
     expiry ? ["Yaroqlilik", formatDotDate(expiry)] : null,
     lot ? ["Lot", lot] : null,
-    ["Miqdor", stock > 0 ? `${stock} ta` : "Tugagan"],
     city ? ["Joylashuv", city] : null,
-    delivery ? ["Yetkazish", delivery] : null,
   ].filter((row): row is [string, string] => Boolean(row));
 
   const tabs = [
@@ -154,7 +152,30 @@ export function MarketplaceMobileProduct({ id }: { id: string }) {
           {product.soldCount > 0 ? ` · ${product.soldCount} ta sotilgan` : null}
         </p>
       ) : null}
-      {short || product.description ? <p className="copy">{(short || product.description).slice(0, 180)}</p> : null}
+      <section className="mpp-price">
+        <div>
+          <b>{som(product.price)}</b>
+          {product.oldPrice && product.oldPrice > product.price ? <em>-{Math.round((1 - product.price / product.oldPrice) * 100)}%</em> : null}
+        </div>
+        {product.oldPrice && product.oldPrice > product.price ? (
+          <>
+            <s>{som(product.oldPrice)}</s>
+            <span className="mpp-save">Tejaysiz: {som(product.oldPrice - product.price)}</span>
+          </>
+        ) : null}
+      </section>
+      <div className="mpp-stock">
+        <span className={stock > 0 ? "ok" : "no"}><Package size={16} /> {stock > 0 ? "Omborda bor" : "Tugagan"}</span>
+        {delivery ? <span className="mpp-del"><Truck size={16} /> {delivery}</span> : null}
+      </div>
+      <div className="mpp-qty">
+        <small>Miqdori</small>
+        <div>
+          <button type="button" aria-label="Kamaytirish" disabled={qty <= 1} onClick={() => setQty(Math.max(1, qty - 1))}>−</button>
+          <b>{qty}</b>
+          <button type="button" aria-label="Oshirish" disabled={stock > 0 && qty >= stock} onClick={() => setQty(qty + 1)}>+</button>
+        </div>
+      </div>
       {facts.length ? (
         <div className="facts">
           {facts.map(([label, value]) => (
@@ -194,6 +215,19 @@ export function MarketplaceMobileProduct({ id }: { id: string }) {
           {active === "Yetkazib berish" ? <p className="copy">Yetkazib berish: {delivery}. To‘lov naqd, yetkazib berilganda.</p> : null}
           {active === "Qayta buyurtma" ? <p className="copy">Shu mahsulotni yana savatga qo‘shish. To‘lov yetkazilganda naqd.</p> : null}
         </>
+      ) : null}
+      {product.shopName ? (
+        <section className="mpp-seller">
+          <b className="mpp-seller-h">Sotuvchi</b>
+          <div>
+            <span className="mpp-logo">{product.shopLogo ? <img src={product.shopLogo} alt="" /> : <Store size={20} />}</span>
+            <span className="mpp-seller-copy">
+              <b>{product.shopName}</b>
+              {city ? <small><MapPin size={12} /> {city}</small> : null}
+            </span>
+            {product.shopSlug ? <Link href={`/marketplace/dokon/${product.shopSlug}`} className="mpp-write"><MessageCircle size={15} /> Do‘kon</Link> : null}
+          </div>
+        </section>
       ) : null}
       {similar.length ? (
         <section>
