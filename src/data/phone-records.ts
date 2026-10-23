@@ -135,7 +135,7 @@ function fromDesktop(item: Patient): PhonePatient {
   return {
     id: item.id,
     name: item.name,
-    num: item.id.toUpperCase(),
+    num: item.num ? `B-${String(item.num).padStart(4, "0")}` : item.id.slice(0, 6).toUpperCase(),
     age: item.age,
     gender: item.gender,
     phone: item.phone,

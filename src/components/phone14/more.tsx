@@ -54,7 +54,7 @@ export function PhoneLabs() {
           <article key={lab.id} className="p14-card">
             <Link href={`/laboratoriya/${lab.id}`}><img src={lab.photo ?? ""} alt="" style={{ width: "100%", height: 140, objectFit: "cover", borderRadius: 12 }} /></Link>
             <div className="p14-head">
-              <Link href={`/laboratoriya/${lab.id}`}><b>{lab.name} <BadgeCheck size={14} color="#0066ff" /></b></Link>
+              <Link href={`/laboratoriya/${lab.id}`}><b>{lab.name} <BadgeCheck size={14} color="#0b7f7d" /></b></Link>
               <button type="button" aria-label="Menyu" onClick={() => setMenu(menu === lab.id ? null : lab.id)}>···</button>
             </div>
             <p className="spec"><MapPin size={12} /> {lab.district}</p>
@@ -62,7 +62,7 @@ export function PhoneLabs() {
             <p className="tags">{lab.tags.map((tag) => <i key={tag}>{tag}</i>)}</p>
             <p className="spec">Tayyorlash muddati {lab.daysLabel}</p>
             <div className="p14-head">
-              <span>Boshlang‘ich narx <b style={{ color: "#0066ff" }}>{lab.priceLabel} so‘m</b></span>
+              <span>Boshlang‘ich narx <b style={{ color: "#0b7f7d" }}>{lab.priceLabel} so‘m</b></span>
               <button type="button" className="buy" style={{ padding: "0 14px" }} onClick={() => setOrder(lab.id)}>Buyurtma</button>
             </div>
             {menu === lab.id ? <p className="spec">{lab.city}</p> : null}
@@ -242,7 +242,7 @@ export function PhoneAdDetail({ id }: { id: string }) {
       <span className={`pill ${item.type === "sotiladi" ? "green" : item.type === "ijara" ? "purple" : "violet"}`}>{item.typeLabel}</span>
       <h1>{item.title}</h1>
       <p>{item.description}</p>
-      <b style={{ color: "#0066ff" }}>{item.priceLabel}</b>
+      <b style={{ color: "#0b7f7d" }}>{item.priceLabel}</b>
       <p className="spec">{item.city} · {item.dateLabel} · {item.category}</p>
     </PhoneFrame>
   );
