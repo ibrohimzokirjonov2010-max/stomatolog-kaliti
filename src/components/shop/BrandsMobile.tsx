@@ -48,52 +48,60 @@ export function BrandsMobile({ slug }: { slug?: string }) {
   return <MobileDirectory />;
 }
 
+const LETTER_PAIRS = Array.from({ length: Math.ceil(brandLetters.length / 2) }, (_, i) => brandLetters.slice(i * 2, i * 2 + 2));
+
+/** Design logo for a catalog brand, when one is drawn for it. */
+function logoOf(brand: { slug: string; name: string }) {
+  const name = brand.name.toLowerCase();
+  const desk = deskBrands.find((item) => item.brandKey === brand.slug || item.slug === brand.slug || item.name.toLowerCase() === name);
+  return desk ? `/img/design-pr13/brands/${desk.slug}.png` : "";
+}
+
 function MobileDirectory() {
   const { products, ready } = useCatalog();
   const [q, setQ] = useState("");
-  const [letter, setLetter] = useState("");
+  const [pair, setPair] = useState<string[]>([]);
   const items = useMemo(() => {
     const query = q.trim().toLowerCase();
-    return brandsOf(products).filter((item) => {
-      if (letter && !item.name.toUpperCase().startsWith(letter)) return false;
-      if (query && !item.name.toLowerCase().includes(query)) return false;
-      return true;
-    });
-  }, [letter, products, q]);
+    return brandsOf(products)
+      .filter((item) => {
+        if (pair.length && !pair.includes(item.name.charAt(0).toUpperCase())) return false;
+        if (query && !item.name.toLowerCase().includes(query)) return false;
+        return true;
+      })
+      .sort((a, b) => b.count - a.count || a.name.localeCompare(b.name));
+  }, [pair, products, q]);
 
   return (
-    <div className="space-y-3 lg:hidden" data-testid="brands-mobile">
-      <div>
-        <h1 className="text-[22px] font-extrabold tracking-tight text-[#0f1e3d]">Brendlar</h1>
-        <p className="text-[13px] text-[#6a7c93]">Marketplace’dagi haqiqiy e’lonlar</p>
-      </div>
-      <label className="flex h-11 items-center gap-2 rounded-xl border border-[#e6edf5] bg-white px-3">
-        <Search className="size-4 text-[#8b9bb0]" />
-        <input className="min-w-0 flex-1 bg-transparent text-[14px] outline-none" aria-label="Brend nomi" value={q} placeholder="Brend nomi bo‘yicha qidiring..." onChange={(event) => setQ(event.target.value)} />
+    <div className="bd lg:hidden" data-testid="brands-mobile">
+      <h1>Brendlar</h1>
+      <p className="bd-lead">Mashhur stomatologik brendlar va ishlab chiqaruvchilar</p>
+      <label className="bd-search">
+        <Search />
+        <input aria-label="Brend nomi" value={q} placeholder="Brend nomi bo‘yicha qidirish..." onChange={(event) => setQ(event.target.value)} />
       </label>
-      <div className="flex gap-1.5 overflow-x-auto pb-1">
-        <button type="button" className={letter === "" ? "h-8 shrink-0 rounded-lg bg-[#0066ff] px-3 text-[12px] font-bold text-white" : "h-8 shrink-0 rounded-lg bg-white px-3 text-[12px] font-bold text-[#5c6d84]"} onClick={() => setLetter("")}>
-          Barchasi
-        </button>
-        {brandLetters.map((item) => (
-          <button key={item} type="button" className={letter === item ? "h-8 w-8 shrink-0 rounded-lg bg-[#0066ff] text-[12px] font-bold text-white" : "h-8 w-8 shrink-0 rounded-lg bg-white text-[12px] font-bold text-[#5c6d84]"} onClick={() => setLetter(item)}>
-            {item}
-          </button>
-        ))}
+      <div className="bd-letters">
+        <button type="button" className={pair.length === 0 ? "on" : ""} onClick={() => setPair([])}>Barchasi</button>
+        {LETTER_PAIRS.map((item) => {
+          const key = item.join("-");
+          const on = pair.join("-") === key;
+          return <button key={key} type="button" className={on ? "on" : ""} onClick={() => setPair(on ? [] : item)}>{key}</button>;
+        })}
       </div>
       {!ready || items.length === 0 ? (
-        <p className="rounded-xl bg-white px-4 py-8 text-center text-[14px] text-[#6a7c93]">{!ready ? "Yuklanmoqda..." : "Hozircha brend yo‘q"}</p>
+        <p className="bd-empty">{!ready ? "Yuklanmoqda…" : "Hozircha brend yo‘q"}</p>
       ) : (
-        <div className="grid grid-cols-2 gap-2">
-          {items.map((item) => (
-            <Link key={item.slug} href={`/marketplace/brendlar/${item.slug}`} className="rounded-xl bg-white p-3 shadow-sm">
-              <b className="block text-[14px] text-[#0f1e3d]">{item.name}</b>
-              <span className="mt-2 flex items-center justify-between text-[12px] font-bold text-[#0066ff]">
-                {item.count} ta mahsulot
-                <ChevronRight className="size-4" />
-              </span>
-            </Link>
-          ))}
+        <div className="bd-grid">
+          {items.map((item) => {
+            const logo = logoOf(item);
+            return (
+              <Link key={item.slug} href={`/marketplace/brendlar/${item.slug}`} className="bd-card">
+                <span className="bd-logo">{logo ? <img src={logo} alt={item.name} /> : <b>{item.name}</b>}</span>
+                <span className="bd-meta"><b>{item.name}</b><small>{item.count} mahsulot</small></span>
+                <span className="bd-go"><ChevronRight /></span>
+              </Link>
+            );
+          })}
         </div>
       )}
     </div>
@@ -150,7 +158,7 @@ function MobileDetail({ slug }: { slug: string }) {
       </section>
 
       <section className="bm2-id">
-        <span className="bm2-logo">{brand.name.slice(0, 1).toUpperCase()}</span>
+        <span className="bm2-logo">{logoOf(brand) ? <img src={logoOf(brand)} alt="" /> : brand.name.slice(0, 1).toUpperCase()}</span>
         <div>
           <h1>{brand.name}</h1>
           <p>{cats.length ? cats.slice(0, 3).map(label).join(", ") : "Stomatologik mahsulotlar"}</p>
