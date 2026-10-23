@@ -271,7 +271,6 @@ export function MobileTopbar() {
   )
     return null;
   if (/^\/jihozlar\/[^/]+\/?$/.test(pathname)) return null;
-  if (/^\/yangiliklar\/[^/]+\/?$/.test(pathname)) return null;
   if (/^\/buyurtmalarim\/[^/]+\/?$/.test(pathname)) return null;
   const onListing = pathname === "/marketplace" || pathname === "/jihozlar";
   const onHome = pathname === "/" || pathname.startsWith("/bosh-sahifa");
