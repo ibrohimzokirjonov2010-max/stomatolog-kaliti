@@ -87,28 +87,33 @@ export function AuthCard({
         </div>
       </aside>
 
-      <main className="flex flex-col items-center justify-center px-4 py-8 sm:py-12 lg:px-8">
-        <div className="mb-6 flex w-full max-w-[500px] items-center justify-between lg:hidden">
+      <main className="flex flex-col items-center justify-center px-4 pb-8 sm:py-12 lg:px-8 lg:py-8">
+        {/* Phone hero (mockup): photo on the right, big brand, title and subtitle. */}
+        <div className="relative -mx-4 w-[calc(100%+2rem)] overflow-hidden px-4 pt-3 pb-16 lg:hidden">
+          <Image src="/img/landing/hero-dentist.jpg" alt="" fill priority sizes="100vw" className="object-cover object-[75%_center] opacity-60" />
+          <div className="absolute inset-0 bg-gradient-to-r from-[#f4f8fb] from-35% via-[#f4f8fb]/85 via-60% to-[#f4f8fb]/20" />
+          <div className="absolute inset-x-0 bottom-0 h-16 bg-gradient-to-t from-[#f4f8fb] to-transparent" />
           <Link
             href="/landing"
-            className="inline-flex items-center gap-1.5 rounded-full px-2 py-2 text-[14px] font-medium text-[#64748b] transition hover:bg-white hover:text-[#0f172a]"
+            className="relative inline-flex items-center gap-1.5 rounded-full px-1 py-1.5 text-[13px] font-medium text-[#64748b]"
           >
             <ArrowLeft className="size-4" />
             Orqaga
           </Link>
-          <span className="inline-flex items-center gap-2" aria-label="StomaHub">
-            <AuthMark className="h-9 w-8" />
-            <span className="text-[16px] font-extrabold tracking-[0.08em] text-[#0F172A]">
-              STOMA<span className="text-[#0F766E]">HUB</span>
-            </span>
-          </span>
+          <div className="relative mt-2 flex flex-col items-center text-center">
+            <AuthMark className="h-16 w-14" />
+            <span className="mt-1 text-[34px] leading-none font-extrabold tracking-tight text-[#0F766E]">StomaHub</span>
+            <span className="mt-1 text-[12.5px] text-[#6a7c93]">{caption}</span>
+            <h1 className="mt-5 text-[27px] leading-tight font-extrabold tracking-tight text-[#0f1e3d]">{title}</h1>
+            {subtitle ? <p className="mt-1 max-w-[300px] text-[13px] leading-relaxed text-[#6a7c93]">{subtitle}</p> : null}
+          </div>
         </div>
 
-        <div className="w-full max-w-[500px] rounded-[22px] border border-[#e8eef4] bg-white px-6 py-7 shadow-[0_16px_48px_rgba(15,23,42,0.08)] sm:px-8">
+        <div className="relative -mt-10 w-full max-w-[500px] rounded-[22px] border border-[#e8eef4] bg-white px-5 py-6 shadow-[0_16px_48px_rgba(15,23,42,0.08)] sm:px-8 lg:mt-0 lg:px-6 lg:py-7">
           <div className="mb-6 hidden lg:block">
             <AuthBrand caption={caption} center />
           </div>
-          <div className="mb-6 text-center">
+          <div className="mb-6 hidden text-center lg:block">
             <h1 className="text-[27px] font-extrabold tracking-tight text-[#0f1e3d]">{title}</h1>
             {subtitle ? <p className="mt-1.5 text-[14.5px] leading-relaxed text-[#64748b]">{subtitle}</p> : null}
           </div>
