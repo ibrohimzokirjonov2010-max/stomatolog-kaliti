@@ -6,10 +6,10 @@ import { CrmMock, HomePhone, ProfilePhone } from "@/components/landing/landing-d
 import { NotificationBell } from "@/components/notification-bell";
 
 const highlights = [
-  { title: "Barcha imkoniyatlar bir joyda", icon: LayoutDashboard, tone: "bg-[#e8f1ff] text-[#0066FF]" },
+  { title: "Barcha imkoniyatlar bir joyda", icon: LayoutDashboard, tone: "bg-[#e3f6f5] text-[#0b7f7d]" },
   { title: "O‘zbekiston uchun mos", icon: Globe, tone: "bg-[#e6faf6] text-[#00A896]" },
   { title: "Stomatologlar hamjamiyati", icon: Users, tone: "bg-[#fff4e5] text-[#d97706]" },
-  { title: "Ishonchli va qulay platforma", icon: ShieldCheck, tone: "bg-[#eef2ff] text-[#4f46e5]" },
+  { title: "Ishonchli va qulay platforma", icon: ShieldCheck, tone: "bg-[#e3f6f5] text-[#0b7f7d]" },
 ] as const;
 
 const contactIcon = {
@@ -39,7 +39,7 @@ export function LandingMobile() {
     <div className="overflow-x-clip bg-[#f7f9fc] text-[#16324f]" data-testid="mobile-landing">
       <header data-landing-header className="sticky top-0 z-30 flex min-h-16 items-center justify-between bg-white/95 px-3 py-1.5 backdrop-blur">
         <Link href="/landing" aria-label="StomaHub" className="min-w-0">
-          <LandingLogo />
+          <LandingLogo teal />
         </Link>
         <div className="flex shrink-0 items-center">
           <NotificationBell variant="mobile" />
@@ -48,13 +48,13 @@ export function LandingMobile() {
       </header>
 
       <section className="px-4 pb-5 pt-4">
-        <p className="inline-flex items-center gap-2 rounded-full bg-white px-3 py-1.5 text-[12px] font-semibold text-[#0066FF] ring-1 ring-[#e6ebf3]">
+        <p className="inline-flex items-center gap-2 rounded-full bg-white px-3 py-1.5 text-[12px] font-semibold text-[#0b7f7d] ring-1 ring-[#e6ebf3]">
           <span className="size-1.5 rounded-full bg-[#00C2A8]" />
           Stomatologlar uchun yagona platforma
         </p>
         <h1 className="mt-3 text-left font-[family-name:var(--font-outfit)] text-[34px] font-bold leading-[1.12] tracking-tight">
           Stomatologlar uchun
-          <span className="block text-[#0066FF]">yagona platforma</span>
+          <span className="block text-[#0b7f7d]">yagona platforma</span>
         </h1>
         <p className="mt-3 text-[15px] leading-relaxed text-[#52637a]">{heroText}</p>
         <div className="relative mt-4 h-[330px] overflow-hidden bg-[#eef3f8]">
@@ -66,7 +66,7 @@ export function LandingMobile() {
           </div>
           <ToothBadge className="absolute right-2 top-1/2 z-10 size-14 -translate-y-1/2" />
         </div>
-        <Link href="/royxat" className="mt-4 flex h-12 items-center justify-center rounded-full bg-[#0066FF] text-[15px] font-bold text-white shadow-[0_10px_24px_rgba(0,102,255,0.28)]">
+        <Link href="/royxat" className="mt-4 flex h-12 items-center justify-center rounded-full bg-[#0b7f7d] text-[15px] font-bold text-white shadow-[0_10px_24px_rgba(11,127,125,0.28)]">
           Bepul ro‘yxatdan o‘tish
         </Link>
         <Link href="/marketplace" className="mt-2.5 flex h-12 items-center justify-center rounded-full border border-[#d7e2f0] bg-white text-[15px] font-bold text-[#16324f]">
@@ -90,7 +90,7 @@ export function LandingMobile() {
         <div className="mt-4 grid grid-cols-2 gap-2.5">
           {features.map((item) => (
             <Link key={item.href} href={item.href} className="rounded-2xl border border-[#e8eef6] bg-white p-3 shadow-[0_6px_16px_rgba(15,23,42,0.04)]">
-              <span className="grid size-9 place-items-center rounded-lg bg-[#e8f1ff] text-[#0066FF]">
+              <span className="grid size-9 place-items-center rounded-lg bg-[#e3f6f5] text-[#0b7f7d]">
                 <item.icon className="size-4" strokeWidth={1.75} />
               </span>
               <b className="mt-2 block text-[14px] leading-tight">{item.title}</b>
@@ -105,7 +105,7 @@ export function LandingMobile() {
         <p className="mt-1.5 text-left text-[14px] leading-relaxed text-[#52637a]">StomaHub barcha stomatologiya sohasidagi mutaxassislar uchun</p>
         <div className="mt-3 flex flex-col gap-2">
           {people.map((person) => (
-            <Link key={person.title} href={person.href} className={`flex min-h-11 items-center gap-2.5 rounded-2xl border p-1.5 ${person.selected ? "border-[#0066FF] bg-[#e8f1ff]" : "border-[#e8eef6] bg-white"}`}>
+            <Link key={person.title} href={person.href} className={`flex min-h-11 items-center gap-2.5 rounded-2xl border p-1.5 ${person.selected ? "border-[#0b7f7d] bg-[#e3f6f5]" : "border-[#e8eef6] bg-white"}`}>
               <span className="relative size-12 shrink-0 overflow-hidden rounded-xl">
                 <img src={person.image} alt="" className="absolute inset-x-0 top-0 h-[160%] w-full object-cover object-top" />
               </span>
@@ -121,7 +121,7 @@ export function LandingMobile() {
 
       <section className="px-4 py-8">
         <h2 className="text-left font-[family-name:var(--font-outfit)] text-[26px] font-bold">Klinika CRM</h2>
-        <p className="mt-3 inline-flex rounded-full bg-[#e8f1ff] px-3 py-1 text-[12px] font-bold text-[#0066FF]">Klinika CRM</p>
+        <p className="mt-3 inline-flex rounded-full bg-[#e3f6f5] px-3 py-1 text-[12px] font-bold text-[#0b7f7d]">Klinika CRM</p>
         <p className="mt-3 font-[family-name:var(--font-outfit)] text-[20px] font-bold leading-tight">Klinikangizni to‘liq nazorat qiling</p>
         <p className="mt-2 text-[14px] leading-relaxed text-[#52637a]">Bemorlar, uchrashuvlar, davolash rejalari, to‘lovlar va hisobotlar — barchasi bir joyda.</p>
         <ul className="mt-4 space-y-2">
@@ -132,7 +132,7 @@ export function LandingMobile() {
             </li>
           ))}
         </ul>
-        <Link href="/crm" className="mt-4 flex h-12 items-center justify-center rounded-full bg-[#0066FF] text-[15px] font-bold text-white">
+        <Link href="/crm" className="mt-4 flex h-12 items-center justify-center rounded-full bg-[#0b7f7d] text-[15px] font-bold text-white">
           CRM imkoniyatlarini ko‘rish
         </Link>
         <div className="mt-5">
@@ -147,7 +147,7 @@ export function LandingMobile() {
           {steps.map((step, index) => (
             <li key={step.n} className="flex flex-col items-center">
               <div className="w-full rounded-2xl border border-[#e8eef6] bg-[#f7f9fc] px-4 py-5 text-center">
-                <span className="inline-grid size-11 place-items-center rounded-full bg-[#0066FF] text-[16px] font-bold text-white">{step.n}</span>
+                <span className="inline-grid size-11 place-items-center rounded-full bg-[#0b7f7d] text-[16px] font-bold text-white">{step.n}</span>
                 <h3 className="mt-3 text-[16px] font-bold">{step.title}</h3>
                 <p className="mt-1 text-[14px] text-[#52637a]">{step.text}</p>
               </div>
@@ -187,11 +187,11 @@ export function LandingMobile() {
       <section className="px-4 py-6">
         <div className="relative overflow-hidden rounded-[24px] px-5 py-8 text-white">
           <img src="/img/landing/hero-dentist.jpg" alt="" className="absolute inset-0 h-full w-full object-cover" />
-          <div className="absolute inset-0 bg-[#0066FF]/75" />
+          <div className="absolute inset-0 bg-[#0b7f7d]/75" />
           <div className="relative">
             <h2 className="font-[family-name:var(--font-outfit)] text-[24px] font-bold leading-tight">Stomatologlar hamjamiyatiga qo‘shiling</h2>
             <p className="mt-2 text-[14px] leading-relaxed text-white/95">Birgalikda o‘sish, yangi imkoniyatlar va ishonchli hamkorlar.</p>
-            <Link href="/royxat" className="mt-4 flex h-12 items-center justify-center rounded-full bg-white text-[15px] font-bold text-[#0066FF]">
+            <Link href="/royxat" className="mt-4 flex h-12 items-center justify-center rounded-full bg-white text-[15px] font-bold text-[#0b7f7d]">
               Bepul ro‘yxatdan o‘tish
             </Link>
           </div>
@@ -208,7 +208,7 @@ export function LandingMobile() {
         </div>
         <Link href="/community" className="mt-4 flex min-h-11 items-center justify-between rounded-2xl bg-white px-4 text-[14px] font-semibold ring-1 ring-[#e8eef6]">
           Hamjamiyatni ochish
-          <ChevronRight className="size-5 text-[#0066FF]" />
+          <ChevronRight className="size-5 text-[#0b7f7d]" />
         </Link>
       </section>
 
@@ -220,7 +220,7 @@ export function LandingMobile() {
             const Icon = contactIcon[item.label];
             return (
               <a key={item.label} href={item.href} className="flex min-h-11 items-center gap-3 rounded-2xl border border-[#e8eef6] px-3 py-2">
-                <span className="grid size-11 place-items-center rounded-xl bg-[#e8f1ff] text-[#0066FF]"><Icon className="size-5" /></span>
+                <span className="grid size-11 place-items-center rounded-xl bg-[#e3f6f5] text-[#0b7f7d]"><Icon className="size-5" /></span>
                 <span>
                   <span className="block text-[12px] text-[#64748b]">{item.label}</span>
                   <span className="block text-[14px] font-semibold">{item.value}</span>
@@ -232,7 +232,7 @@ export function LandingMobile() {
       </section>
 
       <footer className="border-t border-[#e8eef6] bg-white px-4 py-8">
-        <LandingLogo />
+        <LandingLogo teal />
         <p className="mt-3 text-[13px] leading-relaxed text-[#52637a]">Stomatologiya sohasini rivojlantirish uchun zamonaviy raqamli ekosistema.</p>
         <div className="mt-4">
           <LandingSocials names={["telegram", "instagram", "youtube", "tiktok"]} />

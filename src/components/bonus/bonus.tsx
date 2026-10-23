@@ -52,11 +52,11 @@ export function SignupBonusPromo({ className }: { className?: string }) {
   return (
     <div
       className={cn(
-        "flex items-start gap-3 rounded-2xl border border-[#cfe0ff] bg-[linear-gradient(135deg,#eaf2ff,#f5f9ff)] px-4 py-3.5",
+        "flex items-start gap-3 rounded-2xl border border-[#cdeceb] bg-[linear-gradient(135deg,#e6f7f6,#f4fbfb)] px-4 py-3.5",
         className,
       )}
     >
-      <span className="grid size-10 shrink-0 place-items-center rounded-xl bg-[#0066FF] text-white shadow-[0_6px_14px_rgba(0,102,255,0.3)]">
+      <span className="grid size-10 shrink-0 place-items-center rounded-xl bg-[#0b7f7d] text-white shadow-[0_6px_14px_rgba(11,127,125,0.3)]">
         <Gift className="size-5" />
       </span>
       <div className="min-w-0">

@@ -59,7 +59,7 @@ function Tracker({ order }: { order: MobileOrder }) {
   const pct = (current / (steps.length - 1)) * 100;
   return (
     <div className="od-track" data-testid="od-track">
-      <i className="od-line" style={{ background: `linear-gradient(90deg, #12b981 ${pct}%, #e6ebf2 ${pct}%)` }} />
+      <i className="od-rail" style={{ background: `linear-gradient(90deg, #0b7f7d ${pct}%, #e6ebf2 ${pct}%)` }} />
       {steps.map((step) => (
         <div key={step.title} className={`od-step ${step.state === "done" ? "done" : step.state === "current" ? "now" : "todo"}`}>
           <span className="od-dot">
@@ -144,7 +144,7 @@ export function OrdersMobileList() {
     <div className="od lg:hidden" data-testid="mobile-buyurtmalar">
       <header className="mh-bar">
         <MobileMenuButton />
-        <Link href="/" className="mh-logo">STOMAHUB</Link>
+        <Link href="/" className="mh-logo">STOMA<span>HUB</span></Link>
         <button type="button" className="mh-ic" aria-label="Qidiruv" aria-expanded={searchOpen} onClick={() => setSearchOpen((open) => !open)}>
           <Search />
         </button>

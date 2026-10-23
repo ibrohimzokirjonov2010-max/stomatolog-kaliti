@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { useSearchParams } from "next/navigation";
 import Image from "next/image";
 import Link from "next/link";
 import {
@@ -70,7 +71,9 @@ export function LabProfilePhone({ lab }: { lab: Lab }) {
   const portfolio = lab.portfolio ?? [];
   const rows = rowsOf(lab);
   const [tab, setTab] = useState<Tab>("xizmatlar");
-  const [order, setOrder] = useState<{ service?: LabService; note?: string } | null>(null);
+  const params = useSearchParams();
+  // "Buyurtma berish" on the lab list links here with ?buyurtma=1.
+  const [order, setOrder] = useState<{ service?: LabService; note?: string } | null>(() => (!lab.mine && params.get("buyurtma") === "1" ? {} : null));
   const [contact, setContact] = useState(false);
   const [viewer, setViewer] = useState<number | null>(null);
   const [copied, setCopied] = useState(false);

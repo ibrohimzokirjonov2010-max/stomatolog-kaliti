@@ -9,7 +9,7 @@ import { useFavorites } from "@/components/favorites-provider";
 import { MobileMenuButton } from "@/components/dashboard/mobile-chrome";
 import { NotificationBell } from "@/components/notification-bell";
 import { useSurplusWork } from "@/components/surplus-provider";
-import { conditionLabel, listingExpiry, surplusCategoryLabel, type SurplusListing } from "@/data/surplus";
+import { conditionLabel, listingDiscount, listingExpiry, normalizeCategory, surplusCategories, surplusCategoryLabel, type SurplusListing } from "@/data/surplus";
 import { formatMoney } from "@/lib/format";
 import "./surplus-mobile.css";
 
@@ -23,26 +23,28 @@ export function SurplusMobileCatalog({ onPost }: { onPost: () => void }) {
   const [sort, setSort] = useState<Sort>("new");
   const [filters, setFilters] = useState(false);
   const [city, setCity] = useState("");
+  const [cat, setCat] = useState("");
 
   const cities = useMemo(() => [...new Set(feed.map((item) => item.city).filter(Boolean))], [feed]);
   const list = useMemo(() => {
     const q = query.trim().toLowerCase();
     const items = feed.filter((item) => {
       if (city && item.city !== city) return false;
+      if (cat && normalizeCategory(item.category) !== cat) return false;
       if (!q) return true;
       return `${item.name} ${item.brand} ${item.seller} ${item.city}`.toLowerCase().includes(q);
     });
     if (sort === "cheap") return [...items].sort((a, b) => a.price - b.price);
     if (sort === "dear") return [...items].sort((a, b) => b.price - a.price);
     return items;
-  }, [city, feed, query, sort]);
+  }, [cat, city, feed, query, sort]);
 
   return (
     <div className="om lg:hidden" data-testid="mobile-surplus">
       <header className="mh-bar">
         <MobileMenuButton />
         <Link href="/" className="mh-logo">
-          STOMAHUB
+          STOMA<span>HUB</span>
         </Link>
         <Link href="/savat" className="mh-ic" aria-label="Savat">
           <ShoppingCart />
@@ -77,6 +79,15 @@ export function SurplusMobileCatalog({ onPost }: { onPost: () => void }) {
             <SlidersHorizontal />
           </button>
         </form>
+
+        <div className="om-chips" role="tablist">
+          <button type="button" role="tab" aria-selected={!cat} className={!cat ? "on" : undefined} onClick={() => setCat("")}>Barchasi</button>
+          {surplusCategories.map((item) => (
+            <button key={item.id} type="button" role="tab" aria-selected={cat === item.id} className={cat === item.id ? "on" : undefined} onClick={() => setCat(item.id)}>
+              {item.label}
+            </button>
+          ))}
+        </div>
 
         <div className="om-tools">
           <b data-testid="om-count">{ready ? list.length : "…"} ta e‘lon</b>
@@ -166,6 +177,12 @@ function SurplusCard({ item, saved, onSave }: { item: SurplusListing; saved: boo
         </div>
         <div className="om-price">
           <b>{formatMoney(item.price, "UZS")}</b>
+          {listingDiscount(item) > 0 ? (
+            <>
+              <s>{formatMoney(item.newPrice, "UZS")}</s>
+              <em>-{listingDiscount(item)}%</em>
+            </>
+          ) : null}
         </div>
         <p className="om-pin">
           <MapPin /> {item.city || "Shahar ko‘rsatilmagan"}

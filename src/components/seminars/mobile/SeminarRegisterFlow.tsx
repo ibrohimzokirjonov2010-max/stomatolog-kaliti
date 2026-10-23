@@ -39,7 +39,7 @@ export function SeminarRegisterFlow({ id }: { id: string }) {
             <ChevronLeft />
           </Link>
           <div className="rg-brand">
-            <b>STOMAHUB</b>
+            <b>STOMA<span>HUB</span></b>
             <span>Seminarga ro‘yxatdan o‘tish</span>
           </div>
         </header>
@@ -59,7 +59,7 @@ export function SeminarRegisterFlow({ id }: { id: string }) {
             <ChevronLeft />
           </Link>
           <div className="rg-brand">
-            <b>STOMAHUB</b>
+            <b>STOMA<span>HUB</span></b>
             <span>Seminarga ro‘yxatdan o‘tish</span>
           </div>
         </header>
@@ -100,7 +100,7 @@ export function SeminarRegisterFlow({ id }: { id: string }) {
           <ChevronLeft />
         </Link>
         <div className="rg-brand">
-          <b>STOMAHUB</b>
+          <b>STOMA<span>HUB</span></b>
           <span>Seminarga ro‘yxatdan o‘tish</span>
         </div>
       </header>
@@ -299,7 +299,7 @@ export function SeminarRegisterFlow({ id }: { id: string }) {
                         <CreditCard style={{ width: 16, height: 16 }} />
                       </i>
                     ) : item.id === "installment" ? (
-                      <i className="ic" style={{ width: 28, height: 28, borderRadius: 8, display: "grid", placeItems: "center", background: "#e8f1ff", color: "#0066ff", marginBottom: 6 }}>
+                      <i className="ic" style={{ width: 28, height: 28, borderRadius: 8, display: "grid", placeItems: "center", background: "#e3f6f5", color: "#0b7f7d", marginBottom: 6 }}>
                         <Clock style={{ width: 16, height: 16 }} />
                       </i>
                     ) : (

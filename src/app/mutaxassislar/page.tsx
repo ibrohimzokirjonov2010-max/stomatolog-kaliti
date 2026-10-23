@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { PhoneSpecialists } from "@/components/phone14/learn";
+import { MutaxassislarMobile } from "@/components/specialists/MutaxassislarMobile";
 
 export const metadata: Metadata = {
   title: "Mutaxassislar",
@@ -7,5 +7,5 @@ export const metadata: Metadata = {
 };
 
 export default function MutaxassislarPage() {
-  return <PhoneSpecialists />;
+  return <MutaxassislarMobile />;
 }

@@ -3,10 +3,12 @@
 
 import { useEffect, useMemo, useState } from "react";
 import Link from "next/link";
-import { Search, ShoppingCart } from "lucide-react";
+import { ArrowUpDown, ChevronDown, Flame, Gift, Heart, Percent, Search, Settings2, ShoppingCart, Star } from "lucide-react";
+import { useFavorites } from "@/components/favorites-provider";
 import { useCart } from "@/components/cart-provider";
-import { fetchCatalogProducts, productFromCatalog, type CatalogCard } from "@/lib/catalog-client";
+import { catalogHref, fetchCatalogProducts, productFromCatalog, type CatalogCard } from "@/lib/catalog-client";
 import { formatMoney } from "@/lib/format";
+import "./sales-mobile.css";
 
 type SaleSort = "mashhurlik" | "chegirma" | "arzon" | "qimmat";
 
@@ -26,6 +28,8 @@ export function SalesMobile() {
   const [category, setCategory] = useState("");
   const [sort, setSort] = useState<SaleSort>("mashhurlik");
   const [rows, setRows] = useState<CatalogCard[] | null>(null);
+  const [brand, setBrand] = useState("");
+  const favorites = useFavorites();
 
   useEffect(() => {
     let stop = false;
@@ -51,57 +55,70 @@ export function SalesMobile() {
     return list;
   }, [category, q, rows, sort]);
 
+  const brands = Array.from(new Set((rows ?? []).map((item) => item.brand))).sort();
+  const shown = brand ? items.filter((item) => item.brand === brand) : items;
+
   return (
-    <div className="space-y-3 lg:hidden" data-testid="sales-mobile">
-      <div>
-        <h1 className="text-[22px] font-extrabold tracking-tight text-[#0f1e3d]">Aksiyalar</h1>
-        <p className="text-[13px] text-[#6a7c93]">Maxsus takliflar va chegirmalar</p>
-      </div>
-      <label className="flex h-11 items-center gap-2 rounded-xl border border-[#e6edf5] bg-white px-3">
-        <Search className="size-4 text-[#8b9bb0]" />
-        <input className="min-w-0 flex-1 bg-transparent text-[14px] outline-none" aria-label="Aksiyalarda qidirish" value={q} placeholder="Aksiyalarda qidirish..." onChange={(event) => setQ(event.target.value)} />
+    <div className="sl lg:hidden" data-testid="sales-mobile">
+      <header className="sl-head">
+        <div>
+          <h1>Aksiyalar</h1>
+          <p>Stomatologik mahsulotlarda maxsus takliflar</p>
+        </div>
+        <Link href="/marketplace" className="sl-all"><Gift /> Marketplace</Link>
+      </header>
+      <label className="sl-search">
+        <Search />
+        <input aria-label="Aksiyalarda qidirish" value={q} placeholder="Mahsulot, brend yoki kategoriya qidirish..." onChange={(event) => setQ(event.target.value)} />
       </label>
-      <select className="h-11 w-full rounded-xl border border-[#e6edf5] bg-white px-3 text-[14px]" aria-label="Saralash" value={sort} onChange={(event) => setSort(event.target.value as SaleSort)}>
-        <option value="mashhurlik">Mashhurlik bo‘yicha</option>
-        <option value="chegirma">Chegirma %</option>
-        <option value="arzon">Arzon</option>
-        <option value="qimmat">Qimmat</option>
-      </select>
-      <div className="flex gap-1.5 overflow-x-auto pb-1">
-        <button type="button" className={category === "" ? "h-8 shrink-0 rounded-full bg-[#0066ff] px-3 text-[12px] font-bold text-white" : "h-8 shrink-0 rounded-full bg-white px-3 text-[12px] font-bold text-[#5c6d84]"} onClick={() => setCategory("")}>
-          Barchasi
-        </button>
+      <div className="sl-chips">
+        <button type="button" className={category === "" ? "on" : ""} onClick={() => setCategory("")}>Barchasi</button>
         {chips.map((item) => (
-          <button key={item.id} type="button" className={category === item.id ? "h-8 shrink-0 rounded-full bg-[#0066ff] px-3 text-[12px] font-bold text-white" : "h-8 shrink-0 rounded-full bg-white px-3 text-[12px] font-bold text-[#5c6d84]"} onClick={() => setCategory(item.id)}>
-            {item.label}
-          </button>
+          <button key={item.id} type="button" className={category === item.id ? "on" : ""} onClick={() => setCategory(item.id)}>{item.label}</button>
         ))}
       </div>
-      {rows === null || items.length === 0 ? (
-        <p className="rounded-xl bg-white px-4 py-8 text-center text-[14px] text-[#6a7c93]">
-          {rows === null ? "Yuklanmoqda..." : rows.length === 0 ? "Hozircha aksiya yo‘q" : "Aksiya topilmadi"}
-        </p>
+      <div className="sl-sorts">
+        <button type="button" className={sort === "mashhurlik" ? "on" : ""} onClick={() => setSort("mashhurlik")}><Flame /> Eng mashhur</button>
+        <button type="button" className={sort === "chegirma" ? "on" : ""} onClick={() => setSort("chegirma")}><Percent /> Chegirma</button>
+        <button type="button" className={sort === "arzon" || sort === "qimmat" ? "on" : ""} onClick={() => setSort(sort === "arzon" ? "qimmat" : "arzon")}><ArrowUpDown /> {sort === "qimmat" ? "Qimmat" : "Arzon"}</button>
+        <label className="sl-brand">
+          <Settings2 />
+          <select aria-label="Brend" value={brand} onChange={(event) => setBrand(event.target.value)}>
+            <option value="">Brendlar</option>
+            {brands.map((name) => <option key={name} value={name}>{name}</option>)}
+          </select>
+          <ChevronDown />
+        </label>
+      </div>
+      {rows === null || shown.length === 0 ? (
+        <p className="sl-empty">{rows === null ? "Yuklanmoqda…" : rows.length === 0 ? "Hozircha aksiya yo‘q" : "Aksiya topilmadi"}</p>
       ) : (
-        <div className="grid grid-cols-2 gap-2">
-          {items.map((item) => (
-            <article key={item.id} className="rounded-xl bg-white p-2.5 shadow-sm">
-              <Link href={`/marketplace/${item.id}`} className="relative block h-24 overflow-hidden rounded-lg bg-[#f4f7fb]">
-                {item.image ? <img src={item.image} alt="" className="h-full w-full object-contain" /> : null}
-                {item.discount ? <span className="absolute left-1.5 top-1.5 rounded-md bg-[#ef3b3b] px-1.5 text-[11px] font-bold text-white">-{item.discount}%</span> : null}
-              </Link>
-              <b className="mt-2 block text-[13px] leading-tight">{item.name}</b>
-              <span className="mt-0.5 block text-[11px] text-[#8b9bb0]">{item.brand}</span>
-              <span className="mt-1 block text-[13px] font-extrabold text-[#0066ff]">{formatMoney(item.price, "UZS")}</span>
-              <button
-                type="button"
-                className="mt-2 inline-flex h-8 w-full items-center justify-center gap-1 rounded-lg bg-[#0066ff] text-[12px] font-bold text-white"
-                onClick={() => add(item.id, productFromCatalog(item))}
-              >
-                <ShoppingCart className="size-3.5" /> Savatga
-              </button>
-            </article>
-          ))}
-        </div>
+        <ul className="sl-list">
+          {shown.map((item) => {
+            const href = catalogHref(item.category, item.id);
+            const liked = favorites.has(item.id);
+            const sub = item.subcategory || item.description.split(/[.\n]/)[0];
+            return (
+              <li key={item.id} className="sl-card">
+                <Link href={href} className="sl-img">
+                  {item.image ? <img src={item.image} alt="" /> : null}
+                  {item.discount ? <span>-{item.discount}%</span> : null}
+                </Link>
+                <div className="sl-body">
+                  <small>{item.brand}</small>
+                  <Link href={href} className="sl-name">{item.name}</Link>
+                  {sub ? <p className="sl-sub">{sub}</p> : null}
+                  {item.reviews > 0 ? <p className="sl-rate"><Star /> {item.rating.toFixed(1)} <span>({item.reviews} ta sharh)</span></p> : null}
+                  <p className="sl-price"><b>{formatMoney(item.price, "UZS")}</b>{item.oldPrice ? <s>{formatMoney(item.oldPrice, "UZS")}</s> : null}</p>
+                </div>
+                <div className="sl-side">
+                  <button type="button" className={liked ? "sl-like on" : "sl-like"} aria-label="Saqlash" aria-pressed={liked} onClick={() => favorites.toggle(item.id)}><Heart /></button>
+                  <button type="button" className="sl-cart" aria-label={`${item.name} savatga`} disabled={!item.inStock} onClick={() => add(item.id, productFromCatalog(item))}><ShoppingCart /></button>
+                </div>
+              </li>
+            );
+          })}
+        </ul>
       )}
     </div>
   );

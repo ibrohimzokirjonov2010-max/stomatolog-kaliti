@@ -51,15 +51,16 @@ const toothPath = "M16 3.2c-2.9 0-5.2 2.1-5.2 4.8 0 1.2-.5 3.2-1.2 5.1C8.5 15.6 
 /** Outlined molar used by the brand mark. */
 export const toothOutline = "M10 4.5c-3.1 0-5.5 2.5-5.5 5.9 0 2.4.8 4.2 1.5 6.2.7 1.9 1 4.2 1.4 6.9.3 2.1 1.2 3.7 2.5 3.7 1.5 0 2-1.7 2.4-3.9.4-2.1 1-4.5 3.7-4.5s3.3 2.4 3.7 4.5c.4 2.2.9 3.9 2.4 3.9 1.3 0 2.2-1.6 2.5-3.7.4-2.7.7-5 1.4-6.9.7-2 1.5-3.8 1.5-6.2 0-3.4-2.4-5.9-5.5-5.9-2.2 0-3.6 1.1-6 1.1s-3.8-1.1-6-1.1z";
 
-export function LandingLogo({ tagline = true, size = "md" }: { tagline?: boolean; size?: "md" | "lg" }) {
+export function LandingLogo({ tagline = true, size = "md", teal = false }: { tagline?: boolean; size?: "md" | "lg"; /** Phone mockup: all-teal wordmark. */ teal?: boolean }) {
   const large = size === "lg";
+  const ink = teal ? "text-[#0b7f7d]" : "text-[#1d6cf2]";
   return (
     <span className="flex items-center gap-2.5">
-      <svg viewBox="0 0 32 32" className={`${large ? "size-12" : "size-10"} shrink-0 text-[#1d6cf2]`} fill="none" stroke="currentColor" strokeWidth={2.4} strokeLinejoin="round" aria-hidden="true">
+      <svg viewBox="0 0 32 32" className={`${large ? "size-12" : "size-10"} shrink-0 ${ink}`} fill="none" stroke="currentColor" strokeWidth={2.4} strokeLinejoin="round" aria-hidden="true">
         <path d={toothOutline} />
       </svg>
       <span className="leading-tight">
-        <span className={`block font-extrabold tracking-tight text-[#1d6cf2] ${large ? "text-[24px]" : "text-[20px]"}`}>Stoma<span className="text-[#0b8f8a]">Hub</span></span>
+        <span className={`block font-extrabold tracking-tight ${ink} ${large ? "text-[24px]" : "text-[20px]"}`}>Stoma<span className="text-[#0b8f8a]">Hub</span></span>
         {tagline ? <span className="mt-0.5 block max-w-[168px] text-[12px] font-medium leading-snug text-[#64748b]">Stomatologlar uchun yagona platforma</span> : null}
       </span>
     </span>

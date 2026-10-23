@@ -53,7 +53,7 @@ export function PhoneCourses() {
             </div>
             <p className="meta-line"><span>{item.lessons}</span><span>{item.time}</span><span>{item.level}</span></p>
             <div className="p14-head">
-              <b className="price" style={{ color: "#0066ff" }}>{formatGroupedNumber(item.price)} so‘m</b>
+              <b className="price" style={{ color: "#0b7f7d" }}>{formatGroupedNumber(item.price)} so‘m</b>
               <Link href={`/talim/${item.id}/video`} className="buy" style={{ display: "inline-flex", alignItems: "center", padding: "0 14px" }}>{item.cta}</Link>
             </div>
           </article>

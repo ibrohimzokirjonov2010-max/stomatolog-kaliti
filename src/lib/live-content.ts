@@ -11,7 +11,7 @@ import type { FormaKind, MobileForma } from "@/data/mobile-forma";
 import type { JihozKind, MobileJihoz } from "@/data/mobile-jihozlar";
 import type { BookFormat as MobileBookFormat, BookTopic, MobileBook } from "@/data/mobile-books";
 import type { MobileNews, NewsKind } from "@/data/mobile-news";
-import type { LessonLevel, LessonTopic, MobileLesson } from "@/data/mobile-lessons";
+import { lessonTopics, type LessonLevel, type LessonTopic, type MobileLesson } from "@/data/mobile-lessons";
 
 export type LiveChapter = { title: string; body: string };
 export type LiveLesson = { id: string; title: string; videoUrl: string; position: number; done: boolean };
@@ -430,16 +430,19 @@ export function toContinue(course: LiveCourse): ContinueItem {
   };
 }
 
+const LESSON_TOPIC: Partial<Record<Course["direction"], LessonTopic>> = { implantologiya: "implantologiya", endodontiya: "endodontiya", ortodontiya: "ortodontiya", digital: "raqamli" };
+
 export function toMobileLesson(course: LiveCourse): MobileLesson {
-  const topic: LessonTopic = "terapiya";
-  const level: LessonLevel = "orta";
+  const text = `${course.title} ${course.description}`;
+  const topic: LessonTopic = /estet|vinir|veneer|oqart/i.test(text) ? "estetika" : LESSON_TOPIC[directionOf(text)] ?? "terapiya";
+  const level: LessonLevel = /boshlang|asoslar/i.test(course.title) ? "boshlangich" : "orta";
   return {
     id: course.id,
     title: course.title,
     topic,
-    topicLabel: "Terapiya",
+    topicLabel: lessonTopics.find((item) => item.id === topic)?.label ?? "Terapiya",
     level,
-    levelLabel: "O‘rta",
+    levelLabel: level === "boshlangich" ? "Boshlang‘ich" : "O‘rta",
     author: course.teacher,
     avatar: course.cover,
     image: course.cover,
@@ -449,6 +452,7 @@ export function toMobileLesson(course: LiveCourse): MobileLesson {
     lessons: course.lessons.length,
     price: course.price,
     progress: course.enrolled ? course.progress : undefined,
+    blurb: course.description,
   };
 }
 

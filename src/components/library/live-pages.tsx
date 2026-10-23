@@ -11,6 +11,9 @@ import { colorLabel, formaColors, formaGenders, formaKinds } from "@/data/forma"
 import { enrollCourse, fetchBooks, fetchCourses, fetchNews, saveLessonDone, type LiveBook, type LiveCourse, type LiveNews } from "@/lib/live-content";
 import { formatMoney } from "@/lib/format";
 import { MarketplaceMobileProduct } from "@/components/market/mobile/MarketplaceMobileProduct";
+import { CatalogPhoneProduct } from "@/components/forma/mobile/CatalogPhoneProduct";
+import { BookDetailPhone } from "@/components/books/mobile/BookDetailPhone";
+import { CoursePlayerPhone } from "@/components/education/mobile/CoursePlayerPhone";
 
 function Shell({ title, children }: { title: string; children: ReactNode }) {
   return (
@@ -121,7 +124,9 @@ function CatalogDetailInner({ id, expect }: { id: string; expect?: "forma" | "ji
   }
 
   return (
-    <article className="mx-auto max-w-5xl px-4 py-6 pb-28 lg:pb-6" data-testid="product-live">
+    <>
+    <CatalogPhoneProduct key={card.id} card={card} back={back} delivery={delivery} specs={specs} />
+    <article className="mx-auto hidden max-w-5xl px-4 py-6 pb-28 lg:block lg:pb-6" data-testid="product-live">
       <Link href={back} className="text-[13px] font-semibold text-[#0066FF]">Orqaga</Link>
       <div className="mt-3 grid gap-6 lg:grid-cols-[minmax(0,1fr)_minmax(0,1fr)]">
         <div data-testid="product-gallery">
@@ -237,6 +242,7 @@ function CatalogDetailInner({ id, expect }: { id: string; expect?: "forma" | "ji
         </section>
       ) : null}
     </article>
+    </>
   );
 }
 
@@ -254,6 +260,9 @@ export function BookPage({ id }: { id: string }) {
   if (book === undefined) return <Shell title="Yuklanmoqda...">{null}</Shell>;
   if (!book) return <Shell title="Kitob topilmadi"><Link href="/kitoblar" className="text-[#0066FF]">Kitoblar</Link></Shell>;
   return (
+    <>
+    <BookDetailPhone book={book} />
+    <div className="hidden lg:block">
     <Shell title={book.title}>
       <p className="mt-1 text-[14px] text-[#6b7280]">{book.author}</p>
       {book.cover ? <img src={book.cover} alt="" className="mt-4 h-56 rounded-2xl object-cover" /> : null}
@@ -262,6 +271,8 @@ export function BookPage({ id }: { id: string }) {
       <p className="mt-3 whitespace-pre-wrap text-[15px] leading-relaxed">{book.description}</p>
       <Link href={`/kitoblar/${book.id}/oqish`} className="mt-5 inline-flex h-11 items-center rounded-xl bg-[#0066FF] px-4 text-[14px] font-bold text-white">O‘qish</Link>
     </Shell>
+    </div>
+    </>
   );
 }
 
@@ -303,6 +314,9 @@ export function CoursePlayer({ id }: { id: string }) {
   if (!course) return <Shell title="Kurs topilmadi"><Link href="/talim" className="text-[#0066FF]">Ta’lim</Link></Shell>;
   const current = course.lessons[lesson];
   return (
+    <>
+    <CoursePlayerPhone key={course.id} course={course} onChange={setCourse} />
+    <div className="hidden lg:block">
     <Shell title={course.title}>
       <p className="mt-1 text-[14px] text-[#6b7280]">{course.teacher} · {course.price > 0 ? formatMoney(course.price, "UZS") : "Bepul"} · {course.progress}%</p>
       {course.cover ? <img src={course.cover} alt="" className="mt-4 max-h-64 rounded-2xl object-cover" /> : null}
@@ -329,5 +343,7 @@ export function CoursePlayer({ id }: { id: string }) {
         ))}
       </ul>
     </Shell>
+    </div>
+    </>
   );
 }

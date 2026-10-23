@@ -195,19 +195,11 @@ function CartButton({ count, blue }: { count: number; blue?: boolean | "teal" })
 
 /** Section roots that render the shared MobileSectionHeader instead of this top bar. */
 const PHONE14 = new Set([
-  "/kategoriyalar",
-  "/marketplace/brendlar",
-  "/marketplace/aksiyalar",
   "/talim",
-  "/mutaxassislar",
-  "/sertifikatlar",
   "/crm/bemorlar",
   "/crm/uchrashuvlar",
   "/crm/davolash-rejalari",
-  "/crm/tolovlar",
   "/crm/hisobotlar",
-  "/ustalar",
-  "/elonlar",
 ]);
 
 function isPhone14(pathname: string) {
@@ -260,8 +252,6 @@ export function MobileTopbar() {
     !pathname.startsWith("/forma/buyurtmalarim")
   )
     return null;
-  // Book detail page draws its own header (back / share / save).
-  if (/^\/kitoblar\/[^/]+\/?$/.test(pathname)) return null;
   if (/\/oqish\/?$/.test(pathname) || /\/talim\/[^/]+\/video\/?$/.test(pathname) || /\/seminarlar\/[^/]+\/royxat\/?$/.test(pathname)) return null;
   // Ustalar list + usta profile draw their own headers (mock: logo + "Usta qo‘shish" / back · heart · share).
   if (
@@ -270,7 +260,6 @@ export function MobileTopbar() {
   )
     return null;
   if (/^\/jihozlar\/[^/]+\/?$/.test(pathname)) return null;
-  if (/^\/buyurtmalarim\/[^/]+\/?$/.test(pathname)) return null;
   const onListing = pathname === "/marketplace" || pathname === "/jihozlar";
   const onHome = pathname === "/" || pathname.startsWith("/bosh-sahifa");
   const onSeminarlar =
@@ -372,9 +361,9 @@ export function MobileTopbar() {
             ) : (
               <Link
                 href="/"
-                className="min-w-0 flex-1 text-[15px] font-extrabold tracking-[0.12em] text-[#0066FF]"
+                className="min-w-0 flex-1 text-[15px] font-extrabold tracking-[0.12em] text-[#0b1a3a]"
               >
-                STOMAHUB
+                STOMA<span className="text-[#0b7f7d]">HUB</span>
               </Link>
             )}
           </>
@@ -739,7 +728,7 @@ function isProductDetailPath(path: string) {
   if (!path.startsWith("/marketplace/")) return false;
   if (path.startsWith("/marketplace/dokon")) return false;
   if (path.startsWith("/marketplace/sotuvchi")) return false;
-  if (path.startsWith("/marketplace/brendlar")) return false;
+  if (path.startsWith("/marketplace/brendlar") || path === "/marketplace/aksiyalar") return false;
   return true;
 }
 

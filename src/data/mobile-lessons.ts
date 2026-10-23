@@ -18,6 +18,8 @@ export type MobileLesson = {
   lessons: number;
   price: number;
   progress?: number;
+  /** Course description (first lines shown on the phone card). */
+  blurb?: string;
 };
 
 export const lessonTopics: { id: "all" | LessonTopic; label: string }[] = [

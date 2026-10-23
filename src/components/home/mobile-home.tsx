@@ -16,15 +16,22 @@ import {
   Shirt,
   Wrench,
   CalendarDays,
+  Clock,
   Heart,
+  MapPin,
+  Star,
 } from "lucide-react";
 import { useCart } from "@/components/cart-provider";
 import { useFavorites } from "@/components/favorites-provider";
 import { useDoctorProfile } from "@/components/doctor-profile-provider";
+import { useCommunityWork } from "@/components/community-provider";
+import { useSeminarRegs } from "@/components/seminar-provider";
+import { getSeminarSpeakers, seminarDayMonth, seminarHref, seminarPriceText, upcomingSeminars, type Seminar } from "@/data/seminars";
 import { MobileMenuButton } from "@/components/dashboard/mobile-chrome";
 import { NotificationBell } from "@/components/notification-bell";
 import { catalogHref, fetchCatalogProducts, productFromCatalog, type CatalogCard } from "@/lib/catalog-client";
-import { formatMoney } from "@/lib/format";
+import { BONUS_SIGNUP_UZS } from "@/lib/bonus";
+import { formatGroupedNumber, formatMoney } from "@/lib/format";
 import "./mobile-home.css";
 
 const tiles = [
@@ -38,6 +45,19 @@ const tiles = [
   { href: "/laboratoriya", label: "Laboratoriya", icon: FlaskConical, bg: "#f3e8ff", color: "#7c3aed" },
 ] as const;
 
+/** "10:00"–"18:00" → "8 soat"; empty when either end is missing. */
+function duration(seminar: Seminar) {
+  const toMin = (value: string) => {
+    const match = /^(\d{1,2}):(\d{2})/.exec(value || "");
+    return match ? Number(match[1]) * 60 + Number(match[2]) : null;
+  };
+  const start = toMin(seminar.time);
+  const end = toMin(seminar.timeEnd);
+  if (start == null || end == null || end <= start) return "";
+  const hours = Math.round(((end - start) / 60) * 2) / 2;
+  return `${String(hours).replace(".", ",")} soat`;
+}
+
 export function MobileHome() {
   const { profile } = useDoctorProfile();
   const { count, add } = useCart();
@@ -46,6 +66,10 @@ export function MobileHome() {
   const [query, setQuery] = useState("");
   const [filters, setFilters] = useState(false);
   const [deals, setDeals] = useState<CatalogCard[]>([]);
+  useSeminarRegs(); // re-render when the seminar catalog arrives
+  const { feed } = useCommunityWork();
+  const seminarsToday = upcomingSeminars(2);
+  const post = feed[0];
   const first = profile?.fullName?.replace(/^Dr\.?\s*/i, "").split(/\s+/).filter(Boolean)[0] || "";
   const cartBadge = count;
 
@@ -66,7 +90,7 @@ export function MobileHome() {
     <div className="mh lg:hidden" data-testid="mobile-home">
       <header className="mh-bar">
         <MobileMenuButton />
-        <Link href="/" className="mh-logo">STOMAHUB</Link>
+        <Link href="/" className="mh-logo">STOMA<span>HUB</span></Link>
         <button type="button" className="mh-ic" aria-label="Qidirish" onClick={() => document.querySelector<HTMLInputElement>("[data-section-search]")?.focus()}>
           <Search />
         </button>
@@ -115,7 +139,8 @@ export function MobileHome() {
         <section className="mh-banner">
           <img src="/img/mobile/gift.jpg" alt="" />
           <div>
-            <b>Marketplace’da <em>10 000 so‘m bonus</em></b>
+            <small>Marketplace’da</small>
+            <b>{formatGroupedNumber(BONUS_SIGNUP_UZS)} so‘m bonus</b>
             <span>Birinchi xaridingizda foydalaning!</span>
           </div>
           <Link className="go" href="/bonuslarim">Batafsil →</Link>
@@ -126,7 +151,36 @@ export function MobileHome() {
             <h2>Bugungi seminarlar</h2>
             <Link className="mh-more" href="/seminarlar">Barchasi &gt;</Link>
           </div>
-          <p className="mh-empty" data-testid="home-seminars-empty">Hozircha seminar yo‘q.</p>
+          {seminarsToday.length === 0 ? (
+            <p className="mh-empty" data-testid="home-seminars-empty">Hozircha seminar yo‘q.</p>
+          ) : (
+            <div className="mh-list">
+              {seminarsToday.map((seminar) => {
+                const speaker = getSeminarSpeakers(seminar)[0];
+                const hours = duration(seminar);
+                return (
+                  <article className="mh-sem" key={seminar.id}>
+                    <Link href={seminarHref(seminar.id)} className="mh-thumb">
+                      {seminar.image ? <img src={seminar.image} alt="" /> : <span className="mh-thumb-empty" />}
+                      <span className="mh-date">{seminarDayMonth(seminar.date)}</span>
+                    </Link>
+                    <div>
+                      <Link href={seminarHref(seminar.id)}><h3>{seminar.title}</h3></Link>
+                      <div className="mh-meta">
+                        {speaker ? <span>{speaker.photo ? <img src={speaker.photo} alt="" className="mh-sp" /> : null}{speaker.name}</span> : null}
+                        <span><MapPin /> {seminar.city}</span>
+                        {hours ? <span><Clock /> {hours}</span> : null}
+                      </div>
+                    </div>
+                    <div className="mh-side">
+                      <b>{seminarPriceText(seminar)}</b>
+                      <Link className="mh-reg" href={`${seminarHref(seminar.id)}/royxat`}>Ro‘yxatdan o‘tish</Link>
+                    </div>
+                  </article>
+                );
+              })}
+            </div>
+          )}
         </section>
 
         <section>
@@ -158,6 +212,9 @@ export function MobileHome() {
                     <p className="brand">{deal.brand}</p>
                     <h3>{deal.name}</h3>
                   </Link>
+                  {deal.reviews > 0 ? (
+                    <p className="mh-rate"><Star /> {deal.rating.toFixed(1)} <span>({deal.reviews} ta baho)</span></p>
+                  ) : null}
                   <div className="mh-price">
                     <div>
                       <b>{formatMoney(deal.price, "UZS")}</b>
@@ -184,7 +241,23 @@ export function MobileHome() {
             <h2>Community</h2>
             <Link className="mh-more" href="/community">Barchasi &gt;</Link>
           </div>
-          <p className="mh-empty" data-testid="home-community-empty">Hozircha post yo‘q. <Link href="/community">Community</Link></p>
+          {post ? (
+            <Link href={`/community/${post.id}`} className="mh-post" data-testid="home-community-post">
+              <div>
+                <div className="who">
+                  {post.author.avatar ? <img src={post.author.avatar} alt="" /> : <span className="mh-ava sm" aria-hidden="true" />}
+                  <span>
+                    <b>{post.author.name}</b>
+                    <span className="role">{[post.author.specialty, post.time].filter(Boolean).join(" · ")}</span>
+                  </span>
+                </div>
+                <p>{post.text}</p>
+              </div>
+              {post.images?.[0] ? <img className="shot" src={post.images[0]} alt="" /> : null}
+            </Link>
+          ) : (
+            <p className="mh-empty" data-testid="home-community-empty">Hozircha post yo‘q. <Link href="/community">Community</Link></p>
+          )}
         </section>
       </div>
 

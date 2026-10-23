@@ -3,17 +3,18 @@
 import { Bike, Car, MapPin, Navigation, Phone, UserRound } from "lucide-react";
 import { courierMapLink } from "@/lib/courier-location";
 import { isPickupOrder, type Order } from "@/lib/orders";
+import { tashkentDayMonth, tashkentHm } from "@/lib/tashkent-date";
 
 function timeLabel(iso?: string) {
   if (!iso) return "";
   const d = new Date(iso);
   if (Number.isNaN(d.getTime())) return "";
   const diff = Math.floor((Date.now() - d.getTime()) / 60000);
-  const hm = d.toLocaleTimeString("uz-UZ", { hour: "2-digit", minute: "2-digit", hour12: false });
+  const hm = tashkentHm(d);
   if (diff < 1) return `hozirgina · ${hm}`;
   if (diff < 60) return `${diff} daqiqa oldin · ${hm}`;
-  const sameDay = new Date().toDateString() === d.toDateString();
-  return sameDay ? `bugun ${hm}` : `${d.toLocaleDateString("uz-UZ", { day: "2-digit", month: "2-digit" })} ${hm}`;
+  const sameDay = tashkentDayMonth(new Date()) === tashkentDayMonth(d);
+  return sameDay ? `bugun ${hm}` : `${tashkentDayMonth(d)} ${hm}`;
 }
 
 /** Courier block on the buyer's order page (Yandex kuryer delivery only). Shows only what seller/admin entered. */

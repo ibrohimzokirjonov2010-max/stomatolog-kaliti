@@ -66,7 +66,7 @@ export function KlinikamMobile() {
     <div className="kl lg:hidden" data-testid="mobile-klinikam">
       <header className="mh-bar">
         <MobileMenuButton />
-        <Link href="/" className="mh-logo">STOMAHUB</Link>
+        <Link href="/" className="mh-logo">STOMA<span>HUB</span></Link>
         <NotificationBell variant="mobile" buttonClassName="size-10 text-[#1a1d26]" />
       </header>
       <div className="kl-body">

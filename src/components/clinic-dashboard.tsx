@@ -3,7 +3,8 @@
 /* eslint-disable react-hooks/set-state-in-effect -- data loading effects kick off async fetches */
 
 import { useCallback, useEffect, useMemo, useState, type FormEvent, type ReactNode } from "react";
-import { CalendarDays, CalendarPlus, Phone, Plus, Search, Settings, Trash2, UserPlus, Users, X } from "lucide-react";
+import { ArrowRight, BarChart3, Building2, CalendarDays, CalendarPlus, Clock, Lock, MapPin, Phone, Plus, Search, Settings, Store, Trash2, UserPlus, Users, X } from "lucide-react";
+import "./clinic/mobile/clinic-setup-phone.css";
 import { useDoctorProfile } from "@/components/doctor-profile-provider";
 import { MobileSectionHeader } from "@/components/mobile-section-header";
 import { EmptyState, Gate, StatusPill, inputCls, FormField, textareaCls } from "@/components/work-ui";
@@ -85,7 +86,7 @@ export function ClinicDashboard() {
 
   return (
     <div
-      className="-m-4 min-h-screen bg-gradient-to-b from-[#d9ebff] via-[#edf4fe] to-[#f4f7fa] p-4 pb-28 text-[#0f172a] lg:m-0 lg:min-h-0 lg:bg-none lg:p-0 lg:pb-0"
+      className="-m-4 min-h-screen bg-gradient-to-b from-[#e3f3f2] via-[#f0f7f7] to-[#f4f7fa] p-4 pb-28 text-[#0f172a] lg:m-0 lg:min-h-0 lg:bg-none lg:p-0 lg:pb-0"
       style={{ paddingTop: "max(0.75rem, env(safe-area-inset-top))" }}
     >
       <MobileSectionHeader
@@ -126,11 +127,14 @@ export function ClinicDashboard() {
         ) : loading || !ready ? (
           <p className="py-16 text-center text-sm text-[#7b879d]">Yuklanmoqda…</p>
         ) : !clinic ? (
-          <section className="rounded-3xl border border-slate-100 bg-white p-5 shadow-[0_2px_12px_rgba(15,23,42,0.03)]">
+          <>
+          <ClinicSetupPhone onSubmit={(d) => op("clinic_save", d)} onDone={() => setModal(null)} />
+          <section className="hidden rounded-3xl border border-slate-100 bg-white p-5 shadow-[0_2px_12px_rgba(15,23,42,0.03)] lg:block">
             <h2 className="text-[17px] font-bold text-[#0d1727]">Klinikangizni sozlang</h2>
             <p className="mb-4 mt-1 text-sm text-[#7b879d]">Nom va ish vaqtini kiriting — keyin bemorlar, qabullar va xodimlarni qo‘shishingiz mumkin. Ma’lumotlar faqat sizga ko‘rinadi.</p>
             <ClinicForm onSubmit={(d) => op("clinic_save", d)} onDone={() => setModal(null)} />
           </section>
+          </>
         ) : (
           <>
             <section className="grid grid-cols-2 gap-2.5 lg:grid-cols-4 lg:gap-3" data-testid="clinic-kpis">
@@ -360,6 +364,103 @@ function ClinicForm({ clinic, onSubmit, onDone }: { clinic?: Clinic; onSubmit: S
         </FormField>
       </div>
       <Actions busy={busy} label="Saqlash" formError={formError} />
+    </form>
+  );
+}
+
+const SETUP_HOURS = Array.from({ length: 33 }, (_, i) => `${String(6 + Math.floor(i / 2)).padStart(2, "0")}:${i % 2 ? "30" : "00"}`);
+const SETUP_LOCKS = [
+  { title: "Bemorlar", text: "Bemorlar bazasi va karta", icon: Users },
+  { title: "Qabullar", text: "Uchrashuvlar taqvimi", icon: CalendarDays },
+  { title: "Xodimlar", text: "Shifokorlar va administratorlar", icon: Users },
+  { title: "Hisobotlar", text: "Daromad, statistika va tahlil", icon: BarChart3 },
+];
+
+/** Phone first-run setup (mock "klinika telefon"). Saves the same fields as ClinicForm. */
+function ClinicSetupPhone({ onSubmit, onDone }: { onSubmit: Submit; onDone: () => void }) {
+  const [f, setF] = useState({ name: "", branch: "", address: "", openTime: "09:00", closeTime: "18:00" });
+  const { errors, formError, busy, submit } = useForm("clinic_save", onSubmit, onDone);
+  return (
+    <form className="cs lg:hidden" onSubmit={(e) => submit(e, f)} noValidate data-testid="clinic-setup-phone">
+      <ol className="cs-steps" aria-label="Bosqichlar">
+        <li className="on"><i>1</i>Klinika ma’lumotlari</li>
+        <li><i>2</i>Xodimlar</li>
+        <li><i>3</i>Xizmatlar</li>
+      </ol>
+      <section className="cs-card">
+        <div className="cs-intro">
+          <div>
+            <h2>Klinikangizni sozlang</h2>
+            <p>To‘g‘ri ma’lumotlarni kiriting — keyin bemorlar, qabullar va xodimlarni qo‘shishingiz mumkin.</p>
+          </div>
+          {/* eslint-disable-next-line @next/next/no-img-element -- static illustration */}
+          <img src="/img/mobile/kl-clinic.jpg" alt="" />
+        </div>
+        <label className="cs-field">
+          <span>Klinika nomi <em>*</em></span>
+          <span className={errors.name ? "cs-input bad" : "cs-input"}>
+            <Building2 />
+            <input aria-invalid={errors.name ? true : undefined} value={f.name} onChange={(e) => setF({ ...f, name: e.target.value })} placeholder="Masalan: Smile Dental" />
+            {f.name ? <button type="button" aria-label="Tozalash" onClick={() => setF({ ...f, name: "" })}><X /></button> : null}
+          </span>
+          {errors.name ? <small>{errors.name}</small> : null}
+        </label>
+        <label className="cs-field">
+          <span>Filial (ixtiyoriy)</span>
+          <span className="cs-input">
+            <Store />
+            <input value={f.branch} onChange={(e) => setF({ ...f, branch: e.target.value })} placeholder="Chilonzor filiali" />
+          </span>
+        </label>
+        <label className="cs-field">
+          <span>Manzil (ixtiyoriy)</span>
+          <span className="cs-input">
+            <MapPin />
+            <input value={f.address} onChange={(e) => setF({ ...f, address: e.target.value })} placeholder="Toshkent, Chilonzor" />
+          </span>
+        </label>
+        <div className="cs-two">
+          <label className="cs-field">
+            <span>Ochilish vaqti</span>
+            <span className={errors.openTime ? "cs-input bad" : "cs-input"}>
+              <Clock />
+              <select value={f.openTime} onChange={(e) => setF({ ...f, openTime: e.target.value })}>
+                {SETUP_HOURS.map((h) => <option key={h} value={h}>{h}</option>)}
+              </select>
+            </span>
+            {errors.openTime ? <small>{errors.openTime}</small> : null}
+          </label>
+          <label className="cs-field">
+            <span>Yopilish vaqti</span>
+            <span className={errors.closeTime ? "cs-input bad" : "cs-input"}>
+              <Clock />
+              <select value={f.closeTime} onChange={(e) => setF({ ...f, closeTime: e.target.value })}>
+                {SETUP_HOURS.map((h) => <option key={h} value={h}>{h}</option>)}
+              </select>
+            </span>
+            {errors.closeTime ? <small>{errors.closeTime}</small> : null}
+          </label>
+        </div>
+      </section>
+      <section className="cs-next">
+        <h3>Keyingi bosqichlarda nimalar bo‘ladi?</h3>
+        <p>Klinikangizni to‘liq boshqarish imkoniyatlari:</p>
+        <div>
+          {SETUP_LOCKS.map(({ title, text, icon: Icon }) => (
+            <article key={title}>
+              <i><Icon /></i>
+              <Lock className="cs-lock" />
+              <b>{title}</b>
+              <small>{text}</small>
+            </article>
+          ))}
+        </div>
+      </section>
+      {formError ? <p role="alert" className="cs-error">{formError}</p> : null}
+      <div className="cs-pad" />
+      <button type="submit" className="cs-go" disabled={busy}>
+        {busy ? "Saqlanmoqda…" : <>Saqlash va davom etish <ArrowRight /></>}
+      </button>
     </form>
   );
 }

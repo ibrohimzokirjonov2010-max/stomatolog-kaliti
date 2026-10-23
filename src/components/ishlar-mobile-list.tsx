@@ -23,7 +23,6 @@ import {
   X,
 } from "lucide-react";
 import { useJobsWork } from "@/components/jobs-provider";
-import { IshlarMobileHero } from "@/components/ishlar-mobile-hero";
 import { MobileSectionHeader, mobileHeaderActionCls } from "@/components/mobile-section-header";
 import { CategoryBadge, JobPhoto, placeText, salaryText, timeAgo, useSavedJobs } from "@/components/ishlar-ui";
 import { experienceFilters, jobCategoryOf, jobCities, jobTypeLabels, salaryFilters, type Job, type JobCategory, type JobType } from "@/data/jobs";
@@ -109,20 +108,12 @@ export function IshlarMobileList({ onPost, onResume, hasResume }: { onPost: () =
     <div data-testid="ishlar-mobile">
       <MobileSectionHeader
         title="Ishlar"
-        subtitle="Klinikalar, texniklar va shifokorlar uchun ish o‘rinlari"
+        subtitle="Stomatologiya sohasidagi vakansiyalar va ish e’lonlari"
         extra={
           <button type="button" onClick={onPost} aria-label="E’lon berish" data-testid="ishlar-post" className={mobileHeaderActionCls}>
             <Plus className="size-5" strokeWidth={2.4} />
           </button>
         }
-      />
-
-      <IshlarMobileHero
-        onSegment={(c) => {
-          setSegment(c);
-          document.querySelector('[data-testid="ishlar-segments"]')?.scrollIntoView({ behavior: "smooth", block: "start" });
-        }}
-        onPost={onPost}
       />
 
       <div className="relative mb-3.5">
@@ -132,47 +123,47 @@ export function IshlarMobileList({ onPost, onResume, hasResume }: { onPost: () =
           value={query}
           onChange={(e) => setQuery(e.target.value)}
           type="search"
-          placeholder="Lavozim, soha, shahar..."
-          className="h-[50px] w-full rounded-2xl border border-[#e6ebf3] bg-white pr-14 pl-11 text-[14.5px] text-[#1a1d26] shadow-[0_4px_14px_rgba(15,23,42,0.04)] outline-none placeholder:text-[#8b93a7] focus:border-[#0066FF]"
+          placeholder="Lavozim, klinika yoki shaharni qidiring..."
+          className="h-[50px] w-full rounded-2xl border border-[#e6ebf3] bg-white pr-14 pl-11 text-[14.5px] text-[#1a1d26] shadow-[0_4px_14px_rgba(15,23,42,0.04)] outline-none placeholder:text-[#8b93a7] focus:border-[#0b7f7d]"
           data-testid="ishlar-search"
         />
         <button
           type="button"
           onClick={() => setSheet(true)}
-          className="absolute top-1/2 right-2 grid size-9 -translate-y-1/2 place-items-center rounded-xl bg-[#eef3fb] text-[#4b5568]"
+          className="absolute top-1/2 right-2 grid size-9 -translate-y-1/2 place-items-center rounded-xl bg-[#eef6f6] text-[#4b5568]"
           aria-label="Filtrlar"
           data-testid="ishlar-filter-btn"
         >
           <SlidersHorizontal className="size-[18px]" />
-          {extraFilters ? <span className="absolute -top-1 -right-1 grid size-4 place-items-center rounded-full bg-[#0066FF] text-[9px] font-bold text-white">{extraFilters}</span> : null}
+          {extraFilters ? <span className="absolute -top-1 -right-1 grid size-4 place-items-center rounded-full bg-[#0b7f7d] text-[9px] font-bold text-white">{extraFilters}</span> : null}
         </button>
       </div>
 
       {/* Segments */}
-      <div className="mb-3 grid grid-cols-3 gap-2" data-testid="ishlar-segments">
-        {segments.map((s) => {
-          const on = segment === s.id;
-          return (
-            <button
-              key={s.id}
-              type="button"
-              onClick={() => setSegment(on ? "" : s.id)}
-              aria-pressed={on}
-              className={cn(
-                "flex h-[58px] min-w-0 items-center gap-2 rounded-2xl border px-2.5 text-left",
-                on ? "border-[#0066FF] bg-[#0066FF] text-white shadow-[0_8px_18px_rgba(0,102,255,0.3)]" : "border-[#e6ebf3] bg-white text-[#0066FF]",
-              )}
-            >
-              <span className="shrink-0">{s.icon}</span>
-              <span className="min-w-0 leading-tight">
-                <span className={cn("block truncate text-[12.5px] font-semibold", on ? "text-white" : "text-[#0B1220]")}>{s.label}</span>
-                <span className={cn("block text-[11.5px]", on ? "text-white/85" : "text-[#8b93a7]")} data-testid={`ishlar-count-${s.id}`}>
-                  ({ready ? counts[s.id] : "…"})
+      <div className="-mx-4 mb-3 overflow-x-auto px-4 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden" data-testid="ishlar-segments">
+        <div className="flex w-max gap-2">
+          {[{ id: "" as const, label: "Barchasi", icon: <Briefcase className="size-[22px]" /> }, ...segments].map((s) => {
+            const on = segment === s.id;
+            return (
+              <button
+                key={s.id || "all"}
+                type="button"
+                onClick={() => setSegment(s.id)}
+                aria-pressed={on}
+                className={cn(
+                  "flex h-[66px] w-[78px] shrink-0 flex-col items-center justify-center gap-1 rounded-2xl border text-[#0b7f7d]",
+                  on ? "border-[#0d8f8c] bg-[#e6f7f6]" : "border-[#e6ebf3] bg-white",
+                )}
+              >
+                <span className="shrink-0">{s.icon}</span>
+                <span className="text-center text-[10.5px] leading-tight font-medium text-[#0B1220]">
+                  {s.label}
+                  {s.id ? <span className="text-[#8b93a7]" data-testid={`ishlar-count-${s.id}`}> ({ready ? counts[s.id] : "…"})</span> : null}
                 </span>
-              </span>
-            </button>
-          );
-        })}
+              </button>
+            );
+          })}
+        </div>
       </div>
 
       {/* Employment type chips */}
@@ -189,7 +180,7 @@ export function IshlarMobileList({ onPost, onResume, hasResume }: { onPost: () =
                 className={cn(
                   "inline-flex h-9 shrink-0 items-center gap-1.5 rounded-full px-4 text-[13px] font-medium",
                   c.icon || c.id === "amaliyot" ? "pl-3" : "",
-                  on ? "bg-[#0066FF] font-semibold text-white shadow-[0_4px_12px_rgba(0,102,255,0.28)]" : "border border-[#e6ebf3] bg-white text-[#1a1d26]",
+                  on ? "bg-[#0b7f7d] font-semibold text-white shadow-[0_4px_12px_rgba(11,127,125,0.28)]" : "border border-[#e6ebf3] bg-white text-[#1a1d26]",
                 )}
                 data-chip={c.id || "all"}
               >
@@ -206,7 +197,7 @@ export function IshlarMobileList({ onPost, onResume, hasResume }: { onPost: () =
                     style={on ? { filter: "brightness(0) invert(1)" } : undefined}
                   />
                 ) : c.id === "amaliyot" ? (
-                  <GraduationCap className={cn("size-[19px] shrink-0", on ? "text-white" : "text-[#0066FF]")} strokeWidth={2.1} aria-hidden />
+                  <GraduationCap className={cn("size-[19px] shrink-0", on ? "text-white" : "text-[#0b7f7d]")} strokeWidth={2.1} aria-hidden />
                 ) : null}
                 {c.label}
               </button>
@@ -218,7 +209,7 @@ export function IshlarMobileList({ onPost, onResume, hasResume }: { onPost: () =
       {/* City + sort */}
       <div className="mb-3 flex items-center gap-2">
         <label className="relative inline-flex h-9 items-center gap-1.5 rounded-xl border border-[#e6ebf3] bg-white pr-2.5 pl-3 text-[12.5px] font-medium text-[#1a1d26]">
-          <MapPin className="size-3.5 text-[#0066FF]" />
+          <MapPin className="size-3.5 text-[#0b7f7d]" />
           {city || "Barcha shaharlar"}
           <ChevronDown className="size-3.5 text-[#8b93a7]" />
           <select value={city} onChange={(e) => setCity(e.target.value)} className="absolute inset-0 cursor-pointer opacity-0" aria-label="Shahar" data-testid="ishlar-city">
@@ -256,7 +247,7 @@ export function IshlarMobileList({ onPost, onResume, hasResume }: { onPost: () =
         </ul>
       ) : visible.length === 0 ? (
         <div className="rounded-[20px] bg-white px-5 py-10 text-center" data-testid="ishlar-empty">
-          <span className="mx-auto grid size-12 place-items-center rounded-2xl bg-[#e9f1fd] text-[#0066FF]">
+          <span className="mx-auto grid size-12 place-items-center rounded-2xl bg-[#e3f6f5] text-[#0b7f7d]">
             <Briefcase className="size-6" />
           </span>
           <p className="mt-3 text-[15px] font-semibold text-[#1a1d26]">{catalog.length === 0 ? "Hali vakansiya yo‘q" : "Mos vakansiya topilmadi"}</p>
@@ -266,7 +257,7 @@ export function IshlarMobileList({ onPost, onResume, hasResume }: { onPost: () =
           <button
             type="button"
             onClick={catalog.length === 0 ? onPost : clearAll}
-            className="mt-4 inline-flex h-10 items-center rounded-xl bg-[#0066FF] px-5 text-[13.5px] font-semibold text-white"
+            className="mt-4 inline-flex h-10 items-center rounded-xl bg-[#0b7f7d] px-5 text-[13.5px] font-semibold text-white"
           >
             {catalog.length === 0 ? "E’lon berish" : "Filtrlarni tozalash"}
           </button>
@@ -281,14 +272,14 @@ export function IshlarMobileList({ onPost, onResume, hasResume }: { onPost: () =
         </ul>
       )}
       {anyFilter && visible.length > 0 ? (
-        <button type="button" onClick={clearAll} className="mt-3 w-full text-center text-[12.5px] font-semibold text-[#0066FF]">
+        <button type="button" onClick={clearAll} className="mt-3 w-full text-center text-[12.5px] font-semibold text-[#0b7f7d]">
           Filtrlarni tozalash
         </button>
       ) : null}
 
       {/* Existing flows */}
       <div className="mt-5 space-y-2.5">
-        <button type="button" onClick={onResume} className="flex h-12 w-full items-center justify-center gap-2 rounded-2xl border border-[#dbe7ff] bg-white text-[14px] font-semibold text-[#0066FF]">
+        <button type="button" onClick={onResume} className="flex h-12 w-full items-center justify-center gap-2 rounded-2xl border border-[#d3efed] bg-white text-[14px] font-semibold text-[#0b7f7d]">
           <Upload className="size-4" />
           {hasResume ? "Rezyumeni tahrirlash" : "Rezyume joylash"}
         </button>
@@ -296,6 +287,16 @@ export function IshlarMobileList({ onPost, onResume, hasResume }: { onPost: () =
         <NavRow href="/ishlar/arizalarim" icon={<ClipboardList className="size-[18px]" />} title="Mening arizalarim" sub="Yuborilgan arizalarni kuzating" />
         <p className="pt-1 text-center text-[11px] text-[#8b93a7]">Vakansiyalar admin tasdig‘idan o‘tadi. Telefon raqamlar yopiq.</p>
       </div>
+      <div className="h-14" />
+      <button
+        type="button"
+        onClick={onPost}
+        className="fixed inset-x-3 z-30 flex h-12 items-center justify-center gap-2 rounded-[12px] bg-[#0b7f7d] text-[15px] font-semibold text-white shadow-[0_8px_18px_rgba(11,127,125,0.3)]"
+        style={{ bottom: "calc(4.6rem + env(safe-area-inset-bottom))" }}
+        data-testid="ishlar-post-bottom"
+      >
+        <Plus className="size-5" /> E’lon joylash
+      </button>
 
       {sheet ? (
         <div className="fixed inset-0 z-[60] lg:hidden" role="dialog" aria-modal="true" aria-label="Filtrlar">
@@ -339,7 +340,7 @@ export function IshlarMobileList({ onPost, onResume, hasResume }: { onPost: () =
               >
                 Tozalash
               </button>
-              <button type="button" onClick={() => setSheet(false)} className="h-12 flex-[2] rounded-2xl bg-[#0066FF] text-[14px] font-semibold text-white">
+              <button type="button" onClick={() => setSheet(false)} className="h-12 flex-[2] rounded-2xl bg-[#0b7f7d] text-[14px] font-semibold text-white">
                 Ko‘rsatish ({visible.length})
               </button>
             </div>
@@ -352,9 +353,9 @@ export function IshlarMobileList({ onPost, onResume, hasResume }: { onPost: () =
 
 function JobCard({ job, priority, saved, onSave, onOpen }: { job: Job; priority: boolean; saved: boolean; onSave: () => void; onOpen: () => void }) {
   return (
-    <article className="relative flex gap-3 rounded-[20px] bg-white p-2.5 shadow-[0_4px_16px_rgba(15,23,42,0.05)]" data-testid="job-card">
+    <article className="relative flex gap-3 rounded-[14px] border border-[#e9f0f5] bg-white p-2" data-testid="job-card">
       <button type="button" onClick={onOpen} className="relative shrink-0" aria-label={`${job.title} — batafsil`}>
-        <JobPhoto job={job} sizes="120px" priority={priority} className="h-[112px] w-[112px] rounded-[14px]" iconClass="size-8" />
+        <JobPhoto job={job} sizes="120px" priority={priority} className="h-[104px] w-[112px] rounded-[10px]" iconClass="size-8" />
         <CategoryBadge job={job} className="absolute top-1.5 left-1.5" />
       </button>
       <div className="min-w-0 flex-1 py-0.5">
@@ -366,7 +367,7 @@ function JobCard({ job, priority, saved, onSave, onOpen }: { job: Job; priority:
             {timeAgo(job)}
           </span>
         </div>
-        <p className="mt-0.5 truncate text-[12.5px] font-medium text-[#0066FF]">{job.clinic}</p>
+        <p className="mt-0.5 truncate text-[12.5px] font-medium text-[#0b7f7d]">{job.clinic}</p>
         <ul className="mt-1 space-y-0.5 text-[11.5px] text-[#4b5568]">
           <li className="flex items-center gap-1.5 truncate">
             <MapPin className="size-3 shrink-0 text-[#8b93a7]" />
@@ -384,10 +385,10 @@ function JobCard({ job, priority, saved, onSave, onOpen }: { job: Job; priority:
         </ul>
         <div className="mt-1 flex items-center justify-end gap-2">
           <button type="button" onClick={onSave} className="grid size-8 place-items-center rounded-full text-[#4b5568]" aria-label={saved ? "Saqlanganlardan olib tashlash" : "Saqlash"} aria-pressed={saved} data-testid="job-save">
-            <Bookmark className={cn("size-[19px]", saved && "fill-[#0066FF] text-[#0066FF]")} />
+            <Bookmark className={cn("size-[19px]", saved && "fill-[#0b7f7d] text-[#0b7f7d]")} />
           </button>
-          <button type="button" onClick={onOpen} className="inline-flex h-8 items-center gap-0.5 rounded-xl bg-[#e9f1fd] px-3 text-[12.5px] font-semibold text-[#0066FF]" data-testid="job-open">
-            Batafsil
+          <button type="button" onClick={onOpen} className="inline-flex h-8 items-center gap-1 rounded-[9px] bg-[#0b7f7d] px-3 text-[12px] font-semibold text-white" data-testid="job-open">
+            Ariza topshirish
             <ChevronRight className="size-3.5" />
           </button>
         </div>
@@ -398,8 +399,8 @@ function JobCard({ job, priority, saved, onSave, onOpen }: { job: Job; priority:
 
 function NavRow({ href, icon, title, sub }: { href: string; icon: ReactNode; title: string; sub: string }) {
   return (
-    <Link href={href} className="flex items-center gap-3 rounded-2xl border border-[#dbe7ff] bg-[#f5f8ff] px-3.5 py-3">
-      <span className="grid size-10 shrink-0 place-items-center rounded-xl bg-[#0066FF] text-white">{icon}</span>
+    <Link href={href} className="flex items-center gap-3 rounded-2xl border border-[#d3efed] bg-[#f2fbfa] px-3.5 py-3">
+      <span className="grid size-10 shrink-0 place-items-center rounded-xl bg-[#0b7f7d] text-white">{icon}</span>
       <span className="min-w-0 flex-1 leading-tight">
         <span className="block text-[14px] font-bold text-[#1a1d26]">{title}</span>
         <span className="mt-0.5 block text-[12px] text-[#8b93a7]">{sub}</span>
@@ -413,7 +414,7 @@ function SheetBlock({ label, icon, children }: { label: string; icon: ReactNode;
   return (
     <div className="mb-4">
       <p className="mb-2 flex items-center gap-1.5 text-[13px] font-semibold text-[#4b5568]">
-        <span className="text-[#0066FF]">{icon}</span>
+        <span className="text-[#0b7f7d]">{icon}</span>
         {label}
       </p>
       <div className="flex flex-wrap gap-2">{children}</div>
@@ -423,7 +424,7 @@ function SheetBlock({ label, icon, children }: { label: string; icon: ReactNode;
 
 function SheetChip({ on, onClick, label }: { on: boolean; onClick: () => void; label: string }) {
   return (
-    <button type="button" onClick={onClick} aria-pressed={on} className={cn("h-9 rounded-full px-3.5 text-[13px] font-medium", on ? "bg-[#0066FF] text-white" : "border border-[#e6ebf3] bg-white text-[#1a1d26]")}>
+    <button type="button" onClick={onClick} aria-pressed={on} className={cn("h-9 rounded-full px-3.5 text-[13px] font-medium", on ? "bg-[#0b7f7d] text-white" : "border border-[#e6ebf3] bg-white text-[#1a1d26]")}>
       {label}
     </button>
   );

@@ -90,7 +90,7 @@ export function SeminarMobileList() {
       <header className="mh-bar">
         <MobileMenuButton />
         <Link href="/" className="mh-logo">
-          STOMAHUB
+          STOMA<span>HUB</span>
         </Link>
         <button type="button" className="mh-ic" aria-label="Kalendar" onClick={() => document.getElementById("se-list")?.scrollIntoView({ behavior: "smooth" })}>
           <CalendarDays />

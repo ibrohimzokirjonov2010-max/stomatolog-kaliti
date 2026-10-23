@@ -37,7 +37,7 @@ export function useSavedJobs() {
 export const categoryBadge: Record<JobCategory, string> = {
   klinika: "bg-[#22c55e]",
   texnik: "bg-[#7c3aed]",
-  shifokor: "bg-[#0066FF]",
+  shifokor: "bg-[#0b7f7d]",
 };
 
 export function CategoryBadge({ job, className }: { job: Job; className?: string }) {
@@ -111,7 +111,7 @@ export function EmployerLogo({ job, size = 48, className }: { job: Job; size?: n
       {job.logo ? (
         <Image src={job.logo} alt={`${job.clinic} logotipi`} fill sizes={`${size}px`} className="object-contain p-1" />
       ) : (
-        <span className="text-[14px] font-bold text-[#0066FF]" style={{ fontSize: Math.round(size * 0.32) }}>
+        <span className="text-[14px] font-bold text-[#0b7f7d]" style={{ fontSize: Math.round(size * 0.32) }}>
           {initials}
         </span>
       )}
