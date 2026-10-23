@@ -5,6 +5,7 @@ import Link from "next/link";
 import { MapPin, Phone, Send } from "lucide-react";
 import { ProductCard } from "@/components/product-card";
 import { ShopAvatar, VerifiedBadge } from "@/components/seller-ui";
+import { ShopPhone } from "@/components/shop/ShopPhone";
 import { useSellerWork } from "@/components/seller-provider";
 import { buttonVariants } from "@/components/ui/button";
 import { catalogShop } from "@/data/shops";
@@ -45,6 +46,8 @@ export function PublicShopPage({ slug }: { slug: string }) {
 
   return (
     <div>
+      <ShopPhone shop={shop} items={items} isOwner={isOwner} />
+      <div className="hidden lg:block">
       <p className="text-[13px] text-[#8b93a7]">
         <Link href="/marketplace" className="text-[#0066FF] hover:underline">
           Marketplace
@@ -119,6 +122,7 @@ export function PublicShopPage({ slug }: { slug: string }) {
           </div>
         </>
       )}
+      </div>
     </div>
   );
 }

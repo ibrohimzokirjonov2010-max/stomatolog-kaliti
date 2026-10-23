@@ -5,6 +5,7 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { ArrowLeft } from "lucide-react";
 import { FeedPost, PostMedia } from "@/components/community-card";
+import { CommunityPostPhone } from "@/components/community/mobile/CommunityPostPhone";
 import { useCommunityWork } from "@/components/community-provider";
 import { useDoctorProfile } from "@/components/doctor-profile-provider";
 import { buttonVariants } from "@/components/ui/button";
@@ -56,6 +57,8 @@ export function CommunityPostPage({ id }: { id: string }) {
 
   return (
     <div>
+      <CommunityPostPhone post={post} onOpenImage={setLightbox} />
+      <div className="hidden lg:block">
       <Link
         href="/community"
         className="mb-4 inline-flex items-center gap-1.5 text-[13px] font-semibold text-primary hover:underline"
@@ -95,6 +98,7 @@ export function CommunityPostPage({ id }: { id: string }) {
           void deleteComment(commentId);
         }}
       />
+      </div>
       {lightbox ? (
         <button
           type="button"

@@ -205,7 +205,6 @@ const PHONE14 = new Set([
   "/crm/uchrashuvlar",
   "/crm/davolash-rejalari",
   "/crm/tolovlar",
-  "/crm/ombor",
   "/crm/hisobotlar",
   "/ustalar",
   "/elonlar",
@@ -214,7 +213,7 @@ const PHONE14 = new Set([
 function isPhone14(pathname: string) {
   const path = pathname.replace(/\/$/, "") || "/";
   if (PHONE14.has(path)) return true;
-  return /^\/crm\/(bemorlar|uchrashuvlar|davolash-rejalari|tolovlar)\/[^/]+$/.test(path) || /^\/elonlar\/[^/]+$/.test(path);
+  return /^\/crm\/(bemorlar|uchrashuvlar|davolash-rejalari|tolovlar)\/[^/]+$/.test(path);
 }
 
 const SECTION_ROOTS = new Set([
@@ -270,11 +269,7 @@ export function MobileTopbar() {
     (/^\/ustalar\/[^/]+\/?$/.test(pathname) && !pathname.startsWith("/ustalar/mening") && !pathname.startsWith("/ustalar/yangi") && !pathname.startsWith("/ustalar/sorovlarim"))
   )
     return null;
-  // Vacancy detail draws its own hero header (back · heart · share).
-  if (/^\/laboratoriya\/[^/]+\/?$/.test(pathname) && !pathname.startsWith("/laboratoriya/buyurtmalarim") && !pathname.startsWith("/laboratoriya/mening") && !pathname.startsWith("/laboratoriya/yangi")) return null;
-  if (/^\/ishlar\/[^/]+\/?$/.test(pathname) && !pathname.startsWith("/ishlar/arizalarim") && !pathname.startsWith("/ishlar/vakansiyalarim") && !pathname.startsWith("/ishlar/yangi")) return null;
   if (/^\/jihozlar\/[^/]+\/?$/.test(pathname)) return null;
-  if (/^\/yangiliklar\/[^/]+\/?$/.test(pathname)) return null;
   if (/^\/buyurtmalarim\/[^/]+\/?$/.test(pathname)) return null;
   const onListing = pathname === "/marketplace" || pathname === "/jihozlar";
   const onHome = pathname === "/" || pathname.startsWith("/bosh-sahifa");
@@ -744,6 +739,7 @@ function isProductDetailPath(path: string) {
   if (!path.startsWith("/marketplace/")) return false;
   if (path.startsWith("/marketplace/dokon")) return false;
   if (path.startsWith("/marketplace/sotuvchi")) return false;
+  if (path.startsWith("/marketplace/brendlar")) return false;
   return true;
 }
 

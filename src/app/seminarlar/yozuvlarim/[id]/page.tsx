@@ -3,10 +3,14 @@
 import { use, useEffect, useState } from "react";
 import Link from "next/link";
 import QRCode from "qrcode";
-import { CalendarDays, ChevronLeft, MapPin, ShieldCheck } from "lucide-react";
+import { CalendarDays, CheckCircle2, ChevronLeft, Clock, Download, FileText, IdCard, Info, MapPin, QrCode, Share2, ShieldCheck, XCircle } from "lucide-react";
 import { buttonVariants } from "@/components/ui/button";
-import { PaymentBadge, SeminarStatusBadge } from "@/components/seminar-status";
-import { getSeminar, seminarHref } from "@/data/seminars";
+import { AttendanceActions, PaymentBadge } from "@/components/seminar-status";
+import { useSeminarRegs } from "@/components/seminar-provider";
+import { getSeminar, seminarHref, specialtyLabels } from "@/data/seminars";
+import { formatUzDate } from "@/lib/format";
+import { downloadPdf } from "@/lib/simple-pdf";
+import "./ticket.css";
 import { cn } from "@/lib/utils";
 import { fromServer, type SeminarRegistration, type ServerRegistration } from "@/lib/seminar-registrations";
 import { seminarDate } from "@/data/seminars";
@@ -17,6 +21,8 @@ export default function TicketPage({ params }: { params: Promise<{ id: string }>
   const { id } = use(params);
   const [state, setState] = useState<State>({ kind: "loading" });
   const [qr, setQr] = useState("");
+  // Re-render once the seminar catalog has loaded, so getSeminar() below finds the event.
+  useSeminarRegs();
 
   useEffect(() => {
     let alive = true;
@@ -74,80 +80,100 @@ export default function TicketPage({ params }: { params: Promise<{ id: string }>
   const seminar = getSeminar(reg.seminarId);
   const date = seminar ? seminarDate(seminar) : null;
   const cancelled = reg.status === "cancelled";
+  const title = seminar?.title ?? reg.seminarTitle ?? "Seminar";
+  const place = seminar ? (seminar.city === "Online" ? "Onlayn" : [seminar.city, seminar.venue].filter(Boolean).join(", ")) : "";
+  const time = seminar?.time ? `${seminar.time}${seminar.timeEnd ? ` – ${seminar.timeEnd}` : ""}` : "";
+  const tags = seminar ? [specialtyLabels[seminar.specialty], ...(seminar.tags ?? [])].filter(Boolean).slice(0, 3) : [];
+  const issued = formatUzDate(reg.createdAt.slice(0, 10));
+  const look = cancelled
+    ? { label: "Bekor qilingan", tone: "no", icon: XCircle }
+    : reg.status === "attended"
+      ? { label: "Qatnashgan", tone: "ok", icon: CheckCircle2 }
+      : reg.status === "confirmed"
+        ? { label: "Tasdiqlangan", tone: "ok", icon: CheckCircle2 }
+        : { label: "Tasdiqlash kutilmoqda", tone: "wait", icon: Clock };
+  const StatusIcon = look.icon;
+
+  function savePdf() {
+    downloadPdf(`chipta-${reg.ticketCode}.pdf`, [
+      "StomaHub - Seminar chiptasi",
+      "",
+      title,
+      date ? `Sana: ${date.long}` : "",
+      time ? `Vaqt: ${time}` : "",
+      place ? `Joy: ${place}` : "",
+      "",
+      `Ishtirokchi: ${reg.name}`,
+      `Telefon: +998 ${reg.phone}`,
+      `Chipta kodi: ${reg.ticketCode}`,
+      `Holat: ${look.label}`,
+      `Berilgan sana: ${issued.long}`,
+    ].filter((line, index, all) => line || all[index - 1]));
+  }
+
+  async function share() {
+    const url = window.location.href;
+    try {
+      if (navigator.share) await navigator.share({ title: `${title} — chipta`, url });
+      else await navigator.clipboard.writeText(url);
+    } catch {
+      /* cancelled */
+    }
+  }
 
   return (
-    <div className="mx-auto max-w-md">
-      {back}
-      <article className="overflow-hidden rounded-[22px] border border-[#dbe7ff] bg-white shadow-[0_10px_30px_rgba(0,60,160,0.10)]">
-        <div className="bg-gradient-to-br from-[#0066FF] to-[#0B1F4D] px-5 py-4 text-white">
-          <p className="text-[11px] font-bold tracking-[0.12em] text-white/70 uppercase">Shaxsiy chipta</p>
-          <h1 className="mt-1 text-[17px] leading-snug font-bold">{seminar?.title ?? reg.seminarTitle ?? reg.seminarId}</h1>
+    <div className="tk">
+      <Link href="/seminarlar/yozuvlarim" className="tk-back"><ChevronLeft /> Chiptalarim</Link>
+      <h1>Seminar chiptasi</h1>
+      <p className="tk-lead">Seminarga kirish uchun ushbu chiptani ko‘rsating</p>
+
+      <article className={cancelled ? "tk-ticket off" : "tk-ticket"} data-testid="seminar-ticket-page">
+        <div className="tk-top">
+          <div className="tk-photo">
+            {/* eslint-disable-next-line @next/next/no-img-element -- seminar covers come from organizer uploads */}
+            {seminar?.image ? <img src={seminar.image} alt="" /> : <CalendarDays />}
+          </div>
+          <div className="tk-info">
+            <span className={`tk-status ${look.tone}`}><StatusIcon /> {look.label}</span>
+            <h2>{title}</h2>
+            {seminar?.badge || seminar?.organizer ? <p className="tk-sub">{seminar.badge || seminar.organizer}</p> : null}
+            {date ? <p className="tk-row"><CalendarDays /> {date.long}</p> : null}
+            {time ? <p className="tk-row"><Clock /> {time}</p> : null}
+            {place ? <p className="tk-row"><MapPin /> {place}</p> : null}
+            {tags.length ? <div className="tk-tags">{tags.map((tag) => <span key={tag}>{tag}</span>)}</div> : null}
+          </div>
         </div>
-        <div className="space-y-3 px-5 py-5">
-          {seminar && date ? (
-            <div className="space-y-1.5 text-[13px] text-[#4b5568]">
-              <p className="flex items-center gap-2">
-                <CalendarDays className="size-4 text-[#0066FF]" />
-                {date.when}, {seminar.time}–{seminar.timeEnd}
-              </p>
-              <p className="flex items-center gap-2">
-                <MapPin className="size-4 text-[#0066FF]" />
-                {seminar.city === "Online" ? "Onlayn" : `${seminar.city}, ${seminar.venue}`}
-              </p>
-            </div>
-          ) : null}
-
-          <div className={cn("mx-auto grid size-[220px] place-items-center rounded-2xl border border-[#e6eaf2] bg-white p-2", cancelled && "opacity-30")}>
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            {qr ? <img src={qr} alt={`Chipta QR: ${reg.ticketCode}`} className="size-full" /> : <span className="text-[12px] text-[#8b93a7]">QR tayyorlanmoqda…</span>}
-          </div>
-          <p className="text-center font-mono text-[22px] font-bold tracking-[0.08em] text-[#0B1F4D]">{reg.ticketCode}</p>
-
-          <div className="flex flex-wrap items-center justify-center gap-2">
-            <SeminarStatusBadge status={reg.status} />
-            <PaymentBadge reg={reg} />
-          </div>
-
-          <dl className="divide-y divide-[#f1f3f8] rounded-xl bg-[#f7f9fc] px-3.5 text-[13px]">
-            <div className="flex justify-between gap-3 py-2">
-              <dt className="text-[#8b93a7]">Chipta egasi</dt>
-              <dd className="text-right font-semibold text-[#1a1d26]">{reg.name}</dd>
-            </div>
-            <div className="flex justify-between gap-3 py-2">
-              <dt className="text-[#8b93a7]">Telefon</dt>
-              <dd className="font-semibold text-[#1a1d26]">+998 {reg.phone}</dd>
-            </div>
-            {reg.clinic ? (
-              <div className="flex justify-between gap-3 py-2">
-                <dt className="text-[#8b93a7]">Klinika</dt>
-                <dd className="text-right font-semibold text-[#1a1d26]">{reg.clinic}</dd>
-              </div>
-            ) : null}
-            {reg.price > 0 ? (
-              <div className="flex justify-between gap-3 py-2">
-                <dt className="text-[#8b93a7]">Narx</dt>
-                <dd className="font-semibold text-[#1a1d26]">{reg.price.toLocaleString("ru-RU").replace(/,/g, " ")} so‘m</dd>
-              </div>
-            ) : null}
+        <div className="tk-cut" aria-hidden />
+        <div className="tk-bottom">
+          <dl>
+            <dt>Ishtirokchi</dt><dd>{reg.name}</dd>
+            <dt>To‘lov</dt><dd><PaymentBadge reg={reg} /></dd>
+            <dt>Chipta raqami</dt><dd className="tk-code">{reg.ticketCode}</dd>
+            <dt>Sana</dt><dd>{issued.long}</dd>
           </dl>
-
-          <p className="flex items-start gap-2 text-[12px] leading-snug text-[#6b7488]">
-            <ShieldCheck className="mt-0.5 size-4 shrink-0 text-[#0066FF]" />
-            {cancelled
-              ? "Bu chipta bekor qilingan va kirish uchun yaroqsiz."
-              : reg.status === "attended"
-                ? "Kirish qayd etilgan."
-                : "Kirishda shu kodni (yoki QR ni) tashkilotchiga ko‘rsating. Chipta faqat sizga tegishli — uni boshqalarga bermang."}
-            {reg.paymentStatus === "awaiting" && !cancelled ? " To‘lov hozircha namuna: onlayn to‘lov olinmaydi, holatni tashkilotchi belgilaydi." : ""}
-          </p>
-
-          {seminar ? (
-            <Link href={seminarHref(seminar.id)} className={cn(buttonVariants({ variant: "outline" }), "h-11 w-full !rounded-xl")}>
-              Seminar sahifasi
-            </Link>
-          ) : null}
+          <div className="tk-qr">
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            {qr ? <img src={qr} alt={`Chipta QR: ${reg.ticketCode}`} /> : <span>QR tayyorlanmoqda…</span>}
+            <p><FileText /> Seminarga kirish uchun QR kodni ko‘rsating</p>
+          </div>
         </div>
       </article>
+
+      <section className="tk-note">
+        <h3><Info /> Muhim ma’lumotlar</h3>
+        <ul>
+          {cancelled ? <li><XCircle /> Bu chipta bekor qilingan va kirish uchun yaroqsiz.</li> : <li><QrCode /> Seminarga kirishda ushbu QR kodni ko‘rsating.</li>}
+          <li><IdCard /> Chipta faqat sizning nomingizga rasmiylashtirilgan.</li>
+          <li><Clock /> Seminar boshlanishidan kamida 15 daqiqa oldin keling.</li>
+          {place ? <li><MapPin /> Manzil: {place}.</li> : null}
+          {reg.paymentStatus === "awaiting" && !cancelled ? <li><ShieldCheck /> To‘lov holatini tashkilotchi belgilaydi.</li> : null}
+        </ul>
+      </section>
+
+      {reg.status === "pending" ? <AttendanceActions registration={reg} compact /> : null}
+      <button type="button" className="tk-pdf" onClick={savePdf}><Download /> PDF sifatida saqlash</button>
+      <button type="button" className="tk-share" onClick={() => void share()}><Share2 /> Ulashish</button>
+      {seminar ? <Link href={seminarHref(seminar.id)} className="tk-link">Seminar sahifasi</Link> : null}
     </div>
   );
 }

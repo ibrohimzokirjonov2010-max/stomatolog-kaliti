@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { ContactBlock, LegalShell, Section, Ul } from "@/components/legal/legal-shell";
 import { PrivacyRequestForm } from "@/components/legal/privacy-request-form";
+import { HisobniOchirishSwitch } from "@/components/legal/HisobniOchirishMobile";
 import { getSiteContact } from "@/lib/server/site";
 
 export const dynamic = "force-dynamic";
@@ -21,7 +22,15 @@ const TOC = [
 export default async function HisobniOchirishPage({ searchParams }: { searchParams: Promise<{ turi?: string }> }) {
   const { turi } = await searchParams;
   const contact = await getSiteContact();
+  const contactHref = contact.telegram
+    ? `https://t.me/${contact.telegram.replace(/^@/, "")}`
+    : contact.phone
+      ? `tel:${contact.phone.replace(/\s/g, "")}`
+      : contact.email
+        ? `mailto:${contact.email}`
+        : null;
   return (
+    <HisobniOchirishSwitch contactHref={contactHref}>
     <LegalShell
       current="/hisobni-ochirish"
       title="Hisobni va ma’lumotni o‘chirish"
@@ -72,5 +81,6 @@ export default async function HisobniOchirishPage({ searchParams }: { searchPara
         </p>
       </Section>
     </LegalShell>
+    </HisobniOchirishSwitch>
   );
 }
