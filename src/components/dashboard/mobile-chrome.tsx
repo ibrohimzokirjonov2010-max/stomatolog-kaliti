@@ -199,7 +199,6 @@ const PHONE14 = new Set([
   "/crm/bemorlar",
   "/crm/uchrashuvlar",
   "/crm/davolash-rejalari",
-  "/crm/tolovlar",
   "/crm/hisobotlar",
 ]);
 
@@ -364,9 +363,9 @@ export function MobileTopbar() {
             ) : (
               <Link
                 href="/"
-                className="min-w-0 flex-1 text-[15px] font-extrabold tracking-[0.12em] text-[#0066FF]"
+                className="min-w-0 flex-1 text-[15px] font-extrabold tracking-[0.12em] text-[#0b1a3a]"
               >
-                STOMAHUB
+                STOMA<span className="text-[#0b7f7d]">HUB</span>
               </Link>
             )}
           </>
