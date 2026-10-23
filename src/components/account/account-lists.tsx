@@ -84,15 +84,17 @@ export function SavedPage() {
         <ul className="space-y-2">
           {favorites.ids.map((id, index) => {
             const card = saved[index];
+            const kind = id.startsWith("elon:") ? "elon" : id.startsWith("post:") ? "post" : null;
+            const href = kind === "elon" ? `/elonlar/${id.slice(5)}` : kind === "post" ? `/community/${id.slice(5)}` : card ? catalogHref(card.category, card.id) : `/marketplace/${id}`;
             return (
               <li key={id}>
-                <Link href={card ? catalogHref(card.category, card.id) : `/marketplace/${id}`} className="flex items-center gap-3 rounded-2xl border border-[#eceff5] bg-white px-4 py-3">
+                <Link href={href} className="flex items-center gap-3 rounded-2xl border border-[#eceff5] bg-white px-4 py-3">
                   {card?.image ? (
                     // eslint-disable-next-line @next/next/no-img-element -- catalog photo
                     <img src={card.image} alt="" className="size-12 rounded-lg object-contain bg-[#f4f7fc]" />
                   ) : <span className="size-12 rounded-lg bg-[#f4f7fc]" />}
                   <span>
-                    <b className="block text-[14px] text-[#1a1d26]">{card?.name ?? "Mahsulot"}</b>
+                    <b className="block text-[14px] text-[#1a1d26]">{card?.name ?? (kind === "elon" ? "E’lon" : kind === "post" ? "Hamjamiyat posti" : "Mahsulot")}</b>
                     {card ? <span className="text-[13px] text-[#0066FF]">{formatMoney(card.price, "UZS")}</span> : null}
                   </span>
                 </Link>

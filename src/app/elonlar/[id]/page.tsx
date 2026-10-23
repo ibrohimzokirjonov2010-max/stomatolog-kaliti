@@ -1,8 +1,9 @@
-import { ListingDetailDesktop } from "@/components/crm/desktop/ListingsDesktop";
+import { ElonTafsilotMobile } from "@/components/listings/mobile/ElonTafsilotMobile";
 
 type Params = { id: string };
 
+/** Phone view; desktop renders ListingDetailDesktop from AppChrome. */
 export default async function Page({ params }: { params: Promise<Params> }) {
   const { id } = await params;
-  return <ListingDetailDesktop id={decodeURIComponent(id)} />;
+  return <ElonTafsilotMobile id={decodeURIComponent(id)} />;
 }

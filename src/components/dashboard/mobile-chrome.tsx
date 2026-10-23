@@ -214,7 +214,7 @@ const PHONE14 = new Set([
 function isPhone14(pathname: string) {
   const path = pathname.replace(/\/$/, "") || "/";
   if (PHONE14.has(path)) return true;
-  return /^\/crm\/(bemorlar|uchrashuvlar|davolash-rejalari|tolovlar)\/[^/]+$/.test(path) || /^\/elonlar\/[^/]+$/.test(path);
+  return /^\/crm\/(bemorlar|uchrashuvlar|davolash-rejalari|tolovlar)\/[^/]+$/.test(path);
 }
 
 const SECTION_ROOTS = new Set([
