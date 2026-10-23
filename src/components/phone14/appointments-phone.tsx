@@ -3,7 +3,7 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { Plus } from "lucide-react";
+import { Coffee, MessageCircle, Phone, Plus } from "lucide-react";
 import { PhoneFrame, Sheet } from "@/components/phone14/chrome";
 import { VisitFinishSheet } from "@/components/phone14/visit-finish";
 import {
@@ -140,12 +140,12 @@ export function PhoneAppointments() {
           const previous = shown[index - 1];
           const lunch = tab === "Barchasi" && previous && previous.time < "13:00" && item.time >= "14:00";
           return (
-            <div key={item.id}>
-              {lunch ? <div className="lunch">13:00–14:00 · Tushlik tanaffusi<br />14:00 da davom etadi</div> : null}
+            <div key={item.id} className="appt-row">
+              {lunch ? <div className="lunch"><Coffee size={16} /><span><b>Tushlik tanaffusi</b><br />13:00–14:00 · 14:00 da davom etadi</span></div> : null}
+              <b className={live ? "appt-time on" : "appt-time"}>{item.time}</b>
               <article className={live ? "appt-card live" : "appt-card"} data-testid={live ? "appt-current" : `appt-${item.time}`}>
                 <button type="button" className="appt-open" onClick={() => setDetail(item)}>
-                  <b className="when">{item.time}</b>
-                  <img src={item.avatar} alt="" />
+                  {item.avatar ? <img src={item.avatar} alt="" /> : <span className="appt-ava">{item.name.slice(0, 1)}</span>}
                   <span>
                     <span className="pat-top">
                       <b>{item.name}</b>
@@ -154,9 +154,16 @@ export function PhoneAppointments() {
                     </span>
                     {live ? <small className="count-down">{countdownText(item, now)}</small> : null}
                     <p>{item.service}</p>
-                    <p className="spec">{item.age} yosh | {item.gender} · {item.tooth}</p>
+                    <p className="spec">{[item.age ? `${item.age} yosh` : "", item.gender, item.tooth].filter(Boolean).join(" · ")}</p>
+                    {item.note ? <p className="spec">Izoh: {item.note}</p> : null}
                   </span>
                 </button>
+                {item.phone ? (
+                  <span className="appt-acts">
+                    <a href={`sms:${item.phone}`} aria-label="Xabar yozish"><MessageCircle size={16} /></a>
+                    <a href={`tel:${item.phone}`} aria-label="Qo‘ng‘iroq"><Phone size={16} /></a>
+                  </span>
+                ) : null}
                 {live && item.status !== "davolan" && item.status !== "bajar" ? (
                   <button type="button" className="appt-go" data-testid="appt-start" onClick={() => { const next = startVisit(item, now); router.push(`/crm/bemorlar/${next.patientId}?visit=${next.id}`); }}>Boshlash</button>
                 ) : null}

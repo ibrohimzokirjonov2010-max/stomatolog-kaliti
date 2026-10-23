@@ -646,3 +646,29 @@
 .p14[data-testid="phone-bemorlar"] .spec, .p14[data-testid="phone-uchrashuvlar"] .spec, .p14[data-testid="phone-bemorlar"] .p14-filter, .p14[data-testid="phone-uchrashuvlar"] .p14-filter { font-size: 13px; }
 .p14[data-testid="phone-bemorlar"] .p14-badge, .p14[data-testid="phone-uchrashuvlar"] .p14-badge, .p14.crm .p14-badge { font-size: 12px; }
 .p14 .p14-logo img { filter: hue-rotate(-38deg) saturate(.85); }
+
+/* Uchrashuvlar timeline (mock "uchrashuvlar telefon"): time column with a rail, card on the right. */
+.p14 .appt-row { position: relative; display: grid; grid-template-columns: 52px minmax(0, 1fr); column-gap: 8px; padding-bottom: 8px; }
+.p14 .appt-row::before { content: ""; position: absolute; left: 42px; top: 8px; bottom: -8px; width: 2px; background: #cfe9e7; }
+.p14 .appt-row:last-child::before { bottom: 0; }
+.p14 .appt-row > .lunch { grid-column: 2; display: flex; align-items: center; gap: 10px; margin-bottom: 8px; padding: 10px 12px; border: 0; border-radius: 10px; background: #e6f7f6; color: #0b5f5e; text-align: left; font-size: 11px; font-weight: 500; }
+.p14 .appt-row > .lunch b { font-size: 12px; }
+.p14 .appt-row > .lunch svg { width: 18px; height: 18px; flex: none; }
+.p14 .appt-time { position: relative; grid-column: 1; align-self: start; padding-top: 12px; color: #0b6f6d; font-size: 13px; font-weight: 700; }
+.p14 .appt-time::after { content: ""; position: absolute; right: 2px; top: 15px; width: 11px; height: 11px; border-radius: 50%; border: 2px solid #0b7f7d; background: #fff; box-sizing: border-box; }
+.p14 .appt-time.on::after { background: #0b7f7d; box-shadow: 0 0 0 3px #d6f1ee; }
+.p14 .appt-row > .appt-card { grid-column: 2; position: relative; padding: 10px; border: 1px solid #e9f0f5; box-shadow: none; }
+.p14 .appt-card .appt-open { display: grid; grid-template-columns: 48px minmax(0, 1fr); gap: 10px; text-align: left; }
+.p14 .appt-card .appt-open img, .p14 .appt-ava { width: 48px; height: 48px; border-radius: 50%; object-fit: cover; }
+.p14 .appt-ava { display: grid; place-items: center; background: #e3f6f5; color: #0b6f6d; font-weight: 800; font-size: 16px; }
+.p14 .appt-card .pat-status { font-style: normal; font-weight: 600; font-size: 10px; border-radius: 6px; padding: 2px 8px; }
+.p14 .appt-card .appt-open > span > p { margin: 1px 0 0; font-size: 11px; }
+.p14 .appt-card .appt-open > span > p.spec { font-size: 10px; }
+.p14 .appt-acts { position: absolute; right: 10px; bottom: 10px; display: flex; gap: 6px; }
+.p14 .appt-acts a { width: 32px; height: 32px; border-radius: 50%; background: #e6f7f6; color: #0b6f6d; display: grid; place-items: center; }
+.p14 .appt-card .appt-go { margin-top: 2px; }
+.p14 .appt-row { grid-template-columns: 62px minmax(0, 1fr); }
+.p14 .appt-row::before { left: 51px; }
+.p14 .appt-time::after { right: 0; }
+.p14 .appt-card:has(.appt-go) .appt-acts { position: static; justify-content: flex-end; }
+.p14 .appt-row > .appt-card:not(:has(.appt-go)) .appt-open > span { padding-right: 72px; }
