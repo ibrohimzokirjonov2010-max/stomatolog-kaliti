@@ -54,7 +54,7 @@ const groupOne = [
   { id: "fav", title: "Sevimlilar", subtitle: "Saqlangan mahsulotlar va ustalar", icon: Heart, tint: "#fbe9f2", color: "#e8336f", sheet: "fav" as const, countKey: "fav" as const },
   { id: "courses", title: "Kurslarim", subtitle: "Onlayn kurslar va sertifikatlar", icon: GraduationCap, ...BLUE, href: "/talim", countKey: "courses" as const },
   { id: "seminars", title: "Seminarlarim", subtitle: "Ro‘yxatdan o‘tgan seminarlar", icon: CalendarDays, ...BLUE, href: "/seminarlar/yozuvlarim", countKey: "seminars" as const },
-  { id: "ads", title: "E‘lonlarim", subtitle: "Ish va xizmat e‘lonlarim", icon: Briefcase, tint: "#e5f8f8", color: "#0fa5a4", href: "/ishlar" },
+  { id: "ads", title: "E‘lonlarim", subtitle: "Ish va xizmat e‘lonlarim", icon: Briefcase, tint: "#e5f8f8", color: "#0fa5a4", href: "/profil/elonlarim" },
 ];
 
 const groupTwo = [
