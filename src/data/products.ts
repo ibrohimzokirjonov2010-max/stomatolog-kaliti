@@ -266,5 +266,5 @@ export function productSpecs(product: Product): string[] {
 const knownCities = ["Toshkent", "Samarqand", "Buxoro", "Farg‘ona"];
 
 export function productCity(product: Product): string {
-  return knownCities.find((city) => product.delivery.startsWith(city)) ?? "Toshkent";
+  return knownCities.find((city) => (product.delivery ?? "").startsWith(city)) ?? "Toshkent";
 }
