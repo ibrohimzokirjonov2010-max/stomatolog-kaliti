@@ -89,6 +89,7 @@ const DESK_TOOTH: Record<ToothState, ToothStatus> = {
   endo: "endo",
   implant: "implant",
   koronka: "krona",
+  shtift: "krona",
   ekstraksiya: "gone",
 };
 

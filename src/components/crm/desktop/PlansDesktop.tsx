@@ -1,11 +1,12 @@
 "use client";
 /* eslint-disable @next/next/no-img-element */
 
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import Link from "next/link";
-import { CalendarDays, ChevronRight, CircleDollarSign, Download, MapPin, Pencil, Phone, Plus, Printer, Search, UserRound, Wallet } from "lucide-react";
+import { usePathname, useRouter } from "next/navigation";
+import { CalendarDays, CheckCircle2, ChevronRight, CircleDollarSign, ClipboardList, Download, MapPin, Pencil, Phone, Plus, Printer, Search, UserRound, Wallet } from "lucide-react";
 import { CrmFrame, CrmModal } from "@/components/crm/desktop/CrmFrame";
-import { NewPlanModal } from "@/components/crm/CrmCreateModals";
+import { NewPlanModal, type PlanTemplate } from "@/components/crm/NewPlanModal";
 import { ADULT_LOWER, ADULT_UPPER, BABY_LOWER, BABY_UPPER, ToothChart, cycleTooth } from "@/components/crm/desktop/ToothChart";
 import { type Patient, type PlanStep, type ToothState, type TreatmentPlan } from "@/data/crm";
 import { useCrmPatients } from "@/lib/use-crm-list";
@@ -14,7 +15,12 @@ import { downloadPdf } from "@/lib/simple-pdf";
 import { useStoredList } from "@/lib/stored-list";
 import { formatGroupedNumber, formatMoney } from "@/lib/format";
 
-const STATES: ToothState[] = ["soglom", "kariyes", "plomba", "endo", "implant", "koronka", "ekstraksiya"];
+const STATES: ToothState[] = ["soglom", "kariyes", "plomba", "endo", "shtift", "implant", "koronka", "ekstraksiya"];
+const DEFAULT_TEMPLATES: PlanTemplate[] = [
+  { id: "tpl-gig", name: "Gigiyena paketi", steps: [{ name: "Konsultatsiya", teeth: "–", count: 1, price: 250000 }, { name: "Professional gigiyena", teeth: "–", count: 1, price: 400000 }] },
+  { id: "tpl-imp", name: "Implant bosqichlari", steps: [{ name: "Konsultatsiya", teeth: "–", count: 1, price: 250000 }, { name: "Implant (komplekt)", teeth: "–", count: 1, price: 7500000 }, { name: "Krona (metallokeramika)", teeth: "–", count: 1, price: 1800000 }] },
+  { id: "tpl-kid", name: "Bolalar ko‘rigi", steps: [{ name: "Konsultatsiya", teeth: "–", count: 1, price: 250000 }] },
+];
 const LEGEND: { id: ToothState; label: string }[] = [
   { id: "soglom", label: "Sog‘lom" },
   { id: "kariyes", label: "Kariyes" },
@@ -22,6 +28,7 @@ const LEGEND: { id: ToothState; label: string }[] = [
   { id: "endo", label: "Endodontik" },
   { id: "implant", label: "Implant" },
   { id: "koronka", label: "Koronka" },
+  { id: "shtift", label: "Shtift" },
   { id: "ekstraksiya", label: "Ekstraksiya" },
 ];
 const statusLabel = { davom: "Davom etmoqda", yakun: "Yakunlangan", reja: "Rejada" };
@@ -44,11 +51,25 @@ export function PlansDesktop() {
   const [stepOpen, setStepOpen] = useState(false);
   const [payOpen, setPayOpen] = useState(false);
   const [editOpen, setEditOpen] = useState(false);
-  const [newOpen, setNewOpen] = useState(false);
+  const pathname = usePathname();
+  const router = useRouter();
+  const [newOpen, setNewOpen] = useState(pathname === "/crm/davolash-rejalari/yangi");
+  const [saved, setSaved] = useStoredList<PlanTemplate>("sk-crm-plan-templates-v1", []);
+  const [toast, setToast] = useState("");
+  // Opening /crm/davolash-rejalari/yangi (or navigating to it) shows the form.
+  const [seenPath, setSeenPath] = useState(pathname);
+  if (pathname !== seenPath) {
+    setSeenPath(pathname);
+    if (pathname === "/crm/davolash-rejalari/yangi") setNewOpen(true);
+  }
+  useEffect(() => {
+    if (!toast) return;
+    const timer = window.setTimeout(() => setToast(""), 3200);
+    return () => window.clearTimeout(timer);
+  }, [toast]);
   const [templates, setTemplates] = useState(false);
   const [step, setStep] = useState({ name: "", teeth: "", price: "300000" });
   const [pay, setPay] = useState({ amount: "200000", method: "Naqd", note: "To‘lov" });
-  const [draft, setDraft] = useState({ title: "", doctor: "", patientId: "", date: "", teeth: "", amount: "", note: "" });
 
   const filtered = useMemo(() => plans.filter((plan) => {
     const patient = patients.find((item) => item.id === plan.patientId);
@@ -70,6 +91,27 @@ export function PlansDesktop() {
     setPlans((prev) => prev.map((item) => (item.id === id ? change(item) : item)));
   }
 
+  function closeNew() {
+    setNewOpen(false);
+    if (pathname === "/crm/davolash-rejalari/yangi") router.replace("/crm/davolash-rejalari");
+  }
+
+  const newModal = newOpen ? (
+    <NewPlanModal
+      onClose={closeNew}
+      onSave={(next, asTemplate) => {
+        setPlans((prev) => [next, ...prev]);
+        if (asTemplate) {
+          setSaved((prev) => [{ id: `tpl-${next.id}`, name: next.title, steps: next.steps.map(({ name, teeth, count, price }) => ({ name, teeth, count, price })) }, ...prev.filter((item) => item.name !== next.title)].slice(0, 20));
+        }
+        setSelected(next.id);
+        setStatus("");
+        setToast(asTemplate ? "Reja saqlandi va shablonlarga qo‘shildi" : "Davolash rejasi saqlandi");
+        closeNew();
+      }}
+    />
+  ) : null;
+
   if (plans.length === 0) {
     return (
       <CrmFrame active="plans" placeholder="Bemor, telefon, ID yoki xizmat bo‘yicha qidiring..." headerQuery={q} onHeaderQuery={setQ}>
@@ -77,9 +119,20 @@ export function PlansDesktop() {
           <div className="crm-head">
             <div>
               <h1>Davolash rejalari</h1>
-              <p>Hali reja yo‘q</p>
+              <p>Bemorlarning davolash rejalari va bosqichlari</p>
+            </div>
+            <div className="crm-actions">
+              <button type="button" className="crm-btn blue" data-testid="plan-add" onClick={() => setNewOpen(true)}><Plus className="i" /> Yangi reja qo‘shish</button>
             </div>
           </div>
+          <div className="crm-card crm-empty" data-testid="plan-empty" style={{ display: "grid", justifyItems: "center", gap: 10, padding: "48px 16px" }}>
+            <ClipboardList className="i" style={{ width: 40, height: 40, color: "#0f8b87" }} />
+            <b style={{ fontSize: 17 }}>Hali davolash rejasi yo‘q</b>
+            <span>Bemor uchun tish kartasi, xizmatlar va narxlar bilan birinchi rejani tuzing.</span>
+            <button type="button" className="crm-btn blue" onClick={() => setNewOpen(true)}><Plus className="i" /> Birinchi rejani tuzish</button>
+          </div>
+          {newModal}
+          {toast ? <div className="cm-toast" role="status"><CheckCircle2 />{toast}</div> : null}
         </div>
       </CrmFrame>
     );
@@ -226,37 +279,14 @@ export function PlansDesktop() {
             <div className="row"><button type="button" className="go" onClick={() => { const title = (document.getElementById("plan-title") as HTMLInputElement).value; const doc = (document.getElementById("plan-doc") as HTMLInputElement).value; update(plan.id, (item) => ({ ...item, title, doctor: doc })); setEditOpen(false); }}>Saqlash</button></div>
           </CrmModal>
         ) : null}
-        {newOpen ? (
-          <NewPlanModal
-            patients={patients}
-            initial={draft}
-            onClose={() => setNewOpen(false)}
-            onSave={(next) => {
-              const id = `r-${Date.now()}`;
-              const [year, month, day] = next.date.split("-");
-              const price = Number(next.amount) || 0;
-              setPlans((prev) => [{
-                id,
-                title: next.title.trim() || "Yangi reja",
-                code: id.slice(-6),
-                date: day && month && year ? `${day}.${month}.${year}` : todayDot(),
-                status: "reja",
-                doctor: next.doctor,
-                patientId: next.patientId,
-                steps: price || next.teeth ? [{ id: `s-${id}`, name: next.note.trim() || "Asosiy bosqich", teeth: next.teeth || "–", count: 1, price, status: "kutil", date: "" }] : [],
-                payments: [],
-                teeth: {},
-              }, ...prev]);
-              setDraft(next);
-              setSelected(id);
-              setNewOpen(false);
-            }}
-          />
-        ) : null}
+        {newModal}
+        {toast ? <div className="cm-toast" role="status" data-testid="plan-toast"><CheckCircle2 />{toast}</div> : null}
         {templates ? (
           <CrmModal title="Reja shablonlari" onClose={() => setTemplates(false)}>
-            {["Gigiyena paketi", "Implant bosqichlari", "Bolalar ko‘rigi"].map((name) => (
-              <button key={name} type="button" className="visit" style={{ width: "100%", textAlign: "left" }} onClick={() => { update(plan.id, (item) => ({ ...item, steps: [...item.steps, { id: `t-${name}`, name, teeth: "–", count: 1, price: 250000, status: "kutil", date: "" }] })); setTemplates(false); }}>{name}</button>
+            {[...saved, ...DEFAULT_TEMPLATES].map((tpl) => (
+              <button key={tpl.id} type="button" className="visit" data-testid="plan-template-item" style={{ width: "100%", textAlign: "left" }} onClick={() => { const stamp = Date.now(); update(plan.id, (item) => ({ ...item, steps: [...item.steps, ...tpl.steps.map((step, index) => ({ ...step, id: `t-${stamp}-${index}`, status: "kutil" as const, date: "" }))] })); setTemplates(false); }}>
+                <b>{tpl.name}</b> <small>· {tpl.steps.length} ta xizmat · {formatMoney(tpl.steps.reduce((sum, step) => sum + step.price, 0), "UZS")}</small>
+              </button>
             ))}
           </CrmModal>
         ) : null}

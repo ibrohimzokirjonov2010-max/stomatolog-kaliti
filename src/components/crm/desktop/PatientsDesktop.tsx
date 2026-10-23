@@ -47,9 +47,11 @@ export function PatientsDesktop() {
   const [dentition, setDentition] = useState<"doimiy" | "sut">("doimiy");
   const [menu, setMenu] = useState(false);
   const [adding, setAdding] = useState(pathname === "/crm/bemorlar/yangi");
-  useEffect(() => {
+  const [seenPath, setSeenPath] = useState(pathname);
+  if (pathname !== seenPath) {
+    setSeenPath(pathname);
     if (pathname === "/crm/bemorlar/yangi") setAdding(true);
-  }, [pathname]);
+  }
   const [visit, setVisit] = useState(false);
   const [toast, setToast] = useState("");
   const [visitForm, setVisitForm] = useState({ date: "", kind: "Maslahat", note: "", doctor: "" });

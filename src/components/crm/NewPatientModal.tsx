@@ -1,12 +1,12 @@
 "use client";
 /* eslint-disable @next/next/no-img-element */
 
-import { useEffect, useId, useRef, useState } from "react";
-import { createPortal } from "react-dom";
-import { CalendarDays, Camera, ChevronDown, Mail, MapPin, Plus } from "lucide-react";
+import { useState } from "react";
+import { Camera, ChevronDown, Mail, MapPin, Plus } from "lucide-react";
 import type { Patient } from "@/data/crm";
 import { patientCities } from "@/data/crm";
 import { fileToCompressedDataUrl } from "@/lib/seller-work";
+import { CmDate, CmDialog, CmError, CmField, CmSelect } from "@/components/crm/crm-form-kit";
 import "./new-patient.css";
 
 const SOURCES = ["Instagram", "Telegram", "Tanish orqali", "Google", "Boshqa"];
@@ -116,7 +116,7 @@ export function patientFromDraft(draft: NewPatientDraft, num: number): Patient {
 
 function Flag() {
   return (
-    <svg className="nb-flag" viewBox="0 0 24 16" aria-hidden="true">
+    <svg className="cm-flag" viewBox="0 0 24 16" aria-hidden="true">
       <rect width="24" height="5.2" fill="#0099b5" />
       <rect y="5.4" width="24" height="5.2" fill="#fff" />
       <rect y="10.8" width="24" height="5.2" fill="#1eb53a" />
@@ -128,25 +128,9 @@ function Flag() {
 }
 
 export function NewPatientModal({ onClose, onSave }: { onClose: () => void; onSave: (draft: NewPatientDraft) => void }) {
-  const titleId = useId();
-  const dateRef = useRef<HTMLInputElement>(null);
   const [draft, setDraft] = useState<NewPatientDraft>(emptyDraft);
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [photoError, setPhotoError] = useState("");
-  const [preview, setPreview] = useState("");
-
-  useEffect(() => {
-    function onKey(event: KeyboardEvent) {
-      if (event.key === "Escape") onClose();
-    }
-    window.addEventListener("keydown", onKey);
-    const previous = document.body.style.overflow;
-    document.body.style.overflow = "hidden";
-    return () => {
-      window.removeEventListener("keydown", onKey);
-      document.body.style.overflow = previous;
-    };
-  }, [onClose]);
 
   function set<K extends keyof NewPatientDraft>(key: K, value: NewPatientDraft[K]) {
     setDraft((prev) => ({ ...prev, [key]: value }));
@@ -170,9 +154,11 @@ export function NewPatientModal({ onClose, onSave }: { onClose: () => void; onSa
       setPhotoError("Fayl 5 MB dan katta");
       return;
     }
-    const data = await fileToCompressedDataUrl(file, 480, 0.82);
-    setPreview(data);
-    set("photo", data);
+    try {
+      set("photo", await fileToCompressedDataUrl(file, 480, 0.82));
+    } catch {
+      setPhotoError("Rasmni o‘qib bo‘lmadi");
+    }
   }
 
   function submit() {
@@ -190,153 +176,108 @@ export function NewPatientModal({ onClose, onSave }: { onClose: () => void; onSa
     onSave(draft);
   }
 
-  function applyIso(iso: string) {
-    if (!iso) return;
-    const [year, month, day] = iso.split("-");
-    set("birth", `${day}.${month}.${year}`);
-  }
-
-  const node = (
-    <div
-      className="nb-modal"
-      data-testid="patient-modal"
-      onMouseDown={(event) => {
-        if (event.target === event.currentTarget) onClose();
-      }}
+  return (
+    <CmDialog
+      testId="patient-modal"
+      title="Yangi bemor qo‘shish"
+      subtitle="Bemorning asosiy ma’lumotlarini kiriting"
+      width={540}
+      onClose={onClose}
+      footer={
+        <>
+          <button type="button" className="cm-ghost" data-testid="patient-cancel" onClick={onClose}>Bekor qilish</button>
+          <button type="button" className="cm-go" data-testid="patient-save" onClick={submit}><Plus /> Saqlash</button>
+        </>
+      }
     >
-      <div className="nb-dialog" role="dialog" aria-modal="true" aria-labelledby={titleId}>
-        <header className="nb-head">
-          <div>
-            <h2 id={titleId}>Yangi bemor qo‘shish</h2>
-            <p>Bemorning asosiy ma’lumotlarini kiriting</p>
-          </div>
-          <button type="button" className="nb-x" aria-label="Yopish" onClick={onClose}>
-            ×
-          </button>
-        </header>
-
-        <div className="nb-top">
-          <div className="nb-photo">
-            <label>
-              {preview ? <img src={preview} alt="" /> : (<><Camera size={22} /><span>Rasm yuklash</span></>)}
-              <input
-                data-testid="patient-photo"
-                type="file"
-                accept="image/jpeg,image/png,.jpg,.jpeg,.png"
-                hidden
-                onChange={(event) => {
-                  void onPhoto(event.target.files?.[0]);
-                  event.target.value = "";
-                }}
-              />
-            </label>
-            <small className={photoError ? "bad" : undefined}>{photoError || "JPG, PNG (maks. 5 MB)"}</small>
-          </div>
-
-          <div className="nb-fields">
-            <label className={`nb-field${errors.first ? " bad" : ""}`}>
-              <span>Ism <em className="nb-req">*</em></span>
-              <input data-testid="patient-first" placeholder="Ism kiriting" value={draft.first} onChange={(event) => set("first", event.target.value)} aria-invalid={Boolean(errors.first)} />
-              {errors.first ? <b className="nb-err">{errors.first}</b> : null}
-            </label>
-            <label className={`nb-field${errors.family ? " bad" : ""}`}>
-              <span>Familiya <em className="nb-req">*</em></span>
-              <input data-testid="patient-family" placeholder="Familiya kiriting" value={draft.family} onChange={(event) => set("family", event.target.value)} aria-invalid={Boolean(errors.family)} />
-              {errors.family ? <b className="nb-err">{errors.family}</b> : null}
-            </label>
-            <label className={`nb-field${errors.phone ? " bad" : ""}`}>
-              <span>Telefon raqami <em className="nb-req">*</em></span>
-              <span className="nb-phone">
-                <span className="nb-code"><Flag /><em>+998</em><ChevronDown className="chev" /></span>
-                <input data-testid="patient-phone" inputMode="numeric" placeholder="90 123 45 67" value={formatLocal(draft.phone)} onChange={(event) => set("phone", digitsOnly(event.target.value))} aria-invalid={Boolean(errors.phone)} />
-              </span>
-              {errors.phone ? <b className="nb-err">{errors.phone}</b> : null}
-            </label>
-            <label className={`nb-field${errors.birth ? " bad" : ""}`}>
-              <span>Tug‘ilgan sana <em className="nb-req">*</em></span>
-              <span className="nb-date">
-                <input data-testid="patient-birth" placeholder="DD.MM.YYYY" value={draft.birth} onChange={(event) => set("birth", event.target.value)} aria-invalid={Boolean(errors.birth)} />
-                <button type="button" aria-label="Kalendar" onClick={() => dateRef.current?.showPicker?.()}>
-                  <CalendarDays size={18} />
-                </button>
-                <input ref={dateRef} className="nb-native" type="date" tabIndex={-1} aria-hidden="true" onChange={(event) => applyIso(event.target.value)} />
-              </span>
-              {errors.birth ? <b className="nb-err">{errors.birth}</b> : null}
-            </label>
-          </div>
+      <div className="cm-pt-top">
+        <div className="cm-photo">
+          <label>
+            {draft.photo ? <img src={draft.photo} alt="Bemor rasmi" /> : (<><Camera /><span>Rasm yuklash</span></>)}
+            <input
+              data-testid="patient-photo"
+              type="file"
+              accept="image/jpeg,image/png,.jpg,.jpeg,.png"
+              className="cm-native"
+              aria-label="Bemor rasmi"
+              onChange={(event) => {
+                void onPhoto(event.target.files?.[0]);
+                event.target.value = "";
+              }}
+            />
+          </label>
+          <small className={photoError ? "bad" : undefined}>{photoError || "JPG, PNG (maks. 5 MB)"}</small>
         </div>
-
-        <div className="nb-fields" style={{ marginTop: 14 }}>
-          <div className={`nb-field${errors.gender ? " bad" : ""}`}>
-            <span className="nb-label">Jinsi <em className="nb-req">*</em></span>
-            <div className="nb-seg" role="group" aria-label="Jinsi">
-              <button type="button" className={draft.gender === "Erkak" ? "on" : undefined} data-testid="patient-gender-erkak" onClick={() => set("gender", "Erkak")}>Erkak</button>
-              <button type="button" className={draft.gender === "Ayol" ? "on" : undefined} data-testid="patient-gender-ayol" onClick={() => set("gender", "Ayol")}>Ayol</button>
-            </div>
-            {errors.gender ? <b className="nb-err">{errors.gender}</b> : null}
-          </div>
-          <label className={`nb-field${errors.city ? " bad" : ""}`}>
-            <span>Shahar <em className="nb-req">*</em></span>
-            <select data-testid="patient-form-city" value={draft.city} onChange={(event) => set("city", event.target.value)} aria-invalid={Boolean(errors.city)}>
-              <option value="">Tanlang</option>
-              {patientCities.map((city) => <option key={city}>{city}</option>)}
-            </select>
-            {errors.city ? <b className="nb-err">{errors.city}</b> : null}
-          </label>
-          <label className="nb-field wide">
-            <span>Manzil</span>
-            <span className="nb-iconed">
-              <span className="lead"><MapPin size={16} /></span>
-              <input data-testid="patient-address" placeholder="To‘liq manzil kiriting" value={draft.address} onChange={(event) => set("address", event.target.value)} />
+        <div className="cm-grid">
+          <CmField label="Ism" req>
+            <input className={`cm-input${errors.first ? " bad" : ""}`} data-testid="patient-first" aria-label="Ism" placeholder="Ism kiriting" value={draft.first} onChange={(event) => set("first", event.target.value)} aria-invalid={Boolean(errors.first)} />
+            <CmError text={errors.first} />
+          </CmField>
+          <CmField label="Familiya" req>
+            <input className={`cm-input${errors.family ? " bad" : ""}`} data-testid="patient-family" aria-label="Familiya" placeholder="Familiya kiriting" value={draft.family} onChange={(event) => set("family", event.target.value)} aria-invalid={Boolean(errors.family)} />
+            <CmError text={errors.family} />
+          </CmField>
+          <CmField label="Telefon raqami" req>
+            <span className={`cm-phone${errors.phone ? " bad" : ""}`}>
+              <span className="code"><Flag /><span>+998</span><ChevronDown className="chev" /></span>
+              <input data-testid="patient-phone" aria-label="Telefon raqami" inputMode="numeric" placeholder="90 123 45 67" value={formatLocal(draft.phone)} onChange={(event) => set("phone", digitsOnly(event.target.value))} aria-invalid={Boolean(errors.phone)} />
             </span>
-          </label>
-          <label className="nb-field">
-            <span>Email</span>
-            <span className="nb-iconed">
-              <span className="lead"><Mail size={16} /></span>
-              <input data-testid="patient-email" type="email" placeholder="email@example.com" value={draft.email} onChange={(event) => set("email", event.target.value)} />
-            </span>
-          </label>
-          <label className="nb-field">
-            <span>Qayerdan bildi?</span>
-            <select data-testid="patient-source" value={draft.source} onChange={(event) => set("source", event.target.value)}>
-              <option value="">Tanlang</option>
-              {SOURCES.map((item) => <option key={item}>{item}</option>)}
-            </select>
-          </label>
-          <div className="nb-field wide">
-            <span>Allergiya / kasalliklar</span>
-            <div className="nb-checks">
-              {CONDITIONS.map((item) => (
-                <label key={item}>
-                  <input
-                    type="checkbox"
-                    checked={draft.conditions.includes(item)}
-                    onChange={(event) => set("conditions", event.target.checked ? [...draft.conditions, item] : draft.conditions.filter((entry) => entry !== item))}
-                  />
-                  {item}
-                </label>
-              ))}
-            </div>
-          </div>
-          <label className="nb-field wide">
-            <input placeholder="Boshqa kasalliklar (ixtiyoriy)" value={draft.other} onChange={(event) => set("other", event.target.value)} />
-          </label>
-          <label className="nb-field wide nb-note">
-            <span>Izoh</span>
-            <textarea data-testid="patient-note" maxLength={500} placeholder="Qo‘shimcha ma’lumot (ixtiyoriy)" value={draft.note} onChange={(event) => set("note", event.target.value.slice(0, 500))} />
-            <b>{draft.note.length}/500</b>
-          </label>
+            <CmError text={errors.phone} />
+          </CmField>
+          <CmField label="Tug‘ilgan sana" req>
+            <CmDate label="Tug‘ilgan sana" testId="patient-birth" value={draft.birth} bad={Boolean(errors.birth)} onChange={(value) => set("birth", value)} />
+            <CmError text={errors.birth} />
+          </CmField>
         </div>
-
-        <footer className="nb-foot">
-          <button type="button" className="nb-cancel" data-testid="patient-cancel" onClick={onClose}>Bekor qilish</button>
-          <button type="button" className="nb-save" data-testid="patient-save" onClick={submit}><Plus size={16} /> Saqlash</button>
-        </footer>
       </div>
-    </div>
-  );
 
-  if (typeof document === "undefined") return null;
-  return createPortal(node, document.body);
+      <div className="cm-pt-mid">
+        <CmField label="Jinsi" req>
+          <div className="cm-seg" role="group" aria-label="Jinsi">
+            <button type="button" className={draft.gender === "Erkak" ? "on" : undefined} aria-pressed={draft.gender === "Erkak"} data-testid="patient-gender-erkak" onClick={() => set("gender", "Erkak")}>Erkak</button>
+            <button type="button" className={draft.gender === "Ayol" ? "on" : undefined} aria-pressed={draft.gender === "Ayol"} data-testid="patient-gender-ayol" onClick={() => set("gender", "Ayol")}>Ayol</button>
+          </div>
+          <CmError text={errors.gender} />
+        </CmField>
+        <CmField label="Shahar" req>
+          <CmSelect label="Shahar" testId="patient-form-city" value={draft.city} placeholder="Tanlang" options={patientCities} bad={Boolean(errors.city)} onChange={(value) => set("city", value)} />
+          <CmError text={errors.city} />
+        </CmField>
+        <CmField label="Manzil" className="wide">
+          <span className="cm-ctl lead">
+            <span className="cm-lead"><MapPin /></span>
+            <input data-testid="patient-address" aria-label="Manzil" placeholder="To‘liq manzil kiriting" value={draft.address} onChange={(event) => set("address", event.target.value)} />
+          </span>
+        </CmField>
+        <CmField label="Email">
+          <span className="cm-ctl lead">
+            <span className="cm-lead"><Mail /></span>
+            <input data-testid="patient-email" aria-label="Email" type="email" placeholder="email@example.com" value={draft.email} onChange={(event) => set("email", event.target.value)} />
+          </span>
+        </CmField>
+        <CmField label="Qayerdan bildi?">
+          <CmSelect label="Qayerdan bildi?" testId="patient-source" value={draft.source} placeholder="Tanlang" options={SOURCES} onChange={(value) => set("source", value)} />
+        </CmField>
+        <CmField label="Allergiya / kasalliklar" className="wide">
+          <div className="cm-checks">
+            {CONDITIONS.map((item) => (
+              <label key={item} className="cm-check">
+                <input
+                  type="checkbox"
+                  checked={draft.conditions.includes(item)}
+                  onChange={(event) => set("conditions", event.target.checked ? [...draft.conditions, item] : draft.conditions.filter((entry) => entry !== item))}
+                />
+                {item}
+              </label>
+            ))}
+          </div>
+          <input className="cm-input" aria-label="Boshqa kasalliklar" placeholder="Boshqa kasalliklar (ixtiyoriy)" value={draft.other} onChange={(event) => set("other", event.target.value)} />
+        </CmField>
+        <CmField label="Izoh" className="wide">
+          <textarea className="cm-area" data-testid="patient-note" aria-label="Izoh" maxLength={500} placeholder="Qo‘shimcha ma’lumot (ixtiyoriy)" value={draft.note} onChange={(event) => set("note", event.target.value.slice(0, 500))} />
+          <span className="cm-count">{draft.note.length}/500</span>
+        </CmField>
+      </div>
+    </CmDialog>
+  );
 }
