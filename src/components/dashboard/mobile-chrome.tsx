@@ -204,7 +204,6 @@ const PHONE14 = new Set([
   "/crm/tolovlar",
   "/crm/hisobotlar",
   "/ustalar",
-  "/elonlar",
 ]);
 
 function isPhone14(pathname: string) {
