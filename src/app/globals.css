@@ -258,7 +258,7 @@
 .sh .sh-pro .crown .i { width: 16px; height: 16px; }
 .sh .sh-pro .crown.help { color: var(--teal); }
 .sh .sh-pro b { font-size: 13px; font-weight: 700; line-height: 1.2; }
-.sh .sh-pro small { display: block; font-size: 11px; color:#5B6B82; line-height: 1.3; max-height: none; }
+.sh .sh-pro small { display: block; font-size: 12px; color:#5B6B82; line-height: 1.3; max-height: none; }
 .sh .sh-pro .go { margin-top: 6px; height: 28px; padding: 0 12px; background: var(--teal); color:#fff; border-radius: 7px; font-size: 12px; font-weight:700; display:inline-flex; align-items:center; gap: 4px; }
 .sh .sh-pro .go .i { width: 14px; height: 14px; }
 .sh .sh-side-row { flex:none; margin-top:8px; position:relative; }

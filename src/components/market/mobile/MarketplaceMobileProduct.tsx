@@ -121,7 +121,7 @@ export function MarketplaceMobileProduct({ id }: { id: string }) {
         <span>/</span>
         <b>{product.name}</b>
       </nav>
-      <div className="stage" onClick={() => shot && setLight(true)}>
+      <div className={gallery.length > 1 ? "stage" : "stage solo"} onClick={() => shot && setLight(true)}>
         {shot ? <img src={shot} alt={product.name} /> : null}
         {gallery.length > 1 ? (
           <>
