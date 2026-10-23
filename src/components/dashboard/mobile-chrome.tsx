@@ -195,7 +195,6 @@ function CartButton({ count, blue }: { count: number; blue?: boolean | "teal" })
 
 /** Section roots that render the shared MobileSectionHeader instead of this top bar. */
 const PHONE14 = new Set([
-  "/marketplace/aksiyalar",
   "/talim",
   "/mutaxassislar",
   "/sertifikatlar",
@@ -737,7 +736,7 @@ function isProductDetailPath(path: string) {
   if (!path.startsWith("/marketplace/")) return false;
   if (path.startsWith("/marketplace/dokon")) return false;
   if (path.startsWith("/marketplace/sotuvchi")) return false;
-  if (path.startsWith("/marketplace/brendlar")) return false;
+  if (path.startsWith("/marketplace/brendlar") || path === "/marketplace/aksiyalar") return false;
   return true;
 }
 
