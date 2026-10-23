@@ -13,6 +13,7 @@ import { formatMoney } from "@/lib/format";
 import { MarketplaceMobileProduct } from "@/components/market/mobile/MarketplaceMobileProduct";
 import { CatalogPhoneProduct } from "@/components/forma/mobile/CatalogPhoneProduct";
 import { BookDetailPhone } from "@/components/books/mobile/BookDetailPhone";
+import { CoursePlayerPhone } from "@/components/education/mobile/CoursePlayerPhone";
 
 function Shell({ title, children }: { title: string; children: ReactNode }) {
   return (
@@ -313,6 +314,9 @@ export function CoursePlayer({ id }: { id: string }) {
   if (!course) return <Shell title="Kurs topilmadi"><Link href="/talim" className="text-[#0066FF]">Ta’lim</Link></Shell>;
   const current = course.lessons[lesson];
   return (
+    <>
+    <CoursePlayerPhone key={course.id} course={course} onChange={setCourse} />
+    <div className="hidden lg:block">
     <Shell title={course.title}>
       <p className="mt-1 text-[14px] text-[#6b7280]">{course.teacher} · {course.price > 0 ? formatMoney(course.price, "UZS") : "Bepul"} · {course.progress}%</p>
       {course.cover ? <img src={course.cover} alt="" className="mt-4 max-h-64 rounded-2xl object-cover" /> : null}
@@ -339,5 +343,7 @@ export function CoursePlayer({ id }: { id: string }) {
         ))}
       </ul>
     </Shell>
+    </div>
+    </>
   );
 }
