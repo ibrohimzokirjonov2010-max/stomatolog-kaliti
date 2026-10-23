@@ -12,6 +12,7 @@ import { enrollCourse, fetchBooks, fetchCourses, fetchNews, saveLessonDone, type
 import { formatMoney } from "@/lib/format";
 import { MarketplaceMobileProduct } from "@/components/market/mobile/MarketplaceMobileProduct";
 import { CatalogPhoneProduct } from "@/components/forma/mobile/CatalogPhoneProduct";
+import { BookDetailPhone } from "@/components/books/mobile/BookDetailPhone";
 
 function Shell({ title, children }: { title: string; children: ReactNode }) {
   return (
@@ -258,6 +259,9 @@ export function BookPage({ id }: { id: string }) {
   if (book === undefined) return <Shell title="Yuklanmoqda...">{null}</Shell>;
   if (!book) return <Shell title="Kitob topilmadi"><Link href="/kitoblar" className="text-[#0066FF]">Kitoblar</Link></Shell>;
   return (
+    <>
+    <BookDetailPhone book={book} />
+    <div className="hidden lg:block">
     <Shell title={book.title}>
       <p className="mt-1 text-[14px] text-[#6b7280]">{book.author}</p>
       {book.cover ? <img src={book.cover} alt="" className="mt-4 h-56 rounded-2xl object-cover" /> : null}
@@ -266,6 +270,8 @@ export function BookPage({ id }: { id: string }) {
       <p className="mt-3 whitespace-pre-wrap text-[15px] leading-relaxed">{book.description}</p>
       <Link href={`/kitoblar/${book.id}/oqish`} className="mt-5 inline-flex h-11 items-center rounded-xl bg-[#0066FF] px-4 text-[14px] font-bold text-white">O‘qish</Link>
     </Shell>
+    </div>
+    </>
   );
 }
 

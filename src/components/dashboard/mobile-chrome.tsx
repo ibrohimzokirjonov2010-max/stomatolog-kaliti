@@ -252,8 +252,6 @@ export function MobileTopbar() {
     !pathname.startsWith("/forma/buyurtmalarim")
   )
     return null;
-  // Book detail page draws its own header (back / share / save).
-  if (/^\/kitoblar\/[^/]+\/?$/.test(pathname)) return null;
   if (/\/oqish\/?$/.test(pathname) || /\/talim\/[^/]+\/video\/?$/.test(pathname) || /\/seminarlar\/[^/]+\/royxat\/?$/.test(pathname)) return null;
   // Ustalar list + usta profile draw their own headers (mock: logo + "Usta qo‘shish" / back · heart · share).
   if (
