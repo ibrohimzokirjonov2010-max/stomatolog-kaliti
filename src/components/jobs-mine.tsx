@@ -143,7 +143,7 @@ export function JobsMinePage() {
   );
 }
 
-function IncomingRow({ item, busy, onSet }: { item: JobApplication; busy: boolean; onSet: (s: "korilmoqda" | "qabul" | "rad") => void }) {
+export function IncomingRow({ item, busy, onSet }: { item: JobApplication; busy: boolean; onSet: (s: "korilmoqda" | "qabul" | "rad") => void }) {
   const badge = appStatusCopy[item.status];
   const open = item.status === "yuborildi" || item.status === "korilmoqda";
   return (
