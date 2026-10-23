@@ -27,8 +27,11 @@ function digits(value: string) {
 
 /** Form state and submit logic shared by the phone and desktop seminar registration pages. */
 export function useSeminarRegister(id: string, initialPayment: PayId = "installment") {
-  const seminar = useMemo(() => resolveRegSeminar(id), [id]);
-  const { register } = useSeminarRegs();
+  const { register, catalogVersion } = useSeminarRegs();
+  // Recompute once the seminar catalog arrives (direct visits start with an empty catalog).
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  const seminar = useMemo(() => resolveRegSeminar(id), [id, catalogVersion]);
+
   const prices = seminar ? ticketPrices(seminar.price) : { standart: 0, vip: 0 };
   const [step, setStep] = useState<1 | 2>(1);
   const [name, setName] = useState("");

@@ -39,7 +39,7 @@ export function SeminarRegisterFlow({ id }: { id: string }) {
             <ChevronLeft />
           </Link>
           <div className="rg-brand">
-            <b>STOMAHUB</b>
+            <b>STOMA<span>HUB</span></b>
             <span>Seminarga ro‘yxatdan o‘tish</span>
           </div>
         </header>
@@ -59,7 +59,7 @@ export function SeminarRegisterFlow({ id }: { id: string }) {
             <ChevronLeft />
           </Link>
           <div className="rg-brand">
-            <b>STOMAHUB</b>
+            <b>STOMA<span>HUB</span></b>
             <span>Seminarga ro‘yxatdan o‘tish</span>
           </div>
         </header>
@@ -100,7 +100,7 @@ export function SeminarRegisterFlow({ id }: { id: string }) {
           <ChevronLeft />
         </Link>
         <div className="rg-brand">
-          <b>STOMAHUB</b>
+          <b>STOMA<span>HUB</span></b>
           <span>Seminarga ro‘yxatdan o‘tish</span>
         </div>
       </header>
