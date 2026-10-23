@@ -1,31 +1,29 @@
 "use client";
 
-import { Fragment, useMemo, useState } from "react";
+import { useMemo, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import {
   ArrowUpDown,
+  BadgeCheck,
+  Clock,
+  FileText,
+  Phone,
   Bookmark,
   Box,
-  BriefcaseBusiness,
   Building2,
   ChevronRight,
   ClipboardList,
-  Factory,
   FlaskConical,
-  Headphones,
   MapPin,
-  Package,
+  Plus,
   Search,
   SlidersHorizontal,
-  Star,
-  Truck,
   X,
 } from "lucide-react";
 import { useLabWork } from "@/components/lab-provider";
-import { LabMobileHero } from "@/components/lab-mobile-hero";
 import { MobileSectionHeader } from "@/components/mobile-section-header";
-import { LabPhoto, VerifiedBadge, labCover, labPlace, labServicesLine, useSavedLabs } from "@/components/lab-ui";
+import { LabPhoto, labCover, labPlace, labServicesLine, labTurnaround, somText, useSavedLabs } from "@/components/lab-ui";
 import { labCities, labMaterialFilters, labMaterialLabel, labServiceLabel, orderStatusSteps, type Lab, type LabMaterial, type LabService } from "@/data/labs";
 import { orderStepIndex } from "@/lib/lab-work";
 import { cn } from "@/lib/utils";
@@ -43,7 +41,6 @@ const chips: Chip[] = [
 
 type Sort = "new" | "fast" | "cheap";
 const sortLabels: Record<Sort, string> = { new: "Eng yangi", fast: "Eng tez", cheap: "Arzonroq" };
-const stepIcons = [ClipboardList, Headphones, Factory, Package, Truck];
 
 /** Mobile Laboratoriya list (mock 01). Real labs only; missing data shows neutral text. */
 export function LabMobileList() {
@@ -95,7 +92,7 @@ export function LabMobileList() {
 
   return (
     <div data-testid="lab-mobile">
-      <MobileSectionHeader title="Laboratoriya" subtitle="Dental lab hamkorlari · crown, veneer, implant va protez buyurtmasi." />
+      <MobileSectionHeader title="Laboratoriya" subtitle="Dental lab hamkorlari · crown, veneer, implant va protez" />
 
       {/* Search */}
       <div className="relative mb-3">
@@ -105,29 +102,22 @@ export function LabMobileList() {
           value={query}
           onChange={(e) => setQuery(e.target.value)}
           type="search"
-          placeholder="Lab, xizmat, shahar..."
-          className="h-[50px] w-full rounded-2xl border border-[#e6ebf3] bg-white pr-14 pl-11 text-[14.5px] text-[#1a1d26] shadow-[0_4px_14px_rgba(15,23,42,0.04)] outline-none placeholder:text-[#8b93a7] focus:border-[#0066FF]"
+          placeholder="Lab, xizmat, shahar yoki nomini qidiring..."
+          className="h-[50px] w-full rounded-2xl border border-[#e6ebf3] bg-white pr-14 pl-11 text-[14.5px] text-[#1a1d26] shadow-[0_4px_14px_rgba(15,23,42,0.04)] outline-none placeholder:text-[#8b93a7] focus:border-[#0b7f7d]"
           data-testid="lab-search"
         />
         <button
           type="button"
           onClick={() => setSheet(true)}
-          className="absolute top-1/2 right-2 grid size-9 -translate-y-1/2 place-items-center rounded-xl bg-[#e8f0ff] text-[#0066FF]"
+          className="absolute top-1/2 right-2 grid size-9 -translate-y-1/2 place-items-center rounded-xl bg-[#e3f6f5] text-[#0b7f7d]"
           aria-label="Filtrlar"
           data-testid="lab-filter-btn"
         >
           <SlidersHorizontal className="size-[18px]" />
-          {extra ? <span className="absolute -top-1 -right-1 grid size-4 place-items-center rounded-full bg-[#0066FF] text-[9px] font-bold text-white">{extra}</span> : null}
+          {extra ? <span className="absolute -top-1 -right-1 grid size-4 place-items-center rounded-full bg-[#0b7f7d] text-[9px] font-bold text-white">{extra}</span> : null}
         </button>
       </div>
 
-      <LabMobileHero
-        onService={(s) => {
-          setService(s);
-          document.querySelector('[data-testid="lab-chips"]')?.scrollIntoView({ behavior: "smooth", block: "start" });
-        }}
-        onList={() => document.getElementById("lab-kompaniyalari")?.scrollIntoView({ behavior: "smooth", block: "start" })}
-      />
 
       {/* Category chips */}
       <div className="-mx-4 mb-3.5 overflow-x-auto px-4 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden" data-testid="lab-chips">
@@ -144,7 +134,7 @@ export function LabMobileList() {
                 className={cn(
                   "inline-flex h-9 shrink-0 items-center gap-1.5 rounded-full px-4 text-[13px] font-medium",
                   c.icon && "pl-3",
-                  on ? "bg-[#0066FF] font-semibold text-white shadow-[0_4px_12px_rgba(0,102,255,0.28)]" : "border border-[#e6ebf3] bg-white text-[#1a1d26]",
+                  on ? "bg-[#0b7f7d] font-semibold text-white shadow-[0_4px_12px_rgba(11,127,125,0.28)]" : "border border-[#e6ebf3] bg-white text-[#1a1d26]",
                 )}
               >
                 {c.icon ? (
@@ -168,41 +158,18 @@ export function LabMobileList() {
       </div>
 
       {/* Order status */}
-      <section className="mb-4 rounded-[20px] bg-[#eaf2ff] px-3.5 pt-3.5 pb-3" data-testid="lab-tracking">
-        <div className="flex items-start gap-3">
-          <span className="grid size-12 shrink-0 place-items-center rounded-full bg-white text-[#0066FF] shadow-sm">
-            <ClipboardList className="size-[22px]" />
+      <Link href="/laboratoriya/buyurtmalarim" className="mb-3 flex items-center gap-3 rounded-[14px] border border-[#e9f0f5] bg-white px-3 py-2.5" data-testid="lab-tracking">
+        <span className="grid size-9 shrink-0 place-items-center rounded-full bg-[#e6f7f6] text-[#0b7f7d]">
+          <ClipboardList className="size-[17px]" />
+        </span>
+        <span className="min-w-0 flex-1 leading-tight">
+          <span className="block text-[13px] font-semibold text-[#0B1220]">Mening lab buyurtmalarim{activeOrders ? ` (${activeOrders})` : ""}</span>
+          <span className="block truncate text-[11px] text-[#6b7487]" data-testid="lab-tracking-text">
+            {latest ? `${latest.labName} · ${labServiceLabel(latest.service)} · ${orderStatusSteps[Math.max(0, stepIndex)]?.title ?? ""}` : "Hali buyurtma yo‘q — yangi buyurtma bering."}
           </span>
-          <div className="min-w-0 pt-0.5">
-            <h2 className="text-[15px] font-semibold text-[#0B1220]">Buyurtma holati</h2>
-            <p className="mt-0.5 truncate text-[12px] text-[#6b7487]" data-testid="lab-tracking-text">
-              {latest ? `${latest.labName} · ${labServiceLabel(latest.service)}` : "Hali buyurtma yo‘q — yangi buyurtma bering."}
-            </p>
-            <Link href="/laboratoriya/buyurtmalarim" className="mt-1 inline-flex items-center gap-0.5 text-[12.5px] font-semibold text-[#0066FF]">
-              Mening lab buyurtmalarim{activeOrders ? ` (${activeOrders})` : ""}
-              <ChevronRight className="size-3.5" />
-            </Link>
-          </div>
-        </div>
-        <ol className="mt-3 flex items-start" data-testid="lab-stepper">
-          {orderStatusSteps.map((step, i) => {
-            const Icon = stepIcons[i];
-            const done = stepIndex >= 0 && i <= stepIndex;
-            const current = stepIndex === i;
-            return (
-              <Fragment key={step.id}>
-                {i > 0 ? <li aria-hidden className={cn("mt-[17px] h-0 min-w-1.5 flex-1 border-t-2 border-dashed mx-0.5", done ? "border-[#0066FF]" : "border-[#c5d3ea]")} /> : null}
-                <li className="flex shrink-0 flex-col items-center gap-1 text-center" aria-current={current ? "step" : undefined}>
-                  <span className={cn("grid size-9 place-items-center rounded-full bg-white text-[#0066FF] shadow-sm", done && "ring-2 ring-[#0066FF]", current && "bg-[#0066FF] text-white")}>
-                    <Icon className="size-[17px]" />
-                  </span>
-                  <span className="text-[10.5px] leading-tight font-medium whitespace-nowrap text-[#1a1d26]">{step.title}</span>
-                </li>
-              </Fragment>
-            );
-          })}
-        </ol>
-      </section>
+        </span>
+        <ChevronRight className="size-4 shrink-0 text-[#8b93a7]" />
+      </Link>
 
       {/* Labs */}
       <div id="lab-kompaniyalari" className="mb-2.5 flex scroll-mt-20 items-center gap-2">
@@ -211,7 +178,7 @@ export function LabMobileList() {
           {labsReady ? `${visible.length} ta` : "…"}
         </span>
         <label className="relative ml-auto inline-flex h-8 items-center gap-1 rounded-full border border-[#e6ebf3] bg-white pr-2.5 pl-2.5 text-[12.5px] font-medium text-[#1a1d26]">
-          <ArrowUpDown className="size-3.5 text-[#0066FF]" />
+          <ArrowUpDown className="size-3.5 text-[#0b7f7d]" />
           <select value={sort} onChange={(e) => setSort(e.target.value as Sort)} className="appearance-none bg-transparent pr-3 outline-none" aria-label="Saralash" data-testid="lab-sort">
             {(Object.keys(sortLabels) as Sort[]).map((k) => (
               <option key={k} value={k}>
@@ -227,12 +194,12 @@ export function LabMobileList() {
         <p className="py-10 text-center text-sm text-[#8b93a7]">Yuklanmoqda…</p>
       ) : labs.length === 0 ? (
         <div className="rounded-[20px] border border-[#eceff5] bg-white px-6 py-12 text-center" data-testid="no-labs">
-          <span className="mx-auto grid size-14 place-items-center rounded-full bg-[#eef4ff] text-[#0066FF]">
+          <span className="mx-auto grid size-14 place-items-center rounded-full bg-[#e3f6f5] text-[#0b7f7d]">
             <FlaskConical className="size-6" />
           </span>
           <p className="mt-4 text-[16px] font-semibold text-[#1a1d26]">Hali laboratoriya yo‘q</p>
           <p className="mx-auto mt-1 max-w-xs text-[13px] text-[#8b93a7]">Tasdiqlangan laboratoriyalar shu yerda chiqadi. Laboratoriyangiz bo‘lsa, profilingizni joylang.</p>
-          <Link href="/laboratoriya/yangi" className="mt-5 inline-flex h-11 items-center justify-center rounded-2xl bg-[#0066FF] px-5 text-[14px] font-semibold text-white">
+          <Link href="/laboratoriya/yangi" className="mt-5 inline-flex h-11 items-center justify-center rounded-2xl bg-[#0b7f7d] px-5 text-[14px] font-semibold text-white">
             Laboratoriya sifatida e’lon berish
           </Link>
         </div>
@@ -240,7 +207,7 @@ export function LabMobileList() {
         <div className="rounded-[20px] border border-[#eceff5] bg-white px-4 py-10 text-center">
           <p className="text-[14px] font-semibold text-[#1a1d26]">Laboratoriya topilmadi</p>
           <p className="mt-1 text-[13px] text-[#8b93a7]">Filtrlarni o‘zgartiring yoki tozalang.</p>
-          <button type="button" onClick={clearAll} className="mt-4 inline-flex h-11 items-center justify-center rounded-2xl bg-[#0066FF] px-5 text-[14px] font-semibold text-white">
+          <button type="button" onClick={clearAll} className="mt-4 inline-flex h-11 items-center justify-center rounded-2xl bg-[#0b7f7d] px-5 text-[14px] font-semibold text-white">
             Filtrlarni tozalash
           </button>
         </div>
@@ -256,7 +223,7 @@ export function LabMobileList() {
 
       <section className="mt-4 grid gap-2.5">
         <Link href="/laboratoriya/yangi" className="flex items-center gap-3 rounded-2xl border border-[#eceff5] bg-white px-3.5 py-3.5">
-          <span className="grid size-10 shrink-0 place-items-center rounded-xl bg-[#e8f1ff] text-[#0066FF]">
+          <span className="grid size-10 shrink-0 place-items-center rounded-xl bg-[#e3f6f5] text-[#0b7f7d]">
             <Building2 className="size-4" />
           </span>
           <span className="min-w-0 flex-1 leading-tight">
@@ -266,7 +233,7 @@ export function LabMobileList() {
           <ChevronRight className="size-4 text-[#8b93a7]" />
         </Link>
         <Link href="/marketplace?cat=laboratoriya" className="flex items-center gap-3 rounded-2xl border border-[#eceff5] bg-white px-3.5 py-3.5">
-          <span className="grid size-10 shrink-0 place-items-center rounded-xl bg-[#e8f1ff] text-[#0066FF]">
+          <span className="grid size-10 shrink-0 place-items-center rounded-xl bg-[#e3f6f5] text-[#0b7f7d]">
             <Box className="size-4" />
           </span>
           <span className="min-w-0 flex-1 leading-tight">
@@ -276,6 +243,20 @@ export function LabMobileList() {
           <ChevronRight className="size-4 text-[#8b93a7]" />
         </Link>
       </section>
+
+      <div className="h-14" />
+      <button
+        type="button"
+        onClick={() => {
+          const el = document.querySelector<HTMLInputElement>("[data-section-search]");
+          el?.scrollIntoView({ behavior: "smooth", block: "center" });
+          el?.focus({ preventScroll: true });
+        }}
+        className="fixed inset-x-3 z-30 flex h-12 items-center justify-center gap-2 rounded-[12px] bg-[#0b7f7d] text-[14px] font-semibold text-white shadow-[0_8px_18px_rgba(11,127,125,0.3)]"
+        style={{ bottom: "calc(4.6rem + env(safe-area-inset-bottom))" }}
+      >
+        <Plus className="size-5" /> Laboratoriya topish yoki buyurtma berish
+      </button>
 
       {sheet ? (
         <div className="fixed inset-0 z-[65] flex items-end bg-[#0B1220]/45" onClick={() => setSheet(false)}>
@@ -316,7 +297,7 @@ export function LabMobileList() {
               <button type="button" onClick={clearAll} className="h-12 rounded-2xl border border-[#dbe3f0] text-[14px] font-semibold text-[#1a1d26]">
                 Tozalash
               </button>
-              <button type="button" onClick={() => setSheet(false)} className="h-12 rounded-2xl bg-[#0066FF] text-[14px] font-semibold text-white">
+              <button type="button" onClick={() => setSheet(false)} className="h-12 rounded-2xl bg-[#0b7f7d] text-[14px] font-semibold text-white">
                 Ko‘rsatish ({visible.length})
               </button>
             </div>
@@ -342,7 +323,7 @@ function SheetChip({ on, onClick, children }: { on: boolean; onClick: () => void
       type="button"
       onClick={onClick}
       aria-pressed={on}
-      className={cn("inline-flex h-9 items-center gap-1.5 rounded-full px-3.5 text-[13px] font-medium", on ? "bg-[#0066FF] text-white" : "border border-[#e6ebf3] bg-white text-[#1a1d26]")}
+      className={cn("inline-flex h-9 items-center gap-1.5 rounded-full px-3.5 text-[13px] font-medium", on ? "bg-[#0b7f7d] text-white" : "border border-[#e6ebf3] bg-white text-[#1a1d26]")}
     >
       {children}
     </button>
@@ -352,63 +333,65 @@ function SheetChip({ on, onClick, children }: { on: boolean; onClick: () => void
 function LabMobileCard({ lab, saved, onSave, priority }: { lab: Lab; saved: boolean; onSave: () => void; priority?: boolean }) {
   const href = `/laboratoriya/${lab.id}`;
   const cover = labCover(lab);
-  const thumbs = (lab.portfolio?.length ? lab.portfolio : (lab.photos ?? []).slice(1)).filter(Boolean);
-  const shown = thumbs.length > 4 ? thumbs.slice(0, 3) : thumbs.slice(0, 4);
-  const rest = thumbs.length - shown.length;
+  const thumbs = (lab.portfolio?.length ? lab.portfolio : (lab.photos ?? []).slice(1)).filter(Boolean).slice(0, 3);
+  const prices = (lab.priceItems ?? []).filter((item) => item.price != null).slice(0, 3);
+  const turnaround = labTurnaround(lab);
   return (
-    <article className="relative flex gap-2.5 rounded-[18px] border border-[#eceff5] bg-white p-2 shadow-[0_2px_10px_rgba(15,23,42,0.04)]" data-testid="lab-card">
-      <Link href={href} className="shrink-0" aria-label={lab.name}>
-        <LabPhoto src={cover} alt={`${lab.name} ishi`} sizes="100px" priority={priority} className="size-[100px] rounded-[14px]" />
-      </Link>
-      <div className="min-w-0 flex-1 pt-0.5 pr-0.5">
-        <Link href={href} className="flex items-center gap-1 pr-7">
-          <h3 className="truncate text-[15px] font-bold text-[#0B1220]">{lab.name}</h3>
-          <VerifiedBadge lab={lab} />
+    <article className="relative rounded-[14px] border border-[#e9f0f5] bg-white p-2" data-testid="lab-card">
+      <div className="flex gap-2.5">
+        <Link href={href} className="shrink-0" aria-label={lab.name}>
+          <LabPhoto src={cover} alt={`${lab.name} ishi`} sizes="120px" priority={priority} className="h-[150px] w-[112px] rounded-[10px]" />
         </Link>
-        <p className="mt-0.5 truncate text-[12px] text-[#4b5568]">{labServicesLine(lab)}</p>
-        <div className="mt-1 flex items-center gap-3 text-[12px] text-[#4b5568]">
-          <span className="inline-flex items-center gap-1" data-testid="lab-rating">
-            <Star className="size-3.5 text-[#c9d1de]" />
-            Hali baho yo‘q
-          </span>
-          <span className="inline-flex items-center gap-1">
-            <BriefcaseBusiness className="size-3.5 text-[#6b7487]" />
-            {lab.years != null ? `${lab.years} yil tajriba` : "Tajriba —"}
-          </span>
-        </div>
-        <p className="mt-1 flex items-center gap-1 truncate text-[12px] text-[#6b7487]">
-          <MapPin className="size-3.5 shrink-0" />
-          <span className="truncate">{labPlace(lab)}</span>
-        </p>
-        <div className="mt-1.5 flex items-center gap-2">
-          <div className="flex min-w-0 flex-1 gap-1" data-testid="lab-card-thumbs">
-            {shown.length ? (
-              <>
-                {shown.map((src, i) => (
-                  <span key={`${src}-${i}`} className="relative size-[30px] shrink-0 overflow-hidden rounded-md bg-[#eef2f8]">
-                    <Image src={src} alt="" fill sizes="30px" className="object-cover" loading="lazy" />
-                  </span>
-                ))}
-                {rest > 0 ? (
-                  <span className="relative grid size-[30px] shrink-0 place-items-center overflow-hidden rounded-md bg-[#0B1220] text-[11px] font-bold text-white">
-                    <Image src={thumbs[3]} alt="" fill sizes="30px" className="object-cover opacity-40" loading="lazy" />
-                    <span className="relative">+{rest}</span>
-                  </span>
-                ) : null}
-              </>
-            ) : (
-              <span className="truncate text-[11px] text-[#9aa3b5]">Portfolio hali yo‘q</span>
-            )}
+        <div className="min-w-0 flex-1">
+          <div className="flex items-start gap-1.5">
+            <Link href={href} className="min-w-0 flex-1">
+              <h3 className="truncate text-[14px] font-bold text-[#0B1220]">{lab.name}</h3>
+            </Link>
+            {lab.verified ? (
+              <span className="inline-flex shrink-0 items-center gap-1 rounded-full bg-[#e3f8ec] px-1.5 py-0.5 text-[9px] font-semibold text-[#166534]">
+                <BadgeCheck className="size-3" /> Tekshirilgan
+              </span>
+            ) : null}
+            <button type="button" onClick={onSave} className="grid size-6 shrink-0 place-items-center text-[#0b6f6d]" aria-label="Saqlash" aria-pressed={saved} data-testid="lab-bookmark">
+              <Bookmark className={cn("size-[15px]", saved && "fill-[#0b7f7d]")} />
+            </button>
           </div>
-          <Link href={href} className="inline-flex h-[30px] shrink-0 items-center gap-0.5 rounded-lg bg-[#eaf2ff] px-2.5 text-[12px] font-semibold text-[#0066FF]" data-testid="lab-open">
-            Profilni ko‘rish
-            <ChevronRight className="size-3.5" />
-          </Link>
+          <p className="mt-0.5 truncate text-[10.5px] text-[#6b7487]">{labServicesLine(lab)}</p>
+          <p className="mt-0.5 flex items-center gap-2.5 text-[10.5px] text-[#4b5568]">
+            <span className="inline-flex min-w-0 items-center gap-0.5"><MapPin className="size-3 shrink-0 text-[#0b6f6d]" /><span className="truncate">{labPlace(lab)}</span></span>
+            {turnaround !== "—" ? <span className="inline-flex shrink-0 items-center gap-0.5"><Clock className="size-3 text-[#0b6f6d]" />{turnaround}</span> : null}
+          </p>
+          {thumbs.length ? (
+            <div className="mt-1.5 flex gap-1" data-testid="lab-card-thumbs">
+              {thumbs.map((src, i) => (
+                <span key={`${src}-${i}`} className="relative h-[34px] flex-1 overflow-hidden rounded-[5px] bg-[#eef2f8]">
+                  <Image src={src} alt="" fill sizes="60px" className="object-cover" loading="lazy" />
+                </span>
+              ))}
+            </div>
+          ) : null}
+          {prices.length ? (
+            <div className="mt-1.5 grid grid-cols-3 gap-1">
+              {prices.map((item) => (
+                <span key={item.id} className="min-w-0 rounded-[6px] bg-[#f4f8fa] px-1.5 py-1">
+                  <span className="block truncate text-[8.5px] text-[#6b7487]">{item.title}</span>
+                  <span className="block truncate text-[10px] font-semibold text-[#0B1220]">{somText(item.price ?? 0)}</span>
+                </span>
+              ))}
+            </div>
+          ) : lab.priceFrom != null ? (
+            <p className="mt-1.5 text-[10.5px] text-[#6b7487]">Narx: <b className="text-[12px] text-[#0b7f7d]">{somText(lab.priceFrom)}dan</b></p>
+          ) : null}
+          <div className="mt-1.5 flex gap-1.5">
+            <Link href={href} className="inline-flex h-8 flex-1 items-center justify-center gap-1 rounded-[8px] border border-[#cfe2ea] text-[11px] font-semibold text-[#0B1A3A]" data-testid="lab-open">
+              <Phone className="size-3.5 text-[#0b6f6d]" /> Bog‘lanish
+            </Link>
+            <Link href={`${href}?buyurtma=1`} className="inline-flex h-8 flex-[1.3] items-center justify-center gap-1 rounded-[8px] bg-[#0b7f7d] text-[11px] font-semibold text-white">
+              <FileText className="size-3.5" /> Buyurtma berish
+            </Link>
+          </div>
         </div>
       </div>
-      <button type="button" onClick={onSave} className="absolute top-2 right-2 grid size-7 place-items-center text-[#4b5568]" aria-label="Saqlash" aria-pressed={saved} data-testid="lab-bookmark">
-        <Bookmark className={cn("size-[18px]", saved && "fill-[#0066FF] text-[#0066FF]")} />
-      </button>
     </article>
   );
 }
