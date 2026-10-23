@@ -73,3 +73,29 @@
 .sv .sv-bar p { margin: 0; font-size: 12px; color: #6a7c93; }
 .sv .sv-bar strong { display: block; color: #0f9f75; font-size: 16px; }
 .sv .sv-go { margin-left: auto; height: 44px; padding: 0 16px; border-radius: 12px; background: #12b981; color: #fff; font-weight: 800; display: inline-flex; align-items: center; }
+
+/* Phone mockup pass: teal palette and roomier cards. */
+.sv .sv-back { background: #eef4f7; color: #0b1a3a; }
+.sv .sv-body { gap: 8px; padding-top: 4px; }
+.sv .sv-title { font-size: 24px; color: #0b1a3a; }
+.sv .sv-clear { background: #eef3f7; border-color: #eef3f7; color: #3b4658; font-weight: 500; }
+.sv .sv-card { grid-template-columns: 96px minmax(0, 1fr); gap: 12px; padding: 8px 10px 8px 8px; border: 1px solid #e9f0f5; box-shadow: none; }
+.sv .sv-card img { width: 96px; height: 90px; object-fit: contain; background: #f2f5f8; border-radius: 8px; }
+.sv .sv-main h2 { font-size: 12px; font-weight: 700; }
+.sv .sv-icon { width: 26px; height: 26px; border-radius: 50%; background: #f2f5f8; color: #3b4658; }
+.sv .sv-icon.on { color: #e11d48; }
+.sv .sv-seller { color: #6a7c93; font-weight: 500; font-size: 10.5px; }
+.sv .sv-seller svg { color: #3b4658; }
+.sv .sv-step { height: 30px; border: 0; background: #eef3f7; border-radius: 8px; }
+.sv .sv-step button { width: 30px; height: 30px; background: transparent; color: #0b1a3a; }
+.sv .sv-step b { min-width: 30px; height: 30px; display: grid; place-items: center; background: #fff; font-weight: 600; }
+.sv .sv-price { color: #0b7f7d; font-size: 13.5px; }
+.sv .sv-box { padding: 10px 12px; border: 1px solid #e9f0f5; box-shadow: none; }
+.sv .sv-box h3 { font-size: 12.5px; margin-bottom: 6px; }
+.sv .sv-box h3 svg { color: #0b1a3a; }
+.sv .sv-line { font-size: 11.5px; padding: 2px 0; }
+.sv .sv-line .free, .sv .sv-jami b { color: #0b7f7d; }
+.sv .sv-jami { font-size: 14px; }
+.sv .sv-bar strong { color: #0b7f7d; }
+.sv .sv-go { background: #0b7f7d; border-radius: 10px; padding: 0 22px; }
+.sv .sv-empty a { background: #0b7f7d; }
