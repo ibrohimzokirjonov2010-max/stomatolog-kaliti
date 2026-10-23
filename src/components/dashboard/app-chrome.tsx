@@ -42,7 +42,7 @@ import { ReportsDesktop } from "@/components/crm/desktop/ReportsDesktop";
 import { CheckoutDesktop } from "@/components/checkout/desktop/CheckoutDesktop";
 import { BookProductDesktop } from "@/components/books/desktop/BookProductDesktop";
 import { ReaderDesktop } from "@/components/books/desktop/ReaderDesktop";
-import { ListingDetailDesktop } from "@/components/crm/desktop/ListingsDesktop";
+import { ListingDetailDesktop } from "@/components/listings/desktop/ElonDetailDesktop";
 import { ListingsDesktop } from "@/components/listings/desktop/ElonlarDesktop";
 import { CatalogProductDesktop } from "@/components/shop/desktop/CatalogProductDesktop";
 import { UstaProfileDesktop } from "@/components/ustalar/desktop/UstaProfileDesktop";
