@@ -1,9 +1,10 @@
 "use client";
 /* eslint-disable @next/next/no-img-element */
 
-import { useMemo, useState } from "react";
-import { AlertTriangle, ArrowRight, Boxes, ChevronRight, ClipboardCheck, Download, FileUp, LayoutGrid, Package, Plus, Search, ShoppingCart, Wallet } from "lucide-react";
+import { useEffect, useMemo, useState } from "react";
+import { AlertTriangle, ArrowRight, Boxes, CheckCircle2, ChevronRight, ClipboardCheck, Download, FileUp, LayoutGrid, Package, Plus, Search, ShoppingCart, Wallet } from "lucide-react";
 import { CrmFrame, CrmModal, CrmPager } from "@/components/crm/desktop/CrmFrame";
+import { NewStockModal } from "@/components/crm/NewStockModal";
 import { stockCategories, stockSuppliers, type StockItem, type StockStatus } from "@/data/crm";
 import { formatDotDate, formatMoney } from "@/lib/format";
 import { useStoredList } from "@/lib/stored-list";
@@ -44,6 +45,12 @@ export function StockDesktop() {
   const [mode, setMode] = useState<"" | "new" | "order" | "count">("");
   const [form, setForm] = useState(EMPTY_FORM);
   const [note, setNote] = useState("");
+  const [toast, setToast] = useState("");
+  useEffect(() => {
+    if (!toast) return;
+    const timer = window.setTimeout(() => setToast(""), 3200);
+    return () => window.clearTimeout(timer);
+  }, [toast]);
 
   const rows = useMemo(() => items.map((item) => ({ ...item, status: statusOf(item, today) })), [items, today]);
   const filtered = useMemo(() => rows.filter((item) => {
@@ -57,7 +64,7 @@ export function StockDesktop() {
   const safe = Math.min(page, pages);
   const slice = filtered.slice((safe - 1) * size, safe * size);
   const value = rows.reduce((sum, item) => sum + item.price * item.qty, 0);
-  const low = rows.filter((item) => item.qty <= item.min).sort((a, b) => a.qty / Math.max(1, a.min) - b.qty / Math.max(1, b.min));
+  const low = rows.filter((item) => item.alert !== false && item.qty <= item.min).sort((a, b) => a.qty / Math.max(1, a.min) - b.qty / Math.max(1, b.min));
   const soon = rows
     .map((item) => ({ item, left: daysLeft(item.expiry, today) }))
     .filter((row): row is { item: (typeof rows)[number]; left: number } => row.left !== null && row.left <= EXPIRY_WINDOW)
@@ -67,28 +74,6 @@ export function StockDesktop() {
   function open(next: "new" | "order" | "count", item?: StockItem) {
     setForm(item ? { ...EMPTY_FORM, id: item.id, qty: next === "count" ? String(item.qty) : "10" } : { ...EMPTY_FORM, id: rows[0]?.id ?? "" });
     setMode(next);
-  }
-
-  function add() {
-    if (!form.name.trim()) return;
-    const [year, month, day] = form.expiry.split("-");
-    const next: StockItem = {
-      id: `st-user-${Date.now()}`,
-      name: form.name.trim(),
-      detail: "",
-      category: form.category,
-      sku: form.sku.trim() || `SKU-${Date.now().toString().slice(-4)}`,
-      qty: Number(form.qty) || 0,
-      min: Number(form.min) || 1,
-      expiry: day && month && year ? `${day}.${month}.${year}` : "",
-      supplier: form.supplier,
-      status: "mavjud",
-      image: "",
-      price: Number(form.price) || 0,
-    };
-    setItems((prev) => [next, ...prev]);
-    setMode("");
-    setPage(1);
   }
 
   function changeQty(id: string, next: (qty: number) => number) {
@@ -144,7 +129,8 @@ export function StockDesktop() {
                 {stockCategories.map((item) => <option key={item}>{item}</option>)}
               </select>
             </label>
-            <button type="button" className="crm-btn blue" data-testid="stock-order" onClick={() => open("order")}><Plus className="i" /> Buyurtma berish</button>
+            <button type="button" className="crm-btn" data-testid="stock-order" onClick={() => open("order")}><ShoppingCart className="i" /> Buyurtma berish</button>
+            <button type="button" className="crm-btn blue" data-testid="stock-add" onClick={() => open("new")}><Plus className="i" /> Yangi mahsulot</button>
           </div>
         </div>
         <div className="pay-kpis sk-kpis">
@@ -184,12 +170,12 @@ export function StockDesktop() {
                           <td>
                             <span className="crm-person">
                               {item.image ? <img className="sk-thumb" src={item.image} alt="" /> : <span className="sk-thumb sk-ph" aria-hidden><Package className="i" /></span>}
-                              <span><b>{item.name}</b>{item.detail ? <small>{item.detail}</small> : null}</span>
+                              <span><b>{item.name}</b>{item.detail || item.location ? <small>{[item.detail, item.location].filter(Boolean).join(" · ")}</small> : null}</span>
                             </span>
                           </td>
                           <td className="crm-muted">{item.category}</td>
                           <td className="crm-muted">{item.sku}</td>
-                          <td className={item.qty <= item.min ? "sk-low" : "sk-ok"}>{item.qty}</td>
+                          <td className={item.qty <= item.min ? "sk-low" : "sk-ok"}>{item.qty}{item.unit ? <small className="crm-muted"> {item.unit}</small> : null}</td>
                           <td className={item.qty <= item.min ? "sk-low" : undefined}>{item.min}</td>
                           <td className={left !== null && left <= 30 ? "sk-low" : undefined}>{formatDotDate(item.expiry)}</td>
                           <td>{item.supplier || "–"}</td>
@@ -243,18 +229,18 @@ export function StockDesktop() {
           </aside>
         </div>
         {mode === "new" ? (
-          <CrmModal title="Yangi mahsulot" onClose={() => setMode("")}>
-            <label className="crm-field">Nomi<input data-testid="stock-name" value={form.name} onChange={(event) => setForm({ ...form, name: event.target.value })} /></label>
-            <label className="crm-field">Kategoriya<select value={form.category} onChange={(event) => setForm({ ...form, category: event.target.value })}>{stockCategories.map((item) => <option key={item}>{item}</option>)}</select></label>
-            <label className="crm-field">SKU<input value={form.sku} onChange={(event) => setForm({ ...form, sku: event.target.value })} /></label>
-            <label className="crm-field">Miqdor<input inputMode="numeric" value={form.qty} onChange={(event) => setForm({ ...form, qty: event.target.value })} /></label>
-            <label className="crm-field">Minimal zaxira<input inputMode="numeric" value={form.min} onChange={(event) => setForm({ ...form, min: event.target.value })} /></label>
-            <label className="crm-field">Yaroqlilik muddati<input type="date" value={form.expiry} onChange={(event) => setForm({ ...form, expiry: event.target.value })} /></label>
-            <label className="crm-field">Yetkazib beruvchi<select value={form.supplier} onChange={(event) => setForm({ ...form, supplier: event.target.value })}>{suppliers.map((item) => <option key={item}>{item}</option>)}</select></label>
-            <label className="crm-field">Narx (so‘m, bir dona)<input inputMode="numeric" value={form.price} onChange={(event) => setForm({ ...form, price: event.target.value })} /></label>
-            <div className="row"><button type="button" className="go" data-testid="stock-save" onClick={add}>Saqlash</button></div>
-          </CrmModal>
+          <NewStockModal
+            suppliers={suppliers}
+            onClose={() => setMode("")}
+            onSave={(item) => {
+              setItems((prev) => [item, ...prev]);
+              setMode("");
+              setPage(1);
+              setToast(`“${item.name}” omborga qo‘shildi`);
+            }}
+          />
         ) : null}
+        {toast ? <div className="cm-toast" role="status" data-testid="stock-toast"><CheckCircle2 />{toast}</div> : null}
         {mode === "order" || mode === "count" ? (
           <CrmModal title={mode === "order" ? "Buyurtma berish (kirim)" : "Inventarizatsiya"} onClose={() => setMode("")}>
             {rows.length === 0 ? <p className="crm-muted">Avval omborga mahsulot qo‘shing.</p> : (

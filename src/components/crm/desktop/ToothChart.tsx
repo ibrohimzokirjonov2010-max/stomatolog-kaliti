@@ -11,7 +11,7 @@ const SHAPES = {
   molar: "M4.2 3C5.2 1.5 7.6 1.5 8.6 3L10.6 14C11.3 12.6 12.7 12.6 13.4 14L15.4 3C16.4 1.5 18.8 1.5 19.8 3L21 17C23 19 23.3 24 22.8 29.2 22.3 34.6 19 38 12 38S1.7 34.6 1.2 29.2C.7 24 1 19 3 17Z",
 } as const;
 
-function shapeOf(id: string, baby: boolean) {
+export function shapeOf(id: string, baby: boolean) {
   const n = Number(id.slice(-1));
   if (n <= 2) return SHAPES.incisor;
   if (n === 3) return SHAPES.canine;
@@ -24,17 +24,19 @@ export const ADULT_LOWER = ["48", "47", "46", "45", "44", "43", "42", "41", "31"
 export const BABY_UPPER = ["55", "54", "53", "52", "51", "61", "62", "63", "64", "65"];
 export const BABY_LOWER = ["85", "84", "83", "82", "81", "71", "72", "73", "74", "75"];
 
+/** Colours follow designs/add-forms-1020/yengi davolsah rejasi qoshi (karies red, plomba blue, shtift yellow…). */
 export const toothFill: Record<ToothState, string> = {
   soglom: "#e8eef5",
   davolanmoqda: "#5b9df5",
   davolangan: "#2fbf8f",
   muammo: "#ef4444",
-  kariyes: "#a9cdf5",
-  plomba: "#0f9a94",
-  endo: "#ef4444",
-  implant: "#2fbf8f",
-  koronka: "#c4a7f5",
-  ekstraksiya: "#9ca3af",
+  kariyes: "#ef4444",
+  plomba: "#4aa8f0",
+  endo: "#f27a7a",
+  implant: "#94a3b8",
+  koronka: "#3b82f6",
+  shtift: "#f5b638",
+  ekstraksiya: "#cbd5e1",
 };
 
 export function cycleTooth(current: ToothState | undefined, order: ToothState[]) {

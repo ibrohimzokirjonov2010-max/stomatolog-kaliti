@@ -11,6 +11,7 @@ import { AksiyalarDesktop } from "@/components/shop/desktop/AksiyalarDesktop";
 import { SurplusDesktopCatalog } from "@/components/shop/desktop/SurplusDesktopCatalog";
 import { SurplusDesktopDetail } from "@/components/shop/desktop/SurplusDesktopDetail";
 import { SeminarList } from "@/components/seminars/desktop/SeminarList";
+import { SeminarRegisterDesktop } from "@/components/seminars/desktop/SeminarRegisterDesktop";
 import { TalimDesktop } from "@/components/hub/desktop/TalimDesktop";
 import { KitoblarDesktop } from "@/components/hub/desktop/KitoblarDesktop";
 import { KanallarDesktop } from "@/components/hub/desktop/KanallarDesktop";
@@ -257,6 +258,9 @@ function desktopFlow(pathname: string | null): ReactNode | null {
 }
 
 function desktopSeminar(pathname: string | null): ReactNode | null {
+  if (!pathname) return null;
   if (pathname === "/seminarlar") return <SeminarList />;
+  const register = pathname.match(/^\/seminarlar\/([^/]+)\/royxat\/?$/);
+  if (register) return <SeminarRegisterDesktop id={decodeURIComponent(register[1])} />;
   return null;
 }

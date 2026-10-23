@@ -1,11 +1,13 @@
 "use client";
 /* eslint-disable @next/next/no-img-element */
 
-import { useMemo, useState, type CSSProperties } from "react";
+import { useEffect, useMemo, useState, type CSSProperties } from "react";
 import Link from "next/link";
-import { ArrowDown, ArrowRight, ArrowUp, Banknote, ChevronRight, CreditCard, Plus, Search, Smartphone, Wallet } from "lucide-react";
+import { usePathname, useRouter } from "next/navigation";
+import { ArrowDown, ArrowRight, ArrowUp, Banknote, CheckCircle2, ChevronRight, CreditCard, Plus, Search, Smartphone, Wallet } from "lucide-react";
 import { CrmFrame, CrmPager } from "@/components/crm/desktop/CrmFrame";
-import { NewPaymentModal } from "@/components/crm/CrmCreateModals";
+import { NewPaymentModal, planTotals } from "@/components/crm/NewPaymentModal";
+import { downloadPdf } from "@/lib/simple-pdf";
 import { type ClinicPayment, type Patient, type PayMethod, type TreatmentPlan } from "@/data/crm";
 import { formatGroupedNumber, formatMoney } from "@/lib/format";
 import { useStoredList } from "@/lib/stored-list";
@@ -54,7 +56,9 @@ export function PaymentsDesktop() {
   const today = tashkentDateParts().iso;
   const monthStart = `${today.slice(0, 8)}01`;
   const [items, setItems] = useStoredList("sk-crm-payments-v1", SEED);
-  const [plans] = useStoredList<TreatmentPlan>("sk-crm-plans-v1", []);
+  const [plans, setPlans] = useStoredList<TreatmentPlan>("sk-crm-plans-v1", []);
+  const pathname = usePathname();
+  const router = useRouter();
   const [patients] = useCrmPatients<Patient>();
   const [q, setQ] = useState("");
   const [method, setMethod] = useState<PayMethod | "">("");
@@ -64,7 +68,19 @@ export function PaymentsDesktop() {
   const [chart, setChart] = useState<"kun" | "hafta" | "oy">("kun");
   const [page, setPage] = useState(1);
   const [size, setSize] = useState(10);
-  const [open, setOpen] = useState<PayMethod | "">("");
+  const [open, setOpen] = useState<PayMethod | "">(pathname === "/crm/tolovlar/yangi" ? "Naqd" : "");
+  const [toast, setToast] = useState("");
+  // Opening /crm/tolovlar/yangi (or navigating to it) shows the form.
+  const [seenPath, setSeenPath] = useState(pathname);
+  if (pathname !== seenPath) {
+    setSeenPath(pathname);
+    if (pathname === "/crm/tolovlar/yangi") setOpen("Naqd");
+  }
+  useEffect(() => {
+    if (!toast) return;
+    const timer = window.setTimeout(() => setToast(""), 3200);
+    return () => window.clearTimeout(timer);
+  }, [toast]);
   const [form, setForm] = useState({ patient: "", service: "Konsultatsiya", amount: "200000", method: "Naqd" as PayMethod, date: today, note: "" });
 
   const inRange = useMemo(() => items.filter((item) => {
@@ -137,6 +153,11 @@ export function PaymentsDesktop() {
     { label: "Karta to‘lovlari", value: total(inRange, "Karta"), before: total(prev, "Karta"), icon: CreditCard, tone: "blue" },
     { label: "Qolgan qarzdorlik", value: debt, before: 0, icon: Smartphone, tone: "red" },
   ];
+
+  function closeModal() {
+    setOpen("");
+    if (pathname === "/crm/tolovlar/yangi") router.replace("/crm/tolovlar");
+  }
 
   return (
     <CrmFrame active="payments" placeholder="Bemor, telefon, to‘lov raqami yoki xizmat nomi..." headerQuery={q} onHeaderQuery={(value) => { setQ(value); setPage(1); }}>
@@ -286,27 +307,40 @@ export function PaymentsDesktop() {
         </div>
         {open ? (
           <NewPaymentModal
-            initial={{ ...form, method: open || "Naqd" }}
-            onClose={() => setOpen("")}
-            onSave={(draft) => {
-              const [year, month, day] = (draft.date || today).split("-");
-              const next: ClinicPayment = {
-                id: `pay-user-${Date.now()}`,
-                date: `${day}.${month}.${year}`,
-                patient: draft.patient.trim(),
-                avatar: patients.find((item) => item.name === draft.patient.trim())?.avatar ?? "",
-                service: draft.note.trim() ? `${draft.service} · ${draft.note.trim()}` : draft.service,
-                amount: Number(draft.amount) || 0,
-                method: draft.method,
-                status: "tolandi",
-              };
-              setItems((prev) => [next, ...prev]);
-              setForm(draft);
-              setOpen("");
+            plans={plans}
+            initialMethod={open}
+            onClose={closeModal}
+            onSave={(payment) => {
+              setItems((prev) => [payment, ...prev]);
+              const plan = plans.find((item) => item.id === payment.planId);
+              let closed = false;
+              if (plan) {
+                const before = planTotals(plan);
+                closed = before.debt > 0 && payment.amount >= before.debt;
+                setPlans((prev) => prev.map((item) => (item.id === plan.id
+                  ? { ...item, status: closed ? "yakun" : item.status, payments: [...item.payments, { date: payment.date, amount: payment.amount, method: payment.method, note: payment.note || "To‘lov" }] }
+                  : item)));
+              }
+              if (payment.receipt) {
+                downloadPdf(`chek-${payment.id.slice(-6)}.pdf`, [
+                  "StomaHub - To'lov cheki",
+                  `Chek: ${payment.id.slice(-6)}`,
+                  `Sana: ${payment.date}`,
+                  `Bemor: ${payment.patient}`,
+                  `Xizmat: ${payment.service}`,
+                  `Summa: ${formatGroupedNumber(payment.amount)} so'm`,
+                  `To'lov usuli: ${payment.method}`,
+                  ...(payment.note ? [`Izoh: ${payment.note}`] : []),
+                ]);
+              }
+              setToast(closed ? "To‘lov saqlandi. Qarz yopildi, reja “Yakunlangan” holatiga o‘tdi." : "To‘lov saqlandi");
+              setForm({ ...form, method: payment.method });
+              closeModal();
               setPage(1);
             }}
           />
         ) : null}
+        {toast ? <div className="cm-toast" role="status" data-testid="pay-toast"><CheckCircle2 />{toast}</div> : null}
       </div>
     </CrmFrame>
   );

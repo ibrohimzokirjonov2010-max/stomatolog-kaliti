@@ -1,5 +1,5 @@
 export type PatientStatus = "faol" | "davolanishda" | "yangi" | "kuzatuvda" | "nofaol";
-export type ToothState = "soglom" | "davolanmoqda" | "davolangan" | "muammo" | "kariyes" | "plomba" | "endo" | "implant" | "koronka" | "ekstraksiya";
+export type ToothState = "soglom" | "davolanmoqda" | "davolangan" | "muammo" | "kariyes" | "plomba" | "endo" | "implant" | "koronka" | "shtift" | "ekstraksiya";
 
 export type PatientVisit = { date: string; kind: string; note: string; doctor: string };
 export type PatientDoc = { name: string; detail: string };
@@ -190,6 +190,8 @@ export const seedAppointments: Appointment[] = [
 
 export type PlanStep = { id: string; name: string; teeth: string; count: number; price: number; status: "bajarildi" | "davom" | "kutil"; date: string };
 export type PlanPay = { date: string; amount: number; method: string; note: string };
+/** Optional grouping of a plan's services into stages ("Reja bosqichlari"). */
+export type PlanStage = { id: string; name: string; services: string[]; teeth: string; duration: string; amount: number };
 
 export type TreatmentPlan = {
   id: string;
@@ -202,6 +204,9 @@ export type TreatmentPlan = {
   steps: PlanStep[];
   payments: PlanPay[];
   teeth: Record<string, ToothState>;
+  discount?: number;
+  payMode?: "full" | "stages";
+  stages?: PlanStage[];
 };
 
 export const seedPlans: TreatmentPlan[] = [
@@ -267,6 +272,9 @@ export type ClinicPayment = {
   amount: number;
   method: PayMethod;
   status: PayStatus;
+  planId?: string;
+  note?: string;
+  receipt?: boolean;
 };
 
 const paySeed: ClinicPayment[] = [
@@ -324,6 +332,12 @@ export type StockItem = {
   status: StockStatus;
   image: string;
   price: number;
+  unit?: string;
+  batch?: string;
+  location?: string;
+  note?: string;
+  /** false turns off the low-stock warning for this item. */
+  alert?: boolean;
 };
 
 const stockImages = ["/img/mobile/om-filtek-syr.jpg", "/img/shop/m-protaper.jpg", "/images/implant-cutout.png", "/img/shop/m-uds.jpg", "/img/cart/gloves.jpg", "/img/cart/masks.jpg", "/images/product-bond.png", "/images/product-composite.png"];
