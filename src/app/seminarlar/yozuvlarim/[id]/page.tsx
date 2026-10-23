@@ -129,7 +129,10 @@ export default function TicketPage({ params }: { params: Promise<{ id: string }>
 
       <article className={cancelled ? "tk-ticket off" : "tk-ticket"} data-testid="seminar-ticket-page">
         <div className="tk-top">
-          <div className="tk-photo">{seminar?.image ? <img src={seminar.image} alt="" /> : <CalendarDays />}</div>
+          <div className="tk-photo">
+            {/* eslint-disable-next-line @next/next/no-img-element -- seminar covers come from organizer uploads */}
+            {seminar?.image ? <img src={seminar.image} alt="" /> : <CalendarDays />}
+          </div>
           <div className="tk-info">
             <span className={`tk-status ${look.tone}`}><StatusIcon /> {look.label}</span>
             <h2>{title}</h2>
