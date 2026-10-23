@@ -134,7 +134,7 @@ export function BookmarkButton({ id, className, onDark }: { id: string; classNam
         className,
       )}
     >
-      <Bookmark className={cn("size-[18px]", saved && "fill-[#0066FF] text-[#0066FF]")} />
+      <Bookmark className={cn("size-[18px]", saved && "fill-[#0b7f7d] text-[#0b7f7d]")} />
     </button>
   );
 }
@@ -286,6 +286,13 @@ function ListCard({ seminar }: { seminar: Seminar }) {
       <div className="flex gap-3">
         <Link href={href} className="relative h-[92px] w-[112px] shrink-0 overflow-hidden rounded-[12px] bg-[#eef2f8]" aria-label={live.title}>
           <SeminarCover src={live.image} sizes="112px" gray={!upcoming} />
+          {!live.dateTbd ? (
+            <span className="absolute top-1.5 left-1.5 rounded-[6px] bg-[#0b7f7d] px-1.5 py-0.5 text-[10px] font-bold text-white">
+              {live.dateEnd && live.dateEnd !== live.date
+                ? `${live.date.slice(8, 10)}/${live.date.slice(5, 7)} – ${live.dateEnd.slice(8, 10)}/${live.dateEnd.slice(5, 7)}`
+                : `${live.date.slice(8, 10)}/${live.date.slice(5, 7)}`}
+            </span>
+          ) : null}
         </Link>
         <div className="min-w-0 flex-1">
           <div className="flex items-start justify-between gap-1.5">
@@ -366,7 +373,7 @@ function ListCard({ seminar }: { seminar: Seminar }) {
           <Link
             href={href}
             data-testid="seminar-card-register"
-            className="inline-flex h-[38px] shrink-0 items-center gap-1 rounded-xl bg-[#0066FF] px-3 text-[12px] font-semibold text-white shadow-[0_6px_14px_rgba(0,102,255,0.28)]"
+            className="inline-flex h-[38px] shrink-0 items-center gap-1 rounded-xl bg-[#0b7f7d] px-3 text-[12px] font-semibold text-white shadow-[0_6px_14px_rgba(11,127,125,0.28)]"
           >
             Ro‘yxatdan o‘tish
             <ArrowRight className="size-3.5" />
@@ -448,7 +455,7 @@ export function SeminarListMobile() {
   return (
     <div data-testid="seminar-list-mobile">
       <MobileSectionHeader
-        title="Seminarlar"
+        title={null}
         extra={
           <Link href="/seminarlar/yozuvlarim" data-testid="seminar-my-calendar" aria-label="Mening yozuvlarim" className={mobileHeaderActionCls}>
             <CalendarDays className="size-5" strokeWidth={1.8} />

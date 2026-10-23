@@ -31,6 +31,7 @@ export function MobileSectionHeader({
   className,
   topPad = "0px",
 }: {
+  /** Omit (null) for sections whose mockup shows only the logo row. */
   title: ReactNode;
   subtitle?: ReactNode;
   /** Custom search action (e.g. toggle a search row). Defaults to focusing the page's search input. */
@@ -81,10 +82,12 @@ export function MobileSectionHeader({
           </div>
         </div>
       </div>
-      <div className="mt-2 min-w-0">
-        <h1 className="text-[24px] leading-tight font-extrabold tracking-tight text-[#0B1A3A]">{title}</h1>
-        {subtitle ? <p className="mt-0.5 text-[11.5px] leading-snug text-[#7b8aa5]">{subtitle}</p> : null}
-      </div>
+      {title ? (
+        <div className="mt-2 min-w-0">
+          <h1 className="text-[24px] leading-tight font-extrabold tracking-tight text-[#0B1A3A]">{title}</h1>
+          {subtitle ? <p className="mt-0.5 text-[11.5px] leading-snug text-[#7b8aa5]">{subtitle}</p> : null}
+        </div>
+      ) : null}
     </header>
   );
 }
