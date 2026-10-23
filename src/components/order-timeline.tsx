@@ -1,5 +1,6 @@
 "use client";
 
+import { tashkentDayMonth, tashkentHm } from "@/lib/tashkent-date";
 import { Check, Clock, Package, Truck } from "lucide-react";
 import {
   DISPLAY_STEPS,
@@ -100,7 +101,7 @@ export function OrderTimeline({ order }: { order: Order }) {
                   <div className="flex flex-wrap items-baseline justify-between gap-x-3">
                     <p className="text-[14px] font-semibold text-[#1a1d26]">{orderStatusLabel[h.status] ?? h.status}</p>
                     <time className="text-[12px] text-[#8b93a7]" dateTime={h.at}>
-                      {new Date(h.at).toLocaleString("uz-UZ", { day: "2-digit", month: "2-digit", hour: "2-digit", minute: "2-digit" })}
+                      {`${tashkentDayMonth(new Date(h.at))}, ${tashkentHm(new Date(h.at))}`}
                     </time>
                   </div>
                   {h.note ? <p className="text-[12.5px] leading-snug text-[#6b7280]">{h.note}</p> : null}
