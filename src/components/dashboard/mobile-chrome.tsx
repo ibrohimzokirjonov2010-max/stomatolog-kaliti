@@ -196,7 +196,6 @@ function CartButton({ count, blue }: { count: number; blue?: boolean | "teal" })
 /** Section roots that render the shared MobileSectionHeader instead of this top bar. */
 const PHONE14 = new Set([
   "/talim",
-  "/mutaxassislar",
   "/sertifikatlar",
   "/crm/bemorlar",
   "/crm/uchrashuvlar",
