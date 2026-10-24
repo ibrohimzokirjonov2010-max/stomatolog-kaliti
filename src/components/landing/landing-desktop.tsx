@@ -21,7 +21,6 @@ import {
 } from "lucide-react";
 import { LandingContacts, LandingFaq, LandingLang, LandingLogo, LandingSearch, LandingSocials, toothOutline } from "@/components/landing/landing-bits";
 import { crmPoints, desktopNav, faqs, features, heroAccent, heroEyebrow, heroText, heroTitle, people, steps } from "@/components/landing/landing-content";
-import { LeadCapture } from "@/components/landing/lead-form";
 import { publicContact } from "@/config/public-contact";
 
 const wrap = "mx-auto w-[min(1320px,calc(100%-64px))]";
@@ -475,9 +474,6 @@ export function LandingDesktop() {
                 Bepul ro‘yxatdan o‘tish
                 <ArrowRight className="size-5" />
               </Link>
-              <a href="#demo" className="inline-flex h-14 items-center gap-3 rounded-xl bg-white px-6 text-[16px] font-bold text-[#16324f] shadow-[0_8px_22px_rgba(15,39,68,0.08)] ring-1 ring-[#e3eaf3] transition hover:text-[#1d6cf2]">
-                CRM demo band qilish
-              </a>
               <a href={publicContact.telegramUrl} className="inline-flex h-14 items-center gap-2 rounded-xl bg-[#0b8f8a] px-6 text-[16px] font-bold text-white">
                 Telegram · {publicContact.telegramHandle}
               </a>
@@ -501,8 +497,6 @@ export function LandingDesktop() {
           </div>
         </div>
       </section>
-
-      <LeadCapture variant="desktop" />
 
       <section data-section="features" className={`${wrap} py-12`}>
         <h2 className={title}>Nimalar bor?</h2>
@@ -573,7 +567,6 @@ export function LandingDesktop() {
               <Link href="/crm" className={`${btnPrimary} h-14 px-7 text-[16px]`}>
                 CRM imkoniyatlarini ko‘rish <ArrowRight className="size-5" />
               </Link>
-              <a href="#demo" className="text-[16px] font-bold text-[#1d6cf2]">CRM demo band qilish</a>
             </div>
           </div>
           <CrmBoard />

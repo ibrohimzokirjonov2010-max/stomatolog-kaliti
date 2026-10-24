@@ -13,6 +13,7 @@ import { SellerWorkProvider } from "@/components/seller-provider";
 import { DoctorProfileProvider } from "@/components/doctor-profile-provider";
 import { AppChrome } from "@/components/dashboard/app-chrome";
 import { AnalyticsProviders } from "@/components/analytics/providers";
+import { AttributionCapture } from "@/components/attribution-capture";
 import { PwaInstall } from "@/components/pwa-install";
 import { site } from "@/data/site";
 import "./globals.css";
@@ -128,6 +129,7 @@ export default function RootLayout({
           </CartProvider>
         </DoctorProfileProvider>
         <PwaInstall />
+        <AttributionCapture />
         <AnalyticsProviders />
       </body>
     </html>

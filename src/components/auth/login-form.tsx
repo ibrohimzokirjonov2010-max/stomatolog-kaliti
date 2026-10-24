@@ -1,7 +1,5 @@
 "use client";
 
-import { nextPath } from "@/lib/utils";
-
 import { useEffect, useState, type FormEvent } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
@@ -9,6 +7,7 @@ import { useDoctorProfile } from "@/components/doctor-profile-provider";
 import { LogIn } from "lucide-react";
 import { AuthCard, AuthField, AuthLink, AuthPrimaryButton, PasswordInput, PhoneInput } from "@/components/auth/auth-card";
 import { SocialAuthButtons } from "@/components/auth/social-auth-buttons";
+import { afterAuthPath } from "@/lib/auth-next";
 
 export function LoginForm() {
   const router = useRouter();
@@ -19,7 +18,7 @@ export function LoginForm() {
   const [busy, setBusy] = useState(false);
 
   useEffect(() => {
-    if (ready && profile) router.replace(nextPath());
+    if (ready && profile) router.replace(afterAuthPath(profile.phone));
   }, [ready, profile, router]);
 
   async function submit(event: FormEvent) {
@@ -36,7 +35,7 @@ export function LoginForm() {
       else setError("Telefon va parolni kiriting.");
       return;
     }
-    router.push(nextPath());
+    router.push(afterAuthPath(result.profile.phone));
   }
 
   return (

@@ -14,6 +14,6 @@ export function trackLeadConversion() {
   const { ym, pixel, ga, clarity } = analyticsConfig();
   if (ym && typeof w.ym === "function") w.ym(Number(ym), "reachGoal", "lead");
   if (pixel && typeof w.fbq === "function") w.fbq("track", "Lead");
-  if (ga && typeof w.gtag === "function") w.gtag("event", "generate_lead", { lead_source: "home" });
+  if (ga && typeof w.gtag === "function") w.gtag("event", "generate_lead", { lead_source: "registration" });
   if (clarity && typeof w.clarity === "function") w.clarity("event", "lead");
 }

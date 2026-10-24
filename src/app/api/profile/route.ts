@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import { publicObjectUrl, rpc } from "@/lib/server/db";
 import { clean, normalizePhone, type DbProfile } from "@/lib/server/profile";
+import { recordRegistrationLead } from "@/lib/server/leads";
 import { getSessionUserId, jsonError, sameOrigin } from "@/lib/server/session";
 
 export async function PATCH(request: Request) {
@@ -46,7 +47,12 @@ export async function PATCH(request: Request) {
       }
       return NextResponse.json({ ok: false, reason: result.error }, { status: result.error === "exists" ? 409 : 404 });
     }
-    return NextResponse.json({ ok: true, profile: result });
+    let leadCreated = false;
+    if (result.provider === "phone" || result.provider === "google") {
+      const lead = await recordRegistrationLead(result, { role: result.specialty, attribution: body.attribution });
+      leadCreated = lead.created;
+    }
+    return NextResponse.json({ ok: true, profile: result, leadCreated });
   } catch {
     return jsonError("Profilni saqlab bo‘lmadi.", 502);
   }

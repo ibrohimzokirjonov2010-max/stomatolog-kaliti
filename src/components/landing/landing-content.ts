@@ -17,16 +17,6 @@ export const heroAccent = "bitta oynada yuriting";
 export const heroText =
   "O‘zbekiston stomatologlari uchun klinika CRM, seminarlar taqvimi va marketplace. Hisob ochish bepul.";
 
-export const LEAD_OFFER = "Bepul CRM demo va seminarlar taqvimini oling";
-
-export const LEAD_ROLES = [
-  { id: "stomatolog", label: "Stomatolog" },
-  { id: "klinika_egasi", label: "Klinika egasi" },
-  { id: "talaba", label: "Talaba" },
-  { id: "tish_texnigi", label: "Tish texnigi" },
-  { id: "sotuvchi", label: "Sotuvchi" },
-] as const;
-
 export const desktopNav = [
   { href: "/marketplace", label: "Marketplace" },
   { href: "/talim", label: "Ta’lim" },

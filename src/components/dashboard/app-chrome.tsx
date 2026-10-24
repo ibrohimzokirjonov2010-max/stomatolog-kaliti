@@ -52,6 +52,7 @@ import { UstaForm } from "@/components/add-forms/UstaForm";
 import { LabForm } from "@/components/add-forms/LabForm";
 import { JobForm } from "@/components/add-forms/JobForm";
 import { useDoctorProfile } from "@/components/doctor-profile-provider";
+import { afterAuthPath, hasFullPhone, PHONE_STEP } from "@/lib/auth-next";
 
 /** Routes that render without sidebar / topbar / mobile chrome. */
 const BARE_PREFIXES = ["/landing", "/kirish", "/royxat", "/admin", "/maxfiylik", "/shartlar", "/hisobni-ochirish"];
@@ -59,6 +60,13 @@ const BARE_PREFIXES = ["/landing", "/kirish", "/royxat", "/admin", "/maxfiylik",
 function isBarePath(pathname: string | null) {
   if (!pathname) return false;
   return BARE_PREFIXES.some((p) => pathname === p || pathname.startsWith(`${p}/`));
+}
+
+const PHONE_EXEMPT = [PHONE_STEP, "/maxfiylik", "/shartlar", "/hisobni-ochirish"];
+
+function isPhoneExempt(pathname: string | null) {
+  if (!pathname) return false;
+  return PHONE_EXEMPT.some((p) => pathname === p || pathname.startsWith(`${p}/`));
 }
 
 function needsAccount(pathname: string) {
@@ -79,6 +87,7 @@ export function AppChrome({ children }: { children: ReactNode }) {
   const bare = isBarePath(pathname) || guestHome;
   /** Logged-in "/" is the desktop Bosh sahifa. Mobile keeps the existing shell. */
   const loggedInHome = pathname === "/" && ready && Boolean(profile);
+  const needsPhone = Boolean(ready && profile && pathname && !hasFullPhone(profile.phone) && !isPhoneExempt(pathname));
 
   useEffect(() => {
     const body = document.body;
@@ -100,7 +109,16 @@ export function AppChrome({ children }: { children: ReactNode }) {
     router.replace(`/kirish?next=${encodeURIComponent(pathname)}`);
   }, [gated, pathname, profile, ready, router]);
 
+  useEffect(() => {
+    if (!needsPhone || !profile) return;
+    router.replace(afterAuthPath(profile.phone, pathname));
+  }, [needsPhone, pathname, profile, router]);
+
   const shop = desktopShop(pathname) ?? desktopAdd(pathname) ?? desktopSeminar(pathname) ?? desktopHub(pathname) ?? desktopForma(pathname) ?? desktopJihoz(pathname) ?? desktopJobs(pathname) ?? desktopNews(pathname) ?? desktopSpec(pathname) ?? desktopUsta(pathname) ?? desktopCart(pathname) ?? desktopFlow(pathname) ?? desktopCrm(pathname);
+
+  if (needsPhone) {
+    return <div className="grid min-h-[50vh] place-items-center bg-[#F4F7FC] text-sm text-slate-500">Telefon raqamni kiriting.</div>;
+  }
 
   if (gated && ready && !profile) {
     return <div className="grid min-h-[50vh] place-items-center text-sm text-slate-500">Hisobga kirish kerak.</div>;

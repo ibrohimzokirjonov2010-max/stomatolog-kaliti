@@ -3,7 +3,9 @@ import { sessionPing } from "@/lib/server/admin";
 import { DbError, rpc } from "@/lib/server/db";
 import { clean, normalizePhone, type DbProfile } from "@/lib/server/profile";
 import { checkCode, isValidCode, sessionJson, verificationEnforced } from "@/lib/server/otp";
+import { recordRegistrationLead } from "@/lib/server/leads";
 import { hashPassword, jsonError, sameOrigin } from "@/lib/server/session";
+import { signupRole } from "@/lib/signup-roles";
 
 export const dynamic = "force-dynamic";
 
@@ -19,6 +21,8 @@ export async function POST(request: Request) {
   const phone = normalizePhone(clean(body?.phone, 40) ?? "");
   const password = typeof body?.password === "string" ? body.password : "";
   const code = clean(body?.code, 12) ?? "";
+  const specialty = signupRole(clean(body?.specialty, 80));
+  const attribution = body?.attribution;
   if (!fullName || phone.length !== 9) return NextResponse.json({ ok: false, reason: "invalid" }, { status: 400 });
   if (password.length < 6 || password.length > 200)
     return NextResponse.json({ ok: false, reason: "short_password" }, { status: 400 });
@@ -36,7 +40,8 @@ export async function POST(request: Request) {
       });
       if ("error" in result) return NextResponse.json({ ok: false, reason: "exists" }, { status: 409 });
       const profile = (await sessionPing(result.id, request)) ?? result;
-      return sessionJson(profile, request);
+      const lead = await recordRegistrationLead(profile, { method: "phone", role: specialty, attribution });
+      return sessionJson(profile, request, { leadCreated: lead.created });
     }
 
     if (!isValidCode(code)) return NextResponse.json({ ok: false, reason: "invalid", error: "6 xonali kodni kiriting." }, { status: 400 });
@@ -50,7 +55,8 @@ export async function POST(request: Request) {
     });
     if (res.error || !res.profile) return NextResponse.json({ ok: false, reason: "exists" }, { status: 409 });
     const profile = (await sessionPing(res.profile.id, request)) ?? res.profile;
-    return sessionJson(profile, request, { bonus: res.bonus ?? null });
+    const lead = await recordRegistrationLead(profile, { method: "phone", role: specialty, attribution });
+    return sessionJson(profile, request, { bonus: res.bonus ?? null, leadCreated: lead.created });
   } catch (e) {
     if (e instanceof DbError && e.status === 400) return jsonError("Kod eskirgan. Yangi kod so‘rang.", 400);
     return jsonError("Ro‘yxatdan o‘tib bo‘lmadi. Qayta urinib ko‘ring.", 502);

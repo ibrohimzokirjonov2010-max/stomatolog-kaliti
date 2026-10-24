@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 
 const title = "StomaHub — stomatologlar uchun platforma";
 const description =
-  "O‘zbekiston stomatologlari uchun platforma: klinika CRM, seminarlar, marketplace va ta’lim. Bepul ro‘yxatdan o‘ting yoki CRM demo oling.";
+  "O‘zbekiston stomatologlari uchun platforma: klinika CRM, seminarlar, marketplace va ta’lim. Hisob ochish bepul.";
 
 export const landingMetadata: Metadata = {
   title: { absolute: title },

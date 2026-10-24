@@ -3,6 +3,7 @@ import { sessionPing } from "@/lib/server/admin";
 import { rpc } from "@/lib/server/db";
 import { clean, normalizePhone, type DbProfile } from "@/lib/server/profile";
 import { sessionJson } from "@/lib/server/otp";
+import { recordRegistrationLead } from "@/lib/server/leads";
 import { jsonError, sameOrigin, verifyPassword } from "@/lib/server/session";
 
 export async function POST(request: Request) {
@@ -21,6 +22,7 @@ export async function POST(request: Request) {
     if (row.blocked)
       return NextResponse.json({ ok: false, reason: "blocked", error: "Akkauntingiz bloklangan." }, { status: 403 });
     const profile = (await sessionPing(row.profile.id, request)) ?? row.profile;
+    await recordRegistrationLead(profile, { method: "phone", role: profile.specialty, attribution: body?.attribution });
     return sessionJson(profile, request);
   } catch {
     return jsonError("Kirib bo‘lmadi. Qayta urinib ko‘ring.", 502);

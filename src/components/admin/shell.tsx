@@ -24,6 +24,7 @@ import {
   Send,
   ShieldCheck,
   Store,
+  UserRound,
   Users,
   X,
 } from "lucide-react";
@@ -56,6 +57,7 @@ type NavDef = { href: string; label: string; icon: typeof Users; badge?: keyof S
 export const ADMIN_NAV: NavDef[] = [
   { href: "/admin", label: "Umumiy", icon: LayoutDashboard, crumb: "Umumiy" },
   { href: "/admin/foydalanuvchilar", label: "Foydalanuvchilar", icon: Users, crumb: "Foydalanuvchilar" },
+  { href: "/admin/lidlar", label: "Lidlar", icon: UserRound, crumb: "Lidlar" },
   { href: "/admin/dokonlar", label: "Do‘konlar", icon: Store, crumb: "Do‘konlar" },
   { href: "/admin/arizalar", label: "Sotuvchi arizalari", icon: FileCheck2, badge: "applications", crumb: "Sotuvchi arizalari" },
   { href: "/admin/buyurtmalar", label: "Buyurtmalar & Escrow", icon: ShieldCheck, badge: "disputes", crumb: "Buyurtmalar & Escrow" },

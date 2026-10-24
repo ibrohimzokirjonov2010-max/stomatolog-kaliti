@@ -3,7 +3,6 @@ import { ArrowDown, Check, ChevronRight, Globe, LayoutDashboard, ShieldCheck, Us
 import { LandingContacts, LandingFaq, LandingLang, LandingLogo, LandingMenu, LandingSocials, PayMarks, ToothBadge } from "@/components/landing/landing-bits";
 import { appPoints, crmPoints, faqs, features, helpLinks, heroAccent, heroEyebrow, heroText, heroTitle, people, platformLinks, steps } from "@/components/landing/landing-content";
 import { CrmMock, HomePhone, ProfilePhone } from "@/components/landing/landing-desktop";
-import { LeadCapture } from "@/components/landing/lead-form";
 import { NotificationBell } from "@/components/notification-bell";
 import { publicContact } from "@/config/public-contact";
 
@@ -64,9 +63,6 @@ export function LandingMobile() {
         <Link href="/royxat" className="mt-4 flex h-12 items-center justify-center rounded-full bg-[#0b7f7d] text-[15px] font-bold text-white shadow-[0_10px_24px_rgba(11,127,125,0.28)]">
           Bepul ro‘yxatdan o‘tish
         </Link>
-        <a href="#demo" className="mt-2.5 flex h-12 items-center justify-center rounded-full border border-[#d7e2f0] bg-white text-[15px] font-bold text-[#16324f]">
-          CRM demo band qilish
-        </a>
         <a href={publicContact.telegramUrl} className="mt-2.5 flex h-12 items-center justify-center rounded-full bg-[#229ED9] text-[15px] font-bold text-white">
           Telegram · {publicContact.telegramHandle}
         </a>
@@ -81,8 +77,6 @@ export function LandingMobile() {
           ))}
         </div>
       </section>
-
-      <LeadCapture variant="mobile" />
 
       <section data-section="features" className="px-4 pb-8">
         <h2 className="text-left font-[family-name:var(--font-outfit)] text-[26px] font-bold">Nimalar bor?</h2>
@@ -135,9 +129,6 @@ export function LandingMobile() {
         <Link href="/crm" className="mt-4 flex h-12 items-center justify-center rounded-full bg-[#0b7f7d] text-[15px] font-bold text-white">
           CRM imkoniyatlarini ko‘rish
         </Link>
-        <a href="#demo" className="mt-2 flex h-12 items-center justify-center rounded-full border border-[#d7e2f0] bg-white text-[15px] font-bold text-[#0b7f7d]">
-          CRM demo band qilish
-        </a>
         <div className="mt-5">
           <CrmMock compact />
         </div>

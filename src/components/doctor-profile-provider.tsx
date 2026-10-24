@@ -9,12 +9,15 @@ import {
   useState,
   type ReactNode,
 } from "react";
+import { readAttribution, type Attribution } from "@/lib/attribution";
 import { ACCOUNTS_KEY, PROFILE_KEY, profileFromApi, type DoctorProfile } from "@/lib/doctor-profile";
+import { trackLeadConversion } from "@/lib/track-lead";
 
 export type RegisterInput = {
   fullName: string;
   phone: string;
   password: string;
+  specialty?: string;
 };
 
 export type LoginInput = {
@@ -30,6 +33,7 @@ export type ProfilePatch = {
   city?: string;
   bio?: string;
   avatarUrl?: string;
+  attribution?: Attribution;
 };
 
 export type AuthFailReason =
@@ -40,10 +44,11 @@ export type AuthFailReason =
   | "short_password"
   | "unauthorized"
   | "blocked"
+  | "phone_locked"
   | "network";
 
 export type AuthResult =
-  | { ok: true; profile: DoctorProfile }
+  | { ok: true; profile: DoctorProfile; leadCreated?: boolean }
   | { ok: false; reason: AuthFailReason; message?: string };
 
 type Ctx = {
@@ -68,18 +73,18 @@ async function postJson(url: string, body: unknown, method = "POST") {
     credentials: "same-origin",
   });
   const data = (await response.json().catch(() => null)) as
-    | { ok?: boolean; profile?: unknown; reason?: AuthFailReason; error?: string }
+    | { ok?: boolean; profile?: unknown; reason?: AuthFailReason; error?: string; leadCreated?: boolean }
     | null;
   return { response, data };
 }
 
 function toResult(
   response: Response,
-  data: { ok?: boolean; profile?: unknown; reason?: AuthFailReason; error?: string } | null,
+  data: { ok?: boolean; profile?: unknown; reason?: AuthFailReason; error?: string; leadCreated?: boolean } | null,
 ): AuthResult {
   if (response.ok && data?.ok) {
     const profile = profileFromApi(data.profile);
-    if (profile) return { ok: true, profile };
+    if (profile) return { ok: true, profile, leadCreated: Boolean(data.leadCreated) };
   }
   if (response.status === 401 && !data?.reason) return { ok: false, reason: "unauthorized", message: data?.error };
   return { ok: false, reason: data?.reason ?? "network", message: data?.error };
@@ -114,9 +119,12 @@ export function DoctorProfileProvider({ children }: { children: ReactNode }) {
 
   const register = useCallback(async (input: RegisterInput): Promise<AuthResult> => {
     try {
-      const { response, data } = await postJson("/api/auth/register", input);
+      const { response, data } = await postJson("/api/auth/register", { ...input, attribution: readAttribution() });
       const result = toResult(response, data);
-      if (result.ok) setProfile(result.profile);
+      if (result.ok) {
+        setProfile(result.profile);
+        if (result.leadCreated) trackLeadConversion();
+      }
       return result;
     } catch {
       return { ok: false, reason: "network" };
@@ -125,7 +133,7 @@ export function DoctorProfileProvider({ children }: { children: ReactNode }) {
 
   const login = useCallback(async (input: LoginInput): Promise<AuthResult> => {
     try {
-      const { response, data } = await postJson("/api/auth/login", input);
+      const { response, data } = await postJson("/api/auth/login", { ...input, attribution: readAttribution() });
       const result = toResult(response, data);
       if (result.ok) setProfile(result.profile);
       return result;
@@ -152,7 +160,12 @@ export function DoctorProfileProvider({ children }: { children: ReactNode }) {
 
   const updateProfile = useCallback(async (patch: ProfilePatch): Promise<AuthResult> => {
     try {
-      const { response, data } = await postJson("/api/profile", patch, "PATCH");
+      const { attribution, ...rest } = patch;
+      const { response, data } = await postJson(
+        "/api/profile",
+        { ...rest, attribution: attribution ?? readAttribution() },
+        "PATCH",
+      );
       const result = toResult(response, data);
       if (result.ok) setProfile(result.profile);
       return result;

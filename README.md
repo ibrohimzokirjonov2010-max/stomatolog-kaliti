@@ -43,22 +43,26 @@ CEO paneli: dashboard (sof foyda, GMV, MRR, escrow), foydalanuvchilar (blok, rol
 - Barcha admin amallari `audit_log`da.
 - Click/Payme hali ulanmagan: onlayn to‘lov tanlangan buyurtma demo sifatida darhol escrow’ga tushadi; naqd — sotuvchi «yetkazildi» qilganda.
 
-## Bosh sahifa lidlari
+## Ro‘yxatdan o‘tish lidlari
 
-Mehmon `/` sahifasidagi forma (`ism`, `+998` telefon, lavozim) `POST /api/leads` orqali Supabase `public.leads` jadvaliga yoziladi. Jadvalni bir marta qo‘llang:
+Telefon (`/royxat`) yoki Google orqali hisob ochilganda odam avtomatik `public.leads` ga yoziladi: ism, telefon, email, rol, usul (`phone` yoki `google`), tashrif UTMsi va vaqt. `/royxat` email emas, telefon + parol — shu sabab usul `email` emas, `phone`. Telegram orqali kirish lid yozmaydi. Bir foydalanuvchi — bitta qator; keyingi kirish yoki profil yangilanishi bo‘sh joylarni to‘ldiradi, birinchi UTMni ustiga yozmaydi.
+
+Jadvalni bir marta qo‘llang (oldingi qoralama shu fayl bilan qo‘yilgan bo‘lsa ham, yangi SQL jadvalni qayta shakllantiradi):
 
 ```bash
 # Supabase SQL editor yoki psql — bootstrapdan keyin
 psql "$DATABASE_URL" -v ON_ERROR_STOP=1 -f supabase/migrations/20261024a_homepage_leads.sql
 ```
 
-Yozuvlar RLS bilan yopiq: faqat server `sh_lead_create` (env `STOMAHUB_DB_SECRET`) qo‘shadi. Bir xil telefon 24 soat ichida qayta yozilmaydi.
+Yozuvlar RLS bilan yopiq. Server `sh_lead_upsert` (`STOMAHUB_DB_SECRET`) yozadi, adminlar `/admin/lidlar` da `sh_admin_leads` orqali o‘qiydi. Anon jadvalni ko‘ra olmaydi. Lid jadvali yo‘q bo‘lsa ham kirish ishlayveradi.
+
+Google telefon qaytarmaydi. Raqam yo‘q bo‘lsa, ilovaga kirishdan oldin `/royxat/telefon` da ism, telefon va rol so‘raladi. Google Cloud’da OAuth clientning Authorized JavaScript origins ro‘yxatida `https://stomatolog-kaliti-lake.vercel.app` (va sinayotgan preview origin) bo‘lishi kerak. Redirect URI shart emas. `NEXT_PUBLIC_GOOGLE_CLIENT_ID` shu clientga mos.
 
 Aloqa telefoni, manzil va Instagram `src/config/public-contact.ts` da. Telefon `null` bo‘lsa, sahifada ko‘rinmaydi. Instagram URL bo‘sh bo‘lsa, footerda «Tez orada» turadi — havola o‘ylab topilmaydi.
 
 ## Analitika
 
-Skriptlar faqat mos `NEXT_PUBLIC_*` o‘rnatilganda yuklanadi. Bo‘sh qoldirilsa, hech narsa ulanmaydi. Forma muvaffaqiyatli saqlanganda (takroriy yozuv emas) konversiya hodisasi yuboriladi.
+Skriptlar faqat mos `NEXT_PUBLIC_*` o‘rnatilganda yuklanadi. Bo‘sh qoldirilsa, hech narsa ulanmaydi. Konversiya yangi lid qatori yaratilganda bir marta yuboriladi: birinchi telefon ro‘yxati, birinchi Google hisobi, yoki telefon qadami lidni shu yerda birinchi marta yozsa. Keyingi kirish va profil tahriri hodisani qayta yubormaydi.
 
 | O‘zgaruvchi | Qayerdan | Hodisa |
 | --- | --- | --- |

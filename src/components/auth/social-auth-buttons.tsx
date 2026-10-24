@@ -1,12 +1,13 @@
 "use client";
 
-import { nextPath } from "@/lib/utils";
-
 import { useCallback, useEffect, useRef, useState, type FormEvent } from "react";
 import { useRouter } from "next/navigation";
 import { X } from "lucide-react";
 import { useDoctorProfile } from "@/components/doctor-profile-provider";
 import { AuthField, AuthPrimaryButton, authInputClassName } from "@/components/auth/auth-card";
+import { readAttribution } from "@/lib/attribution";
+import { afterAuthPath } from "@/lib/auth-next";
+import { trackLeadConversion } from "@/lib/track-lead";
 
 declare global {
   interface Window {
@@ -101,15 +102,16 @@ export function SocialAuthButtons({
   const telegramBot = telegramEnabled ? process.env.NEXT_PUBLIC_TELEGRAM_BOT_USERNAME?.trim() || "" : "";
 
   const finish = useCallback(
-    (rawProfile: unknown) => {
+    (rawProfile: unknown, leadCreated = false) => {
       setError("");
       const result = acceptServerProfile(rawProfile);
       if (!result.ok) {
         setError("Kirish amalga oshmadi. Qayta urinib ko‘ring.");
         return;
       }
+      if (leadCreated) trackLeadConversion();
       setModal(null);
-      router.push(nextPath());
+      router.push(afterAuthPath(result.profile.phone));
     },
     [acceptServerProfile, router],
   );
@@ -122,16 +124,16 @@ export function SocialAuthButtons({
         const response = await fetch("/api/auth/google", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ credential }),
+          body: JSON.stringify({ credential, attribution: readAttribution() }),
         });
         const result = (await response.json().catch(() => null)) as
-          | { ok?: boolean; profile?: unknown }
+          | { ok?: boolean; profile?: unknown; leadCreated?: boolean }
           | null;
         if (!response.ok || !result?.ok) {
           setError("Google tasdiqlanmadi. Iltimos, qayta urinib ko‘ring.");
           return;
         }
-        finish(result.profile);
+        finish(result.profile, Boolean(result.leadCreated));
       } catch {
         setError("Google bilan kirib bo‘lmadi. Qayta urinib ko‘ring.");
       } finally {

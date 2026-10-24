@@ -1,26 +1,20 @@
 "use client";
 
-import { nextPath } from "@/lib/utils";
-
 import { useEffect, useRef, useState, type FormEvent } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useDoctorProfile } from "@/components/doctor-profile-provider";
 import { AuthCard, AuthField, AuthLink, AuthPrimaryButton, PasswordInput, PhoneInput, authInputClassName } from "@/components/auth/auth-card";
+import { SignupRolePicker } from "@/components/auth/signup-role-picker";
 import { SocialAuthButtons } from "@/components/auth/social-auth-buttons";
 import { SignupBonusPromo, markBonusSeen } from "@/components/bonus/bonus";
+import { afterAuthPath } from "@/lib/auth-next";
 import { getBonusSnapshot, refreshBonus } from "@/lib/bonus";
+import { normalizePhone } from "@/lib/doctor-profile";
 import { formatMoney } from "@/lib/format";
-import { ArrowRight, Check, FlaskConical, Gift, GraduationCap, Hospital, Store, Stethoscope, UserRound, type LucideIcon } from "lucide-react";
-
-/** Saved as the profile specialty right after sign-up. */
-const ROLES: { id: string; label: string; sub: string; icon: LucideIcon }[] = [
-  { id: "Stomatolog", label: "Stomatolog", sub: "Amaliyotchi shifokor", icon: Stethoscope },
-  { id: "Talaba", label: "Talaba", sub: "Tibbiyot talabasi", icon: GraduationCap },
-  { id: "Klinika egasi", label: "Klinika egasi", sub: "Klinika rahbari", icon: Hospital },
-  { id: "Tish texnigi", label: "Tish texnigi", sub: "Laboratoriya mutaxassisi", icon: FlaskConical },
-  { id: "Sotuvchi", label: "Sotuvchi", sub: "Mahsulotlar sotuvchisi", icon: Store },
-];
+import { SIGNUP_ROLES } from "@/lib/signup-roles";
+import { trackLeadConversion } from "@/lib/track-lead";
+import { ArrowRight, Gift, UserRound } from "lucide-react";
 
 /** 0–4 from length, letter case, digits and symbols. */
 function passwordScore(value: string) {
@@ -43,7 +37,7 @@ export function RegisterForm() {
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [confirm, setConfirm] = useState("");
-  const [role, setRole] = useState(ROLES[0].id);
+  const [role, setRole] = useState<(typeof SIGNUP_ROLES)[number]["id"]>(SIGNUP_ROLES[0].id);
   const [phone, setPhone] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
@@ -57,7 +51,7 @@ export function RegisterForm() {
   const [welcome, setWelcome] = useState<{ signup: number; first: number; pending?: string } | null>(null);
 
   useEffect(() => {
-    if (ready && profile && !registering.current) router.replace(nextPath());
+    if (ready && profile && !registering.current) router.replace(afterAuthPath(profile.phone));
   }, [ready, profile, router]);
 
   async function submit(event: FormEvent) {
@@ -71,13 +65,17 @@ export function RegisterForm() {
       setError("Ism va familiyani kiriting.");
       return;
     }
+    if (normalizePhone(phone).length !== 9) {
+      setError("Telefon raqamni to‘liq kiriting (+998).");
+      return;
+    }
     if (password !== confirm) {
       setError("Parollar bir xil emas.");
       return;
     }
     setBusy(true);
     registering.current = true;
-    const result = await register({ fullName, phone, password });
+    const result = await register({ fullName, phone, password, specialty: role });
     setBusy(false);
     if (!result.ok) {
       registering.current = false;
@@ -88,7 +86,8 @@ export function RegisterForm() {
       else setError("Ism va telefonni to‘ldiring.");
       return;
     }
-    await updateProfile({ specialty: role });
+    const saved = await updateProfile({ specialty: role });
+    if (saved.ok && saved.leadCreated && !result.leadCreated) trackLeadConversion();
     await refreshBonus();
     const info = getBonusSnapshot().info;
     const grant = info?.history.find((h) => h.kind === "grant" && h.type === "signup");
@@ -112,7 +111,7 @@ export function RegisterForm() {
       return;
     }
     registering.current = false;
-    router.push(nextPath());
+    router.push(afterAuthPath(result.profile.phone));
   }
 
   if (welcome?.pending) {
@@ -133,7 +132,7 @@ export function RegisterForm() {
         </div>
         <button
           type="button"
-          onClick={() => router.push(nextPath())}
+          onClick={() => router.push(afterAuthPath(profile?.phone))}
           className="flex h-12 w-full items-center justify-center rounded-full bg-[#0066FF] text-[16px] font-bold text-white shadow-[0_8px_20px_rgba(0,102,255,0.28)] hover:bg-[#0052cc]"
         >
           Davom etish
@@ -158,7 +157,7 @@ export function RegisterForm() {
         </div>
         <button
           type="button"
-          onClick={() => router.push(nextPath())}
+          onClick={() => router.push(afterAuthPath(profile?.phone))}
           className="flex h-12 w-full items-center justify-center rounded-full bg-[#0066FF] text-[16px] font-bold text-white shadow-[0_8px_20px_rgba(0,102,255,0.28)] hover:bg-[#0052cc]"
         >
           Marketplace’ga o‘tish
@@ -216,33 +215,7 @@ export function RegisterForm() {
           </div>
         ) : null}
 
-        <fieldset>
-          <legend className="mb-2 text-[13.5px] font-semibold text-[#1a1d26]">
-            Rolingizni tanlang<span className="ml-0.5 text-[#e5484d]">*</span>
-          </legend>
-          <div className="grid grid-cols-2 gap-2 sm:grid-cols-6">
-            {ROLES.map(({ id, label, sub, icon: Icon }, index) => (
-              <button
-                key={id}
-                type="button"
-                aria-pressed={role === id}
-                onClick={() => setRole(id)}
-                className={`relative flex flex-col items-center gap-1 rounded-xl border px-2 py-3 text-center transition ${index < 3 ? "sm:col-span-2" : "sm:col-span-3"} ${
-                  role === id ? "border-[#1d6cf2] bg-[#eef4ff]" : "border-[#e3e9f1] bg-white hover:border-[#a9c6fb]"
-                }`}
-              >
-                {role === id ? (
-                  <span className="absolute top-1.5 right-1.5 grid size-5 place-items-center rounded-full bg-[#1d6cf2] text-white">
-                    <Check className="size-3" />
-                  </span>
-                ) : null}
-                <Icon className="size-6 text-[#1d6cf2]" />
-                <span className="text-[12.5px] font-bold text-[#0f1e3d]">{label}</span>
-                <span className="text-[10.5px] leading-tight text-[#6b7a90]">{sub}</span>
-              </button>
-            ))}
-          </div>
-        </fieldset>
+        <SignupRolePicker value={role} onChange={setRole} />
 
         <label className="flex cursor-pointer items-start gap-2.5 text-[13.5px] leading-snug text-[#475569]" data-testid="consent-label">
           <input
