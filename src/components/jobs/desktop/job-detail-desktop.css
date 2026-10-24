@@ -1,0 +1,79 @@
+/* Desktop vacancy page (mock "vakansiyani ko'rish"). Scoped under .jdd. */
+.jdd { color: #0b1a3a; }
+.jdd * { min-width: 0; box-sizing: border-box; }
+.jdd a { text-decoration: none; color: inherit; }
+.jdd button { font: inherit; cursor: pointer; }
+.jdd .jdd-card { border-radius: 16px; background: #fff; border: 1px solid #e8eef4; padding: 18px 22px 20px; box-shadow: 0 4px 18px rgba(15, 23, 42, .04); }
+.jdd .jdd-bar { display: flex; align-items: center; justify-content: space-between; }
+.jdd .jdd-bar > a { display: inline-flex; align-items: center; gap: 6px; color: #0b7f7d; font-size: 13.5px; font-weight: 600; }
+.jdd .jdd-bar svg { width: 16px; height: 16px; }
+.jdd .jdd-bar > span { display: flex; gap: 14px; }
+.jdd .jdd-bar button { display: inline-flex; align-items: center; gap: 6px; border: 0; background: none; color: #24344d; font-size: 13px; }
+.jdd .jdd-bar button.on { color: #0b7f7d; font-weight: 600; }
+.jdd .jdd-head { display: grid; grid-template-columns: auto minmax(0, 1fr) 230px; gap: 18px; align-items: start; margin-top: 16px; padding-bottom: 14px; }
+.jdd .jdd-logo { flex: none; width: 68px; height: 68px; border-radius: 16px; overflow: hidden; background: #e3f6f5; color: #0b6f6d; display: grid; place-items: center; font-size: 22px; font-weight: 800; }
+.jdd .jdd-logo img { width: 100%; height: 100%; object-fit: cover; }
+.jdd .jdd-logo.sm { width: 52px; height: 52px; font-size: 17px; border-radius: 14px; }
+.jdd .jdd-title h1 { margin: 0; display: flex; align-items: center; gap: 8px; font-size: 24px; line-height: 1.2; font-weight: 800; }
+.jdd .jdd-title h1 .ok { width: 22px; height: 22px; color: #fff; fill: #0d9f9a; flex: none; }
+.jdd .jdd-title .clinic { margin: 4px 0 0; color: #4b5568; font-size: 14px; }
+.jdd .jdd-title .meta { margin: 10px 0 0; display: flex; flex-wrap: wrap; gap: 6px 18px; color: #33405a; font-size: 13px; }
+.jdd .jdd-title .meta span { display: inline-flex; align-items: center; gap: 6px; }
+.jdd .jdd-title .meta svg { width: 15px; height: 15px; color: #6a7c93; }
+.jdd .jdd-title strong { display: block; margin-top: 10px; color: #0b7f7d; font-size: 22px; font-weight: 800; }
+.jdd .jdd-cta { display: flex; flex-direction: column; gap: 8px; }
+.jdd .jdd-cta .type { align-self: flex-start; padding: 3px 10px; border-radius: 999px; background: #e3f8ec; color: #15803d; font-size: 12px; font-weight: 600; }
+.jdd .jdd-cta .go, .jdd .jdd-cta .done { height: 44px; border-radius: 11px; border: 0; display: flex; align-items: center; justify-content: center; gap: 8px; font-size: 14px; font-weight: 600; }
+.jdd .jdd-cta .go { background: #0d9f9a; color: #fff; }
+.jdd .jdd-cta .done { background: #e3f8ec; color: #15803d; }
+.jdd .jdd-cta .go svg, .jdd .jdd-cta .done svg { width: 17px; height: 17px; }
+.jdd .jdd-cta .phone { min-height: 42px; border-radius: 11px; background: #e3f6f5; display: flex; align-items: center; justify-content: center; padding: 4px 10px; font-size: 13.5px; text-align: center; }
+.jdd .jdd-cta .phone a, .jdd .jdd-cta .phone button { color: #0b6f6d !important; font-weight: 600; }
+.jdd .jdd-tabs { display: flex; gap: 6px; margin: 0 -22px; padding: 0 22px; border-bottom: 1px solid #eef2f6; background: #fafcfd; }
+.jdd .jdd-tabs button { height: 44px; padding: 0 12px; border: 0; background: none; color: #33405a; font-size: 13.5px; border-bottom: 2.5px solid transparent; margin-bottom: -1px; }
+.jdd .jdd-tabs button.on { color: #0b6f6d; font-weight: 600; border-bottom-color: #0d9f9a; }
+.jdd .jdd-body { display: grid; grid-template-columns: minmax(0, 1fr) 280px; gap: 16px; margin-top: 14px; align-items: start; }
+.jdd .jdd-main { display: flex; flex-direction: column; gap: 12px; }
+.jdd .jdd-sec { padding: 16px; border-radius: 13px; border: 1px solid #edf1f5; scroll-margin-top: 80px; }
+.jdd .jdd-sec h2 { margin: 0 0 10px; display: flex; align-items: center; gap: 10px; font-size: 16px; font-weight: 700; }
+.jdd .jdd-sec h2 i, .jdd .jdd-box h3 i { flex: none; width: 32px; height: 32px; border-radius: 9px; background: #e3f6f5; color: #0b8f8a; display: grid; place-items: center; }
+.jdd .jdd-sec h2 svg, .jdd .jdd-box h3 svg { width: 16px; height: 16px; }
+.jdd .copy { margin: 0; color: #4b5568; font-size: 13.5px; line-height: 1.6; white-space: pre-wrap; }
+.jdd .jdd-quote { margin-top: 12px; padding: 12px 14px; border-radius: 11px; background: #eef7f6; font-size: 13px; }
+.jdd .jdd-quote ul { margin: 6px 0 0; padding-left: 18px; color: #33405a; line-height: 1.55; }
+.jdd .jdd-checks { margin: 0; padding: 0; list-style: none; display: grid; grid-template-columns: 1fr 1fr; gap: 8px 16px; }
+.jdd .jdd-checks li { display: flex; align-items: flex-start; gap: 8px; color: #33405a; font-size: 13px; }
+.jdd .jdd-checks svg { flex: none; width: 16px; height: 16px; color: #0b8f8a; margin-top: 1px; }
+.jdd .jdd-perks { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px; margin-bottom: 8px; }
+.jdd .jdd-perks p { margin: 0; padding: 10px 12px; border-radius: 10px; background: #f6f9fb; display: flex; flex-direction: column; }
+.jdd .jdd-perks b { font-size: 13px; }
+.jdd .jdd-perks small { color: #6a7c93; font-size: 11.5px; }
+.jdd .link { margin: 0 0 6px; display: flex; align-items: center; gap: 6px; flex-wrap: wrap; font-size: 13px; }
+.jdd .link a { display: inline-flex; align-items: center; gap: 4px; color: #2563eb !important; word-break: break-all; }
+.jdd .link svg { width: 14px; height: 14px; flex: none; }
+.jdd .jdd-photos { margin-top: 10px; display: grid; grid-template-columns: 2fr 1fr 1fr; gap: 8px; }
+.jdd .jdd-photos img { width: 100%; height: 130px; border-radius: 10px; object-fit: cover; }
+.jdd .jdd-side { display: flex; flex-direction: column; gap: 12px; }
+.jdd .jdd-box { padding: 14px; border-radius: 13px; border: 1px solid #edf1f5; scroll-margin-top: 80px; }
+.jdd .jdd-box h3 { margin: 0 0 10px; display: flex; align-items: center; gap: 10px; font-size: 14.5px; font-weight: 700; }
+.jdd .jdd-box dl { margin: 0; }
+.jdd .jdd-box dl div { display: flex; justify-content: space-between; gap: 8px; padding: 7px 0; font-size: 12.5px; }
+.jdd .jdd-box dl div + div { border-top: 1px solid #f2f5f8; }
+.jdd .jdd-box dt { display: inline-flex; align-items: center; gap: 7px; color: #4b5568; white-space: nowrap; }
+.jdd .jdd-box dt svg { width: 15px; height: 15px; color: #6a7c93; }
+.jdd .jdd-box dd { margin: 0; font-weight: 600; text-align: right; }
+.jdd .jdd-box .org { margin: 0 0 8px; display: flex; align-items: center; gap: 12px; }
+.jdd .jdd-box .org > span:last-child { display: flex; flex-direction: column; }
+.jdd .jdd-box .org b { font-size: 14px; }
+.jdd .jdd-box .org small { color: #6a7c93; font-size: 12px; }
+.jdd .jdd-box .mini { margin: 8px 0 0; display: flex; gap: 10px; color: #4b5568; font-size: 12px; }
+.jdd .jdd-box .all { margin-top: 10px; height: 38px; border-radius: 10px; background: #e3f6f5; color: #0b6f6d !important; display: flex; align-items: center; justify-content: center; gap: 6px; font-size: 13px; font-weight: 600; }
+.jdd .jdd-box .all svg { width: 14px; height: 14px; }
+.jdd .jdd-report { margin: 0; font-size: 12.5px; text-align: center; }
+.jdd .jdd-safe { margin-top: 14px; display: flex; align-items: center; gap: 14px; padding: 14px 16px; border-radius: 13px; background: #eaf7f5; }
+.jdd .jdd-safe > i { flex: none; width: 42px; height: 42px; border-radius: 50%; background: #fff; color: #0b8f8a; display: grid; place-items: center; }
+.jdd .jdd-safe > i svg { width: 22px; height: 22px; }
+.jdd .jdd-safe span { display: flex; flex-direction: column; gap: 2px; }
+.jdd .jdd-safe b { font-size: 14px; }
+.jdd .jdd-safe small { color: #4b5568; font-size: 12.5px; }
+.jdd .jdd-toast { position: fixed; left: 50%; bottom: 28px; transform: translateX(-50%); z-index: 80; margin: 0; padding: 9px 16px; border-radius: 999px; background: #0b1220; color: #fff; font-size: 13px; }
