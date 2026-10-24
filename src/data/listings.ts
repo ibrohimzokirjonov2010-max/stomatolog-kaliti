@@ -21,6 +21,7 @@ export type Listing = {
   district?: string;
   sourceUrl?: string;
   instagram?: string;
+  negotiable?: boolean;
 };
 
 export const listingTypes: { id: ListingType | ""; label: string }[] = [

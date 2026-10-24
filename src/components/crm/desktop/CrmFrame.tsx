@@ -88,6 +88,7 @@ export function CrmFrame({
       promoHref="/crm/bemorlar"
       promoImage="/img/jihoz/chair.jpg"
       promoIcon={<Stethoscope className="i" />}
+      showPromo={false}
     >
       {children}
     </MarketFrame>

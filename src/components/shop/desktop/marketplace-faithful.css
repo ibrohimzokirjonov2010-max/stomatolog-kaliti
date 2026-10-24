@@ -613,3 +613,35 @@
 }
 .mp-shell.sh .mpx-tabbar button.on { color: #0f766e; border-bottom: 2px solid #0f766e; }
 .mp-shell.sh .sh-pro small { font-size: 12px; }
+
+/* New mockup pass (marketplace product page). */
+.mpx-stage { position: relative; }
+.mpx-zoomtag { position: absolute; top: 12px; left: 12px; display: inline-flex; align-items: center; gap: 6px; height: 30px; padding: 0 12px; border-radius: 8px; background: rgba(255, 255, 255, .92); color: #24344d; font-size: 12px; font-weight: 500; pointer-events: none; }
+.mpx-zoomtag .i { width: 14px; height: 14px; }
+.mpx-facts { grid-template-columns: repeat(2, minmax(0, 1fr)) !important; }
+.mpx-fact { align-items: center; }
+.mpx-state { display: grid; grid-template-columns: minmax(0, 1.6fr) minmax(0, 1fr); gap: 10px; margin-top: 10px; }
+.mpx-state > div { padding: 12px; border-radius: 12px; border: 1px solid #e8eef6; background: #fff; display: flex; flex-direction: column; gap: 4px; min-width: 0; }
+.mpx-state b { display: inline-flex; align-items: center; gap: 6px; font-size: 13px; font-weight: 700; }
+.mpx-state small { color: #64748b; font-size: 12px; display: inline-flex; align-items: center; gap: 6px; }
+.mpx-state .i { width: 15px; height: 15px; }
+.mpx-state .out b { align-self: flex-start; padding: 4px 10px; border-radius: 8px; background: #fde8ea; color: #dc2626; }
+.mpx-state .in b { color: #16a34a; }
+.mpx-outpill { display: inline-flex; align-items: center; gap: 6px; align-self: flex-start; margin: 0 0 4px; padding: 6px 12px; border-radius: 8px; background: #fde8ea; color: #dc2626; font-size: 13px; font-weight: 700; }
+.mpx-outpill .i { width: 15px; height: 15px; }
+a.mpx-linebtn { display: flex; align-items: center; justify-content: center; gap: 6px; text-decoration: none; }
+.mpx-perks { margin-top: 12px; padding: 4px 14px; border-radius: 14px; border: 1px solid #e8eef6; background: #fff; }
+.mpx-perks p { margin: 0; display: flex; align-items: center; gap: 12px; padding: 10px 0; }
+.mpx-perks p + p { border-top: 1px solid #f0f3f6; }
+.mpx-perks span { display: flex; flex-direction: column; min-width: 0; }
+.mpx-perks b { font-size: 13px; font-weight: 700; }
+.mpx-perks small { color: #64748b; font-size: 11.5px; }
+.mpx-mini .stk { display: inline-flex; align-items: center; gap: 5px; color: #0f766e; }
+.mpx-mini .stk::before { content: ""; width: 7px; height: 7px; border-radius: 50%; background: #16a34a; }
+.mpx-mini .stk.low { color: #b45309; }
+.mpx-mini .stk.low::before { background: #f59e0b; }
+.mpx-mini .stk.no { color: #dc2626; }
+.mpx-mini .stk.no::before { background: #dc2626; }
+.mpx-ic { flex: none; width: 34px; height: 34px; border-radius: 50%; background: #e9f6f5; color: #0b8f8a; display: grid; place-items: center; font-style: normal; }
+.mpx-perks .mpx-ic { border-radius: 10px; }
+.mpx-ic .i { width: 17px !important; height: 17px !important; margin: 0 !important; color: #0b8f8a !important; }

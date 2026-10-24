@@ -17,6 +17,7 @@ import {
   Minus,
   Plus,
   RefreshCw,
+  RotateCcw,
   ShieldCheck,
   ShoppingCart,
   Star,
@@ -140,14 +141,23 @@ function CatalogProductDesktopInner({ id, expect }: { id: string; expect?: Secti
   const monthly = num(attrs, "installmentMonthly") || (months ? Math.round(product.price / months) : 0);
   const delivery = attrs.freeDelivery === true ? "Bepul" : num(attrs, "deliveryPrice") ? som(num(attrs, "deliveryPrice")) : "";
   const docs = Array.isArray(attrs.docs) ? (attrs.docs as { url?: string; name?: string; size?: number }[]).filter((doc) => doc?.url) : [];
-  const kind = formaKinds.find((item) => item.id === product.kind)?.label || "";
-  const gender = formaGenders.find((item) => item.id === product.gender)?.label || "";
+  // Kind and gender only mean something for uniforms.
+  const isForma = product.category === "forma";
+  const kind = isForma ? formaKinds.find((item) => item.id === product.kind)?.label || "" : "";
+  const gender = isForma ? formaGenders.find((item) => item.id === product.gender)?.label || "" : "";
+  const fresh = condition ? condition !== "ishlatilgan" : attrs.isNew === true;
+  const returnDays = num(attrs, "returnDays");
+  const shipText = delivery ? (delivery === "Bepul" ? "Bepul yetkazib berish" : `Yetkazib berish: ${delivery}`) : product.delivery;
   const stock = product.stockQty;
   const shot = gallery[photo] || gallery[0] || "";
   const fav = favs.includes(product.id);
   const saving = product.oldPrice ? product.oldPrice - product.price : 0;
+  const offPct = product.discount || (product.oldPrice && product.oldPrice > product.price ? Math.round((1 - product.price / product.oldPrice) * 100) : 0);
 
   const facts = [
+    product.brand ? { icon: BadgeCheck, label: "Brend", value: product.brand } : null,
+    text(attrs, "type") ? { icon: Box, label: "Turi", value: text(attrs, "type") } : null,
+    text(attrs, "model") ? { icon: Hash, label: "Model", value: text(attrs, "model") } : null,
     condition ? { icon: Box, label: "Holati", value: condition === "ishlatilgan" ? "Ishlatilgan" : "Yangi" } : null,
     expiry ? { icon: CalendarClock, label: "Yaroqlilik muddati", value: formatDotDate(expiry) } : null,
     lot ? { icon: Hash, label: "Lot raqami", value: lot } : null,
@@ -158,7 +168,7 @@ function CatalogProductDesktopInner({ id, expect }: { id: string; expect?: Secti
     warranty ? { icon: ShieldCheck, label: "Kafolat", value: `${warranty} oy` } : null,
     kind ? { icon: Box, label: "Turi", value: kind } : null,
     gender ? { icon: Box, label: "Kim uchun", value: gender } : null,
-  ].filter((item): item is { icon: typeof Box; label: string; value: string; tone?: string } => Boolean(item)).slice(0, 6);
+  ].filter((item): item is { icon: typeof Box; label: string; value: string; tone?: string } => Boolean(item)).slice(0, 8);
 
   const specs = [
     ["Brend", product.brand],
@@ -196,6 +206,12 @@ function CatalogProductDesktopInner({ id, expect }: { id: string; expect?: Secti
     <ShopShell searchPath={section.href} cartCount={cartCount}>
       <article className="pdx" data-testid="product-desktop">
         <nav className="dk-crumbs">
+          {expect ? (
+            <>
+              <Link href="/marketplace">Marketplace</Link>
+              <ChevronRight className="i" />
+            </>
+          ) : null}
           <Link href={section.href}>{section.label}</Link>
           <ChevronRight className="i" />
           {expect ? null : (
@@ -211,6 +227,10 @@ function CatalogProductDesktopInner({ id, expect }: { id: string; expect?: Secti
           <section className="pdx-gallery">
             <div className="stage">
               {shot ? <img src={shot} alt={product.name} /> : <span className="none">Rasm yo‘q</span>}
+              <span className="badges">
+                {offPct ? <em className="off">-{offPct}%</em> : null}
+                {fresh ? <em className="new">Yangi</em> : null}
+              </span>
               {gallery.length > 1 ? (
                 <>
                   <button type="button" className="nav prev" aria-label="Oldingi rasm" onClick={() => setPhoto((photo - 1 + gallery.length) % gallery.length)}><ChevronLeft className="i" /></button>
@@ -302,7 +322,7 @@ function CatalogProductDesktopInner({ id, expect }: { id: string; expect?: Secti
 
           <aside className="pdx-side">
             <section className="buy">
-              {product.discount ? <span className="off">-{product.discount}%</span> : null}
+              {offPct ? <span className="off">-{offPct}%</span> : null}
               <button type="button" className={fav ? "heart on" : "heart"} aria-label="Sevimlilarga" aria-pressed={fav} onClick={() => shopToggleFav(product.id)}><Heart className="i" /></button>
               <strong>{som(product.price)}</strong>
               {product.oldPrice ? (
@@ -332,12 +352,26 @@ function CatalogProductDesktopInner({ id, expect }: { id: string; expect?: Secti
               ) : null}
             </section>
 
+            {shipText || warranty || returnDays ? (
+              <section className="terms">
+                {shipText ? <p><Truck className="i" /><span><b>Yetkazib berish</b><small>{shipText}</small></span></p> : null}
+                {warranty ? <p><ShieldCheck className="i" /><span><b>Kafolat</b><small>{warranty} oy</small></span></p> : null}
+                {returnDays ? <p><RotateCcw className="i" /><span><b>Qaytarish</b><small>{returnDays} kun ichida (shartlar asosida)</small></span></p> : null}
+              </section>
+            ) : null}
+
             {product.shopName ? (
               <section className="seller">
                 <span className="ava"><Store className="i" /></span>
                 <span>
                   <b>{product.shopName} {official ? <BadgeCheck className="i ok" /> : null}</b>
                   <small>{official ? "Rasmiy distribyutor" : "Sotuvchi"}</small>
+                  {product.shopReviews > 0 || product.shopProducts > 0 ? (
+                    <small className="stats">
+                      {product.shopReviews > 0 ? <><Star className="i star" /> {product.shopRating.toFixed(1)} ({product.shopReviews} ta sharh)</> : null}
+                      {product.shopProducts > 0 ? <em>{product.shopProducts} ta mahsulot</em> : null}
+                    </small>
+                  ) : null}
                 </span>
                 {product.shopSlug ? <Link href={`/marketplace/dokon/${product.shopSlug}`}>Sotuvchi profili <ChevronRight className="i" /></Link> : null}
               </section>

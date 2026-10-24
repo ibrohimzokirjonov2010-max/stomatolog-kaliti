@@ -183,3 +183,45 @@
   .sh .kd-grid { grid-template-columns: minmax(0, 1fr); }
   .sh .kd-right { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); }
 }
+
+/* New mockup pass (mening klinikam). */
+.sh .kd-head { flex-wrap: nowrap; }
+.sh .kd-banner { flex: 1; max-width: calc(520 * var(--k)); position: relative; height: calc(76 * var(--k)); border-radius: calc(12 * var(--k)); overflow: hidden; background: linear-gradient(90deg, #d9f1ef, #c8ebe8); display: flex; align-items: center; }
+.sh .kd-banner img { position: absolute; left: 0; top: 0; width: 36%; height: 100%; object-fit: cover; -webkit-mask-image: linear-gradient(90deg, #000 60%, transparent); mask-image: linear-gradient(90deg, #000 60%, transparent); }
+.sh .kd-banner > span { position: relative; margin-left: 36%; padding: 0 calc(12 * var(--k)); display: flex; flex-direction: column; gap: calc(2 * var(--k)); min-width: 0; }
+.sh .kd-banner b { font-size: calc(13.5 * var(--k)); font-weight: 800; color: #0b1a3a; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.sh .kd-banner small { font-size: calc(10.5 * var(--k)); color: #4b5568; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.sh .kd-banner button { align-self: flex-start; margin-top: calc(3 * var(--k)); display: inline-flex; align-items: center; gap: calc(5 * var(--k)); height: calc(24 * var(--k)); padding: 0 calc(10 * var(--k)); border-radius: calc(6 * var(--k)); background: #0b7f7d; color: #fff; font-size: calc(10.5 * var(--k)); font-weight: 600; }
+.sh .kd-banner button .i { width: calc(12 * var(--k)); height: calc(12 * var(--k)); }
+.sh .kd-kpi { position: relative; }
+.sh .kd-kpi > div { flex: 1; }
+.sh .kd-meter { display: block; margin-top: calc(6 * var(--k)); height: calc(5 * var(--k)); border-radius: 999px; background: #e6eef2; overflow: hidden; }
+.sh .kd-meter i { display: block; height: 100%; border-radius: inherit; background: #0d9f9a; }
+.sh .kd-ring { flex: none; width: calc(54 * var(--k)); height: calc(54 * var(--k)); }
+.sh .kd-ring circle { fill: none; stroke-width: 5; }
+.sh .kd-ring .bg { stroke: #e6eef2; }
+.sh .kd-ring .fg { stroke: #0d9f9a; stroke-linecap: round; }
+.sh .kd-apst { flex: none; padding: calc(2 * var(--k)) calc(6 * var(--k)); border-radius: calc(5 * var(--k)); font-size: calc(9.5 * var(--k)); font-weight: 600; white-space: nowrap; background: #eef2f6; color: #4b5568; }
+.sh .kd-apst.tasdiq { background: #e3f6f5; color: #0b6f6d; }
+.sh .kd-apst.kutil { background: #fff3e2; color: #b45309; }
+.sh .kd-apst.davol { background: #e3f8ec; color: #15803d; }
+.sh .kd-search { display: flex; align-items: center; gap: calc(7 * var(--k)); height: calc(32 * var(--k)); padding: 0 calc(10 * var(--k)); margin-bottom: calc(8 * var(--k)); border-radius: calc(8 * var(--k)); border: 1px solid var(--kd-line); color: #8b93a7; }
+.sh .kd-search .i { width: calc(14 * var(--k)); height: calc(14 * var(--k)); }
+.sh .kd-search input { flex: 1; min-width: 0; border: 0; outline: 0; background: transparent; font: inherit; font-size: calc(11.5 * var(--k)); color: #0b1a3a; }
+.sh .kd-cal-h { display: flex; align-items: center; justify-content: space-between; margin-bottom: calc(6 * var(--k)); }
+.sh .kd-cal-h b { font-size: calc(13 * var(--k)); }
+.sh .kd-cal-h span { display: flex; gap: calc(4 * var(--k)); }
+.sh .kd-cal-h button { width: calc(24 * var(--k)); height: calc(24 * var(--k)); border-radius: calc(6 * var(--k)); border: 1px solid var(--kd-line); display: grid; place-items: center; color: #4b5568; }
+.sh .kd-cal-h .i { width: calc(13 * var(--k)); height: calc(13 * var(--k)); }
+.sh .kd-cal-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: calc(2 * var(--k)); text-align: center; }
+.sh .kd-cal-grid small { color: #8b93a7; font-size: calc(9.5 * var(--k)); padding: calc(3 * var(--k)) 0; }
+.sh .kd-cal-grid button { position: relative; height: calc(26 * var(--k)); border-radius: 50%; font-size: calc(11 * var(--k)); color: #24344d; }
+.sh .kd-cal-grid button:hover { background: #f0f9f8; }
+.sh .kd-cal-grid button.busy::after { content: ""; position: absolute; left: 50%; bottom: calc(2 * var(--k)); width: calc(4 * var(--k)); height: calc(4 * var(--k)); margin-left: calc(-2 * var(--k)); border-radius: 50%; background: #0d9f9a; }
+.sh .kd-cal-grid button.today { color: #0b7f7d; font-weight: 700; box-shadow: inset 0 0 0 1.5px #0d9f9a; }
+.sh .kd-cal-grid button.on { background: #0b7f7d; color: #fff; font-weight: 700; }
+.sh .kd-cal-grid button.on.busy::after { background: #fff; }
+.sh .kd-cal-key { margin: calc(6 * var(--k)) 0 0; display: flex; align-items: center; gap: calc(6 * var(--k)); color: #6a7c93; font-size: calc(10 * var(--k)); }
+.sh .kd-cal-key i { width: calc(8 * var(--k)); height: calc(8 * var(--k)); border-radius: 50%; }
+.sh .kd-cal-key i.today { box-shadow: inset 0 0 0 1.5px #0d9f9a; }
+.sh .kd-cal-key i.busy { background: #0d9f9a; margin-left: calc(6 * var(--k)); }

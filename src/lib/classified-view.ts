@@ -48,5 +48,6 @@ export function classifiedToListing(row: ClassifiedRow): Listing {
     telegram: row.telegram || "",
     sourceUrl: row.sourceUrl || "",
     instagram: row.instagram || "",
+    negotiable: row.negotiable === true,
   };
 }
