@@ -31,7 +31,7 @@ import { formatMoney } from "@/lib/format";
 import { cn } from "@/lib/utils";
 
 const panel =
-  "rounded-2xl border border-slate-100/90 bg-white shadow-[0_6px_24px_rgba(15,23,42,0.045)]";
+  "rounded-2xl border border-slate-100/90 bg-white shadow-[0_6px_24px_rgba(17, 24, 39, 0.045)]";
 
 export function HomeDashboard() {
   return (
@@ -61,7 +61,7 @@ export function HomeDashboard() {
 
 function HeroBanner() {
   return (
-    <section className="relative overflow-hidden rounded-2xl bg-[linear-gradient(120deg,#4b86ff_0%,#2f6bff_42%,#2563eb_100%)] text-white shadow-[0_12px_32px_rgba(37,99,235,0.2)]">
+    <section className="relative overflow-hidden rounded-2xl bg-[linear-gradient(120deg,#4b86ff_0%,#2f6bff_42%,#2563eb_100%)] text-white shadow-[0_12px_32px_rgba(15, 118, 110, 0.2)]">
       <div className="pointer-events-none absolute -top-24 -left-16 size-72 rounded-full bg-white/10" />
       <div className="pointer-events-none absolute top-4 right-[42%] size-24 rounded-full bg-white/10" />
       <div className="pointer-events-none absolute right-16 bottom-[-36px] size-40 rounded-full bg-white/10" />
@@ -110,7 +110,7 @@ function ImplantPromo() {
       href="/marketplace?cat=implantlar"
       className={cn(panel, "relative flex min-h-[208px] overflow-hidden px-5 py-4")}
     >
-      <span className="absolute top-4 right-4 rounded-full bg-[#e8f1ff] px-2.5 py-0.5 text-[11px] font-semibold text-primary">
+      <span className="absolute top-4 right-4 rounded-full bg-[#F0FDFA] px-2.5 py-0.5 text-[11px] font-semibold text-primary">
         Yangi
       </span>
       <div className="flex min-w-0 flex-1 flex-col justify-center pr-3">
@@ -146,7 +146,7 @@ function SwirlMark() {
         <path
           d="M16 4.8c6.4 0 11.4 4.2 11.4 9.6 0 4.8-3.8 8.7-9 9.6"
           fill="none"
-          stroke="#22d3ee"
+          stroke="#0F766E"
           strokeWidth="2.8"
           strokeLinecap="round"
         />
@@ -283,7 +283,7 @@ function OfferCard({ product }: { product: Product }) {
   const fit = listingImageFit(product.image);
 
   return (
-    <article className="group flex min-w-0 flex-col rounded-xl border border-slate-200/90 bg-white p-2 shadow-[0_1px_2px_rgba(15,23,42,0.04)] transition-shadow hover:shadow-[0_6px_18px_rgba(15,23,42,0.08)]">
+    <article className="group flex min-w-0 flex-col rounded-xl border border-slate-200/90 bg-white p-2 shadow-[0_1px_2px_rgba(17, 24, 39, 0.04)] transition-shadow hover:shadow-[0_6px_18px_rgba(17, 24, 39, 0.08)]">
       <Link href={href} className="block" aria-label={product.name}>
         <ProductImageFrame
           src={product.image}
@@ -310,7 +310,7 @@ function OfferCard({ product }: { product: Product }) {
         </Link>
       </h3>
       <div className="mt-auto pt-1.5">
-        <p className="truncate text-[13px] font-bold leading-tight text-[#0066FF]">
+        <p className="truncate text-[13px] font-bold leading-tight text-[#0F766E]">
           {formatMoney(product.price, "UZS")}
         </p>
         <p className="mt-0.5 min-h-[14px] truncate text-[10.5px] leading-tight text-[#9aa3b2] line-through">
@@ -378,7 +378,7 @@ function HomeCommunity() {
               className="size-9 rounded-full object-cover"
             />
           ) : (
-            <span className="flex size-9 items-center justify-center rounded-full bg-[#dbeafe] text-[11px] font-semibold text-primary">
+            <span className="flex size-9 items-center justify-center rounded-full bg-[#F0FDFA] text-[11px] font-semibold text-primary">
               {post.author.name.replace("Dr. ", "").slice(0, 2)}
             </span>
           )}
@@ -412,7 +412,7 @@ function MarketingPromo() {
   return (
     <Link
       href="/marketing"
-      className="relative grid min-h-[172px] overflow-hidden rounded-2xl bg-[#e8f1ff] shadow-[0_6px_24px_rgba(15,23,42,0.045)] sm:grid-cols-[minmax(0,1.15fr)_minmax(140px,0.85fr)]"
+      className="relative grid min-h-[172px] overflow-hidden rounded-2xl bg-[#F0FDFA] shadow-[0_6px_24px_rgba(17, 24, 39, 0.045)] sm:grid-cols-[minmax(0,1.15fr)_minmax(140px,0.85fr)]"
     >
       <span className="absolute top-4 right-4 z-10 rounded-full bg-white px-2.5 py-0.5 text-[11px] font-semibold text-primary">
         Yangi xizmat!
@@ -441,7 +441,7 @@ function MarketingPromo() {
           sizes="(max-width: 1280px) 40vw, 22vw"
           className="object-cover object-center"
         />
-        <div className="pointer-events-none absolute inset-y-0 left-0 w-16 bg-[linear-gradient(90deg,#e8f1ff,transparent)]" />
+        <div className="pointer-events-none absolute inset-y-0 left-0 w-16 bg-[linear-gradient(90deg,#F0FDFA,transparent)]" />
       </div>
     </Link>
   );

@@ -126,7 +126,7 @@ export function PlansDesktop() {
             </div>
           </div>
           <div className="crm-card crm-empty" data-testid="plan-empty" style={{ display: "grid", justifyItems: "center", gap: 10, padding: "48px 16px" }}>
-            <ClipboardList className="i" style={{ width: 40, height: 40, color: "#0f8b87" }} />
+            <ClipboardList className="i" style={{ width: 40, height: 40, color: "#0F766E" }} />
             <b style={{ fontSize: 17 }}>Hali davolash rejasi yo‘q</b>
             <span>Bemor uchun tish kartasi, xizmatlar va narxlar bilan birinchi rejani tuzing.</span>
             <button type="button" className="crm-btn blue" onClick={() => setNewOpen(true)}><Plus className="i" /> Birinchi rejani tuzish</button>

@@ -6,7 +6,7 @@ import { readJson, requireUser, str } from "@/lib/server/user";
 
 export const dynamic = "force-dynamic";
 
-const PALETTE = ["#0066FF", "#0d9488", "#7c3aed", "#ea580c", "#db2777", "#2563eb", "#059669", "#4f46e5"];
+const PALETTE = ["#0F766E", "#0F766E", "#7c3aed", "#ea580c", "#db2777", "#0F766E", "#059669", "#0F766E"];
 
 /** Community-added Telegram channels + current auction bids (seed channels live in code). */
 export async function GET() {

@@ -40,11 +40,11 @@ export function JobApplicationsPage() {
     <div>
       <header className="mb-4">
         <p className="text-[13px] text-[#8b93a7]">
-          <Link href="/ishlar" className="text-[#0066FF] hover:underline">Ishlar</Link>
+          <Link href="/ishlar" className="text-[#0F766E] hover:underline">Ishlar</Link>
           <span className="mx-1">/</span>
           <span>Mening arizalarim</span>
         </p>
-        <h1 className="mt-2 text-[26px] font-bold tracking-tight text-[#0B1F4D] lg:text-[#1a1d26]">Mening arizalarim</h1>
+        <h1 className="mt-2 text-[26px] font-bold tracking-tight text-[#111827] lg:text-[#1a1d26]">Mening arizalarim</h1>
         <p className="mt-1 text-[13px] text-[#8b93a7] lg:text-sm">Klinika telefon raqami arizangiz qabul qilingandan keyin ochiladi. Faol arizani bekor qilishingiz mumkin.</p>
         <div className="mt-3">
           <TabBar
@@ -83,7 +83,7 @@ export function JobApplicationsPage() {
                 <li key={o.id} className="rounded-2xl border border-[#eceff5] bg-white p-4" data-testid="offer-row">
                   <p className="text-[14px] font-semibold text-[#1a1d26]">{o.name} <span className="font-normal text-[#8b93a7]">· {timeAgoUz(o.createdAt)}</span></p>
                   {o.message ? <p className="mt-1 text-[13px] leading-relaxed text-[#4b5568]">“{o.message}”</p> : null}
-                  <a href={phoneHref(o.phone)} className="mt-2 inline-flex items-center gap-1.5 text-[13px] font-semibold text-[#0066FF]">
+                  <a href={phoneHref(o.phone)} className="mt-2 inline-flex items-center gap-1.5 text-[13px] font-semibold text-[#0F766E]">
                     <Phone className="size-3.5" />
                     {o.phone}
                   </a>
@@ -101,7 +101,7 @@ function ApplicationRow({ item, busy, onWithdraw }: { item: JobApplication; busy
   const badge = appStatusCopy[item.status];
   const canWithdraw = item.status === "yuborildi" || item.status === "korilmoqda";
   return (
-    <li className="rounded-2xl border border-[#eceff5] bg-white p-4 shadow-[0_4px_16px_rgba(15,23,42,0.04)] lg:rounded-[14px] lg:shadow-none" data-testid="application-row">
+    <li className="rounded-2xl border border-[#eceff5] bg-white p-4 shadow-[0_4px_16px_rgba(17, 24, 39, 0.04)] lg:rounded-[14px] lg:shadow-none" data-testid="application-row">
       <div className="flex flex-wrap items-start justify-between gap-2">
         <div>
           <p className="text-[14px] font-semibold text-[#1a1d26]">{item.jobTitle}</p>
@@ -124,7 +124,7 @@ function ApplicationRow({ item, busy, onWithdraw }: { item: JobApplication; busy
           </Button>
         ) : null}
         {item.jobStatus !== "closed" ? (
-          <Link href={`/ishlar/${item.jobId}`} className="text-[13px] font-semibold text-[#0066FF]">Vakansiya</Link>
+          <Link href={`/ishlar/${item.jobId}`} className="text-[13px] font-semibold text-[#0F766E]">Vakansiya</Link>
         ) : null}
       </div>
     </li>

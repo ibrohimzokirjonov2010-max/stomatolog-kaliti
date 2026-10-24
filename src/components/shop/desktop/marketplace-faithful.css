@@ -6,7 +6,7 @@
   --teal: #0f766e;
   --teal2: #0f766e;
   --blue: #0f766e;
-  --ink: #0f172a;
+  --ink: #111827;
   --mut: #64748b;
   --line: #e2e8f0;
   --bg: #f0fdfa;
@@ -21,7 +21,7 @@
   width: min(100%, calc(1440px + var(--side-w)));
   margin-inline: auto;
   background: #f0fdfa;
-  color: #0f172a;
+  color: #111827;
   font-family: var(--font-inter), var(--font-manrope), ui-sans-serif, system-ui, sans-serif;
   font-size: 14px;
 }
@@ -42,7 +42,7 @@
 }
 .sh.mp-shell .sh-nav.active .i { color: #0f766e; }
 .mp-shell .dh-word,
-.mp-shell .dh-word b { color: #0f172a; }
+.mp-shell .dh-word b { color: #111827; }
 .mp-shell .dh-word b { color: #0f766e; }
 .mp-shell .dh-initials { background: #ccfbf1; color: #0f766e; }
 .mp-shell .dh-go,
@@ -51,7 +51,7 @@
 .mp-shell .dh-cam:hover { background: #115e59; }
 .mp-shell .sh-pro .go { background: #0f766e; border-radius: 10px; }
 
-.mpx { color: #0f172a; min-width: 0; }
+.mpx { color: #111827; min-width: 0; }
 .mpx-h1 {
   margin: 0;
   font-family: var(--font-manrope), var(--font-inter), sans-serif;
@@ -71,14 +71,14 @@
   border-radius: 10px;
   border: 1px solid #e2e8f0;
   background: #fff;
-  color: #0f172a;
+  color: #111827;
   font-size: 13px;
   font-weight: 650;
   display: inline-flex;
   align-items: center;
   justify-content: center;
   gap: 6px;
-  box-shadow: 0 1px 2px rgba(15, 23, 42, 0.04);
+  box-shadow: 0 1px 2px rgba(17, 24, 39, 0.04);
 }
 .mpx-chip span { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 .mpx-chip .i { width: 18px; height: 18px; flex: none; }
@@ -94,13 +94,13 @@
   border-radius: 10px;
   border: 1px solid #e2e8f0;
   background: #fff;
-  color: #0f172a;
+  color: #111827;
   font-size: 13px;
   font-weight: 650;
   display: inline-flex;
   align-items: center;
   gap: 6px;
-  box-shadow: 0 1px 2px rgba(15, 23, 42, 0.04);
+  box-shadow: 0 1px 2px rgba(17, 24, 39, 0.04);
 }
 .mpx-drop.on > button { border-color: #0f766e; color: #0f766e; background: #f0fdfa; }
 .mpx-drop .i, .mpx-sort .i { width: 14px; height: 14px; color: #64748b; }
@@ -116,7 +116,7 @@
   border-radius: 12px;
   border: 1px solid #e2e8f0;
   background: #fff;
-  box-shadow: 0 12px 32px rgba(15, 23, 42, 0.12);
+  box-shadow: 0 12px 32px rgba(17, 24, 39, 0.12);
 }
 .mpx-sort { margin-left: auto; color: #64748b; font-weight: 500; }
 .mpx-sort select {
@@ -124,7 +124,7 @@
   background: transparent;
   font: inherit;
   font-weight: 700;
-  color: #0f172a;
+  color: #111827;
   outline: none;
   cursor: pointer;
 }
@@ -139,7 +139,7 @@
   background: #fff;
   border: 1px solid #e2e8f0;
   border-radius: 12px;
-  box-shadow: 0 1px 2px rgba(15, 23, 42, 0.04), 0 8px 24px rgba(15, 23, 42, 0.04);
+  box-shadow: 0 1px 2px rgba(17, 24, 39, 0.04), 0 8px 24px rgba(17, 24, 39, 0.04);
 }
 .mpx-panel { padding: 14px 12px 16px; }
 .mpx-panel h4 {
@@ -170,7 +170,7 @@
   background: transparent;
   font: inherit;
   font-size: 13px;
-  color: #0f172a;
+  color: #111827;
 }
 .mpx-check, .mpx-radio {
   display: flex;
@@ -180,7 +180,7 @@
   width: 100%;
   text-align: left;
   font-size: 13px;
-  color: #0f172a;
+  color: #111827;
 }
 .mpx-check em, .mpx-radio em { margin-left: auto; font-style: normal; font-size: 12px; color: #64748b; }
 .mpx-box, .mpx-dot {
@@ -207,7 +207,7 @@
   padding: 0 8px;
   font: inherit;
   font-size: 12px;
-  color: #0f172a;
+  color: #111827;
   outline: none;
 }
 .mpx-prices input:focus { border-color: #0f766e; }
@@ -217,7 +217,7 @@
 .mpx-range input { position: absolute; inset: 0; width: 100%; margin: 0; background: none; pointer-events: none; appearance: none; }
 .mpx-range input::-webkit-slider-thumb {
   pointer-events: auto; appearance: none; width: 18px; height: 18px; border-radius: 50%;
-  background: #fff; border: 2px solid #0f766e; box-shadow: 0 1px 4px rgba(15, 23, 42, 0.18); cursor: pointer;
+  background: #fff; border: 2px solid #0f766e; box-shadow: 0 1px 4px rgba(17, 24, 39, 0.18); cursor: pointer;
 }
 .mpx-range input::-moz-range-thumb {
   pointer-events: auto; width: 18px; height: 18px; border-radius: 50%; background: #fff; border: 2px solid #0f766e; cursor: pointer;
@@ -256,10 +256,10 @@
 }
 .mpx-name a:hover { color: #0f766e; }
 .mpx-spec { margin: 2px 0 0; font-size: 12px; color: #64748b; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-.mpx-brand { margin: 2px 0 0; font-size: 12px; font-weight: 650; color: #0f172a; }
+.mpx-brand { margin: 2px 0 0; font-size: 12px; font-weight: 650; color: #111827; }
 .mpx-rate { margin-top: 4px; display: flex; align-items: center; gap: 4px; font-size: 12px; color: #64748b; }
 .mpx-rate .i { width: 13px; height: 13px; color: #f5b400; fill: #f5b400; }
-.mpx-rate b { color: #0f172a; font-weight: 700; }
+.mpx-rate b { color: #111827; font-weight: 700; }
 .mpx-stock { margin-top: 4px; display: flex; align-items: center; gap: 6px; font-size: 12px; font-weight: 650; color: #16a34a; }
 .mpx-stock i { width: 7px; height: 7px; border-radius: 50%; background: #16a34a; display: block; }
 .mpx-stock.out { color: #64748b; }
@@ -274,7 +274,7 @@
   display: grid; place-items: center; flex: none;
 }
 .mpx-add:hover { background: #115e59; }
-.mpx-add:active { background: #134e4a; }
+.mpx-add:active { background: #115E59; }
 .mpx-add .i { width: 18px; height: 18px; }
 .mpx-empty {
   background: #fff; border: 1px solid #e2e8f0; border-radius: 12px; padding: 48px 16px; text-align: center;
@@ -304,7 +304,7 @@
 .mpx-x .i { width: 16px; height: 16px; }
 .mpx-sum { margin-top: 4px; padding-top: 8px; border-top: 1px solid #e2e8f0; font-size: 13px; }
 .mpx-sum div { display: flex; justify-content: space-between; gap: 8px; margin: 6px 0; color: #64748b; }
-.mpx-sum .tot { color: #0f172a; font-weight: 800; font-size: 15px; }
+.mpx-sum .tot { color: #111827; font-weight: 800; font-size: 15px; }
 .mpx-checko {
   width: 100%; height: 46px; margin-top: 8px; border-radius: 10px; background: #0f766e; color: #fff;
   font-size: 14px; font-weight: 750; display: inline-flex; align-items: center; justify-content: center; gap: 6px;
@@ -330,7 +330,7 @@
 }
 .mpx-chat {
   position: fixed; right: 16px; bottom: 16px; width: 320px; background: #fff; border-radius: 12px;
-  border: 1px solid #e2e8f0; box-shadow: 0 16px 40px rgba(15, 23, 42, 0.18); z-index: 50; overflow: hidden;
+  border: 1px solid #e2e8f0; box-shadow: 0 16px 40px rgba(17, 24, 39, 0.18); z-index: 50; overflow: hidden;
 }
 .mpx-chat header { background: #0f766e; color: #fff; padding: 10px 12px; display: flex; justify-content: space-between; align-items: center; font-weight: 700; }
 .mpx-chat .log { max-height: 240px; overflow: auto; padding: 10px; display: flex; flex-direction: column; gap: 6px; }
@@ -352,7 +352,7 @@
 /* Product page */
 .mpx-crumbs { display: flex; flex-wrap: wrap; gap: 6px; align-items: center; color: #64748b; font-size: 12px; margin-bottom: 14px; }
 .mpx-crumbs a:hover { color: #0f766e; }
-.mpx-crumbs b { color: #0f172a; font-weight: 650; }
+.mpx-crumbs b { color: #111827; font-weight: 650; }
 .mpx-crumbs .i { width: 12px; height: 12px; }
 .mpx-top {
   display: grid;
@@ -370,7 +370,7 @@
   place-items: center;
   overflow: hidden;
   cursor: zoom-in;
-  box-shadow: 0 8px 24px rgba(15, 23, 42, 0.04);
+  box-shadow: 0 8px 24px rgba(17, 24, 39, 0.04);
 }
 .mpx-stage img { width: 100%; height: 100%; object-fit: contain; padding: 12px; box-sizing: border-box; background: #fff; }
 /* One photo: the frame follows the picture so a wide shot does not sit in a tall 4:3 band. */
@@ -389,7 +389,7 @@
 .mpx-nav {
   position: absolute; top: 50%; transform: translateY(-50%); width: 36px; height: 36px; border-radius: 50%;
   background: #fff; border: 1px solid #e2e8f0; display: grid; place-items: center;
-  box-shadow: 0 2px 8px rgba(15, 23, 42, 0.12); cursor: pointer;
+  box-shadow: 0 2px 8px rgba(17, 24, 39, 0.12); cursor: pointer;
 }
 .mpx-nav.prev { left: 10px; }
 .mpx-nav.next { right: 10px; }
@@ -414,7 +414,7 @@
 .mpx-type { margin: 0; font-size: 16px; color: #64748b; }
 .mpx-meta { margin: 0; display: flex; flex-wrap: wrap; gap: 8px; align-items: center; font-size: 13px; color: #64748b; }
 .mpx-meta .i { width: 14px; height: 14px; color: #f5b400; fill: #f5b400; }
-.mpx-meta b { color: #0f172a; }
+.mpx-meta b { color: #111827; }
 .mpx-blurb {
   margin: 0; font-size: 14px; line-height: 1.45; color: #334155;
   display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;
@@ -474,9 +474,9 @@
 }
 .mpx-go { background: #0f766e; color: #fff; }
 .mpx-go:hover { background: #115e59; }
-.mpx-go:active { background: #134e4a; }
+.mpx-go:active { background: #115E59; }
 .mpx-soft { background: #ccfbf1; color: #0f766e; }
-.mpx-soft:hover { background: #99f6e4; }
+.mpx-soft:hover { background: #CCFBF1; }
 .mpx-linebtn { background: #fff; color: #0f766e; border: 1px solid #0f766e; }
 .mpx-go:disabled, .mpx-soft:disabled, .mpx-linebtn:disabled { opacity: 0.5; cursor: not-allowed; }
 .mpx-err { margin: 0; color: #dc2626; font-size: 13px; font-weight: 650; }
@@ -525,7 +525,7 @@
 .mpx-mini {
   position: relative; display: grid; grid-template-columns: 88px minmax(0, 1fr); gap: 10px;
   padding: 10px; background: #fff; border: 1px solid #e2e8f0; border-radius: 12px;
-  box-shadow: 0 8px 24px rgba(15, 23, 42, 0.04);
+  box-shadow: 0 8px 24px rgba(17, 24, 39, 0.04);
 }
 .mpx-mini img, .mpx-mini .ph { width: 88px; height: 88px; object-fit: contain; background: #fff; border-radius: 8px; padding: 4px; }
 .mpx-mini .off {
@@ -543,7 +543,7 @@
   background: #0f766e; color: #fff; display: grid; place-items: center;
 }
 .mpx-light {
-  position: fixed; inset: 0; z-index: 80; background: rgba(15, 23, 42, 0.72);
+  position: fixed; inset: 0; z-index: 80; background: rgba(17, 24, 39, 0.72);
   display: grid; place-items: center; padding: 24px;
 }
 .mpx-light img { max-width: min(960px, 100%); max-height: 86vh; object-fit: contain; background: #fff; border-radius: 12px; padding: 16px; }
@@ -566,11 +566,11 @@
 /* `.sh button` clears background, border, padding and color. Restore marketplace controls. */
 .mp-shell.sh button.mpx-chip {
   height: 44px; padding: 0 10px; border-radius: 10px; border: 1px solid #e2e8f0;
-  background: #fff; color: #0f172a;
+  background: #fff; color: #111827;
 }
 .mp-shell.sh button.mpx-chip.on { background: #0f766e; border-color: #0f766e; color: #fff; }
 .mp-shell.sh .mpx-drop > button {
-  height: 40px; padding: 0 12px; border-radius: 10px; border: 1px solid #e2e8f0; background: #fff; color: #0f172a;
+  height: 40px; padding: 0 12px; border-radius: 10px; border: 1px solid #e2e8f0; background: #fff; color: #111827;
 }
 .mp-shell.sh .mpx-drop.on > button { border-color: #0f766e; color: #0f766e; background: #f0fdfa; }
 .mp-shell.sh button.mpx-heart,
@@ -591,7 +591,7 @@
 .mp-shell.sh button.mpx-nav,
 .mp-shell.sh .mpx-thumbs button,
 .mp-shell.sh .mpx-picks button {
-  background: #fff; border: 1px solid #e2e8f0; color: #0f172a; padding: 4px;
+  background: #fff; border: 1px solid #e2e8f0; color: #111827; padding: 4px;
 }
 .mp-shell.sh .mpx-thumbs button { border-width: 2px; border-color: transparent; }
 .mp-shell.sh .mpx-thumbs button.on { border-color: #0f766e; }
@@ -603,9 +603,9 @@
 }
 .mp-shell.sh button.mpx-go { background: #0f766e; color: #fff; border: 0; }
 .mp-shell.sh button.mpx-go:hover { background: #115e59; }
-.mp-shell.sh button.mpx-go:active { background: #134e4a; }
+.mp-shell.sh button.mpx-go:active { background: #115E59; }
 .mp-shell.sh button.mpx-soft { background: #ccfbf1; color: #0f766e; border: 0; }
-.mp-shell.sh button.mpx-soft:hover { background: #99f6e4; }
+.mp-shell.sh button.mpx-soft:hover { background: #CCFBF1; }
 .mp-shell.sh button.mpx-linebtn { background: #fff; color: #0f766e; border: 1px solid #0f766e; }
 .mp-shell.sh .mpx-tabbar button {
   height: 48px; padding: 0 0 2px; border: 0; border-bottom: 2px solid transparent;

@@ -61,7 +61,7 @@ export function ProfilPage() {
     return (
       <div className="mx-auto max-w-2xl" aria-busy="true" aria-label="Yuklanmoqda">
         <div className="overflow-hidden rounded-[20px] border border-[#e8eef4] bg-white">
-          <div className="h-44 animate-pulse bg-gradient-to-br from-[#cfe0ff] to-[#b9d0f7]" />
+          <div className="h-44 animate-pulse bg-gradient-to-br from-[#F0FDFA] to-[#CCFBF1]" />
           <div className="space-y-4 p-6">
             <div className="h-4 w-40 animate-pulse rounded bg-slate-200/80" />
             <div className="grid gap-4 sm:grid-cols-2">
@@ -125,12 +125,12 @@ export function ProfilPage() {
   }
 
   const inputClass =
-    "h-11 w-full rounded-xl border border-[#e8eef4] bg-[#f7f8fb] px-3.5 text-[14px] text-[#1a1d26] outline-none transition placeholder:text-[#8b93a7] focus:border-[#0066FF] focus:bg-white focus:ring-3 focus:ring-[#0066FF]/20 disabled:cursor-not-allowed disabled:opacity-60";
+    "h-11 w-full rounded-xl border border-[#e8eef4] bg-[#f7f8fb] px-3.5 text-[14px] text-[#1a1d26] outline-none transition placeholder:text-[#8b93a7] focus:border-[#0F766E] focus:bg-white focus:ring-3 focus:ring-[#0F766E]/20 disabled:cursor-not-allowed disabled:opacity-60";
 
   return (
     <div className="mx-auto max-w-2xl">
-      <div className="overflow-hidden rounded-[20px] border border-[#e8eef4] bg-white shadow-[0_12px_40px_rgba(15,23,42,0.06)]">
-        <div className="relative bg-gradient-to-br from-[#0066FF] to-[#0047b3] px-5 py-7 text-white sm:px-7">
+      <div className="overflow-hidden rounded-[20px] border border-[#e8eef4] bg-white shadow-[0_12px_40px_rgba(17, 24, 39, 0.06)]">
+        <div className="relative bg-gradient-to-br from-[#0F766E] to-[#115E59] px-5 py-7 text-white sm:px-7">
           <div className="absolute -right-8 -top-10 size-36 rounded-full bg-white/10" />
           <div className="relative flex flex-wrap items-center gap-4">
             <div className="relative shrink-0">
@@ -162,7 +162,7 @@ export function ProfilPage() {
                 type="button"
                 onClick={() => avatarInput.current?.click()}
                 disabled={avatarBusy}
-                className="absolute -bottom-1 -right-1 grid size-8 place-items-center rounded-full bg-white text-[#0066FF] shadow-md ring-2 ring-[#0066FF]/10"
+                className="absolute -bottom-1 -right-1 grid size-8 place-items-center rounded-full bg-white text-[#0F766E] shadow-md ring-2 ring-[#0F766E]/10"
                 aria-label="Rasm yuklash"
               >
                 <Camera className="size-4" />
@@ -227,9 +227,9 @@ export function ProfilPage() {
           <TelegramNotifyCard />
           <Link
             href="/buyurtmalarim"
-            className="flex items-center gap-3 rounded-2xl bg-[#f5f9ff] px-3.5 py-3 ring-1 ring-[#e0ecff] transition hover:bg-[#e8f1ff]"
+            className="flex items-center gap-3 rounded-2xl bg-[#f5f9ff] px-3.5 py-3 ring-1 ring-[#F0FDFA] transition hover:bg-[#F0FDFA]"
           >
-            <span className="flex size-9 items-center justify-center rounded-xl bg-white text-[#0066FF] shadow-sm">
+            <span className="flex size-9 items-center justify-center rounded-xl bg-white text-[#0F766E] shadow-sm">
               <ClipboardList className="size-4" />
             </span>
             <span className="min-w-0 flex-1">
@@ -242,7 +242,7 @@ export function ProfilPage() {
 
         <form onSubmit={submit} className="space-y-4 px-5 py-6 sm:px-7">
           <div className="flex items-center gap-2 text-[13px] font-semibold text-[#1a1d26]">
-            <UserRound className="size-4 text-[#0066FF]" />
+            <UserRound className="size-4 text-[#0F766E]" />
             Shaxsiy ma’lumotlar
           </div>
           <p className="-mt-2 flex items-center gap-1.5 text-[12.5px] text-[#8b93a7]">
@@ -318,7 +318,7 @@ export function ProfilPage() {
             <button
               type="submit"
               disabled={busy}
-              className="flex h-11 flex-1 items-center justify-center rounded-full bg-[#0066FF] text-[14px] font-bold text-white shadow-[0_6px_16px_rgba(0,102,255,0.28)] hover:bg-[#0052cc] disabled:opacity-60"
+              className="flex h-11 flex-1 items-center justify-center rounded-full bg-[#0F766E] text-[14px] font-bold text-white shadow-[0_6px_16px_rgba(15, 118, 110, 0.28)] hover:bg-[#115E59] disabled:opacity-60"
             >
               {busy ? "Saqlanmoqda…" : "O‘zgarishlarni saqlash"}
             </button>
@@ -334,9 +334,9 @@ export function ProfilPage() {
             </button>
           </div>
           <nav aria-label="Huquqiy havolalar" className="flex flex-wrap justify-center gap-x-5 gap-y-1 text-[13px] text-[#8b93a7]">
-            <Link href="/maxfiylik" className="hover:text-[#0066FF] hover:underline">Maxfiylik siyosati</Link>
-            <Link href="/shartlar" className="hover:text-[#0066FF] hover:underline">Foydalanish shartlari</Link>
-            <Link href="/hisobni-ochirish" className="hover:text-[#0066FF] hover:underline">Hisobni o‘chirish</Link>
+            <Link href="/maxfiylik" className="hover:text-[#0F766E] hover:underline">Maxfiylik siyosati</Link>
+            <Link href="/shartlar" className="hover:text-[#0F766E] hover:underline">Foydalanish shartlari</Link>
+            <Link href="/hisobni-ochirish" className="hover:text-[#0F766E] hover:underline">Hisobni o‘chirish</Link>
           </nav>
         </form>
       </div>

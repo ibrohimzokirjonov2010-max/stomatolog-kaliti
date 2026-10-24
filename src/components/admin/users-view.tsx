@@ -114,7 +114,7 @@ export function UsersView() {
 
   const stats = data
     ? [
-        { label: "Shifokorlar", value: data.counts.doctors, icon: Users, tone: "bg-[#e8f1ff] text-primary" },
+        { label: "Shifokorlar", value: data.counts.doctors, icon: Users, tone: "bg-[#F0FDFA] text-primary" },
         { label: "Sotuvchilar", value: data.counts.sellers, icon: Store, tone: "bg-[#fff7ed] text-[#c2410c]" },
         { label: "Adminlar", value: data.counts.admins, icon: ShieldCheck, tone: "bg-[#f3efff] text-[#6d28d9]" },
         { label: "Bloklangan", value: data.counts.blocked, icon: Ban, tone: "bg-[#fef2f2] text-[#b91c1c]" },
@@ -208,7 +208,7 @@ export function UsersView() {
                         <div className="flex items-center gap-2.5">
                           <Avatar name={r.fullName} src={r.avatarUrl} tone={hashTone(r.id)} className="size-8" />
                           <div className="min-w-0">
-                            <div className="truncate font-semibold text-[#0f172a]">{r.fullName}</div>
+                            <div className="truncate font-semibold text-[#111827]">{r.fullName}</div>
                             <div className="truncate text-[11.5px] text-slate-400">{r.phone ? fmtPhone(r.phone) : r.email ?? "—"}</div>
                           </div>
                         </div>
@@ -412,7 +412,7 @@ function UserDrawer({
               ].map(([l, v]) => (
                 <div key={l} className="min-w-0">
                   <div className="text-[11.5px] text-slate-400">{l}</div>
-                  <div className="truncate font-semibold text-[#0f172a]">{v}</div>
+                  <div className="truncate font-semibold text-[#111827]">{v}</div>
                 </div>
               ))}
             </div>

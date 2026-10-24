@@ -95,7 +95,7 @@ export function KanallarMobile() {
                   {place <= 3 ? <Crown style={{ color: CROWN[place - 1], fill: CROWN[place - 1] }} /> : null}
                   <i className={place <= 3 ? `top t${place}` : ""}>{place}</i>
                 </span>
-                <span className="fk-ava" style={{ background: item.avatarColor || "#0b7f7d" }}>
+                <span className="fk-ava" style={{ background: item.avatarColor || "#0F766E" }}>
                   {item.name.slice(0, 1).toUpperCase()}
                   <em><Send /></em>
                 </span>
@@ -140,7 +140,7 @@ export function KanallarMobile() {
             <input aria-label="Taklif summasi" inputMode="numeric" value={amount} onChange={(event) => setAmount(event.target.value.replace(/\D/g, "").slice(0, 9))} />
             {note ? <p className="fk-hint err">{note}</p> : null}
             <div className="row">
-              <button type="button" className="go" style={{ background: "#eef2f6", color: "#24344d" }} onClick={() => setBidFor(null)}>Yopish</button>
+              <button type="button" className="go" style={{ background: "#eef2f6", color: "#111827" }} onClick={() => setBidFor(null)}>Yopish</button>
               <button type="submit" className="go">Taklif berish</button>
             </div>
           </form>
@@ -178,7 +178,7 @@ export function KanallarMobile() {
             </select>
             {note ? <p className="fk-hint err">{note}</p> : null}
             <div className="row">
-              <button type="button" className="go" style={{ background: "#eef2f6", color: "#24344d" }} onClick={() => setAddOpen(false)}>Yopish</button>
+              <button type="button" className="go" style={{ background: "#eef2f6", color: "#111827" }} onClick={() => setAddOpen(false)}>Yopish</button>
               <button type="submit" className="go">Qo‘shish</button>
             </div>
           </form>

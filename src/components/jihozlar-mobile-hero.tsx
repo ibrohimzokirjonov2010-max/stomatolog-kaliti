@@ -26,7 +26,7 @@ const SLIDES: (Omit<PromoSlide, "onClick" | "href"> & { preset: JihozPreset })[]
   {
     id: "kreslo",
     badge: "KRESLO",
-    badgeCls: "bg-[#0066FF] text-white",
+    badgeCls: "bg-[#0F766E] text-white",
     title: "Kreslo va stomatologik qurilmalar",
     subtitle: "Klinikangizni zamonaviy uskunalar bilan jihozlang",
     cta: "Ko‘rish",
@@ -39,7 +39,7 @@ const SLIDES: (Omit<PromoSlide, "onClick" | "href"> & { preset: JihozPreset })[]
   {
     id: "diagnostika",
     badge: "DIAGNOSTIKA",
-    badgeCls: "bg-[#00C2A8] text-white",
+    badgeCls: "bg-[#0F766E] text-white",
     title: "Rentgen va diagnostika",
     subtitle: "Portativ rentgen va intraoral skanerlar",
     cta: "Ko‘rish",

@@ -139,7 +139,7 @@ export default async function ShartlarPage() {
         <p>
           Shartlar buzilsa, platforma ogohlantirish berishi, e’lonlarni yashirishi, hisobni vaqtincha cheklashi yoki bloklashi mumkin. Bloklangan
           hisob egasi sabab haqida xabardor qilinadi va murojaat qilish huquqiga ega. Siz hisobingizni istalgan vaqtda{" "}
-          <Link className="font-semibold text-[#0066FF] hover:underline" href="/hisobni-ochirish">
+          <Link className="font-semibold text-[#0F766E] hover:underline" href="/hisobni-ochirish">
             o‘chirish so‘rovi
           </Link>{" "}
           orqali yopishingiz mumkin; tugallanmagan buyurtma yoki nizo bo‘lsa, ular avval yakunlanadi.
@@ -166,7 +166,7 @@ export default async function ShartlarPage() {
         <p>
           Shartlar yangilanishi mumkin; yangi tahrir shu sahifada e’lon qilinadi va “Oxirgi yangilanish” sanasi o‘zgaradi. Yangilangandan keyin
           platformadan foydalanishni davom ettirish yangi shartlarga rozilikni bildiradi. Shaxsiy ma’lumotlar haqida batafsil:{" "}
-          <Link className="font-semibold text-[#0066FF] hover:underline" href="/maxfiylik">
+          <Link className="font-semibold text-[#0F766E] hover:underline" href="/maxfiylik">
             Maxfiylik siyosati
           </Link>
           .

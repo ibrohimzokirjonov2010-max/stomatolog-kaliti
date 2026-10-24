@@ -263,7 +263,7 @@ export function MapPicker({
 
   return (
     <div className="fixed inset-0 z-[60] flex flex-col bg-[#f4f6fa]" data-testid="map-picker" role="dialog" aria-label="Xaritadan tanlash">
-      <div className="flex items-center gap-2 bg-white px-3 pt-[max(0.75rem,env(safe-area-inset-top))] pb-2.5 shadow-[0_1px_3px_rgba(15,23,42,0.06)]">
+      <div className="flex items-center gap-2 bg-white px-3 pt-[max(0.75rem,env(safe-area-inset-top))] pb-2.5 shadow-[0_1px_3px_rgba(17, 24, 39, 0.06)]">
         <button type="button" onClick={onClose} aria-label="Yopish" className="grid size-10 place-items-center rounded-full bg-[#f4f6fa] text-[#0B1220]">
           <ArrowLeft className="size-5" />
         </button>
@@ -291,14 +291,14 @@ export function MapPicker({
         ) : null}
         {/* Center pin: map moves under it (drag or tap). */}
         <div className="pointer-events-none absolute top-1/2 left-1/2 z-[5] -translate-x-1/2 -translate-y-full" data-testid="map-pin">
-          <MapPin className="size-11 fill-[#1f6bff] text-white drop-shadow-[0_4px_6px_rgba(15,23,42,0.35)]" strokeWidth={1.6} />
+          <MapPin className="size-11 fill-[#0F766E] text-white drop-shadow-[0_4px_6px_rgba(17, 24, 39, 0.35)]" strokeWidth={1.6} />
         </div>
         <span className="pointer-events-none absolute top-1/2 left-1/2 z-[4] h-1.5 w-3 -translate-x-1/2 rounded-full bg-black/25" />
         <button
           type="button"
           onClick={() => locate()}
           aria-label="Mening joylashuvim"
-          className="absolute right-3 bottom-3 z-[5] grid size-11 place-items-center rounded-full bg-white text-[#1f6bff] shadow-[0_4px_12px_rgba(15,23,42,0.18)]"
+          className="absolute right-3 bottom-3 z-[5] grid size-11 place-items-center rounded-full bg-white text-[#0F766E] shadow-[0_4px_12px_rgba(17, 24, 39, 0.18)]"
         >
           <LocateFixed className="size-5" />
         </button>
@@ -307,11 +307,11 @@ export function MapPicker({
         ) : null}
       </div>
 
-      <div className="max-h-[58%] overflow-y-auto rounded-t-[22px] bg-white px-4 pt-3 pb-[max(1rem,env(safe-area-inset-bottom))] shadow-[0_-6px_20px_rgba(15,23,42,0.08)]">
+      <div className="max-h-[58%] overflow-y-auto rounded-t-[22px] bg-white px-4 pt-3 pb-[max(1rem,env(safe-area-inset-bottom))] shadow-[0_-6px_20px_rgba(17, 24, 39, 0.08)]">
         <div className="mx-auto mb-2.5 h-1 w-10 rounded-full bg-[#dfe4ec]" />
         <p className="text-[12px] text-[#7a8397]">Pin joylashgan manzil</p>
-        <div className="mt-1 flex min-h-[48px] items-center gap-2.5 rounded-[12px] border border-[#e3e8f0] px-3 focus-within:border-[#1f6bff]">
-          {busy ? <Loader2 className="size-[18px] shrink-0 animate-spin text-[#1f6bff]" /> : <MapPin className="size-[18px] shrink-0 text-[#1f6bff]" />}
+        <div className="mt-1 flex min-h-[48px] items-center gap-2.5 rounded-[12px] border border-[#e3e8f0] px-3 focus-within:border-[#0F766E]">
+          {busy ? <Loader2 className="size-[18px] shrink-0 animate-spin text-[#0F766E]" /> : <MapPin className="size-[18px] shrink-0 text-[#0F766E]" />}
           <input
             value={address}
             onChange={(e) => setAddress(e.target.value)}
@@ -338,7 +338,7 @@ export function MapPicker({
             {places.map((p) => (
               <li key={p.id} className="flex items-center gap-2.5 rounded-[12px] border border-[#e3e8f0] px-2.5 py-2">
                 <button type="button" onClick={() => goTo(p)} className="flex min-w-0 flex-1 items-center gap-2.5 text-left">
-                  <span className="grid size-9 shrink-0 place-items-center rounded-full bg-[#e8f1ff] text-[#1f6bff]">
+                  <span className="grid size-9 shrink-0 place-items-center rounded-full bg-[#F0FDFA] text-[#0F766E]">
                     <PlaceIcon label={p.label} className="size-[18px]" />
                   </span>
                   <span className="min-w-0">
@@ -374,7 +374,7 @@ export function MapPicker({
                 onClick={() => setLabel(l)}
                 className={cn(
                   "h-8 rounded-full border px-3 text-[12.5px] font-medium",
-                  label === l ? "border-[#1f6bff] bg-[#e8f1ff] text-[#1f6bff]" : "border-[#dfe4ec] bg-white text-[#4b5568]",
+                  label === l ? "border-[#0F766E] bg-[#F0FDFA] text-[#0F766E]" : "border-[#dfe4ec] bg-white text-[#4b5568]",
                 )}
               >
                 {l}
@@ -390,7 +390,7 @@ export function MapPicker({
               }}
               maxLength={40}
               placeholder="Nomi (masalan, 3-filial)"
-              className="h-10 min-w-0 flex-1 rounded-[10px] border border-[#e3e8f0] bg-white px-3 text-[14px] outline-none focus:border-[#1f6bff]"
+              className="h-10 min-w-0 flex-1 rounded-[10px] border border-[#e3e8f0] bg-white px-3 text-[14px] outline-none focus:border-[#0F766E]"
               data-testid="save-label"
             />
             <button
@@ -412,7 +412,7 @@ export function MapPicker({
           type="button"
           disabled={!picked}
           onClick={() => picked && onConfirm(picked)}
-          className="mt-3 flex h-[52px] w-full items-center justify-center gap-2 rounded-[16px] bg-[#1f6bff] text-[16px] font-semibold text-white shadow-[0_8px_20px_rgba(31,107,255,0.3)] disabled:bg-[#c9d6f0] disabled:shadow-none"
+          className="mt-3 flex h-[52px] w-full items-center justify-center gap-2 rounded-[16px] bg-[#0F766E] text-[16px] font-semibold text-white shadow-[0_8px_20px_rgba(15, 118, 110, 0.3)] disabled:bg-[#CCFBF1] disabled:shadow-none"
           data-testid="map-confirm"
         >
           <Check className="size-5" /> Shu manzilni tanlash

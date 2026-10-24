@@ -233,7 +233,7 @@ export function CheckoutForm() {
           <span className="font-medium text-[#1a1d26]">{delivery > 0 ? formatMoney(delivery, "UZS") : "Bepul"}</span>
         </p>
         {bonus.applied > 0 ? (
-          <p className="mt-3 flex justify-between text-[13px] text-[#0066FF]">
+          <p className="mt-3 flex justify-between text-[13px] text-[#0F766E]">
             <span>Bonus</span>
             <span className="font-semibold">−{formatMoney(bonus.applied, "UZS")}</span>
           </p>
@@ -245,7 +245,7 @@ export function CheckoutForm() {
         <Button type="submit" className="mt-4 h-11 w-full !rounded-xl" disabled={busy}>
           {busy ? "Yuborilmoqda..." : "Buyurtmani tasdiqlash"}
         </Button>
-        <Link href="/savat" className="mt-2 block text-center text-sm font-medium text-[#0066FF] hover:underline">
+        <Link href="/savat" className="mt-2 block text-center text-sm font-medium text-[#0F766E] hover:underline">
           Savatga qaytish
         </Link>
       </aside>

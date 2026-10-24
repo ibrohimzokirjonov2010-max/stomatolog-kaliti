@@ -86,7 +86,7 @@ export function ClinicDashboard() {
 
   return (
     <div
-      className="-m-4 min-h-screen bg-gradient-to-b from-[#e3f3f2] via-[#f0f7f7] to-[#f4f7fa] p-4 pb-28 text-[#0f172a] lg:m-0 lg:min-h-0 lg:bg-none lg:p-0 lg:pb-0"
+      className="-m-4 min-h-screen bg-gradient-to-b from-[#e3f3f2] via-[#f0f7f7] to-[#f4f7fa] p-4 pb-28 text-[#111827] lg:m-0 lg:min-h-0 lg:bg-none lg:p-0 lg:pb-0"
       style={{ paddingTop: "max(0.75rem, env(safe-area-inset-top))" }}
     >
       <MobileSectionHeader
@@ -97,7 +97,7 @@ export function ClinicDashboard() {
 
       <div className="mt-3 flex flex-col gap-3 lg:mt-0 lg:flex-row lg:items-start lg:justify-between">
         <div className="hidden lg:block">
-          <h1 className="text-[26px] font-extrabold leading-tight tracking-tight text-[#0d1727] lg:font-bold">Mening klinikam</h1>
+          <h1 className="text-[26px] font-extrabold leading-tight tracking-tight text-[#111827] lg:font-bold">Mening klinikam</h1>
           <p className="mt-0.5 text-[13px] text-[#7b879d] lg:text-sm">
             {clinic ? [clinic.name, clinic.branch, clinic.address].filter(Boolean).join(" · ") : "Klinikangiz ma’lumotlari faqat sizga ko‘rinadi."}
           </p>
@@ -129,8 +129,8 @@ export function ClinicDashboard() {
         ) : !clinic ? (
           <>
           <ClinicSetupPhone onSubmit={(d) => op("clinic_save", d)} onDone={() => setModal(null)} />
-          <section className="hidden rounded-3xl border border-slate-100 bg-white p-5 shadow-[0_2px_12px_rgba(15,23,42,0.03)] lg:block">
-            <h2 className="text-[17px] font-bold text-[#0d1727]">Klinikangizni sozlang</h2>
+          <section className="hidden rounded-3xl border border-slate-100 bg-white p-5 shadow-[0_2px_12px_rgba(17, 24, 39, 0.03)] lg:block">
+            <h2 className="text-[17px] font-bold text-[#111827]">Klinikangizni sozlang</h2>
             <p className="mb-4 mt-1 text-sm text-[#7b879d]">Nom va ish vaqtini kiriting — keyin bemorlar, qabullar va xodimlarni qo‘shishingiz mumkin. Ma’lumotlar faqat sizga ko‘rinadi.</p>
             <ClinicForm onSubmit={(d) => op("clinic_save", d)} onDone={() => setModal(null)} />
           </section>
@@ -146,8 +146,8 @@ export function ClinicDashboard() {
             <p className="text-center text-[12px] text-[#7b879d] lg:text-left">Ish vaqti: {clinic.openTime} – {clinic.closeTime} · Bugun {fmtDate(today)}</p>
 
             <div className="grid gap-4 lg:grid-cols-[1.05fr_0.95fr] lg:items-start">
-              <section className="rounded-3xl border border-slate-100 bg-white p-4 shadow-[0_2px_12px_rgba(15,23,42,0.03)] lg:rounded-2xl">
-                <h2 className="mb-3 text-[16px] font-bold text-[#0d1727]">Bugungi qabullar</h2>
+              <section className="rounded-3xl border border-slate-100 bg-white p-4 shadow-[0_2px_12px_rgba(17, 24, 39, 0.03)] lg:rounded-2xl">
+                <h2 className="mb-3 text-[16px] font-bold text-[#111827]">Bugungi qabullar</h2>
                 {todays.length === 0 ? (
                   <p className="rounded-2xl bg-[#f7f9fc] px-4 py-8 text-center text-sm text-[#7b879d]" data-testid="no-visits">Bugun qabul yo‘q. “Yozuv ochish” orqali qo‘shing.</p>
                 ) : (
@@ -169,10 +169,10 @@ export function ClinicDashboard() {
                 ) : null}
               </section>
 
-              <section className="rounded-3xl border border-slate-100 bg-white p-4 shadow-[0_2px_12px_rgba(15,23,42,0.03)] lg:rounded-2xl">
+              <section className="rounded-3xl border border-slate-100 bg-white p-4 shadow-[0_2px_12px_rgba(17, 24, 39, 0.03)] lg:rounded-2xl">
                 <div className="mb-3 flex items-center justify-between gap-2">
-                  <h2 className="text-[16px] font-bold text-[#0d1727]">Xodimlar</h2>
-                  <button type="button" onClick={() => setModal("staff")} className="inline-flex h-9 items-center gap-1 rounded-full bg-[#eef4ff] px-3 text-[13px] font-semibold text-[#0066FF]">
+                  <h2 className="text-[16px] font-bold text-[#111827]">Xodimlar</h2>
+                  <button type="button" onClick={() => setModal("staff")} className="inline-flex h-9 items-center gap-1 rounded-full bg-[#eef4ff] px-3 text-[13px] font-semibold text-[#0F766E]">
                     <Plus className="size-3.5" />
                     Qo‘shish
                   </button>
@@ -183,9 +183,9 @@ export function ClinicDashboard() {
                   <ul className="space-y-2" data-testid="staff-list">
                     {state!.staff.map((s) => (
                       <li key={s.id} className="flex items-center gap-3 rounded-2xl border border-[#eceff5] bg-[#fbfcfd] p-2.5">
-                        <span className="grid size-10 shrink-0 place-items-center rounded-full bg-[#e8f1ff] text-[12px] font-bold text-[#0066FF]">{initials(s.name)}</span>
+                        <span className="grid size-10 shrink-0 place-items-center rounded-full bg-[#F0FDFA] text-[12px] font-bold text-[#0F766E]">{initials(s.name)}</span>
                         <span className="min-w-0 flex-1">
-                          <span className="block truncate text-[14px] font-bold text-[#0d1727]">{s.name}</span>
+                          <span className="block truncate text-[14px] font-bold text-[#111827]">{s.name}</span>
                           <span className="block truncate text-[12px] text-[#7b879d]">{s.role}</span>
                         </span>
                         <button type="button" disabled={busy} onClick={() => quick("staff_save", { name: s.name, role: s.role, onDuty: !s.onDuty }, s.id)} aria-pressed={s.onDuty}>
@@ -201,13 +201,13 @@ export function ClinicDashboard() {
               </section>
             </div>
 
-            <section className="rounded-3xl border border-slate-100 bg-white p-4 shadow-[0_2px_12px_rgba(15,23,42,0.03)] lg:rounded-2xl">
+            <section className="rounded-3xl border border-slate-100 bg-white p-4 shadow-[0_2px_12px_rgba(17, 24, 39, 0.03)] lg:rounded-2xl">
               <div className="mb-3 flex flex-wrap items-center justify-between gap-2">
-                <h2 className="text-[16px] font-bold text-[#0d1727]">Bemorlar <span className="text-[13px] font-semibold text-[#7b879d]">{state?.patients.length ?? 0} ta</span></h2>
+                <h2 className="text-[16px] font-bold text-[#111827]">Bemorlar <span className="text-[13px] font-semibold text-[#7b879d]">{state?.patients.length ?? 0} ta</span></h2>
                 {(state?.patients.length ?? 0) > 0 ? (
                   <label className="relative block w-full sm:w-64">
                     <Search className="pointer-events-none absolute left-3 top-1/2 size-4 -translate-y-1/2 text-[#8b93a7]" />
-                    <input data-section-search value={search} onChange={(e) => setSearch(e.target.value)} placeholder="Ism yoki telefon" className="h-11 w-full rounded-xl border border-[#dfe5ef] bg-white pl-9 pr-3 text-[14px] outline-none focus:border-[#0066FF]" />
+                    <input data-section-search value={search} onChange={(e) => setSearch(e.target.value)} placeholder="Ism yoki telefon" className="h-11 w-full rounded-xl border border-[#dfe5ef] bg-white pl-9 pr-3 text-[14px] outline-none focus:border-[#0F766E]" />
                   </label>
                 ) : null}
               </div>
@@ -219,15 +219,15 @@ export function ClinicDashboard() {
                 <ul className="divide-y divide-[#eef1f6]" data-testid="patient-list">
                   {patients.map((p) => (
                     <li key={p.id} className="flex items-center gap-3 py-2.5">
-                      <span className="grid size-10 shrink-0 place-items-center rounded-full bg-[#e8f1ff] text-[12px] font-bold text-[#0066FF]">{initials(p.name)}</span>
+                      <span className="grid size-10 shrink-0 place-items-center rounded-full bg-[#F0FDFA] text-[12px] font-bold text-[#0F766E]">{initials(p.name)}</span>
                       <button type="button" className="min-w-0 flex-1 text-left" onClick={() => { setEditPatient(p); setModal("patient"); }}>
-                        <span className="block truncate text-[14px] font-bold text-[#0d1727]">{p.name}</span>
+                        <span className="block truncate text-[14px] font-bold text-[#111827]">{p.name}</span>
                         <span className="block truncate text-[12px] text-[#7b879d]">
                           Oxirgi: {fmtDate(p.lastVisit)} · Keyingi: {fmtDate(p.nextVisit)}
                         </span>
                       </button>
                       {p.phone ? (
-                        <a href={`tel:+${p.phone.replace(/\D/g, "")}`} className="hidden items-center gap-1 text-[13px] font-semibold text-[#0066FF] sm:inline-flex">
+                        <a href={`tel:+${p.phone.replace(/\D/g, "")}`} className="hidden items-center gap-1 text-[13px] font-semibold text-[#0F766E] sm:inline-flex">
                           <Phone className="size-3.5" />
                           {p.phone}
                         </a>
@@ -271,9 +271,9 @@ export function ClinicDashboard() {
 
 function Kpi({ icon, tone, label, value }: { icon: ReactNode; tone: string; label: string; value: number }) {
   return (
-    <div className="rounded-2xl border border-slate-100 bg-white p-3.5 shadow-[0_2px_12px_rgba(15,23,42,0.03)]">
+    <div className="rounded-2xl border border-slate-100 bg-white p-3.5 shadow-[0_2px_12px_rgba(17, 24, 39, 0.03)]">
       <span className={cn("grid size-9 place-items-center rounded-xl", tone)}>{icon}</span>
-      <p className="mt-2 text-[24px] font-extrabold leading-none text-[#0d1727]">{value}</p>
+      <p className="mt-2 text-[24px] font-extrabold leading-none text-[#111827]">{value}</p>
       <p className="mt-1 text-[12px] text-[#7b879d]">{label}</p>
     </div>
   );
@@ -282,12 +282,12 @@ function Kpi({ icon, tone, label, value }: { icon: ReactNode; tone: string; labe
 function VisitRow({ v, showDate, busy, onStatus, onDelete }: { v: Visit; showDate?: boolean; busy: boolean; onStatus: (s: VisitStatus) => void; onDelete: () => void }) {
   return (
     <li className="flex items-center gap-2.5 rounded-2xl border border-[#eceff5] bg-[#fbfcfd] p-2.5">
-      <span className="w-[58px] shrink-0 text-[13px] font-bold text-[#0d1727]">
+      <span className="w-[58px] shrink-0 text-[13px] font-bold text-[#111827]">
         {v.time}
         {showDate ? <span className="block text-[10.5px] font-medium text-[#7b879d]">{fmtDate(v.date).slice(0, 5)}</span> : null}
       </span>
       <span className="min-w-0 flex-1">
-        <span className="block truncate text-[14px] font-bold text-[#0d1727]">{v.name}</span>
+        <span className="block truncate text-[14px] font-bold text-[#111827]">{v.name}</span>
         <span className="block truncate text-[12px] text-[#7b879d]">{v.procedure}</span>
       </span>
       <span className={cn("rounded-full px-2.5 py-0.5 text-[11px] font-semibold", statusClass[v.status])}>{v.status}</span>
@@ -553,7 +553,7 @@ function Sheet({ title, onClose, children }: { title: string; onClose: () => voi
       <button type="button" className="absolute inset-0" aria-label="Yopish" onClick={onClose} />
       <div role="dialog" aria-modal="true" className="relative max-h-[85vh] w-full max-w-lg overflow-y-auto rounded-t-3xl bg-white p-5 shadow-xl sm:rounded-2xl">
         <div className="mb-4 flex items-center justify-between gap-3">
-          <h2 className="text-lg font-semibold text-[#0B1F4D]">{title}</h2>
+          <h2 className="text-lg font-semibold text-[#111827]">{title}</h2>
           <button type="button" onClick={onClose} className="grid size-11 shrink-0 place-items-center rounded-full bg-[#f1f3f7] text-[#4b5568]" aria-label="Yopish">
             <X className="size-4" />
           </button>

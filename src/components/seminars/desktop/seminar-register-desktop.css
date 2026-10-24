@@ -1,11 +1,11 @@
 /* Seminar registration (desktop) — designs/add-forms-1020/semirga yolzish oyansi 1etpai + semiarga yozih 2etpai.
    Mockups are 1586px wide (1280 × 1.24); sizes below are the mockup divided by 1.24. */
 .srd {
-  --sr: #0b8f8a;
-  --sr-dark: #0a6f6b;
+  --sr: #0F766E;
+  --sr-dark: #0F766E;
   --sr-soft: #e6f6f4;
   --sr-line: #e3eaf1;
-  --sr-ink: #0f1d33;
+  --sr-ink: #111827;
   --sr-mute: #6b7a90;
   --sr-faint: #9aa7b8;
   color: var(--sr-ink);
@@ -23,7 +23,7 @@
 .sh .srd .srd-back { width: 32px; height: 32px; margin-top: 2px; display: grid; place-items: center; border-radius: 10px; background: none; color: var(--sr-ink); }
 .srd .srd-back:hover { background: #e9eef4; }
 .srd-back svg { width: 22px; height: 22px; }
-.srd-head h1 { margin: 0; font-size: 23px; line-height: 1.1; font-weight: 800; letter-spacing: .005em; color: #0b2447; }
+.srd-head h1 { margin: 0; font-size: 23px; line-height: 1.1; font-weight: 800; letter-spacing: .005em; color: #111827; }
 .srd-head h1 span { color: var(--sr); }
 .srd-head p { margin: 3px 0 0; color: #7f8ea3; font-size: 14.5px; font-weight: 500; }
 
@@ -33,14 +33,14 @@
 .srd-steps li b { width: 34px; height: 34px; border-radius: 50%; display: grid; place-items: center; background: #e2e8ef; color: #5f6f84; font-size: 14.5px; font-weight: 700; }
 .srd-steps li b svg { width: 18px; height: 18px; stroke-width: 3; }
 .srd-steps li.on, .srd-steps li.done { color: var(--sr-dark); }
-.srd-steps li.on b, .srd-steps li.done b { background: var(--sr); color: #fff; box-shadow: 0 4px 10px rgba(11, 143, 138, .25); }
+.srd-steps li.on b, .srd-steps li.done b { background: var(--sr); color: #fff; box-shadow: 0 4px 10px rgba(15, 118, 110, .25); }
 .srd-steps li.line { width: 124px; height: 2px; border-radius: 2px; background: linear-gradient(90deg, var(--sr) 0 40%, #d6dee8 40% 100%); }
 .srd-steps li.line.full { width: 112px; background: var(--sr); }
 
 .srd-grid { display: grid; grid-template-columns: minmax(0, 1fr) 310px; gap: 18px; align-items: start; }
 .srd-main { display: flex; flex-direction: column; gap: 12px; min-width: 0; }
 .srd-side { position: sticky; top: 12px; }
-.srd-card { background: #fff; border: 1px solid #edf1f6; border-radius: 12px; box-shadow: 0 1px 3px rgba(15, 29, 51, .04); }
+.srd-card { background: #fff; border: 1px solid #edf1f6; border-radius: 12px; box-shadow: 0 1px 3px rgba(17, 24, 39, .04); }
 
 /* Seminar summary */
 .srd-sem { display: grid; grid-template-columns: 198px minmax(0, 1fr); gap: 20px; padding: 10px 16px 10px 10px; }
@@ -51,7 +51,7 @@
 .srd-tags span span, .srd-tags .topic { display: inline-block; padding: 4px 9px; border-radius: 999px; font-size: 10.5px; font-weight: 600; line-height: 1.2; }
 .srd-tags .topic { background: var(--sr-soft); color: var(--sr-dark); }
 .srd-tags .green { background: #e3f6ea; color: #1b8a50; }
-.srd-tags .blue, .srd-tags .line { background: #e5f5f3; color: #0d8c85; }
+.srd-tags .blue, .srd-tags .line { background: #e5f5f3; color: #0F766E; }
 .srd-sem h2 { margin: 6px 0 6px; font-size: 18px; line-height: 1.2; font-weight: 800; letter-spacing: -.01em; }
 .srd-sem-row { display: flex; align-items: flex-start; gap: 12px; }
 .srd-sem ul { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 5px; flex: 1; min-width: 0; color: #2c3a52; font-size: 13px; }
@@ -69,7 +69,7 @@
 .srd-form h3.sep { margin-top: 10px; padding-top: 8px; border-top: 1px solid #eef2f6; }
 .srd-fields { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 8px 12px; }
 .srd-field { display: flex; flex-direction: column; justify-content: center; gap: 3px; min-height: 49px; padding: 6px 12px 5px; border: 1px solid #e8edf3; border-radius: 8px; background: #fbfcfd; transition: border-color .15s, box-shadow .15s; }
-.srd-field:focus-within { border-color: var(--sr); box-shadow: 0 0 0 3px rgba(11, 143, 138, .1); background: #fff; }
+.srd-field:focus-within { border-color: var(--sr); box-shadow: 0 0 0 3px rgba(15, 118, 110, .1); background: #fff; }
 .srd-field > span { color: #2f3d54; font-size: 10.5px; font-weight: 500; }
 .srd-field > span em { color: var(--sr-faint); font-style: normal; }
 .srd-field input, .srd-field select { width: 100%; height: 22px; border: 0; padding: 0; background: transparent; font-size: 12.5px; font-weight: 500; outline: none; }
@@ -113,16 +113,16 @@
 .srd-pays .ic.soft svg { width: 22px; height: 22px; }
 .srd-logos { display: flex; gap: 8px; margin-top: 6px; }
 .srd-logos span { padding: 2px 5px; border-radius: 3px; font-size: 8.5px; font-weight: 800; letter-spacing: .02em; line-height: 1.3; }
-.srd-logos .uz { background: #133b6b; color: #fff; }
+.srd-logos .uz { background: #111827; color: #fff; }
 .srd-logos .hu { background: #1a2333; color: #f5b335; }
-.srd-logos .vi { color: #1a3a8f; font-size: 11px; font-style: italic; padding: 0; }
+.srd-logos .vi { color: #111827; font-size: 11px; font-style: italic; padding: 0; }
 
 .srd-promo { display: flex; gap: 14px; }
 .srd-promo input { flex: 1; min-width: 0; height: 48px; padding: 0 16px; border: 1px solid #e3e9f0; border-radius: 6px; background: #fff; font-size: 13.5px; outline: none; }
 .srd-promo input::placeholder { color: var(--sr-faint); }
-.srd-promo input:focus { border-color: var(--sr); box-shadow: 0 0 0 3px rgba(11, 143, 138, .1); }
-.sh .srd .srd-promo button { flex: none; width: 114px; height: 48px; border-radius: 6px; background: #0d6f6b; color: #fff; font-size: 13.5px; font-weight: 700; }
-.sh .srd .srd-promo button:hover { background: #0a5e5b; }
+.srd-promo input:focus { border-color: var(--sr); box-shadow: 0 0 0 3px rgba(15, 118, 110, .1); }
+.sh .srd .srd-promo button { flex: none; width: 114px; height: 48px; border-radius: 6px; background: #0F766E; color: #fff; font-size: 13.5px; font-weight: 700; }
+.sh .srd .srd-promo button:hover { background: #115E59; }
 
 /* Side card */
 .srd-sum { padding: 14px 16px 16px; }
@@ -150,8 +150,8 @@
 .srd-note svg { width: 24px; height: 24px; color: #fff; fill: var(--sr); stroke-width: 2; margin-top: 2px; }
 .srd-note b { display: block; color: var(--sr-ink); font-size: 11.5px; font-weight: 600; }
 .srd-error { margin: 12px 0 0; padding: 8px 10px; border-radius: 8px; background: #fdecec; color: #c62828; font-size: 12px; font-weight: 600; }
-.sh .srd .srd-go, .srd .srd-go { width: 100%; min-height: 50px; margin-top: 16px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 1px; border-radius: 6px; background: #0d6f6b; color: #fff; box-shadow: 0 6px 14px rgba(13, 111, 107, .2); transition: background .15s; }
-.sh .srd .srd-go:hover:not(:disabled) { background: #0a5e5b; }
+.sh .srd .srd-go, .srd .srd-go { width: 100%; min-height: 50px; margin-top: 16px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 1px; border-radius: 6px; background: #0F766E; color: #fff; box-shadow: 0 6px 14px rgba(15, 118, 110, .2); transition: background .15s; }
+.sh .srd .srd-go:hover:not(:disabled) { background: #115E59; }
 .srd-go b { display: inline-flex; align-items: center; gap: 10px; font-size: 14px; font-weight: 700; }
 .srd-go b svg { width: 18px; height: 18px; }
 .srd-go span { font-size: 10.5px; font-weight: 500; opacity: .9; }

@@ -16,7 +16,7 @@
 .sv .sv-sub { margin: 2px 0 0; color: #8b93a7; font-size: 12px; }
 .sv .sv-clear { display: inline-flex; align-items: center; gap: 4px; height: 30px; padding: 0 8px; border-radius: 8px; background: #fff; border: 1px solid #e6ebf3; color: #5c6b82; font-size: 11px; font-weight: 700; flex: none; }
 .sv .sv-clear svg { width: 14px; height: 14px; }
-.sv .sv-card { display: grid; grid-template-columns: 64px minmax(0, 1fr); gap: 6px; background: #fff; border-radius: 14px; padding: 4px 6px; box-shadow: 0 4px 14px rgba(15,23,42,.04); }
+.sv .sv-card { display: grid; grid-template-columns: 64px minmax(0, 1fr); gap: 6px; background: #fff; border-radius: 14px; padding: 4px 6px; box-shadow: 0 4px 14px rgba(17, 24, 39, .04); }
 .sv .sv-card img { width: 64px; height: 64px; object-fit: cover; border-radius: 10px; background: #f4f7fc; }
 .sv .sv-main { display: flex; flex-direction: column; gap: 1px; }
 .sv .sv-row { display: flex; align-items: flex-start; gap: 4px; }
@@ -26,39 +26,39 @@
 .sv .sv-icon.on { color: #ff3b30; }
 .sv .sv-variant { margin: 0; color: #6a7c93; font-size: 11px; }
 .sv .sv-seller { display: flex; align-items: center; gap: 4px; margin: 0; color: #5c6b82; font-size: 11px; font-weight: 700; }
-.sv .sv-seller svg { width: 12px; height: 12px; color: #2f6bff; }
+.sv .sv-seller svg { width: 12px; height: 12px; color: #0F766E; }
 .sv .sv-color { display: flex; align-items: center; gap: 4px; margin: 0; color: #5c6b82; font-size: 11px; font-weight: 700; }
 .sv .sv-dot { width: 10px; height: 10px; border-radius: 50%; background: #e0a24a; }
 .sv .sv-buy { display: flex; align-items: flex-end; justify-content: space-between; gap: 8px; margin-top: 4px; }
 .sv .sv-step { display: inline-flex; align-items: center; height: 26px; border-radius: 8px; border: 1px solid #e6ebf3; overflow: hidden; }
 .sv .sv-step button { width: 26px; height: 26px; background: #fff; color: #1a1d26; font-size: 16px; font-weight: 700; }
 .sv .sv-step b { min-width: 18px; text-align: center; font-size: 13px; }
-.sv .sv-price { margin: 0; text-align: right; color: #0f9f75; font-weight: 800; font-size: 14px; line-height: 1.1; }
+.sv .sv-price { margin: 0; text-align: right; color: #0F766E; font-weight: 800; font-size: 14px; line-height: 1.1; }
 .sv .sv-unit { display: block; margin-top: 2px; color: #8b93a7; font-size: 11px; font-weight: 600; }
-.sv .sv-box { background: #fff; border-radius: 14px; padding: 4px 10px; box-shadow: 0 4px 14px rgba(15,23,42,.04); }
+.sv .sv-box { background: #fff; border-radius: 14px; padding: 4px 10px; box-shadow: 0 4px 14px rgba(17, 24, 39, .04); }
 .sv .sv-promo { background: #e7f8f4; }
 .sv .sv-promo-top { display: flex; align-items: center; gap: 8px; }
 .sv .sv-promo-top i { width: 28px; height: 28px; border-radius: 8px; background: #12b981; color: #fff; display: grid; place-items: center; flex: none; font-style: normal; font-weight: 800; }
 .sv .sv-promo-top b { display: block; font-size: 13px; }
 .sv .sv-promo-top span { display: block; color: #5c6b82; font-size: 11px; line-height: 1.2; }
-.sv .sv-apply { margin-left: auto; height: 30px; padding: 0 12px; border-radius: 10px; border: 1px solid #12b981; color: #0f9f75; background: #fff; font-weight: 800; font-size: 12px; }
+.sv .sv-apply { margin-left: auto; height: 30px; padding: 0 12px; border-radius: 10px; border: 1px solid #12b981; color: #0F766E; background: #fff; font-weight: 800; font-size: 12px; }
 .sv .sv-promo form { display: flex; margin-top: 6px; }
 .sv .sv-promo input { flex: 1; height: 32px; border-radius: 10px; border: 1px solid #d7ebe4; background: #fff; padding: 0 10px; font-size: 13px; }
 .sv .sv-err { margin: 6px 0 0; color: #e11d48; font-size: 12px; font-weight: 700; }
 .sv .sv-box h3 { margin: 0 0 2px; display: flex; align-items: center; gap: 6px; font-size: 13px; line-height: 1.2; }
-.sv .sv-box h3 svg { width: 16px; height: 16px; color: #2f6bff; }
+.sv .sv-box h3 svg { width: 16px; height: 16px; color: #0F766E; }
 .sv .sv-ship { display: flex; align-items: center; gap: 6px; padding: 4px 0; }
-.sv .sv-ship input { accent-color: #2f6bff; }
+.sv .sv-ship input { accent-color: #0F766E; }
 .sv .sv-ship b { font-size: 13px; color: #1a1d26; }
-.sv .sv-eta { background: #e7f8ef; color: #0f9f75; border-radius: 99px; padding: 1px 6px; font-size: 11px; font-weight: 800; }
-.sv .sv-ship em { margin-left: auto; font-style: normal; font-weight: 800; color: #0f9f75; font-size: 13px; }
+.sv .sv-eta { background: #e7f8ef; color: #0F766E; border-radius: 99px; padding: 1px 6px; font-size: 11px; font-weight: 800; }
+.sv .sv-ship em { margin-left: auto; font-style: normal; font-weight: 800; color: #0F766E; font-size: 13px; }
 .sv .sv-ship em.pay { color: #1a1d26; }
 .sv .sv-line { display: flex; justify-content: space-between; gap: 8px; margin: 0; padding: 0; font-size: 13px; line-height: 1.35; color: #5c6b82; }
 .sv .sv-line b { color: #1a1d26; }
 .sv .sv-line .off { color: #e11d48; font-weight: 800; }
-.sv .sv-line .free { color: #0f9f75; font-weight: 800; }
+.sv .sv-line .free { color: #0F766E; font-weight: 800; }
 .sv .sv-jami { display: flex; justify-content: space-between; align-items: center; margin: 4px 0 0; padding-top: 6px; border-top: 1px solid #eef2f6; font-weight: 800; }
-.sv .sv-jami b { color: #0f9f75; font-size: 16px; }
+.sv .sv-jami b { color: #0F766E; font-size: 16px; }
 .sv .sv-empty { background: #fff; border-radius: 16px; padding: 28px 16px; text-align: center; }
 .sv .sv-empty h2 { margin: 10px 0 4px; font-size: 18px; }
 .sv .sv-empty p { margin: 0; color: #6a7c93; }
@@ -71,13 +71,13 @@
   padding: 6px 12px; background: #fff; border-top: 1px solid #eef2f6;
 }
 .sv .sv-bar p { margin: 0; font-size: 12px; color: #6a7c93; }
-.sv .sv-bar strong { display: block; color: #0f9f75; font-size: 16px; }
+.sv .sv-bar strong { display: block; color: #0F766E; font-size: 16px; }
 .sv .sv-go { margin-left: auto; height: 44px; padding: 0 16px; border-radius: 12px; background: #12b981; color: #fff; font-weight: 800; display: inline-flex; align-items: center; }
 
 /* Phone mockup pass: teal palette and roomier cards. */
-.sv .sv-back { background: #eef4f7; color: #0b1a3a; }
+.sv .sv-back { background: #eef4f7; color: #111827; }
 .sv .sv-body { gap: 8px; padding-top: 4px; }
-.sv .sv-title { font-size: 24px; color: #0b1a3a; }
+.sv .sv-title { font-size: 24px; color: #111827; }
 .sv .sv-clear { background: #eef3f7; border-color: #eef3f7; color: #3b4658; font-weight: 500; }
 .sv .sv-card { grid-template-columns: 96px minmax(0, 1fr); gap: 12px; padding: 8px 10px 8px 8px; border: 1px solid #e9f0f5; box-shadow: none; }
 .sv .sv-card img { width: 96px; height: 90px; object-fit: contain; background: #f2f5f8; border-radius: 8px; }
@@ -87,15 +87,15 @@
 .sv .sv-seller { color: #6a7c93; font-weight: 500; font-size: 10.5px; }
 .sv .sv-seller svg { color: #3b4658; }
 .sv .sv-step { height: 30px; border: 0; background: #eef3f7; border-radius: 8px; }
-.sv .sv-step button { width: 30px; height: 30px; background: transparent; color: #0b1a3a; }
+.sv .sv-step button { width: 30px; height: 30px; background: transparent; color: #111827; }
 .sv .sv-step b { min-width: 30px; height: 30px; display: grid; place-items: center; background: #fff; font-weight: 600; }
-.sv .sv-price { color: #0b7f7d; font-size: 13.5px; }
+.sv .sv-price { color: #0F766E; font-size: 13.5px; }
 .sv .sv-box { padding: 10px 12px; border: 1px solid #e9f0f5; box-shadow: none; }
 .sv .sv-box h3 { font-size: 12.5px; margin-bottom: 6px; }
-.sv .sv-box h3 svg { color: #0b1a3a; }
+.sv .sv-box h3 svg { color: #111827; }
 .sv .sv-line { font-size: 11.5px; padding: 2px 0; }
-.sv .sv-line .free, .sv .sv-jami b { color: #0b7f7d; }
+.sv .sv-line .free, .sv .sv-jami b { color: #0F766E; }
 .sv .sv-jami { font-size: 14px; }
-.sv .sv-bar strong { color: #0b7f7d; }
-.sv .sv-go { background: #0b7f7d; border-radius: 10px; padding: 0 22px; }
-.sv .sv-empty a { background: #0b7f7d; }
+.sv .sv-bar strong { color: #0F766E; }
+.sv .sv-go { background: #0F766E; border-radius: 10px; padding: 0 22px; }
+.sv .sv-empty a { background: #0F766E; }

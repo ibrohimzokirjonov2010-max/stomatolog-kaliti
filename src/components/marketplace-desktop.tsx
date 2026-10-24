@@ -250,9 +250,9 @@ export function MarketplaceDesktop({
       {/* Header */}
       <header className="flex items-center gap-6">
         <div className="min-w-0 shrink-0">
-          <h1 className="text-[28px] leading-tight font-extrabold tracking-tight text-[#0B1F4D]">{title}</h1>
+          <h1 className="text-[28px] leading-tight font-extrabold tracking-tight text-[#111827]">{title}</h1>
           {subtitle ? <p className="mt-1 text-[13.5px] text-[#8b93a7]">{subtitle}</p> : null}
-          <nav className="mt-1.5 flex gap-3 text-[12.5px] font-semibold text-[#0066FF]">
+          <nav className="mt-1.5 flex gap-3 text-[12.5px] font-semibold text-[#0F766E]">
             <Link href="/kategoriyalar" className="hover:underline">Kategoriyalar</Link>
             <Link href="/marketplace/brendlar" className="hover:underline">Brendlar</Link>
             <Link href="/marketplace/aksiyalar" className="hover:underline">Aksiyalar</Link>
@@ -286,10 +286,10 @@ export function MarketplaceDesktop({
 
       <div className="grid grid-cols-[236px_minmax(0,1fr)] items-start gap-4 min-[1400px]:grid-cols-[248px_minmax(0,1fr)]">
         {/* Filters */}
-        <aside className="sticky top-0 max-h-[calc(100vh-104px)] overflow-y-auto rounded-xl border border-[#eceff5] bg-white p-4 shadow-[0_2px_12px_rgba(15,23,42,0.05)] [scrollbar-width:thin]">
+        <aside className="sticky top-0 max-h-[calc(100vh-104px)] overflow-y-auto rounded-xl border border-[#eceff5] bg-white p-4 shadow-[0_2px_12px_rgba(17, 24, 39, 0.05)] [scrollbar-width:thin]">
           <div className="mb-1 flex items-center justify-between">
-            <h2 className="text-[15px] font-bold text-[#0B1F4D]">Filtrlar</h2>
-            <button type="button" onClick={clearAll} className="text-[12px] font-semibold text-[#0066FF] hover:underline">
+            <h2 className="text-[15px] font-bold text-[#111827]">Filtrlar</h2>
+            <button type="button" onClick={clearAll} className="text-[12px] font-semibold text-[#0F766E] hover:underline">
               Barchasini tozalash
             </button>
           </div>
@@ -325,7 +325,7 @@ export function MarketplaceDesktop({
                 value={brandQuery}
                 onChange={(event) => setBrandQuery(event.target.value)}
                 placeholder="Brendni qidirish..."
-                className="h-9 w-full rounded-lg border border-[#e6eaf2] bg-white pr-2 pl-8 text-[12.5px] outline-none placeholder:text-[#9aa3b2] focus:border-[#0066FF]"
+                className="h-9 w-full rounded-lg border border-[#e6eaf2] bg-white pr-2 pl-8 text-[12.5px] outline-none placeholder:text-[#9aa3b2] focus:border-[#0F766E]"
               />
             </div>
             {shownBrands.map((row) => (
@@ -342,7 +342,7 @@ export function MarketplaceDesktop({
               <button
                 type="button"
                 onClick={() => setAllBrands((v) => !v)}
-                className="pt-1 text-left text-[12px] font-semibold text-[#0066FF] hover:underline"
+                className="pt-1 text-left text-[12px] font-semibold text-[#0F766E] hover:underline"
               >
                 {allBrands ? "Kamroq ko‘rsatish" : `Yana ${hiddenBrands} ta brend`}
               </button>
@@ -358,7 +358,7 @@ export function MarketplaceDesktop({
             <div className="relative mx-1 mt-3 mb-1 h-[18px]">
               <div className="absolute top-1/2 right-0 left-0 h-1 -translate-y-1/2 rounded-full bg-[#e6eaf2]" />
               <div
-                className="absolute top-1/2 h-1 -translate-y-1/2 rounded-full bg-[#0066FF]"
+                className="absolute top-1/2 h-1 -translate-y-1/2 rounded-full bg-[#0F766E]"
                 style={{ left: `${minPct}%`, width: `${Math.max(0, maxPct - minPct)}%` }}
               />
               <input
@@ -400,7 +400,7 @@ export function MarketplaceDesktop({
         <div className="min-w-0 space-y-4">
           <div className="flex items-start justify-between gap-3">
             <div className="flex min-w-0 flex-1 flex-wrap items-center gap-2">
-              <p className="mr-1 text-[15px] font-bold whitespace-nowrap text-[#0B1F4D]">
+              <p className="mr-1 text-[15px] font-bold whitespace-nowrap text-[#111827]">
                 {visible.length} ta mahsulot
               </p>
               {chips.map((chip) => (
@@ -409,14 +409,14 @@ export function MarketplaceDesktop({
                   type="button"
                   onClick={chip.remove}
                   aria-label={`${chip.label} filtrini olib tashlash`}
-                  className="inline-flex h-7 items-center gap-1.5 rounded-md bg-[#eaf2ff] px-2.5 text-[12px] font-semibold text-[#0066FF] transition-colors hover:bg-[#dbe9ff]"
+                  className="inline-flex h-7 items-center gap-1.5 rounded-md bg-[#eaf2ff] px-2.5 text-[12px] font-semibold text-[#0F766E] transition-colors hover:bg-[#F0FDFA]"
                 >
                   {chip.label}
                   <X className="size-3" strokeWidth={2.5} />
                 </button>
               ))}
               {filtersOn ? (
-                <button type="button" onClick={clearAll} className="text-[12px] font-semibold text-[#0066FF] hover:underline">
+                <button type="button" onClick={clearAll} className="text-[12px] font-semibold text-[#0F766E] hover:underline">
                   Barchasini tozalash
                 </button>
               ) : null}
@@ -449,13 +449,13 @@ export function MarketplaceDesktop({
           </div>
 
           {visible.length === 0 ? (
-            <div className="rounded-xl border border-[#eceff5] bg-white px-6 py-16 text-center shadow-[0_2px_10px_rgba(15,23,42,0.04)]">
+            <div className="rounded-xl border border-[#eceff5] bg-white px-6 py-16 text-center shadow-[0_2px_10px_rgba(17, 24, 39, 0.04)]">
               <p className="font-semibold text-[#1a1d26]">{catalog.length === 0 ? "Hozircha mahsulot yo‘q" : "Mos mahsulot topilmadi."}</p>
               <p className="mt-1 text-sm text-[#8b93a7]">Filtrlarni o‘zgartiring yoki tozalang.</p>
               <button
                 type="button"
                 onClick={clearAll}
-                className="mt-4 inline-flex h-10 items-center rounded-xl bg-[#0066FF] px-5 text-sm font-semibold text-white"
+                className="mt-4 inline-flex h-10 items-center rounded-xl bg-[#0F766E] px-5 text-sm font-semibold text-white"
               >
                 Filtrlarni tozalash
               </button>
@@ -481,12 +481,12 @@ export function MarketplaceDesktop({
 
 function ValueBadge({ icon: Icon, title, text }: { icon: LucideIcon; title: string; text: string }) {
   return (
-    <div className="flex items-center gap-2.5 rounded-xl border border-[#eceff5] bg-white px-3 py-2 shadow-[0_2px_10px_rgba(15,23,42,0.04)]">
-      <span className="grid size-9 shrink-0 place-items-center rounded-[10px] bg-[#eaf2ff] text-[#0066FF]">
+    <div className="flex items-center gap-2.5 rounded-xl border border-[#eceff5] bg-white px-3 py-2 shadow-[0_2px_10px_rgba(17, 24, 39, 0.04)]">
+      <span className="grid size-9 shrink-0 place-items-center rounded-[10px] bg-[#eaf2ff] text-[#0F766E]">
         <Icon className="size-[18px]" strokeWidth={1.9} />
       </span>
       <span className="leading-tight">
-        <span className="block text-[12.5px] font-bold whitespace-nowrap text-[#0B1F4D]">{title}</span>
+        <span className="block text-[12.5px] font-bold whitespace-nowrap text-[#111827]">{title}</span>
         <span className="block text-[11px] whitespace-nowrap text-[#8b93a7]">{text}</span>
       </span>
     </div>
@@ -512,19 +512,19 @@ function CategoryTile({
       className={cn(
         "flex min-w-0 flex-1 flex-col items-center gap-1.5 rounded-xl border bg-white px-1 py-2.5 transition-colors",
         active
-          ? "border-[#0066FF] bg-[#f3f8ff] shadow-[0_2px_10px_rgba(0,102,255,0.12)]"
-          : "border-[#eceff5] hover:border-[#0066FF]/40",
+          ? "border-[#0F766E] bg-[#f3f8ff] shadow-[0_2px_10px_rgba(15, 118, 110, 0.12)]"
+          : "border-[#eceff5] hover:border-[#0F766E]/40",
       )}
     >
       <span
         className={cn(
           "grid size-9 place-items-center rounded-[10px]",
-          active ? "bg-[#0066FF] text-white" : "bg-[#eef4ff] text-[#0066FF]",
+          active ? "bg-[#0F766E] text-white" : "bg-[#eef4ff] text-[#0F766E]",
         )}
       >
         <Icon className="size-[18px]" strokeWidth={1.8} />
       </span>
-      <span className={cn("max-w-full truncate text-[11.5px] font-semibold", active ? "text-[#0066FF]" : "text-[#1a1d26]")}>
+      <span className={cn("max-w-full truncate text-[11.5px] font-semibold", active ? "text-[#0F766E]" : "text-[#1a1d26]")}>
         {label}
       </span>
     </button>

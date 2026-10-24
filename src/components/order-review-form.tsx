@@ -86,7 +86,7 @@ export function OrderReviewForm({ orderId, items }: { orderId: string; items: Or
   }
 
   return (
-    <section className="rounded-[20px] border border-[#eceff5] bg-white p-4 shadow-[0_1px_3px_rgba(15,23,42,0.04)] sm:p-5">
+    <section className="rounded-[20px] border border-[#eceff5] bg-white p-4 shadow-[0_1px_3px_rgba(17, 24, 39, 0.04)] sm:p-5">
       <h2 className="text-[15px] font-semibold text-[#1a1d26]">Sharh qoldiring</h2>
       <ul className="mt-3 space-y-3">
         {reviewable.map((item) => (
@@ -104,7 +104,7 @@ export function OrderReviewForm({ orderId, items }: { orderId: string; items: Or
                     setOpen(open === item.productId ? null : item.productId);
                     setErr("");
                   }}
-                  className="shrink-0 rounded-lg border border-[#dbe7ff] px-3 py-1.5 text-[12.5px] font-semibold text-[#0066FF] hover:bg-[#f3f8ff]"
+                  className="shrink-0 rounded-lg border border-[#F0FDFA] px-3 py-1.5 text-[12.5px] font-semibold text-[#0F766E] hover:bg-[#f3f8ff]"
                 >
                   Baholash
                 </button>
@@ -116,8 +116,8 @@ export function OrderReviewForm({ orderId, items }: { orderId: string; items: Or
               </p>
             ) : null}
             {done[item.productId]?.reply ? (
-              <div className="mt-2 rounded-lg border-l-2 border-[#0066FF] bg-[#f3f8ff] px-3 py-2">
-                <p className="flex items-center gap-1 text-[11.5px] font-semibold text-[#0066FF]">
+              <div className="mt-2 rounded-lg border-l-2 border-[#0F766E] bg-[#f3f8ff] px-3 py-2">
+                <p className="flex items-center gap-1 text-[11.5px] font-semibold text-[#0F766E]">
                   <MessageSquareReply className="size-3.5" /> Sotuvchi javobi{done[item.productId].replyAt ? ` · ${fmt(done[item.productId].replyAt)}` : ""}
                 </p>
                 <p className="mt-1 text-[12.5px] break-words whitespace-pre-line text-[#1a1d26]">{done[item.productId].reply}</p>
@@ -134,14 +134,14 @@ export function OrderReviewForm({ orderId, items }: { orderId: string; items: Or
                   maxLength={2000}
                   rows={3}
                   placeholder="Fikringiz (ixtiyoriy)"
-                  className="w-full rounded-xl border border-[#e2e8f0] p-3 text-[13px] outline-none focus:border-[#0066FF]"
+                  className="w-full rounded-xl border border-[#e2e8f0] p-3 text-[13px] outline-none focus:border-[#0F766E]"
                 />
                 {err ? <p className="text-[12px] text-[#dc2626]">{err}</p> : null}
                 <button
                   type="button"
                   disabled={busy}
                   onClick={() => void submit(item.productId)}
-                  className="h-10 w-full rounded-xl bg-[#0066FF] text-[13px] font-semibold text-white disabled:opacity-60"
+                  className="h-10 w-full rounded-xl bg-[#0F766E] text-[13px] font-semibold text-white disabled:opacity-60"
                 >
                   {busy ? "Yuborilmoqda..." : "Sharhni yuborish"}
                 </button>

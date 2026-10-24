@@ -16,11 +16,11 @@ export const formaGenders: { id: ApparelGender; label: string }[] = [
 ];
 
 export const formaColors: { id: string; hex: string; label: string; extra?: boolean }[] = [
-  { id: "teal", hex: "#0f8f8a", label: "Yashil" },
-  { id: "navy", hex: "#1e3a5f", label: "To‘q ko‘k" },
+  { id: "teal", hex: "#0F766E", label: "Yashil" },
+  { id: "navy", hex: "#111827", label: "To‘q ko‘k" },
   { id: "black", hex: "#111827", label: "Qora" },
   { id: "white", hex: "#ffffff", label: "Oq" },
-  { id: "sky", hex: "#7dd3fc", label: "Moviy", extra: true },
+  { id: "sky", hex: "#CCFBF1", label: "Moviy", extra: true },
 ];
 
 export const FORMA_PRICE_MIN = 50_000;

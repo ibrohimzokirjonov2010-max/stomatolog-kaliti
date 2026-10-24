@@ -240,7 +240,7 @@ function MobileMasterCard({ master, onContact }: { master: Master; onContact: ()
       .join(" · ") || master.title;
 
   return (
-    <article className="rounded-[18px] border border-[#eceff5] bg-white p-3.5 shadow-[0_4px_14px_rgba(15,23,42,0.05)]">
+    <article className="rounded-[18px] border border-[#eceff5] bg-white p-3.5 shadow-[0_4px_14px_rgba(17, 24, 39, 0.05)]">
       <div className="flex gap-3">
         {master.photo ? (
           <Image
@@ -251,14 +251,14 @@ function MobileMasterCard({ master, onContact }: { master: Master; onContact: ()
             className="size-16 shrink-0 rounded-full object-cover ring-2 ring-[#eef2f8]"
           />
         ) : (
-          <span className="flex size-16 shrink-0 items-center justify-center rounded-full bg-[#e8f1ff] text-[#0066FF] ring-2 ring-[#eef2f8]">
+          <span className="flex size-16 shrink-0 items-center justify-center rounded-full bg-[#F0FDFA] text-[#0F766E] ring-2 ring-[#eef2f8]">
             <BadgeCheck className="size-7" />
           </span>
         )}
         <div className="min-w-0 flex-1">
           <h3 className="flex min-w-0 items-center gap-1 text-[15px] font-bold text-[#1a1d26]">
             <span className="truncate">{master.name}</span>
-            <BadgeCheck className="size-3.5 shrink-0 fill-[#0066FF] text-white" />
+            <BadgeCheck className="size-3.5 shrink-0 fill-[#0F766E] text-white" />
           </h3>
           <p className="mt-0.5 text-[13px] text-[#8b93a7]">
             {specialty}
@@ -267,7 +267,7 @@ function MobileMasterCard({ master, onContact }: { master: Master; onContact: ()
           </p>
           <p className="mt-1.5 flex flex-wrap items-center gap-x-2 gap-y-1 text-[13px] text-[#4b5568]">
             <span className="inline-flex items-center gap-1">
-              <MapPin className="size-3.5 text-[#0066FF]" />
+              <MapPin className="size-3.5 text-[#0F766E]" />
               {master.city}
             </span>
             {master.jobs > 0 ? <span className="text-[#8b93a7]">{master.jobs} ta bajarilgan ish</span> : null}
@@ -281,7 +281,7 @@ function MobileMasterCard({ master, onContact }: { master: Master; onContact: ()
         <button
           type="button"
           onClick={onContact}
-          className="mt-3 inline-flex h-12 w-full items-center justify-center gap-2 rounded-2xl bg-[#0066FF] text-[14px] font-semibold text-white"
+          className="mt-3 inline-flex h-12 w-full items-center justify-center gap-2 rounded-2xl bg-[#0F766E] text-[14px] font-semibold text-white"
         >
           <Send className="size-4" />
           Xizmat so‘rovi yuborish
@@ -302,7 +302,7 @@ function MobileTrust({
 }) {
   return (
     <li className="flex items-start gap-2 rounded-2xl border border-[#eceff5] bg-white px-3 py-3">
-      <span className="grid size-9 shrink-0 place-items-center rounded-full bg-[#eef4ff] text-[#0066FF]">
+      <span className="grid size-9 shrink-0 place-items-center rounded-full bg-[#eef4ff] text-[#0F766E]">
         <Icon className="size-4" />
       </span>
       <span className="min-w-0 leading-tight">
@@ -328,7 +328,7 @@ function FilterChip({
       onClick={onClick}
       className={cn(
         "h-11 rounded-xl text-[13px] font-semibold",
-        active ? "bg-[#0066FF] text-white" : "bg-[#f4f6fa] text-[#4b5568]",
+        active ? "bg-[#0F766E] text-white" : "bg-[#f4f6fa] text-[#4b5568]",
       )}
     >
       {label}
@@ -361,7 +361,7 @@ function FilterSheet({
             <button type="button" onClick={onClear} className="text-sm font-semibold text-[#8b93a7]">
               Tozalash
             </button>
-            <button type="button" onClick={onClose} className="text-sm font-semibold text-[#0066FF]">
+            <button type="button" onClick={onClose} className="text-sm font-semibold text-[#0F766E]">
               Tayyor
             </button>
           </div>
@@ -374,7 +374,7 @@ function FilterSheet({
 
 function MasterCard({ master, onContact }: { master: Master; onContact: () => void }) {
   return (
-    <article className="flex flex-col items-center rounded-[14px] border border-[#eceff5] bg-white p-4 text-center shadow-[0_1px_2px_rgba(15,23,42,0.04)]">
+    <article className="flex flex-col items-center rounded-[14px] border border-[#eceff5] bg-white p-4 text-center shadow-[0_1px_2px_rgba(17, 24, 39, 0.04)]">
       {master.photo ? (
         <Image
           src={master.photo}
@@ -384,7 +384,7 @@ function MasterCard({ master, onContact }: { master: Master; onContact: () => vo
           className="size-[72px] rounded-full object-cover"
         />
       ) : (
-        <span className="flex size-[72px] items-center justify-center rounded-full bg-[#e8f1ff] text-primary">
+        <span className="flex size-[72px] items-center justify-center rounded-full bg-[#F0FDFA] text-primary">
           <svg viewBox="0 0 24 24" className="size-8" fill="currentColor">
             <path d="M12 3.2c-2.2 0-4 1.6-4 3.6 0 1-.3 2.4-.8 3.8C6.6 12.4 6 14 6 15.4c0 2 1.5 3.4 3.2 3.4 1 0 1.7-.6 2.8-.6s1.8.6 2.8.6c1.7 0 3.2-1.4 3.2-3.4 0-1.4-.6-3-1.2-4.8-.5-1.4-.8-2.8-.8-3.8 0-2-1.8-3.6-4-3.6z" />
           </svg>
@@ -449,8 +449,8 @@ function Trust({
 
 function NoMasters() {
   return (
-    <div className="rounded-[18px] border border-[#eceff5] bg-white px-6 py-14 text-center shadow-[0_4px_14px_rgba(15,23,42,0.04)]" data-testid="no-masters">
-      <span className="mx-auto grid size-14 place-items-center rounded-full bg-[#eef4ff] text-[#0066FF]">
+    <div className="rounded-[18px] border border-[#eceff5] bg-white px-6 py-14 text-center shadow-[0_4px_14px_rgba(17, 24, 39, 0.04)]" data-testid="no-masters">
+      <span className="mx-auto grid size-14 place-items-center rounded-full bg-[#eef4ff] text-[#0F766E]">
         <ClipboardList className="size-6" />
       </span>
       <p className="mt-4 text-[16px] font-semibold text-[#1a1d26]">Hali e’lon yo‘q</p>

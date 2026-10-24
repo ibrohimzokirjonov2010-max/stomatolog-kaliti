@@ -256,7 +256,7 @@ export function MarketplaceBrowse({
             <Link
               key={href}
               href={href}
-              className="h-8 shrink-0 rounded-full border border-[#e6eaf2] bg-white px-3.5 text-[12.5px] leading-8 font-semibold text-[#0066FF]"
+              className="h-8 shrink-0 rounded-full border border-[#e6eaf2] bg-white px-3.5 text-[12.5px] leading-8 font-semibold text-[#0F766E]"
             >
               {label}
             </Link>
@@ -270,7 +270,7 @@ export function MarketplaceBrowse({
             value={query}
             onChange={(event) => setQuery(event.target.value)}
             placeholder="Stomatologga nima kerak?"
-            className="h-11 w-full rounded-2xl border border-[#e8eef4] bg-[#f7f8fb] pr-3 pl-10 text-[14px] text-[#1a1d26] outline-none placeholder:text-[#8b93a7] focus:border-[#0066FF] focus:bg-white focus:ring-2 focus:ring-[#0066FF]/15"
+            className="h-11 w-full rounded-2xl border border-[#e8eef4] bg-[#f7f8fb] pr-3 pl-10 text-[14px] text-[#1a1d26] outline-none placeholder:text-[#8b93a7] focus:border-[#0F766E] focus:bg-white focus:ring-2 focus:ring-[#0F766E]/15"
           />
         </div>
 
@@ -306,7 +306,7 @@ export function MarketplaceBrowse({
                   className={cn(
                     "inline-flex h-9 shrink-0 items-center gap-1.5 rounded-full px-3.5 text-[13px] font-semibold",
                     active
-                      ? "bg-[#0066FF] text-white"
+                      ? "bg-[#0F766E] text-white"
                       : "border border-[#e6eaf2] bg-[#f4f6fa] text-[#4b5568]"
                   )}
                 >
@@ -340,7 +340,7 @@ export function MarketplaceBrowse({
             <SlidersHorizontal className="size-3.5 text-[#4b5568]" />
             Filtrlar
             {filterBadge > 0 ? (
-              <span className="absolute -top-1.5 -right-1.5 flex size-[18px] items-center justify-center rounded-full bg-[#0066FF] text-[10px] font-bold text-white">
+              <span className="absolute -top-1.5 -right-1.5 flex size-[18px] items-center justify-center rounded-full bg-[#0F766E] text-[10px] font-bold text-white">
                 {filterBadge}
               </span>
             ) : null}
@@ -372,7 +372,7 @@ export function MarketplaceBrowse({
               onClick={() => setMobileView("grid")}
               className={cn(
                 "grid size-8 place-items-center rounded-lg",
-                mobileView === "grid" ? "bg-[#0066FF] text-white" : "text-[#8b93a7]"
+                mobileView === "grid" ? "bg-[#0F766E] text-white" : "text-[#8b93a7]"
               )}
             >
               <LayoutGrid className="size-3.5" />
@@ -383,7 +383,7 @@ export function MarketplaceBrowse({
               onClick={() => setMobileView("list")}
               className={cn(
                 "grid size-8 place-items-center rounded-lg",
-                mobileView === "list" ? "bg-[#0066FF] text-white" : "text-[#8b93a7]"
+                mobileView === "list" ? "bg-[#0F766E] text-white" : "text-[#8b93a7]"
               )}
             >
               <List className="size-3.5" />
@@ -396,7 +396,7 @@ export function MarketplaceBrowse({
               type="button"
               onClick={() => setJihozPreset(null)}
               data-testid="jihoz-preset"
-              className="inline-flex h-8 items-center gap-1.5 rounded-full bg-[#e8f1ff] pr-2 pl-3 text-[12px] font-semibold text-[#0066FF]"
+              className="inline-flex h-8 items-center gap-1.5 rounded-full bg-[#F0FDFA] pr-2 pl-3 text-[12px] font-semibold text-[#0F766E]"
               aria-label={`${jihozPreset.label} filtrini olib tashlash`}
             >
               {jihozPreset.label}
@@ -467,7 +467,7 @@ export function MarketplaceBrowse({
                   type="button"
                   className={cn(
                     "h-11 rounded-xl text-sm font-semibold",
-                    sort === "cheap" ? "bg-[#0066FF] text-white" : "bg-[#f4f6fa] text-[#4b5568]"
+                    sort === "cheap" ? "bg-[#0F766E] text-white" : "bg-[#f4f6fa] text-[#4b5568]"
                   )}
                   onClick={() => setSort("cheap")}
                 >
@@ -477,7 +477,7 @@ export function MarketplaceBrowse({
                   type="button"
                   className={cn(
                     "h-11 rounded-xl text-sm font-semibold",
-                    sort === "expensive" ? "bg-[#0066FF] text-white" : "bg-[#f4f6fa] text-[#4b5568]"
+                    sort === "expensive" ? "bg-[#0F766E] text-white" : "bg-[#f4f6fa] text-[#4b5568]"
                   )}
                   onClick={() => setSort("expensive")}
                 >
@@ -505,7 +505,7 @@ export function MarketplaceBrowse({
                   type="button"
                   className={cn(
                     "h-12 rounded-xl text-sm font-semibold",
-                    !inStockOnly ? "bg-[#0066FF] text-white" : "bg-[#f4f6fa] text-[#4b5568]"
+                    !inStockOnly ? "bg-[#0F766E] text-white" : "bg-[#f4f6fa] text-[#4b5568]"
                   )}
                   onClick={() => setInStockOnly(false)}
                 >
@@ -515,7 +515,7 @@ export function MarketplaceBrowse({
                   type="button"
                   className={cn(
                     "h-12 rounded-xl text-sm font-semibold",
-                    inStockOnly ? "bg-[#0066FF] text-white" : "bg-[#f4f6fa] text-[#4b5568]"
+                    inStockOnly ? "bg-[#0F766E] text-white" : "bg-[#f4f6fa] text-[#4b5568]"
                   )}
                   onClick={() => setInStockOnly(true)}
                 >
@@ -549,7 +549,7 @@ function FilterSheet({
         <div className="mx-auto mb-3 h-1 w-10 rounded-full bg-[#e6eaf2]" />
         <div className="mb-3 flex items-center justify-between">
           <p className="text-[16px] font-bold text-[#1a1d26]">{title}</p>
-          <button type="button" onClick={onClose} className="text-sm font-semibold text-[#0066FF]">
+          <button type="button" onClick={onClose} className="text-sm font-semibold text-[#0F766E]">
             Tayyor
           </button>
         </div>

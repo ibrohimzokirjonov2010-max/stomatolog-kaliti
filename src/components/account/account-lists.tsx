@@ -11,7 +11,7 @@ import { formatMoney } from "@/lib/format";
 function Shell({ title, text, children }: { title: string; text: string; children: ReactNode }) {
   return (
     <div className="mx-auto max-w-3xl px-4 py-6">
-      <h1 className="text-[24px] font-bold text-[#0B1F4D]">{title}</h1>
+      <h1 className="text-[24px] font-bold text-[#111827]">{title}</h1>
       <p className="mt-1 text-[14px] text-[#6b7280]">{text}</p>
       <div className="mt-4">{children}</div>
     </div>
@@ -95,7 +95,7 @@ export function SavedPage() {
                   ) : <span className="size-12 rounded-lg bg-[#f4f7fc]" />}
                   <span>
                     <b className="block text-[14px] text-[#1a1d26]">{card?.name ?? (kind === "elon" ? "E’lon" : kind === "post" ? "Hamjamiyat posti" : kind === "spec" ? "Mutaxassis" : kind === "news" ? "Yangilik" : kind === "brand" ? `Brend: ${id.slice(6)}` : kind === "shop" ? `Do‘kon: ${id.slice(5)}` : "Mahsulot")}</b>
-                    {card ? <span className="text-[13px] text-[#0066FF]">{formatMoney(card.price, "UZS")}</span> : null}
+                    {card ? <span className="text-[13px] text-[#0F766E]">{formatMoney(card.price, "UZS")}</span> : null}
                   </span>
                 </Link>
               </li>

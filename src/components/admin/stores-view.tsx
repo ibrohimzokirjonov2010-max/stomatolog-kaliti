@@ -225,10 +225,10 @@ function StoreDetail({ id, onChanged }: { id: string; onChanged: () => void }) {
           <div className="flex flex-wrap items-center justify-between gap-2 text-[12.5px]">
             <span className="font-semibold">Kunlik savdo (GMV) · 30 kun</span>
             <span className="flex flex-wrap gap-3 text-slate-500">
-              <span>Sotuv: <b className="text-[#0f172a]">{fmtInt(data.metrics.sales)}</b></span>
-              <span>GMV: <b className="text-[#0f172a]">{moneyShort(data.metrics.gmv)}</b></span>
+              <span>Sotuv: <b className="text-[#111827]">{fmtInt(data.metrics.sales)}</b></span>
+              <span>GMV: <b className="text-[#111827]">{moneyShort(data.metrics.gmv)}</b></span>
               <span>Komissiya: <b className="text-[#15803d]">{moneyShort(data.metrics.commission)}</b></span>
-              <span>Qaytarish: <b className="text-[#0f172a]">{Number(data.refundRate)}%</b></span>
+              <span>Qaytarish: <b className="text-[#111827]">{Number(data.refundRate)}%</b></span>
             </span>
           </div>
           <AreaChart values={data.series.map((p) => p.gmv)} labels={data.series.map((p) => shortDate(p.date))} height={220} />

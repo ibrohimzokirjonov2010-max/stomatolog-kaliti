@@ -23,11 +23,11 @@ import { cn } from "@/lib/utils";
 function ClinicMark({ brand, name, className }: { brand?: ClinicBrand; name: string; className?: string }) {
   if (!brand) return <ClinicInitials name={name} className={cn("size-16 text-[18px]", className)} />;
   const meta = {
-    smile: { short: "SMILE DENTAL", color: "#2563eb" },
-    lux: { short: "LUX DENTAL", color: "#3b82f6" },
+    smile: { short: "SMILE DENTAL", color: "#0F766E" },
+    lux: { short: "LUX DENTAL", color: "#0F766E" },
     alpha: { short: "ALPHA DENTAL", color: "#0f766e" },
     zubr: { short: "ZUBR DENTAL", color: "#ea580c" },
-    medplus: { short: "MEDPLUS", color: "#4f46e5" },
+    medplus: { short: "MEDPLUS", color: "#0F766E" },
   }[brand];
   return (
     <span
@@ -112,7 +112,7 @@ export function JobDetail({ id }: { id: string }) {
                     Faol
                   </span>
                 ) : null}
-                <h1 className="text-[22px] font-bold tracking-tight text-[#0B1F4D] lg:text-[#1a1d26]">{job.title}</h1>
+                <h1 className="text-[22px] font-bold tracking-tight text-[#111827] lg:text-[#1a1d26]">{job.title}</h1>
                 <p className="mt-0.5 inline-flex items-center gap-1 text-sm text-[#4b5568]">
                   {job.clinic}
                   {job.verified ? <BadgeCheck className="size-4 fill-primary text-white" /> : null}
@@ -193,7 +193,7 @@ export function JobDetail({ id }: { id: string }) {
               </Link>
             </>
           ) : (
-            <Button className="h-12 w-full rounded-2xl bg-[#0066FF] text-[15px] font-semibold shadow-[0_4px_12px_rgba(0,102,255,0.22)] sm:h-10 sm:w-auto sm:rounded-xl sm:text-sm sm:shadow-none" onClick={() => setApplyOpen(true)}>
+            <Button className="h-12 w-full rounded-2xl bg-[#0F766E] text-[15px] font-semibold shadow-[0_4px_12px_rgba(15, 118, 110, 0.22)] sm:h-10 sm:w-auto sm:rounded-xl sm:text-sm sm:shadow-none" onClick={() => setApplyOpen(true)}>
               Ariza yuborish
               <ArrowRight className="size-4" />
             </Button>

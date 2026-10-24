@@ -20,7 +20,7 @@ export type UstaIconName =
   | "skaner"
   | "boshqa";
 
-const A = "var(--ua, #00C2A8)";
+const A = "var(--ua, #0F766E)";
 
 const paths: Record<UstaIconName, ReactNode> = {
   all: (

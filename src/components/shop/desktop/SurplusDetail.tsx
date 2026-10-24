@@ -116,7 +116,7 @@ export function SurplusDetail({ id }: { id: string }) {
                 <img src="/img/avatar.jpg" alt="" />
                 <span>
                   <b>{listing.seller.name}</b>
-                  <small style={{ color: "#1497a8" }}><BadgeCheck className="i" /> Tekshirilgan sotuvchi</small>
+                  <small style={{ color: "#0F766E" }}><BadgeCheck className="i" /> Tekshirilgan sotuvchi</small>
                 </span>
               </div>
               <div className="pd-rate" style={{ marginTop: "calc(.45 * var(--u))" }}>

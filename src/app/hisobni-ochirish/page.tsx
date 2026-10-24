@@ -38,7 +38,7 @@ export default async function HisobniOchirishPage({ searchParams }: { searchPara
       intro="Hisobingizni, shaxsiy ma’lumotlaringiz nusxasini yoki ayrim ma’lumotni o‘chirishni xohlasangiz, quyidagi so‘rovni yuboring. Kirgan bo‘lsangiz, so‘rov hisobingizga bog‘lanadi."
     >
       <Section id="qanday" n={1} title="Qanday ishlaydi">
-        <ol className="list-decimal space-y-1.5 pl-5 marker:font-bold marker:text-[#0066FF]">
+        <ol className="list-decimal space-y-1.5 pl-5 marker:font-bold marker:text-[#0F766E]">
           <li>Quyidagi formani to‘ldirib so‘rov yuboring (kirish shart emas, lekin kirsangiz tezroq tasdiqlanadi).</li>
           <li>Administrator so‘rovni ko‘radi va kerak bo‘lsa shaxsingizni tasdiqlash uchun siz bilan bog‘lanadi.</li>
           <li>Tugallanmagan buyurtma yoki nizo bo‘lsa, avval ular yakunlanadi.</li>
@@ -59,7 +59,7 @@ export default async function HisobniOchirishPage({ searchParams }: { searchPara
         </Ul>
         <p>
           Batafsil:{" "}
-          <Link className="font-semibold text-[#0066FF] hover:underline" href="/maxfiylik">
+          <Link className="font-semibold text-[#0F766E] hover:underline" href="/maxfiylik">
             Maxfiylik siyosati
           </Link>
           .
@@ -74,7 +74,7 @@ export default async function HisobniOchirishPage({ searchParams }: { searchPara
       <Section id="google" n={4} title="Google ruxsatini bekor qilish">
         <p>
           Google orqali kirgan bo‘lsangiz, platformaga berilgan ruxsatni{" "}
-          <a className="font-semibold text-[#0066FF] hover:underline" href="https://myaccount.google.com/permissions" target="_blank" rel="noreferrer">
+          <a className="font-semibold text-[#0F766E] hover:underline" href="https://myaccount.google.com/permissions" target="_blank" rel="noreferrer">
             myaccount.google.com/permissions
           </a>{" "}
           sahifasida bekor qilishingiz mumkin. Bu platformadagi hisobni o‘zi o‘chirmaydi — hisobni o‘chirish uchun yuqoridagi so‘rovni yuboring.

@@ -202,7 +202,7 @@ export function TalimMobile() {
               <option value="orta">O‘rta daraja</option>
             </select>
             <div className="row">
-              <button type="button" className="go" style={{ background: "#eef2f6", color: "#24344d" }} onClick={() => { setLevel(""); setFilters(false); }}>
+              <button type="button" className="go" style={{ background: "#eef2f6", color: "#111827" }} onClick={() => { setLevel(""); setFilters(false); }}>
                 Tozalash
               </button>
               <button type="submit" className="go">

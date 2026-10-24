@@ -56,7 +56,7 @@ export function ProductsView() {
               {rows.map((row) => (
                 <tr key={row.id} className="border-t border-slate-100">
                   <td className="px-3 py-2.5">
-                    <b className="block text-[#0f172a]">{row.name}</b>
+                    <b className="block text-[#111827]">{row.name}</b>
                     <span className="text-[12px] text-slate-400">{row.brand} · {row.category}</span>
                   </td>
                   <td className="px-3 py-2.5">{row.storeName}</td>

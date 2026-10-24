@@ -37,7 +37,7 @@ function Checkbox({ on, onClick, label }: { on: boolean; onClick: () => void; la
       onClick={onClick}
       className={cn(
         "grid size-[22px] shrink-0 place-items-center rounded-[6px] border-2 transition-colors",
-        on ? "border-[#1f6bff] bg-[#1f6bff] text-white" : "border-[#c9d1df] bg-white text-transparent",
+        on ? "border-[#0F766E] bg-[#0F766E] text-white" : "border-[#c9d1df] bg-white text-transparent",
       )}
     >
       <Check className="size-3.5" strokeWidth={3.2} />
@@ -59,15 +59,15 @@ export function CartMobile() {
       <div className="px-3 pt-3 pb-6" data-testid="savat-mobile">
         <h1 className="text-[30px] font-extrabold tracking-tight text-[#0B1220]">Savat</h1>
         <p className="mt-0.5 text-[14px] text-[#7a8397]">Tanlangan mahsulotlar ro‘yxati</p>
-        <div className="mt-4 rounded-[16px] bg-white px-6 py-14 text-center shadow-[0_1px_3px_rgba(15,23,42,0.06)]">
-          <span className="mx-auto flex size-14 items-center justify-center rounded-2xl bg-[#e8f1ff] text-[#1f6bff]">
+        <div className="mt-4 rounded-[16px] bg-white px-6 py-14 text-center shadow-[0_1px_3px_rgba(17, 24, 39, 0.06)]">
+          <span className="mx-auto flex size-14 items-center justify-center rounded-2xl bg-[#F0FDFA] text-[#0F766E]">
             <ShoppingBag className="size-7" />
           </span>
           <p className="mt-4 text-[17px] font-bold text-[#0B1220]">Savat bo‘sh</p>
           <p className="mt-1 text-[14px] text-[#7a8397]">Marketplace, Forma yoki ortiqcha materialdan mahsulot qo‘shing.</p>
           <Link
             href="/marketplace"
-            className="mt-5 inline-flex h-12 items-center justify-center gap-2 rounded-full bg-[#1f6bff] px-6 text-[15px] font-semibold text-white"
+            className="mt-5 inline-flex h-12 items-center justify-center gap-2 rounded-full bg-[#0F766E] px-6 text-[15px] font-semibold text-white"
           >
             Xaridni boshlash <ArrowRight className="size-4" />
           </Link>
@@ -118,7 +118,7 @@ export function CartMobile() {
               key={key}
               data-testid="savat-item"
               className={cn(
-                "rounded-[16px] bg-white p-2.5 shadow-[0_1px_3px_rgba(15,23,42,0.06)] transition-opacity",
+                "rounded-[16px] bg-white p-2.5 shadow-[0_1px_3px_rgba(17, 24, 39, 0.06)] transition-opacity",
                 !on && "opacity-70",
               )}
             >
@@ -154,10 +154,10 @@ export function CartMobile() {
                       </span>
                     )}
                   </div>
-                  <p className="mt-0.5 truncate text-[12.5px] text-[#1f6bff]">{shop?.name ?? product.brand}</p>
+                  <p className="mt-0.5 truncate text-[12.5px] text-[#0F766E]">{shop?.name ?? product.brand}</p>
                   {meta ? <p className="truncate text-[12.5px] text-[#7a8397]">{meta}</p> : null}
                   <p className="mt-0.5 flex flex-wrap items-baseline gap-x-2">
-                    <span className="text-[16px] font-extrabold text-[#1f6bff]">{som(product.price)}</span>
+                    <span className="text-[16px] font-extrabold text-[#0F766E]">{som(product.price)}</span>
                     {hasOld ? (
                       <span className="text-[12px] text-[#9aa3b5] line-through">{som(product.oldPrice!)}</span>
                     ) : null}
@@ -213,15 +213,15 @@ export function CartMobile() {
       {/* Add more */}
       <Link
         href="/marketplace"
-        className="mt-2.5 flex h-[44px] items-center gap-2.5 rounded-[14px] border border-[#e3e8f0] bg-[#f7f9fc] px-3.5 text-[14px] font-medium text-[#1f6bff]"
+        className="mt-2.5 flex h-[44px] items-center gap-2.5 rounded-[14px] border border-[#e3e8f0] bg-[#f7f9fc] px-3.5 text-[14px] font-medium text-[#0F766E]"
       >
-        <PlusCircle className="size-[22px] fill-[#1f6bff] text-white" />
+        <PlusCircle className="size-[22px] fill-[#0F766E] text-white" />
         Yana mahsulot qo‘shish
         <ChevronRight className="ml-auto size-4 text-[#9aa3b5]" />
       </Link>
 
       {/* Summary */}
-      <section className="mt-2.5 rounded-[16px] bg-white p-3.5 shadow-[0_1px_3px_rgba(15,23,42,0.06)]">
+      <section className="mt-2.5 rounded-[16px] bg-white p-3.5 shadow-[0_1px_3px_rgba(17, 24, 39, 0.06)]">
         <div className="flex items-baseline justify-between">
           <h2 className="text-[16px] font-bold text-[#0B1220]">Buyurtma summasi</h2>
           <span className="text-[12px] text-[#7a8397]">{selectedCount} ta mahsulot</span>
@@ -236,7 +236,7 @@ export function CartMobile() {
             <dd className={delivery > 0 ? "font-medium text-[#0B1220]" : "font-medium text-[#16a34a]"}>{delivery > 0 ? som(delivery) : "Bepul"}</dd>
           </div>
           {bonus.applied > 0 ? (
-            <div className="flex justify-between text-[#1f6bff]">
+            <div className="flex justify-between text-[#0F766E]">
               <dt>Bonus</dt>
               <dd className="font-semibold">- {som(bonus.applied)}</dd>
             </div>
@@ -249,7 +249,7 @@ export function CartMobile() {
         {selectedItems.length > 0 ? (
           <Link
             href="/buyurtma"
-            className="mt-3.5 flex h-[50px] items-center justify-center gap-2 rounded-full bg-[#1f6bff] text-[15.5px] font-semibold text-white shadow-[0_6px_16px_rgba(31,107,255,0.28)]"
+            className="mt-3.5 flex h-[50px] items-center justify-center gap-2 rounded-full bg-[#0F766E] text-[15.5px] font-semibold text-white shadow-[0_6px_16px_rgba(15, 118, 110, 0.28)]"
           >
             Buyurtma berish <ArrowRight className="size-[18px]" />
           </Link>
@@ -257,7 +257,7 @@ export function CartMobile() {
           <button
             type="button"
             disabled
-            className="mt-3.5 flex h-[50px] w-full items-center justify-center rounded-full bg-[#c9d6f0] text-[15px] font-semibold text-white"
+            className="mt-3.5 flex h-[50px] w-full items-center justify-center rounded-full bg-[#CCFBF1] text-[15px] font-semibold text-white"
           >
             Mahsulot tanlang
           </button>

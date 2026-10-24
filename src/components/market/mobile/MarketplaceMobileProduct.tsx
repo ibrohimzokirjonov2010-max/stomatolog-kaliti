@@ -257,7 +257,7 @@ export function MarketplaceMobileProduct({ id }: { id: string }) {
         </button>
       </div>
       {light && shot ? (
-        <div className="mpx-light" role="dialog" aria-label="Rasm" onClick={() => setLight(false)} style={{ position: "fixed", inset: 0, zIndex: 80, background: "rgba(15,23,42,.72)", display: "grid", placeItems: "center", padding: 16 }}>
+        <div className="mpx-light" role="dialog" aria-label="Rasm" onClick={() => setLight(false)} style={{ position: "fixed", inset: 0, zIndex: 80, background: "rgba(17, 24, 39, .72)", display: "grid", placeItems: "center", padding: 16 }}>
           <img src={shot} alt={product.name} style={{ maxWidth: "100%", maxHeight: "86vh", objectFit: "contain", background: "#fff", borderRadius: 12, padding: 12 }} />
         </div>
       ) : null}

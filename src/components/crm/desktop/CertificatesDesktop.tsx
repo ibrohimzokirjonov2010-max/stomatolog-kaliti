@@ -38,12 +38,12 @@ function norm(value: string) {
 }
 
 const paperFill: Record<Certificate["theme"], string> = {
-  blue: "#e7f0ff",
+  blue: "#F0FDFA",
   mint: "#e7fbf3",
   sand: "#fff8e8",
-  navy: "#0c2454",
+  navy: "#111827",
   sky: "#eaf3ff",
-  royal: "#dbeafe",
+  royal: "#F0FDFA",
 };
 
 const designPreview: Record<string, string> = {
@@ -82,7 +82,7 @@ async function downloadCert(cert: Certificate) {
   ctx.strokeStyle = dark ? "#f3d27a" : "#c9a227";
   ctx.lineWidth = 3;
   ctx.strokeRect(56, 56, 1288, 788);
-  ctx.fillStyle = dark ? "#ffffff" : "#0f1e3d";
+  ctx.fillStyle = dark ? "#ffffff" : "#111827";
   ctx.font = "700 28px sans-serif";
   ctx.fillText("STOMAHUB", 110, 150);
   ctx.font = "800 64px sans-serif";

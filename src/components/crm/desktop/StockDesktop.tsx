@@ -2,6 +2,7 @@
 /* eslint-disable @next/next/no-img-element */
 
 import { useEffect, useMemo, useState } from "react";
+import { usePathname, useRouter } from "next/navigation";
 import { AlertTriangle, ArrowRight, Boxes, CheckCircle2, ChevronRight, ClipboardCheck, Download, FileUp, LayoutGrid, Package, Plus, Search, ShoppingCart, Wallet } from "lucide-react";
 import { CrmFrame, CrmModal, CrmPager } from "@/components/crm/desktop/CrmFrame";
 import { NewStockModal } from "@/components/crm/NewStockModal";
@@ -34,6 +35,8 @@ function statusOf(item: StockItem, todayIso: string): StockStatus {
 const EMPTY_FORM = { id: "", name: "", category: stockCategories[0], sku: "", qty: "10", min: "5", supplier: stockSuppliers[0], expiry: "", price: "" };
 
 export function StockDesktop() {
+  const pathname = usePathname();
+  const router = useRouter();
   const today = tashkentDateParts().iso;
   const [items, setItems] = useStoredList("sk-crm-stock-v2", SEED);
   const [q, setQ] = useState("");
@@ -42,7 +45,13 @@ export function StockDesktop() {
   const [supplier, setSupplier] = useState("");
   const [page, setPage] = useState(1);
   const [size, setSize] = useState(10);
-  const [mode, setMode] = useState<"" | "new" | "order" | "count">("");
+  const addingPath = pathname === "/crm/ombor/qoshish";
+  const [mode, setMode] = useState<"" | "new" | "order" | "count">(addingPath ? "new" : "");
+  const [seenPath, setSeenPath] = useState(pathname);
+  if (pathname !== seenPath) {
+    setSeenPath(pathname);
+    if (pathname === "/crm/ombor/qoshish") setMode("new");
+  }
   const [form, setForm] = useState(EMPTY_FORM);
   const [note, setNote] = useState("");
   const [toast, setToast] = useState("");
@@ -231,7 +240,7 @@ export function StockDesktop() {
         {mode === "new" ? (
           <NewStockModal
             suppliers={suppliers}
-            onClose={() => setMode("")}
+            onClose={() => { setMode(""); if (pathname === "/crm/ombor/qoshish") router.replace("/crm/ombor"); }}
             onSave={(item) => {
               setItems((prev) => [item, ...prev]);
               setMode("");

@@ -89,11 +89,11 @@ function ProductDetailMobile({ product }: { product: Product }) {
             {stockChip}
           </span>
           <span className="inline-flex items-center gap-1.5 rounded-full border border-[#e8eef8] bg-[#f7f9fc] px-3 py-1.5 text-[12.5px] font-semibold text-[#374151]">
-            <Truck className="size-3.5 text-[#0066FF]" />
+            <Truck className="size-3.5 text-[#0F766E]" />
             {product.delivery || "Toshkent 24 soat"}
           </span>
           {details.officialImport ? (
-            <span className="inline-flex items-center gap-1.5 rounded-full border border-[#e8f1ff] bg-[#f5f9ff] px-3 py-1.5 text-[12.5px] font-semibold text-[#0066FF]">
+            <span className="inline-flex items-center gap-1.5 rounded-full border border-[#F0FDFA] bg-[#f5f9ff] px-3 py-1.5 text-[12.5px] font-semibold text-[#0F766E]">
               <ShieldCheck className="size-3.5" />
               Rasmiy import
             </span>
@@ -122,19 +122,19 @@ function ProductDetailMobile({ product }: { product: Product }) {
         {/* Seller mini-card */}
         {shop ? (
           <div className="flex items-center gap-3 rounded-2xl border border-[#eceff5] bg-white p-3.5">
-            <div className="grid size-12 shrink-0 place-items-center rounded-xl bg-[#e8f1ff] text-[#0066FF]">
+            <div className="grid size-12 shrink-0 place-items-center rounded-xl bg-[#F0FDFA] text-[#0F766E]">
               <Store className="size-5" />
             </div>
             <div className="min-w-0 flex-1">
               <div className="flex flex-wrap items-center gap-1.5">
                 <p className="truncate text-[14px] font-bold text-[#1a1d26]">{shop.name}</p>
-                <BadgeCheck className="size-4 shrink-0 fill-[#0066FF] text-white" />
+                <BadgeCheck className="size-4 shrink-0 fill-[#0F766E] text-white" />
               </div>
               <p className="mt-0.5 text-[12px] text-[#8b93a7]">Tasdiqlangan do‘kon</p>
             </div>
             <Link
               href={shopHref(shop.slug)}
-              className="shrink-0 rounded-xl border border-[#e6eaf2] bg-white px-3 py-2 text-[12.5px] font-semibold text-[#0066FF]"
+              className="shrink-0 rounded-xl border border-[#e6eaf2] bg-white px-3 py-2 text-[12.5px] font-semibold text-[#0F766E]"
             >
               Do‘kon
             </Link>
@@ -164,7 +164,7 @@ function ProductDetailMobile({ product }: { product: Product }) {
               className={cn(
                 "shrink-0 border-b-2 px-3 py-3.5 text-[14px] font-semibold transition sm:px-4",
                 tab === item.id
-                  ? "border-[#0066FF] text-[#0066FF]"
+                  ? "border-[#0F766E] text-[#0F766E]"
                   : "border-transparent text-[#8b93a7] hover:text-[#4b5568]",
               )}
             >
@@ -182,7 +182,7 @@ function ProductDetailMobile({ product }: { product: Product }) {
                   <ul className="mt-2.5 space-y-2">
                     {details.benefits.map((b) => (
                       <li key={b} className="flex gap-2.5">
-                        <span className="mt-1.5 size-1.5 shrink-0 rounded-full bg-[#0066FF]" />
+                        <span className="mt-1.5 size-1.5 shrink-0 rounded-full bg-[#0F766E]" />
                         <span>{b}</span>
                       </li>
                     ))}
@@ -221,11 +221,11 @@ function ProductDetailMobile({ product }: { product: Product }) {
                 <p>{details.delivery}</p>
                 <ul className="space-y-2 text-[13.5px]">
                   <li className="flex gap-2">
-                    <Truck className="mt-0.5 size-4 shrink-0 text-[#0066FF]" />
+                    <Truck className="mt-0.5 size-4 shrink-0 text-[#0F766E]" />
                     Toshkent ichida 24 soat
                   </li>
                   <li className="flex gap-2">
-                    <Package className="mt-0.5 size-4 shrink-0 text-[#0066FF]" />
+                    <Package className="mt-0.5 size-4 shrink-0 text-[#0F766E]" />
                     Viloyatlarga 2–3 ish kuni
                   </li>
                 </ul>
@@ -242,7 +242,7 @@ function ProductDetailMobile({ product }: { product: Product }) {
           <h2 className="text-[18px] font-bold text-[#1a1d26] sm:text-[20px]">O‘xshash mahsulotlar</h2>
           <Link
             href={product.category === "forma" ? "/forma" : "/marketplace"}
-            className="text-[13px] font-semibold text-[#0066FF] hover:underline"
+            className="text-[13px] font-semibold text-[#0F766E] hover:underline"
           >
             Barchasini ko‘rish
           </Link>

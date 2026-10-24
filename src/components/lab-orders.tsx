@@ -91,11 +91,11 @@ export function LabOrdersPage() {
   return (
     <div>
       <header className="mb-4">
-        <Link href="/laboratoriya" className="mb-2 inline-flex h-10 items-center gap-1 text-[13px] font-semibold text-[#0066FF]">
+        <Link href="/laboratoriya" className="mb-2 inline-flex h-10 items-center gap-1 text-[13px] font-semibold text-[#0F766E]">
           <ChevronLeft className="size-4" />
           Laboratoriya
         </Link>
-        <h1 className="text-[26px] font-bold tracking-tight text-[#0B1F4D] lg:text-[#1a1d26]">Mening lab buyurtmalarim</h1>
+        <h1 className="text-[26px] font-bold tracking-tight text-[#111827] lg:text-[#1a1d26]">Mening lab buyurtmalarim</h1>
         <p className="mt-1 text-[13px] text-[#8b93a7] lg:text-sm">Holat real vaqtda yangilanadi. Laboratoriya telefon raqami u buyurtmani qabul qilgach ochiladi.</p>
         <div className="mt-3 inline-flex rounded-full bg-[#eef2f8] p-1" role="tablist">
           {(
@@ -110,7 +110,7 @@ export function LabOrdersPage() {
               role="tab"
               aria-selected={tab === id}
               onClick={() => router.replace(id === "kelgan" ? "/laboratoriya/buyurtmalarim?tab=kelgan" : "/laboratoriya/buyurtmalarim", { scroll: false })}
-              className={cn("h-10 rounded-full px-4 text-[13px] font-semibold", tab === id ? "bg-white text-[#0066FF] shadow-sm" : "text-[#6b7280]")}
+              className={cn("h-10 rounded-full px-4 text-[13px] font-semibold", tab === id ? "bg-white text-[#0F766E] shadow-sm" : "text-[#6b7280]")}
             >
               {label}
             </button>
@@ -121,14 +121,14 @@ export function LabOrdersPage() {
       {tab === "kelgan" && myLab ? (
         <div>
           <ModBanner status={myLab.status} reason={myLab.rejectReason} />
-          <p className="mb-3 -mt-2 text-[13px]"><Link href="/laboratoriya/mening" className="font-semibold text-[#0066FF]">Laboratoriya profilini tahrirlash</Link></p>
+          <p className="mb-3 -mt-2 text-[13px]"><Link href="/laboratoriya/mening" className="font-semibold text-[#0F766E]">Laboratoriya profilini tahrirlash</Link></p>
         </div>
       ) : null}
 
       {error ? <p role="alert" className="mb-3 rounded-xl bg-red-50 px-3 py-2 text-sm text-red-800">{error}</p> : null}
 
       {ready && !authed ? (
-        <div className="rounded-[18px] border border-[#eceff5] bg-white px-6 py-16 text-center shadow-[0_4px_14px_rgba(15,23,42,0.04)]">
+        <div className="rounded-[18px] border border-[#eceff5] bg-white px-6 py-16 text-center shadow-[0_4px_14px_rgba(17, 24, 39, 0.04)]">
           <p className="text-[16px] font-semibold text-[#1a1d26]">Avval tizimga kiring</p>
           <p className="mt-1 text-sm text-[#8b93a7]">Buyurtmalaringiz akkauntingizga bog‘langan.</p>
           <Link href="/kirish?next=/laboratoriya/buyurtmalarim" className={cn(buttonVariants(), "mt-5 inline-flex h-12 min-w-[160px] !rounded-2xl text-[14px] font-semibold")}>Kirish</Link>
@@ -143,7 +143,7 @@ export function LabOrdersPage() {
               value={query}
               onChange={(e) => setQuery(e.target.value)}
               placeholder="Bemor kodi, lab yoki xizmat..."
-              className="h-12 w-full rounded-2xl border-0 bg-white pr-3 pl-10 text-[15px] text-[#1a1d26] shadow-[0_4px_16px_rgba(15,23,42,0.06)] outline-none placeholder:text-[#8b93a7] focus:ring-2 focus:ring-[#0066FF]/20"
+              className="h-12 w-full rounded-2xl border-0 bg-white pr-3 pl-10 text-[15px] text-[#1a1d26] shadow-[0_4px_16px_rgba(17, 24, 39, 0.06)] outline-none placeholder:text-[#8b93a7] focus:ring-2 focus:ring-[#0F766E]/20"
             />
           </div>
           <div className="-mx-1 mb-4 flex gap-2 overflow-x-auto px-1 pb-0.5 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
@@ -156,12 +156,12 @@ export function LabOrdersPage() {
                   onClick={() => setChip(item.key)}
                   className={cn(
                     "inline-flex h-11 shrink-0 items-center gap-2 rounded-full px-3.5 text-[13px] font-semibold",
-                    on && item.tone === "active" && "bg-[#0B1F4D] text-white",
-                    on && item.tone === "sky" && "bg-[#0066FF] text-white",
+                    on && item.tone === "active" && "bg-[#111827] text-white",
+                    on && item.tone === "sky" && "bg-[#0F766E] text-white",
                     on && item.tone === "green" && "bg-emerald-600 text-white",
                     on && item.tone === "muted" && "bg-[#4b5568] text-white",
                     !on && item.tone === "active" && "bg-[#f1f3f7] text-[#1a1d26]",
-                    !on && item.tone === "sky" && "bg-[#e8f1ff] text-[#0066FF]",
+                    !on && item.tone === "sky" && "bg-[#F0FDFA] text-[#0F766E]",
                     !on && item.tone === "green" && "bg-emerald-50 text-emerald-700",
                     !on && item.tone === "muted" && "bg-[#f1f3f7] text-[#4b5568]",
                   )}
@@ -174,7 +174,7 @@ export function LabOrdersPage() {
           </div>
 
           {items.length === 0 ? (
-            <div className="rounded-[18px] border border-[#eceff5] bg-white px-6 py-14 text-center shadow-[0_4px_14px_rgba(15,23,42,0.04)]" data-testid="lab-orders-empty">
+            <div className="rounded-[18px] border border-[#eceff5] bg-white px-6 py-14 text-center shadow-[0_4px_14px_rgba(17, 24, 39, 0.04)]" data-testid="lab-orders-empty">
               <p className="text-[16px] font-semibold text-[#1a1d26]">{tab === "kelgan" ? "Hali buyurtma kelmagan" : "Hali buyurtma yo‘q"}</p>
               <p className="mx-auto mt-1 max-w-sm text-sm text-[#8b93a7]">
                 {tab === "kelgan"
@@ -214,7 +214,7 @@ function OrderCard({ item, forLab, busy, onStatus }: { item: LabOrder; forLab: b
   const badge = orderStatusCopy[item.status];
   const next = forLab ? nextOrderStatus(item.status) : null;
   return (
-    <li className="rounded-[18px] border border-[#eceff5] bg-white p-4 shadow-[0_4px_14px_rgba(15,23,42,0.04)]" data-testid="lab-order" data-status={item.status}>
+    <li className="rounded-[18px] border border-[#eceff5] bg-white p-4 shadow-[0_4px_14px_rgba(17, 24, 39, 0.04)]" data-testid="lab-order" data-status={item.status}>
       <div className="flex flex-wrap items-start justify-between gap-2">
         <div className="min-w-0">
           <p className="text-[15px] font-bold text-[#1a1d26]">{forLab ? `Bemor kodi: ${item.patientCode}` : item.labName}</p>
@@ -236,8 +236,8 @@ function OrderCard({ item, forLab, busy, onStatus }: { item: LabOrder; forLab: b
             const on = stepIndex >= 0 && index <= stepIndex;
             return (
               <li key={step.id} className="min-w-0">
-                <span className={cn("block h-1.5 rounded-full", on ? "bg-[#0066FF]" : "bg-[#e6eaf2]")} />
-                <span className={cn("mt-1 block truncate text-[10.5px] font-semibold sm:text-[11.5px]", index === stepIndex ? "text-[#0066FF]" : "text-[#8b93a7]")}>{step.title}</span>
+                <span className={cn("block h-1.5 rounded-full", on ? "bg-[#0F766E]" : "bg-[#e6eaf2]")} />
+                <span className={cn("mt-1 block truncate text-[10.5px] font-semibold sm:text-[11.5px]", index === stepIndex ? "text-[#0F766E]" : "text-[#8b93a7]")}>{step.title}</span>
               </li>
             );
           })}
@@ -248,13 +248,13 @@ function OrderCard({ item, forLab, busy, onStatus }: { item: LabOrder; forLab: b
 
       {forLab ? (
         <p className="mt-2 text-[12.5px] text-[#4b5568]">
-          <a href={phoneHref(item.phone)} className="inline-flex items-center gap-1.5 font-semibold text-[#0066FF]"><Phone className="size-3.5" />{item.phone}</a>
+          <a href={phoneHref(item.phone)} className="inline-flex items-center gap-1.5 font-semibold text-[#0F766E]"><Phone className="size-3.5" />{item.phone}</a>
         </p>
       ) : item.labPhone ? (
         <p className="mt-2 flex flex-wrap items-center gap-2 text-[13px]" data-testid="lab-phone">
-          <a href={phoneHref(item.labPhone)} className="inline-flex items-center gap-1.5 rounded-full bg-[#eef4ff] px-3 py-1.5 font-semibold text-[#0066FF]"><Phone className="size-3.5" />{item.labPhone}</a>
+          <a href={phoneHref(item.labPhone)} className="inline-flex items-center gap-1.5 rounded-full bg-[#eef4ff] px-3 py-1.5 font-semibold text-[#0F766E]"><Phone className="size-3.5" />{item.labPhone}</a>
           {item.labTelegram ? (
-            <a href={telegramHref(item.labTelegram)} target="_blank" rel="noreferrer" className="inline-flex items-center gap-1.5 rounded-full bg-[#eef4ff] px-3 py-1.5 font-semibold text-[#0066FF]"><Send className="size-3.5" />Telegram</a>
+            <a href={telegramHref(item.labTelegram)} target="_blank" rel="noreferrer" className="inline-flex items-center gap-1.5 rounded-full bg-[#eef4ff] px-3 py-1.5 font-semibold text-[#0F766E]"><Send className="size-3.5" />Telegram</a>
           ) : null}
         </p>
       ) : item.status === "yangi" ? (

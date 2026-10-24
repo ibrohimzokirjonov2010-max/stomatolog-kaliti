@@ -97,7 +97,7 @@ export function RegistrationSection({
       <section
       ref={sectionRef}
       id={anchorId}
-      className={cn("scroll-mt-24 rounded-[16px] border border-[#eceff5] bg-white p-4 shadow-[0_1px_2px_rgba(15,23,42,0.03)] sm:p-5", className)}
+      className={cn("scroll-mt-24 rounded-[16px] border border-[#eceff5] bg-white p-4 shadow-[0_1px_2px_rgba(17, 24, 39, 0.03)] sm:p-5", className)}
     >
       {mine ? (
         <div>
@@ -158,11 +158,11 @@ export function RegistrationSection({
           {ready && !auth ? (
             <p className="rounded-xl bg-[#f5f8ff] px-3 py-2.5 text-[13px] text-[#4b5568]">
               Yozilish uchun{" "}
-              <Link href={`/kirish?next=${encodeURIComponent(`/seminarlar/${live.id}`)}`} className="font-semibold text-[#0066FF] hover:underline lg:text-[#0b7f7b]">
+              <Link href={`/kirish?next=${encodeURIComponent(`/seminarlar/${live.id}`)}`} className="font-semibold text-[#0F766E] hover:underline lg:text-[#0F766E]">
                 tizimga kiring
               </Link>{" "}
               yoki{" "}
-              <Link href={`/royxat?next=${encodeURIComponent(`/seminarlar/${live.id}`)}`} className="font-semibold text-[#0066FF] hover:underline lg:text-[#0b7f7b]">
+              <Link href={`/royxat?next=${encodeURIComponent(`/seminarlar/${live.id}`)}`} className="font-semibold text-[#0F766E] hover:underline lg:text-[#0F766E]">
                 ro‘yxatdan o‘ting
               </Link>
               . Chipta akkauntingizga bog‘lanadi.
@@ -208,7 +208,7 @@ export function RegistrationSection({
           <div className="flex flex-col gap-2 pt-1 sm:flex-row sm:items-center">
             <Button
               type="submit"
-              className="h-12 flex-1 !rounded-xl bg-[#0066FF] text-[15px] hover:bg-[#0052cc] lg:bg-[#0b8f8a] lg:hover:bg-[#0a7f7b]"
+              className="h-12 flex-1 !rounded-xl bg-[#0F766E] text-[15px] hover:bg-[#115E59] lg:bg-[#0F766E] lg:hover:bg-[#0F766E]"
               disabled={busy}
             >
               {busy ? "Yuborilmoqda..." : "Yozilishni tasdiqlash"}

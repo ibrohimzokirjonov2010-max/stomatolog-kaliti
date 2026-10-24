@@ -55,7 +55,7 @@ export function useSavedLabs() {
 /** Blue check — shown only when an admin marked the lab verified. */
 export function VerifiedBadge({ lab, className }: { lab: Lab; className?: string }) {
   if (!lab.verified) return null;
-  return <BadgeCheck className={cn("size-[17px] shrink-0 fill-[#0066FF] text-white", className)} aria-label="Tasdiqlangan" data-testid="lab-verified" />;
+  return <BadgeCheck className={cn("size-[17px] shrink-0 fill-[#0F766E] text-white", className)} aria-label="Tasdiqlangan" data-testid="lab-verified" />;
 }
 
 export function labGallery(lab: Lab) {
@@ -117,11 +117,11 @@ export function timeAgo(iso: string | null | undefined) {
 
 export function LabPhoto({ src, alt, sizes, className, priority, iconClass }: { src: string | null; alt: string; sizes: string; className?: string; priority?: boolean; iconClass?: string }) {
   return (
-    <span className={cn("relative block overflow-hidden bg-gradient-to-br from-[#e8f0fe] to-[#dbe7fb]", className)}>
+    <span className={cn("relative block overflow-hidden bg-gradient-to-br from-[#e8f0fe] to-[#F0FDFA]", className)}>
       {src ? (
         <Image src={src} alt={alt} fill sizes={sizes} priority={priority} className="object-cover" />
       ) : (
-        <span className="absolute inset-0 grid place-items-center text-[#8fb0e6]" data-testid="lab-photo-placeholder">
+        <span className="absolute inset-0 grid place-items-center text-[#CCFBF1]" data-testid="lab-photo-placeholder">
           <FlaskConical className={cn("size-8", iconClass)} />
         </span>
       )}
@@ -133,7 +133,7 @@ export function LabLogo({ lab, className }: { lab: Lab; className?: string }) {
   const initials = lab.name.trim().split(/\s+/).slice(0, 2).map((p) => p[0]?.toUpperCase() ?? "").join("") || "LB";
   return (
     <span className={cn("relative grid shrink-0 place-items-center overflow-hidden rounded-full bg-white ring-1 ring-[#e6ebf3]", className)}>
-      {lab.logo ? <Image src={lab.logo} alt={`${lab.name} logotipi`} fill sizes="96px" className="object-contain p-2" /> : <span className="text-[22px] font-bold text-[#0066FF]">{initials}</span>}
+      {lab.logo ? <Image src={lab.logo} alt={`${lab.name} logotipi`} fill sizes="96px" className="object-contain p-2" /> : <span className="text-[22px] font-bold text-[#0F766E]">{initials}</span>}
     </span>
   );
 }

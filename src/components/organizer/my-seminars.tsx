@@ -41,13 +41,13 @@ export function MySeminars({ seminars, onChanged }: { seminars: SeminarRow[]; on
     <section className="mb-5" data-testid="my-seminars">
       <div className="mb-3 flex items-center justify-between gap-3">
         <h2 className="text-[17px] font-bold text-[#1a1d26]">Mening seminarlarim</h2>
-        <Link href="/seminarlar/yozuvlarim/tashkilotchi/yangi" className="inline-flex h-10 items-center gap-1.5 rounded-xl bg-[#0066FF] px-4 text-[13.5px] font-semibold text-white shadow-[0_6px_14px_rgba(0,102,255,0.28)]" data-testid="new-seminar">
+        <Link href="/seminarlar/yozuvlarim/tashkilotchi/yangi" className="inline-flex h-10 items-center gap-1.5 rounded-xl bg-[#0F766E] px-4 text-[13.5px] font-semibold text-white shadow-[0_6px_14px_rgba(15, 118, 110, 0.28)]" data-testid="new-seminar">
           <Plus className="size-4" /> Yangi seminar
         </Link>
       </div>
       {error ? <p role="alert" className="mb-3 rounded-xl bg-red-50 px-3.5 py-2.5 text-[13px] font-medium text-red-800">{error}</p> : null}
       {seminars.length === 0 ? (
-        <div className="rounded-[16px] border border-dashed border-[#c9d8f5] bg-[#f8faff] px-6 py-10 text-center">
+        <div className="rounded-[16px] border border-dashed border-[#CCFBF1] bg-[#f8faff] px-6 py-10 text-center">
           <p className="text-[15px] font-semibold text-[#1a1d26]">Hali seminar yaratmagansiz</p>
           <p className="mt-1 text-sm text-[#8b93a7]">“Yangi seminar” tugmasi orqali birinchi seminaringizni qo‘shing.</p>
         </div>
@@ -76,16 +76,16 @@ export function MySeminars({ seminars, onChanged }: { seminars: SeminarRow[]; on
                 {s.status === "pending" ? <p className="mt-2 text-[12.5px] text-amber-800">Administrator tasdiqlashini kutmoqda — hozircha hamma ko‘rmaydi.</p> : null}
                 <div className="mt-3 flex flex-wrap items-center gap-2 text-[13px] font-semibold">
                   {s.status === "published" || s.status === "closed" ? (
-                    <Link href={`/seminarlar/${s.id}`} className="rounded-lg border border-[#e1e6ef] px-3 py-1.5 text-[#0B1F4D]">Ko‘rish</Link>
+                    <Link href={`/seminarlar/${s.id}`} className="rounded-lg border border-[#e1e6ef] px-3 py-1.5 text-[#111827]">Ko‘rish</Link>
                   ) : null}
-                  <Link href={`/seminarlar/yozuvlarim/tashkilotchi/${s.id}`} className="inline-flex items-center gap-1 rounded-lg border border-[#e1e6ef] px-3 py-1.5 text-[#0B1F4D]" data-testid="edit-seminar">
+                  <Link href={`/seminarlar/yozuvlarim/tashkilotchi/${s.id}`} className="inline-flex items-center gap-1 rounded-lg border border-[#e1e6ef] px-3 py-1.5 text-[#111827]" data-testid="edit-seminar">
                     <Pencil className="size-3.5" /> Tahrirlash
                   </Link>
                   {s.status === "published" ? (
-                    <button type="button" disabled={busy === s.id} onClick={() => void act(s.id, "close")} className="rounded-lg border border-[#e1e6ef] px-3 py-1.5 text-[#0B1F4D]" data-testid="close-seminar">Yozilishni yopish</button>
+                    <button type="button" disabled={busy === s.id} onClick={() => void act(s.id, "close")} className="rounded-lg border border-[#e1e6ef] px-3 py-1.5 text-[#111827]" data-testid="close-seminar">Yozilishni yopish</button>
                   ) : null}
                   {s.status === "closed" ? (
-                    <button type="button" disabled={busy === s.id} onClick={() => void act(s.id, "reopen")} className="rounded-lg border border-[#e1e6ef] px-3 py-1.5 text-[#0B1F4D]">Qayta ochish</button>
+                    <button type="button" disabled={busy === s.id} onClick={() => void act(s.id, "reopen")} className="rounded-lg border border-[#e1e6ef] px-3 py-1.5 text-[#111827]">Qayta ochish</button>
                   ) : null}
                   {confirmDel === s.id ? (
                     <span className="inline-flex flex-wrap items-center gap-2 rounded-lg bg-red-50 px-3 py-1.5 text-red-800">

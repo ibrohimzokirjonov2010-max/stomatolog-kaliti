@@ -299,7 +299,7 @@ export function SeminarRegisterFlow({ id }: { id: string }) {
                         <CreditCard style={{ width: 16, height: 16 }} />
                       </i>
                     ) : item.id === "installment" ? (
-                      <i className="ic" style={{ width: 28, height: 28, borderRadius: 8, display: "grid", placeItems: "center", background: "#e3f6f5", color: "#0b7f7d", marginBottom: 6 }}>
+                      <i className="ic" style={{ width: 28, height: 28, borderRadius: 8, display: "grid", placeItems: "center", background: "#e3f6f5", color: "#0F766E", marginBottom: 6 }}>
                         <Clock style={{ width: 16, height: 16 }} />
                       </i>
                     ) : (

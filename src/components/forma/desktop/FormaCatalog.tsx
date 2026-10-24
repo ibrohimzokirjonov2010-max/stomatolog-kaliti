@@ -313,7 +313,7 @@ export function FormaCatalog() {
                         <span className="fx-brand">{item.brand.charAt(0) + item.brand.slice(1).toLowerCase()}</span>
                         <h3><Link href={`/forma/${item.slug}`}>{item.name}</Link></h3>
                         <p className="fx-blurb">{item.blurb}</p>
-                        <span className="fx-rate"><Star className="i" /> {item.rating.toFixed(1)} <em>({item.reviews})</em></span>
+                        {item.reviews > 0 ? <span className="fx-rate"><Star className="i" /> {item.rating.toFixed(1)} <em>({item.reviews})</em></span> : null}
                         <span className="fx-dots" aria-label={`Ranglar: ${item.colors.map((color) => color.label).join(", ")}`}>
                           {item.colors.map((color) => <i key={color.id} style={{ background: color.hex }} title={color.label} />)}
                         </span>
@@ -514,19 +514,19 @@ export function SizeTable({ active }: { active?: string }) {
 export function ShirtSketch({ className, labels }: { className?: string; labels?: boolean }) {
   return (
     <svg className={className} viewBox="0 0 140 130" aria-hidden="true">
-      <path d="M48 10 L30 16 L8 40 L22 56 L34 46 L34 118 L106 118 L106 46 L118 56 L132 40 L110 16 L92 10 Q70 34 48 10 Z" fill="#f4f8fb" stroke="#1d3d6e" strokeWidth="2" strokeLinejoin="round" />
-      <path d="M48 10 Q70 30 92 10" fill="none" stroke="#1d3d6e" strokeWidth="2" />
-      <path d="M58 70 h16 v14 h-16 z" fill="none" stroke="#1d3d6e" strokeWidth="1.4" />
+      <path d="M48 10 L30 16 L8 40 L22 56 L34 46 L34 118 L106 118 L106 46 L118 56 L132 40 L110 16 L92 10 Q70 34 48 10 Z" fill="#f4f8fb" stroke="#111827" strokeWidth="2" strokeLinejoin="round" />
+      <path d="M48 10 Q70 30 92 10" fill="none" stroke="#111827" strokeWidth="2" />
+      <path d="M58 70 h16 v14 h-16 z" fill="none" stroke="#111827" strokeWidth="1.4" />
       {labels ? (
-        <g fill="none" stroke="#0aa3a3" strokeWidth="1.6">
+        <g fill="none" stroke="#0F766E" strokeWidth="1.6">
           <path d="M36 52 H104" /><path d="M36 92 H104" /><path d="M124 12 V118" />
         </g>
       ) : null}
       {labels ? (
         <g fontSize="10" fontWeight="700" textAnchor="middle">
-          <circle cx="70" cy="52" r="8" fill="#0aa3a3" /><text x="70" y="55.5" fill="#fff">A</text>
-          <circle cx="70" cy="92" r="8" fill="#0aa3a3" /><text x="70" y="95.5" fill="#fff">B</text>
-          <circle cx="124" cy="66" r="8" fill="#0aa3a3" /><text x="124" y="69.5" fill="#fff">C</text>
+          <circle cx="70" cy="52" r="8" fill="#0F766E" /><text x="70" y="55.5" fill="#fff">A</text>
+          <circle cx="70" cy="92" r="8" fill="#0F766E" /><text x="70" y="95.5" fill="#fff">B</text>
+          <circle cx="124" cy="66" r="8" fill="#0F766E" /><text x="124" y="69.5" fill="#fff">C</text>
         </g>
       ) : null}
     </svg>

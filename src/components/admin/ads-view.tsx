@@ -143,7 +143,7 @@ export function AdsView() {
                   <input className={input} value={form.title} onChange={(e) => setForm({ ...form, title: e.target.value })} placeholder="Filtek Universal — 15% chegirma" maxLength={160} /></label>
                 <div>
                   <span className="mb-1 block font-semibold text-slate-600">Banner rasm</span>
-                  <div className="rounded-xl border border-dashed border-[#bfd4ff] bg-[#f7faff] p-3">
+                  <div className="rounded-xl border border-dashed border-[#CCFBF1] bg-[#f7faff] p-3">
                     {form.imageUrl ? (
                       <div className="flex items-center gap-3">
                         {/* eslint-disable-next-line @next/next/no-img-element */}

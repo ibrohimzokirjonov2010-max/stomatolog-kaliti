@@ -54,13 +54,13 @@ export function SurplusMinePage() {
     <div>
       <header className="mb-4">
         <p className="text-[13px] text-[#8b93a7]">
-          <Link href="/ortiqcha-material" className="text-[#0066FF] hover:underline">Ortiqcha material</Link>
+          <Link href="/ortiqcha-material" className="text-[#0F766E] hover:underline">Ortiqcha material</Link>
           <span className="mx-1">/</span>
           <span>Mening e’lonlarim</span>
         </p>
         <div className="mt-2 flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
           <div>
-            <h1 className="text-[26px] font-bold tracking-tight text-[#0B1F4D] lg:text-[#1a1d26]">Mening e’lonlarim</h1>
+            <h1 className="text-[26px] font-bold tracking-tight text-[#111827] lg:text-[#1a1d26]">Mening e’lonlarim</h1>
             <p className="mt-1 text-sm text-[#8b93a7]">E’lonlaringiz, kelgan bog‘lanish so‘rovlari va o‘zingiz yuborgan so‘rovlar.</p>
           </div>
           <Button className="h-11 !rounded-xl px-4" onClick={() => setCreating(true)}>E’lon joylash</Button>
@@ -155,7 +155,7 @@ function InterestRow({ row, owner, busy, onSet }: { row: SurplusInterest; owner?
       </div>
       {row.message ? <p className="mt-2 text-[13px] leading-relaxed text-[#4b5568]">“{row.message}”</p> : null}
       {owner && row.phone ? (
-        <a href={phoneHref(row.phone)} className="mt-2 inline-flex items-center gap-1.5 text-[13px] font-semibold text-[#0066FF]">
+        <a href={phoneHref(row.phone)} className="mt-2 inline-flex items-center gap-1.5 text-[13px] font-semibold text-[#0F766E]">
           <Phone className="size-3.5" />
           {row.phone}
         </a>
@@ -166,7 +166,7 @@ function InterestRow({ row, owner, busy, onSet }: { row: SurplusInterest; owner?
             <Phone className="size-4" />
             {row.sellerPhone}
           </a>
-          {tg ? <a href={tg} target="_blank" rel="noreferrer" className="text-[13px] font-semibold text-[#0066FF]">Telegram</a> : null}
+          {tg ? <a href={tg} target="_blank" rel="noreferrer" className="text-[13px] font-semibold text-[#0F766E]">Telegram</a> : null}
         </div>
       ) : null}
       <div className="mt-3 flex flex-wrap gap-2">
@@ -204,7 +204,7 @@ function MineRow({ listing, busy, onEdit, onToggle, onDelete }: { listing: Surpl
           </div>
           <StatusPill label={mod.label} cls={mod.cls} />
         </div>
-        <p className="mt-1 text-[15px] font-bold text-[#0066FF]">{formatMoney(listing.price, "UZS")}</p>
+        <p className="mt-1 text-[15px] font-bold text-[#0F766E]">{formatMoney(listing.price, "UZS")}</p>
         <p className="mt-1 flex flex-wrap items-center gap-x-3 gap-y-1 text-[12px] text-[#8b93a7]">
           <span className="inline-flex items-center gap-1"><Package className="size-3.5" />{statusLabel[listing.status]} · {expiryLabel(listing.expiryMonths)}</span>
           <span className="inline-flex items-center gap-1"><MapPin className="size-3.5" />{place}</span>

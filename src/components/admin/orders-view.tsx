@@ -94,7 +94,7 @@ export function OrdersView() {
               <div className="text-[11.5px] text-slate-400">30 kun · {fmtInt(k.releasedOrders30)} buyurtma</div>
             </Card>
             <Card className="p-4">
-              <div className="flex items-center gap-2 text-[13px] font-semibold text-slate-700"><span className="flex size-8 items-center justify-center rounded-lg bg-[#e8f1ff] text-primary"><Percent className="size-4" /></span>Ushlangan komissiya</div>
+              <div className="flex items-center gap-2 text-[13px] font-semibold text-slate-700"><span className="flex size-8 items-center justify-center rounded-lg bg-[#F0FDFA] text-primary"><Percent className="size-4" /></span>Ushlangan komissiya</div>
               <div className="mt-3"><MoneyKpi v={k.commission30} /></div>
               <div className="text-[11.5px] text-slate-400">30 kun · o‘tkazmalardan</div>
             </Card>
@@ -108,7 +108,7 @@ export function OrdersView() {
           <Card className="flex items-center gap-1 overflow-x-auto p-3">
             {["To‘landi", "Escrowda", "Yo‘lda", "Yetkazildi", "Shifokor tasdiqladi", "O‘tkazildi"].map((s, i, arr) => (
               <div key={s} className="flex min-w-fit flex-1 items-center gap-2">
-                <span className={cn("flex size-6 items-center justify-center rounded-full text-[11px] font-bold", i === arr.length - 1 ? "bg-[#e8f1ff] text-primary" : "bg-primary text-white")}>{i + 1}</span>
+                <span className={cn("flex size-6 items-center justify-center rounded-full text-[11px] font-bold", i === arr.length - 1 ? "bg-[#F0FDFA] text-primary" : "bg-primary text-white")}>{i + 1}</span>
                 <span className="text-[12.5px] font-semibold">{s}</span>
                 {i < arr.length - 1 ? <ChevronRight className="mx-auto size-4 text-slate-300" /> : null}
               </div>

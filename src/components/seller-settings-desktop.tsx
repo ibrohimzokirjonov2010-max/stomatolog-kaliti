@@ -31,7 +31,7 @@ const NOTIFY_ROWS: { key: "newOrders" | "orderStatus" | "messages" | "reviews" |
 type Settings = { hasStore?: boolean; status?: string; minOrder: number; closed: boolean; notify: Record<string, boolean>; hasPassword?: boolean };
 
 const inputCls =
-  "h-11 w-full rounded-xl border border-[#e4e9f2] bg-white px-3.5 text-[14px] font-medium text-[#0B1F4D] outline-none placeholder:font-normal placeholder:text-[#a3abbd] focus:border-[#0066FF] disabled:bg-[#f7f9fc] disabled:text-[#8b93a7]";
+  "h-11 w-full rounded-xl border border-[#e4e9f2] bg-white px-3.5 text-[14px] font-medium text-[#111827] outline-none placeholder:font-normal placeholder:text-[#a3abbd] focus:border-[#0F766E] disabled:bg-[#f7f9fc] disabled:text-[#8b93a7]";
 
 function Field({ label, children, tag }: { label: string; children: ReactNode; tag?: ReactNode }) {
   return (
@@ -51,7 +51,7 @@ function Toggle({ on, onChange, disabled, label }: { on: boolean; onChange?: (v:
       aria-label={label}
       disabled={disabled}
       onClick={() => onChange?.(!on)}
-      className={cn("relative h-[22px] w-10 shrink-0 rounded-full transition-colors", on ? "bg-[#0066FF]" : "bg-[#d5dbe8]", disabled && "cursor-not-allowed opacity-50")}
+      className={cn("relative h-[22px] w-10 shrink-0 rounded-full transition-colors", on ? "bg-[#0F766E]" : "bg-[#d5dbe8]", disabled && "cursor-not-allowed opacity-50")}
     >
       <span className={cn("absolute top-[2px] size-[18px] rounded-full bg-white shadow transition-all", on ? "left-[20px]" : "left-[2px]")} />
     </button>
@@ -186,7 +186,7 @@ export function SellerSettingsDesktop({ shop }: { shop: Shop }) {
     <Panel
       title="Profil va hisob"
       action={
-        <button type="button" onClick={() => void saveProfile()} disabled={saving} className="h-9 rounded-xl bg-[#0066FF] px-5 text-[13px] font-semibold text-white hover:bg-[#0055d4] disabled:bg-[#b9d2ff]">
+        <button type="button" onClick={() => void saveProfile()} disabled={saving} className="h-9 rounded-xl bg-[#0F766E] px-5 text-[13px] font-semibold text-white hover:bg-[#0F766E] disabled:bg-[#CCFBF1]">
           {saving ? "Saqlanmoqda…" : "Saqlash"}
         </button>
       }
@@ -197,9 +197,9 @@ export function SellerSettingsDesktop({ shop }: { shop: Shop }) {
             // eslint-disable-next-line @next/next/no-img-element
             <img src={profile.avatarUrl} alt="" className="mx-auto size-[88px] rounded-full object-cover" />
           ) : (
-            <span className="mx-auto grid size-[88px] place-items-center rounded-full bg-[#e8f1ff] text-[32px] font-bold text-[#0066FF]">{initials}</span>
+            <span className="mx-auto grid size-[88px] place-items-center rounded-full bg-[#F0FDFA] text-[32px] font-bold text-[#0F766E]">{initials}</span>
           )}
-          <label className="mt-3 inline-flex h-9 cursor-pointer items-center gap-1.5 rounded-lg border border-[#d7e4ff] px-3 text-[12.5px] font-semibold text-[#0066FF] hover:bg-[#f5f9ff]">
+          <label className="mt-3 inline-flex h-9 cursor-pointer items-center gap-1.5 rounded-lg border border-[#F0FDFA] px-3 text-[12.5px] font-semibold text-[#0F766E] hover:bg-[#f5f9ff]">
             <Upload className="size-3.5" />
             {avatarBusy ? "Yuklanmoqda…" : "Rasm yuklash"}
             <input type="file" accept="image/png,image/jpeg,image/webp" className="sr-only" disabled={avatarBusy} onChange={(e) => { const f = e.target.files?.[0]; e.target.value = ""; void onAvatar(f); }} />
@@ -224,7 +224,7 @@ export function SellerSettingsDesktop({ shop }: { shop: Shop }) {
                 disabled={settings?.hasPassword === false}
                 title={settings?.hasPassword === false ? "Ijtimoiy tarmoq orqali kirgan akkauntda parol yo‘q" : undefined}
                 onClick={() => setPw({ ...pw, open: !pw.open })}
-                className="h-11 shrink-0 rounded-xl border border-[#d7e4ff] px-4 text-[13px] font-semibold text-[#0066FF] hover:bg-[#f5f9ff] disabled:cursor-not-allowed disabled:opacity-50"
+                className="h-11 shrink-0 rounded-xl border border-[#F0FDFA] px-4 text-[13px] font-semibold text-[#0F766E] hover:bg-[#f5f9ff] disabled:cursor-not-allowed disabled:opacity-50"
               >
                 O‘zgartirish
               </button>
@@ -248,7 +248,7 @@ export function SellerSettingsDesktop({ shop }: { shop: Shop }) {
           <Field label="Yangi parolni takrorlang"><input type="password" autoComplete="new-password" className={inputCls} value={pw.again} onChange={(e) => setPw({ ...pw, again: e.target.value })} /></Field>
           {pw.err ? <p className="col-span-3 text-[12.5px] text-[#dc2626]">{pw.err}</p> : null}
           <div className="col-span-3 flex gap-2">
-            <button type="submit" disabled={pw.busy || !pw.cur || pw.next.length < 6} className="h-10 rounded-xl bg-[#0066FF] px-5 text-[13px] font-semibold text-white disabled:bg-[#b9d2ff]">{pw.busy ? "Saqlanmoqda…" : "Parolni yangilash"}</button>
+            <button type="submit" disabled={pw.busy || !pw.cur || pw.next.length < 6} className="h-10 rounded-xl bg-[#0F766E] px-5 text-[13px] font-semibold text-white disabled:bg-[#CCFBF1]">{pw.busy ? "Saqlanmoqda…" : "Parolni yangilash"}</button>
             <button type="button" onClick={() => setPw({ open: false, cur: "", next: "", again: "", err: "", busy: false })} className="h-10 rounded-xl border border-[#e4e9f2] px-4 text-[13px] font-semibold text-[#4b5568]">Bekor</button>
           </div>
         </form>
@@ -261,14 +261,14 @@ export function SellerSettingsDesktop({ shop }: { shop: Shop }) {
       <div className="mt-3 divide-y divide-[#f1f4f9] text-[13px]">
         <div className="flex items-center justify-between gap-3 py-3">
           <div>
-            <p className="flex items-center gap-2 font-semibold text-[#0B1F4D]"><ShieldCheck className="size-4 text-[#0066FF]" />Ikki bosqichli tasdiqlash (2FA) <SoonTag /></p>
+            <p className="flex items-center gap-2 font-semibold text-[#111827]"><ShieldCheck className="size-4 text-[#0F766E]" />Ikki bosqichli tasdiqlash (2FA) <SoonTag /></p>
             <p className="mt-0.5 text-[11.5px] text-[#8b93a7]">Tavsiya etiladi — hozircha mavjud emas</p>
           </div>
           <Toggle on={false} disabled label="2FA" />
         </div>
         {(["Oxirgi kirishlar", "Faol sessiyalar"] as const).map((t) => (
           <div key={t} className="flex items-center justify-between gap-3 py-3">
-            <p className="flex items-center gap-2 font-semibold text-[#0B1F4D]">{t} <SoonTag /></p>
+            <p className="flex items-center gap-2 font-semibold text-[#111827]">{t} <SoonTag /></p>
             <span className="inline-flex h-8 cursor-not-allowed items-center rounded-lg border border-[#eef1f6] px-3 text-[12.5px] font-semibold text-[#c3cad9]">Ko‘rish</span>
           </div>
         ))}
@@ -292,7 +292,7 @@ export function SellerSettingsDesktop({ shop }: { shop: Shop }) {
           <div key={r.key} className="grid grid-cols-[minmax(0,1fr)_repeat(3,52px)] items-center gap-1 border-b border-[#f4f6fa] py-2.5 last:border-0">
             <div className="flex items-center gap-2.5">
               <Toggle on={Boolean(notify[r.key])} label={r.label} onChange={(v) => void patchSettings({ notify: { [r.key]: v } }, "Saqlandi")} disabled={!settings} />
-              <div className="min-w-0"><p className="truncate font-semibold text-[#0B1F4D]">{r.label}</p><p className="truncate text-[11px] text-[#8b93a7]">{r.hint}</p></div>
+              <div className="min-w-0"><p className="truncate font-semibold text-[#111827]">{r.label}</p><p className="truncate text-[11px] text-[#8b93a7]">{r.hint}</p></div>
             </div>
             {[0, 1, 2].map((i) => (
               <span key={i} className="flex justify-center"><input type="checkbox" disabled aria-label="Tez orada" className="size-4 cursor-not-allowed opacity-40" /></span>
@@ -317,14 +317,14 @@ export function SellerSettingsDesktop({ shop }: { shop: Shop }) {
                 value={minOrder ? new Intl.NumberFormat("ru-RU").format(Number(minOrder.replace(/\D/g, ""))) : ""}
                 placeholder="0"
                 onChange={(e) => { setMinOrder(e.target.value.replace(/\D/g, "")); setMinDirty(true); }}
-                className="h-9 w-32 rounded-lg border border-[#e4e9f2] px-3 text-right text-[13px] font-semibold text-[#0B1F4D] outline-none focus:border-[#0066FF]"
+                className="h-9 w-32 rounded-lg border border-[#e4e9f2] px-3 text-right text-[13px] font-semibold text-[#111827] outline-none focus:border-[#0F766E]"
               />
               <span className="text-[12px] text-[#8b93a7]">so‘m</span>
             </div>
           </div>
           {minDirty ? (
             <div className="mt-2 flex justify-end">
-              <button type="button" onClick={async () => { if (await patchSettings({ minOrder: Number(minOrder || 0) }, "Minimal summa saqlandi")) setMinDirty(false); }} className="h-8 rounded-lg bg-[#0066FF] px-4 text-[12.5px] font-semibold text-white hover:bg-[#0055d4]">Saqlash</button>
+              <button type="button" onClick={async () => { if (await patchSettings({ minOrder: Number(minOrder || 0) }, "Minimal summa saqlandi")) setMinDirty(false); }} className="h-8 rounded-lg bg-[#0F766E] px-4 text-[12.5px] font-semibold text-white hover:bg-[#0F766E]">Saqlash</button>
             </div>
           ) : (
             <p className="mt-1 text-[11px] text-[#8b93a7]">Do‘koningiz mahsulotlari bo‘yicha buyurtma shu summadan kam bo‘lsa, qabul qilinmaydi. 0 — cheklov yo‘q.</p>
@@ -345,7 +345,7 @@ export function SellerSettingsDesktop({ shop }: { shop: Shop }) {
       <ul className="mt-3 divide-y divide-[#f1f4f9] text-[13px]">
         {deliveryGroups.length ? (
           deliveryGroups.map(([label, n]) => (
-            <li key={label} className="flex items-center justify-between gap-2 py-2.5"><span className="font-semibold text-[#0B1F4D]">{label}</span><span className="text-[12px] text-[#8b93a7]">{n} ta mahsulot</span></li>
+            <li key={label} className="flex items-center justify-between gap-2 py-2.5"><span className="font-semibold text-[#111827]">{label}</span><span className="text-[12px] text-[#8b93a7]">{n} ta mahsulot</span></li>
           ))
         ) : (
           <li className="py-3 text-[12.5px] text-[#8b93a7]">Hali mahsulot yo‘q.</li>
@@ -361,12 +361,12 @@ export function SellerSettingsDesktop({ shop }: { shop: Shop }) {
     <Panel title="Integratsiyalar">
       <ul className="mt-3 divide-y divide-[#f1f4f9] text-[13px]">
         <li className="flex items-center justify-between gap-2 py-2.5">
-          <span className="font-semibold text-[#0B1F4D]">Telegram orqali kirish</span>
+          <span className="font-semibold text-[#111827]">Telegram orqali kirish</span>
           {isTelegram ? <span className="rounded-full bg-[#ecfdf3] px-2.5 py-1 text-[11.5px] font-semibold text-[#15803d]">Ulangan</span> : <span className="rounded-full bg-[#f1f4f9] px-2.5 py-1 text-[11.5px] font-semibold text-[#8b93a7]">Ulanmagan</span>}
         </li>
         {["Click", "Payme", "Uzum", "Telegram bot"].map((n) => (
           <li key={n} className="flex items-center justify-between gap-2 py-2.5">
-            <span className="font-semibold text-[#0B1F4D]">{n}</span>
+            <span className="font-semibold text-[#111827]">{n}</span>
             <span className="rounded-full bg-[#f1f4f9] px-2.5 py-1 text-[11.5px] font-semibold text-[#8b93a7]">Ulash — tez orada</span>
           </li>
         ))}
@@ -379,9 +379,9 @@ export function SellerSettingsDesktop({ shop }: { shop: Shop }) {
     <Panel title="Xodimlar va ruxsatlar" action={<span className="inline-flex h-9 cursor-not-allowed items-center gap-1.5 rounded-xl border border-[#eef1f6] px-3.5 text-[12.5px] font-semibold text-[#c3cad9]"><UserPlus className="size-4" />Xodim qo‘shish · Tez orada</span>}>
       <ul className="mt-3 text-[13px]">
         <li className="flex items-center gap-3 rounded-xl border border-[#eceff5] p-3">
-          <span className="grid size-10 place-items-center rounded-full bg-[#e8f1ff] font-bold text-[#0066FF]">{initials}</span>
-          <div className="min-w-0 flex-1"><p className="truncate font-semibold text-[#0B1F4D]">{profile?.fullName ?? shop.ownerName}</p><p className="truncate text-[11.5px] text-[#8b93a7]">{profile?.phone ? formatPhoneDisplay(profile.phone) : shop.phone}</p></div>
-          <span className="rounded-full bg-[#e8f1ff] px-2.5 py-1 text-[11.5px] font-semibold text-[#0066FF]">Egasi</span>
+          <span className="grid size-10 place-items-center rounded-full bg-[#F0FDFA] font-bold text-[#0F766E]">{initials}</span>
+          <div className="min-w-0 flex-1"><p className="truncate font-semibold text-[#111827]">{profile?.fullName ?? shop.ownerName}</p><p className="truncate text-[11.5px] text-[#8b93a7]">{profile?.phone ? formatPhoneDisplay(profile.phone) : shop.phone}</p></div>
+          <span className="rounded-full bg-[#F0FDFA] px-2.5 py-1 text-[11.5px] font-semibold text-[#0F766E]">Egasi</span>
         </li>
       </ul>
       <p className="mt-2 text-[11.5px] text-[#8b93a7]">Operator va admin rollari bilan xodimlar qo‘shish tez orada.</p>
@@ -392,7 +392,7 @@ export function SellerSettingsDesktop({ shop }: { shop: Shop }) {
     <div className="space-y-4">
       <header className="flex items-start justify-between gap-4">
         <div>
-          <h1 className="text-[26px] leading-tight font-extrabold tracking-tight text-[#0B1F4D]">Sozlamalar</h1>
+          <h1 className="text-[26px] leading-tight font-extrabold tracking-tight text-[#111827]">Sozlamalar</h1>
           <p className="mt-1 text-[13.5px] text-[#6b7280]">Hisob, xavfsizlik, bildirishnomalar va do‘kon sozlamalarini boshqaring.</p>
         </div>
         {flash ? <span className={cn("rounded-xl px-3.5 py-2 text-[13px] font-semibold", flash.err ? "bg-[#fef2f2] text-[#b91c1c]" : "bg-[#ecfdf3] text-[#15803d]")}>{flash.text}</span> : null}
@@ -404,7 +404,7 @@ export function SellerSettingsDesktop({ shop }: { shop: Shop }) {
         <Panel title="Til va mintaqa">
           <div className="grid place-items-center py-12 text-center">
             <span className="grid size-14 place-items-center rounded-2xl bg-[#f1f4f9]"><Lock className="size-6 text-[#8b93a7]" /></span>
-            <p className="mt-3 text-[15px] font-bold text-[#0B1F4D]">Tez orada</p>
+            <p className="mt-3 text-[15px] font-bold text-[#111827]">Tez orada</p>
             <p className="mt-1 max-w-sm text-[13px] text-[#6b7280]">Hozir interfeys o‘zbek tilida, narxlar so‘mda. Til va valyuta tanlash keyin qo‘shiladi.</p>
           </div>
         </Panel>

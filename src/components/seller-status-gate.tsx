@@ -27,7 +27,7 @@ function SocialLink({ label, value, kind }: { label: string; value?: string; kin
       href={href}
       target="_blank"
       rel="noreferrer"
-      className="inline-flex items-center gap-1 rounded-full border border-[#e6eaf2] bg-white px-2.5 py-1 text-[12px] font-semibold text-[#0066FF] hover:bg-[#f5f9ff]"
+      className="inline-flex items-center gap-1 rounded-full border border-[#e6eaf2] bg-white px-2.5 py-1 text-[12px] font-semibold text-[#0F766E] hover:bg-[#f5f9ff]"
     >
       {label}: {socialDisplay(value)}
       <ExternalLink className="size-3" />
@@ -42,7 +42,7 @@ export function SellerPendingStatus({ shop }: { shop: Shop }) {
   return (
     <div className="mx-auto max-w-2xl space-y-3 pb-16 sm:space-y-4">
       <p className="text-[12px] text-[#8b93a7] sm:text-[13px]">
-        <Link href="/marketplace" className="text-[#0066FF] hover:underline">
+        <Link href="/marketplace" className="text-[#0F766E] hover:underline">
           Marketplace
         </Link>
         <span className="mx-1">/</span>
@@ -66,7 +66,7 @@ export function SellerPendingStatus({ shop }: { shop: Shop }) {
         </div>
       </section>
 
-      <section className="rounded-[14px] border border-[#eceff5] bg-white p-3 shadow-[0_1px_2px_rgba(15,23,42,0.04)] sm:rounded-[16px] sm:p-5">
+      <section className="rounded-[14px] border border-[#eceff5] bg-white p-3 shadow-[0_1px_2px_rgba(17, 24, 39, 0.04)] sm:rounded-[16px] sm:p-5">
         <div className="flex items-start gap-3">
           <ShopAvatar shop={shop} className="size-12 text-[16px] sm:size-14 sm:text-[18px]" />
           <div className="min-w-0 flex-1">
@@ -132,7 +132,7 @@ export function SellerRejectedStatus({ shop }: { shop: Shop }) {
   return (
     <div className="mx-auto max-w-2xl space-y-3 pb-16 sm:space-y-4">
       <p className="text-[12px] text-[#8b93a7] sm:text-[13px]">
-        <Link href="/marketplace" className="text-[#0066FF] hover:underline">
+        <Link href="/marketplace" className="text-[#0F766E] hover:underline">
           Marketplace
         </Link>
         <span className="mx-1">/</span>

@@ -60,7 +60,7 @@ const PILL: Record<OrderStatus, { cls: string; label: string }> = {
   qabul_qilindi: { cls: "bg-[#fff7ed] text-[#ea580c]", label: "Qabul qilindi" },
   yigilmoqda: { cls: "bg-[#fff7ed] text-[#ea580c]", label: "Yig‘ilmoqda" },
   yigish_tugadi: { cls: "bg-[#fff7ed] text-[#ea580c]", label: "Yig‘ish tugadi" },
-  yolda: { cls: "bg-[#e8f1ff] text-[#0066FF]", label: "Yo‘lda" },
+  yolda: { cls: "bg-[#F0FDFA] text-[#0F766E]", label: "Yo‘lda" },
   yetkazildi: { cls: "bg-[#ecfdf3] text-[#15803d]", label: "Yetkazildi" },
 };
 
@@ -97,7 +97,7 @@ function Sel({ label, value, onChange, children, className }: { label: string; v
       <select
         value={value}
         onChange={(e) => onChange(e.target.value)}
-        className="h-10 w-full appearance-none rounded-xl border border-[#e3e8f1] bg-white pr-8 pl-3.5 text-[13px] font-medium text-[#1a1d26] outline-none focus:border-[#0066FF] focus:ring-3 focus:ring-[#0066FF]/15"
+        className="h-10 w-full appearance-none rounded-xl border border-[#e3e8f1] bg-white pr-8 pl-3.5 text-[13px] font-medium text-[#1a1d26] outline-none focus:border-[#0F766E] focus:ring-3 focus:ring-[#0F766E]/15"
       >
         {children}
       </select>
@@ -112,8 +112,8 @@ function StatCard({ icon: Icon, tone, color, label, value, sub, series, onClick,
       type="button"
       onClick={onClick}
       className={cn(
-        "rounded-2xl border bg-white p-3.5 text-left shadow-[0_1px_3px_rgba(15,23,42,0.04)] transition hover:border-[#c9d8f5]",
-        active ? "border-[#0066FF] ring-2 ring-[#0066FF]/10" : "border-[#eceff5]",
+        "rounded-2xl border bg-white p-3.5 text-left shadow-[0_1px_3px_rgba(17, 24, 39, 0.04)] transition hover:border-[#CCFBF1]",
+        active ? "border-[#0F766E] ring-2 ring-[#0F766E]/10" : "border-[#eceff5]",
       )}
     >
       <div className="flex items-center gap-2.5">
@@ -124,7 +124,7 @@ function StatCard({ icon: Icon, tone, color, label, value, sub, series, onClick,
       </div>
       <div className="mt-2.5 flex items-end justify-between gap-2">
         <div>
-          <p className="text-[24px] leading-none font-extrabold text-[#0B1F4D]">{value}</p>
+          <p className="text-[24px] leading-none font-extrabold text-[#111827]">{value}</p>
           <p className="mt-1.5 text-[11px] text-[#8b93a7]">{sub}</p>
         </div>
         <Spark values={series} color={color} />
@@ -325,7 +325,7 @@ export function SellerOrdersDesktop() {
     <div className="space-y-4">
       <header className="flex items-start justify-between gap-4">
         <div>
-          <h1 className="text-[26px] leading-tight font-extrabold tracking-tight text-[#0B1F4D]">Buyurtmalar</h1>
+          <h1 className="text-[26px] leading-tight font-extrabold tracking-tight text-[#111827]">Buyurtmalar</h1>
           <p className="mt-1 text-[13.5px] text-[#6b7280]">Mijozlar tomonidan berilgan buyurtmalarni ko‘rib chiqing va boshqaring.</p>
         </div>
         <div className="flex items-center gap-2.5">
@@ -345,7 +345,7 @@ export function SellerOrdersDesktop() {
                 setPage(1);
               }}
               aria-label="Davr"
-              className="h-10 appearance-none rounded-xl border border-[#e3e8f1] bg-white pr-8 pl-9 text-[13px] font-medium text-[#1a1d26] outline-none focus:border-[#0066FF]"
+              className="h-10 appearance-none rounded-xl border border-[#e3e8f1] bg-white pr-8 pl-9 text-[13px] font-medium text-[#1a1d26] outline-none focus:border-[#0F766E]"
               style={{ width: 232 }}
             >
               <option value="all">Barcha vaqt</option>
@@ -360,16 +360,16 @@ export function SellerOrdersDesktop() {
       </header>
 
       <div className="grid grid-cols-6 gap-3">
-        <StatCard icon={ShoppingBag} tone="bg-[#e8f1ff] text-[#0066FF]" color="#0066FF" label="Jami buyurtmalar" value={counts.all} sub="Barcha vaqt" series={series.all} active={tab === "all"} onClick={() => go("all")} />
+        <StatCard icon={ShoppingBag} tone="bg-[#F0FDFA] text-[#0F766E]" color="#0F766E" label="Jami buyurtmalar" value={counts.all} sub="Barcha vaqt" series={series.all} active={tab === "all"} onClick={() => go("all")} />
         <StatCard icon={Clock} tone="bg-[#fef2f2] text-[#ef4444]" color="#ef4444" label="Yangi buyurtmalar" value={counts.new} sub={`Bugun: ${todayCount}`} series={series.new} active={tab === "new"} onClick={() => go("new")} />
         <StatCard icon={Package} tone="bg-[#fff7ed] text-[#f97316]" color="#f97316" label="Tayyorlanmoqda" value={counts.prep} sub="Jarayonda" series={series.prep} active={tab === "prep"} onClick={() => go("prep")} />
-        <StatCard icon={Truck} tone="bg-[#e8f1ff] text-[#0066FF]" color="#0066FF" label="Yetkazilmoqda" value={counts.ship} sub="Yo‘lda" series={series.ship} active={tab === "ship"} onClick={() => go("ship")} />
+        <StatCard icon={Truck} tone="bg-[#F0FDFA] text-[#0F766E]" color="#0F766E" label="Yetkazilmoqda" value={counts.ship} sub="Yo‘lda" series={series.ship} active={tab === "ship"} onClick={() => go("ship")} />
         <StatCard icon={CheckCircle2} tone="bg-[#ecfdf3] text-[#16a34a]" color="#16a34a" label="Yetkazildi" value={counts.done} sub="Yakunlangan" series={series.done} active={tab === "done"} onClick={() => go("done")} />
         <StatCard icon={XCircle} tone="bg-[#fef2f2] text-[#ef4444]" color="#ef4444" label="Bekor qilingan" value={0} sub="Tez orada" series={series.cancel} active={tab === "cancel"} onClick={() => go("cancel")} />
       </div>
 
       <div className={cn("grid items-start gap-4", open ? "grid-cols-[minmax(0,1fr)_380px]" : "grid-cols-1")}>
-        <section className="min-w-0 rounded-2xl border border-[#eceff5] bg-white shadow-[0_1px_3px_rgba(15,23,42,0.04)]">
+        <section className="min-w-0 rounded-2xl border border-[#eceff5] bg-white shadow-[0_1px_3px_rgba(17, 24, 39, 0.04)]">
           <div className="flex items-center gap-1.5 overflow-x-auto border-b border-[#eef1f6] px-4 pt-3">
             {tabs.map((t) => (
               <button
@@ -378,11 +378,11 @@ export function SellerOrdersDesktop() {
                 onClick={() => go(t.id)}
                 className={cn(
                   "-mb-px flex h-10 shrink-0 items-center gap-1.5 border-b-2 px-3 text-[13px] font-semibold transition",
-                  tab === t.id ? "border-[#0066FF] text-[#0066FF]" : "border-transparent text-[#6b7280] hover:text-[#1a1d26]",
+                  tab === t.id ? "border-[#0F766E] text-[#0F766E]" : "border-transparent text-[#6b7280] hover:text-[#1a1d26]",
                 )}
               >
                 {t.label}
-                <span className={cn("rounded-full px-1.5 text-[11px] leading-[18px]", tab === t.id ? "bg-[#e8f1ff] text-[#0066FF]" : "bg-[#f1f4f9] text-[#8b93a7]")}>{t.n}</span>
+                <span className={cn("rounded-full px-1.5 text-[11px] leading-[18px]", tab === t.id ? "bg-[#F0FDFA] text-[#0F766E]" : "bg-[#f1f4f9] text-[#8b93a7]")}>{t.n}</span>
               </button>
             ))}
           </div>
@@ -397,7 +397,7 @@ export function SellerOrdersDesktop() {
                   setPage(1);
                 }}
                 placeholder="Buyurtma raqami yoki mijoz nomi..."
-                className="h-10 w-full rounded-xl border border-[#e3e8f1] bg-white pr-3 pl-10 text-[13px] outline-none placeholder:text-[#a3abbd] focus:border-[#0066FF] focus:ring-3 focus:ring-[#0066FF]/15"
+                className="h-10 w-full rounded-xl border border-[#e3e8f1] bg-white pr-3 pl-10 text-[13px] outline-none placeholder:text-[#a3abbd] focus:border-[#0F766E] focus:ring-3 focus:ring-[#0F766E]/15"
               />
             </div>
             <Sel label="Shahar" value={city} onChange={(v) => { setCity(v); setPage(1); }} className="w-[130px]">
@@ -429,7 +429,7 @@ export function SellerOrdersDesktop() {
                     <input
                       type="checkbox"
                       aria-label="Hammasini tanlash"
-                      className="size-4 accent-[#0066FF]"
+                      className="size-4 accent-[#0F766E]"
                       checked={allOnPage}
                       onChange={(e) => setSelected((s) => (e.target.checked ? [...new Set([...s, ...slice.map((o) => o.id)])] : s.filter((id) => !slice.some((o) => o.id === id))))}
                     />
@@ -455,15 +455,15 @@ export function SellerOrdersDesktop() {
                       className={cn("cursor-pointer border-b border-[#f1f3f8] last:border-0 hover:bg-[#fafcff]", active && "bg-[#f5f9ff]")}
                     >
                       <td className="py-3 pl-4" onClick={(e) => e.stopPropagation()}>
-                        <input type="checkbox" aria-label="Tanlash" className="size-4 accent-[#0066FF]" checked={selected.includes(o.id)} onChange={(e) => setSelected((s) => (e.target.checked ? [...s, o.id] : s.filter((id) => id !== o.id)))} />
+                        <input type="checkbox" aria-label="Tanlash" className="size-4 accent-[#0F766E]" checked={selected.includes(o.id)} onChange={(e) => setSelected((s) => (e.target.checked ? [...s, o.id] : s.filter((id) => id !== o.id)))} />
                       </td>
                       <td className="px-3 py-3">
-                        <span className="block text-[13.5px] font-bold text-[#0066FF]">{o.id}</span>
+                        <span className="block text-[13.5px] font-bold text-[#0F766E]">{o.id}</span>
                         <span className="block text-[11.5px] text-[#8b93a7]">{payLabel}</span>
                       </td>
                       <td className="px-3 py-3">
                         <div className="flex items-center gap-2.5">
-                          <span className="flex size-9 shrink-0 items-center justify-center rounded-full bg-[#e8f1ff] text-[12px] font-bold text-[#0066FF]">{(o.name || "?").slice(0, 1).toUpperCase()}</span>
+                          <span className="flex size-9 shrink-0 items-center justify-center rounded-full bg-[#F0FDFA] text-[12px] font-bold text-[#0F766E]">{(o.name || "?").slice(0, 1).toUpperCase()}</span>
                           <span className="min-w-0">
                             <span className="block max-w-[150px] truncate text-[13px] font-semibold text-[#1a1d26]">{o.name}</span>
                             <span className="block truncate text-[11.5px] text-[#8b93a7]">{o.phone} · {o.city}</span>
@@ -504,7 +504,7 @@ export function SellerOrdersDesktop() {
                   {tab === "cancel" ? "Buyurtmani bekor qilish hali ishga tushmagan." : orders.length ? "Qidiruv yoki filtrlarni o‘zgartiring." : "Shifokorlar buyurtma bersa, shu yerda ko‘rinadi."}
                 </p>
                 {orders.length && filtered ? (
-                  <button type="button" onClick={reset} className="mt-3 text-[13px] font-semibold text-[#0066FF] hover:underline">Filtrlarni tozalash</button>
+                  <button type="button" onClick={reset} className="mt-3 text-[13px] font-semibold text-[#0F766E] hover:underline">Filtrlarni tozalash</button>
                 ) : null}
               </div>
             ) : null}
@@ -524,7 +524,7 @@ export function SellerOrdersDesktop() {
                 n === "…" ? (
                   <span key={`d${i}`} className="px-1 text-[#a3abbd]">…</span>
                 ) : (
-                  <button key={n} type="button" onClick={() => setPage(n)} className={cn("size-9 rounded-lg text-[13px] font-semibold", n === cur ? "bg-[#0066FF] text-white" : "border border-[#e3e8f1] text-[#4b5568] hover:bg-[#f7f9fc]")}>
+                  <button key={n} type="button" onClick={() => setPage(n)} className={cn("size-9 rounded-lg text-[13px] font-semibold", n === cur ? "bg-[#0F766E] text-white" : "border border-[#e3e8f1] text-[#4b5568] hover:bg-[#f7f9fc]")}>
                     {n}
                   </button>
                 ),
@@ -586,15 +586,15 @@ function DetailPanel({
     o.paymentState !== "refunded" &&
     !isPickupOrder(o) &&
     (["yigilmoqda", "yigish_tugadi", "yolda"].includes(o.status) || Boolean(o.yandexTrackUrl || o.courierName || o.courierPhone));
-  const inp = "h-9 w-full rounded-lg border border-[#e3e8f1] bg-white px-3 text-[13px] outline-none placeholder:text-[#a3abbd] focus:border-[#0066FF]";
-  const sectionTitle = "text-[13.5px] font-bold text-[#0B1F4D]";
+  const inp = "h-9 w-full rounded-lg border border-[#e3e8f1] bg-white px-3 text-[13px] outline-none placeholder:text-[#a3abbd] focus:border-[#0F766E]";
+  const sectionTitle = "text-[13.5px] font-bold text-[#111827]";
 
   return (
-    <aside className="sticky top-0 max-h-[calc(100vh-120px)] min-w-0 overflow-y-auto rounded-2xl border border-[#eceff5] bg-white shadow-[0_1px_3px_rgba(15,23,42,0.04)]">
+    <aside className="sticky top-0 max-h-[calc(100vh-120px)] min-w-0 overflow-y-auto rounded-2xl border border-[#eceff5] bg-white shadow-[0_1px_3px_rgba(17, 24, 39, 0.04)]">
       <div className="border-b border-[#eef1f6] p-4">
         <div className="flex items-start justify-between gap-2">
           <div className="flex min-w-0 items-center gap-2">
-            <h2 className="truncate text-[16px] font-extrabold text-[#0B1F4D]">Buyurtma № {o.id}</h2>
+            <h2 className="truncate text-[16px] font-extrabold text-[#111827]">Buyurtma № {o.id}</h2>
             <span className={cn("shrink-0 rounded-full px-2.5 py-0.5 text-[11.5px] font-semibold", pill.cls)}>{pill.label}</span>
           </div>
           <button type="button" aria-label="Yopish" onClick={onClose} className="flex size-8 shrink-0 items-center justify-center rounded-lg text-[#6b7280] hover:bg-[#f1f4f9]">
@@ -611,7 +611,7 @@ function DetailPanel({
         <section>
           <h3 className={sectionTitle}>Mijoz ma’lumotlari</h3>
           <div className="mt-2.5 flex items-start gap-3">
-            <span className="flex size-11 shrink-0 items-center justify-center rounded-full bg-[#e8f1ff] text-[15px] font-bold text-[#0066FF]">{(o.name || "?").slice(0, 1).toUpperCase()}</span>
+            <span className="flex size-11 shrink-0 items-center justify-center rounded-full bg-[#F0FDFA] text-[15px] font-bold text-[#0F766E]">{(o.name || "?").slice(0, 1).toUpperCase()}</span>
             <div className="min-w-0 flex-1">
               <p className="truncate text-[14px] font-semibold text-[#1a1d26]">{o.name}</p>
               <p className="text-[12.5px] text-[#4b5568]">{o.phone}</p>
@@ -665,7 +665,7 @@ function DetailPanel({
           <div className="flex justify-between text-[#6b7280]"><span>Platforma komissiyasi</span><span className="font-semibold text-[#1a1d26]" data-testid="seller-commission">{fee.text}</span></div>
           <div className="flex items-baseline justify-between border-t border-[#e3e8f1] pt-2">
             <span className="text-[13px] font-bold text-[#1a1d26]">Jami to‘lov</span>
-            <span className="text-[19px] font-extrabold text-[#0066FF]">{formatMoney(o.total, "UZS")}</span>
+            <span className="text-[19px] font-extrabold text-[#0F766E]">{formatMoney(o.total, "UZS")}</span>
           </div>
         </section>
 
@@ -716,7 +716,7 @@ function DetailPanel({
             <input className={inp} value={d.car} onChange={(e) => setDraft({ car: e.target.value })} placeholder="Mashina · raqam" />
             <input className={inp} value={d.loc} onChange={(e) => setDraft({ loc: e.target.value })} placeholder="Kuryer joylashuvi: xarita linki yoki 41.31, 69.27" />
             {isShip ? (
-              <button type="button" disabled={busy} onClick={() => onSaveTrack(true)} className="inline-flex h-10 w-full items-center justify-center gap-1.5 rounded-xl bg-[#0066FF] text-[13.5px] font-bold text-white hover:bg-[#0058dd] disabled:opacity-60">
+              <button type="button" disabled={busy} onClick={() => onSaveTrack(true)} className="inline-flex h-10 w-full items-center justify-center gap-1.5 rounded-xl bg-[#0F766E] text-[13.5px] font-bold text-white hover:bg-[#115E59] disabled:opacity-60">
                 <Truck className="size-4" />
                 {busy ? "Jo‘natilmoqda..." : "Jo‘natildi · Yo‘lda"}
               </button>
@@ -735,7 +735,7 @@ function DetailPanel({
           Bekor qilish
         </span>
         {action && !isShip ? (
-          <button type="button" disabled={busy} onClick={onAdvance} className="inline-flex h-11 items-center justify-center gap-1.5 rounded-xl bg-[#0066FF] text-[13.5px] font-bold text-white shadow-[0_6px_14px_rgba(0,102,255,0.25)] hover:bg-[#0058dd] disabled:opacity-60">
+          <button type="button" disabled={busy} onClick={onAdvance} className="inline-flex h-11 items-center justify-center gap-1.5 rounded-xl bg-[#0F766E] text-[13.5px] font-bold text-white shadow-[0_6px_14px_rgba(15, 118, 110, 0.25)] hover:bg-[#115E59] disabled:opacity-60">
             <Check className="size-4" />
             {busy ? "Yangilanmoqda..." : action}
           </button>

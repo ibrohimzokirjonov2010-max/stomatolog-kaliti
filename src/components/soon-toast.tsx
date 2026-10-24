@@ -14,7 +14,7 @@ export function useSoonToast() {
   const node = text ? (
     <div
       role="status"
-      className="fixed inset-x-4 bottom-[calc(5.5rem+env(safe-area-inset-bottom))] z-[70] mx-auto w-fit max-w-[90%] rounded-2xl bg-[#0B1F4D] px-4 py-2.5 text-center text-[13px] font-medium text-white shadow-lg"
+      className="fixed inset-x-4 bottom-[calc(5.5rem+env(safe-area-inset-bottom))] z-[70] mx-auto w-fit max-w-[90%] rounded-2xl bg-[#111827] px-4 py-2.5 text-center text-[13px] font-medium text-white shadow-lg"
     >
       {text}
     </div>

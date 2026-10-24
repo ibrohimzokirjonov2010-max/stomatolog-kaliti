@@ -1,29 +1,29 @@
-.af { color: #0f1e3d; font-family: var(--font-plus-jakarta), ui-sans-serif, system-ui, sans-serif; }
+.af { color: #111827; font-family: var(--font-plus-jakarta), ui-sans-serif, system-ui, sans-serif; }
 .af * { box-sizing: border-box; }
-.af-back { display: inline-flex; align-items: center; gap: 6px; color: #0f1e3d; font-size: 12.5px; font-weight: 600; margin-bottom: 6px; }
-.af-back:hover { color: #0066ff; }
+.af-back { display: inline-flex; align-items: center; gap: 6px; color: #111827; font-size: 12.5px; font-weight: 600; margin-bottom: 6px; }
+.af-back:hover { color: #0F766E; }
 .af-head { display: flex; justify-content: space-between; gap: 16px; align-items: flex-end; margin-bottom: 12px; }
 .af-head h1 { margin: 0; font-size: 25px; line-height: 1.15; letter-spacing: -0.03em; font-weight: 800; }
 .af-head p { margin: 3px 0 0; color: #6b7590; font-size: 13px; }
 .af-min { color: #8b93a7; font-size: 12px; font-weight: 600; white-space: nowrap; }
 .af-grid { display: grid; grid-template-columns: minmax(0, 1fr) 340px; gap: 16px; align-items: start; }
-.af-card { background: #fff; border: 1px solid #e6edf5; border-radius: 14px; padding: 16px 18px; margin-bottom: 12px; box-shadow: 0 1px 2px rgba(16, 40, 80, 0.03); }
-.af-main { background: #fff; border: 1px solid #e6edf5; border-radius: 14px; padding: 16px 18px 18px; box-shadow: 0 1px 2px rgba(16, 40, 80, 0.03); }
+.af-card { background: #fff; border: 1px solid #e6edf5; border-radius: 14px; padding: 16px 18px; margin-bottom: 12px; box-shadow: 0 1px 2px rgba(17, 24, 39, 0.03); }
+.af-main { background: #fff; border: 1px solid #e6edf5; border-radius: 14px; padding: 16px 18px 18px; box-shadow: 0 1px 2px rgba(17, 24, 39, 0.03); }
 .af-main .af-card { background: none; border: 0; border-radius: 0; padding: 0; margin: 0 0 18px; box-shadow: none; }
 .af-step { display: flex; gap: 10px; align-items: flex-start; margin-bottom: 10px; }
-.af-num { width: 24px; height: 24px; border-radius: 50%; background: #0066ff; color: #fff; display: grid; place-items: center; font-size: 12px; font-weight: 800; flex: none; }
+.af-num { width: 24px; height: 24px; border-radius: 50%; background: #0F766E; color: #fff; display: grid; place-items: center; font-size: 12px; font-weight: 800; flex: none; }
 .af-step h2 { margin: 3px 0 0; font-size: 14.5px; font-weight: 750; }
 .af-step small { display: block; margin-top: 1px; color: #6b7590; font-size: 11.5px; }
 .af-label { display: block; margin: 8px 0 4px; font-size: 12px; font-weight: 600; color: #24324a; }
 .af-label i { color: #e11d48; font-style: normal; }
 .af-req { color: #e11d48; }
-.af-input, .af-select, .af-area { width: 100%; height: 34px; border: 1px solid #dbe3ef; border-radius: 8px; background: #fff; padding: 0 10px; font: inherit; font-size: 12.5px; color: #0f1e3d; outline: none; }
+.af-input, .af-select, .af-area { width: 100%; height: 34px; border: 1px solid #dbe3ef; border-radius: 8px; background: #fff; padding: 0 10px; font: inherit; font-size: 12.5px; color: #111827; outline: none; }
 .af-input::placeholder, .af-area::placeholder { color: #9aa5b8; }
 .af-area { height: 64px; padding: 8px 10px; resize: vertical; }
-.af-input:focus, .af-select:focus, .af-area:focus { border-color: #0066ff; box-shadow: 0 0 0 3px rgba(0, 102, 255, 0.12); }
+.af-input:focus, .af-select:focus, .af-area:focus { border-color: #0F766E; box-shadow: 0 0 0 3px rgba(15, 118, 110, 0.12); }
 .af-input.bad, .af-select.bad, .af-area.bad { border-color: #e11d48; }
 .af-extra { margin-top: 10px; }
-.af-extra > summary { cursor: pointer; font-size: 12.5px; font-weight: 700; color: #0066ff; margin-bottom: 4px; }
+.af-extra > summary { cursor: pointer; font-size: 12.5px; font-weight: 700; color: #0F766E; margin-bottom: 4px; }
 .af-err { margin: 4px 0 0; color: #e11d48; font-size: 11.5px; font-weight: 600; }
 .af-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
 .af-row-wide { display: grid; grid-template-columns: 1.55fr 1fr; gap: 14px; }
@@ -32,12 +32,12 @@
 .af-hint { margin: 4px 0 0; color: #8b93a7; font-size: 11.5px; }
 .af-pills { display: flex; gap: 6px; flex-wrap: wrap; }
 .af .af-pill, .af .af-chip, .af .af-check { border: 1px solid #dbe3ef; background: #fff; border-radius: 999px; height: 30px; padding: 0 12px; font: inherit; font-size: 12px; font-weight: 600; color: #24324a; cursor: pointer; }
-.af .af-pill.on, .af .af-chip.on { background: #0066ff; border-color: #0066ff; color: #fff; }
+.af .af-pill.on, .af .af-chip.on { background: #0F766E; border-color: #0F766E; color: #fff; }
 .af-checks { display: flex; flex-wrap: wrap; gap: 6px; }
 .af .af-check { border-radius: 7px; display: inline-flex; align-items: center; gap: 6px; height: 28px; font-size: 11.5px; }
-.af .af-check.on { border-color: #0066ff; background: #f3f8ff; color: #0b3f91; }
+.af .af-check.on { border-color: #0F766E; background: #f3f8ff; color: #111827; }
 .af-box { width: 14px; height: 14px; font-size: 10px; border-radius: 4px; border: 1.5px solid #c5d0e0; display: grid; place-items: center; background: #fff; }
-.af .af-check.on .af-box { background: #0066ff; border-color: #0066ff; color: #fff; }
+.af .af-check.on .af-box { background: #0F766E; border-color: #0F766E; color: #fff; }
 .af-phone { display: flex; align-items: center; border: 1px solid #dbe3ef; border-radius: 8px; height: 34px; overflow: hidden; background: #fff; }
 .af-phone.bad { border-color: #e11d48; }
 .af-phone > span { display: flex; align-items: center; padding: 0 10px; font-size: 12.5px; color: #5b6b82; font-weight: 700; border-right: 1px solid #e6edf5; height: 100%; }
@@ -49,48 +49,48 @@
 .af .af-switch { display: flex; align-items: center; gap: 8px; font-size: 12.5px; font-weight: 600; color: #24324a; cursor: pointer; height: 34px; background: none; border: 0; padding: 0; }
 .af .af-switch i { width: 34px; height: 20px; flex: none; border-radius: 99px; background: #d5deea; position: relative; display: inline-block; }
 .af .af-switch i::after { content: ""; position: absolute; top: 3px; left: 3px; width: 14px; height: 14px; border-radius: 50%; background: #fff; transition: transform .15s; }
-.af .af-switch.on i { background: #0066ff; }
+.af .af-switch.on i { background: #0F766E; }
 .af .af-switch.on i::after { transform: translateX(14px); }
 .af-radios { display: flex; align-items: center; gap: 4px 14px; flex-wrap: wrap; min-height: 34px; border: 1px solid #dbe3ef; border-radius: 8px; padding: 4px 12px; }
 .af .af-radio { display: inline-flex; align-items: center; gap: 7px; border: 0; background: none; padding: 0; font: inherit; font-size: 12.5px; font-weight: 500; color: #24324a; cursor: pointer; height: 24px; }
 .af .af-radio i { width: 15px; height: 15px; border-radius: 50%; border: 1.5px solid #b6c2d4; display: grid; place-items: center; flex: none; }
-.af .af-radio.on i { border-color: #0066ff; }
-.af .af-radio.on i::after { content: ""; width: 7px; height: 7px; border-radius: 50%; background: #0066ff; }
+.af .af-radio.on i { border-color: #0F766E; }
+.af .af-radio.on i::after { content: ""; width: 7px; height: 7px; border-radius: 50%; background: #0F766E; }
 .af-pricebox { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 12px; align-items: end; }
 .af-flag { display: inline-block; width: 16px; height: 11px; border-radius: 2px; margin-right: 6px; background: linear-gradient(#1eb2e8 0 33%, #fff 33% 38%, #fff 38% 62%, #1fae4b 62%); box-shadow: inset 0 0 0 .5px rgba(0, 0, 0, .1); vertical-align: -1px; }
-.af-tgicon { width: 18px; height: 18px; border-radius: 50%; background: #229ed9; color: #fff; display: grid; place-items: center; margin-left: 10px; flex: none; }
+.af-tgicon { width: 18px; height: 18px; border-radius: 50%; background: #0F766E; color: #fff; display: grid; place-items: center; margin-left: 10px; flex: none; }
 .af-tg span.af-tgicon { padding: 0; }
 .af-tiles { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 10px; }
-.af-drop { border: 1.5px dashed #9cc0f5; border-radius: 10px; background: #f8fbff; height: 92px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 2px; text-align: center; color: #0066ff; padding: 8px; cursor: pointer; }
-.af-drop strong { color: #0066ff; font-size: 12px; font-weight: 700; }
+.af-drop { border: 1.5px dashed #CCFBF1; border-radius: 10px; background: #f8fbff; height: 92px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 2px; text-align: center; color: #0F766E; padding: 8px; cursor: pointer; }
+.af-drop strong { color: #0F766E; font-size: 12px; font-weight: 700; }
 .af-drop small { color: #8b93a7; font-size: 10.5px; line-height: 1.3; }
 .af-blank { border: 1.5px dashed #dbe3ef; border-radius: 10px; height: 64px; display: grid; place-items: center; color: #b6c2d4; cursor: pointer; }
 .af-photo { height: 92px; border-radius: 10px; overflow: hidden; position: relative; border: 1px solid #e6edf5; background: #f4f7fb; cursor: grab; }
 .af-photo img { width: 100%; height: 100%; object-fit: cover; }
-.af .af-photo button { position: absolute; top: 5px; right: 5px; width: 20px; height: 20px; border-radius: 50%; background: rgba(255, 255, 255, .92); color: #0f1e3d; border: 0; cursor: pointer; font-size: 14px; line-height: 1; }
-.af-photo em { position: absolute; left: 6px; top: 6px; background: #0066ff; color: #fff; font-style: normal; font-size: 10px; font-weight: 600; border-radius: 99px; padding: 2px 7px; }
-.af .af-logo { width: 84px; height: 84px; border-radius: 14px; border: 1.5px dashed #9cc0f5; background: #f8fbff; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 2px; overflow: hidden; cursor: pointer; color: #0066ff; font-size: 11px; font-weight: 700; text-align: center; padding: 0; }
+.af .af-photo button { position: absolute; top: 5px; right: 5px; width: 20px; height: 20px; border-radius: 50%; background: rgba(255, 255, 255, .92); color: #111827; border: 0; cursor: pointer; font-size: 14px; line-height: 1; }
+.af-photo em { position: absolute; left: 6px; top: 6px; background: #0F766E; color: #fff; font-style: normal; font-size: 10px; font-weight: 600; border-radius: 99px; padding: 2px 7px; }
+.af .af-logo { width: 84px; height: 84px; border-radius: 14px; border: 1.5px dashed #CCFBF1; background: #f8fbff; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 2px; overflow: hidden; cursor: pointer; color: #0F766E; font-size: 11px; font-weight: 700; text-align: center; padding: 0; }
 .af .af-logo img { width: 100%; height: 100%; object-fit: cover; }
 .af-logorow { display: grid; grid-template-columns: 84px minmax(0, 1fr); gap: 14px; align-items: center; }
 .af-actions { display: flex; justify-content: flex-start; gap: 10px; margin-top: 14px; }
-.af .af-btn { height: 38px; min-width: 168px; padding: 0 18px; border-radius: 8px; border: 1.5px solid #0066ff; background: #fff; font: inherit; font-size: 13px; font-weight: 700; cursor: pointer; color: #0066ff; display: inline-flex; align-items: center; justify-content: center; gap: 8px; }
-.af .af-btn.primary { background: #0066ff; border-color: #0066ff; color: #fff; min-width: 210px; }
+.af .af-btn { height: 38px; min-width: 168px; padding: 0 18px; border-radius: 8px; border: 1.5px solid #0F766E; background: #fff; font: inherit; font-size: 13px; font-weight: 700; cursor: pointer; color: #0F766E; display: inline-flex; align-items: center; justify-content: center; gap: 8px; }
+.af .af-btn.primary { background: #0F766E; border-color: #0F766E; color: #fff; min-width: 210px; }
 .af .af-btn:disabled { opacity: .6; cursor: wait; }
 .af-note { margin: 0 0 12px; padding: 10px 12px; border-radius: 12px; background: #eefbf3; color: #157a45; font-size: 13px; font-weight: 650; }
 .af-fail { margin: 0 0 12px; padding: 10px 12px; border-radius: 12px; background: #fff1f2; color: #be123c; font-size: 13px; font-weight: 650; }
 .af-profiles { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 10px; }
 .af .af-profile { min-width: 0; text-align: left; border: 1px solid #e6edf5; background: #fff; border-radius: 10px; padding: 8px 10px; cursor: pointer; font: inherit; display: grid; grid-template-columns: 28px minmax(0, 1fr); column-gap: 8px; align-items: center; }
-.af .af-profile.on { border-color: #0066ff; box-shadow: 0 0 0 2px rgba(0, 102, 255, .15); }
+.af .af-profile.on { border-color: #0F766E; box-shadow: 0 0 0 2px rgba(15, 118, 110, .15); }
 .af .af-profile b { display: block; font-size: 12px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 .af .af-profile small { grid-column: 2; color: #8b93a7; font-size: 10.5px; }
-.af .af-profile .dot { grid-row: span 2; width: 28px; height: 28px; border-radius: 8px; background: #e8f1ff; color: #0066ff; display: grid; place-items: center; font-weight: 800; }
+.af .af-profile .dot { grid-row: span 2; width: 28px; height: 28px; border-radius: 8px; background: #F0FDFA; color: #0F766E; display: grid; place-items: center; font-weight: 800; }
 .af-table { width: 100%; border-collapse: collapse; font-size: 13px; }
 .af-table th { text-align: left; font-size: 11px; color: #6b7590; font-weight: 650; padding: 0 6px 6px; }
 .af-table td { padding: 4px; }
 .af-table input { width: 100%; height: 30px; border: 1px solid #dbe3ef; border-radius: 8px; padding: 0 8px; font: inherit; font-size: 12px; }
-.af .af-add { margin-top: 6px; border: 0; background: none; color: #0066ff; font: inherit; font-size: 12.5px; font-weight: 700; cursor: pointer; padding: 0; }
+.af .af-add { margin-top: 6px; border: 0; background: none; color: #0F766E; font: inherit; font-size: 12.5px; font-weight: 700; cursor: pointer; padding: 0; }
 .af-side { position: sticky; top: 12px; }
-.af-prevcard { background: #fff; border: 1px solid #e6edf5; border-radius: 14px; padding: 16px; box-shadow: 0 1px 2px rgba(16, 40, 80, 0.03); }
+.af-prevcard { background: #fff; border: 1px solid #e6edf5; border-radius: 14px; padding: 16px; box-shadow: 0 1px 2px rgba(17, 24, 39, 0.03); }
 .af-prevtitle { margin: 0; font-size: 15px; font-weight: 750; }
 .af-prevsub { margin: 2px 0 12px; color: #6b7590; font-size: 12px; }
 .af-prev { background: #fff; }
@@ -101,26 +101,26 @@
 .af-thumbs { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 6px; margin-top: 6px; }
 .af-thumbs span { height: 42px; border-radius: 6px; overflow: hidden; background: #eef3f9; position: relative; }
 .af-thumbs img { width: 100%; height: 100%; object-fit: cover; }
-.af-thumbs b { position: absolute; inset: 0; display: grid; place-items: center; background: rgba(15, 30, 61, .45); color: #fff; font-size: 13px; }
+.af-thumbs b { position: absolute; inset: 0; display: grid; place-items: center; background: rgba(17, 24, 39, .45); color: #fff; font-size: 13px; }
 .af-pricerow { display: flex; align-items: center; justify-content: space-between; gap: 8px; }
-.af-tag { background: #e8f8f6; color: #0f9d8a; border-radius: 6px; font-size: 11px; font-weight: 700; padding: 3px 8px; white-space: nowrap; }
+.af-tag { background: #e8f8f6; color: #0F766E; border-radius: 6px; font-size: 11px; font-weight: 700; padding: 3px 8px; white-space: nowrap; }
 .af-chiprow { display: flex; flex-wrap: wrap; gap: 4px; margin-top: 8px; }
-.af-chiprow span { background: #eef5ff; color: #0b3f91; border-radius: 6px; font-size: 10.5px; font-weight: 600; padding: 3px 7px; }
+.af-chiprow span { background: #eef5ff; color: #111827; border-radius: 6px; font-size: 10.5px; font-weight: 600; padding: 3px 7px; }
 .af-contact { margin-top: 10px; border: 1px solid #e6edf5; border-radius: 10px; }
-.af-contact p { display: flex; align-items: center; gap: 10px; margin: 0; padding: 8px 12px; font-size: 12.5px; font-weight: 600; color: #0f1e3d; min-width: 0; }
+.af-contact p { display: flex; align-items: center; gap: 10px; margin: 0; padding: 8px 12px; font-size: 12.5px; font-weight: 600; color: #111827; min-width: 0; }
 .af-contact p span { min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 .af-contact p + p { border-top: 1px solid #eef2f7; }
-.af-contact .tg { width: 22px; height: 22px; border-radius: 50%; background: #229ed9; color: #fff; display: grid; place-items: center; flex: none; }
-.af-contact .ph { color: #0066ff; flex: none; }
+.af-contact .tg { width: 22px; height: 22px; border-radius: 50%; background: #0F766E; color: #fff; display: grid; place-items: center; flex: none; }
+.af-contact .ph { color: #0F766E; flex: none; }
 .af-gallery img { width: 100%; height: 100%; object-fit: cover; }
 .af-badge { position: absolute; left: 10px; top: 10px; background: #12a15a; color: #fff; border-radius: 8px; font-size: 11px; font-weight: 750; padding: 3px 8px; }
-.af-price { margin: 6px 0 0; font-size: 19px; font-weight: 800; color: #0066ff; }
+.af-price { margin: 6px 0 0; font-size: 19px; font-weight: 800; color: #0F766E; }
 .af-k { display: inline-block; margin-left: 6px; background: #e8f8ef; color: #128a4a; border-radius: 8px; font-size: 11px; padding: 2px 6px; font-weight: 750; vertical-align: middle; }
 .af-line { display: flex; gap: 6px; align-items: center; margin: 6px 0 0; color: #4b5568; font-size: 12px; }
 .af-line .when { margin-left: auto; color: #8b93a7; }
-.af-source { display: block; margin-top: 8px; color: #0066FF; font-size: 13px; font-weight: 600; word-break: break-all; }
+.af-source { display: block; margin-top: 8px; color: #0F766E; font-size: 13px; font-weight: 600; word-break: break-all; }
 .af .af-msg { margin-top: 12px; width: 100%; height: 38px; border-radius: 8px; border: 1px solid #dbe3ef; background: #fff; font: inherit; font-size: 13px; font-weight: 700; cursor: pointer; display: inline-flex; align-items: center; justify-content: center; gap: 8px; }
-.af .af-msg.blue { background: #0066ff; color: #fff; border-color: #0066ff; }
+.af .af-msg.blue { background: #0F766E; color: #fff; border-color: #0F766E; }
 .sh .af button.af-btn, .sh .af button.af-pill, .sh .af button.af-chip, .sh .af button.af-check, .sh .af button.af-profile, .sh .af button.af-msg, .sh .af button.af-add, .sh .af button.af-radio, .sh .af .af-switch { font-family: inherit; }
 .sh .af .af-btn { padding: 0 18px; }
 .sh .af .af-pill, .sh .af .af-chip { padding: 0 14px; }
@@ -142,18 +142,18 @@
 .af-tiles.compact .af-blank { display: none; }
 .af-cover { position: relative; margin-bottom: 30px; }
 .af-cover .af-gallery { height: 140px; }
-.af-cover .logo { position: absolute; left: 14px; bottom: -28px; width: 64px; height: 64px; border-radius: 50%; border: 3px solid #fff; background: #f3f8ff; display: grid; place-items: center; overflow: hidden; color: #0066ff; box-shadow: 0 2px 8px rgba(16, 40, 80, .12); }
+.af-cover .logo { position: absolute; left: 14px; bottom: -28px; width: 64px; height: 64px; border-radius: 50%; border: 3px solid #fff; background: #f3f8ff; display: grid; place-items: center; overflow: hidden; color: #0F766E; box-shadow: 0 2px 8px rgba(17, 24, 39, .12); }
 .af-cover .logo img { width: 100%; height: 100%; object-fit: cover; }
 .af-name { display: flex; align-items: center; gap: 6px; }
 .af-btns { display: grid; grid-template-columns: 1.3fr 1fr; gap: 8px; margin-top: 10px; }
-.af-btns span { height: 30px; border-radius: 7px; display: inline-flex; align-items: center; justify-content: center; gap: 6px; font-size: 11.5px; font-weight: 700; border: 1px solid #cfe0fb; color: #0066ff; white-space: nowrap; overflow: hidden; }
-.af-btns span.blue { background: #0066ff; border-color: #0066ff; color: #fff; }
+.af-btns span { height: 30px; border-radius: 7px; display: inline-flex; align-items: center; justify-content: center; gap: 6px; font-size: 11.5px; font-weight: 700; border: 1px solid #F0FDFA; color: #0F766E; white-space: nowrap; overflow: hidden; }
+.af-btns span.blue { background: #0F766E; border-color: #0F766E; color: #fff; }
 .af-stats { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 6px; margin-top: 10px; padding: 8px 0; border-top: 1px solid #eef2f7; border-bottom: 1px solid #eef2f7; }
 .af-stats div { display: flex; gap: 6px; align-items: flex-start; font-size: 11px; color: #6b7590; line-height: 1.3; }
-.af-stats svg { color: #0066ff; flex: none; margin-top: 1px; }
-.af-stats b { display: block; color: #0f1e3d; font-size: 11.5px; font-weight: 700; }
-.af-sub { margin: 10px 0 0; font-size: 12px; font-weight: 750; color: #0f1e3d; display: flex; justify-content: space-between; }
-.af-sub a, .af-sub span { color: #0066ff; font-size: 11.5px; font-weight: 600; }
+.af-stats svg { color: #0F766E; flex: none; margin-top: 1px; }
+.af-stats b { display: block; color: #111827; font-size: 11.5px; font-weight: 700; }
+.af-sub { margin: 10px 0 0; font-size: 12px; font-weight: 750; color: #111827; display: flex; justify-content: space-between; }
+.af-sub a, .af-sub span { color: #0F766E; font-size: 11.5px; font-weight: 600; }
 .af-roles { margin-top: 6px; }
 .af .af-roles .af-chip { height: 24px; font-size: 11px; padding: 0 9px; }
 .sh .af .af-roles .af-chip { padding: 0 9px; font-size: 11px; }

@@ -3,7 +3,7 @@
 .sh .dk-banner {
   height: calc(2.9 * var(--u));
   border-radius: calc(.6 * var(--u));
-  background: linear-gradient(90deg, #0f9f98 0%, #2bb5ab 30%, #dff4f1 52%, #e9f8f6 100%);
+  background: linear-gradient(90deg, #0F766E 0%, #0F766E 30%, #dff4f1 52%, #e9f8f6 100%);
   display: flex; align-items: center; gap: calc(1.2 * var(--u));
   padding: 0 calc(.6 * var(--u)) 0 0;
   margin-bottom: calc(.8 * var(--u));
@@ -15,11 +15,11 @@
   background: rgba(255, 255, 255, .22); color: #fff; display: grid; place-items: center; font-size: calc(1.15 * var(--ut));
 }
 .sh .dk-banner b { display: block; font-size: calc(.95 * var(--ut)); font-weight: 800; letter-spacing: -.01em; white-space: nowrap; }
-.sh .dk-banner small { color: #1d3b4f; font-size: calc(.72 * var(--ut)); font-weight: 500; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; min-width: 0; }
+.sh .dk-banner small { color: #111827; font-size: calc(.72 * var(--ut)); font-weight: 500; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; min-width: 0; }
 .sh .dk-banner-art { height: 140%; width: auto; margin-left: auto; object-fit: contain; pointer-events: none; }
 .sh .dk-banner .go {
   flex: none; height: calc(1.85 * var(--u)); padding: 0 calc(1.1 * var(--u));
-  background: #0b7f7b; color: #fff; border-radius: calc(.45 * var(--u));
+  background: #0F766E; color: #fff; border-radius: calc(.45 * var(--u));
   font-size: calc(.68 * var(--ut)); font-weight: 700; display: inline-flex; align-items: center; gap: calc(.3 * var(--u));
 }
 .sh .dk-h1 { margin: 0; font-size: clamp(21px, 1.75vw, 28px); font-weight: 800; letter-spacing: -.02em; }
@@ -31,7 +31,7 @@
 .sh .dk-chips { display: flex; gap: calc(.45 * var(--u)); flex-wrap: wrap; margin-bottom: calc(.7 * var(--u)); }
 .sh .dk-chip {
   height: calc(1.85 * var(--u)); padding: 0 calc(.75 * var(--u)); border-radius: calc(1 * var(--u));
-  background: #fff; border: 1px solid #e6edf5; color: #24344d; font-size: clamp(11px, 0.9375vw, 13px); font-weight: 600;
+  background: #fff; border: 1px solid #e6edf5; color: #111827; font-size: clamp(11px, 0.9375vw, 13px); font-weight: 600;
   display: inline-flex; align-items: center; gap: calc(.45 * var(--u));
 }
 .sh .dk-chip.on { background: var(--teal); color: #fff; border-color: var(--teal); }
@@ -52,14 +52,14 @@
 .sh .dk-cols { display: grid; grid-template-columns: calc(13.4 * var(--u)) minmax(0, 1fr) calc(16.4 * var(--u)); gap: calc(.65 * var(--u)); align-items: start; }
 .sh .dk-panel, .sh .dk-card, .sh .dk-cart, .sh .dk-box, .sh .pd-card {
   background: #fff; border: 1px solid #e8eef6; border-radius: calc(.6 * var(--u));
-  box-shadow: 0 calc(.08 * var(--u)) calc(.4 * var(--u)) rgba(20, 40, 80, .04);
+  box-shadow: 0 calc(.08 * var(--u)) calc(.4 * var(--u)) rgba(17, 24, 39, .04);
 }
 .sh .dk-panel { padding: calc(.75 * var(--u)) calc(.7 * var(--u)) calc(.9 * var(--u)); }
 .sh .dk-panel h4 { margin: calc(.15 * var(--u)) 0 calc(.4 * var(--u)); font-size: calc(.72 * var(--ut)); display: flex; justify-content: space-between; align-items: center; }
 .sh .dk-panel h4 button, .sh .dk-link { color: var(--teal); font-size: calc(.6 * var(--ut)); font-weight: 650; }
 .sh .dk-search { height: calc(1.7 * var(--u)); border: 1px solid #e6edf5; border-radius: calc(.4 * var(--u)); display: flex; align-items: center; gap: calc(.35 * var(--u)); padding: 0 calc(.5 * var(--u)); margin-bottom: calc(.45 * var(--u)); color: #8aa; }
 .sh .dk-search input { border: 0; outline: 0; width: 100%; font: inherit; font-size: calc(.62 * var(--ut)); color: var(--ink); background: transparent; }
-.sh .dk-check { display: flex; align-items: center; gap: calc(.4 * var(--u)); min-height: calc(1.35 * var(--u)); font-size: calc(.64 * var(--ut)); color: #24344d; width: 100%; text-align: left; }
+.sh .dk-check { display: flex; align-items: center; gap: calc(.4 * var(--u)); min-height: calc(1.35 * var(--u)); font-size: calc(.64 * var(--ut)); color: #111827; width: 100%; text-align: left; }
 .sh .dk-check em { margin-left: auto; color: #90a0b5; font-style: normal; font-size: calc(.58 * var(--ut)); }
 .sh .dk-boxi { width: calc(.78 * var(--u)); height: calc(.78 * var(--u)); border-radius: calc(.18 * var(--u)); border: 1.5px solid #c5d0de; display: grid; place-items: center; flex: none; color: #fff; }
 .sh .dk-check.on .dk-boxi, .sh .dk-radio.on .dot { background: var(--teal); border-color: var(--teal); }
@@ -86,8 +86,8 @@
 .sh .dk-card .ph img { width: 100%; height: 100%; object-fit: contain; }
 .sh .dk-badge { position: absolute; top: calc(.35 * var(--u)); left: calc(.35 * var(--u)); height: calc(1.15 * var(--u)); padding: 0 calc(.4 * var(--u)); border-radius: calc(.28 * var(--u)); color: #fff; font-size: calc(.55 * var(--ut)); font-weight: 750; display: inline-flex; align-items: center; }
 .sh .dk-badge.red { background: #ef3b3b; }
-.sh .dk-badge.blue { background: #0b8f8a; }
-.sh .dk-badge.mint { background: #e7f4ff; color: #1d6fe8; }
+.sh .dk-badge.blue { background: #0F766E; }
+.sh .dk-badge.mint { background: #F0FDFA; color: #0F766E; }
 .sh .dk-card .brand { margin-top: calc(.4 * var(--u)); color: #8b9bb0; font-size: calc(.58 * var(--ut)); }
 .sh .dk-card h3 { margin: calc(.08 * var(--u)) 0 calc(.25 * var(--u)); font-size: var(--fs); line-height: 1.25; font-weight: 700; min-height: 0; }
 .sh .dk-card h3 a:hover { color: var(--teal); }
@@ -147,7 +147,7 @@
 .sh .dk-chatbtn { height: calc(1.7 * var(--u)); padding: 0 calc(.7 * var(--u)); border-radius: calc(.4 * var(--u)); background: var(--teal); color: #fff; font-size: calc(.62 * var(--ut)); font-weight: 700; display: inline-flex; align-items: center; gap: calc(.3 * var(--u)); }
 .sh .dk-chat {
   position: fixed; right: calc(1 * var(--u)); bottom: calc(1 * var(--u)); width: calc(16 * var(--u));
-  background: #fff; border-radius: calc(.6 * var(--u)); box-shadow: 0 calc(.4 * var(--u)) calc(1.4 * var(--u)) rgba(15,30,60,.18);
+  background: #fff; border-radius: calc(.6 * var(--u)); box-shadow: 0 calc(.4 * var(--u)) calc(1.4 * var(--u)) rgba(17, 24, 39, .18);
   z-index: 40; overflow: hidden; border: 1px solid #e6edf5;
 }
 .sh .dk-chat header { background: var(--teal); color: #fff; padding: calc(.55 * var(--u)) calc(.7 * var(--u)); display: flex; justify-content: space-between; align-items: center; font-size: calc(.7 * var(--ut)); font-weight: 700; }
@@ -162,7 +162,7 @@
 .sh .dk-drop { position: relative; }
 .sh .dk-drop > button { height: calc(1.8 * var(--u)); padding: 0 calc(.65 * var(--u)); background: #fff; border: 1px solid #e6edf5; border-radius: calc(.4 * var(--u)); font-size: calc(.64 * var(--ut)); font-weight: 650; display: inline-flex; align-items: center; gap: calc(.3 * var(--u)); }
 .sh .dk-drop.on > button { border-color: var(--teal); color: var(--teal); }
-.sh .dk-pop { position: absolute; top: calc(2.05 * var(--u)); left: 0; z-index: 15; background: #fff; border: 1px solid #e6edf5; border-radius: calc(.45 * var(--u)); min-width: calc(11 * var(--u)); padding: calc(.45 * var(--u)); box-shadow: 0 calc(.3 * var(--u)) calc(1 * var(--u)) rgba(20,40,80,.08); }
+.sh .dk-pop { position: absolute; top: calc(2.05 * var(--u)); left: 0; z-index: 15; background: #fff; border: 1px solid #e6edf5; border-radius: calc(.45 * var(--u)); min-width: calc(11 * var(--u)); padding: calc(.45 * var(--u)); box-shadow: 0 calc(.3 * var(--u)) calc(1 * var(--u)) rgba(17, 24, 39, .08); }
 
 .sh .pd-grid { display: grid; grid-template-columns: minmax(0, 1.05fr) minmax(0, 1.15fr) calc(16.6 * var(--u)); gap: calc(.7 * var(--u)); align-items: start; }
 .sh .pd-side { display: flex; flex-direction: column; gap: calc(.6 * var(--u)); position: sticky; top: calc(4.2 * var(--u)); }
@@ -177,7 +177,7 @@
 .sh .pd-thumbs button.on { border-color: var(--teal); }
 .sh .pd-thumbs img { width: 100%; height: 100%; object-fit: cover; }
 .sh .pd-kicker { color: #7d8da3; font-size: calc(.68 * var(--ut)); display: flex; align-items: center; gap: calc(.4 * var(--u)); }
-.sh .pd-kicker .pill { background: #e7f2ff; color: #1d6fe8; border-radius: calc(.3 * var(--u)); padding: calc(.12 * var(--u)) calc(.4 * var(--u)); font-size: calc(.58 * var(--ut)); font-weight: 700; }
+.sh .pd-kicker .pill { background: #F0FDFA; color: #0F766E; border-radius: calc(.3 * var(--u)); padding: calc(.12 * var(--u)) calc(.4 * var(--u)); font-size: calc(.58 * var(--ut)); font-weight: 700; }
 .sh .pd-title { margin: calc(.2 * var(--u)) 0 calc(.1 * var(--u)); font-size: clamp(26px, 2.109375vw, 32px); letter-spacing: -.03em; }
 .sh .pd-sub { margin: 0 0 calc(.4 * var(--u)); color: #52637c; font-size: calc(.75 * var(--ut)); }
 .sh .pd-rate { display: flex; gap: calc(.5 * var(--u)); align-items: center; color: #5c6d84; font-size: calc(.66 * var(--ut)); flex-wrap: wrap; }
@@ -204,7 +204,7 @@
 .sh .pd-heart.on { color: #ef3b3b; }
 .sh .pd-heart.on .i { fill: #ef3b3b; }
 .sh .pd-buy { width: 100%; height: calc(2.2 * var(--u)); border-radius: calc(.45 * var(--u)); background: var(--teal); color: #fff; font-weight: 750; font-size: calc(.72 * var(--ut)); display: inline-flex; align-items: center; justify-content: center; gap: calc(.35 * var(--u)); margin-top: calc(.35 * var(--u)); }
-.sh .pd-ghost { width: 100%; height: calc(2 * var(--u)); border-radius: calc(.45 * var(--u)); border: 1px solid #d5deea; margin-top: calc(.35 * var(--u)); font-weight: 700; font-size: calc(.68 * var(--ut)); color: #1d2b45; display: inline-flex; align-items: center; justify-content: center; gap: calc(.35 * var(--u)); }
+.sh .pd-ghost { width: 100%; height: calc(2 * var(--u)); border-radius: calc(.45 * var(--u)); border: 1px solid #d5deea; margin-top: calc(.35 * var(--u)); font-weight: 700; font-size: calc(.68 * var(--ut)); color: #111827; display: inline-flex; align-items: center; justify-content: center; gap: calc(.35 * var(--u)); }
 .sh .pd-seller { display: flex; gap: calc(.5 * var(--u)); align-items: center; }
 .sh .pd-seller img, .sh .pd-ava { width: calc(2.4 * var(--u)); height: calc(2.4 * var(--u)); border-radius: calc(.4 * var(--u)); object-fit: cover; background: #e7f6f8; display: grid; place-items: center; color: var(--teal); font-weight: 800; }
 .sh .pd-seller b { font-size: calc(.75 * var(--ut)); }
@@ -232,7 +232,7 @@
 .sh .sp-badges { display: flex; gap: calc(.3 * var(--u)); flex-wrap: wrap; margin: calc(.35 * var(--u)) 0; }
 .sh .sp-badge { height: calc(1.25 * var(--u)); padding: 0 calc(.45 * var(--u)); border-radius: calc(.3 * var(--u)); font-size: calc(.58 * var(--ut)); font-weight: 700; display: inline-flex; align-items: center; }
 .sh .sp-badge.green { background: #e5f8ef; color: #128a52; }
-.sh .sp-badge.blue { background: #e7f0ff; color: #0b8f8a; }
+.sh .sp-badge.blue { background: #F0FDFA; color: #0F766E; }
 .sh .sp-badge.orange { background: #fff1e4; color: #e07a1f; }
 .sh .sp-facts { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: calc(.4 * var(--u)); margin-top: calc(.5 * var(--u)); }
 .sh .sp-low { display: grid; grid-template-columns: minmax(0, 1fr) calc(16.6 * var(--u)); gap: calc(.7 * var(--u)); margin-top: calc(.7 * var(--u)); }
@@ -246,11 +246,11 @@
 
 /* Two-line filter box (seminarlar, shared with other catalogs). */
 .sh .dk-field { position: relative; flex: 1 1 calc(8 * var(--u)); min-width: 0; height: calc(2.75 * var(--u)); border: 1px solid #e6edf5; border-radius: calc(.5 * var(--u)); background: #fff; display: flex; flex-direction: column; justify-content: center; padding: 0 calc(1.6 * var(--u)) 0 calc(.6 * var(--u)); cursor: pointer; }
-.sh .dk-field:hover { border-color: #9edbd6; }
+.sh .dk-field:hover { border-color: #CCFBF1; }
 .sh .dk-field small { color: #7d8da3; font-size: calc(.54 * var(--ut)); }
 .sh .dk-field select, .sh .dk-field input { appearance: none; border: 0; background: transparent; padding: 0; font: inherit; font-size: calc(.64 * var(--ut)); font-weight: 650; color: var(--ink); cursor: pointer; width: 100%; min-width: 0; }
 .sh .dk-field select:focus, .sh .dk-field input:focus { outline: none; }
-.sh .dk-field:focus-within { border-color: var(--teal); box-shadow: 0 0 0 2px rgba(0, 168, 163, .15); }
+.sh .dk-field:focus-within { border-color: var(--teal); box-shadow: 0 0 0 2px rgba(15, 118, 110, .15); }
 .sh .dk-field > .i { position: absolute; right: calc(.55 * var(--u)); top: 50%; transform: translateY(-50%); font-size: calc(.8 * var(--ut)); color: #4a5470; pointer-events: none; }
 .sh .dk-field .pair { display: flex; align-items: center; gap: calc(.25 * var(--u)); }
 

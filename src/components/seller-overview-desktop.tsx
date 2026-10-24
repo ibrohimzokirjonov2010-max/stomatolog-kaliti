@@ -79,7 +79,7 @@ function buildSeries(orders: Order[], shopId: string, mode: Mode) {
   return pts;
 }
 
-function Spark({ values, color = "#0066FF" }: { values: number[]; color?: string }) {
+function Spark({ values, color = "#0F766E" }: { values: number[]; color?: string }) {
   const max = Math.max(...values, 1);
   const w = 84;
   const h = 32;
@@ -94,9 +94,9 @@ function Spark({ values, color = "#0066FF" }: { values: number[]; color?: string
 
 function Panel({ title, action, children, className }: { title: string; action?: ReactNode; children: ReactNode; className?: string }) {
   return (
-    <section className={cn("rounded-2xl border border-[#eceff5] bg-white p-5 shadow-[0_1px_3px_rgba(15,23,42,0.04)]", className)}>
+    <section className={cn("rounded-2xl border border-[#eceff5] bg-white p-5 shadow-[0_1px_3px_rgba(17, 24, 39, 0.04)]", className)}>
       <div className="flex items-center justify-between gap-2">
-        <h2 className="text-[15.5px] font-bold text-[#0B1F4D]">{title}</h2>
+        <h2 className="text-[15.5px] font-bold text-[#111827]">{title}</h2>
         {action}
       </div>
       {children}
@@ -109,7 +109,7 @@ function Tag({ children, tone = "gray" }: { children: ReactNode; tone?: "gray" |
     <span
       className={cn(
         "rounded-full px-2 py-0.5 text-[10.5px] font-semibold",
-        tone === "blue" ? "bg-[#e8f1ff] text-[#0066FF]" : "bg-[#f1f4f9] text-[#8b93a7]",
+        tone === "blue" ? "bg-[#F0FDFA] text-[#0F766E]" : "bg-[#f1f4f9] text-[#8b93a7]",
       )}
     >
       {children}
@@ -157,7 +157,7 @@ function SalesChart({ orders, shopId }: { orders: Order[]; shopId: string }) {
               }}
               className={cn(
                 "h-8 rounded-[10px] px-3.5 text-[12.5px] font-semibold transition",
-                mode === id ? "bg-white text-[#0066FF] shadow-sm" : "text-[#6b7280] hover:text-[#1a1d26]",
+                mode === id ? "bg-white text-[#0F766E] shadow-sm" : "text-[#6b7280] hover:text-[#1a1d26]",
               )}
             >
               {label}
@@ -180,24 +180,24 @@ function SalesChart({ orders, shopId }: { orders: Order[]; shopId: string }) {
             <svg viewBox={`0 0 ${W} ${H}`} preserveAspectRatio="none" className="absolute inset-0 size-full" aria-hidden="true">
               <defs>
                 <linearGradient id="sk-area" x1="0" x2="0" y1="0" y2="1">
-                  <stop offset="0%" stopColor="#0066FF" stopOpacity="0.28" />
-                  <stop offset="100%" stopColor="#0066FF" stopOpacity="0.02" />
+                  <stop offset="0%" stopColor="#0F766E" stopOpacity="0.28" />
+                  <stop offset="100%" stopColor="#0F766E" stopOpacity="0.02" />
                 </linearGradient>
               </defs>
               {[0, 0.25, 0.5, 0.75, 1].map((f) => (
                 <line key={f} x1="0" x2={W} y1={y(niceMax * f)} y2={y(niceMax * f)} stroke="#eef1f6" strokeWidth="1" vectorEffect="non-scaling-stroke" />
               ))}
               <path d={area} fill="url(#sk-area)" />
-              <path d={line} fill="none" stroke="#0066FF" strokeWidth="2.5" strokeLinejoin="round" strokeLinecap="round" vectorEffect="non-scaling-stroke" />
+              <path d={line} fill="none" stroke="#0F766E" strokeWidth="2.5" strokeLinejoin="round" strokeLinecap="round" vectorEffect="non-scaling-stroke" />
             </svg>
             <div className="absolute inset-0 flex">
               {pts.map((p, i) => (
                 <div key={i} className="relative flex-1" onMouseEnter={() => setHover(i)}>
                   {i === active ? (
                     <>
-                      <span className="absolute inset-y-0 left-1/2 w-px bg-[#0066FF]/25" />
+                      <span className="absolute inset-y-0 left-1/2 w-px bg-[#0F766E]/25" />
                       <span
-                        className="absolute left-1/2 size-3 -translate-x-1/2 translate-y-1/2 rounded-full border-2 border-[#0066FF] bg-white"
+                        className="absolute left-1/2 size-3 -translate-x-1/2 translate-y-1/2 rounded-full border-2 border-[#0F766E] bg-white"
                         style={{ bottom: `${((H - y(p.total)) / H) * 100}%` }}
                       />
                     </>
@@ -207,7 +207,7 @@ function SalesChart({ orders, shopId }: { orders: Order[]; shopId: string }) {
             </div>
             {pts[active] ? (
               <div
-                className="pointer-events-none absolute z-10 -translate-x-1/2 rounded-lg bg-[#0B1F4D] px-3 py-1.5 text-center text-white shadow-lg"
+                className="pointer-events-none absolute z-10 -translate-x-1/2 rounded-lg bg-[#111827] px-3 py-1.5 text-center text-white shadow-lg"
                 style={{
                   left: `${Math.min(88, Math.max(12, ((active + 0.5) / pts.length) * 100))}%`,
                   bottom: `calc(${((H - y(pts[active].total)) / H) * 100}% + 14px)`,
@@ -287,14 +287,14 @@ export function SellerOverviewDesktop({ shop, onAdd }: { shop: Shop; onAdd: () =
   return (
     <div className="space-y-4">
       {/* profile card */}
-      <section className="relative overflow-hidden rounded-2xl border border-[#eceff5] bg-white shadow-[0_1px_3px_rgba(15,23,42,0.04)]">
+      <section className="relative overflow-hidden rounded-2xl border border-[#eceff5] bg-white shadow-[0_1px_3px_rgba(17, 24, 39, 0.04)]">
         <div className="flex items-stretch">
           <div className="min-w-0 flex-1 p-6">
             <div className="flex items-start gap-4">
               <ShopAvatar shop={shop} className="size-[72px] text-[26px]" />
               <div className="min-w-0 flex-1">
                 <div className="flex flex-wrap items-center gap-2">
-                  <h1 className="truncate text-[22px] font-extrabold tracking-tight text-[#0B1F4D]">{shop.name}</h1>
+                  <h1 className="truncate text-[22px] font-extrabold tracking-tight text-[#111827]">{shop.name}</h1>
                   {shop.verified === "active" ? (
                     <span className="inline-flex items-center gap-1 rounded-full bg-[#ecfdf3] px-2.5 py-0.5 text-[11.5px] font-semibold text-[#15803d]">
                       <BadgeCheck className="size-3.5" />
@@ -321,7 +321,7 @@ export function SellerOverviewDesktop({ shop, onAdd }: { shop: Shop; onAdd: () =
                 </div>
               </div>
               <div className="flex items-center gap-2.5">
-                <span className="flex size-9 items-center justify-center rounded-xl bg-[#e8f1ff] text-[#0066FF]">
+                <span className="flex size-9 items-center justify-center rounded-xl bg-[#F0FDFA] text-[#0F766E]">
                   <ShoppingBag className="size-[18px]" />
                 </span>
                 <div>
@@ -349,7 +349,7 @@ export function SellerOverviewDesktop({ shop, onAdd }: { shop: Shop; onAdd: () =
                 <button
                   type="button"
                   onClick={onAdd}
-                  className="inline-flex h-10 items-center gap-1.5 rounded-xl bg-[#0066FF] px-4 text-[13.5px] font-bold text-white shadow-[0_6px_14px_rgba(0,102,255,0.25)] hover:bg-[#0058dd]"
+                  className="inline-flex h-10 items-center gap-1.5 rounded-xl bg-[#0F766E] px-4 text-[13.5px] font-bold text-white shadow-[0_6px_14px_rgba(15, 118, 110, 0.25)] hover:bg-[#115E59]"
                 >
                   <Plus className="size-4" />
                   Mahsulot qo‘shish
@@ -357,7 +357,7 @@ export function SellerOverviewDesktop({ shop, onAdd }: { shop: Shop; onAdd: () =
               </div>
             </div>
           </div>
-          <div className="relative hidden w-[300px] shrink-0 overflow-hidden bg-gradient-to-br from-[#0b4fd6] via-[#0066FF] to-[#4a98ff] xl:block">
+          <div className="relative hidden w-[300px] shrink-0 overflow-hidden bg-gradient-to-br from-[#0F766E] via-[#0F766E] to-[#0F766E] xl:block">
             <div className="absolute inset-0 opacity-30 [background:radial-gradient(circle_at_80%_20%,#fff_0,transparent_45%)]" />
             <div className="relative z-10 p-6 text-white">
               <p className="text-[16px] font-extrabold leading-snug">Sifatli materiallar ishonchli stomatologlar uchun</p>
@@ -444,7 +444,7 @@ export function SellerOverviewDesktop({ shop, onAdd }: { shop: Shop; onAdd: () =
           <Link
             href={cabinetHref("profile")}
             scroll={false}
-            className="mt-4 flex h-10 w-full items-center justify-center rounded-xl bg-[#0066FF] text-[13.5px] font-bold text-white hover:bg-[#0058dd]"
+            className="mt-4 flex h-10 w-full items-center justify-center rounded-xl bg-[#0F766E] text-[13.5px] font-bold text-white hover:bg-[#115E59]"
           >
             Profilni tahrirlash
           </Link>
@@ -456,7 +456,7 @@ export function SellerOverviewDesktop({ shop, onAdd }: { shop: Shop; onAdd: () =
         <Panel
           title="Eng ko‘p sotilgan mahsulotlar"
           action={
-            <Link href={cabinetHref("products")} scroll={false} className="text-[12.5px] font-semibold text-[#0066FF] hover:underline">
+            <Link href={cabinetHref("products")} scroll={false} className="text-[12.5px] font-semibold text-[#0F766E] hover:underline">
               Barchasi
             </Link>
           }
@@ -487,7 +487,7 @@ export function SellerOverviewDesktop({ shop, onAdd }: { shop: Shop; onAdd: () =
         <Panel
           title="So‘nggi buyurtmalar"
           action={
-            <Link href={cabinetHref("orders")} scroll={false} className="text-[12.5px] font-semibold text-[#0066FF] hover:underline">
+            <Link href={cabinetHref("orders")} scroll={false} className="text-[12.5px] font-semibold text-[#0F766E] hover:underline">
               Barchasi
             </Link>
           }
@@ -498,7 +498,7 @@ export function SellerOverviewDesktop({ shop, onAdd }: { shop: Shop; onAdd: () =
                 const d = new Date(o.createdAt);
                 return (
                   <li key={o.id} className="flex items-center gap-3">
-                    <span className="flex size-10 shrink-0 items-center justify-center rounded-xl bg-[#e8f1ff] text-[#0066FF]">
+                    <span className="flex size-10 shrink-0 items-center justify-center rounded-xl bg-[#F0FDFA] text-[#0F766E]">
                       <ShoppingBag className="size-[18px]" />
                     </span>
                     <span className="min-w-0 flex-1">
@@ -524,7 +524,7 @@ export function SellerOverviewDesktop({ shop, onAdd }: { shop: Shop; onAdd: () =
 
         <Panel title="Xabarlar" action={<Tag>Tez orada</Tag>}>
           <div className="mt-3 flex flex-col items-center justify-center rounded-xl bg-[#f7f9fc] px-4 py-8 text-center">
-            <span className="flex size-11 items-center justify-center rounded-full bg-white text-[#0066FF] shadow-sm">
+            <span className="flex size-11 items-center justify-center rounded-full bg-white text-[#0F766E] shadow-sm">
               <MessageSquare className="size-5" />
             </span>
             <p className="mt-3 text-[13.5px] font-semibold text-[#1a1d26]">Xaridorlar bilan yozishma</p>
@@ -563,20 +563,20 @@ function StatBox({
   children?: ReactNode;
 }) {
   const t = {
-    blue: "bg-[#e8f1ff] text-[#0066FF]",
+    blue: "bg-[#F0FDFA] text-[#0F766E]",
     green: "bg-[#ecfdf3] text-[#16a34a]",
     purple: "bg-[#f3ecff] text-[#7c3aed]",
     orange: "bg-[#fff2e6] text-[#f97316]",
   }[tone];
   return (
-    <div className="rounded-2xl border border-[#eceff5] bg-white p-4 shadow-[0_1px_3px_rgba(15,23,42,0.04)]">
+    <div className="rounded-2xl border border-[#eceff5] bg-white p-4 shadow-[0_1px_3px_rgba(17, 24, 39, 0.04)]">
       <div className="flex items-center gap-3">
         <span className={cn("flex size-11 shrink-0 items-center justify-center rounded-xl", t)}>
           <Icon className="size-5" />
         </span>
         <div className="min-w-0 flex-1">
           <p className="text-[12.5px] text-[#6b7280]">{label}</p>
-          <p className="truncate text-[21px] leading-tight font-extrabold tracking-tight text-[#0B1F4D]">{value}</p>
+          <p className="truncate text-[21px] leading-tight font-extrabold tracking-tight text-[#111827]">{value}</p>
         </div>
       </div>
       <div className="mt-3 flex items-end justify-between gap-2">
@@ -596,14 +596,14 @@ function StatBox({
 
 export function SoonPanel({ tab, label, icon: Icon }: { tab: CabinetTab; label: string; icon: LucideIcon }) {
   return (
-    <section className="mx-auto mt-6 max-w-[520px] rounded-2xl border border-[#eceff5] bg-white px-8 py-14 text-center shadow-[0_1px_3px_rgba(15,23,42,0.04)]" data-tab={tab}>
-      <span className="mx-auto flex size-16 items-center justify-center rounded-2xl bg-[#e8f1ff] text-[#0066FF]">
+    <section className="mx-auto mt-6 max-w-[520px] rounded-2xl border border-[#eceff5] bg-white px-8 py-14 text-center shadow-[0_1px_3px_rgba(17, 24, 39, 0.04)]" data-tab={tab}>
+      <span className="mx-auto flex size-16 items-center justify-center rounded-2xl bg-[#F0FDFA] text-[#0F766E]">
         <Icon className="size-8" />
       </span>
-      <h1 className="mt-5 text-[22px] font-extrabold text-[#0B1F4D]">{label}</h1>
+      <h1 className="mt-5 text-[22px] font-extrabold text-[#111827]">{label}</h1>
       <p className="mt-1 inline-block rounded-full bg-[#fff7e6] px-3 py-0.5 text-[12px] font-bold text-[#b45309]">Tez orada</p>
       <p className="mt-3 text-[13.5px] leading-relaxed text-[#6b7280]">Bu bo‘lim hozircha ishga tushmagan. Tayyor bo‘lganda shu yerda ko‘rinadi.</p>
-      <Link href={cabinetHref("overview")} scroll={false} className="mt-6 inline-flex h-10 items-center rounded-xl bg-[#0066FF] px-5 text-[13.5px] font-bold text-white hover:bg-[#0058dd]">
+      <Link href={cabinetHref("overview")} scroll={false} className="mt-6 inline-flex h-10 items-center rounded-xl bg-[#0F766E] px-5 text-[13.5px] font-bold text-white hover:bg-[#115E59]">
         Umumiyga qaytish
       </Link>
     </section>

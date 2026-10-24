@@ -18,8 +18,8 @@ const SERVICES = [
 ] as const;
 
 const METHODS = [
-  { name: "Naqd", pct: 45, color: "#0E8F94" },
-  { name: "Karta", pct: 28, color: "#2F6BFF" },
+  { name: "Naqd", pct: 45, color: "#0F766E" },
+  { name: "Karta", pct: 28, color: "#0F766E" },
   { name: "Click", pct: 15, color: "#F5A524" },
   { name: "Payme", pct: 8, color: "#22A06B" },
   { name: "O‘tkazma", pct: 4, color: "#94A3B8" },
@@ -101,9 +101,9 @@ function AreaChart({ values, labels, max }: { values: number[]; labels: string[]
           </g>
         );
       })}
-      <path d={area} fill="rgba(14,143,148,.18)" />
-      <path d={line} fill="none" stroke="#0E8F94" strokeWidth="2.4" />
-      {pts.map((point, index) => <circle key={index} cx={point[0]} cy={point[1]} r="2.2" fill="#fff" stroke="#0E8F94" strokeWidth="1.4" />)}
+      <path d={area} fill="rgba(15, 118, 110, .18)" />
+      <path d={line} fill="none" stroke="#0F766E" strokeWidth="2.4" />
+      {pts.map((point, index) => <circle key={index} cx={point[0]} cy={point[1]} r="2.2" fill="#fff" stroke="#0F766E" strokeWidth="1.4" />)}
       {labelIdx.map((index, n) => (
         <text key={labels[n] ?? index} x={pts[index][0]} y={h - 4} fontSize="7" fill="#64748b" textAnchor="middle">{labels[n]}</text>
       ))}
@@ -125,7 +125,7 @@ function Donut({ total }: { total: string }) {
         offset += len;
         return node;
       })}
-      <text x="60" y="58" textAnchor="middle" fontSize="9" fontWeight="800" fill="#16324f">{total}</text>
+      <text x="60" y="58" textAnchor="middle" fontSize="9" fontWeight="800" fill="#111827">{total}</text>
       <text x="60" y="70" textAnchor="middle" fontSize="7" fontWeight="700" fill="#64748b">so‘m</text>
     </svg>
   );
@@ -245,7 +245,7 @@ export function PhoneReports() {
           {doctors.map((item) => (
             <article key={item.name} className="rpt-doc">
               <img src={item.photo} alt="" />
-              <span><b>{item.name}</b><span className="track" style={{ display: "block", height: 4, background: "#e7eef5", borderRadius: 99 }}><i style={{ display: "block", height: "100%", width: `${(item.amount / maxDoctor) * 100}%`, background: "#0E8F94", borderRadius: 99 }} /></span></span>
+              <span><b>{item.name}</b><span className="track" style={{ display: "block", height: 4, background: "#e7eef5", borderRadius: 99 }}><i style={{ display: "block", height: "100%", width: `${(item.amount / maxDoctor) * 100}%`, background: "#0F766E", borderRadius: 99 }} /></span></span>
               <b className="amt">{money(item.amount)} so‘m</b>
             </article>
           ))}

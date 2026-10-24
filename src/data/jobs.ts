@@ -109,11 +109,11 @@ export const clinicBrands: Record<
   ClinicBrand,
   { name: string; short: string; color: string }
 > = {
-  smile: { name: "Smile Dental", short: "SMILE DENTAL", color: "#2563eb" },
-  lux: { name: "Lux Dental", short: "LUX DENTAL", color: "#3b82f6" },
+  smile: { name: "Smile Dental", short: "SMILE DENTAL", color: "#0F766E" },
+  lux: { name: "Lux Dental", short: "LUX DENTAL", color: "#0F766E" },
   alpha: { name: "Alpha Dental", short: "ALPHA DENTAL", color: "#0f766e" },
   zubr: { name: "Zubr Dental", short: "ZUBR DENTAL", color: "#ea580c" },
-  medplus: { name: "MedPlus", short: "MEDPLUS", color: "#4f46e5" },
+  medplus: { name: "MedPlus", short: "MEDPLUS", color: "#0F766E" },
 };
 
 export const jobTitles = [

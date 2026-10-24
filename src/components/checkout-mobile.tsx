@@ -52,13 +52,13 @@ const PAYS: { id: PayChoice; label: string; sub?: string; badge: ReactNode; read
     id: "click",
     label: "Click",
     ready: true,
-    badge: <span className="grid size-8 place-items-center rounded-full bg-[#0a7cff] text-[16px] font-extrabold text-white">C</span>,
+    badge: <span className="grid size-8 place-items-center rounded-full bg-[#0F766E] text-[16px] font-extrabold text-white">C</span>,
   },
   {
     id: "payme",
     label: "Payme",
     ready: true,
-    badge: <span className="grid size-8 place-items-center rounded-[9px] bg-[#1fc5bd] text-[16px] font-extrabold text-white">P</span>,
+    badge: <span className="grid size-8 place-items-center rounded-[9px] bg-[#0F766E] text-[16px] font-extrabold text-white">P</span>,
   },
   {
     id: "uzum",
@@ -91,7 +91,7 @@ const STEPS = ["Yetkazish", "To‘lov", "Tasdiqlash"] as const;
 
 function Card({ children, className }: { children: ReactNode; className?: string }) {
   return (
-    <section className={cn("rounded-[18px] bg-white p-3.5 shadow-[0_1px_3px_rgba(15,23,42,0.06)]", className)}>
+    <section className={cn("rounded-[18px] bg-white p-3.5 shadow-[0_1px_3px_rgba(17, 24, 39, 0.06)]", className)}>
       {children}
     </section>
   );
@@ -100,7 +100,7 @@ function Card({ children, className }: { children: ReactNode; className?: string
 function CardTitle({ icon, children, right }: { icon: ReactNode; children: ReactNode; right?: ReactNode }) {
   return (
     <div className="mb-3 flex items-center gap-2.5">
-      <span className="text-[#1f6bff]">{icon}</span>
+      <span className="text-[#0F766E]">{icon}</span>
       <h2 className="flex-1 text-[16px] font-bold text-[#0B1220]">{children}</h2>
       {right}
     </div>
@@ -121,7 +121,7 @@ function FieldBox({
   return (
     <label
       className={cn(
-        "flex min-h-[54px] items-center gap-2.5 rounded-[12px] border border-[#e3e8f0] bg-white px-3 py-1.5 focus-within:border-[#1f6bff]",
+        "flex min-h-[54px] items-center gap-2.5 rounded-[12px] border border-[#e3e8f0] bg-white px-3 py-1.5 focus-within:border-[#0F766E]",
         className,
       )}
     >
@@ -268,15 +268,15 @@ export function CheckoutMobile() {
     return (
       <div className="px-1 pt-1 pb-6" data-testid="buyurtma-mobile">
         <h1 className="text-[28px] font-extrabold tracking-tight text-[#0B1220]">Buyurtma berish</h1>
-        <div className="mt-4 rounded-[18px] bg-white px-6 py-14 text-center shadow-[0_1px_3px_rgba(15,23,42,0.06)]">
-          <span className="mx-auto flex size-14 items-center justify-center rounded-2xl bg-[#e8f1ff] text-[#1f6bff]">
+        <div className="mt-4 rounded-[18px] bg-white px-6 py-14 text-center shadow-[0_1px_3px_rgba(17, 24, 39, 0.06)]">
+          <span className="mx-auto flex size-14 items-center justify-center rounded-2xl bg-[#F0FDFA] text-[#0F766E]">
             <ShoppingBag className="size-7" />
           </span>
           <p className="mt-4 text-[17px] font-bold text-[#0B1220]">Savatda tanlangan mahsulot yo‘q</p>
           <p className="mt-1 text-[14px] text-[#7a8397]">Avval mahsulot qo‘shing, keyin buyurtma bering.</p>
           <Link
             href="/marketplace"
-            className="mt-5 inline-flex h-12 items-center justify-center gap-2 rounded-full bg-[#1f6bff] px-6 text-[15px] font-semibold text-white"
+            className="mt-5 inline-flex h-12 items-center justify-center gap-2 rounded-full bg-[#0F766E] px-6 text-[15px] font-semibold text-white"
           >
             Marketplace <ArrowRight className="size-4" />
           </Link>
@@ -314,14 +314,14 @@ export function CheckoutMobile() {
                 <span
                   className={cn(
                     "grid size-[30px] place-items-center rounded-full text-[13.5px] font-bold",
-                    active || done ? "bg-[#1f6bff] text-white" : "bg-[#e9edf3] text-[#4b5568]",
+                    active || done ? "bg-[#0F766E] text-white" : "bg-[#e9edf3] text-[#4b5568]",
                   )}
                 >
                   {done ? <Check className="size-4" strokeWidth={3} /> : i + 1}
                 </span>
-                <span className={cn("text-[13.5px]", active ? "font-semibold text-[#1f6bff]" : "text-[#4b5568]")}>{label}</span>
+                <span className={cn("text-[13.5px]", active ? "font-semibold text-[#0F766E]" : "text-[#4b5568]")}>{label}</span>
               </button>
-              {i < STEPS.length - 1 ? <span className={cn("mx-2 h-px flex-1", done ? "bg-[#1f6bff]" : "bg-[#d7dde7]")} /> : null}
+              {i < STEPS.length - 1 ? <span className={cn("mx-2 h-px flex-1", done ? "bg-[#0F766E]" : "bg-[#d7dde7]")} /> : null}
             </li>
           );
         })}
@@ -331,7 +331,7 @@ export function CheckoutMobile() {
         {/* Cart summary */}
         <Card>
           <div className="mb-2.5 flex items-center gap-2">
-            <Package className="size-[18px] text-[#1f6bff]" />
+            <Package className="size-[18px] text-[#0F766E]" />
             <p className="text-[14.5px] font-bold text-[#0B1220]">{count} ta mahsulot</p>
           </div>
           <button
@@ -345,7 +345,7 @@ export function CheckoutMobile() {
                 <Thumb key={i.key} src={i.product.image} />
               ))}
               {extra > 0 ? (
-                <span className="grid size-[58px] place-items-center rounded-[10px] bg-[#e8f1ff] text-[17px] font-bold text-[#1f6bff]">
+                <span className="grid size-[58px] place-items-center rounded-[10px] bg-[#F0FDFA] text-[17px] font-bold text-[#0F766E]">
                   +{extra}
                 </span>
               ) : null}
@@ -394,7 +394,7 @@ export function CheckoutMobile() {
           <>
             {/* Delivery details */}
             <Card>
-              <CardTitle icon={<MapPin className="size-[22px] fill-[#1f6bff] text-white" />}>Yetkazib berish ma’lumotlari</CardTitle>
+              <CardTitle icon={<MapPin className="size-[22px] fill-[#0F766E] text-white" />}>Yetkazib berish ma’lumotlari</CardTitle>
               <div className="grid grid-cols-2 gap-2">
                 <FieldBox icon={<User className="size-[18px]" />} label="Ism">
                   <input className={inputCls} value={name} onChange={(e) => setName(e.target.value)} placeholder="Ism familiya" autoComplete="name" />
@@ -430,7 +430,7 @@ export function CheckoutMobile() {
                   onClick={() => setPickerOpen(true)}
                   className={cn(
                     "flex min-h-[54px] items-center justify-center gap-2 rounded-[12px] px-2 text-[13.5px] font-semibold",
-                    mapPoint ? "bg-[#e8f8ee] text-[#16a34a]" : "bg-[#e8f1ff] text-[#1f6bff]",
+                    mapPoint ? "bg-[#e8f8ee] text-[#16a34a]" : "bg-[#F0FDFA] text-[#0F766E]",
                   )}
                   data-testid="xarita-btn"
                 >
@@ -440,7 +440,7 @@ export function CheckoutMobile() {
                 {mapPoint ? (
                   <p className="col-span-2 -mt-0.5 px-1 text-[12px] text-[#7a8397]">
                     Pin: {mapPoint.lat}, {mapPoint.lng} ·{" "}
-                    <a href={mapUrl} target="_blank" rel="noreferrer" className="font-medium text-[#1f6bff] underline">
+                    <a href={mapUrl} target="_blank" rel="noreferrer" className="font-medium text-[#0F766E] underline">
                       xaritada ko‘rish
                     </a>
                   </p>
@@ -463,7 +463,7 @@ export function CheckoutMobile() {
                           aria-pressed={on}
                           className={cn(
                             "flex h-10 shrink-0 items-center gap-1.5 rounded-full border px-3 text-[13px] font-semibold",
-                            on ? "border-[#1f6bff] bg-[#1f6bff] text-white" : "border-[#dfe4ec] bg-white text-[#0B1220]",
+                            on ? "border-[#0F766E] bg-[#0F766E] text-white" : "border-[#dfe4ec] bg-white text-[#0B1220]",
                           )}
                         >
                           <PlaceIcon label={p.label} className="size-4" />
@@ -479,7 +479,7 @@ export function CheckoutMobile() {
                     <button
                       type="button"
                       onClick={() => setPickerOpen(true)}
-                      className="flex h-10 shrink-0 items-center gap-1 rounded-full border border-dashed border-[#9ec0ff] bg-[#f3f7ff] px-3 text-[13px] font-semibold text-[#1f6bff]"
+                      className="flex h-10 shrink-0 items-center gap-1 rounded-full border border-dashed border-[#CCFBF1] bg-[#f3f7ff] px-3 text-[13px] font-semibold text-[#0F766E]"
                     >
                       <Plus className="size-4" /> Qo‘shish
                     </button>
@@ -498,7 +498,7 @@ export function CheckoutMobile() {
 
             {/* Delivery method */}
             <Card>
-              <CardTitle icon={<Truck className="size-[22px] fill-[#1f6bff]" />}>Yetkazib berish usuli</CardTitle>
+              <CardTitle icon={<Truck className="size-[22px] fill-[#0F766E]" />}>Yetkazib berish usuli</CardTitle>
               <div className="grid grid-cols-2 gap-2" role="radiogroup" aria-label="Yetkazib berish usuli">
                 {(
                   [
@@ -516,13 +516,13 @@ export function CheckoutMobile() {
                       onClick={() => setDelivery(o.id)}
                       className={cn(
                         "relative flex items-center gap-2 rounded-[14px] border py-3 pr-6 pl-2 text-left",
-                        on ? "border-[#1f6bff] bg-[#f3f7ff]" : "border-[#e3e8f0] bg-white",
+                        on ? "border-[#0F766E] bg-[#f3f7ff]" : "border-[#e3e8f0] bg-white",
                       )}
                     >
                       <span
                         className={cn(
                           "grid size-9 shrink-0 place-items-center rounded-full",
-                          on ? "bg-[#1f6bff] text-white" : "bg-[#eef1f6] text-[#1f6bff]",
+                          on ? "bg-[#0F766E] text-white" : "bg-[#eef1f6] text-[#0F766E]",
                         )}
                       >
                         {o.icon}
@@ -536,7 +536,7 @@ export function CheckoutMobile() {
                       <span
                         className={cn(
                           "absolute top-2 right-2 grid size-[18px] place-items-center rounded-full border-2",
-                          on ? "border-[#1f6bff] bg-[#1f6bff] text-white" : "border-[#c9d1df] bg-white",
+                          on ? "border-[#0F766E] bg-[#0F766E] text-white" : "border-[#c9d1df] bg-white",
                         )}
                       >
                         {on ? <Check className="size-3" strokeWidth={3.5} /> : null}
@@ -569,14 +569,14 @@ export function CheckoutMobile() {
                     }}
                     className={cn(
                       "relative flex min-h-[72px] flex-col items-center justify-center gap-1 rounded-[12px] border px-1 py-2",
-                      on ? "border-[#1f6bff] bg-[#f3f7ff]" : "border-[#e3e8f0] bg-white",
+                      on ? "border-[#0F766E] bg-[#f3f7ff]" : "border-[#e3e8f0] bg-white",
                       !p.ready && "opacity-60",
                     )}
                   >
                     <span
                       className={cn(
                         "absolute top-1.5 right-1.5 grid size-4 place-items-center rounded-full border-2",
-                        on ? "border-[#1f6bff] bg-[#1f6bff] text-white" : "border-[#c9d1df] bg-white",
+                        on ? "border-[#0F766E] bg-[#0F766E] text-white" : "border-[#c9d1df] bg-white",
                       )}
                     >
                       {on ? <Check className="size-2.5" strokeWidth={4} /> : null}
@@ -635,7 +635,7 @@ export function CheckoutMobile() {
               </dd>
             </div>
             {bonus.applied > 0 ? (
-              <div className="flex justify-between text-[#1f6bff]">
+              <div className="flex justify-between text-[#0F766E]">
                 <dt>Bonus</dt>
                 <dd className="font-semibold">− {som(bonus.applied)}</dd>
               </div>
@@ -650,7 +650,7 @@ export function CheckoutMobile() {
             </span>
           </div>
           <p className="mt-3 flex items-start gap-2 rounded-[10px] bg-[#eef4ff] px-3 py-2 text-[12px] text-[#4b5568]">
-            <Info className="mt-px size-4 shrink-0 text-[#1f6bff]" />
+            <Info className="mt-px size-4 shrink-0 text-[#0F766E]" />
             Buyurtma tasdiqlangach sotuvchi bilan yetkazish tafsilotlari kelishiladi.
           </p>
         </Card>
@@ -703,7 +703,7 @@ export function CheckoutMobile() {
             onClick={next}
             disabled={busy}
             data-testid="davom-etish"
-            className="flex h-[56px] flex-1 flex-col items-center justify-center rounded-[16px] bg-[#1f6bff] text-white shadow-[0_8px_20px_rgba(31,107,255,0.3)] disabled:opacity-70"
+            className="flex h-[56px] flex-1 flex-col items-center justify-center rounded-[16px] bg-[#0F766E] text-white shadow-[0_8px_20px_rgba(15, 118, 110, 0.3)] disabled:opacity-70"
           >
             <span className="flex items-center gap-1.5 text-[16px] font-semibold">
               {busy ? "Yuborilmoqda..." : step === 2 ? "Buyurtmani tasdiqlash" : "Davom etish"}

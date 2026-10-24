@@ -84,7 +84,7 @@ const sortTabs: { id: DeskSort; label: string }[] = [
 ];
 
 const composerTabs: { kind: PostKind; label: string; icon: typeof ImagePlus; tone: string }[] = [
-  { kind: "case", label: "Case yuklash", icon: ImagePlus, tone: "text-[#0066FF]" },
+  { kind: "case", label: "Case yuklash", icon: ImagePlus, tone: "text-[#0F766E]" },
   { kind: "savol", label: "Savol berish", icon: HelpCircle, tone: "text-[#f5a623]" },
   { kind: "yangilik", label: "Yangilik ulashish", icon: Newspaper, tone: "text-[#22c55e]" },
 ];
@@ -405,7 +405,7 @@ export function CommunityFeed() {
                 type="button"
                 onClick={openPicker}
                 disabled={Boolean(busyText)}
-                className="grid aspect-square place-items-center rounded-xl border border-dashed border-[#c9d6ea] bg-white text-[#0066FF] hover:bg-[#f5f9ff]"
+                className="grid aspect-square place-items-center rounded-xl border border-dashed border-[#CCFBF1] bg-white text-[#0F766E] hover:bg-[#f5f9ff]"
                 aria-label="Yana rasm qo‘shish"
               >
                 <span className="flex flex-col items-center gap-1 text-[11.5px] font-semibold">
@@ -420,7 +420,7 @@ export function CommunityFeed() {
             type="button"
             onClick={openPicker}
             className={cn(
-              "flex w-full items-center justify-center gap-2 border border-dashed border-[#c9d6ea] bg-[#f8fbff] font-semibold text-[#0066FF] hover:bg-[#eef5ff]",
+              "flex w-full items-center justify-center gap-2 border border-dashed border-[#CCFBF1] bg-[#f8fbff] font-semibold text-[#0F766E] hover:bg-[#eef5ff]",
               mobile ? "h-12 rounded-2xl text-[14px]" : "h-10 rounded-xl text-[13px]",
             )}
           >
@@ -439,12 +439,12 @@ export function CommunityFeed() {
   }
 
   function composerAvatar(size: "sm" | "lg") {
-    const cls = size === "lg" ? "size-11 ring-2 ring-[#e8f1ff]" : "size-10";
+    const cls = size === "lg" ? "size-11 ring-2 ring-[#F0FDFA]" : "size-10";
     if (profile?.avatarUrl) {
       return <PostMedia src={profile.avatarUrl} width={44} height={44} className={cn(cls, "shrink-0 rounded-full object-cover")} />;
     }
     return (
-      <span className={cn(cls, "flex shrink-0 items-center justify-center rounded-full bg-[#dbeafe] text-[13px] font-bold text-[#0066FF]")}>
+      <span className={cn(cls, "flex shrink-0 items-center justify-center rounded-full bg-[#F0FDFA] text-[13px] font-bold text-[#0F766E]")}>
         {profile ? initialsFromName(profile.fullName) : "?"}
       </span>
     );
@@ -479,7 +479,7 @@ export function CommunityFeed() {
           <button
             type="button"
             onClick={() => void reload()}
-            className="mt-4 inline-flex h-10 items-center gap-2 rounded-xl bg-[#0066FF] px-4 text-[13.5px] font-semibold text-white"
+            className="mt-4 inline-flex h-10 items-center gap-2 rounded-xl bg-[#0F766E] px-4 text-[13.5px] font-semibold text-white"
           >
             <RefreshCw className="size-4" />
             Qayta urinish
@@ -495,7 +495,7 @@ export function CommunityFeed() {
           <button
             type="button"
             onClick={() => focusComposer("case", variant === "mobile")}
-            className="mt-4 inline-flex h-10 items-center gap-2 rounded-xl bg-[#0066FF] px-4 text-[13.5px] font-semibold text-white"
+            className="mt-4 inline-flex h-10 items-center gap-2 rounded-xl bg-[#0F766E] px-4 text-[13.5px] font-semibold text-white"
           >
             <Plus className="size-4" />
             Yangi post
@@ -583,7 +583,7 @@ export function CommunityFeed() {
             value={mobileSearch}
             onChange={(event) => setMobileSearch(event.target.value)}
             placeholder="Mavzu yoki savollarni izlash..."
-            className="h-12 w-full rounded-full border border-[#e6eaf2] bg-white pr-4 pl-11 text-[14px] text-[#1a1d26] outline-none placeholder:text-[#9aa8bc] focus:border-[#0066FF] focus:ring-2 focus:ring-[#0066FF]/15"
+            className="h-12 w-full rounded-full border border-[#e6eaf2] bg-white pr-4 pl-11 text-[14px] text-[#1a1d26] outline-none placeholder:text-[#9aa8bc] focus:border-[#0F766E] focus:ring-2 focus:ring-[#0F766E]/15"
           />
         </div>
 
@@ -592,7 +592,7 @@ export function CommunityFeed() {
           <button
             type="button"
             onClick={() => focusComposer(undefined, true)}
-            className="inline-flex h-11 flex-1 items-center justify-center gap-1.5 rounded-2xl bg-[#0066FF] px-4 text-[15px] font-semibold text-white shadow-[0_4px_12px_rgba(0,102,255,0.28)]"
+            className="inline-flex h-11 flex-1 items-center justify-center gap-1.5 rounded-2xl bg-[#0F766E] px-4 text-[15px] font-semibold text-white shadow-[0_4px_12px_rgba(15, 118, 110, 0.28)]"
           >
             <Plus className="size-4" strokeWidth={2.5} />
             Yangi post
@@ -610,8 +610,8 @@ export function CommunityFeed() {
                 className={cn(
                   "h-9 shrink-0 rounded-full px-4 text-[13px] font-semibold transition-colors",
                   on
-                    ? "bg-[#0066FF] text-white shadow-[0_4px_12px_rgba(0,102,255,0.28)]"
-                    : "bg-[#e8f1ff] text-[#0066FF]",
+                    ? "bg-[#0F766E] text-white shadow-[0_4px_12px_rgba(15, 118, 110, 0.28)]"
+                    : "bg-[#F0FDFA] text-[#0F766E]",
                 )}
               >
                 {item.label}
@@ -625,7 +625,7 @@ export function CommunityFeed() {
         {openComposer ? (
           <section
             id="composer-mobile"
-            className="mb-4 rounded-2xl border border-[#eceff5] bg-white p-3.5 shadow-[0_4px_16px_rgba(15,23,42,0.05)]"
+            className="mb-4 rounded-2xl border border-[#eceff5] bg-white p-3.5 shadow-[0_4px_16px_rgba(17, 24, 39, 0.05)]"
           >
             <Textarea
               ref={mobileComposerRef}
@@ -641,7 +641,7 @@ export function CommunityFeed() {
                     ? "Savolingizni yozing — hamkasblar javob beradi."
                     : "Yangilik yoki e’lon matni."
               }
-              className="min-h-[88px] rounded-2xl border-0 bg-[#f4f7fb] px-3.5 py-3 text-[14px] shadow-none focus-visible:bg-white focus-visible:ring-2 focus-visible:ring-[#0066FF]/20"
+              className="min-h-[88px] rounded-2xl border-0 bg-[#f4f7fb] px-3.5 py-3 text-[14px] shadow-none focus-visible:bg-white focus-visible:ring-2 focus-visible:ring-[#0F766E]/20"
             />
             {draftKind === "case" ? (
               <p className="mt-2.5 rounded-2xl bg-[#fff7ed] px-3 py-2.5 text-[12.5px] leading-relaxed text-[#9a3412]">
@@ -666,7 +666,7 @@ export function CommunityFeed() {
                     }}
                     className={cn(
                       "h-8 shrink-0 rounded-full px-3 text-[12px] font-semibold",
-                      on ? "bg-[#0066FF] text-white" : "bg-[#e8f1ff] text-[#0066FF]",
+                      on ? "bg-[#0F766E] text-white" : "bg-[#F0FDFA] text-[#0F766E]",
                     )}
                   >
                     #{item}
@@ -687,12 +687,12 @@ export function CommunityFeed() {
                 chiqaveradi.
               </p>
             ) : null}
-            {busyText ? <p className="mt-2.5 text-[13px] font-medium text-[#0066FF]">{busyText}</p> : null}
+            {busyText ? <p className="mt-2.5 text-[13px] font-medium text-[#0F766E]">{busyText}</p> : null}
             {error ? (
               <p className="mt-2.5 text-sm text-destructive">
                 {error}
                 {!profile && authReady ? (
-                  <Link href="/kirish" className="ml-1.5 font-semibold text-[#0066FF] underline">
+                  <Link href="/kirish" className="ml-1.5 font-semibold text-[#0F766E] underline">
                     Kirish
                   </Link>
                 ) : null}
@@ -707,10 +707,10 @@ export function CommunityFeed() {
                 }}
                 className={cn(
                   "inline-flex h-11 flex-col items-center justify-center gap-0.5 rounded-xl text-[11px] font-semibold text-[#5d6b7d] active:bg-[#f4f7fb]",
-                  draftKind === "case" && "bg-[#e8f1ff] text-[#0066FF]",
+                  draftKind === "case" && "bg-[#F0FDFA] text-[#0F766E]",
                 )}
               >
-                <ImagePlus className="size-4 text-[#0066FF]" />
+                <ImagePlus className="size-4 text-[#0F766E]" />
                 Case
               </button>
               <button
@@ -752,7 +752,7 @@ export function CommunityFeed() {
                 type="button"
                 onClick={() => void publishPost()}
                 disabled={Boolean(busyText) || preparing}
-                className="flex h-12 items-center justify-center gap-2 rounded-2xl bg-[#0066FF] text-[15px] font-semibold text-white shadow-[0_4px_12px_rgba(0,102,255,0.28)] disabled:opacity-70"
+                className="flex h-12 items-center justify-center gap-2 rounded-2xl bg-[#0F766E] text-[15px] font-semibold text-white shadow-[0_4px_12px_rgba(15, 118, 110, 0.28)] disabled:opacity-70"
               >
                 {busyText ? <Loader2 className="size-4 animate-spin" /> : null}
                 {busyText ? "Yuklanmoqda…" : "Joylash"}
@@ -783,7 +783,7 @@ export function CommunityFeed() {
                 <button
                   type="button"
                   onClick={() => focusComposer(kind || "case", true)}
-                  className="inline-flex h-11 items-center justify-center rounded-2xl bg-[#0066FF] text-[14px] font-semibold text-white shadow-[0_4px_12px_rgba(0,102,255,0.28)]"
+                  className="inline-flex h-11 items-center justify-center rounded-2xl bg-[#0F766E] text-[14px] font-semibold text-white shadow-[0_4px_12px_rgba(15, 118, 110, 0.28)]"
                 >
                   Yangi post
                 </button>
@@ -800,14 +800,14 @@ export function CommunityFeed() {
           ════════════════════════════════════════════════ */}
       <div className="hidden lg:block">
         {/* Hero */}
-        <section className="relative overflow-hidden rounded-2xl border border-[#dbe7ff] bg-gradient-to-r from-[#eaf2ff] via-[#f3f8ff] to-[#dfeaff]">
+        <section className="relative overflow-hidden rounded-2xl border border-[#F0FDFA] bg-gradient-to-r from-[#eaf2ff] via-[#f3f8ff] to-[#F0FDFA]">
           <div className="absolute inset-y-0 right-0 w-[48%]">
             <Image src="/images/hero-dentist.png" alt="" fill priority sizes="640px" className="object-cover object-center" />
             <div className="absolute inset-0 bg-gradient-to-r from-[#eaf2ff] via-[#eaf2ff]/55 to-transparent" />
           </div>
           <div className="relative z-10 flex min-h-[176px] items-center justify-between gap-6 px-7 py-6">
             <div className="min-w-0 max-w-[600px]">
-              <h1 className="text-[32px] leading-tight font-extrabold tracking-tight text-[#0B1F4D]">Community</h1>
+              <h1 className="text-[32px] leading-tight font-extrabold tracking-tight text-[#111827]">Community</h1>
               <p className="mt-1.5 max-w-[470px] text-[14px] leading-snug text-[#4b5568]">
                 Stomatologlar uchun professional bilim va tajriba almashish maydoni.
               </p>
@@ -819,11 +819,11 @@ export function CommunityFeed() {
                   { icon: Newspaper, value: "4.1K", label: "yangilik" },
                 ].map(({ icon: Icon, value, label }) => (
                   <li key={label} className="flex items-center gap-2">
-                    <span className="grid size-9 place-items-center rounded-full bg-white text-[#0066FF] shadow-[0_2px_8px_rgba(0,60,160,0.12)]">
+                    <span className="grid size-9 place-items-center rounded-full bg-white text-[#0F766E] shadow-[0_2px_8px_rgba(17, 94, 89, 0.12)]">
                       <Icon className="size-[17px]" strokeWidth={1.9} />
                     </span>
                     <span className="leading-tight">
-                      <span className="block text-[16px] font-extrabold text-[#0B1F4D]">{value}</span>
+                      <span className="block text-[16px] font-extrabold text-[#111827]">{value}</span>
                       <span className="block text-[11px] text-[#6b7488]">{label}</span>
                     </span>
                   </li>
@@ -835,14 +835,14 @@ export function CommunityFeed() {
                 type="button"
                 onClick={() => setNewMenu((v) => !v)}
                 aria-expanded={newMenu}
-                className="inline-flex h-11 items-center gap-2 rounded-xl bg-[#0066FF] px-5 text-[14px] font-semibold text-white shadow-[0_6px_16px_rgba(0,102,255,0.32)] hover:bg-[#0052cc]"
+                className="inline-flex h-11 items-center gap-2 rounded-xl bg-[#0F766E] px-5 text-[14px] font-semibold text-white shadow-[0_6px_16px_rgba(15, 118, 110, 0.32)] hover:bg-[#115E59]"
               >
                 <Plus className="size-4" strokeWidth={2.5} />
                 Yangi post
                 <ChevronDown className="size-4" />
               </button>
               {newMenu ? (
-                <div className="absolute right-0 z-20 mt-2 w-[200px] overflow-hidden rounded-xl border border-[#eceff5] bg-white py-1 shadow-[0_12px_36px_rgba(15,23,42,0.16)]">
+                <div className="absolute right-0 z-20 mt-2 w-[200px] overflow-hidden rounded-xl border border-[#eceff5] bg-white py-1 shadow-[0_12px_36px_rgba(17, 24, 39, 0.16)]">
                   {composerTabs.map((tab) => (
                     <button
                       key={tab.kind}
@@ -879,8 +879,8 @@ export function CommunityFeed() {
                 className={cn(
                   "shrink-0 rounded-full border px-4 py-[7px] text-[13px] font-semibold transition-colors",
                   on
-                    ? "border-[#0066FF] bg-[#0066FF] text-white shadow-[0_4px_12px_rgba(0,102,255,0.28)]"
-                    : "border-[#e6eaf2] bg-white text-[#4b5568] hover:border-[#0066FF]/40",
+                    ? "border-[#0F766E] bg-[#0F766E] text-white shadow-[0_4px_12px_rgba(15, 118, 110, 0.28)]"
+                    : "border-[#e6eaf2] bg-white text-[#4b5568] hover:border-[#0F766E]/40",
                 )}
               >
                 {item.label}
@@ -895,7 +895,7 @@ export function CommunityFeed() {
           <div className="min-w-0 space-y-3">
             {/* Composer */}
             {!openComposer ? (
-              <section id="composer" className="flex items-center gap-3 rounded-[14px] border border-[#eceff5] bg-white p-3 shadow-[0_2px_10px_rgba(15,23,42,0.04)]">
+              <section id="composer" className="flex items-center gap-3 rounded-[14px] border border-[#eceff5] bg-white p-3 shadow-[0_2px_10px_rgba(17, 24, 39, 0.04)]">
                 {composerAvatar("sm")}
                 <button
                   type="button"
@@ -910,7 +910,7 @@ export function CommunityFeed() {
                 </Button>
               </section>
             ) : (
-            <section id="composer" className="rounded-[14px] border border-[#eceff5] bg-white p-4 shadow-[0_2px_10px_rgba(15,23,42,0.04)]">
+            <section id="composer" className="rounded-[14px] border border-[#eceff5] bg-white p-4 shadow-[0_2px_10px_rgba(17, 24, 39, 0.04)]">
               <div className="flex items-center justify-between border-b border-[#f0f3f8] pb-2">
                 <div className="flex items-center gap-1">
                   {composerTabs.map((tab) => {
@@ -923,10 +923,10 @@ export function CommunityFeed() {
                         aria-pressed={on}
                         className={cn(
                           "inline-flex h-9 items-center gap-1.5 rounded-lg px-3 text-[13px] font-semibold transition-colors",
-                          on ? "bg-[#eaf2ff] text-[#0066FF]" : "text-[#5d6b7d] hover:bg-[#f4f7fb]",
+                          on ? "bg-[#eaf2ff] text-[#0F766E]" : "text-[#5d6b7d] hover:bg-[#f4f7fb]",
                         )}
                       >
-                        <tab.icon className={cn("size-4", on ? "text-[#0066FF]" : tab.tone)} />
+                        <tab.icon className={cn("size-4", on ? "text-[#0F766E]" : tab.tone)} />
                         {tab.label}
                       </button>
                     );
@@ -938,7 +938,7 @@ export function CommunityFeed() {
                     setDraft(templates[draftKind]);
                     composerRef.current?.focus();
                   }}
-                  className="inline-flex items-center gap-1.5 text-[12.5px] font-semibold text-[#0066FF] hover:underline"
+                  className="inline-flex items-center gap-1.5 text-[12.5px] font-semibold text-[#0F766E] hover:underline"
                 >
                   <FileText className="size-3.5" />
                   Shablonlardan foydalanish
@@ -1003,7 +1003,7 @@ export function CommunityFeed() {
                           }}
                           className={cn(
                             "rounded-full px-2.5 py-1 text-[11.5px] font-medium",
-                            on ? "bg-[#0066FF] text-white" : "bg-[#e8f1ff] text-[#0066FF] hover:bg-[#d9e8ff]",
+                            on ? "bg-[#0F766E] text-white" : "bg-[#F0FDFA] text-[#0F766E] hover:bg-[#F0FDFA]",
                           )}
                         >
                           #{item}
@@ -1037,7 +1037,7 @@ export function CommunityFeed() {
                           <button
                             key={tag}
                             type="button"
-                            className={cn("rounded-full px-2.5 py-1 text-[11.5px] font-medium", on ? "bg-[#0066FF] text-white" : "bg-[#e8f1ff] text-[#0066FF]")}
+                            className={cn("rounded-full px-2.5 py-1 text-[11.5px] font-medium", on ? "bg-[#0F766E] text-white" : "bg-[#F0FDFA] text-[#0F766E]")}
                             onClick={() => {
                               const parts = parseTags(draftTags, "case").filter((item) => item !== "Case");
                               const next = on ? parts.filter((item) => item.toLowerCase() !== tag.toLowerCase()) : [...parts, tag];
@@ -1091,7 +1091,7 @@ export function CommunityFeed() {
                         type="button"
                         onClick={openPicker}
                         disabled={Boolean(busyText)}
-                        className="flex h-[68px] min-w-[68px] flex-col items-center justify-center gap-1 rounded-lg border border-dashed border-[#9dbcf5] bg-[#f8fbff] px-2 text-[10.5px] font-semibold text-[#0066FF] hover:bg-[#eef5ff]"
+                        className="flex h-[68px] min-w-[68px] flex-col items-center justify-center gap-1 rounded-lg border border-dashed border-[#CCFBF1] bg-[#f8fbff] px-2 text-[10.5px] font-semibold text-[#0F766E] hover:bg-[#eef5ff]"
                         aria-label="Rasm qo‘shish"
                       >
                         <Plus className="size-4" />
@@ -1130,7 +1130,7 @@ export function CommunityFeed() {
                   <p className="text-sm text-destructive">
                     {error}
                     {!profile && authReady ? (
-                      <Link href="/kirish" className="ml-1.5 font-semibold text-[#0066FF] underline">
+                      <Link href="/kirish" className="ml-1.5 font-semibold text-[#0F766E] underline">
                         Kirish
                       </Link>
                     ) : null}
@@ -1186,7 +1186,7 @@ export function CommunityFeed() {
                     aria-pressed={on}
                     className={cn(
                       "-mb-px border-b-2 px-3.5 py-2.5 text-[13px] font-semibold transition-colors",
-                      on ? "border-[#0066FF] text-[#0066FF]" : "border-transparent text-[#6b7488] hover:text-[#1a1d26]",
+                      on ? "border-[#0F766E] text-[#0F766E]" : "border-transparent text-[#6b7488] hover:text-[#1a1d26]",
                     )}
                   >
                     {item.label}
@@ -1232,7 +1232,7 @@ export function CommunityFeed() {
                     <button type="button" onClick={() => { setTag(item.tag); setCat(""); }} className="flex w-full items-center gap-3 text-left">
                       <span className="w-4 text-[13px] font-semibold text-[#c5cad6]">{index + 1}</span>
                       <span className="min-w-0 flex-1">
-                        <span className="block truncate text-[13.5px] font-semibold text-[#0066FF]">#{item.tag.replace(/\s+/g, "")}</span>
+                        <span className="block truncate text-[13.5px] font-semibold text-[#0F766E]">#{item.tag.replace(/\s+/g, "")}</span>
                       </span>
                       <span className="text-[12px] text-[#8b93a7]">{item.posts} post</span>
                     </button>
@@ -1261,7 +1261,7 @@ export function CommunityFeed() {
                     {doc.avatar ? (
                       <PostMedia src={doc.avatar} width={36} height={36} className="size-9 rounded-full object-cover" />
                     ) : (
-                      <span className="flex size-9 items-center justify-center rounded-full bg-[#dbeafe] text-[11px] font-semibold text-primary">
+                      <span className="flex size-9 items-center justify-center rounded-full bg-[#F0FDFA] text-[11px] font-semibold text-primary">
                         {initialsOf(doc.name)}
                       </span>
                     )}
@@ -1277,13 +1277,13 @@ export function CommunityFeed() {
 
             <div className="rounded-[14px] border border-[#eceff5] bg-white p-4">
               <div className="mb-3 flex items-center gap-2">
-                <ShieldCheck className="size-4 text-[#0066FF]" />
+                <ShieldCheck className="size-4 text-[#0F766E]" />
                 <h2 className="text-[13.5px] font-semibold text-[#1a1d26]">Community qoidalari</h2>
               </div>
               <ol className="space-y-2.5">
                 {deskRules.map((rule, index) => (
                   <li key={rule} className="flex gap-2.5 text-[13px] leading-snug text-[#4b5568]">
-                    <span className="flex size-5 shrink-0 items-center justify-center rounded-full bg-[#e8f1ff] text-[11px] font-bold text-[#0066FF]">
+                    <span className="flex size-5 shrink-0 items-center justify-center rounded-full bg-[#F0FDFA] text-[11px] font-bold text-[#0F766E]">
                       {index + 1}
                     </span>
                     {rule}
@@ -1338,7 +1338,7 @@ function Rail({
   onAction?: () => void;
 }) {
   const footerClass =
-    "mt-3 flex w-full items-center justify-between text-[13px] font-medium text-[#0066FF] hover:underline";
+    "mt-3 flex w-full items-center justify-between text-[13px] font-medium text-[#0F766E] hover:underline";
 
   return (
     <section className="rounded-[14px] border border-[#eceff5] bg-white p-4">

@@ -46,7 +46,7 @@ export function UzumHero({ product, gallery, backHref, cover = false }: { produc
     }
   }
 
-  const btn = "pointer-events-auto grid size-11 place-items-center rounded-[14px] bg-white/80 text-[#1a1d26] shadow-[0_2px_10px_rgba(15,23,42,0.10)] backdrop-blur-md active:scale-95";
+  const btn = "pointer-events-auto grid size-11 place-items-center rounded-[14px] bg-white/80 text-[#1a1d26] shadow-[0_2px_10px_rgba(17, 24, 39, 0.10)] backdrop-blur-md active:scale-95";
 
   return (
     <section className="relative -mx-4 -mt-4 bg-white" style={{ paddingTop: "env(safe-area-inset-top)" }} data-testid="uzum-hero">
@@ -196,7 +196,7 @@ export function UzumPriceCard({ product }: { product: Product }) {
   const oldPrice = productOldPrice(product);
   const discount = product.discount ?? (oldPrice ? Math.round((1 - product.price / oldPrice) * 100) : 0);
   return (
-    <div className="relative -mx-4 -mt-6 rounded-[24px] bg-white px-4 pt-4 pb-4 shadow-[0_-4px_16px_rgba(15,23,42,0.04)]" data-testid="uzum-price">
+    <div className="relative -mx-4 -mt-6 rounded-[24px] bg-white px-4 pt-4 pb-4 shadow-[0_-4px_16px_rgba(17, 24, 39, 0.04)]" data-testid="uzum-price">
       <div className="flex items-baseline gap-2">
         <p className="text-[24px] leading-none font-extrabold tracking-tight text-[#1a1d26]">{som(product.price)}</p>
         {discount > 0 ? (
@@ -323,7 +323,7 @@ export function UzumCartBar({
             <Link
               href="/savat"
               data-testid="uzum-goto-cart"
-              className="flex h-[52px] flex-1 items-center justify-center gap-2 rounded-[14px] bg-[#e8f1ff] text-[16px] font-semibold text-[#0066FF] active:scale-[0.98]"
+              className="flex h-[52px] flex-1 items-center justify-center gap-2 rounded-[14px] bg-[#F0FDFA] text-[16px] font-semibold text-[#0F766E] active:scale-[0.98]"
             >
               <ShoppingBag className="size-5" strokeWidth={2} />
               O‘tish
@@ -335,7 +335,7 @@ export function UzumCartBar({
             onClick={add}
             disabled={!ready}
             data-testid="uzum-add"
-            className="mx-auto flex h-[52px] w-full max-w-lg flex-col items-center justify-center rounded-[14px] bg-[#0066FF] leading-tight text-white shadow-[0_8px_18px_rgba(0,102,255,0.28)] active:scale-[0.98] disabled:opacity-60"
+            className="mx-auto flex h-[52px] w-full max-w-lg flex-col items-center justify-center rounded-[14px] bg-[#0F766E] leading-tight text-white shadow-[0_8px_18px_rgba(15, 118, 110, 0.28)] active:scale-[0.98] disabled:opacity-60"
           >
             <span className="text-[16px] font-semibold">Savatga</span>
             <span className="text-[12px] text-white/80">{som(product.price)}</span>

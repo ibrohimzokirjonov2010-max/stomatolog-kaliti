@@ -13,7 +13,7 @@ import { emptySeminarInput, validateSeminar, type SeminarErrors, type SeminarInp
 import { cn } from "@/lib/utils";
 
 const field =
-  "h-11 w-full rounded-xl border bg-white px-3.5 text-[14px] text-[#1a1d26] outline-none transition-colors placeholder:text-[#a3abbd] focus:border-[#0066FF] focus:ring-2 focus:ring-[#0066FF]/15";
+  "h-11 w-full rounded-xl border bg-white px-3.5 text-[14px] text-[#1a1d26] outline-none transition-colors placeholder:text-[#a3abbd] focus:border-[#0F766E] focus:ring-2 focus:ring-[#0F766E]/15";
 
 function Field({ label, error, hint, children, id }: { label: string; error?: string; hint?: string; children: ReactNode; id: string }) {
   return (
@@ -163,7 +163,7 @@ export function SeminarForm({ seminarId }: { seminarId?: string }) {
     return (
       <div className="mx-auto max-w-3xl rounded-[16px] border border-[#eceff5] bg-white px-6 py-14 text-center">
         <p className="text-[16px] font-semibold text-[#1a1d26]">{loadError}</p>
-        <Link href="/seminarlar/yozuvlarim/tashkilotchi" className="mt-3 inline-block text-[14px] font-semibold text-[#0066FF]">
+        <Link href="/seminarlar/yozuvlarim/tashkilotchi" className="mt-3 inline-block text-[14px] font-semibold text-[#0F766E]">
           Kabinetga qaytish
         </Link>
       </div>
@@ -172,7 +172,7 @@ export function SeminarForm({ seminarId }: { seminarId?: string }) {
   return (
     <div className="mx-auto max-w-3xl">
       <header className="mb-4">
-        <Link href="/seminarlar/yozuvlarim/tashkilotchi" className="inline-flex items-center gap-1 text-[13px] text-[#0066FF] hover:underline">
+        <Link href="/seminarlar/yozuvlarim/tashkilotchi" className="inline-flex items-center gap-1 text-[13px] text-[#0F766E] hover:underline">
           <ChevronLeft className="size-4" />
           Tashkilotchi kabineti
         </Link>
@@ -225,7 +225,7 @@ export function SeminarForm({ seminarId }: { seminarId?: string }) {
           </div>
           {errors.speakers ? <p role="alert" className="mt-1.5 text-[12.5px] font-medium text-[#dc2626]">{errors.speakers}</p> : null}
           {form.speakers.length < 5 ? (
-            <button type="button" onClick={() => set("speakers", [...form.speakers, { name: "", role: "" }])} className="mt-2 inline-flex items-center gap-1 text-[13px] font-semibold text-[#0066FF]">
+            <button type="button" onClick={() => set("speakers", [...form.speakers, { name: "", role: "" }])} className="mt-2 inline-flex items-center gap-1 text-[13px] font-semibold text-[#0F766E]">
               <Plus className="size-4" /> Yana ma‘ruzachi
             </button>
           ) : null}
@@ -273,7 +273,7 @@ export function SeminarForm({ seminarId }: { seminarId?: string }) {
                 onClick={() => set("priceMode", mode.id)}
                 className={cn(
                   "h-10 rounded-xl border px-3.5 text-[13px] font-semibold",
-                  form.priceMode === mode.id ? "border-[#0066FF] bg-[#e8f1ff] text-[#0066FF]" : "border-[#e1e6ef] text-[#4b5568]",
+                  form.priceMode === mode.id ? "border-[#0F766E] bg-[#F0FDFA] text-[#0F766E]" : "border-[#e1e6ef] text-[#4b5568]",
                 )}
               >
                 {mode.label}
@@ -313,7 +313,7 @@ export function SeminarForm({ seminarId }: { seminarId?: string }) {
           {form.image ? (
             <div className="relative aspect-[16/9] overflow-hidden rounded-xl border border-[#e1e6ef] bg-[#f1f3f8] sm:max-w-sm">
               <Image src={form.image} alt="Seminar rasmi" fill sizes="400px" className="object-cover" unoptimized />
-              <button type="button" onClick={() => fileRef.current?.click()} disabled={uploading} className="absolute right-2 bottom-2 rounded-lg bg-white/95 px-3 py-1.5 text-[12.5px] font-semibold text-[#0B1F4D] shadow">
+              <button type="button" onClick={() => fileRef.current?.click()} disabled={uploading} className="absolute right-2 bottom-2 rounded-lg bg-white/95 px-3 py-1.5 text-[12.5px] font-semibold text-[#111827] shadow">
                 {uploading ? "Yuklanmoqda…" : "Almashtirish"}
               </button>
             </div>
@@ -322,7 +322,7 @@ export function SeminarForm({ seminarId }: { seminarId?: string }) {
               type="button"
               onClick={() => fileRef.current?.click()}
               disabled={uploading}
-              className={cn("flex aspect-[16/9] w-full flex-col items-center justify-center gap-1.5 rounded-xl border-2 border-dashed bg-[#f8faff] text-[13px] font-semibold text-[#0066FF] sm:max-w-sm", errors.image ? "border-[#dc2626]" : "border-[#c9d8f5]")}
+              className={cn("flex aspect-[16/9] w-full flex-col items-center justify-center gap-1.5 rounded-xl border-2 border-dashed bg-[#f8faff] text-[13px] font-semibold text-[#0F766E] sm:max-w-sm", errors.image ? "border-[#dc2626]" : "border-[#CCFBF1]")}
             >
               {uploading ? <Loader2 className="size-6 animate-spin" /> : <ImagePlus className="size-6" />}
               {uploading ? "Yuklanmoqda…" : "Rasm yuklash (JPG, PNG, WEBP)"}
@@ -346,7 +346,7 @@ export function SeminarForm({ seminarId }: { seminarId?: string }) {
           </div>
           {errors.program ? <p role="alert" className="mt-1.5 text-[12.5px] font-medium text-[#dc2626]">{errors.program}</p> : null}
           {form.program.length < 12 ? (
-            <button type="button" onClick={() => set("program", [...form.program, { time: "", title: "" }])} className="mt-2 inline-flex items-center gap-1 text-[13px] font-semibold text-[#0066FF]">
+            <button type="button" onClick={() => set("program", [...form.program, { time: "", title: "" }])} className="mt-2 inline-flex items-center gap-1 text-[13px] font-semibold text-[#0F766E]">
               <Plus className="size-4" /> Bosqich qo‘shish
             </button>
           ) : null}
@@ -380,7 +380,7 @@ export function SeminarForm({ seminarId }: { seminarId?: string }) {
           <Link href="/seminarlar/yozuvlarim/tashkilotchi" className="inline-flex h-11 items-center justify-center rounded-xl border border-[#e1e6ef] px-5 text-[14px] font-semibold text-[#4b5568]">
             Bekor qilish
           </Link>
-          <button type="submit" disabled={saving || uploading} className="inline-flex h-11 items-center justify-center rounded-xl bg-[#0066FF] px-6 text-[14px] font-semibold text-white shadow-[0_6px_14px_rgba(0,102,255,0.28)] disabled:opacity-60" data-testid="seminar-submit">
+          <button type="submit" disabled={saving || uploading} className="inline-flex h-11 items-center justify-center rounded-xl bg-[#0F766E] px-6 text-[14px] font-semibold text-white shadow-[0_6px_14px_rgba(15, 118, 110, 0.28)] disabled:opacity-60" data-testid="seminar-submit">
             {saving ? "Saqlanmoqda…" : isNew ? "Tasdiqqa yuborish" : "Saqlash"}
           </button>
         </div>

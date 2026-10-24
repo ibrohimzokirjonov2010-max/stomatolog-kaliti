@@ -14,7 +14,7 @@
   padding: 0 calc(.6 * var(--u));
   color: #8b9bb0;
 }
-.sh .ax-search input { flex: 1; min-width: 0; border: 0; outline: 0; background: transparent; font: inherit; font-size: calc(1.041 * var(--uf)); color: #0f1e3d; }
+.sh .ax-search input { flex: 1; min-width: 0; border: 0; outline: 0; background: transparent; font: inherit; font-size: calc(1.041 * var(--uf)); color: #111827; }
 .sh .ax-search .i, .sh .ax-sort .i { font-size: calc(1.198 * var(--uf)); }
 .sh .ax-sort {
   width: calc(11.5 * var(--u));
@@ -37,7 +37,7 @@
   font: inherit;
   font-size: calc(1.041 * var(--uf));
   font-weight: 650;
-  color: #24344d;
+  color: #111827;
   appearance: none;
 }
 .sh .ax-chips { display: flex; gap: calc(.35 * var(--u)); margin-bottom: calc(2.5 * var(--u)); flex-wrap: wrap; }
@@ -51,7 +51,7 @@
   font-size: calc(1.316 * var(--uf));
   font-weight: 650;
 }
-.sh .ax-chips button.on { background: #0b8f8a; border-color: #0b8f8a; color: #fff; }
+.sh .ax-chips button.on { background: #0F766E; border-color: #0F766E; color: #fff; }
 .sh .ax-grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: calc(.85 * var(--u)); }
 .sh .ax-card {
   background: #fff;
@@ -61,7 +61,7 @@
   min-width: 0;
   display: flex;
   flex-direction: column;
-  box-shadow: 0 calc(.12 * var(--u)) calc(.7 * var(--u)) rgba(20, 40, 80, .08);
+  box-shadow: 0 calc(.12 * var(--u)) calc(.7 * var(--u)) rgba(17, 24, 39, .08);
 }
 .sh .ax-ph { position: relative; height: calc(12.65 * var(--u)); border-radius: calc(.45 * var(--u)); background: #f4f7fb; overflow: hidden; }
 .sh .ax-ph img { width: 100%; height: 100%; object-fit: cover; object-position: center; }
@@ -112,13 +112,13 @@
 .sh .ax-meta .star { color: #f5b400; fill: #f5b400; font-size: calc(1.395 * var(--uf)); }
 .sh .ax-meta .sold { margin-left: auto; color: #8b9bb0; }
 .sh .ax-buy { display: flex; align-items: flex-end; justify-content: space-between; gap: calc(.4 * var(--u)); margin-top: calc(.35 * var(--u)); }
-.sh .ax-buy b { display: block; color: #0b8f8a; font-size: calc(1.809 * var(--uf)); font-weight: 800; letter-spacing: -.02em; line-height: 1.1; }
+.sh .ax-buy b { display: block; color: #0F766E; font-size: calc(1.809 * var(--uf)); font-weight: 800; letter-spacing: -.02em; line-height: 1.1; }
 .sh .ax-buy s { display: block; margin-top: calc(.08 * var(--u)); color: #a0aec0; font-size: calc(1.316 * var(--uf)); font-weight: 500; }
 .sh .ax-cart {
   width: calc(1.9 * var(--u));
   height: calc(1.9 * var(--u));
   border-radius: calc(.4 * var(--u));
-  background: #0b8f8a;
+  background: #0F766E;
   color: #fff;
   display: grid;
   place-items: center;
@@ -133,7 +133,7 @@
   margin-top: calc(.5 * var(--u));
   height: calc(1.8 * var(--u));
   padding: 0 calc(.9 * var(--u));
-  background: #0b8f8a;
+  background: #0F766E;
   color: #fff;
   border-radius: calc(.4 * var(--u));
   font-weight: 750;
@@ -144,7 +144,7 @@
   height: calc(1.6 * var(--u));
   border-radius: calc(.4 * var(--u));
   background: #fff;
-  color: #0b8f8a;
+  color: #0F766E;
   display: grid;
   place-items: center;
   font-weight: 800;
@@ -157,7 +157,7 @@
 .sh .ax-chips button { height: 34px; padding: 0 16px; border-radius: 9px; font-size: 13px; }
 .sh .ax-grid { gap: 14px; }
 .sh .ax-ph { height: 150px; }
-.sh .ax-off { background: #0b8f8a; }
+.sh .ax-off { background: #0F766E; }
 .sh .ax-card h3 { font-size: 14px; font-weight: 700; min-height: 0; margin-top: 10px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 .sh .ax-brand { font-size: 12px; }
 .sh .ax-meta { font-size: 12px; margin-top: 4px; }

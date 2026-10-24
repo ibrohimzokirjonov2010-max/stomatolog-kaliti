@@ -42,7 +42,7 @@ export const seedChannels: Channel[] = [
     name: "Implant Klinikasi",
     category: "implantologiya",
     bidSum: 10000,
-    avatarColor: "#0066FF",
+    avatarColor: "#0F766E",
     createdAt: "2026-01-10T10:00:00.000Z",
   },
   {
@@ -51,7 +51,7 @@ export const seedChannels: Channel[] = [
     name: "Endo Pro",
     category: "endodontiya",
     bidSum: 5000,
-    avatarColor: "#0d9488",
+    avatarColor: "#0F766E",
     createdAt: "2026-01-12T10:00:00.000Z",
   },
   {
@@ -87,7 +87,7 @@ export const seedChannels: Channel[] = [
     name: "Stomatolog Uz",
     category: "umumiy",
     bidSum: 800,
-    avatarColor: "#2563eb",
+    avatarColor: "#0F766E",
     createdAt: "2026-02-20T10:00:00.000Z",
   },
   {
@@ -105,7 +105,7 @@ export const seedChannels: Channel[] = [
     name: "Implant Tips",
     category: "implantologiya",
     bidSum: 0,
-    avatarColor: "#4f46e5",
+    avatarColor: "#0F766E",
     createdAt: "2026-03-05T10:00:00.000Z",
   },
 ];

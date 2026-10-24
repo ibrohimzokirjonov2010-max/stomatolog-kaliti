@@ -58,14 +58,14 @@ export function NotificationBell({
             role="dialog"
             aria-label="Bildirishnomalar"
             className={cn(
-              "z-40 overflow-hidden rounded-2xl border border-border bg-white shadow-[0_12px_40px_rgba(15,23,42,0.14)]",
+              "z-40 overflow-hidden rounded-2xl border border-border bg-white shadow-[0_12px_40px_rgba(17, 24, 39, 0.14)]",
               mobile ? "fixed inset-x-3 top-[calc(env(safe-area-inset-top)+3.6rem)]" : "absolute right-0 mt-2 w-[360px]",
             )}
           >
             <div className="flex items-center justify-between gap-2 border-b border-[#f0f3f8] px-4 py-3">
               <p className="text-[14px] font-semibold text-[#1a1d26]">Bildirishnomalar</p>
               {unread > 0 ? (
-                <button type="button" data-testid="notif-read-all" onClick={() => markAllNotificationsRead()} className="inline-flex items-center gap-1 text-[12px] font-semibold text-[#0066FF]">
+                <button type="button" data-testid="notif-read-all" onClick={() => markAllNotificationsRead()} className="inline-flex items-center gap-1 text-[12px] font-semibold text-[#0F766E]">
                   <CheckCheck className="size-3.5" /> Hammasini o‘qilgan qilish
                 </button>
               ) : null}
@@ -90,7 +90,7 @@ export function NotificationBell({
                   >
                     <div className="flex items-start justify-between gap-2">
                       <p className="text-[13.5px] font-semibold text-[#1a1d26]">{n.title}</p>
-                      {!n.readAt ? <span className="mt-1.5 size-2 shrink-0 rounded-full bg-[#0066FF]" aria-label="O‘qilmagan" /> : null}
+                      {!n.readAt ? <span className="mt-1.5 size-2 shrink-0 rounded-full bg-[#0F766E]" aria-label="O‘qilmagan" /> : null}
                     </div>
                     <p className="mt-0.5 line-clamp-2 text-[12.5px] text-muted-foreground">{n.body}</p>
                     <p className="mt-1 text-[11px] text-muted-foreground">{notificationTimeAgo(n.createdAt)}</p>
@@ -99,7 +99,7 @@ export function NotificationBell({
               )}
             </div>
             <div className="border-t border-[#f0f3f8] px-3 py-2.5">
-              <Link href="/buyurtmalarim" onClick={() => setOpen(false)} className="block rounded-xl py-2 text-center text-[13px] font-semibold text-[#0066FF] hover:bg-[#f5f9ff]">
+              <Link href="/buyurtmalarim" onClick={() => setOpen(false)} className="block rounded-xl py-2 text-center text-[13px] font-semibold text-[#0F766E] hover:bg-[#f5f9ff]">
                 Buyurtmalarim
               </Link>
             </div>

@@ -244,7 +244,7 @@ export function SeminarDesktop() {
         )}
 
         {/* Filter bar */}
-        <div className="relative flex items-stretch gap-2 rounded-xl border border-[#eceff5] bg-white p-2 shadow-[0_2px_10px_rgba(15,23,42,0.04)]">
+        <div className="relative flex items-stretch gap-2 rounded-xl border border-[#eceff5] bg-white p-2 shadow-[0_2px_10px_rgba(17, 24, 39, 0.04)]">
           <FilterSelect
             icon={<MapPin className="size-3.5" />}
             label="Shahar"
@@ -278,22 +278,22 @@ export function SeminarDesktop() {
             aria-expanded={panel}
             className={cn(
               "relative inline-flex min-w-[104px] items-center justify-center gap-2 rounded-lg border px-3 text-[13px] font-semibold transition-colors",
-              panel || extraOn ? "border-[#0066FF] bg-[#f3f8ff] text-[#0066FF]" : "border-[#e6eaf2] bg-white text-[#1a1d26] hover:bg-slate-50",
+              panel || extraOn ? "border-[#0F766E] bg-[#f3f8ff] text-[#0F766E]" : "border-[#e6eaf2] bg-white text-[#1a1d26] hover:bg-slate-50",
             )}
           >
             <SlidersHorizontal className="size-4" />
             Filtrlar
             {extraOn ? (
-              <span className="absolute -top-1.5 -right-1.5 grid size-[18px] place-items-center rounded-full bg-[#0066FF] text-[10px] font-bold text-white">
+              <span className="absolute -top-1.5 -right-1.5 grid size-[18px] place-items-center rounded-full bg-[#0F766E] text-[10px] font-bold text-white">
                 {extraOn}
               </span>
             ) : null}
           </button>
 
           {panel ? (
-            <div className="absolute top-full right-0 z-20 mt-2 w-[280px] rounded-xl border border-[#eceff5] bg-white p-4 shadow-[0_12px_36px_rgba(15,23,42,0.14)]">
+            <div className="absolute top-full right-0 z-20 mt-2 w-[280px] rounded-xl border border-[#eceff5] bg-white p-4 shadow-[0_12px_36px_rgba(17, 24, 39, 0.14)]">
               <div className="mb-2 flex items-center justify-between">
-                <p className="text-[14px] font-bold text-[#0B1F4D]">Qo‘shimcha filtrlar</p>
+                <p className="text-[14px] font-bold text-[#111827]">Qo‘shimcha filtrlar</p>
                 <button type="button" onClick={() => setPanel(false)} aria-label="Yopish" className="text-[#8b93a7] hover:text-[#1a1d26]">
                   <X className="size-4" />
                 </button>
@@ -303,7 +303,7 @@ export function SeminarDesktop() {
               <button
                 type="button"
                 onClick={() => setFilters(emptyFilters)}
-                className="mt-3 text-[12.5px] font-semibold text-[#0066FF] hover:underline"
+                className="mt-3 text-[12.5px] font-semibold text-[#0F766E] hover:underline"
               >
                 Barchasini tozalash
               </button>
@@ -327,11 +327,11 @@ export function SeminarDesktop() {
 
         {/* List header */}
         <div className="flex items-center justify-between gap-3">
-          <h2 className="flex items-baseline gap-2 text-[17px] font-bold text-[#0B1F4D]">
+          <h2 className="flex items-baseline gap-2 text-[17px] font-bold text-[#111827]">
             Barcha seminarlar
             <span className="text-[13px] font-medium text-[#8b93a7]">({visible.length} ta seminar)</span>
             {filtersOn ? (
-              <button type="button" onClick={() => setFilters(emptyFilters)} className="ml-1 text-[12px] font-semibold text-[#0066FF] hover:underline">
+              <button type="button" onClick={() => setFilters(emptyFilters)} className="ml-1 text-[12px] font-semibold text-[#0F766E] hover:underline">
                 Tozalash
               </button>
             ) : null}
@@ -364,13 +364,13 @@ export function SeminarDesktop() {
         </div>
 
         {visible.length === 0 ? (
-          <div className="rounded-xl border border-[#eceff5] bg-white px-6 py-16 text-center shadow-[0_2px_10px_rgba(15,23,42,0.04)]">
+          <div className="rounded-xl border border-[#eceff5] bg-white px-6 py-16 text-center shadow-[0_2px_10px_rgba(17, 24, 39, 0.04)]">
             <p className="font-semibold text-[#1a1d26]">Mos seminar topilmadi.</p>
             <p className="mt-1 text-sm text-[#8b93a7]">Filtrlarni o‘zgartiring yoki tozalang.</p>
             <button
               type="button"
               onClick={() => setFilters(emptyFilters)}
-              className="mt-4 inline-flex h-10 items-center rounded-xl bg-[#0066FF] px-5 text-sm font-semibold text-white"
+              className="mt-4 inline-flex h-10 items-center rounded-xl bg-[#0F766E] px-5 text-sm font-semibold text-white"
             >
               Filtrlarni tozalash
             </button>
@@ -398,22 +398,22 @@ export function SeminarDesktop() {
       <aside className="space-y-3">
         <Link
           href="/seminarlar/yozuvlarim"
-          className="flex items-center gap-2.5 rounded-xl border border-[#dbe7ff] bg-[#f5f8ff] px-3.5 py-2.5 hover:bg-[#edf3ff]"
+          className="flex items-center gap-2.5 rounded-xl border border-[#F0FDFA] bg-[#f5f8ff] px-3.5 py-2.5 hover:bg-[#edf3ff]"
         >
-          <span className="grid size-8 shrink-0 place-items-center rounded-lg bg-[#0066FF] text-white">
+          <span className="grid size-8 shrink-0 place-items-center rounded-lg bg-[#0F766E] text-white">
             <FileText className="size-4" />
           </span>
-          <span className="min-w-0 flex-1 text-[13px] font-bold text-[#0B1F4D]">Mening yozuvlarim</span>
+          <span className="min-w-0 flex-1 text-[13px] font-bold text-[#111827]">Mening yozuvlarim</span>
           <ChevronRight className="size-4 text-[#8b93a7]" />
         </Link>
         <Link
           href="/seminarlar/yozuvlarim/tashkilotchi"
-          className="flex items-center gap-2.5 rounded-xl border border-[#dbe7ff] bg-white px-3.5 py-2.5 hover:bg-[#f5f8ff]"
+          className="flex items-center gap-2.5 rounded-xl border border-[#F0FDFA] bg-white px-3.5 py-2.5 hover:bg-[#f5f8ff]"
         >
-          <span className="grid size-8 shrink-0 place-items-center rounded-lg bg-[#e8f1ff] text-[#0066FF]">
+          <span className="grid size-8 shrink-0 place-items-center rounded-lg bg-[#F0FDFA] text-[#0F766E]">
             <Plus className="size-4" />
           </span>
-          <span className="min-w-0 flex-1 text-[13px] font-bold text-[#0B1F4D]">Seminar qo‘shish (tashkilotchi)</span>
+          <span className="min-w-0 flex-1 text-[13px] font-bold text-[#111827]">Seminar qo‘shish (tashkilotchi)</span>
           <ChevronRight className="size-4 text-[#8b93a7]" />
         </Link>
 
@@ -426,7 +426,7 @@ export function SeminarDesktop() {
               { icon: Users, title: "Professional hamjamiyat", text: "Hamkasblar bilan tanishing" },
             ].map(({ icon: Icon, title, text }) => (
               <li key={title} className="flex gap-2.5">
-                <span className="grid size-8 shrink-0 place-items-center rounded-full bg-[#eaf2ff] text-[#0066FF]">
+                <span className="grid size-8 shrink-0 place-items-center rounded-full bg-[#eaf2ff] text-[#0F766E]">
                   <Icon className="size-4" strokeWidth={1.9} />
                 </span>
                 <span className="leading-tight">
@@ -438,19 +438,19 @@ export function SeminarDesktop() {
           </ul>
         </SideCard>
 
-        <div className="rounded-xl border border-[#eceff5] bg-gradient-to-br from-[#f3f8ff] to-white p-4 shadow-[0_2px_10px_rgba(15,23,42,0.04)]">
+        <div className="rounded-xl border border-[#eceff5] bg-gradient-to-br from-[#f3f8ff] to-white p-4 shadow-[0_2px_10px_rgba(17, 24, 39, 0.04)]">
           <div className="flex items-start gap-3">
-            <span className="grid size-11 shrink-0 place-items-center rounded-xl bg-white text-[#e5484d] shadow-[0_2px_8px_rgba(15,23,42,0.08)]">
+            <span className="grid size-11 shrink-0 place-items-center rounded-xl bg-white text-[#e5484d] shadow-[0_2px_8px_rgba(17, 24, 39, 0.08)]">
               <FileText className="size-5" />
             </span>
-            <p className="text-[13px] leading-snug font-bold text-[#0B1F4D]">
+            <p className="text-[13px] leading-snug font-bold text-[#111827]">
               2026 yil seminarlar taqvimini yuklab oling
             </p>
           </div>
           <a
             href="/docs/seminar-kalendari-2026.pdf"
             download
-            className="mt-3 inline-flex h-9 w-full items-center justify-center gap-2 rounded-[10px] border border-[#0066FF] bg-white text-[13px] font-semibold text-[#0066FF] hover:bg-[#f3f8ff]"
+            className="mt-3 inline-flex h-9 w-full items-center justify-center gap-2 rounded-[10px] border border-[#0F766E] bg-white text-[13px] font-semibold text-[#0F766E] hover:bg-[#f3f8ff]"
           >
             <Download className="size-4" />
             Yuklab olish (PDF)
@@ -464,7 +464,7 @@ export function SeminarDesktop() {
                 {sp.photo ? (
                   <Image src={sp.photo} alt="" width={36} height={36} className="size-9 shrink-0 rounded-full object-cover" />
                 ) : (
-                  <span className="grid size-9 shrink-0 place-items-center rounded-full bg-[#e8f1ff] text-[11px] font-bold text-[#0066FF]">
+                  <span className="grid size-9 shrink-0 place-items-center rounded-full bg-[#F0FDFA] text-[11px] font-bold text-[#0F766E]">
                     {initials(sp.name)}
                   </span>
                 )}
@@ -485,23 +485,23 @@ export function SeminarDesktop() {
           <button
             type="button"
             onClick={() => set({ specialty: "" })}
-            className="mt-3 text-[12.5px] font-semibold text-[#0066FF] hover:underline"
+            className="mt-3 text-[12.5px] font-semibold text-[#0F766E] hover:underline"
           >
             Barchasini ko‘rish
           </button>
         </SideCard>
 
-        <div className="overflow-hidden rounded-xl border border-[#eceff5] bg-white shadow-[0_2px_10px_rgba(15,23,42,0.04)]">
+        <div className="overflow-hidden rounded-xl border border-[#eceff5] bg-white shadow-[0_2px_10px_rgba(17, 24, 39, 0.04)]">
           <div className="relative h-24">
             <Image src="/images/seminar-lecture.png" alt="" fill sizes="280px" className="object-cover" />
             <div className="absolute inset-0 bg-gradient-to-t from-black/45 to-transparent" />
           </div>
           <div className="p-4">
-            <p className="text-[14px] leading-snug font-bold text-[#0B1F4D]">Klinikangiz uchun korporativ seminarlar</p>
+            <p className="text-[14px] leading-snug font-bold text-[#111827]">Klinikangiz uchun korporativ seminarlar</p>
             <ul className="mt-2 space-y-1">
               {["Maxsus dastur", "Klinikangizda o‘tkaziladi", "Amaliy mashg‘ulotlar"].map((t) => (
                 <li key={t} className="flex items-center gap-1.5 text-[12px] text-[#4b5568]">
-                  <Check className="size-3.5 text-[#0066FF]" strokeWidth={2.5} />
+                  <Check className="size-3.5 text-[#0F766E]" strokeWidth={2.5} />
                   {t}
                 </li>
               ))}
@@ -510,7 +510,7 @@ export function SeminarDesktop() {
               href={site.telegram}
               target="_blank"
               rel="noreferrer"
-              className="mt-3 inline-flex h-9 w-full items-center justify-center gap-1.5 rounded-[10px] bg-[#0066FF] text-[13px] font-semibold text-white shadow-[0_4px_12px_rgba(0,102,255,0.25)] hover:bg-[#0052cc]"
+              className="mt-3 inline-flex h-9 w-full items-center justify-center gap-1.5 rounded-[10px] bg-[#0F766E] text-[13px] font-semibold text-white shadow-[0_4px_12px_rgba(15, 118, 110, 0.25)] hover:bg-[#115E59]"
             >
               So‘rov yuborish
               <ArrowRight className="size-4" />
@@ -550,7 +550,7 @@ function Hero({
   const tag = /live|amaliy|hands/i.test(`${seminar.title} ${seminar.description ?? ""}`) ? "Amaliyot + Live-surgery" : seminar.city === "Online" ? "Online seminar" : "Seminar";
 
   return (
-    <section className="relative overflow-hidden rounded-2xl bg-[#071633] shadow-[0_8px_28px_rgba(7,22,51,0.22)]">
+    <section className="relative overflow-hidden rounded-2xl bg-[#111827] shadow-[0_8px_28px_rgba(17, 24, 39, 0.22)]">
       <Image
         key={seminar.id}
         src={seminar.image}
@@ -560,16 +560,16 @@ function Hero({
         sizes="(min-width: 1400px) 900px, 800px"
         className="object-cover object-right"
       />
-      <div className="absolute inset-0 bg-gradient-to-r from-[#071633] via-[#071633]/85 to-[#071633]/30" />
-      <div className="absolute inset-0 bg-gradient-to-t from-[#071633]/70 via-transparent to-transparent" />
+      <div className="absolute inset-0 bg-gradient-to-r from-[#111827] via-[#111827]/85 to-[#111827]/30" />
+      <div className="absolute inset-0 bg-gradient-to-t from-[#111827]/70 via-transparent to-transparent" />
 
       <div className="relative z-10 flex min-h-[240px] flex-col justify-between p-5 pr-5">
         <div className="max-w-[560px]">
           <div className="flex flex-wrap items-center gap-2">
-            <span className="rounded-md bg-[#0066FF] px-2.5 py-1 text-[10px] leading-none font-bold tracking-[0.1em] text-white uppercase">
+            <span className="rounded-md bg-[#0F766E] px-2.5 py-1 text-[10px] leading-none font-bold tracking-[0.1em] text-white uppercase">
               Featured seminar
             </span>
-            <span className="rounded-md bg-white px-2.5 py-1 text-[11px] leading-none font-semibold text-[#0B1F4D]">{tag}</span>
+            <span className="rounded-md bg-white px-2.5 py-1 text-[11px] leading-none font-semibold text-[#111827]">{tag}</span>
           </div>
           <h2 className="mt-2 text-[24px] leading-[1.12] font-extrabold tracking-tight text-white min-[1400px]:text-[26px]">
             {seminar.title}
@@ -630,7 +630,7 @@ function Hero({
               mine ? (
                 <Link
                   href={seminarHref(seminar.id)}
-                  className="inline-flex h-11 items-center gap-2 rounded-xl bg-white px-5 text-[14px] font-semibold text-[#0066FF]"
+                  className="inline-flex h-11 items-center gap-2 rounded-xl bg-white px-5 text-[14px] font-semibold text-[#0F766E]"
                 >
                   <SeminarStatusBadge status={mine.status} />
                   {mine.status === "pending" ? "Tasdiqlash kerak" : "Tasdiqlangan"}
@@ -638,7 +638,7 @@ function Hero({
               ) : left > 0 ? (
                 <Link
                   href={seminarHref(seminar.id)}
-                  className="inline-flex h-11 items-center gap-2 rounded-xl bg-[#0066FF] px-6 text-[14px] font-semibold text-white shadow-[0_6px_18px_rgba(0,102,255,0.45)] transition-colors hover:bg-[#0052cc]"
+                  className="inline-flex h-11 items-center gap-2 rounded-xl bg-[#0F766E] px-6 text-[14px] font-semibold text-white shadow-[0_6px_18px_rgba(15, 118, 110, 0.45)] transition-colors hover:bg-[#115E59]"
                 >
                   Ro‘yxatdan o‘tish
                   <ArrowRight className="size-4" />
@@ -694,7 +694,7 @@ function Hero({
           href={seminarHref(seminar.id)}
           className="inline-flex items-center gap-1.5 rounded-full bg-white/15 py-1 pr-3 pl-1 text-[12px] font-semibold text-white backdrop-blur-sm hover:bg-white/25"
         >
-          <span className="grid size-6 place-items-center rounded-full bg-white text-[#0066FF]">
+          <span className="grid size-6 place-items-center rounded-full bg-white text-[#0F766E]">
             <Play className="size-3 fill-current" />
           </span>
           Taqdimotni ko‘rish
@@ -759,7 +759,7 @@ function SeminarGridCard({ seminar }: { seminar: Seminar }) {
       : occupancy >= 0.7
         ? { text: "Bestseller", cls: "bg-[#ef4444] text-white" }
         : hands
-          ? { text: "Amaliyot", cls: "bg-[#0066FF] text-white" }
+          ? { text: "Amaliyot", cls: "bg-[#0F766E] text-white" }
           : online
             ? { text: "Online", cls: "bg-[#7c3aed] text-white" }
             : { text: "Yangi", cls: "bg-[#16a34a] text-white" };
@@ -767,7 +767,7 @@ function SeminarGridCard({ seminar }: { seminar: Seminar }) {
   return (
     <article
       id={seminar.id}
-      className="group flex scroll-mt-24 flex-col overflow-hidden rounded-xl border border-[#eceff5] bg-white shadow-[0_2px_10px_rgba(15,23,42,0.05)] transition-shadow hover:shadow-[0_8px_24px_rgba(15,23,42,0.10)]"
+      className="group flex scroll-mt-24 flex-col overflow-hidden rounded-xl border border-[#eceff5] bg-white shadow-[0_2px_10px_rgba(17, 24, 39, 0.05)] transition-shadow hover:shadow-[0_8px_24px_rgba(17, 24, 39, 0.10)]"
     >
       <Link href={seminarHref(seminar.id)} className="relative block h-[116px] overflow-hidden bg-[#f1f3f7]">
         <Image
@@ -781,8 +781,8 @@ function SeminarGridCard({ seminar }: { seminar: Seminar }) {
           {status.text}
         </span>
         <span className="absolute top-2 right-2 rounded-md bg-white px-1.5 py-[3px] text-center shadow-sm">
-          <span className="block text-[13px] leading-none font-extrabold text-[#0B1F4D]">{date.day}</span>
-          <span className="mt-0.5 block text-[8.5px] leading-none font-bold tracking-wider text-[#0066FF]">{date.monthBadge}</span>
+          <span className="block text-[13px] leading-none font-extrabold text-[#111827]">{date.day}</span>
+          <span className="mt-0.5 block text-[8.5px] leading-none font-bold tracking-wider text-[#0F766E]">{date.monthBadge}</span>
         </span>
         {upcoming && left > 0 ? (
           <span className="absolute bottom-2 left-2 inline-flex items-center gap-1 rounded-md bg-black/60 px-1.5 py-[3px] text-[10px] leading-none font-semibold text-white backdrop-blur-sm">
@@ -794,7 +794,7 @@ function SeminarGridCard({ seminar }: { seminar: Seminar }) {
 
       <div className="flex flex-1 flex-col p-3">
         <Link href={seminarHref(seminar.id)}>
-          <h3 className="line-clamp-2 min-h-[34px] text-[13px] leading-[17px] font-bold text-[#1a1d26] hover:text-[#0066FF]">
+          <h3 className="line-clamp-2 min-h-[34px] text-[13px] leading-[17px] font-bold text-[#1a1d26] hover:text-[#0F766E]">
             {seminar.title}
           </h3>
         </Link>
@@ -803,7 +803,7 @@ function SeminarGridCard({ seminar }: { seminar: Seminar }) {
             {sp.photo ? (
               <Image src={sp.photo} alt="" width={22} height={22} className="size-[22px] shrink-0 rounded-full object-cover" />
             ) : (
-              <span className="grid size-[22px] shrink-0 place-items-center rounded-full bg-[#e8f1ff] text-[8.5px] font-bold text-[#0066FF]">
+              <span className="grid size-[22px] shrink-0 place-items-center rounded-full bg-[#F0FDFA] text-[8.5px] font-bold text-[#0F766E]">
                 {initials(sp.name)}
               </span>
             )}
@@ -816,7 +816,7 @@ function SeminarGridCard({ seminar }: { seminar: Seminar }) {
         ) : null}
         {seminar.organizer ? (
           <div className="mt-2 flex items-center gap-1.5">
-            <span className="grid size-[22px] shrink-0 place-items-center rounded-full bg-[#e8f1ff] text-[#0066FF]">
+            <span className="grid size-[22px] shrink-0 place-items-center rounded-full bg-[#F0FDFA] text-[#0F766E]">
               <Building2 className="size-3" />
             </span>
             <span className="min-w-0 flex-1 truncate text-[11.5px] font-medium text-[#4b5568]">
@@ -840,7 +840,7 @@ function SeminarGridCard({ seminar }: { seminar: Seminar }) {
 
         <div className="mt-auto pt-2.5">
           <div className="flex items-baseline gap-1.5">
-            <span className="text-[15px] leading-tight font-extrabold text-[#0066FF]">{seminarPriceText(seminar)}</span>
+            <span className="text-[15px] leading-tight font-extrabold text-[#0F766E]">{seminarPriceText(seminar)}</span>
             {discount ? (
               <span className="rounded-md bg-[#ffe9e9] px-1.5 py-[2px] text-[10px] leading-none font-bold text-[#e5484d]">-{discount}%</span>
             ) : null}
@@ -855,8 +855,8 @@ function SeminarGridCard({ seminar }: { seminar: Seminar }) {
             className={cn(
               "mt-2 inline-flex h-9 w-full items-center justify-center gap-1.5 rounded-[10px] text-[13px] font-semibold transition-colors",
               mine
-                ? "bg-[#e8f1ff] text-[#0066FF]"
-                : "bg-[#0066FF] text-white shadow-[0_3px_10px_rgba(0,102,255,0.25)] hover:bg-[#0052cc]",
+                ? "bg-[#F0FDFA] text-[#0F766E]"
+                : "bg-[#0F766E] text-white shadow-[0_3px_10px_rgba(15, 118, 110, 0.25)] hover:bg-[#115E59]",
             )}
           >
             {mine ? (mine.status === "pending" ? "Tasdiqlash kerak" : "Tasdiqlangan") : "Batafsil"}
@@ -875,11 +875,11 @@ function Pill({ label, count, active, onClick }: { label: string; count: number;
       aria-pressed={active}
       className={cn(
         "flex shrink-0 items-center gap-2 rounded-xl border bg-white px-3.5 py-2 text-left transition-colors",
-        active ? "border-[#0066FF] bg-[#f3f8ff] shadow-[0_2px_10px_rgba(0,102,255,0.12)]" : "border-[#eceff5] hover:border-[#0066FF]/40",
+        active ? "border-[#0F766E] bg-[#f3f8ff] shadow-[0_2px_10px_rgba(15, 118, 110, 0.12)]" : "border-[#eceff5] hover:border-[#0F766E]/40",
       )}
     >
       <span className="leading-tight">
-        <span className={cn("block text-[12.5px] font-semibold whitespace-nowrap", active ? "text-[#0066FF]" : "text-[#1a1d26]")}>{label}</span>
+        <span className={cn("block text-[12.5px] font-semibold whitespace-nowrap", active ? "text-[#0F766E]" : "text-[#1a1d26]")}>{label}</span>
         <span className="block text-[11px] text-[#8b93a7]">{count} ta</span>
       </span>
     </button>
@@ -927,8 +927,8 @@ function ToggleRow({ label, checked, onChange }: { label: string; checked: boole
       <input type="checkbox" checked={checked} onChange={onChange} className="peer sr-only" />
       <span
         className={cn(
-          "grid size-4 shrink-0 place-items-center rounded-[5px] border transition-colors peer-focus-visible:ring-2 peer-focus-visible:ring-[#0066FF]/30",
-          checked ? "border-[#0066FF] bg-[#0066FF]" : "border-[#cfd6e4] bg-white",
+          "grid size-4 shrink-0 place-items-center rounded-[5px] border transition-colors peer-focus-visible:ring-2 peer-focus-visible:ring-[#0F766E]/30",
+          checked ? "border-[#0F766E] bg-[#0F766E]" : "border-[#cfd6e4] bg-white",
         )}
       >
         {checked ? <Check className="size-3 text-white" strokeWidth={3} /> : null}
@@ -940,8 +940,8 @@ function ToggleRow({ label, checked, onChange }: { label: string; checked: boole
 
 function SideCard({ title, children }: { title: string; children: ReactNode }) {
   return (
-    <section className="rounded-xl border border-[#eceff5] bg-white p-4 shadow-[0_2px_10px_rgba(15,23,42,0.04)]">
-      <h3 className="mb-3 text-[14px] font-bold text-[#0B1F4D]">{title}</h3>
+    <section className="rounded-xl border border-[#eceff5] bg-white p-4 shadow-[0_2px_10px_rgba(17, 24, 39, 0.04)]">
+      <h3 className="mb-3 text-[14px] font-bold text-[#111827]">{title}</h3>
       {children}
     </section>
   );
@@ -956,7 +956,7 @@ function ViewBtn({ active, onClick, label, children }: { active: boolean; onClic
       aria-pressed={active}
       className={cn(
         "grid size-8 place-items-center rounded-lg transition-colors",
-        active ? "bg-[#0066FF] text-white" : "text-[#8b93a7] hover:text-[#1a1d26]",
+        active ? "bg-[#0F766E] text-white" : "text-[#8b93a7] hover:text-[#1a1d26]",
       )}
     >
       {children}

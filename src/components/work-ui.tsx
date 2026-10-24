@@ -6,9 +6,9 @@ import { buttonVariants } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 
 export const inputCls =
-  "mt-1 h-11 w-full rounded-xl border border-[#dfe5ef] bg-white px-3.5 text-[14px] text-[#1a1d26] outline-none placeholder:text-[#a0a8ba] focus:border-[#0066FF] focus:ring-2 focus:ring-[#0066FF]/15 aria-[invalid=true]:border-[#dc2626]";
+  "mt-1 h-11 w-full rounded-xl border border-[#dfe5ef] bg-white px-3.5 text-[14px] text-[#1a1d26] outline-none placeholder:text-[#a0a8ba] focus:border-[#0F766E] focus:ring-2 focus:ring-[#0F766E]/15 aria-[invalid=true]:border-[#dc2626]";
 export const textareaCls =
-  "mt-1 min-h-[96px] w-full rounded-xl border border-[#dfe5ef] bg-white px-3.5 py-2.5 text-[14px] text-[#1a1d26] outline-none placeholder:text-[#a0a8ba] focus:border-[#0066FF] focus:ring-2 focus:ring-[#0066FF]/15 aria-[invalid=true]:border-[#dc2626]";
+  "mt-1 min-h-[96px] w-full rounded-xl border border-[#dfe5ef] bg-white px-3.5 py-2.5 text-[14px] text-[#1a1d26] outline-none placeholder:text-[#a0a8ba] focus:border-[#0F766E] focus:ring-2 focus:ring-[#0F766E]/15 aria-[invalid=true]:border-[#dc2626]";
 
 export function FormField({ label, error, hint, children }: { label: string; error?: string; hint?: string; children: ReactNode }) {
   return (
@@ -23,7 +23,7 @@ export function FormField({ label, error, hint, children }: { label: string; err
 
 export function Chip({ on, onClick, children }: { on: boolean; onClick: () => void; children: ReactNode }) {
   return (
-    <button type="button" onClick={onClick} aria-pressed={on} className={cn("h-10 rounded-full px-4 text-[13px] font-semibold transition-colors", on ? "bg-[#0066FF] text-white" : "border border-[#e6eaf2] bg-white text-[#4b5568]")}>
+    <button type="button" onClick={onClick} aria-pressed={on} className={cn("h-10 rounded-full px-4 text-[13px] font-semibold transition-colors", on ? "bg-[#0F766E] text-white" : "border border-[#e6eaf2] bg-white text-[#4b5568]")}>
       {children}
     </button>
   );
@@ -31,7 +31,7 @@ export function Chip({ on, onClick, children }: { on: boolean; onClick: () => vo
 
 export function Gate({ title, text, next }: { title: string; text: string; next: string }) {
   return (
-    <div className="rounded-[18px] border border-[#eceff5] bg-white px-6 py-14 text-center shadow-[0_4px_14px_rgba(15,23,42,0.04)]" data-testid="login-gate">
+    <div className="rounded-[18px] border border-[#eceff5] bg-white px-6 py-14 text-center shadow-[0_4px_14px_rgba(17, 24, 39, 0.04)]" data-testid="login-gate">
       <p className="text-[16px] font-semibold text-[#1a1d26]">{title}</p>
       <p className="mx-auto mt-1 max-w-sm text-sm text-[#8b93a7]">{text}</p>
       <Link href={`/kirish?next=${encodeURIComponent(next)}`} className={cn(buttonVariants(), "mt-5 inline-flex h-12 min-w-[160px] !rounded-2xl text-[14px] font-semibold")}>
@@ -43,8 +43,8 @@ export function Gate({ title, text, next }: { title: string; text: string; next:
 
 export function EmptyState({ title, text, href, cta, icon }: { title: string; text: string; href?: string; cta?: string; icon?: ReactNode }) {
   return (
-    <div className="rounded-[18px] border border-[#eceff5] bg-white px-6 py-14 text-center shadow-[0_4px_14px_rgba(15,23,42,0.04)]" data-testid="empty-state">
-      {icon ? <span className="mx-auto mb-3 grid size-14 place-items-center rounded-full bg-[#eef4ff] text-[#0066FF]">{icon}</span> : null}
+    <div className="rounded-[18px] border border-[#eceff5] bg-white px-6 py-14 text-center shadow-[0_4px_14px_rgba(17, 24, 39, 0.04)]" data-testid="empty-state">
+      {icon ? <span className="mx-auto mb-3 grid size-14 place-items-center rounded-full bg-[#eef4ff] text-[#0F766E]">{icon}</span> : null}
       <p className="text-[16px] font-semibold text-[#1a1d26]">{title}</p>
       <p className="mx-auto mt-1 max-w-sm text-sm text-[#8b93a7]">{text}</p>
       {href && cta ? (
@@ -84,7 +84,7 @@ export function TabBar<T extends string>({ tabs, value, onChange }: { tabs: read
           role="tab"
           aria-selected={value === id}
           onClick={() => onChange(id)}
-          className={cn("h-10 shrink-0 rounded-full px-4 text-[13px] font-semibold", value === id ? "bg-white text-[#0066FF] shadow-sm" : "text-[#6b7280]")}
+          className={cn("h-10 shrink-0 rounded-full px-4 text-[13px] font-semibold", value === id ? "bg-white text-[#0F766E] shadow-sm" : "text-[#6b7280]")}
         >
           {label}
         </button>

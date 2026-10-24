@@ -113,7 +113,7 @@ export function EmbroiderySheet({ onClose }: { onClose: () => void }) {
                     className={cn(
                       "h-10 flex-1 rounded-full text-[13px] font-semibold",
                       form.itemType === item.id
-                        ? "bg-[#0066FF] text-white"
+                        ? "bg-[#0F766E] text-white"
                         : "border border-[#e6eaf2] bg-white text-[#4b5568]",
                     )}
                   >

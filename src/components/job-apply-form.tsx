@@ -68,7 +68,7 @@ export function JobApplyForm({ job, onCancel, onSuccess, focusNote }: { job: Job
   return (
     <form className="space-y-3" onSubmit={submit} noValidate>
       {focusNote ? (
-        <p className="rounded-xl bg-[#f0f5ff] px-3 py-2 text-[12.5px] text-[#1e3a8a]">Klinika bilan to‘g‘ridan-to‘g‘ri chat hozircha yo‘q — xabaringiz arizangiz bilan birga ish beruvchiga boradi.</p>
+        <p className="rounded-xl bg-[#f0f5ff] px-3 py-2 text-[12.5px] text-[#111827]">Klinika bilan to‘g‘ridan-to‘g‘ri chat hozircha yo‘q — xabaringiz arizangiz bilan birga ish beruvchiga boradi.</p>
       ) : resume ? (
         <p className="rounded-xl bg-[#ecfdf3] px-3 py-2 text-[12.5px] text-[#166534]">Rezyumengizdagi ma’lumotlar to‘ldirildi.</p>
       ) : null}
@@ -95,7 +95,7 @@ export function JobApplyForm({ job, onCancel, onSuccess, focusNote }: { job: Job
         <Button type="button" variant="outline" className="h-11 rounded-xl" onClick={onCancel}>
           Bekor
         </Button>
-        <Button type="submit" disabled={busy} className="h-11 rounded-xl bg-[#0066FF]">
+        <Button type="submit" disabled={busy} className="h-11 rounded-xl bg-[#0F766E]">
           {busy ? "Yuborilmoqda…" : "Ariza yuborish"}
         </Button>
       </div>

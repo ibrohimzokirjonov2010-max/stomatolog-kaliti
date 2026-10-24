@@ -255,9 +255,6 @@ export function MarketCatalog() {
     window.setTimeout(() => setPulse((current) => (current === item.id ? null : current)), 280);
   }
 
-  const minPct = (range[0] / cap) * 100;
-  const maxPct = (range[1] / cap) * 100;
-
   return (
     <ShopShell className="mp-shell" searchPath="/marketplace" cartCount={0}>
       <div className="mpx" data-testid="market-catalog">
@@ -290,7 +287,7 @@ export function MarketCatalog() {
             </Drop>
           ) : null}
           <Drop label="Narx oralig‘i (so‘m)" active={range[0] > 0 || range[1] < cap} open={open === "narx"} onToggle={() => setOpen(open === "narx" ? null : "narx")}>
-            <PriceRange cap={cap} range={range} minPct={minPct} maxPct={maxPct} setMin={setMin} setMax={setMax} />
+            <PriceRange cap={cap} range={range} setMin={setMin} setMax={setMax} />
           </Drop>
           {stockCounts.ombor + stockCounts.buyurtma + stockCounts.tez > 0 ? (
             <Drop label="Mavjudligi" active={stock !== "all"} open={open === "stock"} onToggle={() => setOpen(open === "stock" ? null : "stock")}>
@@ -350,7 +347,7 @@ export function MarketCatalog() {
               </>
             ) : null}
             <h4>Narx oralig‘i (so‘m)</h4>
-            <PriceRange cap={cap} range={range} minPct={minPct} maxPct={maxPct} setMin={setMin} setMax={setMax} />
+            <PriceRange cap={cap} range={range} setMin={setMin} setMax={setMax} />
             {stockCounts.ombor + stockCounts.buyurtma + stockCounts.tez > 0 ? (
               <>
                 <h4>Mavjudligi</h4>
@@ -488,28 +485,17 @@ function Drop({
 }
 
 function PriceRange({
-  cap,
   range,
-  minPct,
-  maxPct,
   setMin,
   setMax,
 }: {
   cap: number;
   range: [number, number];
-  minPct: number;
-  maxPct: number;
   setMin: (value: number) => void;
   setMax: (value: number) => void;
 }) {
   return (
     <div>
-      <div className="mpx-range">
-        <div className="rail" />
-        <div className="fill" style={{ left: `${minPct}%`, width: `${Math.max(0, maxPct - minPct)}%` }} />
-        <input type="range" min={0} max={cap} step={50_000} value={range[0]} aria-label="Eng past narx" onChange={(event) => setMin(Number(event.target.value))} />
-        <input type="range" min={0} max={cap} step={50_000} value={range[1]} aria-label="Eng yuqori narx" onChange={(event) => setMax(Number(event.target.value))} />
-      </div>
       <div className="mpx-prices">
         <input aria-label="Minimal narx" value={formatGroupedNumber(range[0])} onChange={(event) => setMin(Number(event.target.value.replace(/\D/g, "")) || 0)} />
         <span>–</span>

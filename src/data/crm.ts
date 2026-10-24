@@ -142,7 +142,7 @@ export const apptDoctors = [
   { id: "saidova", name: "Dr. Saidova", role: "Gigiyenist" },
 ];
 
-export const apptRooms = ["Xona 1", "Xona 2", "Xona 3"];
+export const apptRooms = ["Kreslo 1", "Kreslo 2", "Kreslo 3"];
 
 export const apptStatusLabel: Record<ApptStatus, string> = {
   tasdiq: "Tasdiqlangan",
@@ -159,33 +159,33 @@ function appt(partial: Appointment): Appointment {
 export const CLINIC_TODAY = "2026-10-22";
 
 export const seedAppointments: Appointment[] = [
-  appt({ id: "a1", date: "2026-10-20", start: "08:00", end: "09:00", patient: "Aliyeva Mohira", avatar: avatars[0], service: "Konsultatsiya", doctor: "Dr. Aliyeva", doctorId: "aliyeva", room: "Xona 1", status: "davol" }),
-  appt({ id: "a2", date: "2026-10-21", start: "08:30", end: "09:30", patient: "Raximov Aziz", avatar: avatars[5], service: "Davolash", doctor: "Dr. Karimov", doctorId: "karimov", room: "Xona 2", status: "tasdiq" }),
-  appt({ id: "a3", date: "2026-10-22", start: "08:00", end: "09:00", patient: "Normatova Dilnoza", avatar: avatars[2], service: "Gigiyena", doctor: "Dr. Saidova", doctorId: "saidova", room: "Xona 1", status: "davol", isNew: true }),
-  appt({ id: "a4", date: "2026-10-23", start: "08:00", end: "09:00", patient: "Usmonov D.", avatar: avatars[9], service: "Konsultatsiya", doctor: "Dr. Aliyeva", doctorId: "aliyeva", room: "Xona 2", status: "davol" }),
-  appt({ id: "a5", date: "2026-10-24", start: "08:00", end: "09:00", patient: "Karimova Saida", avatar: avatars[4], service: "Davolash", doctor: "Dr. To‘xtayev", doctorId: "toxtayev", room: "Xona 1", status: "kutil" }),
-  appt({ id: "a6", date: "2026-10-20", start: "10:00", end: "11:00", patient: "Tursunov Bobur", avatar: avatars[3], service: "Implant", doctor: "Dr. Karimov", doctorId: "karimov", room: "Xona 3", status: "bekor" }),
-  appt({ id: "a7", date: "2026-10-21", start: "10:00", end: "11:30", patient: "Qodirova Aziza", avatar: avatars[8], service: "Ortodontik", doctor: "Dr. To‘xtayev", doctorId: "toxtayev", room: "Xona 1", status: "tasdiq" }),
-  appt({ id: "a8", date: "2026-10-22", start: "10:00", end: "11:00", patient: "Ismoilova Madina", avatar: avatars[6], service: "Davolash", doctor: "Dr. Aliyeva", doctorId: "aliyeva", room: "Xona 2", status: "tasdiq", isNew: true }),
-  appt({ id: "a9", date: "2026-10-23", start: "10:00", end: "11:00", patient: "Xudoyberdiyev A.", avatar: avatars[7], service: "Konsultatsiya", doctor: "Dr. Karimov", doctorId: "karimov", room: "Xona 2", status: "tasdiq" }),
-  appt({ id: "a10", date: "2026-10-24", start: "10:00", end: "11:30", patient: "Jabborova Sevara", avatar: avatars[4], service: "Davolash", doctor: "Dr. Aliyeva", doctorId: "aliyeva", room: "Xona 1", status: "kutil" }),
-  appt({ id: "a11", date: "2026-10-20", start: "12:00", end: "13:00", patient: "Normurodov I.", avatar: avatars[1], service: "Konsultatsiya", doctor: "Dr. Saidova", doctorId: "saidova", room: "Xona 1", status: "davol" }),
-  appt({ id: "a12", date: "2026-10-21", start: "12:00", end: "13:00", patient: "Karimov Aziz", avatar: avatars[1], service: "Nazorat", doctor: "Dr. Karimov", doctorId: "karimov", room: "Xona 2", status: "tasdiq" }),
-  appt({ id: "a13", date: "2026-10-22", start: "12:00", end: "13:00", patient: "Karimov Aziz", avatar: avatars[1], service: "Nazorat", doctor: "Dr. Karimov", doctorId: "karimov", room: "Xona 1", status: "kutil" }),
-  appt({ id: "a14", date: "2026-10-24", start: "12:00", end: "13:30", patient: "Raximov Sardor", avatar: avatars[5], service: "Jarrohlik", doctor: "Dr. Karimov", doctorId: "karimov", room: "Xona 3", status: "bekor" }),
-  appt({ id: "a15", date: "2026-10-20", start: "14:00", end: "15:00", patient: "Saidova Nargiza", avatar: avatars[2], service: "Gigiyena", doctor: "Dr. Saidova", doctorId: "saidova", room: "Xona 1", status: "tasdiq" }),
-  appt({ id: "a16", date: "2026-10-21", start: "14:00", end: "15:00", patient: "Usmonov Davron", avatar: avatars[9], service: "Davolash", doctor: "Dr. To‘xtayev", doctorId: "toxtayev", room: "Xona 2", status: "kutil" }),
-  appt({ id: "a17", date: "2026-10-22", start: "14:00", end: "15:00", patient: "Qodirov Temur", avatar: avatars[7], service: "Implant", doctor: "Dr. Karimov", doctorId: "karimov", room: "Xona 3", status: "tasdiq", isNew: true }),
-  appt({ id: "a18", date: "2026-10-23", start: "14:00", end: "15:00", patient: "Karimova Saida", avatar: avatars[4], service: "Konsultatsiya", doctor: "Dr. Aliyeva", doctorId: "aliyeva", room: "Xona 1", status: "davol" }),
-  appt({ id: "a19", date: "2026-10-24", start: "14:00", end: "15:00", patient: "Ismoilova Madina", avatar: avatars[6], service: "Nazorat", doctor: "Dr. To‘xtayev", doctorId: "toxtayev", room: "Xona 2", status: "tasdiq" }),
-  appt({ id: "a20", date: "2026-10-20", start: "16:00", end: "17:00", patient: "Xolmatov Nuriddin", avatar: avatars[5], service: "Davolash", doctor: "Dr. Karimov", doctorId: "karimov", room: "Xona 2", status: "kutil" }),
-  appt({ id: "a21", date: "2026-10-21", start: "16:00", end: "17:00", patient: "Aliyeva Mohira", avatar: avatars[0], service: "Konsultatsiya", doctor: "Dr. Aliyeva", doctorId: "aliyeva", room: "Xona 1", status: "davol" }),
-  appt({ id: "a22", date: "2026-10-22", start: "16:00", end: "17:00", patient: "Tursunov Bobur", avatar: avatars[3], service: "Nazorat", doctor: "Dr. Karimov", doctorId: "karimov", room: "Xona 2", status: "kutil" }),
-  appt({ id: "a23", date: "2026-10-23", start: "16:00", end: "17:30", patient: "Normatova Dilnoza", avatar: avatars[2], service: "Ortodontik", doctor: "Dr. To‘xtayev", doctorId: "toxtayev", room: "Xona 1", status: "tasdiq" }),
-  appt({ id: "a24", date: "2026-10-24", start: "16:00", end: "17:00", patient: "Qodirova Aziza", avatar: avatars[8], service: "Davolash", doctor: "Dr. Saidova", doctorId: "saidova", room: "Xona 2", status: "tasdiq" }),
-  appt({ id: "a25", date: "2026-10-25", start: "16:00", end: "17:00", patient: "Usmonov D.", avatar: avatars[9], service: "Konsultatsiya", doctor: "Dr. Aliyeva", doctorId: "aliyeva", room: "Xona 1", status: "davol" }),
-  appt({ id: "a26", date: "2026-10-22", start: "17:30", end: "18:00", patient: "Yakunlangan qabul", avatar: avatars[1], service: "Nazorat", doctor: "Dr. Saidova", doctorId: "saidova", room: "Xona 3", status: "yakun", grid: false }),
-  appt({ id: "a27", date: "2026-10-22", start: "17:40", end: "18:00", patient: "Bekor qabul", avatar: avatars[5], service: "Maslahat", doctor: "Dr. Karimov", doctorId: "karimov", room: "Xona 2", status: "bekor", grid: false }),
+  appt({ id: "a1", date: "2026-10-20", start: "08:00", end: "09:00", patient: "Aliyeva Mohira", avatar: avatars[0], service: "Konsultatsiya", doctor: "Dr. Aliyeva", doctorId: "aliyeva", room: "Kreslo 1", status: "davol" }),
+  appt({ id: "a2", date: "2026-10-21", start: "08:30", end: "09:30", patient: "Raximov Aziz", avatar: avatars[5], service: "Davolash", doctor: "Dr. Karimov", doctorId: "karimov", room: "Kreslo 2", status: "tasdiq" }),
+  appt({ id: "a3", date: "2026-10-22", start: "08:00", end: "09:00", patient: "Normatova Dilnoza", avatar: avatars[2], service: "Gigiyena", doctor: "Dr. Saidova", doctorId: "saidova", room: "Kreslo 1", status: "davol", isNew: true }),
+  appt({ id: "a4", date: "2026-10-23", start: "08:00", end: "09:00", patient: "Usmonov D.", avatar: avatars[9], service: "Konsultatsiya", doctor: "Dr. Aliyeva", doctorId: "aliyeva", room: "Kreslo 2", status: "davol" }),
+  appt({ id: "a5", date: "2026-10-24", start: "08:00", end: "09:00", patient: "Karimova Saida", avatar: avatars[4], service: "Davolash", doctor: "Dr. To‘xtayev", doctorId: "toxtayev", room: "Kreslo 1", status: "kutil" }),
+  appt({ id: "a6", date: "2026-10-20", start: "10:00", end: "11:00", patient: "Tursunov Bobur", avatar: avatars[3], service: "Implant", doctor: "Dr. Karimov", doctorId: "karimov", room: "Kreslo 3", status: "bekor" }),
+  appt({ id: "a7", date: "2026-10-21", start: "10:00", end: "11:30", patient: "Qodirova Aziza", avatar: avatars[8], service: "Ortodontik", doctor: "Dr. To‘xtayev", doctorId: "toxtayev", room: "Kreslo 1", status: "tasdiq" }),
+  appt({ id: "a8", date: "2026-10-22", start: "10:00", end: "11:00", patient: "Ismoilova Madina", avatar: avatars[6], service: "Davolash", doctor: "Dr. Aliyeva", doctorId: "aliyeva", room: "Kreslo 2", status: "tasdiq", isNew: true }),
+  appt({ id: "a9", date: "2026-10-23", start: "10:00", end: "11:00", patient: "Xudoyberdiyev A.", avatar: avatars[7], service: "Konsultatsiya", doctor: "Dr. Karimov", doctorId: "karimov", room: "Kreslo 2", status: "tasdiq" }),
+  appt({ id: "a10", date: "2026-10-24", start: "10:00", end: "11:30", patient: "Jabborova Sevara", avatar: avatars[4], service: "Davolash", doctor: "Dr. Aliyeva", doctorId: "aliyeva", room: "Kreslo 1", status: "kutil" }),
+  appt({ id: "a11", date: "2026-10-20", start: "12:00", end: "13:00", patient: "Normurodov I.", avatar: avatars[1], service: "Konsultatsiya", doctor: "Dr. Saidova", doctorId: "saidova", room: "Kreslo 1", status: "davol" }),
+  appt({ id: "a12", date: "2026-10-21", start: "12:00", end: "13:00", patient: "Karimov Aziz", avatar: avatars[1], service: "Nazorat", doctor: "Dr. Karimov", doctorId: "karimov", room: "Kreslo 2", status: "tasdiq" }),
+  appt({ id: "a13", date: "2026-10-22", start: "12:00", end: "13:00", patient: "Karimov Aziz", avatar: avatars[1], service: "Nazorat", doctor: "Dr. Karimov", doctorId: "karimov", room: "Kreslo 1", status: "kutil" }),
+  appt({ id: "a14", date: "2026-10-24", start: "12:00", end: "13:30", patient: "Raximov Sardor", avatar: avatars[5], service: "Jarrohlik", doctor: "Dr. Karimov", doctorId: "karimov", room: "Kreslo 3", status: "bekor" }),
+  appt({ id: "a15", date: "2026-10-20", start: "14:00", end: "15:00", patient: "Saidova Nargiza", avatar: avatars[2], service: "Gigiyena", doctor: "Dr. Saidova", doctorId: "saidova", room: "Kreslo 1", status: "tasdiq" }),
+  appt({ id: "a16", date: "2026-10-21", start: "14:00", end: "15:00", patient: "Usmonov Davron", avatar: avatars[9], service: "Davolash", doctor: "Dr. To‘xtayev", doctorId: "toxtayev", room: "Kreslo 2", status: "kutil" }),
+  appt({ id: "a17", date: "2026-10-22", start: "14:00", end: "15:00", patient: "Qodirov Temur", avatar: avatars[7], service: "Implant", doctor: "Dr. Karimov", doctorId: "karimov", room: "Kreslo 3", status: "tasdiq", isNew: true }),
+  appt({ id: "a18", date: "2026-10-23", start: "14:00", end: "15:00", patient: "Karimova Saida", avatar: avatars[4], service: "Konsultatsiya", doctor: "Dr. Aliyeva", doctorId: "aliyeva", room: "Kreslo 1", status: "davol" }),
+  appt({ id: "a19", date: "2026-10-24", start: "14:00", end: "15:00", patient: "Ismoilova Madina", avatar: avatars[6], service: "Nazorat", doctor: "Dr. To‘xtayev", doctorId: "toxtayev", room: "Kreslo 2", status: "tasdiq" }),
+  appt({ id: "a20", date: "2026-10-20", start: "16:00", end: "17:00", patient: "Xolmatov Nuriddin", avatar: avatars[5], service: "Davolash", doctor: "Dr. Karimov", doctorId: "karimov", room: "Kreslo 2", status: "kutil" }),
+  appt({ id: "a21", date: "2026-10-21", start: "16:00", end: "17:00", patient: "Aliyeva Mohira", avatar: avatars[0], service: "Konsultatsiya", doctor: "Dr. Aliyeva", doctorId: "aliyeva", room: "Kreslo 1", status: "davol" }),
+  appt({ id: "a22", date: "2026-10-22", start: "16:00", end: "17:00", patient: "Tursunov Bobur", avatar: avatars[3], service: "Nazorat", doctor: "Dr. Karimov", doctorId: "karimov", room: "Kreslo 2", status: "kutil" }),
+  appt({ id: "a23", date: "2026-10-23", start: "16:00", end: "17:30", patient: "Normatova Dilnoza", avatar: avatars[2], service: "Ortodontik", doctor: "Dr. To‘xtayev", doctorId: "toxtayev", room: "Kreslo 1", status: "tasdiq" }),
+  appt({ id: "a24", date: "2026-10-24", start: "16:00", end: "17:00", patient: "Qodirova Aziza", avatar: avatars[8], service: "Davolash", doctor: "Dr. Saidova", doctorId: "saidova", room: "Kreslo 2", status: "tasdiq" }),
+  appt({ id: "a25", date: "2026-10-25", start: "16:00", end: "17:00", patient: "Usmonov D.", avatar: avatars[9], service: "Konsultatsiya", doctor: "Dr. Aliyeva", doctorId: "aliyeva", room: "Kreslo 1", status: "davol" }),
+  appt({ id: "a26", date: "2026-10-22", start: "17:30", end: "18:00", patient: "Yakunlangan qabul", avatar: avatars[1], service: "Nazorat", doctor: "Dr. Saidova", doctorId: "saidova", room: "Kreslo 3", status: "yakun", grid: false }),
+  appt({ id: "a27", date: "2026-10-22", start: "17:40", end: "18:00", patient: "Bekor qabul", avatar: avatars[5], service: "Maslahat", doctor: "Dr. Karimov", doctorId: "karimov", room: "Kreslo 2", status: "bekor", grid: false }),
 ];
 
 export type PlanStep = { id: string; name: string; teeth: string; count: number; price: number; status: "bajarildi" | "davom" | "kutil"; date: string };

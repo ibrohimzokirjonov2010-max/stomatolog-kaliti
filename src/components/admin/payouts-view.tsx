@@ -102,7 +102,7 @@ export function PayoutsView() {
                         <td className="px-3 py-2.5 text-slate-500">{fmtDate(p.createdAt, true)}</td>
                         <td className="px-3 py-2.5"><Pill tone={STATUS[p.status].tone}>{STATUS[p.status].label}</Pill></td>
                         <td className="px-4 py-2.5 text-right">
-                          {p.status === "pending" ? <span className="rounded-lg bg-[#e8f1ff] px-2 py-1 text-[12px] font-semibold text-primary">Ko‘rib chiqish</span> : <ChevronRight className="ml-auto size-4 text-slate-300" />}
+                          {p.status === "pending" ? <span className="rounded-lg bg-[#F0FDFA] px-2 py-1 text-[12px] font-semibold text-primary">Ko‘rib chiqish</span> : <ChevronRight className="ml-auto size-4 text-slate-300" />}
                         </td>
                       </tr>
                     ))}

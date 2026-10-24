@@ -27,7 +27,7 @@ const SEMINAR_CME = 8;
 function QrBox({ id }: { id: string }) {
   const [src, setSrc] = useState("");
   useEffect(() => {
-    void QRCode.toDataURL(`${window.location.origin}/sertifikatlar#${id}`, { margin: 0, width: 160, color: { dark: "#0b1a3a", light: "#ffffff" } }).then(setSrc).catch(() => setSrc(""));
+    void QRCode.toDataURL(`${window.location.origin}/sertifikatlar#${id}`, { margin: 0, width: 160, color: { dark: "#111827", light: "#ffffff" } }).then(setSrc).catch(() => setSrc(""));
   }, [id]);
   return <span className="sc-qr">{src ? <img src={src} alt="Sertifikat QR" /> : null}<small>QR kodni skaner qiling</small></span>;
 }
@@ -96,10 +96,10 @@ export function SertifikatlarMobile() {
     if (!ctx) return;
     ctx.fillStyle = "#ffffff";
     ctx.fillRect(0, 0, 1200, 820);
-    ctx.strokeStyle = card.tone === "sand" ? "#c79a52" : "#0d8f8c";
+    ctx.strokeStyle = card.tone === "sand" ? "#c79a52" : "#0F766E";
     ctx.lineWidth = 18;
     ctx.strokeRect(30, 30, 1140, 760);
-    ctx.fillStyle = "#0b1a3a";
+    ctx.fillStyle = "#111827";
     ctx.textAlign = "center";
     ctx.font = "700 30px sans-serif";
     ctx.fillText("STOMAHUB", 600, 130);

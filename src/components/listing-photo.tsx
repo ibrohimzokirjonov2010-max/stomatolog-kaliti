@@ -35,7 +35,7 @@ export function ListingPhoto({ value, onChange, label = "Rasm", error }: { value
             <Image src={value} alt="" fill sizes="80px" className="object-cover" unoptimized />
           </span>
         ) : null}
-        <button type="button" onClick={() => ref.current?.click()} disabled={busy} className="inline-flex h-11 items-center gap-2 rounded-xl border border-dashed border-[#c9d8f5] bg-[#f8faff] px-4 text-[13px] font-semibold text-[#0066FF] disabled:opacity-60">
+        <button type="button" onClick={() => ref.current?.click()} disabled={busy} className="inline-flex h-11 items-center gap-2 rounded-xl border border-dashed border-[#CCFBF1] bg-[#f8faff] px-4 text-[13px] font-semibold text-[#0F766E] disabled:opacity-60">
           <ImagePlus className="size-4" />
           {busy ? "Yuklanmoqda…" : value ? "Almashtirish" : "Rasm tanlash"}
         </button>

@@ -43,7 +43,7 @@ export function CartBrowse() {
 
       {count === 0 ? (
         <div className="rounded-[16px] border border-[#eceff5] bg-white px-6 py-16 text-center">
-          <span className="mx-auto flex size-12 items-center justify-center rounded-2xl bg-[#e8f1ff] text-[#0066FF]">
+          <span className="mx-auto flex size-12 items-center justify-center rounded-2xl bg-[#F0FDFA] text-[#0F766E]">
             <ShoppingBag className="size-6" />
           </span>
           <p className="mt-4 text-[16px] font-semibold text-[#1a1d26]">Savat bo‘sh</p>
@@ -66,7 +66,7 @@ export function CartBrowse() {
             {items.map(({ product, qty, max, lineTotal, key, size, color, source, expiryMonths }) => (
               <li
                 key={key}
-                className="flex gap-3 rounded-[14px] border border-[#eceff5] bg-white p-3 shadow-[0_1px_2px_rgba(15,23,42,0.04)]"
+                className="flex gap-3 rounded-[14px] border border-[#eceff5] bg-white p-3 shadow-[0_1px_2px_rgba(17, 24, 39, 0.04)]"
               >
                 <Link
                   href={productHref(product)}
@@ -80,11 +80,11 @@ export function CartBrowse() {
                 </Link>
                 <div className="min-w-0 flex-1">
                   <p className="text-[12px] text-[#8b93a7]">{product.brand}</p>
-                  <Link href={productHref(product)} className="line-clamp-2 text-[14px] font-semibold text-[#1a1d26] hover:text-[#0066FF]">
+                  <Link href={productHref(product)} className="line-clamp-2 text-[14px] font-semibold text-[#1a1d26] hover:text-[#0F766E]">
                     {product.name}
                   </Link>
                   {productShop(product) ? (
-                    <Link href={shopHref(productShop(product)!.slug)} className="mt-0.5 text-[12px] font-medium text-[#0066FF]">
+                    <Link href={shopHref(productShop(product)!.slug)} className="mt-0.5 text-[12px] font-medium text-[#0F766E]">
                       {productShop(product)!.name}
                     </Link>
                   ) : null}
@@ -92,9 +92,9 @@ export function CartBrowse() {
                     <p className="mt-0.5 text-[12px] text-[#8b93a7]">{apparelMetaLabel(size, color)}</p>
                   ) : null}
                   {surplusCartMeta(source, expiryMonths) ? (
-                    <p className="mt-0.5 text-[12px] font-medium text-[#0066FF]">{surplusCartMeta(source, expiryMonths)}</p>
+                    <p className="mt-0.5 text-[12px] font-medium text-[#0F766E]">{surplusCartMeta(source, expiryMonths)}</p>
                   ) : null}
-                  <p className="mt-1 text-[15px] font-bold text-[#0066FF]">{formatMoney(product.price, "UZS")}</p>
+                  <p className="mt-1 text-[15px] font-bold text-[#0F766E]">{formatMoney(product.price, "UZS")}</p>
                   <div className="mt-2 flex flex-wrap items-center gap-2">
                     <div className="inline-flex h-9 items-center rounded-xl border border-[#e6eaf2]">
                       <button
@@ -131,7 +131,7 @@ export function CartBrowse() {
             ))}
           </ul>
 
-          <aside className="h-fit rounded-[16px] border border-[#eceff5] bg-white p-4 shadow-[0_1px_2px_rgba(15,23,42,0.04)]">
+          <aside className="h-fit rounded-[16px] border border-[#eceff5] bg-white p-4 shadow-[0_1px_2px_rgba(17, 24, 39, 0.04)]">
             <h2 className="text-[15px] font-semibold text-[#1a1d26]">Buyurtma summasi</h2>
             <dl className="mt-3 space-y-2 text-[13.5px]">
               <div className="flex justify-between text-[#4b5568]">
@@ -143,7 +143,7 @@ export function CartBrowse() {
                 <dd className={delivery > 0 ? "font-medium text-[#1a1d26]" : "font-medium text-[#16a34a]"}>{delivery > 0 ? formatMoney(delivery, "UZS") : "Bepul"}</dd>
               </div>
               {bonus.applied > 0 ? (
-                <div className="flex justify-between text-[#0066FF]">
+                <div className="flex justify-between text-[#0F766E]">
                   <dt>Bonus</dt>
                   <dd className="font-semibold">−{formatMoney(bonus.applied, "UZS")}</dd>
                 </div>
@@ -163,7 +163,7 @@ export function CartBrowse() {
             >
               Xaridni davom ettirish
             </Link>
-            <Link href="/forma" className="mt-2 block text-center text-sm font-medium text-[#0066FF] hover:underline">
+            <Link href="/forma" className="mt-2 block text-center text-sm font-medium text-[#0F766E] hover:underline">
               Forma katalogi
             </Link>
             <p className="mt-3 text-[12px] leading-relaxed text-[#8b93a7]">

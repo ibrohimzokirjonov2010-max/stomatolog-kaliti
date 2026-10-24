@@ -2,6 +2,7 @@
 /* eslint-disable @next/next/no-img-element */
 
 import { useMemo, useState } from "react";
+import { usePathname, useRouter } from "next/navigation";
 import { Check, ChevronLeft, ChevronRight, Play, Plus } from "lucide-react";
 import { CrmFrame } from "@/components/crm/desktop/CrmFrame";
 import { NewAppointmentModal } from "@/components/crm/CrmCreateModals";
@@ -102,6 +103,8 @@ function dayLabel(iso: string) {
 
 export function AppointmentsDesktop() {
   const { profile } = useDoctorProfile();
+  const pathname = usePathname();
+  const router = useRouter();
   const today = tashkentDateParts().iso;
   const [items, setItems] = useCrmAppointments<Appointment>();
   const [q, setQ] = useState("");
@@ -109,8 +112,13 @@ export function AppointmentsDesktop() {
   const [view, setView] = useState<"kun" | "hafta" | "oy">("hafta");
   const [doctor, setDoctor] = useState("");
   const [room, setRoom] = useState("");
-  const [adding, setAdding] = useState(false);
-  const [form, setForm] = useState({ patient: "", service: "Konsultatsiya", doctorId: "self", room: "Xona 1", date: today, start: "09:00", end: "10:00", status: "tasdiq" as ApptStatus, note: "" });
+  const [adding, setAdding] = useState(pathname === "/crm/uchrashuvlar/yangi");
+  const [seenPath, setSeenPath] = useState(pathname);
+  if (pathname !== seenPath) {
+    setSeenPath(pathname);
+    if (pathname === "/crm/uchrashuvlar/yangi") setAdding(true);
+  }
+  const [form, setForm] = useState({ patient: "", service: "Konsultatsiya", doctorId: "self", room: "Kreslo 1", date: today, start: "09:00", end: "10:00", status: "tasdiq" as ApptStatus, note: "" });
   const doctors = useMemo(() => {
     const map = new Map<string, string>();
     const self = profile?.fullName?.trim();
@@ -165,7 +173,7 @@ export function AppointmentsDesktop() {
             ))}
           </div>
           <label className="crm-select"><select data-testid="appt-doctor" aria-label="Shifokor" value={doctor} onChange={(event) => setDoctor(event.target.value)}><option value="">Barcha shifokorlar</option>{doctors.map((item) => <option key={item.id} value={item.id}>{item.name}</option>)}</select></label>
-          <label className="crm-select"><select data-testid="appt-room" aria-label="Xona" value={room} onChange={(event) => setRoom(event.target.value)}><option value="">Barcha xonalar</option>{apptRooms.map((item) => <option key={item}>{item}</option>)}</select></label>
+          <label className="crm-select"><select data-testid="appt-room" aria-label="Kreslo" value={room} onChange={(event) => setRoom(event.target.value)}><option value="">Barcha kreslolar</option>{apptRooms.map((item) => <option key={item}>{item}</option>)}</select></label>
         </div>
         <div className="ap-docs">
           <button type="button" className={doctor === "" ? "on" : undefined} onClick={() => setDoctor("")}>Barchasi</button>
@@ -177,7 +185,7 @@ export function AppointmentsDesktop() {
           <div className="ap-legend">
             <span><i style={{ background: "#22c55e" }} />Tasdiqlangan</span>
             <span><i style={{ background: "#f59e0b" }} />Kutilmoqda</span>
-            <span><i style={{ background: "#3b82f6" }} />Davolanmoqda</span>
+            <span><i style={{ background: "#0F766E" }} />Davolanmoqda</span>
             <span><i style={{ background: "#94a3b8" }} />Yakunlangan</span>
             <span><i style={{ background: "#ef4444" }} />Bekor qilingan</span>
           </div>
@@ -266,7 +274,7 @@ export function AppointmentsDesktop() {
         {adding ? (
           <NewAppointmentModal
             initial={form}
-            onClose={() => setAdding(false)}
+            onClose={() => { setAdding(false); if (pathname === "/crm/uchrashuvlar/yangi") router.replace("/crm/uchrashuvlar"); }}
             onSave={(draft) => {
               setForm((current) => ({ ...current, ...draft }));
               if (!draft.patient.trim()) return;

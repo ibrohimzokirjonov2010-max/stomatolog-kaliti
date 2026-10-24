@@ -394,19 +394,19 @@ export const implantReviews = [
   {
     name: "Dr. Sevara Ahmedova",
     date: "12.02.2026",
-    rating: 5,
+    rating: 0,
     text: "Juda foydali va amaliy seminar. Amaliy qism ayniqsa zo‘r bo‘ldi, tavsiya qilaman!",
   },
   {
     name: "Dr. Bekzod Tursunov",
     date: "03.03.2026",
-    rating: 5,
+    rating: 0,
     text: "Spiker aniq va sabrli. Phantomdagi mashq ertasi kuni qabulda qo‘l keldi.",
   },
   {
     name: "Dr. Nilufar Yusupova",
     date: "18.03.2026",
-    rating: 4,
+    rating: 0,
     text: "Dastur zich, lekin tushunarli. Sertifikat o‘sha kuni topshirildi.",
   },
 ];

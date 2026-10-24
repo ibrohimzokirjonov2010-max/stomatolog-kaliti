@@ -30,7 +30,7 @@ function AuthBrand({ caption, center }: { caption: string; center?: boolean }) {
     <span className={`flex items-center gap-3 ${center ? "justify-center" : ""}`}>
       <AuthMark className="h-11 w-10" />
       <span className="leading-tight">
-        <span className="block text-[30px] font-extrabold tracking-tight text-[#16324f]">
+        <span className="block text-[30px] font-extrabold tracking-tight text-[#111827]">
           Stoma<span className="text-[#0F766E]">Hub</span>
         </span>
         <span className="block text-[12.5px] text-[#5d6e86]">{caption}</span>
@@ -64,7 +64,7 @@ export function AuthCard({
             <AuthBrand caption="Stomatologlar uchun platforma" />
           </Link>
           <div>
-            <h2 className="max-w-[min(480px,42vw)] text-[clamp(32px,3vw,48px)] leading-[1.08] font-extrabold tracking-tight text-[#0f1e3d]">
+            <h2 className="max-w-[min(480px,42vw)] text-[clamp(32px,3vw,48px)] leading-[1.08] font-extrabold tracking-tight text-[#111827]">
               Stomatologlar uchun <span className="text-[#0F766E]">yagona platforma</span>
             </h2>
             <p className="mt-4 max-w-[420px] text-[clamp(14px,1.2vw,17px)] leading-relaxed text-[#4a5a72]">
@@ -74,11 +74,11 @@ export function AuthCard({
           <ul className="flex max-w-[440px] flex-col gap-4">
             {FEATURES.map(({ icon: Icon, title: name, text }) => (
               <li key={name} className="flex items-start gap-4">
-                <span className="grid size-14 shrink-0 place-items-center rounded-2xl bg-white/80 text-[#0b8f8a] shadow-sm backdrop-blur">
+                <span className="grid size-14 shrink-0 place-items-center rounded-2xl bg-white/80 text-[#0F766E] shadow-sm backdrop-blur">
                   <Icon className="size-6" />
                 </span>
                 <span>
-                  <b className="block text-[16px] text-[#0f1e3d]">{name}</b>
+                  <b className="block text-[16px] text-[#111827]">{name}</b>
                   <span className="mt-0.5 block text-[13.5px] leading-snug text-[#5d6e86]">{text}</span>
                 </span>
               </li>
@@ -104,17 +104,17 @@ export function AuthCard({
             <AuthMark className="h-16 w-14" />
             <span className="mt-1 text-[34px] leading-none font-extrabold tracking-tight text-[#0F766E]">StomaHub</span>
             <span className="mt-1 text-[12.5px] text-[#6a7c93]">{caption}</span>
-            <h1 className="mt-5 text-[27px] leading-tight font-extrabold tracking-tight text-[#0f1e3d]">{title}</h1>
+            <h1 className="mt-5 text-[27px] leading-tight font-extrabold tracking-tight text-[#111827]">{title}</h1>
             {subtitle ? <p className="mt-1 max-w-[300px] text-[13px] leading-relaxed text-[#6a7c93]">{subtitle}</p> : null}
           </div>
         </div>
 
-        <div className="relative -mt-10 w-full max-w-[500px] rounded-[22px] border border-[#e8eef4] bg-white px-5 py-6 shadow-[0_16px_48px_rgba(15,23,42,0.08)] sm:px-8 lg:mt-0 lg:px-6 lg:py-7">
+        <div className="relative -mt-10 w-full max-w-[500px] rounded-[22px] border border-[#e8eef4] bg-white px-5 py-6 shadow-[0_16px_48px_rgba(17, 24, 39, 0.08)] sm:px-8 lg:mt-0 lg:px-6 lg:py-7">
           <div className="mb-6 hidden lg:block">
             <AuthBrand caption={caption} center />
           </div>
           <div className="mb-6 hidden text-center lg:block">
-            <h1 className="text-[27px] font-extrabold tracking-tight text-[#0f1e3d]">{title}</h1>
+            <h1 className="text-[27px] font-extrabold tracking-tight text-[#111827]">{title}</h1>
             {subtitle ? <p className="mt-1.5 text-[14.5px] leading-relaxed text-[#64748b]">{subtitle}</p> : null}
           </div>
           <div className="space-y-5">{children}</div>

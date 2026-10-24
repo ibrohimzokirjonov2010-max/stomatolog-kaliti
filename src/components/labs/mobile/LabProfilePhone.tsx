@@ -258,16 +258,16 @@ export function LabProfilePhone({ lab }: { lab: Lab }) {
       {contact ? (
         <Modal title="Telegram orqali yozish" onClose={() => setContact(false)}>
           <div className="text-center" data-testid="lab-contact-sheet">
-            <span className="mx-auto grid size-12 place-items-center rounded-full bg-[#e6f7f6] text-[#0d8f8c]"><Send className="size-5" /></span>
+            <span className="mx-auto grid size-12 place-items-center rounded-full bg-[#e6f7f6] text-[#0F766E]"><Send className="size-5" /></span>
             <p className="mt-3 text-[15px] font-semibold text-[#1a1d26]">{labPhone ? "Laboratoriya Telegram manzilini ko‘rsatmagan" : "Aloqa ma’lumotlari buyurtma qabul qilingach ochiladi"}</p>
             <p className="mx-auto mt-1 max-w-xs text-[13px] text-[#8b93a7]">
               {labPhone ? "Telefon orqali bog‘lanishingiz mumkin." : "Buyurtma bering — laboratoriya qabul qilgach, telefon va Telegram shu yerda ochiladi."}
             </p>
             <div className="mt-4 flex justify-center gap-2">
               {labPhone ? (
-                <a href={phoneHref(labPhone)} className="inline-flex h-11 items-center gap-2 rounded-xl bg-[#087f80] px-5 text-[14px] font-semibold text-white"><Phone className="size-4" /> Qo‘ng‘iroq qilish</a>
+                <a href={phoneHref(labPhone)} className="inline-flex h-11 items-center gap-2 rounded-xl bg-[#0F766E] px-5 text-[14px] font-semibold text-white"><Phone className="size-4" /> Qo‘ng‘iroq qilish</a>
               ) : lab.mine ? null : (
-                <button type="button" onClick={() => { setContact(false); orderFrom(); }} className="inline-flex h-11 items-center rounded-xl bg-[#087f80] px-5 text-[14px] font-semibold text-white">
+                <button type="button" onClick={() => { setContact(false); orderFrom(); }} className="inline-flex h-11 items-center rounded-xl bg-[#0F766E] px-5 text-[14px] font-semibold text-white">
                   {authed ? "Buyurtma berish" : "Kirish va buyurtma berish"}
                 </button>
               )}

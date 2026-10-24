@@ -165,7 +165,7 @@ function AppCard({ a, onDone }: { a: App; onDone: () => void }) {
       {links.length ? (
         <div className="mt-3 flex flex-wrap gap-2">
           {links.map((l) => (
-            <a key={l.href} href={l.href} target="_blank" rel="noreferrer noopener" className="inline-flex items-center gap-1.5 rounded-full border border-[#dbe7ff] bg-[#f5f9ff] px-2.5 py-1 text-[12px] font-semibold text-primary">
+            <a key={l.href} href={l.href} target="_blank" rel="noreferrer noopener" className="inline-flex items-center gap-1.5 rounded-full border border-[#F0FDFA] bg-[#f5f9ff] px-2.5 py-1 text-[12px] font-semibold text-primary">
               <l.icon className="size-3.5" /> {l.label} <ExternalLink className="size-3" />
             </a>
           ))}

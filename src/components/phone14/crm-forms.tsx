@@ -524,7 +524,7 @@ export function PhoneAddPlan() {
         </div>
       ) : null}
       <article className="p14-card">
-        <div className="p14-head"><span>Jami summa<small className="spec">{rows.length} ta xizmat · {teeth.size} ta tish</small></span><b style={{ color: "#0E8F94", whiteSpace: "nowrap" }}>{money(total)}</b></div>
+        <div className="p14-head"><span>Jami summa<small className="spec">{rows.length} ta xizmat · {teeth.size} ta tish</small></span><b style={{ color: "#0F766E", whiteSpace: "nowrap" }}>{money(total)}</b></div>
       </article>
       <button type="button" className="crm-save sticky-save" onClick={save}>Saqlash</button>
     </FormScreen>

@@ -134,14 +134,14 @@ function Kpi({
   demo?: boolean;
 }) {
   return (
-    <div className="rounded-2xl border border-[#eceff5] bg-white p-4 shadow-[0_1px_3px_rgba(15,23,42,0.04)]">
+    <div className="rounded-2xl border border-[#eceff5] bg-white p-4 shadow-[0_1px_3px_rgba(17, 24, 39, 0.04)]">
       <div className="flex items-center gap-2.5">
         <span className={cn("grid size-9 shrink-0 place-items-center rounded-xl", tone)}>{icon}</span>
         <p className="min-w-0 truncate text-[12.5px] font-medium text-[#6b7280]">{title}</p>
         {demo ? <DemoTag /> : null}
       </div>
       <div className="mt-3 flex items-end justify-between gap-2">
-        <p className="text-[21px] leading-none font-extrabold tracking-tight text-[#0B1F4D]">{value}</p>
+        <p className="text-[21px] leading-none font-extrabold tracking-tight text-[#111827]">{value}</p>
         {spark ? <Spark values={spark} color={color} /> : null}
       </div>
       <p className="mt-2.5 text-[11.5px] text-[#8b93a7]">{note}</p>
@@ -294,10 +294,10 @@ export function SellerAnalyticsDesktop() {
     <div className="space-y-4">
       <header className="flex items-start justify-between gap-4">
         <div>
-          <h1 className="text-[26px] leading-tight font-extrabold tracking-tight text-[#0B1F4D]">Analitika</h1>
+          <h1 className="text-[26px] leading-tight font-extrabold tracking-tight text-[#111827]">Analitika</h1>
           <p className="mt-1 text-[13.5px] text-[#6b7280]">Savdo statistikasi, mahsulotlar samaradorligi va mijozlar faolligini kuzating.</p>
         </div>
-        <div className="flex h-10 items-center gap-2 rounded-xl border border-[#e4e9f2] bg-white px-3.5 text-[13px] font-medium text-[#0B1F4D]">
+        <div className="flex h-10 items-center gap-2 rounded-xl border border-[#e4e9f2] bg-white px-3.5 text-[13px] font-medium text-[#111827]">
           <CalendarDays className="size-4 text-[#8b93a7]" />
           {rangeLabel}
         </div>
@@ -311,7 +311,7 @@ export function SellerAnalyticsDesktop() {
             onClick={() => setRange(r.id)}
             className={cn(
               "h-9 rounded-lg border px-4 text-[13px] font-semibold transition-colors",
-              range === r.id ? "border-[#0066FF] bg-[#0066FF] text-white" : "border-[#e4e9f2] bg-white text-[#4b5568] hover:border-[#bcd3ff] hover:text-[#0066FF]",
+              range === r.id ? "border-[#0F766E] bg-[#0F766E] text-white" : "border-[#e4e9f2] bg-white text-[#4b5568] hover:border-[#CCFBF1] hover:text-[#0F766E]",
             )}
           >
             {r.label}
@@ -322,13 +322,13 @@ export function SellerAnalyticsDesktop() {
 
       <div className="grid grid-cols-5 gap-3">
         <Kpi
-          icon={<Wallet className="size-[18px] text-[#0066FF]" />}
-          tone="bg-[#e8f1ff]"
+          icon={<Wallet className="size-[18px] text-[#0F766E]" />}
+          tone="bg-[#F0FDFA]"
           title="Jami savdo"
           value={money(data.total)}
           note={<Growth cur={data.total} prev={data.prevTotal} />}
           spark={data.totals}
-          color="#0066FF"
+          color="#0F766E"
         />
         <Kpi
           icon={<ShoppingBag className="size-[18px] text-[#16a34a]" />}
@@ -351,7 +351,7 @@ export function SellerAnalyticsDesktop() {
             <div className="flex items-center gap-4">
               <span className="flex items-center gap-3 text-[12px] text-[#4b5568]">
                 <span className="flex items-center gap-1.5">
-                  <span className="size-2 rounded-full bg-[#0066FF]" />
+                  <span className="size-2 rounded-full bg-[#0F766E]" />
                   Savdo (so‘m)
                 </span>
                 <span className="flex items-center gap-1.5">
@@ -360,7 +360,7 @@ export function SellerAnalyticsDesktop() {
                 </span>
               </span>
               {range === "today" ? (
-                <span className="rounded-lg border border-[#e4e9f2] px-2.5 py-2 text-[12.5px] font-medium text-[#0B1F4D]">Soatlik</span>
+                <span className="rounded-lg border border-[#e4e9f2] px-2.5 py-2 text-[12.5px] font-medium text-[#111827]">Soatlik</span>
               ) : (
                 <SelectBox
                   label="Guruhlash"
@@ -381,7 +381,7 @@ export function SellerAnalyticsDesktop() {
               labels={data.buckets.map((b) => b.label)}
               tooltipLabels={data.buckets.map((b) => b.tip)}
               series={[
-                { key: "sales", label: "Savdo", color: "#0066FF", values: data.totals, area: true, fmt: money },
+                { key: "sales", label: "Savdo", color: "#0F766E", values: data.totals, area: true, fmt: money },
                 { key: "orders", label: "Buyurtmalar", color: "#7c3aed", values: data.counts, dashed: true, axis: "right", fmt: (n) => `${n} ta buyurtma` },
               ]}
               leftTick={shortMoney}
@@ -399,7 +399,7 @@ export function SellerAnalyticsDesktop() {
               parts={sourceDonut}
               center={
                 <div>
-                  <p className="text-[17px] leading-none font-extrabold text-[#0B1F4D]">{sourceTotal ? shortMoney(sourceTotal) : "0"}</p>
+                  <p className="text-[17px] leading-none font-extrabold text-[#111827]">{sourceTotal ? shortMoney(sourceTotal) : "0"}</p>
                   <p className="mt-1 text-[10.5px] text-[#8b93a7]">so‘m</p>
                 </div>
               }
@@ -411,7 +411,7 @@ export function SellerAnalyticsDesktop() {
                     <span className="size-2.5 rounded-full" style={{ background: DONUT_COLORS[i] }} />
                     {p.label}
                   </span>
-                  <b className="text-[#0B1F4D]">{pct(p.value, sourceTotal)}%</b>
+                  <b className="text-[#111827]">{pct(p.value, sourceTotal)}%</b>
                 </li>
               ))}
             </ul>
@@ -440,13 +440,13 @@ export function SellerAnalyticsDesktop() {
                         {/* eslint-disable-next-line @next/next/no-img-element */}
                         {p.image ? <img src={p.image} alt="" className="size-9 shrink-0 rounded-lg bg-[#f4f6fa] object-cover" /> : <span className="size-9 shrink-0 rounded-lg bg-[#f4f6fa]" />}
                         <div className="min-w-0">
-                          <p className="truncate font-semibold text-[#0B1F4D]">{p.name}</p>
+                          <p className="truncate font-semibold text-[#111827]">{p.name}</p>
                           <p className="truncate text-[11.5px] text-[#8b93a7]">{p.brand}</p>
                         </div>
                       </div>
                     </td>
-                    <td className="py-2.5 text-right font-medium text-[#0B1F4D]">{p.qty} dona</td>
-                    <td className="py-2.5 text-right font-bold whitespace-nowrap text-[#0B1F4D]">{money(p.revenue)}</td>
+                    <td className="py-2.5 text-right font-medium text-[#111827]">{p.qty} dona</td>
+                    <td className="py-2.5 text-right font-bold whitespace-nowrap text-[#111827]">{money(p.revenue)}</td>
                   </tr>
                 ))}
               </tbody>
@@ -463,7 +463,7 @@ export function SellerAnalyticsDesktop() {
                 <li key={c.key}>
                   <div className="flex items-center justify-between text-[12.5px]">
                     <span className="font-medium text-[#4b5568]">{c.label}</span>
-                    <span className="text-[#0B1F4D]">
+                    <span className="text-[#111827]">
                       <b>{pct(c.value, catTotal)}%</b> <span className="text-[#8b93a7]">· {money(c.value)}</span>
                     </span>
                   </div>
@@ -500,7 +500,7 @@ export function SellerAnalyticsDesktop() {
                     style={{
                       gridColumn: `${r.col + 1} / span ${r.span ?? 1}`,
                       gridRow: r.row + 1,
-                      ...(n ? { background: `rgba(0,102,255,${a.toFixed(2)})`, color: a > 0.55 ? "#fff" : "#0B1F4D" } : {}),
+                      ...(n ? { background: `rgba(0,102,255,${a.toFixed(2)})`, color: a > 0.55 ? "#fff" : "#111827" } : {}),
                     }}
                   >
                     {r.label}
@@ -514,10 +514,10 @@ export function SellerAnalyticsDesktop() {
                   {geoTop.map((g) => (
                     <li key={g.id} className="flex items-center justify-between gap-2">
                       <span className="flex items-center gap-2 text-[#4b5568]">
-                        <MapPin className="size-3.5 text-[#0066FF]" />
+                        <MapPin className="size-3.5 text-[#0F766E]" />
                         {g.label}
                       </span>
-                      <b className="text-[#0B1F4D]">{pct(g.n, geoTotal)}%</b>
+                      <b className="text-[#111827]">{pct(g.n, geoTotal)}%</b>
                     </li>
                   ))}
                   <li className="flex items-center justify-between gap-2">
@@ -525,7 +525,7 @@ export function SellerAnalyticsDesktop() {
                       <MapPin className="size-3.5 text-[#8b93a7]" />
                       Boshqa
                     </span>
-                    <b className="text-[#0B1F4D]">{pct(geoOther, geoTotal)}%</b>
+                    <b className="text-[#111827]">{pct(geoOther, geoTotal)}%</b>
                   </li>
                 </>
               ) : (
@@ -540,12 +540,12 @@ export function SellerAnalyticsDesktop() {
             <Donut
               size={130}
               parts={[
-                { label: "Yangi", value: newCust, color: "#0066FF" },
+                { label: "Yangi", value: newCust, color: "#0F766E" },
                 { label: "Doimiy", value: data.returning, color: "#7c3aed" },
               ]}
               center={
                 <div>
-                  <p className="text-[22px] leading-none font-extrabold text-[#0B1F4D]">{data.custTotal}</p>
+                  <p className="text-[22px] leading-none font-extrabold text-[#111827]">{data.custTotal}</p>
                   <p className="mt-1 text-[10.5px] text-[#8b93a7]">mijoz</p>
                 </div>
               }
@@ -553,17 +553,17 @@ export function SellerAnalyticsDesktop() {
             <ul className="flex-1 space-y-3 text-[12.5px]">
               <li className="flex items-center justify-between gap-2">
                 <span className="flex items-center gap-2 text-[#4b5568]">
-                  <span className="size-2.5 rounded-full bg-[#0066FF]" />
+                  <span className="size-2.5 rounded-full bg-[#0F766E]" />
                   Yangi mijozlar
                 </span>
-                <b className="text-[#0B1F4D]">{pct(newCust, data.custTotal)}%</b>
+                <b className="text-[#111827]">{pct(newCust, data.custTotal)}%</b>
               </li>
               <li className="flex items-center justify-between gap-2">
                 <span className="flex items-center gap-2 text-[#4b5568]">
                   <span className="size-2.5 rounded-full bg-[#7c3aed]" />
                   Doimiy mijozlar
                 </span>
-                <b className="text-[#0B1F4D]">{pct(data.returning, data.custTotal)}%</b>
+                <b className="text-[#111827]">{pct(data.returning, data.custTotal)}%</b>
               </li>
               <li className="text-[11px] leading-snug text-[#8b93a7]">Doimiy — telefon raqami bo‘yicha 2 va undan ko‘p buyurtma bergan mijoz.</li>
             </ul>

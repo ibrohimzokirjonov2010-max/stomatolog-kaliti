@@ -24,8 +24,8 @@ export type MobileForma = {
   pdpOnly?: boolean;
 };
 
-const mint: FormaColor = { id: "yalpiz", hex: "#7ddec8", label: "Yalpiz" };
-const navy: FormaColor = { id: "navy", hex: "#1d3d6e", label: "To‘q ko‘k" };
+const mint: FormaColor = { id: "yalpiz", hex: "#CCFBF1", label: "Yalpiz" };
+const navy: FormaColor = { id: "navy", hex: "#111827", label: "To‘q ko‘k" };
 const black: FormaColor = { id: "qora", hex: "#1c2430", label: "Qora" };
 const white: FormaColor = { id: "oq", hex: "#f4f6f8", label: "Oq" };
 const pink: FormaColor = { id: "pushti", hex: "#e7b7c8", label: "Pushti" };
@@ -47,8 +47,8 @@ export const mobileForma: MobileForma[] = [
     kind: "kostyum",
     gender: "ayol",
     price: 189_000,
-    rating: 4.8,
-    reviews: 120,
+    rating: 0,
+    reviews: 0,
     colors: [navy, black, pink, white],
     sizes: ["S", "M", "L", "XL"],
     image: "/img/mobile/fm-woman.jpg",
@@ -63,8 +63,8 @@ export const mobileForma: MobileForma[] = [
     kind: "kostyum",
     gender: "erkak",
     price: 175_000,
-    rating: 4.7,
-    reviews: 98,
+    rating: 0,
+    reviews: 0,
     colors: [navy, black, white, mint],
     sizes: ["S", "M", "L", "XL"],
     image: "/img/mobile/fm-man.jpg",
@@ -79,8 +79,8 @@ export const mobileForma: MobileForma[] = [
     kind: "xalat",
     gender: "ayol",
     price: 205_000,
-    rating: 4.9,
-    reviews: 86,
+    rating: 0,
+    reviews: 0,
     colors: [white, navy, pink, black],
     sizes: ["S", "M", "L", "XL"],
     image: "/img/mobile/fm-coat.jpg",
@@ -95,8 +95,8 @@ export const mobileForma: MobileForma[] = [
     kind: "bosh",
     gender: "uniseks",
     price: 105_000,
-    rating: 4.8,
-    reviews: 64,
+    rating: 0,
+    reviews: 0,
     colors: [mint, navy, black, white],
     sizes: ["S", "M", "L", "XL"],
     image: "/img/mobile/fm-cap.jpg",
@@ -111,8 +111,8 @@ export const mobileForma: MobileForma[] = [
     kind: "qishki",
     gender: "uniseks",
     price: 245_000,
-    rating: 4.6,
-    reviews: 28,
+    rating: 0,
+    reviews: 0,
     colors: [navy, black, mint],
     sizes: ["S", "M", "L", "XL"],
     image: "/img/mobile/fm-winter.jpg",
@@ -127,8 +127,8 @@ export const mobileForma: MobileForma[] = [
     kind: "poyabzal",
     gender: "uniseks",
     price: 165_000,
-    rating: 4.6,
-    reviews: 40,
+    rating: 0,
+    reviews: 0,
     colors: [white, navy, black],
     sizes: ["S", "M", "L", "XL"],
     image: "/img/mobile/fm-shoe.jpg",
@@ -145,8 +145,8 @@ export const mobileForma: MobileForma[] = [
     price: 105_000,
     oldPrice: 130_000,
     discount: 19,
-    rating: 4.8,
-    reviews: 32,
+    rating: 0,
+    reviews: 0,
     colors: [mint, navy, black, white],
     sizes: ["XS", "S", "M", "L", "XL", "XXL"],
     image: "/img/mobile/fm-mint.jpg",

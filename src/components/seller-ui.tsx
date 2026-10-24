@@ -14,7 +14,7 @@ export function ShopAvatar({ shop, className }: { shop: Shop; className?: string
   return (
     <span
       className={cn(
-        "grid shrink-0 place-items-center rounded-2xl bg-[#e8f1ff] font-bold text-[#0066FF]",
+        "grid shrink-0 place-items-center rounded-2xl bg-[#F0FDFA] font-bold text-[#0F766E]",
         className,
       )}
     >

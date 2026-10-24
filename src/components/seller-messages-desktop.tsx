@@ -234,13 +234,13 @@ export function SellerMessagesDesktop() {
     <div className="space-y-4">
       <header className="flex items-start justify-between gap-4">
         <div>
-          <h1 className="text-[26px] leading-tight font-extrabold tracking-tight text-[#0B1F4D]">Xabarlar</h1>
+          <h1 className="text-[26px] leading-tight font-extrabold tracking-tight text-[#111827]">Xabarlar</h1>
           <p className="mt-1 text-[13.5px] text-[#6b7280]">Xaridorlar bilan muloqot qiling, savollarga javob bering va buyurtmalarni muhokama qiling.</p>
         </div>
         <button
           type="button"
           onClick={() => setTab("archive")}
-          className="inline-flex h-10 items-center gap-2 rounded-xl border border-[#e4e9f2] bg-white px-4 text-[13.5px] font-semibold text-[#4b5568] hover:border-[#bcd3ff] hover:text-[#0066FF]"
+          className="inline-flex h-10 items-center gap-2 rounded-xl border border-[#e4e9f2] bg-white px-4 text-[13.5px] font-semibold text-[#4b5568] hover:border-[#CCFBF1] hover:text-[#0F766E]"
         >
           <FolderArchive className="size-4" />
           Arxivlangan
@@ -260,8 +260,8 @@ export function SellerMessagesDesktop() {
               className={cn(
                 "inline-flex h-10 items-center gap-2 rounded-xl border px-4 text-[13.5px] font-semibold transition-colors",
                 tab === t.id
-                  ? "border-[#0066FF] bg-[#0066FF] text-white shadow-[0_4px_12px_rgba(0,102,255,0.25)]"
-                  : "border-[#e4e9f2] bg-white text-[#4b5568] hover:border-[#bcd3ff] hover:text-[#0066FF]",
+                  ? "border-[#0F766E] bg-[#0F766E] text-white shadow-[0_4px_12px_rgba(15, 118, 110, 0.25)]"
+                  : "border-[#e4e9f2] bg-white text-[#4b5568] hover:border-[#CCFBF1] hover:text-[#0F766E]",
               )}
             >
               {t.dot && t.n > 0 ? <span className="size-2 rounded-full bg-[#ef4444]" /> : <Icon className="size-4" />}
@@ -275,10 +275,10 @@ export function SellerMessagesDesktop() {
 
       {convs && all.length === 0 ? (
         <Panel className="grid place-items-center py-20 text-center">
-          <span className="grid size-16 place-items-center rounded-2xl bg-[#e8f1ff]">
-            <MessageSquare className="size-8 text-[#0066FF]" />
+          <span className="grid size-16 place-items-center rounded-2xl bg-[#F0FDFA]">
+            <MessageSquare className="size-8 text-[#0F766E]" />
           </span>
-          <p className="mt-4 text-[17px] font-bold text-[#0B1F4D]">Hali xabarlar yo‘q</p>
+          <p className="mt-4 text-[17px] font-bold text-[#111827]">Hali xabarlar yo‘q</p>
           <p className="mt-1.5 max-w-md text-[13.5px] leading-relaxed text-[#6b7280]">
             Xaridorlar mahsulot yoki buyurtma sahifasidan “Sotuvchiga yozish” tugmasi orqali sizga yozganda, muloqotlar shu yerda ko‘rinadi.
           </p>
@@ -286,7 +286,7 @@ export function SellerMessagesDesktop() {
       ) : (
         <div className="grid h-[calc(100vh-300px)] min-h-[520px] grid-cols-[300px_minmax(0,1fr)_300px] gap-4 xl:grid-cols-[330px_minmax(0,1fr)_320px]">
           {/* list */}
-          <section className="flex min-h-0 flex-col rounded-2xl border border-[#eceff5] bg-white shadow-[0_1px_3px_rgba(15,23,42,0.04)]">
+          <section className="flex min-h-0 flex-col rounded-2xl border border-[#eceff5] bg-white shadow-[0_1px_3px_rgba(17, 24, 39, 0.04)]">
             <div className="p-3">
               <div className="relative">
                 <Search className="pointer-events-none absolute top-1/2 left-3 size-4 -translate-y-1/2 text-[#a3abbd]" />
@@ -294,7 +294,7 @@ export function SellerMessagesDesktop() {
                   value={q}
                   onChange={(e) => setQ(e.target.value)}
                   placeholder="Muloqotlarni qidirish..."
-                  className="h-10 w-full rounded-xl border border-[#e4e9f2] bg-[#f7f9fc] pr-3 pl-9 text-[13px] outline-none focus:border-[#0066FF] focus:bg-white"
+                  className="h-10 w-full rounded-xl border border-[#e4e9f2] bg-[#f7f9fc] pr-3 pl-9 text-[13px] outline-none focus:border-[#0F766E] focus:bg-white"
                 />
               </div>
             </div>
@@ -310,24 +310,24 @@ export function SellerMessagesDesktop() {
                     onClick={() => setSelId(c.id)}
                     className={cn(
                       "flex w-full gap-3 border-l-[3px] px-3.5 py-3 text-left transition-colors hover:bg-[#f7faff]",
-                      sel?.id === c.id ? "border-[#0066FF] bg-[#f0f6ff]" : "border-transparent",
+                      sel?.id === c.id ? "border-[#0F766E] bg-[#f0f6ff]" : "border-transparent",
                     )}
                   >
                     <Avatar name={c.buyer.name} />
                     <div className="min-w-0 flex-1">
                       <div className="flex items-center justify-between gap-2">
-                        <p className="truncate text-[13.5px] font-bold text-[#0B1F4D]">{c.buyer.name}</p>
+                        <p className="truncate text-[13.5px] font-bold text-[#111827]">{c.buyer.name}</p>
                         <span className="shrink-0 text-[11px] text-[#8b93a7]">{listTime(c.lastMessageAt)}</span>
                       </div>
                       <div className="mt-0.5 flex items-center justify-between gap-2">
-                        <p className={cn("truncate text-[12.5px]", c.sellerUnread ? "font-semibold text-[#0B1F4D]" : "text-[#6b7280]")}>{c.lastMessage ?? "—"}</p>
+                        <p className={cn("truncate text-[12.5px]", c.sellerUnread ? "font-semibold text-[#111827]" : "text-[#6b7280]")}>{c.lastMessage ?? "—"}</p>
                         {c.sellerUnread > 0 ? (
-                          <span className="grid size-[18px] shrink-0 place-items-center rounded-full bg-[#0066FF] text-[10.5px] font-bold text-white">{c.sellerUnread}</span>
+                          <span className="grid size-[18px] shrink-0 place-items-center rounded-full bg-[#0F766E] text-[10.5px] font-bold text-white">{c.sellerUnread}</span>
                         ) : null}
                       </div>
                       <div className="mt-1.5 flex flex-wrap gap-1.5">
                         {c.orderId ? (
-                          <span className="rounded-md bg-[#e8f1ff] px-1.5 py-0.5 text-[10.5px] font-semibold text-[#0066FF]">{c.orderId}</span>
+                          <span className="rounded-md bg-[#F0FDFA] px-1.5 py-0.5 text-[10.5px] font-semibold text-[#0F766E]">{c.orderId}</span>
                         ) : null}
                         <span className="rounded-md bg-[#f1f4f9] px-1.5 py-0.5 text-[10.5px] font-semibold text-[#6b7280]">
                           {c.topic === "product" ? "Mahsulot savoli" : c.topic === "order" ? "Buyurtma" : "Savol"}
@@ -341,19 +341,19 @@ export function SellerMessagesDesktop() {
           </section>
 
           {/* chat */}
-          <section className="flex min-h-0 flex-col overflow-hidden rounded-2xl border border-[#eceff5] bg-white shadow-[0_1px_3px_rgba(15,23,42,0.04)]">
+          <section className="flex min-h-0 flex-col overflow-hidden rounded-2xl border border-[#eceff5] bg-white shadow-[0_1px_3px_rgba(17, 24, 39, 0.04)]">
             {sel ? (
               <>
                 <div className="flex items-center gap-3 border-b border-[#eef1f6] px-4 py-3">
                   <Avatar name={sel.buyer.name} size={42} />
                   <div className="min-w-0 flex-1">
-                    <p className="truncate text-[14.5px] font-bold text-[#0B1F4D]">{sel.buyer.name}</p>
+                    <p className="truncate text-[14.5px] font-bold text-[#111827]">{sel.buyer.name}</p>
                     <p className="text-[12px] text-[#8b93a7]">
                       {lastBuyerMsg ? `Oxirgi xabar ${dayLabel(lastBuyerMsg.createdAt) === "Bugun" ? "" : dayLabel(lastBuyerMsg.createdAt) + ", "}${hhmm(new Date(lastBuyerMsg.createdAt))}` : "Xaridor"}
                     </p>
                   </div>
                   {sel.buyer.phone ? (
-                    <a href={`tel:${sel.buyer.phone.replace(/\s/g, "")}`} className="grid size-9 place-items-center rounded-lg border border-[#e4e9f2] text-[#4b5568] hover:border-[#bcd3ff] hover:text-[#0066FF]" aria-label="Qo‘ng‘iroq">
+                    <a href={`tel:${sel.buyer.phone.replace(/\s/g, "")}`} className="grid size-9 place-items-center rounded-lg border border-[#e4e9f2] text-[#4b5568] hover:border-[#CCFBF1] hover:text-[#0F766E]" aria-label="Qo‘ng‘iroq">
                       <Phone className="size-4" />
                     </a>
                   ) : (
@@ -368,14 +368,14 @@ export function SellerMessagesDesktop() {
                     <button
                       type="button"
                       onClick={() => setMenuOpen((v) => !v)}
-                      className="grid size-9 place-items-center rounded-lg border border-[#e4e9f2] text-[#4b5568] hover:border-[#bcd3ff]"
+                      className="grid size-9 place-items-center rounded-lg border border-[#e4e9f2] text-[#4b5568] hover:border-[#CCFBF1]"
                       aria-label="Amallar"
                     >
                       <span className="text-[18px] leading-none">⋯</span>
                     </button>
                     {menuOpen ? (
                       <div className="absolute right-0 z-20 mt-1 w-44 rounded-xl border border-[#e4e9f2] bg-white p-1 shadow-lg">
-                        <button type="button" onClick={() => archive(sel, !sel.archived)} className="flex w-full items-center gap-2 rounded-lg px-3 py-2 text-[13px] font-medium text-[#0B1F4D] hover:bg-[#f4f7fc]">
+                        <button type="button" onClick={() => archive(sel, !sel.archived)} className="flex w-full items-center gap-2 rounded-lg px-3 py-2 text-[13px] font-medium text-[#111827] hover:bg-[#f4f7fc]">
                           {sel.archived ? <ArchiveRestore className="size-4" /> : <Archive className="size-4" />}
                           {sel.archived ? "Arxivdan chiqarish" : "Arxivlash"}
                         </button>
@@ -389,10 +389,10 @@ export function SellerMessagesDesktop() {
                     {/* eslint-disable-next-line @next/next/no-img-element */}
                     {sel.product.image ? <img src={sel.product.image} alt="" className="size-11 shrink-0 rounded-lg bg-white object-contain" /> : <span className="size-11 shrink-0 rounded-lg bg-[#f1f4f9]" />}
                     <div className="min-w-0 flex-1">
-                      <p className="truncate text-[13px] font-bold text-[#0B1F4D]">{sel.product.name}</p>
+                      <p className="truncate text-[13px] font-bold text-[#111827]">{sel.product.name}</p>
                       <p className="text-[12px] text-[#6b7280]">{money(sel.product.price)}</p>
                     </div>
-                    <Link href={`/marketplace/${sel.product.id}`} className="inline-flex h-9 items-center rounded-lg bg-[#0066FF] px-3.5 text-[12.5px] font-semibold text-white hover:bg-[#0055d4]">
+                    <Link href={`/marketplace/${sel.product.id}`} className="inline-flex h-9 items-center rounded-lg bg-[#0F766E] px-3.5 text-[12.5px] font-semibold text-white hover:bg-[#0F766E]">
                       Mahsulotni ko‘rish
                     </Link>
                   </div>
@@ -401,10 +401,10 @@ export function SellerMessagesDesktop() {
                     {/* eslint-disable-next-line @next/next/no-img-element */}
                     {sel.order.image ? <img src={sel.order.image} alt="" className="size-11 shrink-0 rounded-lg bg-white object-contain" /> : <span className="size-11 shrink-0 rounded-lg bg-[#f1f4f9]" />}
                     <div className="min-w-0 flex-1">
-                      <p className="truncate text-[13px] font-bold text-[#0B1F4D]">Buyurtma {sel.order.id}</p>
+                      <p className="truncate text-[13px] font-bold text-[#111827]">Buyurtma {sel.order.id}</p>
                       <p className="truncate text-[12px] text-[#6b7280]">{sel.order.name} · {money(sel.order.total)}</p>
                     </div>
-                    <Link href={`${cabinetHref("orders")}&q=${sel.order.id}`} className="inline-flex h-9 items-center rounded-lg bg-[#0066FF] px-3.5 text-[12.5px] font-semibold text-white hover:bg-[#0055d4]">
+                    <Link href={`${cabinetHref("orders")}&q=${sel.order.id}`} className="inline-flex h-9 items-center rounded-lg bg-[#0F766E] px-3.5 text-[12.5px] font-semibold text-white hover:bg-[#0F766E]">
                       Buyurtmani ko‘rish
                     </Link>
                   </div>
@@ -422,11 +422,11 @@ export function SellerMessagesDesktop() {
                           </div>
                         ) : null}
                         <div className={cn("flex", mine ? "justify-end" : "justify-start")}>
-                          <div className={cn("max-w-[72%] rounded-2xl px-3.5 py-2 text-[13.5px] leading-relaxed", mine ? "rounded-br-md bg-[#dbeafe] text-[#0B1F4D]" : "rounded-bl-md bg-[#f1f4f9] text-[#1a1d26]")}>
+                          <div className={cn("max-w-[72%] rounded-2xl px-3.5 py-2 text-[13.5px] leading-relaxed", mine ? "rounded-br-md bg-[#F0FDFA] text-[#111827]" : "rounded-bl-md bg-[#f1f4f9] text-[#1a1d26]")}>
                             <p className="break-words whitespace-pre-wrap">{m.body}</p>
                             <p className={cn("mt-0.5 flex items-center gap-1 text-[10.5px] text-[#8b93a7]", mine && "justify-end")}>
                               {hhmm(new Date(m.createdAt))}
-                              {mine ? m.readAt ? <CheckCheck className="size-3.5 text-[#0066FF]" /> : <Check className="size-3.5" /> : null}
+                              {mine ? m.readAt ? <CheckCheck className="size-3.5 text-[#0F766E]" /> : <Check className="size-3.5" /> : null}
                             </p>
                           </div>
                         </div>
@@ -462,7 +462,7 @@ export function SellerMessagesDesktop() {
                       rows={1}
                       maxLength={2000}
                       placeholder="Xabar yozing..."
-                      className="max-h-28 min-h-10 flex-1 resize-none rounded-xl border border-[#e4e9f2] bg-[#f7f9fc] px-3.5 py-2.5 text-[13.5px] outline-none focus:border-[#0066FF] focus:bg-white"
+                      className="max-h-28 min-h-10 flex-1 resize-none rounded-xl border border-[#e4e9f2] bg-[#f7f9fc] px-3.5 py-2.5 text-[13.5px] outline-none focus:border-[#0F766E] focus:bg-white"
                     />
                     <button type="button" onClick={() => setEmojiOpen((v) => !v)} className="grid size-10 shrink-0 place-items-center rounded-xl text-[#6b7280] hover:bg-[#f4f7fc]" aria-label="Emoji">
                       <Smile className="size-5" />
@@ -471,7 +471,7 @@ export function SellerMessagesDesktop() {
                       type="button"
                       disabled={!draft.trim() || sending}
                       onClick={() => void send()}
-                      className="grid size-10 shrink-0 place-items-center rounded-xl bg-[#0066FF] text-white hover:bg-[#0055d4] disabled:bg-[#b9d2ff]"
+                      className="grid size-10 shrink-0 place-items-center rounded-xl bg-[#0F766E] text-white hover:bg-[#0F766E] disabled:bg-[#CCFBF1]"
                       aria-label="Yuborish"
                     >
                       <Send className="size-[18px]" />
@@ -483,7 +483,7 @@ export function SellerMessagesDesktop() {
               <div className="grid flex-1 place-items-center text-center">
                 <div>
                   <MessageSquare className="mx-auto size-10 text-[#c3cad9]" />
-                  <p className="mt-3 text-[14px] font-semibold text-[#0B1F4D]">Muloqotni tanlang</p>
+                  <p className="mt-3 text-[14px] font-semibold text-[#111827]">Muloqotni tanlang</p>
                   <p className="mt-1 text-[12.5px] text-[#8b93a7]">Chapdagi ro‘yxatdan xaridorni tanlang.</p>
                 </div>
               </div>
@@ -498,7 +498,7 @@ export function SellerMessagesDesktop() {
                   <div className="mt-3 flex items-center gap-3">
                     <Avatar name={sel.buyer.name} size={52} />
                     <div className="min-w-0">
-                      <p className="truncate text-[14.5px] font-bold text-[#0B1F4D]">{sel.buyer.name}</p>
+                      <p className="truncate text-[14.5px] font-bold text-[#111827]">{sel.buyer.name}</p>
                       {sel.buyer.orders >= 2 ? (
                         <span className="mt-1 inline-block rounded-full bg-[#ecfdf3] px-2 py-0.5 text-[10.5px] font-semibold text-[#15803d]">Doimiy mijoz</span>
                       ) : sel.buyer.orders === 0 ? (
@@ -508,26 +508,26 @@ export function SellerMessagesDesktop() {
                   </div>
                   <div className="mt-3 grid grid-cols-3 gap-2">
                     {sel.buyer.phone ? (
-                      <a href={`tel:${sel.buyer.phone.replace(/\s/g, "")}`} className="flex h-9 items-center justify-center gap-1 rounded-lg border border-[#e4e9f2] text-[12px] font-semibold text-[#4b5568] hover:border-[#bcd3ff] hover:text-[#0066FF]"><Phone className="size-3.5" />Telefon</a>
+                      <a href={`tel:${sel.buyer.phone.replace(/\s/g, "")}`} className="flex h-9 items-center justify-center gap-1 rounded-lg border border-[#e4e9f2] text-[12px] font-semibold text-[#4b5568] hover:border-[#CCFBF1] hover:text-[#0F766E]"><Phone className="size-3.5" />Telefon</a>
                     ) : (
                       <span className="flex h-9 cursor-not-allowed items-center justify-center gap-1 rounded-lg border border-[#eef1f6] text-[12px] font-semibold text-[#c3cad9]"><Phone className="size-3.5" />Telefon</span>
                     )}
                     {sel.buyer.telegram ? (
-                      <a href={`https://t.me/${sel.buyer.telegram.replace(/^@/, "")}`} target="_blank" rel="noreferrer" className="flex h-9 items-center justify-center rounded-lg border border-[#e4e9f2] text-[12px] font-semibold text-[#4b5568] hover:border-[#bcd3ff] hover:text-[#0066FF]">Telegram</a>
+                      <a href={`https://t.me/${sel.buyer.telegram.replace(/^@/, "")}`} target="_blank" rel="noreferrer" className="flex h-9 items-center justify-center rounded-lg border border-[#e4e9f2] text-[12px] font-semibold text-[#4b5568] hover:border-[#CCFBF1] hover:text-[#0F766E]">Telegram</a>
                     ) : (
                       <span className="flex h-9 cursor-not-allowed items-center justify-center rounded-lg border border-[#eef1f6] text-[12px] font-semibold text-[#c3cad9]" title="Telegram ma’lumoti yo‘q">Telegram</span>
                     )}
                     {phoneDigits.length >= 9 ? (
-                      <a href={`https://wa.me/${phoneDigits.length === 9 ? "998" + phoneDigits : phoneDigits}`} target="_blank" rel="noreferrer" className="flex h-9 items-center justify-center rounded-lg border border-[#e4e9f2] text-[12px] font-semibold text-[#4b5568] hover:border-[#bcd3ff] hover:text-[#0066FF]">WhatsApp</a>
+                      <a href={`https://wa.me/${phoneDigits.length === 9 ? "998" + phoneDigits : phoneDigits}`} target="_blank" rel="noreferrer" className="flex h-9 items-center justify-center rounded-lg border border-[#e4e9f2] text-[12px] font-semibold text-[#4b5568] hover:border-[#CCFBF1] hover:text-[#0F766E]">WhatsApp</a>
                     ) : (
                       <span className="flex h-9 cursor-not-allowed items-center justify-center rounded-lg border border-[#eef1f6] text-[12px] font-semibold text-[#c3cad9]">WhatsApp</span>
                     )}
                   </div>
                   <dl className="mt-3 space-y-1.5 text-[12.5px]">
-                    <div className="flex justify-between gap-2"><dt className="text-[#8b93a7]">Telefon</dt><dd className="font-semibold text-[#0B1F4D]">{sel.buyer.phone ?? "—"}</dd></div>
-                    <div className="flex justify-between gap-2"><dt className="text-[#8b93a7]">Shahar</dt><dd className="font-semibold text-[#0B1F4D]">{sel.buyer.city ?? "—"}</dd></div>
-                    <div className="flex justify-between gap-2"><dt className="text-[#8b93a7]">Ro‘yxatdan o‘tgan</dt><dd className="font-semibold text-[#0B1F4D]">{regDate ? `${regDate.getFullYear()}-yil ${regDate.getDate()}-${MONTHS[regDate.getMonth()]}` : "—"}</dd></div>
-                    <div className="flex justify-between gap-2"><dt className="text-[#8b93a7]">Jami buyurtma</dt><dd className="font-semibold text-[#0B1F4D]">{sel.buyer.orders} ta</dd></div>
+                    <div className="flex justify-between gap-2"><dt className="text-[#8b93a7]">Telefon</dt><dd className="font-semibold text-[#111827]">{sel.buyer.phone ?? "—"}</dd></div>
+                    <div className="flex justify-between gap-2"><dt className="text-[#8b93a7]">Shahar</dt><dd className="font-semibold text-[#111827]">{sel.buyer.city ?? "—"}</dd></div>
+                    <div className="flex justify-between gap-2"><dt className="text-[#8b93a7]">Ro‘yxatdan o‘tgan</dt><dd className="font-semibold text-[#111827]">{regDate ? `${regDate.getFullYear()}-yil ${regDate.getDate()}-${MONTHS[regDate.getMonth()]}` : "—"}</dd></div>
+                    <div className="flex justify-between gap-2"><dt className="text-[#8b93a7]">Jami buyurtma</dt><dd className="font-semibold text-[#111827]">{sel.buyer.orders} ta</dd></div>
                   </dl>
                 </Panel>
 
@@ -535,7 +535,7 @@ export function SellerMessagesDesktop() {
                   {sel.order ? (
                     <div className="mt-3 rounded-xl border border-[#eceff5] p-3">
                       <div className="flex items-center justify-between gap-2">
-                        <p className="text-[13px] font-bold text-[#0066FF]">{sel.order.id}</p>
+                        <p className="text-[13px] font-bold text-[#0F766E]">{sel.order.id}</p>
                         <span className={cn("rounded-full px-2 py-0.5 text-[10.5px] font-semibold ring-1", statusBadgeClass(sel.order.status))}>{orderStatusLabel[sel.order.status]}</span>
                       </div>
                       <p className="mt-1 text-[11.5px] text-[#8b93a7]">{dmy(new Date(sel.order.createdAt))} · {PAY[sel.order.payment] ?? sel.order.payment}</p>
@@ -543,12 +543,12 @@ export function SellerMessagesDesktop() {
                         {/* eslint-disable-next-line @next/next/no-img-element */}
                         {sel.order.image ? <img src={sel.order.image} alt="" className="size-10 rounded-lg bg-[#f4f6fa] object-contain" /> : <span className="size-10 rounded-lg bg-[#f4f6fa]" />}
                         <div className="min-w-0 flex-1">
-                          <p className="truncate text-[12.5px] font-semibold text-[#0B1F4D]">{sel.order.name}</p>
+                          <p className="truncate text-[12.5px] font-semibold text-[#111827]">{sel.order.name}</p>
                           <p className="text-[11.5px] text-[#8b93a7]">{sel.order.qty} dona</p>
                         </div>
-                        <b className="text-[12.5px] text-[#0B1F4D]">{money(sel.order.total)}</b>
+                        <b className="text-[12.5px] text-[#111827]">{money(sel.order.total)}</b>
                       </div>
-                      <Link href={`${cabinetHref("orders")}&q=${sel.order.id}`} className="mt-2.5 block text-center text-[12.5px] font-semibold text-[#0066FF] hover:underline">Buyurtmani ko‘rish</Link>
+                      <Link href={`${cabinetHref("orders")}&q=${sel.order.id}`} className="mt-2.5 block text-center text-[12.5px] font-semibold text-[#0F766E] hover:underline">Buyurtmani ko‘rish</Link>
                     </div>
                   ) : (
                     <p className="mt-3 rounded-xl bg-[#f7f9fc] px-3 py-4 text-center text-[12.5px] text-[#8b93a7]">Bu muloqot buyurtmaga bog‘lanmagan.</p>
@@ -561,11 +561,11 @@ export function SellerMessagesDesktop() {
                       {sel.buyer.recent.map((o) => (
                         <li key={o.id} className="flex items-center justify-between gap-2 text-[12.5px]">
                           <div>
-                            <p className="font-semibold text-[#0B1F4D]">{o.id}</p>
+                            <p className="font-semibold text-[#111827]">{o.id}</p>
                             <p className="text-[11px] text-[#8b93a7]">{dmy(new Date(o.createdAt))}</p>
                           </div>
                           <span className={cn("rounded-full px-2 py-0.5 text-[10.5px] font-semibold ring-1", statusBadgeClass(o.status))}>{orderStatusLabel[o.status]}</span>
-                          <b className="text-[#0B1F4D]">{money(o.total)}</b>
+                          <b className="text-[#111827]">{money(o.total)}</b>
                         </li>
                       ))}
                     </ul>
@@ -576,11 +576,11 @@ export function SellerMessagesDesktop() {
 
                 <Panel title="Tez harakatlar" className="!p-4">
                   <div className="relative mt-3 grid grid-cols-4 gap-2">
-                    <button type="button" onClick={() => setProdOpen((v) => !v)} className="flex flex-col items-center gap-1 rounded-xl border border-[#dbe7ff] bg-[#f5f9ff] px-1 py-2.5 text-center text-[10.5px] font-semibold text-[#0066FF] hover:bg-[#eaf2ff]">
+                    <button type="button" onClick={() => setProdOpen((v) => !v)} className="flex flex-col items-center gap-1 rounded-xl border border-[#F0FDFA] bg-[#f5f9ff] px-1 py-2.5 text-center text-[10.5px] font-semibold text-[#0F766E] hover:bg-[#eaf2ff]">
                       <Link2 className="size-[18px]" />
                       Mahsulot ulash
                     </button>
-                    {([["Buyurtma yaratish", ShoppingBag, "#0066FF"], ["Chegirma berish", Percent, "#dc2626"], ["Mijozni bloklash", Ban, "#dc2626"]] as const).map(([label, Icon, color]) => (
+                    {([["Buyurtma yaratish", ShoppingBag, "#0F766E"], ["Chegirma berish", Percent, "#dc2626"], ["Mijozni bloklash", Ban, "#dc2626"]] as const).map(([label, Icon, color]) => (
                       <span key={label} className="flex cursor-not-allowed flex-col items-center gap-1 rounded-xl border border-[#eef1f6] bg-[#fafbfd] px-1 py-2.5 text-center text-[10.5px] font-semibold text-[#a3abbd]" title="Tez orada">
                         <Icon className="size-[18px]" style={{ color: `${color}66` }} />
                         {label}

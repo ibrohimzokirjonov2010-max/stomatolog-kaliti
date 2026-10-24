@@ -16,7 +16,7 @@ import { tashkentDateParts } from "@/lib/tashkent-date";
 
 const SEED: ClinicPayment[] = [];
 const METHODS: PayMethod[] = ["Karta", "Click", "Payme", "Naqd"];
-const METHOD_COLOR: Record<string, string> = { Karta: "#0b8f8a", Click: "#20c9a6", Payme: "#a78bfa", Naqd: "#f5a524" };
+const METHOD_COLOR: Record<string, string> = { Karta: "#0F766E", Click: "#0F766E", Payme: "#a78bfa", Naqd: "#f5a524" };
 const MONTHS_SHORT = ["Yan", "Fev", "Mar", "Apr", "May", "Iyun", "Iyul", "Avg", "Sen", "Okt", "Noy", "Dek"];
 const DAY_MS = 86_400_000;
 
@@ -231,7 +231,7 @@ export function PaymentsDesktop() {
                   offset += length;
                   return node;
                 }) : null}
-                <text x="60" y="58" textAnchor="middle" fontSize="14" fontWeight="800" fill="#0f1e3d">{compact(sum)}</text>
+                <text x="60" y="58" textAnchor="middle" fontSize="14" fontWeight="800" fill="#111827">{compact(sum)}</text>
                 <text x="60" y="73" textAnchor="middle" fontSize="9" fill="#6a7c93">so‘m</text>
               </svg>
               <ul>

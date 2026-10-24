@@ -79,7 +79,7 @@ function ageFromBirth(value: string) {
 function avatarFor(name: string, photo: string) {
   if (photo) return photo;
   const initials = name.split(/\s+/).filter(Boolean).slice(0, 2).map((part) => part[0]?.toUpperCase() ?? "").join("") || "?";
-  const svg = `<svg xmlns='http://www.w3.org/2000/svg' width='80' height='80'><rect width='80' height='80' rx='40' fill='#0F8A8A'/><text x='40' y='50' text-anchor='middle' font-size='28' fill='white' font-family='sans-serif'>${initials}</text></svg>`;
+  const svg = `<svg xmlns='http://www.w3.org/2000/svg' width='80' height='80'><rect width='80' height='80' rx='40' fill='#0F766E'/><text x='40' y='50' text-anchor='middle' font-size='28' fill='white' font-family='sans-serif'>${initials}</text></svg>`;
   return `data:image/svg+xml,${encodeURIComponent(svg)}`;
 }
 

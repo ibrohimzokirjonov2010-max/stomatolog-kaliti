@@ -18,7 +18,7 @@
   padding: 0 calc(.6 * var(--u));
   color: #8b9bb0;
 }
-.sh .mx-search input { flex: 1; min-width: 0; border: 0; outline: 0; background: transparent; font: inherit; font-size: calc(1.041 * var(--uf)); color: #0f1e3d; }
+.sh .mx-search input { flex: 1; min-width: 0; border: 0; outline: 0; background: transparent; font: inherit; font-size: calc(1.041 * var(--uf)); color: #111827; }
 .sh .mx-search input::placeholder { color: #8b9bb0; }
 .sh .mx-search .i, .sh .mx-select .i { font-size: calc(1.179 * var(--uf)); color: #6a7c93; }
 .sh .mx-select {
@@ -43,7 +43,7 @@
   font: inherit;
   font-size: calc(1.021 * var(--uf));
   font-weight: 650;
-  color: #24344d;
+  color: #111827;
   appearance: none;
 }
 
@@ -60,7 +60,7 @@
   font-weight: 650;
   white-space: nowrap;
 }
-.sh .mx-chips button.on { background: #0b8f8a; border-color: #0b8f8a; color: #fff; }
+.sh .mx-chips button.on { background: #0F766E; border-color: #0F766E; color: #fff; }
 
 .sh .mx-grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: calc(.85 * var(--u)); }
 .sh .mx-card {
@@ -70,14 +70,14 @@
   border-radius: calc(.7 * var(--u));
   padding: calc(.4 * var(--u));
   min-width: 0;
-  box-shadow: 0 calc(.12 * var(--u)) calc(.7 * var(--u)) rgba(20, 40, 80, .08);
+  box-shadow: 0 calc(.12 * var(--u)) calc(.7 * var(--u)) rgba(17, 24, 39, .08);
   display: flex;
   flex-direction: column;
 }
-.sh .mx-card:hover { border-color: #bfe3df; }
+.sh .mx-card:hover { border-color: #CCFBF1; }
 .sh .mx-ph { position: relative; height: calc(10.8 * var(--u)); border-radius: calc(.45 * var(--u)); background: #e8eef6; overflow: hidden; }
 .sh .mx-ph img { width: 100%; height: 100%; object-fit: cover; object-position: center 20%; }
-.sh .mx-initials { display: grid; place-items: center; width: 100%; height: 100%; font-size: calc(2.381 * var(--uf)); font-weight: 800; color: #0a6f6b; background: #e6f6f4; }
+.sh .mx-initials { display: grid; place-items: center; width: 100%; height: 100%; font-size: calc(2.381 * var(--uf)); font-weight: 800; color: #0F766E; background: #e6f6f4; }
 .sh .mx-live {
   position: absolute;
   left: calc(.35 * var(--u));
@@ -106,7 +106,7 @@
   color: #8b9bb0;
   display: grid;
   place-items: center;
-  box-shadow: 0 calc(.04 * var(--u)) calc(.16 * var(--u)) rgba(15, 30, 60, .12);
+  box-shadow: 0 calc(.04 * var(--u)) calc(.16 * var(--u)) rgba(17, 24, 39, .12);
 }
 .sh .mx-heart .i { font-size: calc(1.179 * var(--uf)); }
 .sh .mx-heart.on { color: #ef3b3b; }
@@ -115,7 +115,7 @@
 .sh .mx-role { margin: calc(.04 * var(--u)) 0 0; color: #6a7c93; font-size: calc(1.257 * var(--uf)); font-weight: 500; }
 .sh .mx-rate { display: flex; align-items: center; gap: calc(.28 * var(--u)); margin-top: calc(.32 * var(--u)); font-size: calc(1.257 * var(--uf)); color: #5b6b82; }
 .sh .mx-rate .star { color: #f5b400; fill: #f5b400; font-size: calc(1.395 * var(--uf)); }
-.sh .mx-rate b { color: #24344d; font-weight: 800; }
+.sh .mx-rate b { color: #111827; font-weight: 800; }
 .sh .mx-meta { display: grid; grid-template-columns: 1fr 1fr; gap: calc(.22 * var(--u)) calc(.35 * var(--u)); margin-top: calc(.4 * var(--u)); color: #5b6b82; font-size: calc(1.198 * var(--uf)); }
 .sh .mx-meta span { display: inline-flex; align-items: center; gap: calc(.18 * var(--u)); min-width: 0; }
 .sh .mx-meta .i { font-size: calc(1.1 * var(--uf)); color: #8b9bb0; }
@@ -132,21 +132,21 @@
   justify-content: center;
   gap: calc(.2 * var(--u));
 }
-.sh .mx-profil { background: #fff; border: 1px solid #e1e8f2; color: #24344d; }
-.sh .mx-contact { background: #0b8f8a; border: 1px solid #0b8f8a; color: #fff; }
+.sh .mx-profil { background: #fff; border: 1px solid #e1e8f2; color: #111827; }
+.sh .mx-contact { background: #0F766E; border: 1px solid #0F766E; color: #fff; }
 .sh .mx-contact .i { font-size: calc(1.1 * var(--uf)); }
 .sh .mx-empty { background: #fff; border-radius: calc(.6 * var(--u)); padding: calc(1.6 * var(--u)); text-align: center; color: #5b6b82; }
 .sh .mx-empty button {
   margin-top: calc(.5 * var(--u));
   height: calc(1.8 * var(--u));
   padding: 0 calc(.9 * var(--u));
-  background: #0b8f8a;
+  background: #0F766E;
   color: #fff;
   border-radius: calc(.4 * var(--u));
   font-weight: 750;
   font-size: calc(1.06 * var(--uf));
 }
-.sh .brd-promo .mx-cap { color: #0b8f8a; font-size: calc(1.494 * var(--uf)); }
+.sh .brd-promo .mx-cap { color: #0F766E; font-size: calc(1.494 * var(--uf)); }
 .sh .mx-promo b, .sh .mx-promo small { max-width: calc(8 * var(--u)); }
 .sh .mx-chat {
   position: fixed;
@@ -157,9 +157,9 @@
   background: #fff;
   border-radius: calc(.55 * var(--u));
   overflow: hidden;
-  box-shadow: 0 calc(.3 * var(--u)) calc(1.2 * var(--u)) rgba(15, 30, 60, .18);
+  box-shadow: 0 calc(.3 * var(--u)) calc(1.2 * var(--u)) rgba(17, 24, 39, .18);
 }
-.sh .mx-chat header { background: #0b8f8a; color: #fff; padding: calc(.5 * var(--u)) calc(.65 * var(--u)); display: flex; justify-content: space-between; align-items: center; font-size: calc(1.08 * var(--uf)); }
+.sh .mx-chat header { background: #0F766E; color: #fff; padding: calc(.5 * var(--u)) calc(.65 * var(--u)); display: flex; justify-content: space-between; align-items: center; font-size: calc(1.08 * var(--uf)); }
 .sh .mx-chat header button { color: #fff; }
 .sh .mx-chat .log { max-height: calc(12 * var(--u)); overflow: auto; padding: calc(.5 * var(--u)); display: flex; flex-direction: column; gap: calc(.3 * var(--u)); }
 .sh .mx-chat .log p { margin: 0; color: #6a7c93; font-size: calc(0.942 * var(--uf)); }
@@ -167,7 +167,7 @@
 .sh .mx-chat .msg.me { background: #e6f6f4; align-self: flex-end; }
 .sh .mx-chat form { display: flex; border-top: 1px solid #eef2f7; }
 .sh .mx-chat input { flex: 1; border: 0; outline: 0; padding: calc(.45 * var(--u)); font: inherit; font-size: calc(1.021 * var(--uf)); }
-.sh .mx-chat form button { padding: 0 calc(.55 * var(--u)); color: #0b8f8a; font-weight: 750; font-size: calc(1.001 * var(--uf)); }
+.sh .mx-chat form button { padding: 0 calc(.55 * var(--u)); color: #0F766E; font-weight: 750; font-size: calc(1.001 * var(--uf)); }
 .sh .mx-promo img {
   width: calc(7.2 * var(--u));
   height: calc(6.4 * var(--u));
@@ -176,7 +176,7 @@
   object-fit: contain;
   object-position: right bottom;
 }
-.sh .mx-actions .mx-profil { flex: 1; background: #0a6f6b; border-color: #0a6f6b; color: #fff; }
+.sh .mx-actions .mx-profil { flex: 1; background: #0F766E; border-color: #0F766E; color: #fff; }
 /* Sizes from designs/add-forms-1020/mutahasislar bolimi dizyini.png */
 .sh .mx-head p { font-size: 14px; }
 .sh .mx-tools { margin: 16px 0 12px; }
@@ -184,7 +184,7 @@
 .sh .mx-search input, .sh .mx-select select { font-size: 13px; font-weight: 500; }
 .sh .mx-chips { margin-bottom: 16px; flex-wrap: wrap; gap: 8px; }
 .sh .mx-chips button { height: 34px; padding: 0 16px; border-radius: 9px; font-size: 13px; font-weight: 500; }
-.sh .mx-chips button.on { background: #0a6f6b; border-color: #0a6f6b; color: #fff; font-weight: 700; }
+.sh .mx-chips button.on { background: #0F766E; border-color: #0F766E; color: #fff; font-weight: 700; }
 .sh .mx-grid { gap: 14px; }
 .sh .mx-card h3 { font-size: 14.5px; font-weight: 700; margin-top: 10px; }
 .sh .mx-role { font-size: 12.5px; }

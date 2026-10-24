@@ -61,7 +61,7 @@ export default async function BuyurtmaDetailPage({ params }: { params: Promise<{
     <>
       <header className="mb-4 hidden lg:block">
         <p className="text-[13px] text-[#8b93a7]">
-          <Link href="/buyurtmalarim" className="text-[#0066FF] hover:underline">
+          <Link href="/buyurtmalarim" className="text-[#0F766E] hover:underline">
             Buyurtmalarim
           </Link>
           <span className="mx-1.5 text-[#d0d5e0]">/</span>

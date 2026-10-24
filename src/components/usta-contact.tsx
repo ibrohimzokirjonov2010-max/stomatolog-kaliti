@@ -167,7 +167,7 @@ export function ContactSheet({ master, onClose }: { master: Master; onClose: () 
                     onClick={() => setForm({ ...form, when: id })}
                     className={cn(
                       "h-11 rounded-full px-4 text-[13px] font-semibold",
-                      form.when === id ? "bg-[#0066FF] text-white" : "border border-[#e6eaf2] bg-white text-[#4b5568]",
+                      form.when === id ? "bg-[#0F766E] text-white" : "border border-[#e6eaf2] bg-white text-[#4b5568]",
                     )}
                   >
                     {label}

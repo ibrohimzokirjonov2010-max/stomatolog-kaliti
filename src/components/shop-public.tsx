@@ -49,7 +49,7 @@ export function PublicShopPage({ slug }: { slug: string }) {
       <ShopPhone shop={shop} items={items} isOwner={isOwner} />
       <div className="hidden lg:block">
       <p className="text-[13px] text-[#8b93a7]">
-        <Link href="/marketplace" className="text-[#0066FF] hover:underline">
+        <Link href="/marketplace" className="text-[#0F766E] hover:underline">
           Marketplace
         </Link>
         <span className="mx-1">/</span>
@@ -58,7 +58,7 @@ export function PublicShopPage({ slug }: { slug: string }) {
         <span>{shop.name}</span>
       </p>
 
-      <section className="mt-3 rounded-[16px] border border-[#eceff5] bg-white p-4 shadow-[0_1px_2px_rgba(15,23,42,0.04)] sm:p-5">
+      <section className="mt-3 rounded-[16px] border border-[#eceff5] bg-white p-4 shadow-[0_1px_2px_rgba(17, 24, 39, 0.04)] sm:p-5">
         <div className="flex flex-col gap-4 sm:flex-row sm:items-start">
           <ShopAvatar shop={shop} className="size-16 text-[22px]" />
           <div className="min-w-0 flex-1">

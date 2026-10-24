@@ -28,10 +28,10 @@ const TOOTH_CLASS: Partial<Record<ToothState, string>> = {
 const LEGEND = [
   ["#fff", "Sog‘lom"],
   ["#ef4444", "Karies"],
-  ["#3b82f6", "Plomba"],
+  ["#0F766E", "Plomba"],
   ["#f59e0b", "Endodontik"],
   ["#8b5cf6", "Shtift"],
-  ["#0198a4", "Implant"],
+  ["#0F766E", "Implant"],
   ["#e8eef4", "Yo‘q tish"],
 ];
 const TABS = [

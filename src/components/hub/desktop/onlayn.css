@@ -1,5 +1,5 @@
 /* Onlayn darslar (/talim desktop) — designs/add-forms-1020/onlini darslar bolimi dizyaini.png */
-.sh .odl { --ol: #0b8f8a; --ol-dark: #0a6f6b; --ol-soft: #e6f6f4; --ol-line: #e3eaf1; --ol-ink: #0f1d33; --ol-mute: #6b7a90; color: var(--ol-ink); }
+.sh .odl { --ol: #0F766E; --ol-dark: #0F766E; --ol-soft: #e6f6f4; --ol-line: #e3eaf1; --ol-ink: #111827; --ol-mute: #6b7a90; color: var(--ol-ink); }
 .sh .odl .i { width: 16px; height: 16px; flex: none; }
 .sh .odl button { font-family: inherit; cursor: pointer; }
 .sh .odl-head { display: flex; justify-content: space-between; align-items: flex-start; gap: 16px; }
@@ -40,7 +40,7 @@
 
 .sh .odl-grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 14px; }
 .sh .odl-card { background: #fff; border: 1px solid var(--ol-line); border-radius: 12px; overflow: hidden; display: flex; flex-direction: column; min-width: 0; transition: box-shadow .15s; }
-.sh .odl-card:hover { box-shadow: 0 6px 18px rgba(15, 29, 51, .08); }
+.sh .odl-card:hover { box-shadow: 0 6px 18px rgba(17, 24, 39, .08); }
 .sh .odl .odl-card .ph { position: relative; display: block; padding: 0; border: 0; background: #eef3f9; }
 .sh .odl-card .ph img { width: 100%; aspect-ratio: 16 / 9; object-fit: cover; display: block; }
 .sh .odl-card .tag { position: absolute; left: 10px; top: 10px; height: 22px; padding: 0 9px; border-radius: 6px; display: inline-flex; align-items: center; font-size: 11px; font-weight: 700; color: #fff; background: var(--ol-dark); }
@@ -62,7 +62,7 @@
 .sh .odl-card .buy { margin-top: auto; display: flex; justify-content: space-between; align-items: center; }
 .sh .odl-card .buy strong { font-size: 17px; font-weight: 800; color: var(--ol-dark); }
 .sh .odl .odl-card .go { width: 36px; height: 34px; border-radius: 9px; border: 0; display: grid; place-items: center; background: var(--ol-dark); color: #fff; }
-.sh .odl .odl-card .go:hover { background: #085e5b; }
+.sh .odl .odl-card .go:hover { background: #115E59; }
 .sh .odl-card .go .i { width: 18px; height: 18px; }
 .sh .odl-empty { display: flex; flex-direction: column; align-items: center; gap: 10px; padding: 48px 16px; border: 1px dashed #cfdbe6; border-radius: 12px; background: #fff; }
 .sh .odl .odl-empty button { height: 36px; padding: 0 16px; border: 0; border-radius: 9px; background: var(--ol-dark); color: #fff; font-weight: 700; }

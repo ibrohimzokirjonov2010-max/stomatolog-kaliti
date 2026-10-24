@@ -14,17 +14,17 @@
 .nw-search input { flex: 1; border: 0; outline: none; background: transparent; font-size: 13px; }
 .nw-search input::placeholder { color: #9aa3b5; }
 .nw-search > svg { width: 16px; height: 16px; color: #8b93a7; flex: none; }
-.nw-filter { width: 32px; height: 32px; border-radius: 8px; background: transparent; color: #2f6bff; display: grid; place-items: center; flex: none; }
+.nw-filter { width: 32px; height: 32px; border-radius: 8px; background: transparent; color: #0F766E; display: grid; place-items: center; flex: none; }
 .nw-filter svg { width: 18px; height: 18px; }
 .nw-cats { display: flex; gap: 2px; }
 .nw-cats button { flex: 1 0 0; background: none; color: #5c6b82; font-size: 9px; font-weight: 700; line-height: 1.15; display: flex; flex-direction: column; align-items: center; gap: 4px; white-space: nowrap; }
-.nw-cats i { width: 32px; height: 32px; border-radius: 10px; background: #e8f1ff; color: #2f6bff; display: grid; place-items: center; }
+.nw-cats i { width: 32px; height: 32px; border-radius: 10px; background: #F0FDFA; color: #0F766E; display: grid; place-items: center; }
 .nw-cats i svg { width: 18px; height: 18px; }
-.nw-cats button.on { color: #0f9f75; }
+.nw-cats button.on { color: #0F766E; }
 .nw-cats button.on i { background: #12b981; color: #fff; }
-.nw-hero { position: relative; display: block; height: 148px; border-radius: 16px; overflow: hidden; color: #fff; background: #0c2348; }
+.nw-hero { position: relative; display: block; height: 148px; border-radius: 16px; overflow: hidden; color: #fff; background: #111827; }
 .nw-hero > img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: 78% center; }
-.nw-shade { position: absolute; inset: 0; background: linear-gradient(90deg, rgba(7,22,58,.94) 0%, rgba(7,22,58,.78) 46%, rgba(7,22,58,.18) 100%); }
+.nw-shade { position: absolute; inset: 0; background: linear-gradient(90deg, rgba(17, 24, 39, .94) 0%, rgba(17, 24, 39, .78) 46%, rgba(17, 24, 39, .18) 100%); }
 .nw-hero .copy { position: relative; z-index: 1; height: 100%; display: flex; flex-direction: column; justify-content: center; gap: 6px; padding: 14px 52px 14px 14px; }
 .nw-badge { align-self: flex-start; display: inline-flex; align-items: center; gap: 4px; height: 22px; padding: 0 8px; border-radius: 8px; background: rgba(255,255,255,.16); font-size: 11px; font-weight: 800; }
 .nw-badge svg { width: 12px; height: 12px; color: #ffb020; }
@@ -36,7 +36,7 @@
 .nw-arrow { position: absolute; right: 10px; top: 50%; transform: translateY(-50%); z-index: 1; width: 32px; height: 32px; border-radius: 50%; background: #fff; color: #1a1d26; display: grid; place-items: center; }
 .nw-arrow svg { width: 16px; height: 16px; }
 .nw-list { display: flex; flex-direction: column; gap: 6px; }
-.nw-card { display: grid; grid-template-columns: 76px minmax(0, 1fr) 26px; gap: 8px; align-items: center; background: #fff; border-radius: 14px; padding: 6px; box-shadow: 0 4px 14px rgba(15,23,42,.04); color: inherit; }
+.nw-card { display: grid; grid-template-columns: 76px minmax(0, 1fr) 26px; gap: 8px; align-items: center; background: #fff; border-radius: 14px; padding: 6px; box-shadow: 0 4px 14px rgba(17, 24, 39, .04); color: inherit; }
 .nw-card img { width: 76px; height: 68px; object-fit: cover; border-radius: 10px; }
 .nw-card h3 { margin: 0; font-size: 13px; line-height: 1.2; font-weight: 800; }
 .nw-card p { margin: 2px 0 0; color: #6a7c93; font-size: 11px; line-height: 1.25; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
@@ -53,8 +53,8 @@
   box-shadow: 0 8px 20px rgba(18,185,129,.28);
 }
 .nw-subbtn svg { width: 18px; height: 18px; }
-.nw-subbtn.on { background: #0c8f68; }
-.nw-sheet { position: fixed; inset: 0; z-index: 60; background: rgba(15,23,42,.45); display: flex; align-items: flex-end; }
+.nw-subbtn.on { background: #0F766E; }
+.nw-sheet { position: fixed; inset: 0; z-index: 60; background: rgba(17, 24, 39, .45); display: flex; align-items: flex-end; }
 .nw-box { position: relative; z-index: 1; width: 100%; background: #fff; border-radius: 16px 16px 0 0; padding: 16px 16px calc(16px + env(safe-area-inset-bottom)); display: flex; flex-direction: column; gap: 8px; }
 .nw-box h3 { margin: 0; }
 .nw-box button.pick { height: 40px; border-radius: 10px; background: #f4f7fc; font-weight: 800; text-align: left; padding: 0 12px; }

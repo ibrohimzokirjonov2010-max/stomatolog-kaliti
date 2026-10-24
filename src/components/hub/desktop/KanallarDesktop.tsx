@@ -54,7 +54,7 @@ function ChannelAvatar({ name, image, color, className = "hub-ch-mini" }: { name
     .map((part) => part[0]?.toUpperCase() ?? "")
     .join("");
   return (
-    <span className={className} style={{ background: color || "#0fa6a0" }} aria-hidden>
+    <span className={className} style={{ background: color || "#0F766E" }} aria-hidden>
       {letters}
     </span>
   );
@@ -213,7 +213,7 @@ export function KanallarDesktop() {
                     {item.image ? (
                       <img src={item.image} alt="" />
                     ) : (
-                      <span className="hub-ch-cover" style={{ "--ch": colors[item.id] || "#0fa6a0" } as CSSProperties} aria-hidden>
+                      <span className="hub-ch-cover" style={{ "--ch": colors[item.id] || "#0F766E" } as CSSProperties} aria-hidden>
                         {TOPIC_COVER[item.topic] ? <img src={TOPIC_COVER[item.topic]} alt="" /> : null}
                       </span>
                     )}
@@ -239,7 +239,7 @@ export function KanallarDesktop() {
                     <div className="hub-ch-foot">
                       {item.reviews > 0 ? (
                         <span className="hub-meta">
-                          <Star className="i" /> {item.rating.toFixed(1)} <small>({item.reviews} ta baho)</small>
+                          {item.reviews > 0 ? <><Star className="i" /> {item.rating.toFixed(1)} <small>({item.reviews} ta baho)</small></> : null}
                         </span>
                       ) : null}
                       <a

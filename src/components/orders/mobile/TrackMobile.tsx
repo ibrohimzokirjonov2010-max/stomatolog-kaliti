@@ -195,12 +195,12 @@ function MapArt({ area }: { area: string }) {
     <svg viewBox="0 0 360 148" role="img">
       <rect width="360" height="148" fill="#e7eef6" />
       <path d="M0 36 H360 M0 78 H360 M0 118 H360 M70 0 V148 M150 0 V148 M230 0 V148 M300 0 V148" stroke="#f7fafc" strokeWidth="10" />
-      <path d="M0 36 H360 M0 78 H360 M0 118 H360 M70 0 V148 M150 0 V148 M230 0 V148 M300 0 V148" stroke="#d5e0ec" strokeWidth="1" />
+      <path d="M0 36 H360 M0 78 H360 M0 118 H360 M70 0 V148 M150 0 V148 M230 0 V148 M300 0 V148" stroke="#F0FDFA" strokeWidth="1" />
       <path d="M20 40 H120 V90 H20 Z" fill="#dceadf" />
       <path d="M250 20 H340 V70 H250 Z" fill="#e4eaf2" />
-      <path d="M48 112 C 110 104, 140 78, 175 86 S 230 70, 250 58 S 290 40, 318 36" fill="none" stroke="#0066ff" strokeWidth="4" strokeLinecap="round" />
-      <circle cx="48" cy="112" r="5" fill="#0066ff" />
-      <circle cx="318" cy="36" r="5" fill="#0066ff" />
+      <path d="M48 112 C 110 104, 140 78, 175 86 S 230 70, 250 58 S 290 40, 318 36" fill="none" stroke="#0F766E" strokeWidth="4" strokeLinecap="round" />
+      <circle cx="48" cy="112" r="5" fill="#0F766E" />
+      <circle cx="318" cy="36" r="5" fill="#0F766E" />
       <text x="168" y="28" fill="#8b93a7" fontSize="11" fontFamily="sans-serif">{area}</text>
       <text x="96" y="132" fill="#8b93a7" fontSize="10" fontFamily="sans-serif">Amir Temur ko‘chasi</text>
       <text x="286" y="92" fill="#8b93a7" fontSize="10" fontFamily="sans-serif">Minor</text>

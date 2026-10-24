@@ -49,13 +49,13 @@ function Inner() {
     <div>
       <header className="mb-4">
         <p className="text-[13px] text-[#8b93a7]">
-          <Link href="/ustalar" className="text-[#0066FF] hover:underline">
+          <Link href="/ustalar" className="text-[#0F766E] hover:underline">
             Ustalar
           </Link>
           <span className="mx-1">/</span>
           <span>Mening so‘rovlarim</span>
         </p>
-        <h1 className="mt-2 text-[26px] font-bold tracking-tight text-[#0B1F4D] lg:text-[#1a1d26]">Mening so‘rovlarim</h1>
+        <h1 className="mt-2 text-[26px] font-bold tracking-tight text-[#111827] lg:text-[#1a1d26]">Mening so‘rovlarim</h1>
         <p className="mt-1 text-sm text-[#8b93a7]">Usta telefon raqami faqat u so‘rovingizni qabul qilgandan keyin ochiladi.</p>
         <div className="mt-3 inline-flex rounded-full bg-[#eef2f8] p-1" role="tablist">
           {(
@@ -70,7 +70,7 @@ function Inner() {
               role="tab"
               aria-selected={tab === id}
               onClick={() => router.replace(id === "kelgan" ? "/ustalar/sorovlarim?tab=kelgan" : "/ustalar/sorovlarim", { scroll: false })}
-              className={cn("h-10 rounded-full px-4 text-[13px] font-semibold", tab === id ? "bg-white text-[#0066FF] shadow-sm" : "text-[#6b7280]")}
+              className={cn("h-10 rounded-full px-4 text-[13px] font-semibold", tab === id ? "bg-white text-[#0F766E] shadow-sm" : "text-[#6b7280]")}
             >
               {label}
             </button>
@@ -81,7 +81,7 @@ function Inner() {
       {error ? <p role="alert" className="mb-3 rounded-xl bg-red-50 px-3 py-2 text-sm text-red-800">{error}</p> : null}
 
       {requestsReady && !authed ? (
-        <div className="rounded-[18px] border border-[#eceff5] bg-white px-6 py-16 text-center shadow-[0_4px_14px_rgba(15,23,42,0.04)]">
+        <div className="rounded-[18px] border border-[#eceff5] bg-white px-6 py-16 text-center shadow-[0_4px_14px_rgba(17, 24, 39, 0.04)]">
           <p className="text-[16px] font-semibold text-[#1a1d26]">Avval tizimga kiring</p>
           <p className="mt-1 text-sm text-[#8b93a7]">So‘rovlaringiz akkauntingizga bog‘langan.</p>
           <Link href="/kirish?next=/ustalar/sorovlarim" className={cn(buttonVariants(), "mt-5 inline-flex h-12 min-w-[160px] !rounded-2xl text-[14px] font-semibold")}>
@@ -91,7 +91,7 @@ function Inner() {
       ) : !requestsReady ? (
         <p className="py-10 text-center text-sm text-[#8b93a7]">Yuklanmoqda…</p>
       ) : items.length === 0 ? (
-        <div className="rounded-[18px] border border-[#eceff5] bg-white px-6 py-16 text-center shadow-[0_4px_14px_rgba(15,23,42,0.04)]" data-testid="usta-requests-empty">
+        <div className="rounded-[18px] border border-[#eceff5] bg-white px-6 py-16 text-center shadow-[0_4px_14px_rgba(17, 24, 39, 0.04)]" data-testid="usta-requests-empty">
           <p className="text-[16px] font-semibold text-[#1a1d26]">{tab === "kelgan" ? "Hali so‘rov kelmagan" : "Hali so‘rov yo‘q"}</p>
           <p className="mt-1 text-sm text-[#8b93a7]">
             {tab === "kelgan" ? "Usta profilingiz tasdiqlangach, klinikalardan kelgan so‘rovlar shu yerda ko‘rinadi." : "Usta tanlab xizmat so‘rovi yuboring."}
@@ -117,7 +117,7 @@ function RequestRow({ item, incoming, busy, onStatus }: { item: UstaRequest; inc
   const when = `${item.when === "sana" && item.date ? formatUzDate(item.date).when : whenCopy[item.when]}${item.timeRange ? `, ${item.timeRange}` : ""}`;
   const badge = statusCopy[item.status];
   return (
-    <li className="rounded-[18px] border border-[#eceff5] bg-white p-4 shadow-[0_4px_14px_rgba(15,23,42,0.04)]">
+    <li className="rounded-[18px] border border-[#eceff5] bg-white p-4 shadow-[0_4px_14px_rgba(17, 24, 39, 0.04)]">
       <div className="flex flex-wrap items-start justify-between gap-2">
         <div className="min-w-0">
           <p className="text-[15px] font-bold text-[#1a1d26]">{incoming ? item.name : item.masterName}</p>
@@ -155,16 +155,16 @@ function RequestRow({ item, incoming, busy, onStatus }: { item: UstaRequest; inc
       ) : null}
       {incoming ? (
         <p className="mt-1 text-[12.5px] text-[#4b5568]">
-          <a href={phoneHref(item.phone)} className="font-semibold text-[#0066FF]">{item.phone}</a>
+          <a href={phoneHref(item.phone)} className="font-semibold text-[#0F766E]">{item.phone}</a>
         </p>
       ) : item.masterPhone ? (
         <p className="mt-2 flex flex-wrap items-center gap-2 text-[13px]" data-testid="master-phone">
-          <a href={phoneHref(item.masterPhone)} className="inline-flex items-center gap-1.5 rounded-full bg-[#eef4ff] px-3 py-1.5 font-semibold text-[#0066FF]">
+          <a href={phoneHref(item.masterPhone)} className="inline-flex items-center gap-1.5 rounded-full bg-[#eef4ff] px-3 py-1.5 font-semibold text-[#0F766E]">
             <Phone className="size-3.5" />
             {item.masterPhone}
           </a>
           {item.masterTelegram ? (
-            <a href={telegramHref(item.masterTelegram)} target="_blank" rel="noreferrer" className="inline-flex items-center gap-1.5 rounded-full bg-[#eef4ff] px-3 py-1.5 font-semibold text-[#0066FF]">
+            <a href={telegramHref(item.masterTelegram)} target="_blank" rel="noreferrer" className="inline-flex items-center gap-1.5 rounded-full bg-[#eef4ff] px-3 py-1.5 font-semibold text-[#0F766E]">
               <Send className="size-3.5" />
               Telegram
             </a>

@@ -4,8 +4,7 @@ import { useEffect, useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { ChevronRight, Crown, Headset, PanelLeftClose, PanelLeftOpen } from "lucide-react";
-import { ShNavTree, useProfilActive } from "@/components/nav/sh-nav-tree";
-import { navBottom } from "@/data/nav";
+import { ShNavTree } from "@/components/nav/sh-nav-tree";
 import "./desktop-chrome.css";
 
 const HELP_PREFIXES = ["/mening-klinikam", "/klinika", "/crm", "/profil", "/buyurtmalarim"];
@@ -19,8 +18,6 @@ function wantsHelp(pathname: string) {
 export function DesktopSidebar() {
   const pathname = usePathname() ?? "/";
   const help = wantsHelp(pathname);
-  const profilActive = useProfilActive();
-  const ProfilIcon = navBottom.icon;
   const [collapsed, setCollapsed] = useState(false);
 
   useEffect(() => {
@@ -47,15 +44,6 @@ export function DesktopSidebar() {
     <aside className={collapsed ? "sh-side is-collapsed" : "sh-side"} data-testid="desktop-sidebar" data-collapsed={collapsed ? "true" : "false"}>
       <ShNavTree />
       <div className="sh-side-row">
-        <Link
-          className={profilActive ? "sh-nav active" : "sh-nav"}
-          href={navBottom.href}
-          aria-current={profilActive ? "page" : undefined}
-          title={navBottom.label}
-        >
-          <ProfilIcon className="i" />
-          <span>{navBottom.label}</span>
-        </Link>
         <button
           type="button"
           className="sh-collapse"

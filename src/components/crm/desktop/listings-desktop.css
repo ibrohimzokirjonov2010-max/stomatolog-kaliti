@@ -1,12 +1,12 @@
 /* E'lonlar (desktop) — designs/add-forms-1020/elonlar.png */
-.sh .elx { --ex: #0b8f8a; --ex-dark: #0a6f6b; --ex-soft: #e6f6f4; --ex-line: #e3eaf1; --ex-ink: #0f1d33; --ex-mute: #6b7a90; color: var(--ex-ink); }
+.sh .elx { --ex: #0F766E; --ex-dark: #0F766E; --ex-soft: #e6f6f4; --ex-line: #e3eaf1; --ex-ink: #111827; --ex-mute: #6b7a90; color: var(--ex-ink); }
 .sh .elx a { color: inherit; text-decoration: none; }
 .sh .elx button { font-family: inherit; cursor: pointer; }
 .sh .elx-head { display: flex; justify-content: space-between; align-items: flex-start; gap: 16px; margin-bottom: 14px; }
 .sh .elx-head h1 { margin: 0; font-size: 32px; font-weight: 800; letter-spacing: -.02em; line-height: 1.1; }
 .sh .elx-head p { margin: 4px 0 0; color: var(--ex-mute); font-size: 14px; }
 .sh .elx a.elx-add { display: inline-flex; align-items: center; gap: 8px; height: 42px; padding: 0 20px; border-radius: 10px; background: var(--ex-dark); color: #fff; font-size: 14px; font-weight: 700; white-space: nowrap; }
-.sh .elx a.elx-add:hover { background: #085e5b; }
+.sh .elx a.elx-add:hover { background: #115E59; }
 .sh .elx-grid { display: grid; grid-template-columns: minmax(0, 1fr) 250px; gap: 16px; align-items: start; }
 .sh .elx-main { min-width: 0; }
 
@@ -36,16 +36,16 @@
 
 .sh .elx-cards { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 12px; }
 .sh .elx-card { position: relative; background: #fff; border: 1px solid var(--ex-line); border-radius: 12px; overflow: hidden; min-width: 0; transition: box-shadow .15s; }
-.sh .elx-card:hover { box-shadow: 0 6px 18px rgba(15, 29, 51, .08); }
+.sh .elx-card:hover { box-shadow: 0 6px 18px rgba(17, 24, 39, .08); }
 .sh .elx-card .ph { display: block; padding: 8px 8px 0; }
 .sh .elx-card .ph img { width: 100%; aspect-ratio: 16 / 10; object-fit: cover; border-radius: 9px; display: block; background: #eef3f9; }
 .sh .elx-flag { position: absolute; left: 14px; top: 14px; height: 22px; padding: 0 9px; border-radius: 6px; display: inline-flex; align-items: center; color: #fff; font-size: 11px; font-weight: 700; background: var(--ex); }
 .sh .elx-flag.sotiladi { background: #16a34a; }
-.sh .elx-flag.ijara { background: #0b8f8a; }
+.sh .elx-flag.ijara { background: #0F766E; }
 .sh .elx-flag.ish { background: #f26b3a; }
-.sh .elx-flag.xizmat { background: #0e9fb4; }
+.sh .elx-flag.xizmat { background: #0F766E; }
 .sh .elx-flag.hamkor { background: #7c5cd6; }
-.sh .elx .elx-heart { position: absolute; right: 14px; top: 14px; width: 28px; height: 28px; border-radius: 50%; display: grid; place-items: center; background: #fff; color: #41526a; box-shadow: 0 1px 3px rgba(15, 29, 51, .15); }
+.sh .elx .elx-heart { position: absolute; right: 14px; top: 14px; width: 28px; height: 28px; border-radius: 50%; display: grid; place-items: center; background: #fff; color: #41526a; box-shadow: 0 1px 3px rgba(17, 24, 39, .15); }
 .sh .elx .elx-heart.on { color: #ef4444; }
 .sh .elx-heart.on svg { fill: currentColor; }
 .sh .elx-card .pad { padding: 10px 12px 12px; }

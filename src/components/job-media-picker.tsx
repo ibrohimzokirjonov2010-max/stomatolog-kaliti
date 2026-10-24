@@ -80,7 +80,7 @@ export function JobMediaPicker({
         {photos.map((src, i) => (
           <span key={src} className="relative size-[68px] overflow-hidden rounded-xl bg-[#eef2f8]">
             <Image src={src} alt={`Rasm ${i + 1}`} fill sizes="68px" className="object-cover" />
-            {i === 0 ? <span className="absolute inset-x-0 bottom-0 bg-[#0066FF]/85 py-0.5 text-center text-[9px] font-semibold text-white">Asosiy</span> : null}
+            {i === 0 ? <span className="absolute inset-x-0 bottom-0 bg-[#0F766E]/85 py-0.5 text-center text-[9px] font-semibold text-white">Asosiy</span> : null}
             <button type="button" onClick={() => onPhotos(photos.filter((x) => x !== src))} className="absolute top-1 right-1 grid size-5 place-items-center rounded-full bg-[#0B1220]/70 text-white" aria-label="Olib tashlash">
               <X className="size-3" />
             </button>
@@ -96,7 +96,7 @@ export function JobMediaPicker({
           </span>
         ) : null}
         {photos.length < MAX_PHOTOS ? (
-          <button type="button" onClick={() => photoRef.current?.click()} disabled={Boolean(busy)} className="grid size-[68px] place-items-center rounded-xl border border-dashed border-[#9ec0ff] bg-[#f5f9ff] text-[#0066FF] disabled:opacity-60">
+          <button type="button" onClick={() => photoRef.current?.click()} disabled={Boolean(busy)} className="grid size-[68px] place-items-center rounded-xl border border-dashed border-[#CCFBF1] bg-[#f5f9ff] text-[#0F766E] disabled:opacity-60">
             <span className="grid place-items-center gap-0.5 text-[10px] font-semibold">
               <ImagePlus className="size-5" />
               Rasm
@@ -104,7 +104,7 @@ export function JobMediaPicker({
           </button>
         ) : null}
         {allowVideo && !video ? (
-          <button type="button" onClick={() => videoRef.current?.click()} disabled={Boolean(busy)} className="grid size-[68px] place-items-center rounded-xl border border-dashed border-[#9ec0ff] bg-[#f5f9ff] text-[#0066FF] disabled:opacity-60">
+          <button type="button" onClick={() => videoRef.current?.click()} disabled={Boolean(busy)} className="grid size-[68px] place-items-center rounded-xl border border-dashed border-[#CCFBF1] bg-[#f5f9ff] text-[#0F766E] disabled:opacity-60">
             <span className="grid place-items-center gap-0.5 text-[10px] font-semibold">
               <Video className="size-5" />
               Video

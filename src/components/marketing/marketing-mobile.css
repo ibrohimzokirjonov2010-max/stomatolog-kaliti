@@ -3,7 +3,7 @@
   margin: -1rem -1rem 0;
   padding: 8px 10px 16px;
   background: #f5f9fd;
-  color: #0b1a3a;
+  color: #111827;
   display: flex;
   flex-direction: column;
   gap: 8px;
@@ -14,21 +14,21 @@
 .mk-lead { margin: -6px 4px 2px; color: #7b8aa5; font-size: 10px; }
 .mk-hero { position: relative; display: grid; grid-template-columns: 1.15fr 1fr; align-items: center; gap: 4px; padding: 12px 0 10px 12px; border-radius: 14px; background: linear-gradient(110deg, #f4f9fc 0%, #e9f4f8 100%); border: 1px solid #e3eef3; overflow: hidden; }
 .mk-hero-copy h1 { margin: 0; font-size: 18px; line-height: 1.15; font-weight: 800; letter-spacing: -0.01em; }
-.mk-hero-copy h1 span { color: #0b7f7d; }
+.mk-hero-copy h1 span { color: #0F766E; }
 .mk-hero-copy p { margin: 6px 0 0; color: #6a7c93; font-size: 9.5px; line-height: 1.4; }
 .mk-hero img { width: 100%; height: 120px; object-fit: cover; object-position: left center; border-radius: 10px 0 0 10px; }
 .mk-badges { grid-column: 1 / -1; display: flex; gap: 6px; margin-top: 6px; overflow-x: auto; scrollbar-width: none; padding-right: 12px; }
 .mk-badges span { flex: none; display: inline-flex; align-items: center; gap: 4px; height: 22px; padding: 0 8px; border-radius: 999px; background: #fff; font-size: 8.5px; font-weight: 500; }
-.mk-badges svg { width: 12px; height: 12px; color: #0d8f8c; }
+.mk-badges svg { width: 12px; height: 12px; color: #0F766E; }
 .mk-services { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 6px; }
 .mk-svc { position: relative; display: flex; align-items: center; gap: 8px; padding: 6px; background: #fff; border: 1.5px solid #e9f0f5; border-radius: 10px; text-align: left; color: inherit; }
-.mk-svc.on { border-color: #0d8f8c; }
+.mk-svc.on { border-color: #0F766E; }
 .mk-svc img { flex: none; width: 54px; height: 54px; border-radius: 7px; object-fit: cover; }
 .mk-svc-copy { display: flex; flex-direction: column; gap: 2px; padding-right: 14px; }
 .mk-svc-copy b { font-size: 10.5px; line-height: 1.2; font-weight: 700; }
 .mk-svc-copy small { color: #7b8aa5; font-size: 8.5px; line-height: 1.3; }
 .mk-check { position: absolute; top: 6px; right: 6px; width: 15px; height: 15px; border-radius: 4px; border: 1.5px solid #c5d0db; display: grid; place-items: center; background: #fff; color: #fff; }
-.mk-svc.on .mk-check { background: #0d8f8c; border-color: #0d8f8c; }
+.mk-svc.on .mk-check { background: #0F766E; border-color: #0F766E; }
 .mk-check svg { width: 10px; height: 10px; }
 .mk-works { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 4px; }
 .mk-works img { width: 100%; aspect-ratio: 1; object-fit: cover; border-radius: 6px; }
@@ -42,13 +42,13 @@
 .mk-form label i svg { width: 15px; height: 15px; color: #6a7c93; flex: none; }
 .mk-form input { flex: 1; border: 0; outline: none; background: transparent; font-size: 11px; font-weight: 500; }
 .mk-info { margin: 0; display: flex; align-items: center; gap: 8px; padding: 7px 10px; border-radius: 8px; background: #eef4fa; color: #4b5568; font-size: 10px; }
-.mk-info svg { width: 14px; height: 14px; color: #2563eb; flex: none; }
+.mk-info svg { width: 14px; height: 14px; color: #0F766E; flex: none; }
 .mk-error { margin: 0; color: #e11d48; font-size: 11px; font-weight: 600; }
-.mk-send { height: 40px; border-radius: 10px; background: #0b7f7d; color: #fff; font-size: 13px; font-weight: 700; display: flex; align-items: center; justify-content: center; gap: 8px; }
+.mk-send { height: 40px; border-radius: 10px; background: #0F766E; color: #fff; font-size: 13px; font-weight: 700; display: flex; align-items: center; justify-content: center; gap: 8px; }
 .mk-send svg { width: 16px; height: 16px; }
 .mk-send:disabled { opacity: .6; }
 .mk-done { align-items: center; text-align: center; }
-.mk-done > svg { width: 34px; height: 34px; color: #0b7f7d; }
+.mk-done > svg { width: 34px; height: 34px; color: #0F766E; }
 .mk-done b { font-size: 15px; }
 .mk-done p { margin: 0; color: #4b5568; font-size: 12px; line-height: 1.45; }
-.mk-done button { height: 36px; padding: 0 14px; border-radius: 9px; border: 1px solid #0d8f8c; color: #0b5f5e; font-size: 12px; font-weight: 600; }
+.mk-done button { height: 36px; padding: 0 14px; border-radius: 9px; border: 1px solid #0F766E; color: #115E59; font-size: 12px; font-weight: 600; }

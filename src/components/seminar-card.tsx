@@ -32,7 +32,7 @@ export function DateBadge({ iso, className }: { iso: string; className?: string 
   return (
     <div
       className={cn(
-        "rounded-[12px] bg-white px-2.5 py-1.5 text-center shadow-[0_6px_16px_rgba(15,23,42,0.12)]",
+        "rounded-[12px] bg-white px-2.5 py-1.5 text-center shadow-[0_6px_16px_rgba(17, 24, 39, 0.12)]",
         className,
       )}
     >
@@ -48,12 +48,12 @@ export function MobileDateBadge({ iso, className }: { iso: string; className?: s
   return (
     <div
       className={cn(
-        "flex size-[52px] shrink-0 flex-col items-center justify-center rounded-xl border border-[#dbe7ff] bg-[#eef4ff] text-[#0B1F4D]",
+        "flex size-[52px] shrink-0 flex-col items-center justify-center rounded-xl border border-[#F0FDFA] bg-[#eef4ff] text-[#111827]",
         className,
       )}
     >
       <p className="text-[16px] leading-none font-bold">{date.day}</p>
-      <p className="mt-0.5 text-[9px] font-bold uppercase tracking-wider text-[#0066FF]">{date.monthBadge}</p>
+      <p className="mt-0.5 text-[9px] font-bold uppercase tracking-wider text-[#0F766E]">{date.monthBadge}</p>
     </div>
   );
 }
@@ -63,7 +63,7 @@ export function MobileFeaturedDateBadge({ iso, className }: { iso: string; class
   return (
     <div
       className={cn(
-        "flex size-[54px] shrink-0 flex-col items-center justify-center rounded-xl bg-[#0B1F4D] text-white shadow-[0_6px_16px_rgba(11,31,77,0.28)]",
+        "flex size-[54px] shrink-0 flex-col items-center justify-center rounded-xl bg-[#111827] text-white shadow-[0_6px_16px_rgba(17, 24, 39, 0.28)]",
         className,
       )}
     >
@@ -143,7 +143,7 @@ export function RegisterCta({
     return (
       <Link
         href={href}
-        className="inline-flex h-9 items-center gap-1.5 rounded-lg bg-[#0066FF] px-4 text-[13px] font-semibold text-white shadow-[0_6px_16px_rgba(0,102,255,0.35)] hover:bg-[#0052cc]"
+        className="inline-flex h-9 items-center gap-1.5 rounded-lg bg-[#0F766E] px-4 text-[13px] font-semibold text-white shadow-[0_6px_16px_rgba(15, 118, 110, 0.35)] hover:bg-[#115E59]"
       >
         Ro&apos;yxatdan o&apos;tish
         <ArrowRight className="size-4" />
@@ -177,7 +177,7 @@ export function SeminarCard({ seminar }: { seminar: Seminar }) {
     <Link
       href={href}
       id={live.id}
-      className="group relative block aspect-[3/4] max-h-[300px] scroll-mt-24 overflow-hidden rounded-[16px] shadow-[0_6px_20px_rgba(15,23,42,0.12)] ring-1 ring-black/5 transition-transform duration-300 hover:-translate-y-0.5 hover:shadow-[0_12px_32px_rgba(15,23,42,0.16)]"
+      className="group relative block aspect-[3/4] max-h-[300px] scroll-mt-24 overflow-hidden rounded-[16px] shadow-[0_6px_20px_rgba(17, 24, 39, 0.12)] ring-1 ring-black/5 transition-transform duration-300 hover:-translate-y-0.5 hover:shadow-[0_12px_32px_rgba(17, 24, 39, 0.16)]"
     >
       <Image
         src={live.image}
@@ -202,8 +202,8 @@ export function SeminarCard({ seminar }: { seminar: Seminar }) {
         <div className="rounded-xl border border-white/25 bg-white/18 p-2 shadow-[0_6px_18px_rgba(0,0,0,0.18)] backdrop-blur-xl">
           <div className="flex items-start gap-2">
             <div className="shrink-0 rounded-lg bg-white/95 px-1.5 py-1 text-center shadow-sm">
-              <p className="text-[13px] leading-none font-bold text-[#0B1F4D]">{date.day}</p>
-              <p className="mt-0.5 text-[8px] font-bold tracking-wider text-[#0066FF]">
+              <p className="text-[13px] leading-none font-bold text-[#111827]">{date.day}</p>
+              <p className="mt-0.5 text-[8px] font-bold tracking-wider text-[#0F766E]">
                 {date.monthBadge}
               </p>
             </div>
@@ -259,7 +259,7 @@ export function FeaturedSeminar({ seminar }: { seminar: Seminar }) {
   return (
     <article
       id={live.id}
-      className="relative scroll-mt-24 overflow-hidden rounded-[18px] shadow-[0_8px_28px_rgba(15,23,42,0.12)] ring-1 ring-black/5"
+      className="relative scroll-mt-24 overflow-hidden rounded-[18px] shadow-[0_8px_28px_rgba(17, 24, 39, 0.12)] ring-1 ring-black/5"
     >
       <div className="relative min-h-[220px] sm:min-h-[240px] lg:min-h-[260px] lg:max-h-[280px]">
         <Image
@@ -276,7 +276,7 @@ export function FeaturedSeminar({ seminar }: { seminar: Seminar }) {
         <div className="relative z-10 flex h-full min-h-[220px] flex-col justify-end p-3 sm:min-h-[240px] sm:p-4 lg:min-h-[260px] lg:max-h-[280px] lg:justify-center lg:items-end lg:p-5">
           <div className="w-full max-w-sm rounded-[16px] border border-white/30 bg-white/15 p-3.5 shadow-[0_12px_36px_rgba(0,0,0,0.22)] backdrop-blur-2xl sm:p-4 lg:mr-1">
             <div className="mb-2 flex flex-wrap items-center gap-1.5">
-              <span className="inline-flex rounded-full bg-[#0066FF] px-2 py-0.5 text-[9px] font-bold tracking-[0.1em] text-white uppercase">
+              <span className="inline-flex rounded-full bg-[#0F766E] px-2 py-0.5 text-[9px] font-bold tracking-[0.1em] text-white uppercase">
                 Featured
               </span>
               {!upcoming ? (
@@ -348,7 +348,7 @@ export function FeaturedSeminar({ seminar }: { seminar: Seminar }) {
               ) : mine ? (
                 <Link
                   href={href}
-                  className="inline-flex h-9 items-center gap-1.5 rounded-lg bg-white px-4 text-[13px] font-semibold text-[#0066FF]"
+                  className="inline-flex h-9 items-center gap-1.5 rounded-lg bg-white px-4 text-[13px] font-semibold text-[#0F766E]"
                 >
                   <SeminarStatusBadge status={mine.status} />
                   {mine.status === "pending" ? "Tasdiqlash kerak" : "Tasdiqlangan"}
@@ -360,7 +360,7 @@ export function FeaturedSeminar({ seminar }: { seminar: Seminar }) {
               ) : (
                 <Link
                   href={href}
-                  className="inline-flex h-9 items-center gap-1.5 rounded-lg bg-[#0066FF] px-4 text-[13px] font-semibold text-white shadow-[0_6px_18px_rgba(0,102,255,0.4)] hover:bg-[#0052cc]"
+                  className="inline-flex h-9 items-center gap-1.5 rounded-lg bg-[#0F766E] px-4 text-[13px] font-semibold text-white shadow-[0_6px_18px_rgba(15, 118, 110, 0.4)] hover:bg-[#115E59]"
                 >
                   Ro&apos;yxatdan o&apos;tish
                   <ArrowRight className="size-3.5" />
@@ -394,7 +394,7 @@ export function MobileFeaturedCard({ seminar }: { seminar: Seminar }) {
   return (
     <Link
       href={href}
-      className="group relative block h-[200px] overflow-hidden rounded-[16px] shadow-[0_8px_24px_rgba(15,23,42,0.12)] ring-1 ring-black/5"
+      className="group relative block h-[200px] overflow-hidden rounded-[16px] shadow-[0_8px_24px_rgba(17, 24, 39, 0.12)] ring-1 ring-black/5"
     >
       <Image
         src={live.image}
@@ -407,7 +407,7 @@ export function MobileFeaturedCard({ seminar }: { seminar: Seminar }) {
 
       <MobileFeaturedDateBadge iso={live.date} className="absolute top-2 left-2 z-10 !size-[44px]" />
       <span className="absolute top-2 right-2 z-10 inline-flex items-center gap-1 rounded-full border border-white/30 bg-white/20 px-2 py-0.5 text-[10px] font-semibold text-white backdrop-blur-md">
-        <span className="size-1.5 rounded-full bg-[#0066FF]" />
+        <span className="size-1.5 rounded-full bg-[#0F766E]" />
         {online ? "Online" : "Offline"}
       </span>
 
@@ -435,7 +435,7 @@ export function MobileFeaturedCard({ seminar }: { seminar: Seminar }) {
             {!upcoming ? (
               <p className="flex-1 text-center text-[12px] font-medium text-white/70">O&apos;tgan</p>
             ) : mine ? (
-              <span className="flex h-9 flex-1 items-center justify-center gap-1.5 rounded-lg bg-white/90 text-[13px] font-semibold text-[#0066FF]">
+              <span className="flex h-9 flex-1 items-center justify-center gap-1.5 rounded-lg bg-white/90 text-[13px] font-semibold text-[#0F766E]">
                 <SeminarStatusBadge status={mine.status} />
                 {mine.status === "pending" ? "Tasdiqlash kerak" : "Tasdiqlangan"}
               </span>
@@ -444,7 +444,7 @@ export function MobileFeaturedCard({ seminar }: { seminar: Seminar }) {
                 Joy qolmadi
               </span>
             ) : (
-              <span className="flex h-9 flex-1 items-center justify-center gap-1.5 rounded-lg bg-[#0066FF] text-[13px] font-semibold text-white shadow-[0_4px_12px_rgba(0,102,255,0.35)]">
+              <span className="flex h-9 flex-1 items-center justify-center gap-1.5 rounded-lg bg-[#0F766E] text-[13px] font-semibold text-white shadow-[0_4px_12px_rgba(15, 118, 110, 0.35)]">
                 Ro&apos;yxatdan o&apos;tish
                 <ArrowRight className="size-3.5" />
               </span>

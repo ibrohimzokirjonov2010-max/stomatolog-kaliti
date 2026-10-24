@@ -237,7 +237,7 @@ function desktopCrm(pathname: string | null): ReactNode | null {
   if (pathname === "/crm/uchrashuvlar" || pathname === "/crm/uchrashuvlar/yangi") return <AppointmentsDesktop />;
   if (pathname === "/crm/davolash-rejalari" || pathname === "/crm/davolash-rejalari/yangi") return <PlansDesktop />;
   if (pathname === "/crm/tolovlar" || pathname === "/crm/tolovlar/yangi") return <PaymentsDesktop />;
-  if (pathname === "/crm/ombor") return <StockDesktop />;
+  if (pathname === "/crm/ombor" || pathname === "/crm/ombor/qoshish") return <StockDesktop />;
   if (pathname === "/crm/xizmatlar") return <CrmStubDesktop active="services" title="Xizmatlar" text="Klinika xizmatlari narxlari shu bo‘limda yuritiladi." />;
   if (pathname === "/crm/hisobotlar") return <ReportsDesktop />;
   if (pathname === "/elonlar") return <ListingsDesktop />;

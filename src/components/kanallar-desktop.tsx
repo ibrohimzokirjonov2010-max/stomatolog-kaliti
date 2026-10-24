@@ -122,7 +122,7 @@ function parseAmount(value: string) {
 function TelegramLogo({ className }: { className?: string }) {
   return (
     <svg viewBox="0 0 64 64" className={className} aria-hidden>
-      <circle cx="32" cy="32" r="32" fill="#29a9eb" />
+      <circle cx="32" cy="32" r="32" fill="#0F766E" />
       <path d="M14.5 31.6 46.2 19.4c1.5-.6 2.8.4 2.3 2.6l-5.4 25.4c-.4 1.8-1.5 2.2-3 1.4l-8.3-6.1-4 3.9c-.4.4-.8.8-1.7.8l.6-8.5L43 25.6c.7-.6-.1-1-1-.4l-19 12-8.2-2.6c-1.8-.6-1.8-1.8.4-2.6Z" fill="#fff" />
     </svg>
   );
@@ -138,12 +138,12 @@ function RankBadge({ rank }: { rank: number }) {
           ? { ring: "from-[#fbbf24] to-[#b45309]", crown: "text-[#c2410c]", fill: "#d97706" }
           : null;
   if (!medal) {
-    return <span className="grid size-10 place-items-center rounded-full bg-[#eaf2ff] text-[16px] font-extrabold text-[#0066FF]">{rank}</span>;
+    return <span className="grid size-10 place-items-center rounded-full bg-[#eaf2ff] text-[16px] font-extrabold text-[#0F766E]">{rank}</span>;
   }
   return (
     <span className="relative inline-flex flex-col items-center">
       <Crown className={cn("absolute -top-3.5 size-5", medal.crown)} fill={medal.fill} strokeWidth={1.5} />
-      <span className={cn("grid size-11 place-items-center rounded-full bg-gradient-to-b text-[18px] font-extrabold text-white shadow-[0_3px_8px_rgba(15,23,42,0.18)]", medal.ring)}>
+      <span className={cn("grid size-11 place-items-center rounded-full bg-gradient-to-b text-[18px] font-extrabold text-white shadow-[0_3px_8px_rgba(17, 24, 39, 0.18)]", medal.ring)}>
         {rank}
       </span>
     </span>
@@ -168,8 +168,8 @@ function Toggle({ label, checked, onChange }: { label: string; checked: boolean;
       <input type="checkbox" checked={checked} onChange={onChange} className="peer sr-only" />
       <span
         className={cn(
-          "grid size-4 shrink-0 place-items-center rounded-[5px] border transition-colors peer-focus-visible:ring-2 peer-focus-visible:ring-[#0066FF]/30",
-          checked ? "border-[#0066FF] bg-[#0066FF]" : "border-[#cfd6e4] bg-white",
+          "grid size-4 shrink-0 place-items-center rounded-[5px] border transition-colors peer-focus-visible:ring-2 peer-focus-visible:ring-[#0F766E]/30",
+          checked ? "border-[#0F766E] bg-[#0F766E]" : "border-[#cfd6e4] bg-white",
         )}
       >
         {checked ? <Check className="size-3 text-white" strokeWidth={3} /> : null}
@@ -184,7 +184,7 @@ function ChannelRow({ channel, rank, now, onBid }: { channel: Channel; rank: num
   return (
     <article
       className={cn(
-        "flex items-center gap-4 rounded-2xl border bg-white px-4 py-3.5 shadow-[0_2px_10px_rgba(15,23,42,0.04)]",
+        "flex items-center gap-4 rounded-2xl border bg-white px-4 py-3.5 shadow-[0_2px_10px_rgba(17, 24, 39, 0.04)]",
         rank === 1 ? "border-[#f5c84c]/70 ring-1 ring-[#f5c84c]/40" : "border-[#eceff5]",
       )}
     >
@@ -195,12 +195,12 @@ function ChannelRow({ channel, rank, now, onBid }: { channel: Channel; rank: num
       <div className="min-w-0 flex-1">
         <div className="flex flex-wrap items-center gap-2">
           <p className="truncate text-[15px] font-bold text-[#1a1d26]">{channel.name}</p>
-          <span className="rounded-full bg-[#e8f1ff] px-2.5 py-[3px] text-[10.5px] leading-none font-semibold text-[#0066FF]">
+          <span className="rounded-full bg-[#F0FDFA] px-2.5 py-[3px] text-[10.5px] leading-none font-semibold text-[#0F766E]">
             {channelCategoryLabel[channel.category]}
           </span>
           {channel.mine ? <span className="rounded-full bg-[#e6f7ed] px-2 py-[3px] text-[10.5px] leading-none font-semibold text-[#16a34a]">Mening kanalim</span> : null}
         </div>
-        <p className="mt-0.5 truncate text-[12.5px] font-medium text-[#0066FF]">{channel.username}</p>
+        <p className="mt-0.5 truncate text-[12.5px] font-medium text-[#0F766E]">{channel.username}</p>
         <p className="mt-1 line-clamp-1 text-[12px] text-[#6b7488]">{bios[channel.category]}</p>
       </div>
       <div className="flex shrink-0 items-center gap-4 text-center">
@@ -221,7 +221,7 @@ function ChannelRow({ channel, rank, now, onBid }: { channel: Channel; rank: num
       </div>
       <div className="w-[142px] shrink-0 border-l border-[#eceff5] pl-4 leading-tight">
         <p className="text-[10.5px] text-[#8b93a7]">Joriy stavka</p>
-        <p className="text-[15px] font-extrabold whitespace-nowrap text-[#0066FF]">{money(channel.bidSum)}</p>
+        <p className="text-[15px] font-extrabold whitespace-nowrap text-[#0F766E]">{money(channel.bidSum)}</p>
         <p className="mt-1 inline-flex items-center gap-1 text-[12px] font-bold tabular-nums text-[#e5484d]">
           <Clock className="size-3" />
           {clock(remainingSeconds(channel.id, now))}
@@ -232,7 +232,7 @@ function ChannelRow({ channel, rank, now, onBid }: { channel: Channel; rank: num
           href={telegramUrl(channel.username)}
           target="_blank"
           rel="noopener noreferrer"
-          className="inline-flex h-9 items-center justify-center gap-1.5 rounded-[10px] border border-[#cfe0ff] bg-white px-3 text-[12.5px] font-semibold text-[#0066FF] hover:bg-[#f5f8ff]"
+          className="inline-flex h-9 items-center justify-center gap-1.5 rounded-[10px] border border-[#F0FDFA] bg-white px-3 text-[12.5px] font-semibold text-[#0F766E] hover:bg-[#f5f8ff]"
         >
           <UserPlus className="size-3.5" />
           Obuna bo‘lish
@@ -240,7 +240,7 @@ function ChannelRow({ channel, rank, now, onBid }: { channel: Channel; rank: num
         <button
           type="button"
           onClick={onBid}
-          className="inline-flex h-9 items-center justify-center gap-1.5 rounded-[10px] bg-[#0066FF] px-3 text-[12.5px] font-semibold text-white shadow-[0_3px_10px_rgba(0,102,255,0.25)] hover:bg-[#0052cc]"
+          className="inline-flex h-9 items-center justify-center gap-1.5 rounded-[10px] bg-[#0F766E] px-3 text-[12.5px] font-semibold text-white shadow-[0_3px_10px_rgba(15, 118, 110, 0.25)] hover:bg-[#115E59]"
         >
           O‘rinni olish
         </button>
@@ -284,17 +284,17 @@ function QuickBid({
   }
 
   return (
-    <section className="rounded-2xl border border-[#cfe0ff] bg-gradient-to-br from-[#f3f8ff] to-white p-4 shadow-[0_2px_10px_rgba(0,102,255,0.08)]">
-      <h3 className="text-[15px] leading-snug font-bold text-[#0B1F4D]">Kanalingizni 1-o‘ringa chiqaring</h3>
+    <section className="rounded-2xl border border-[#F0FDFA] bg-gradient-to-br from-[#f3f8ff] to-white p-4 shadow-[0_2px_10px_rgba(15, 118, 110, 0.08)]">
+      <h3 className="text-[15px] leading-snug font-bold text-[#111827]">Kanalingizni 1-o‘ringa chiqaring</h3>
       <p className="mt-1 text-[12px] text-[#6b7488]">
-        Minimal stavka: <span className="font-bold text-[#0066FF]">{money(minTop)}</span>
+        Minimal stavka: <span className="font-bold text-[#0F766E]">{money(minTop)}</span>
       </p>
       <label className="relative mt-3 block">
         <select
           value={selected?.id ?? ""}
           onChange={(e) => setSelectedId(e.target.value)}
           aria-label="Kanal"
-          className="h-10 w-full cursor-pointer appearance-none rounded-xl border border-[#e6eaf2] bg-white pr-8 pl-3 text-[13px] font-medium text-[#1a1d26] outline-none focus:border-[#0066FF]"
+          className="h-10 w-full cursor-pointer appearance-none rounded-xl border border-[#e6eaf2] bg-white pr-8 pl-3 text-[13px] font-medium text-[#1a1d26] outline-none focus:border-[#0F766E]"
         >
           {options.map((c) => (
             <option key={c.id} value={c.id}>
@@ -311,7 +311,7 @@ function QuickBid({
           value={shown}
           onChange={(e) => setAmount(e.target.value)}
           aria-label="Stavka (so‘m)"
-          className="h-11 w-full rounded-xl border border-[#e6eaf2] bg-white pr-14 pl-3.5 text-[14px] font-bold text-[#1a1d26] outline-none focus:border-[#0066FF] focus:ring-2 focus:ring-[#0066FF]/15"
+          className="h-11 w-full rounded-xl border border-[#e6eaf2] bg-white pr-14 pl-3.5 text-[14px] font-bold text-[#1a1d26] outline-none focus:border-[#0F766E] focus:ring-2 focus:ring-[#0F766E]/15"
         />
         <span className="pointer-events-none absolute top-1/2 right-3.5 -translate-y-1/2 text-[12px] text-[#8b93a7]">so‘m</span>
       </div>
@@ -319,7 +319,7 @@ function QuickBid({
       <button
         type="button"
         onClick={submit}
-        className="mt-3 inline-flex h-11 w-full items-center justify-center gap-2 rounded-xl bg-[#0066FF] text-[14px] font-semibold text-white shadow-[0_4px_12px_rgba(0,102,255,0.28)] hover:bg-[#0052cc]"
+        className="mt-3 inline-flex h-11 w-full items-center justify-center gap-2 rounded-xl bg-[#0F766E] text-[14px] font-semibold text-white shadow-[0_4px_12px_rgba(15, 118, 110, 0.28)] hover:bg-[#115E59]"
       >
         <Gavel className="size-4" />
         Stavka berish
@@ -375,10 +375,10 @@ function BidModal({
         role="dialog"
         aria-modal="true"
         aria-labelledby="kanal-bid-title"
-        className="w-full max-w-[480px] rounded-2xl bg-white p-6 shadow-[0_24px_64px_rgba(15,23,42,0.3)]"
+        className="w-full max-w-[480px] rounded-2xl bg-white p-6 shadow-[0_24px_64px_rgba(17, 24, 39, 0.3)]"
       >
         <div className="flex items-start justify-between gap-3">
-          <h2 id="kanal-bid-title" className="text-[19px] font-extrabold text-[#0B1F4D]">
+          <h2 id="kanal-bid-title" className="text-[19px] font-extrabold text-[#111827]">
             1-o‘rin uchun stavka berish
           </h2>
           <button type="button" onClick={onClose} aria-label="Yopish" className="rounded-lg p-1 text-[#8b93a7] hover:bg-[#f5f7fb] hover:text-[#1a1d26]">
@@ -392,12 +392,12 @@ function BidModal({
             <p className="truncate text-[14px] font-bold text-[#1a1d26]">{channel.username}</p>
             <p className="truncate text-[12.5px] text-[#8b93a7]">{channel.name}</p>
           </div>
-          <span className="rounded-full bg-[#e8f1ff] px-2.5 py-1 text-[11px] font-semibold text-[#0066FF]">{channelCategoryLabel[channel.category]}</span>
+          <span className="rounded-full bg-[#F0FDFA] px-2.5 py-1 text-[11px] font-semibold text-[#0F766E]">{channelCategoryLabel[channel.category]}</span>
         </div>
 
         <div className="mt-3 grid grid-cols-3 gap-2">
           {cell("Joriy stavka", money(channel.bidSum))}
-          {cell("Keyingi minimal stavka", money(minTop), "text-[#0066FF]")}
+          {cell("Keyingi minimal stavka", money(minTop), "text-[#0F766E]")}
           {cell("Qolgan vaqt", clock(remainingSeconds(channel.id, now)), "text-[#e5484d]")}
         </div>
 
@@ -412,7 +412,7 @@ function BidModal({
               setError("");
             }}
             autoFocus
-            className="mt-1.5 h-12 w-full rounded-xl border border-[#cfe0ff] bg-white px-4 text-[17px] font-extrabold text-[#1a1d26] outline-none focus:border-[#0066FF] focus:ring-2 focus:ring-[#0066FF]/15"
+            className="mt-1.5 h-12 w-full rounded-xl border border-[#F0FDFA] bg-white px-4 text-[17px] font-extrabold text-[#1a1d26] outline-none focus:border-[#0F766E] focus:ring-2 focus:ring-[#0F766E]/15"
           />
         </label>
         <div className="mt-2 grid grid-cols-4 gap-2">
@@ -424,7 +424,7 @@ function BidModal({
                 setAmount(String((Number.isFinite(value) && value >= minTop ? value : minTop) + n));
                 setError("");
               }}
-              className="h-9 rounded-lg border border-[#dbe7ff] bg-[#f5f8ff] text-[12px] font-semibold text-[#0066FF] hover:bg-[#eaf2ff]"
+              className="h-9 rounded-lg border border-[#F0FDFA] bg-[#f5f8ff] text-[12px] font-semibold text-[#0F766E] hover:bg-[#eaf2ff]"
             >
               + {n.toLocaleString("ru-RU")}
             </button>
@@ -433,8 +433,8 @@ function BidModal({
         {error ? <p className="mt-2 text-[12.5px] font-medium text-red-600">{error}</p> : null}
 
         <div className="mt-4 flex gap-2.5 rounded-xl bg-[#eef5ff] p-3">
-          <Info className="mt-0.5 size-4 shrink-0 text-[#0066FF]" />
-          <p className="text-[12px] leading-snug text-[#1a3a7a]">
+          <Info className="mt-0.5 size-4 shrink-0 text-[#0F766E]" />
+          <p className="text-[12px] leading-snug text-[#111827]">
             Agar kimdir stavkangizdan oshirsa, siz bu haqda xabardor qilinasiz. Eng yuqori stavka 1-o‘rinni egallaydi.
           </p>
         </div>
@@ -445,7 +445,7 @@ function BidModal({
           </button>
           <button
             type="submit"
-            className="inline-flex h-11 flex-[1.4] items-center justify-center gap-2 rounded-xl bg-[#0066FF] text-[14px] font-semibold text-white shadow-[0_4px_12px_rgba(0,102,255,0.28)] hover:bg-[#0052cc]"
+            className="inline-flex h-11 flex-[1.4] items-center justify-center gap-2 rounded-xl bg-[#0F766E] text-[14px] font-semibold text-white shadow-[0_4px_12px_rgba(15, 118, 110, 0.28)] hover:bg-[#115E59]"
           >
             <Gavel className="size-4" />
             Stavka berish
@@ -533,7 +533,7 @@ export function KanallarDesktop({ onAdd }: { onAdd: () => void }) {
   return (
     <div>
       {/* Hero */}
-      <section className="relative overflow-hidden rounded-2xl bg-gradient-to-r from-[#0052d9] via-[#0066FF] to-[#3b8cff] shadow-[0_10px_30px_rgba(0,102,255,0.28)]">
+      <section className="relative overflow-hidden rounded-2xl bg-gradient-to-r from-[#0F766E] via-[#0F766E] to-[#0F766E] shadow-[0_10px_30px_rgba(15, 118, 110, 0.28)]">
         <div className="pointer-events-none absolute -top-16 -right-10 size-64 rounded-full bg-white/10" />
         <div className="pointer-events-none absolute -right-24 -bottom-24 size-72 rounded-full bg-white/10" />
         <div className="relative z-10 flex min-h-[148px] items-center gap-6 px-7 py-6">
@@ -545,14 +545,14 @@ export function KanallarDesktop({ onAdd }: { onAdd: () => void }) {
             <button
               type="button"
               onClick={onAdd}
-              className="mt-4 inline-flex h-11 items-center gap-2 rounded-xl bg-white px-5 text-[14px] font-semibold text-[#0066FF] shadow-[0_6px_16px_rgba(7,22,51,0.2)] transition-colors hover:bg-[#f3f8ff]"
+              className="mt-4 inline-flex h-11 items-center gap-2 rounded-xl bg-white px-5 text-[14px] font-semibold text-[#0F766E] shadow-[0_6px_16px_rgba(17, 24, 39, 0.2)] transition-colors hover:bg-[#f3f8ff]"
             >
               <Plus className="size-4" strokeWidth={2.5} />
               Kanal qo‘shish
             </button>
           </div>
           <div className="relative hidden h-[130px] w-[330px] shrink-0 min-[1200px]:block" aria-hidden>
-            <TelegramLogo className="absolute top-1/2 left-[96px] size-[104px] -translate-y-1/2 drop-shadow-[0_10px_18px_rgba(7,22,51,0.35)]" />
+            <TelegramLogo className="absolute top-1/2 left-[96px] size-[104px] -translate-y-1/2 drop-shadow-[0_10px_18px_rgba(17, 24, 39, 0.35)]" />
             {(
               [
                 { Icon: Drill, cls: "left-2 top-3 -rotate-12 size-12" },
@@ -584,8 +584,8 @@ export function KanallarDesktop({ onAdd }: { onAdd: () => void }) {
                 className={cn(
                   "shrink-0 rounded-full border px-4 py-[7px] text-[13px] font-semibold transition-colors",
                   category === t.id
-                    ? "border-[#0066FF] bg-[#0066FF] text-white shadow-[0_4px_12px_rgba(0,102,255,0.28)]"
-                    : "border-[#e6eaf2] bg-white text-[#4b5568] hover:border-[#0066FF]/40",
+                    ? "border-[#0F766E] bg-[#0F766E] text-white shadow-[0_4px_12px_rgba(15, 118, 110, 0.28)]"
+                    : "border-[#e6eaf2] bg-white text-[#4b5568] hover:border-[#0F766E]/40",
                 )}
               >
                 {t.label}
@@ -602,7 +602,7 @@ export function KanallarDesktop({ onAdd }: { onAdd: () => void }) {
                 value={query}
                 onChange={(e) => setQuery(e.target.value)}
                 placeholder="Kanal nomi yoki @username bo‘yicha qidirish"
-                className="h-full w-full rounded-xl border border-[#e6eaf2] bg-white pr-3 pl-10 text-[13.5px] text-[#1a1d26] outline-none placeholder:text-[#9aa3b2] focus:border-[#0066FF] focus:ring-2 focus:ring-[#0066FF]/15"
+                className="h-full w-full rounded-xl border border-[#e6eaf2] bg-white pr-3 pl-10 text-[13.5px] text-[#1a1d26] outline-none placeholder:text-[#9aa3b2] focus:border-[#0F766E] focus:ring-2 focus:ring-[#0F766E]/15"
               />
             </label>
             <button
@@ -611,13 +611,13 @@ export function KanallarDesktop({ onAdd }: { onAdd: () => void }) {
               aria-expanded={panel}
               className={cn(
                 "relative inline-flex h-11 items-center gap-2 rounded-xl border bg-white px-4 text-[13px] font-semibold transition-colors",
-                panel || extraOn ? "border-[#0066FF] bg-[#f3f8ff] text-[#0066FF]" : "border-[#e6eaf2] text-[#1a1d26] hover:bg-slate-50",
+                panel || extraOn ? "border-[#0F766E] bg-[#f3f8ff] text-[#0F766E]" : "border-[#e6eaf2] text-[#1a1d26] hover:bg-slate-50",
               )}
             >
               <SlidersHorizontal className="size-4" />
               Filtrlar
               {extraOn ? (
-                <span className="absolute -top-1.5 -right-1.5 grid size-[18px] place-items-center rounded-full bg-[#0066FF] text-[10px] font-bold text-white">{extraOn}</span>
+                <span className="absolute -top-1.5 -right-1.5 grid size-[18px] place-items-center rounded-full bg-[#0F766E] text-[10px] font-bold text-white">{extraOn}</span>
               ) : null}
             </button>
             <label className="relative inline-flex h-11 items-center gap-1.5 rounded-xl border border-[#e6eaf2] bg-white pr-8 pl-3.5 text-[13px] text-[#8b93a7]">
@@ -637,9 +637,9 @@ export function KanallarDesktop({ onAdd }: { onAdd: () => void }) {
               <ChevronDown className="pointer-events-none absolute right-2.5 size-4 text-[#8b93a7]" />
             </label>
             {panel ? (
-              <div className="absolute top-full right-0 z-20 mt-2 w-[260px] rounded-xl border border-[#eceff5] bg-white p-4 shadow-[0_12px_36px_rgba(15,23,42,0.14)]">
+              <div className="absolute top-full right-0 z-20 mt-2 w-[260px] rounded-xl border border-[#eceff5] bg-white p-4 shadow-[0_12px_36px_rgba(17, 24, 39, 0.14)]">
                 <div className="mb-2 flex items-center justify-between">
-                  <p className="text-[14px] font-bold text-[#0B1F4D]">Qo‘shimcha filtrlar</p>
+                  <p className="text-[14px] font-bold text-[#111827]">Qo‘shimcha filtrlar</p>
                   <button type="button" onClick={() => setPanel(false)} aria-label="Yopish" className="text-[#8b93a7] hover:text-[#1a1d26]">
                     <X className="size-4" />
                   </button>
@@ -654,7 +654,7 @@ export function KanallarDesktop({ onAdd }: { onAdd: () => void }) {
                     setCategory("");
                     setQuery("");
                   }}
-                  className="mt-3 text-[12.5px] font-semibold text-[#0066FF] hover:underline"
+                  className="mt-3 text-[12.5px] font-semibold text-[#0F766E] hover:underline"
                 >
                   Barchasini tozalash
                 </button>
@@ -677,8 +677,8 @@ export function KanallarDesktop({ onAdd }: { onAdd: () => void }) {
         <aside className="space-y-3">
           <QuickBid channels={channels} minTop={minTop} onBid={placeBid} onOpen={setBidTarget} />
 
-          <section className="rounded-2xl border border-[#eceff5] bg-white p-4 shadow-[0_2px_10px_rgba(15,23,42,0.04)]">
-            <h3 className="mb-3 text-[14px] font-bold text-[#0B1F4D]">Auksion qanday ishlaydi?</h3>
+          <section className="rounded-2xl border border-[#eceff5] bg-white p-4 shadow-[0_2px_10px_rgba(17, 24, 39, 0.04)]">
+            <h3 className="mb-3 text-[14px] font-bold text-[#111827]">Auksion qanday ishlaydi?</h3>
             <ol className="space-y-2.5">
               {[
                 "Kanalingizni platformaga qo‘shing.",
@@ -687,19 +687,19 @@ export function KanallarDesktop({ onAdd }: { onAdd: () => void }) {
                 "Boshqa kanal stavkangizdan oshsa, o‘rin almashadi.",
               ].map((t, i) => (
                 <li key={t} className="flex items-start gap-2.5">
-                  <span className="grid size-6 shrink-0 place-items-center rounded-full bg-[#eaf2ff] text-[12px] font-bold text-[#0066FF]">{i + 1}</span>
+                  <span className="grid size-6 shrink-0 place-items-center rounded-full bg-[#eaf2ff] text-[12px] font-bold text-[#0F766E]">{i + 1}</span>
                   <span className="pt-0.5 text-[12.5px] leading-snug text-[#4b5568]">{t}</span>
                 </li>
               ))}
             </ol>
           </section>
 
-          <section className="rounded-2xl border border-[#eceff5] bg-white p-4 shadow-[0_2px_10px_rgba(15,23,42,0.04)]">
-            <h3 className="mb-3 text-[14px] font-bold text-[#0B1F4D]">Haftalik TOP kanallar</h3>
+          <section className="rounded-2xl border border-[#eceff5] bg-white p-4 shadow-[0_2px_10px_rgba(17, 24, 39, 0.04)]">
+            <h3 className="mb-3 text-[14px] font-bold text-[#111827]">Haftalik TOP kanallar</h3>
             <ul className="space-y-2.5">
               {weekly.map((c, i) => (
                 <li key={c.id} className="flex items-center gap-2.5">
-                  <span className="w-3 shrink-0 text-center text-[13px] font-bold text-[#0066FF]">{i + 1}</span>
+                  <span className="w-3 shrink-0 text-center text-[13px] font-bold text-[#0F766E]">{i + 1}</span>
                   <Avatar channel={c} size={34} />
                   <span className="min-w-0 flex-1 leading-tight">
                     <span className="block truncate text-[12.5px] font-semibold text-[#1a1d26]">{c.username}</span>
@@ -728,7 +728,7 @@ export function KanallarDesktop({ onAdd }: { onAdd: () => void }) {
       ) : null}
 
       {toast ? (
-        <div role="status" className="fixed right-5 bottom-5 z-[80] flex items-center gap-2 rounded-xl bg-[#0B1F4D] px-4 py-3 text-[13px] font-medium text-white shadow-[0_12px_32px_rgba(15,23,42,0.3)]">
+        <div role="status" className="fixed right-5 bottom-5 z-[80] flex items-center gap-2 rounded-xl bg-[#111827] px-4 py-3 text-[13px] font-medium text-white shadow-[0_12px_32px_rgba(17, 24, 39, 0.3)]">
           <Check className="size-4 text-[#4ade80]" strokeWidth={3} />
           {toast}
         </div>

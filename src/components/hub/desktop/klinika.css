@@ -3,11 +3,11 @@
    laptops stay readable and big monitors get more room instead of bigger type. */
 .sh .kd {
   --k: clamp(.86px, calc(var(--u) / 13.5), 1.06px);
-  --kd-ink: #0f1e3d;
+  --kd-ink: #111827;
   --kd-mut: #6a7a91;
   --kd-line: #e8edf4;
-  --kd-teal: #0fa6a0;
-  --kd-teal-d: #0b7f7b;
+  --kd-teal: #0F766E;
+  --kd-teal-d: #0F766E;
   --kd-teal-l: #e3f6f4;
   display: flex;
   flex-direction: column;
@@ -79,7 +79,7 @@
 .sh .kd-date button { width: calc(20 * var(--k)); height: calc(20 * var(--k)); display: grid; place-items: center; border-radius: calc(6 * var(--k)); color: var(--kd-mut); }
 .sh .kd-date button:hover { background: #f1f5f9; }
 .sh .kd-drop { position: relative; }
-.sh .kd-pop { position: absolute; right: 0; top: calc(100% + 4 * var(--k)); z-index: 5; min-width: calc(150 * var(--k)); background: #fff; border: 1px solid var(--kd-line); border-radius: calc(10 * var(--k)); box-shadow: 0 10px 30px rgba(15, 30, 61, .12); padding: calc(4 * var(--k)); display: flex; flex-direction: column; }
+.sh .kd-pop { position: absolute; right: 0; top: calc(100% + 4 * var(--k)); z-index: 5; min-width: calc(150 * var(--k)); background: #fff; border: 1px solid var(--kd-line); border-radius: calc(10 * var(--k)); box-shadow: 0 10px 30px rgba(17, 24, 39, .12); padding: calc(4 * var(--k)); display: flex; flex-direction: column; }
 .sh .kd-pop button { text-align: left; padding: calc(7 * var(--k)) calc(10 * var(--k)); border-radius: calc(7 * var(--k)); font-size: calc(11.5 * var(--k)); }
 .sh .kd-pop button:hover, .sh .kd-pop button[aria-checked="true"] { background: var(--kd-teal-l); color: var(--kd-teal-d); }
 
@@ -125,13 +125,13 @@
 .sh .kd-table td.debt { color: #d64545; font-weight: 700; }
 .sh .kd-empty-row { color: var(--kd-mut); text-align: center; padding: calc(16 * var(--k)) 0; }
 .sh .kd-st { display: inline-block; padding: calc(2 * var(--k)) calc(8 * var(--k)); border-radius: calc(6 * var(--k)); font-size: calc(10 * var(--k)); font-weight: 700; background: #e5f7ee; color: #129a5c; }
-.sh .kd-st.yangi { background: #e7f0ff; color: #0b8f8a; }
+.sh .kd-st.yangi { background: #F0FDFA; color: #0F766E; }
 .sh .kd-st.davolanishda { background: var(--kd-teal-l); color: var(--kd-teal-d); }
 .sh .kd-st.kuzatuvda { background: #fff4e0; color: #d27b0c; }
 .sh .kd-st.nofaol { background: #eef2f6; color: var(--kd-mut); }
 .sh .kd-lab { font-size: calc(10 * var(--k)); }
 .sh .kd-lab td, .sh .kd-lab th { padding-left: calc(3 * var(--k)); padding-right: calc(3 * var(--k)); }
-.sh .kd-lab-st { display: inline-block; padding: calc(2 * var(--k)) calc(5 * var(--k)); border-radius: calc(6 * var(--k)); font-size: calc(9.5 * var(--k)); font-weight: 700; background: #e7f0ff; color: #0b8f8a; }
+.sh .kd-lab-st { display: inline-block; padding: calc(2 * var(--k)) calc(5 * var(--k)); border-radius: calc(6 * var(--k)); font-size: calc(9.5 * var(--k)); font-weight: 700; background: #F0FDFA; color: #0F766E; }
 .sh .kd-lab-st.yangi { background: #fff4e0; color: #d27b0c; }
 .sh .kd-lab-st.ishlanmoqda { background: #fff4e0; color: #d27b0c; }
 .sh .kd-lab-st.tayyor { background: #e5f7ee; color: #129a5c; }
@@ -161,9 +161,9 @@
 .sh .kd-bars { display: flex; gap: calc(10 * var(--k)); background: repeating-linear-gradient(to bottom, transparent 0, transparent calc(23.5 * var(--k)), #eef2f7 calc(23.5 * var(--k)), #eef2f7 calc(24.5 * var(--k))); background-size: 100% calc(100% - 18 * var(--k)); background-repeat: no-repeat; }
 .sh .kd-bar-col { flex: 1; min-width: 0; display: flex; flex-direction: column; align-items: center; gap: calc(6 * var(--k)); }
 .sh .kd-bar-track { position: relative; flex: 1; width: 100%; display: flex; align-items: flex-end; justify-content: center; }
-.sh .kd-bar { width: 72%; min-height: 2px; border-radius: calc(4 * var(--k)) calc(4 * var(--k)) 0 0; background: #8fdcd6; transition: height .3s; }
+.sh .kd-bar { width: 72%; min-height: 2px; border-radius: calc(4 * var(--k)) calc(4 * var(--k)) 0 0; background: #CCFBF1; transition: height .3s; }
 .sh .kd-bar.now { background: var(--kd-teal-d); }
-.sh .kd-tip { position: absolute; top: calc(-8 * var(--k)); right: 0; transform: translateY(-100%); padding: calc(3 * var(--k)) calc(7 * var(--k)); border: 1px solid var(--kd-line); border-radius: calc(6 * var(--k)); background: #fff; font-size: calc(10 * var(--k)); font-weight: 700; white-space: nowrap; box-shadow: 0 4px 12px rgba(15, 30, 61, .08); }
+.sh .kd-tip { position: absolute; top: calc(-8 * var(--k)); right: 0; transform: translateY(-100%); padding: calc(3 * var(--k)) calc(7 * var(--k)); border: 1px solid var(--kd-line); border-radius: calc(6 * var(--k)); background: #fff; font-size: calc(10 * var(--k)); font-weight: 700; white-space: nowrap; box-shadow: 0 4px 12px rgba(17, 24, 39, .08); }
 .sh .kd-bar-col small { font-size: calc(10 * var(--k)); color: var(--kd-mut); line-height: calc(12 * var(--k)); }
 .sh .kd-chart { margin-top: calc(22 * var(--k)); }
 

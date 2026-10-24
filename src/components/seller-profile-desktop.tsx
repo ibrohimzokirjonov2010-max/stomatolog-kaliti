@@ -44,7 +44,7 @@ function F({ label, children, hint, tag }: { label: string; children: ReactNode;
   );
 }
 const inputCls =
-  "h-11 w-full rounded-xl border border-[#e4e9f2] bg-white px-3.5 text-[14px] font-medium text-[#0B1F4D] outline-none placeholder:font-normal placeholder:text-[#a3abbd] focus:border-[#0066FF] disabled:bg-[#f7f9fc] disabled:text-[#8b93a7]";
+  "h-11 w-full rounded-xl border border-[#e4e9f2] bg-white px-3.5 text-[14px] font-medium text-[#111827] outline-none placeholder:font-normal placeholder:text-[#a3abbd] focus:border-[#0F766E] disabled:bg-[#f7f9fc] disabled:text-[#8b93a7]";
 
 export function SellerProfileDesktop({ shop }: { shop: Shop }) {
   const { updateShop, shopOrders } = useSellerWork();
@@ -103,19 +103,19 @@ export function SellerProfileDesktop({ shop }: { shop: Shop }) {
     <div className="space-y-4">
       <header className="flex items-start justify-between gap-4">
         <div>
-          <h1 className="text-[26px] leading-tight font-extrabold tracking-tight text-[#0B1F4D]">Do‘kon profili</h1>
+          <h1 className="text-[26px] leading-tight font-extrabold tracking-tight text-[#111827]">Do‘kon profili</h1>
           <p className="mt-1 text-[13.5px] text-[#6b7280]">Ommaviy do‘kon sahifasida ko‘rinadigan ma’lumotlarni tahrirlang.</p>
         </div>
         <div className="flex items-center gap-2">
           {saved ? <span className="text-[13px] font-semibold text-[#16a34a]">Saqlandi</span> : null}
           <Link
             href={shopHref(shop.slug)}
-            className="inline-flex h-10 items-center gap-1.5 rounded-xl border border-[#d7e4ff] bg-white px-4 text-[13.5px] font-semibold text-[#0066FF] hover:bg-[#f5f9ff]"
+            className="inline-flex h-10 items-center gap-1.5 rounded-xl border border-[#F0FDFA] bg-white px-4 text-[13.5px] font-semibold text-[#0F766E] hover:bg-[#f5f9ff]"
           >
             <ExternalLink className="size-4" />
             Do‘konni ko‘rish
           </Link>
-          <button type="button" onClick={save} className="h-10 rounded-xl bg-[#0066FF] px-6 text-[13.5px] font-semibold text-white hover:bg-[#0055d4]">
+          <button type="button" onClick={save} className="h-10 rounded-xl bg-[#0F766E] px-6 text-[13.5px] font-semibold text-white hover:bg-[#0F766E]">
             Saqlash
           </button>
         </div>
@@ -172,7 +172,7 @@ export function SellerProfileDesktop({ shop }: { shop: Shop }) {
                     <p className="text-[12.5px] font-semibold text-[#4b5568]">Logo</p>
                     <div className="relative mt-2 w-fit">
                       <ShopAvatar shop={preview} className="size-[104px] rounded-full text-[34px]" />
-                      <label className="absolute -right-1 -bottom-1 grid size-8 cursor-pointer place-items-center rounded-full bg-[#0066FF] text-white shadow hover:bg-[#0055d4]" title="Logoni almashtirish">
+                      <label className="absolute -right-1 -bottom-1 grid size-8 cursor-pointer place-items-center rounded-full bg-[#0F766E] text-white shadow hover:bg-[#0F766E]" title="Logoni almashtirish">
                         <Pencil className="size-4" />
                         <input type="file" accept="image/*" className="sr-only" disabled={logoBusy} onChange={(e) => { const f = e.target.files?.[0]; e.target.value = ""; void onLogo(f); }} />
                       </label>
@@ -184,7 +184,7 @@ export function SellerProfileDesktop({ shop }: { shop: Shop }) {
                     <p className="flex items-center gap-2 text-[12.5px] font-semibold text-[#4b5568]">
                       Banner <SoonTag />
                     </p>
-                    <div className="mt-2 grid h-[104px] place-items-center rounded-xl border border-dashed border-[#d7e0ee] bg-[#f7f9fc] text-center">
+                    <div className="mt-2 grid h-[104px] place-items-center rounded-xl border border-dashed border-[#F0FDFA] bg-[#f7f9fc] text-center">
                       <div>
                         <ImageIcon className="mx-auto size-6 text-[#a3abbd]" />
                         <p className="mt-1 text-[12px] text-[#8b93a7]">Banner yuklash hali ulanmagan</p>
@@ -213,7 +213,7 @@ export function SellerProfileDesktop({ shop }: { shop: Shop }) {
               <div className="mt-4 flex items-center gap-5">
                 <div className="relative">
                   <ShopAvatar shop={preview} className="size-[104px] rounded-full text-[34px]" />
-                  <label className="absolute -right-1 -bottom-1 grid size-8 cursor-pointer place-items-center rounded-full bg-[#0066FF] text-white shadow hover:bg-[#0055d4]">
+                  <label className="absolute -right-1 -bottom-1 grid size-8 cursor-pointer place-items-center rounded-full bg-[#0F766E] text-white shadow hover:bg-[#0F766E]">
                     <Upload className="size-4" />
                     <input type="file" accept="image/*" className="sr-only" disabled={logoBusy} onChange={(e) => { const f = e.target.files?.[0]; e.target.value = ""; void onLogo(f); }} />
                   </label>
@@ -297,13 +297,13 @@ export function SellerProfileDesktop({ shop }: { shop: Shop }) {
         <aside className="sticky top-20">
           <Panel title="Mijoz ko‘radigan ko‘rinish">
             <div className="mt-3 overflow-hidden rounded-2xl border border-[#eceff5]">
-              <div className="relative h-[96px] bg-gradient-to-r from-[#0B1F4D] via-[#0a3a96] to-[#0066FF]">
+              <div className="relative h-[96px] bg-gradient-to-r from-[#111827] via-[#111827] to-[#0F766E]">
                 <Store className="absolute top-3 right-4 size-14 text-white/10" />
               </div>
               <div className="px-4 pb-4">
                 <ShopAvatar shop={preview} className="-mt-8 size-[64px] rounded-full border-4 border-white text-[22px]" />
                 <div className="mt-2 flex items-center gap-1.5">
-                  <h3 className="min-w-0 truncate text-[15.5px] font-bold text-[#0B1F4D]">{form.name || shop.name}</h3>
+                  <h3 className="min-w-0 truncate text-[15.5px] font-bold text-[#111827]">{form.name || shop.name}</h3>
                   <VerifiedBadge status={shop.verified} />
                 </div>
                 <p className="mt-1 flex flex-wrap items-center gap-x-3 gap-y-1 text-[11.5px] text-[#6b7280]">
@@ -321,33 +321,33 @@ export function SellerProfileDesktop({ shop }: { shop: Shop }) {
                   {form.address ? `, ${form.address}` : ""}
                 </p>
                 <div className="mt-3 grid grid-cols-2 gap-2">
-                  <span className="grid h-9 place-items-center rounded-lg bg-[#0066FF] text-[12.5px] font-semibold text-white">Xabar yozish</span>
-                  <span className="flex h-9 items-center justify-center gap-1 rounded-lg border border-[#d7e4ff] text-[12.5px] font-semibold text-[#0066FF]">
+                  <span className="grid h-9 place-items-center rounded-lg bg-[#0F766E] text-[12.5px] font-semibold text-white">Xabar yozish</span>
+                  <span className="flex h-9 items-center justify-center gap-1 rounded-lg border border-[#F0FDFA] text-[12.5px] font-semibold text-[#0F766E]">
                     <Phone className="size-3.5" /> Qo‘ng‘iroq
                   </span>
                 </div>
                 <div className="mt-3 flex gap-4 border-b border-[#eef1f6] text-[12px] font-semibold text-[#8b93a7]">
-                  <span className="border-b-2 border-[#0066FF] pb-1.5 text-[#0066FF]">Bosh sahifa</span>
+                  <span className="border-b-2 border-[#0F766E] pb-1.5 text-[#0F766E]">Bosh sahifa</span>
                   <span className="pb-1.5">Mahsulotlar</span>
                   <span className="pb-1.5">Sharhlar</span>
                   <span className="pb-1.5">Ma’lumot</span>
                 </div>
-                <p className="mt-3 text-[12px] font-bold text-[#0B1F4D]">Biz haqimizda</p>
+                <p className="mt-3 text-[12px] font-bold text-[#111827]">Biz haqimizda</p>
                 <p className="mt-1 line-clamp-4 text-[12px] leading-relaxed text-[#4b5568]">{form.bio || "—"}</p>
                 {form.telegram || form.instagram || form.website ? (
-                  <div className="mt-3 flex flex-wrap gap-2 text-[11.5px] font-medium text-[#0066FF]">
+                  <div className="mt-3 flex flex-wrap gap-2 text-[11.5px] font-medium text-[#0F766E]">
                     {form.telegram ? (
-                      <span className="inline-flex items-center gap-1 rounded-full bg-[#e8f1ff] px-2.5 py-1">
+                      <span className="inline-flex items-center gap-1 rounded-full bg-[#F0FDFA] px-2.5 py-1">
                         <Send className="size-3" /> {form.telegram}
                       </span>
                     ) : null}
                     {form.instagram ? (
-                      <span className="inline-flex items-center gap-1 rounded-full bg-[#e8f1ff] px-2.5 py-1">
+                      <span className="inline-flex items-center gap-1 rounded-full bg-[#F0FDFA] px-2.5 py-1">
                         <InstagramIcon className="size-3" /> {form.instagram}
                       </span>
                     ) : null}
                     {form.website ? (
-                      <span className="inline-flex items-center gap-1 rounded-full bg-[#e8f1ff] px-2.5 py-1">
+                      <span className="inline-flex items-center gap-1 rounded-full bg-[#F0FDFA] px-2.5 py-1">
                         <Globe className="size-3" /> sayt
                       </span>
                     ) : null}

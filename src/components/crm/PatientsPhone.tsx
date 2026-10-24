@@ -23,15 +23,15 @@ export function PatientsPhone() {
   return (
     <section className="space-y-2 px-1 py-2 lg:hidden" data-testid="phone-fallback">
       <div className="flex items-center justify-between gap-2">
-        <h1 className="text-[22px] font-extrabold text-[#0f1e3d]">Bemorlar CRM</h1>
-        <button type="button" className="inline-flex h-10 items-center gap-1 rounded-[10px] bg-[#0F8A8A] px-3 text-[13px] font-bold text-white" data-testid="patient-add-mobile" onClick={() => setOpen(true)}>
+        <h1 className="text-[22px] font-extrabold text-[#111827]">Bemorlar CRM</h1>
+        <button type="button" className="inline-flex h-10 items-center gap-1 rounded-[10px] bg-[#0F766E] px-3 text-[13px] font-bold text-white" data-testid="patient-add-mobile" onClick={() => setOpen(true)}>
           <Plus size={16} /> Yangi bemor
         </button>
       </div>
       <p className="text-[13px] text-[#6a7c93]">Bemor qidirish, status va qabul.</p>
       <ul className="space-y-2">
         {items.slice(0, 12).map((item) => (
-          <li key={item.id} className="rounded-xl border border-[#e6edf5] bg-white px-3 py-2 text-[14px] text-[#0f1e3d]" data-testid="patient-phone-row">
+          <li key={item.id} className="rounded-xl border border-[#e6edf5] bg-white px-3 py-2 text-[14px] text-[#111827]" data-testid="patient-phone-row">
             <b><Link href={`/crm/bemorlar/${item.id}`}>{item.name}</Link></b>
             <span className="mt-0.5 block text-[12px] text-[#6a7c93]">{item.phone} · {item.city} · {patientStatuses.find((entry) => entry.id === item.status)?.label}</span>
           </li>
