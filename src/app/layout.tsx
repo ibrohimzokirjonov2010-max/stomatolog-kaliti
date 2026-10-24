@@ -12,6 +12,7 @@ import { SurplusWorkProvider } from "@/components/surplus-provider";
 import { SellerWorkProvider } from "@/components/seller-provider";
 import { DoctorProfileProvider } from "@/components/doctor-profile-provider";
 import { AppChrome } from "@/components/dashboard/app-chrome";
+import { AnalyticsProviders } from "@/components/analytics/providers";
 import { PwaInstall } from "@/components/pwa-install";
 import { site } from "@/data/site";
 import "./globals.css";
@@ -41,7 +42,7 @@ const manrope = Manrope({
 });
 
 export const metadata: Metadata = {
-  metadataBase: new URL("https://stomatolog-kaliti-deploy-eta.vercel.app"),
+  metadataBase: new URL("https://stomatolog-kaliti-lake.vercel.app"),
   title: {
     default: `${site.name} — stomatologlar platformasi`,
     template: `%s · ${site.name}`,
@@ -127,6 +128,7 @@ export default function RootLayout({
           </CartProvider>
         </DoctorProfileProvider>
         <PwaInstall />
+        <AnalyticsProviders />
       </body>
     </html>
   );

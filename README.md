@@ -43,6 +43,32 @@ CEO paneli: dashboard (sof foyda, GMV, MRR, escrow), foydalanuvchilar (blok, rol
 - Barcha admin amallari `audit_log`da.
 - Click/Payme hali ulanmagan: onlayn to‘lov tanlangan buyurtma demo sifatida darhol escrow’ga tushadi; naqd — sotuvchi «yetkazildi» qilganda.
 
+## Bosh sahifa lidlari
+
+Mehmon `/` sahifasidagi forma (`ism`, `+998` telefon, lavozim) `POST /api/leads` orqali Supabase `public.leads` jadvaliga yoziladi. Jadvalni bir marta qo‘llang:
+
+```bash
+# Supabase SQL editor yoki psql — bootstrapdan keyin
+psql "$DATABASE_URL" -v ON_ERROR_STOP=1 -f supabase/migrations/20261024a_homepage_leads.sql
+```
+
+Yozuvlar RLS bilan yopiq: faqat server `sh_lead_create` (env `STOMAHUB_DB_SECRET`) qo‘shadi. Bir xil telefon 24 soat ichida qayta yozilmaydi.
+
+Aloqa telefoni, manzil va Instagram `src/config/public-contact.ts` da. Telefon `null` bo‘lsa, sahifada ko‘rinmaydi. Instagram URL bo‘sh bo‘lsa, footerda «Tez orada» turadi — havola o‘ylab topilmaydi.
+
+## Analitika
+
+Skriptlar faqat mos `NEXT_PUBLIC_*` o‘rnatilganda yuklanadi. Bo‘sh qoldirilsa, hech narsa ulanmaydi. Forma muvaffaqiyatli saqlanganda (takroriy yozuv emas) konversiya hodisasi yuboriladi.
+
+| O‘zgaruvchi | Qayerdan | Hodisa |
+| --- | --- | --- |
+| `NEXT_PUBLIC_YANDEX_METRIKA_ID` | Yandex Metrika hisob raqami (faqat raqamlar) | `reachGoal` nomi: `lead`. Metrikada shu identifikatorli JavaScript maqsadini oching. |
+| `NEXT_PUBLIC_META_PIXEL_ID` | Meta Events Manager pixel id (faqat raqamlar) | standart `Lead` |
+| `NEXT_PUBLIC_GA4_MEASUREMENT_ID` | GA4 o‘lchov id, `G-` bilan | tavsiya etilgan `generate_lead` |
+| `NEXT_PUBLIC_CLARITY_PROJECT_ID` | Microsoft Clarity loyiha id | maxsus hodisa `lead` |
+
+Ism va telefon analitika hodisasiga qo‘shilmaydi.
+
 ## Texnika
 
 Next.js (App Router), TypeScript, Tailwind CSS, shadcn/ui. Kontent: `src/data/`. Shell: `src/components/dashboard/`.

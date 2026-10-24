@@ -3,8 +3,9 @@
 import { useState, type FormEvent } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { ChevronDown, Menu, Search, X } from "lucide-react";
-import { platformLinks } from "@/components/landing/landing-content";
+import { ChevronDown, Mail, MapPin, Menu, Phone, Search, Send, X } from "lucide-react";
+import { contacts, platformLinks } from "@/components/landing/landing-content";
+import { publicContact } from "@/config/public-contact";
 
 function SocialGlyph({ name }: { name: "telegram" | "instagram" | "facebook" | "youtube" | "tiktok" }) {
   const paths: Record<typeof name, string> = {
@@ -23,26 +24,83 @@ function SocialGlyph({ name }: { name: "telegram" | "instagram" | "facebook" | "
 
 const SOCIALS = {
   telegram: { href: "https://t.me/stomahubuz", label: "Telegram" },
-  instagram: { href: "#aloqa", label: "Instagram" },
+  instagram: { href: publicContact.instagramUrl, label: "Instagram" },
   facebook: { href: "#aloqa", label: "Facebook" },
   youtube: { href: "#aloqa", label: "YouTube" },
   tiktok: { href: "#aloqa", label: "TikTok" },
 } as const;
 
 export function LandingSocials({ names, tone = "muted" }: { names: (keyof typeof SOCIALS)[]; tone?: "muted" | "brand" }) {
+  const className = tone === "brand"
+    ? "grid size-10 place-items-center rounded-full bg-[#1d6cf2] text-white hover:bg-[#1557d0]"
+    : "grid size-11 place-items-center rounded-full bg-[#f4f7fb] text-[#334155] hover:text-[#0066FF]";
   return (
     <div className="flex gap-2">
-      {names.map((name) => (
-        <a
-          key={name}
-          href={SOCIALS[name].href}
-          aria-label={SOCIALS[name].label}
-          className={tone === "brand" ? "grid size-10 place-items-center rounded-full bg-[#1d6cf2] text-white hover:bg-[#1557d0]" : "grid size-11 place-items-center rounded-full bg-[#f4f7fb] text-[#334155] hover:text-[#0066FF]"}
-        >
-          <SocialGlyph name={name} />
-        </a>
-      ))}
+      {names.map((name) => {
+        const href = SOCIALS[name].href;
+        if (!href) {
+          return (
+            <span key={name} aria-label="Instagram, tez orada" className={`${className} cursor-default opacity-70`}>
+              <SocialGlyph name={name} />
+            </span>
+          );
+        }
+        return (
+          <a key={name} href={href} aria-label={SOCIALS[name].label} className={className}>
+            <SocialGlyph name={name} />
+          </a>
+        );
+      })}
     </div>
+  );
+}
+
+function InstagramMark({ className }: { className?: string }) {
+  return (
+    <svg viewBox="0 0 24 24" className={className} fill="currentColor" aria-hidden="true">
+      <path d="M8 3h8a5 5 0 0 1 5 5v8a5 5 0 0 1-5 5H8a5 5 0 0 1-5-5V8a5 5 0 0 1 5-5zm8 2H8a3 3 0 0 0-3 3v8a3 3 0 0 0 3 3h8a3 3 0 0 0 3-3V8a3 3 0 0 0-3-3zm-4 3.2A3.8 3.8 0 1 1 8.2 12 3.8 3.8 0 0 1 12 8.2zm4.4-.9a1 1 0 1 1-1 1 1 1 0 0 1 1-1z" />
+    </svg>
+  );
+}
+
+const contactIcon = {
+  Email: Mail,
+  Telegram: Send,
+  Telefon: Phone,
+  Manzil: MapPin,
+  Instagram: InstagramMark,
+} as const;
+
+export function LandingContacts({ dense = false }: { dense?: boolean }) {
+  return (
+    <ul className={dense ? "mt-4 flex flex-col gap-2" : "mt-3 space-y-2.5 text-[14.5px] text-[#64748b]"}>
+      {contacts.map((item) => {
+        const Icon = contactIcon[item.label];
+        const row = dense
+          ? "flex min-h-11 items-center gap-3 rounded-2xl border border-[#e8eef6] px-3 py-2"
+          : "flex items-center gap-2";
+        const body = (
+          <>
+            <span className={dense ? "grid size-11 shrink-0 place-items-center rounded-xl bg-[#e3f6f5] text-[#0b7f7d]" : "text-[#1d6cf2]"}>
+              <Icon className={dense ? "size-5" : "size-4"} />
+            </span>
+            <span>
+              {dense ? <span className="block text-[12px] text-[#64748b]">{item.label}</span> : null}
+              <span className={dense ? "block text-[14px] font-semibold text-[#16324f]" : undefined}>{item.value}</span>
+            </span>
+          </>
+        );
+        return (
+          <li key={item.label}>
+            {item.href ? (
+              <a href={item.href} className={`${row} hover:text-[#1d6cf2]`}>{body}</a>
+            ) : (
+              <span className={row} aria-label={`${item.label}, tez orada`}>{body}</span>
+            )}
+          </li>
+        );
+      })}
+    </ul>
   );
 }
 

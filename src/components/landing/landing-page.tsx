@@ -1,16 +1,28 @@
+"use client";
+
+import { useSyncExternalStore } from "react";
 import { LandingDesktop } from "@/components/landing/landing-desktop";
 import { LandingMobile } from "@/components/landing/landing-mobile";
 
-/** Guests see this at `/` and `/landing`. The phone layout stays the previous page. */
+const DESKTOP = "(min-width: 1024px)";
+
+function subscribe(onChange: () => void) {
+  const media = window.matchMedia(DESKTOP);
+  media.addEventListener("change", onChange);
+  return () => media.removeEventListener("change", onChange);
+}
+
+function snapshot() {
+  return window.matchMedia(DESKTOP).matches;
+}
+
+/** Server HTML is the phone layout. After hydration only the matching layout stays mounted, so sections are not duplicated. */
+function serverSnapshot() {
+  return false;
+}
+
+/** Guests see this at `/` and `/landing`. One layout is in the DOM at a time. */
 export function LandingPage() {
-  return (
-    <>
-      <div className="lg:hidden">
-        <LandingMobile />
-      </div>
-      <div className="hidden lg:block">
-        <LandingDesktop />
-      </div>
-    </>
-  );
+  const desktop = useSyncExternalStore(subscribe, snapshot, serverSnapshot);
+  return desktop ? <LandingDesktop /> : <LandingMobile />;
 }

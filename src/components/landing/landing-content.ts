@@ -9,10 +9,23 @@ import {
   Stethoscope,
   type LucideIcon,
 } from "lucide-react";
+import { publicContact } from "@/config/public-contact";
 
-export const heroTitle = "Stomatologlar uchun yagona platforma";
+export const heroEyebrow = "Stomatologlar uchun yagona platforma";
+export const heroTitle = "Qabullar va bemor kartasini";
+export const heroAccent = "bitta oynada yuriting";
 export const heroText =
-  "Do‘kon, ta’lim, seminarlar va klinika boshqaruvini bir joyda. Stomatologlar uchun zamonaviy ekosistema.";
+  "O‘zbekiston stomatologlari uchun klinika CRM, seminarlar taqvimi va marketplace. Hisob ochish bepul.";
+
+export const LEAD_OFFER = "Bepul CRM demo va seminarlar taqvimini oling";
+
+export const LEAD_ROLES = [
+  { id: "stomatolog", label: "Stomatolog" },
+  { id: "klinika_egasi", label: "Klinika egasi" },
+  { id: "talaba", label: "Talaba" },
+  { id: "tish_texnigi", label: "Tish texnigi" },
+  { id: "sotuvchi", label: "Sotuvchi" },
+] as const;
 
 export const desktopNav = [
   { href: "/marketplace", label: "Marketplace" },
@@ -83,12 +96,21 @@ export const faqs = [
   { q: "Klinika CRM’ni bir nechta xodim ishlata oladimi?", a: "Ha. Klinika egasi shifokor va administratorlarni bir hisobga qo‘shishi mumkin. Har bir xodim bemorlar, qabul va to‘lovlarni o‘z ruxsati doirasida ko‘radi." },
   { q: "Mahsulotlarni qanday xarid qilish mumkin?", a: "Marketplace’dan mahsulotni savatga qo‘shing, yetkazib berish manzilini kiriting va Click yoki Payme orqali to‘lang. Buyurtma holati profilingizda ko‘rinadi." },
   { q: "To‘lovlarni qanday qabul qilish mumkin?", a: "Klinika CRM’da to‘lovni naqd, karta, Click yoki Payme sifatida yozib qo‘yasiz. Qarzdorlik bemor kartasida yangilanib boradi." },
-  { q: "Texnik yordam qanday ishlaydi?", a: "Savolingiz bo‘lsa info@stomahub.uz ga yozing yoki +998 90 123 45 67 raqamiga qo‘ng‘iroq qiling. Ish vaqtida javob beramiz." },
+  { q: "Texnik yordam qanday ishlaydi?", a: "Savolingiz bo‘lsa info@stomahub.uz ga yozing yoki Telegramda @stomahubuz ga murojaat qiling. Ish vaqtida javob beramiz." },
 ] as const;
 
-export const contacts = [
-  { label: "Email", value: "info@stomahub.uz", href: "mailto:info@stomahub.uz" },
-  { label: "Telegram", value: "@stomahubuz", href: "https://t.me/stomahubuz" },
-  { label: "Telefon", value: "+998 90 123 45 67", href: "tel:+998901234567" },
-  { label: "Manzil", value: "Toshkent, O‘zbekiston", href: "https://maps.google.com/?q=Toshkent%2C%20O%27zbekiston" },
-] as const;
+export type ContactItem = {
+  label: "Email" | "Telegram" | "Telefon" | "Manzil" | "Instagram";
+  value: string;
+  href: string | null;
+};
+
+export const contacts: ContactItem[] = [
+  { label: "Email", value: publicContact.email, href: publicContact.emailHref },
+  { label: "Telegram", value: publicContact.telegramHandle, href: publicContact.telegramUrl },
+  ...(publicContact.phone
+    ? [{ label: "Telefon" as const, value: publicContact.phone, href: `tel:${publicContact.phone.replace(/[^\d+]/g, "")}` }]
+    : []),
+  { label: "Manzil", value: publicContact.address, href: publicContact.addressMapHref },
+  { label: "Instagram", value: publicContact.instagramUrl ? "Instagram" : "Tez orada", href: publicContact.instagramUrl },
+];

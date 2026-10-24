@@ -1,9 +1,11 @@
 import Link from "next/link";
-import { ArrowDown, Check, ChevronRight, Globe, LayoutDashboard, Mail, MapPin, Phone, Send, ShieldCheck, Users } from "lucide-react";
-import { LandingFaq, LandingLang, LandingLogo, LandingMenu, LandingSocials, PayMarks, ToothBadge } from "@/components/landing/landing-bits";
-import { appPoints, contacts, crmPoints, faqs, features, helpLinks, heroText, people, platformLinks, steps } from "@/components/landing/landing-content";
+import { ArrowDown, Check, ChevronRight, Globe, LayoutDashboard, ShieldCheck, Users } from "lucide-react";
+import { LandingContacts, LandingFaq, LandingLang, LandingLogo, LandingMenu, LandingSocials, PayMarks, ToothBadge } from "@/components/landing/landing-bits";
+import { appPoints, crmPoints, faqs, features, helpLinks, heroAccent, heroEyebrow, heroText, heroTitle, people, platformLinks, steps } from "@/components/landing/landing-content";
 import { CrmMock, HomePhone, ProfilePhone } from "@/components/landing/landing-desktop";
+import { LeadCapture } from "@/components/landing/lead-form";
 import { NotificationBell } from "@/components/notification-bell";
+import { publicContact } from "@/config/public-contact";
 
 const highlights = [
   { title: "Barcha imkoniyatlar bir joyda", icon: LayoutDashboard, tone: "bg-[#e3f6f5] text-[#0b7f7d]" },
@@ -12,24 +14,17 @@ const highlights = [
   { title: "Ishonchli va qulay platforma", icon: ShieldCheck, tone: "bg-[#e3f6f5] text-[#0b7f7d]" },
 ] as const;
 
-const contactIcon = {
-  Email: Mail,
-  Telegram: Send,
-  Telefon: Phone,
-  Manzil: MapPin,
-} as const;
-
 function StoreBadges() {
   return (
-    <div className="grid grid-cols-2 gap-3">
-      <a href="#ilova" className="inline-flex min-h-11 items-center gap-2 rounded-xl bg-[#0f172a] px-3 text-white">
+    <div className="grid grid-cols-2 gap-3" aria-label="Ilovalar tez kunda">
+      <span className="inline-flex min-h-11 items-center gap-2 rounded-xl bg-[#0f172a] px-3 text-white" aria-disabled="true">
         <span className="text-[18px] leading-none" aria-hidden="true"></span>
-        <span className="text-left leading-tight"><span className="block text-[12px] opacity-80">App Store’dan</span><span className="block text-[13px] font-bold">yuklab oling</span></span>
-      </a>
-      <a href="#ilova" className="inline-flex min-h-11 items-center gap-2 rounded-xl bg-[#0f172a] px-3 text-white">
+        <span className="text-left leading-tight"><span className="block text-[12px] opacity-80">App Store</span><span className="block text-[13px] font-bold">Tez kunda</span></span>
+      </span>
+      <span className="inline-flex min-h-11 items-center gap-2 rounded-xl bg-[#0f172a] px-3 text-white" aria-disabled="true">
         <span className="text-[16px] leading-none" aria-hidden="true">▶</span>
-        <span className="text-left leading-tight"><span className="block text-[12px] opacity-80">Google Play’dan</span><span className="block text-[13px] font-bold">yuklab oling</span></span>
-      </a>
+        <span className="text-left leading-tight"><span className="block text-[12px] opacity-80">Google Play</span><span className="block text-[13px] font-bold">Tez kunda</span></span>
+      </span>
     </div>
   );
 }
@@ -47,14 +42,14 @@ export function LandingMobile() {
         </div>
       </header>
 
-      <section className="px-4 pb-5 pt-4">
+      <section data-section="hero" className="px-4 pb-5 pt-4">
         <p className="inline-flex items-center gap-2 rounded-full bg-white px-3 py-1.5 text-[12px] font-semibold text-[#0b7f7d] ring-1 ring-[#e6ebf3]">
           <span className="size-1.5 rounded-full bg-[#00C2A8]" />
-          Stomatologlar uchun yagona platforma
+          {heroEyebrow}
         </p>
         <h1 className="mt-3 text-left font-[family-name:var(--font-outfit)] text-[34px] font-bold leading-[1.12] tracking-tight">
-          Stomatologlar uchun
-          <span className="block text-[#0b7f7d]">yagona platforma</span>
+          {heroTitle}
+          <span className="block text-[#0b7f7d]">{heroAccent}</span>
         </h1>
         <p className="mt-3 text-[15px] leading-relaxed text-[#52637a]">{heroText}</p>
         <div className="relative mt-4 h-[330px] overflow-hidden bg-[#eef3f8]">
@@ -69,9 +64,12 @@ export function LandingMobile() {
         <Link href="/royxat" className="mt-4 flex h-12 items-center justify-center rounded-full bg-[#0b7f7d] text-[15px] font-bold text-white shadow-[0_10px_24px_rgba(11,127,125,0.28)]">
           Bepul ro‘yxatdan o‘tish
         </Link>
-        <Link href="/marketplace" className="mt-2.5 flex h-12 items-center justify-center rounded-full border border-[#d7e2f0] bg-white text-[15px] font-bold text-[#16324f]">
-          Marketplace’ni ko‘rish
-        </Link>
+        <a href="#demo" className="mt-2.5 flex h-12 items-center justify-center rounded-full border border-[#d7e2f0] bg-white text-[15px] font-bold text-[#16324f]">
+          CRM demo band qilish
+        </a>
+        <a href={publicContact.telegramUrl} className="mt-2.5 flex h-12 items-center justify-center rounded-full bg-[#229ED9] text-[15px] font-bold text-white">
+          Telegram · {publicContact.telegramHandle}
+        </a>
         <div className="mt-3 grid grid-cols-2 gap-2">
           {highlights.map((item) => (
             <div key={item.title} className="flex items-start gap-2 rounded-2xl border border-[#e8eef6] bg-white p-2.5">
@@ -84,7 +82,9 @@ export function LandingMobile() {
         </div>
       </section>
 
-      <section className="px-4 pb-8">
+      <LeadCapture variant="mobile" />
+
+      <section data-section="features" className="px-4 pb-8">
         <h2 className="text-left font-[family-name:var(--font-outfit)] text-[26px] font-bold">Nimalar bor?</h2>
         <p className="mt-1.5 text-left text-[14px] leading-relaxed text-[#52637a]">Stomatologlar uchun kerakli barcha imkoniyatlar bir joyda</p>
         <div className="mt-4 grid grid-cols-2 gap-2.5">
@@ -119,7 +119,7 @@ export function LandingMobile() {
         </div>
       </section>
 
-      <section className="px-4 py-8">
+      <section data-section="crm" className="px-4 py-8">
         <h2 className="text-left font-[family-name:var(--font-outfit)] text-[26px] font-bold">Klinika CRM</h2>
         <p className="mt-3 inline-flex rounded-full bg-[#e3f6f5] px-3 py-1 text-[12px] font-bold text-[#0b7f7d]">Klinika CRM</p>
         <p className="mt-3 font-[family-name:var(--font-outfit)] text-[20px] font-bold leading-tight">Klinikangizni to‘liq nazorat qiling</p>
@@ -135,6 +135,9 @@ export function LandingMobile() {
         <Link href="/crm" className="mt-4 flex h-12 items-center justify-center rounded-full bg-[#0b7f7d] text-[15px] font-bold text-white">
           CRM imkoniyatlarini ko‘rish
         </Link>
+        <a href="#demo" className="mt-2 flex h-12 items-center justify-center rounded-full border border-[#d7e2f0] bg-white text-[15px] font-bold text-[#0b7f7d]">
+          CRM demo band qilish
+        </a>
         <div className="mt-5">
           <CrmMock compact />
         </div>
@@ -157,7 +160,7 @@ export function LandingMobile() {
         </ol>
       </section>
 
-      <section id="ilova" className="px-4 py-8">
+      <section data-section="app" id="ilova" className="px-4 py-8">
         <h2 className="font-[family-name:var(--font-outfit)] text-[24px] font-bold">Har doim yoningizda</h2>
         <p className="mt-2 text-[14px] leading-relaxed text-[#52637a]">StomaHub mobil ilovasi bilan barcha imkoniyatlar telefoningizda. Istalgan vaqtda, istalgan joyda.</p>
         <div className="mt-5 flex items-end justify-center gap-3">
@@ -177,7 +180,7 @@ export function LandingMobile() {
         </div>
       </section>
 
-      <section id="savollar" className="bg-white px-4 py-8">
+      <section data-section="faq" id="savollar" className="bg-white px-4 py-8">
         <h2 className="text-left font-[family-name:var(--font-outfit)] text-[26px] font-bold">Ko‘p so‘raladigan savollar</h2>
         <div className="mt-4">
           <LandingFaq items={faqs.map((item) => ({ q: item.q, a: item.a }))} columns={1} />
@@ -215,20 +218,7 @@ export function LandingMobile() {
       <section id="aloqa" className="bg-white px-4 py-8">
         <h2 className="font-[family-name:var(--font-outfit)] text-[22px] font-bold">Biz bilan bog‘laning</h2>
         <p className="mt-2 text-[14px] text-[#52637a]">Savol, taklif yoki hamkorlik uchun biz bilan bog‘laning.</p>
-        <div className="mt-4 flex flex-col gap-2">
-          {contacts.map((item) => {
-            const Icon = contactIcon[item.label];
-            return (
-              <a key={item.label} href={item.href} className="flex min-h-11 items-center gap-3 rounded-2xl border border-[#e8eef6] px-3 py-2">
-                <span className="grid size-11 place-items-center rounded-xl bg-[#e3f6f5] text-[#0b7f7d]"><Icon className="size-5" /></span>
-                <span>
-                  <span className="block text-[12px] text-[#64748b]">{item.label}</span>
-                  <span className="block text-[14px] font-semibold">{item.value}</span>
-                </span>
-              </a>
-            );
-          })}
-        </div>
+        <LandingContacts dense />
       </section>
 
       <footer className="border-t border-[#e8eef6] bg-white px-4 py-8">

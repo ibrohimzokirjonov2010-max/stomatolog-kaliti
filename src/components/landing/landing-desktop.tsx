@@ -11,11 +11,7 @@ import {
   Globe,
   Home,
   LayoutDashboard,
-  Mail,
-  MapPin,
   Package,
-  Phone,
-  Play,
   Search,
   Settings,
   ShoppingBag,
@@ -23,8 +19,10 @@ import {
   Users,
   Wallet,
 } from "lucide-react";
-import { LandingFaq, LandingLang, LandingLogo, LandingSearch, LandingSocials, toothOutline } from "@/components/landing/landing-bits";
-import { crmPoints, desktopNav, faqs, features, heroText, people, steps } from "@/components/landing/landing-content";
+import { LandingContacts, LandingFaq, LandingLang, LandingLogo, LandingSearch, LandingSocials, toothOutline } from "@/components/landing/landing-bits";
+import { crmPoints, desktopNav, faqs, features, heroAccent, heroEyebrow, heroText, heroTitle, people, steps } from "@/components/landing/landing-content";
+import { LeadCapture } from "@/components/landing/lead-form";
+import { publicContact } from "@/config/public-contact";
 
 const wrap = "mx-auto w-[min(1320px,calc(100%-64px))]";
 const title = "text-left font-[family-name:var(--font-outfit)] text-[clamp(32px,2.8vw,40px)] font-bold tracking-tight text-[#0f2744]";
@@ -183,47 +181,58 @@ export function ProfilePhone({ width, height, className = "" }: { width?: string
   );
 }
 
+const sampleVisits = [
+  { time: "09:00", name: "Aliyeva Nigora", service: "Konsultatsiya" },
+  { time: "10:30", name: "Karimov Behzod", service: "Plomba" },
+  { time: "12:00", name: "Rasulova Madina", service: "Gigiyena" },
+  { time: "15:00", name: "To‘xtayev Sardor", service: "Implant" },
+] as const;
+
+/** Phone CRM preview filled with labelled sample rows (not a live clinic). */
 export function CrmMock({ compact = false }: { compact?: boolean }) {
+  const rows = sampleVisits;
   return (
-    <div className="overflow-hidden rounded-[24px] border border-[#e6ebf3] bg-white shadow-[0_22px_50px_rgba(15,23,42,0.1)]">
-      <div className={compact ? "grid grid-cols-[104px_minmax(0,1fr)]" : "grid grid-cols-[168px_minmax(0,1fr)]"}>
-        <aside className="border-r border-[#eef2f7] bg-[#f8fafc] p-3">
-          <p className="px-2 text-[13px] font-extrabold tracking-tight text-[#16324f]">Stoma<span className="text-[#0066FF]">Hub</span></p>
-          <nav className="mt-3 space-y-1 text-[12px] font-semibold text-[#52637a]">
-            {["Bosh sahifa", "Bemorlar", "Uchrashuvlar", "To‘lovlar", "Ombor", "Hisobotlar"].map((item, index) => (
-              <p key={item} className={index === 0 ? "rounded-lg bg-[#e8f1ff] px-2 py-2 text-[#0066FF]" : "px-2 py-2"}>{item}</p>
+    <div className="overflow-hidden rounded-[24px] border border-[#e6ebf3] bg-white shadow-[0_22px_50px_rgba(15,23,42,0.1)]" data-testid="crm-demo">
+      <div className={compact ? "grid grid-cols-[92px_minmax(0,1fr)]" : "grid grid-cols-[168px_minmax(0,1fr)]"}>
+        <aside className="border-r border-[#eef2f7] bg-[#f8fafc] p-2.5">
+          <p className="px-1.5 text-[13px] font-extrabold tracking-tight text-[#16324f]">Stoma<span className="text-[#0066FF]">Hub</span></p>
+          <nav className="mt-3 space-y-1 text-[11px] font-semibold text-[#52637a]">
+            {["Bosh sahifa", "Bemorlar", "Uchrashuvlar", "To‘lovlar"].map((item, index) => (
+              <p key={item} className={index === 0 ? "rounded-lg bg-[#e8f1ff] px-2 py-1.5 text-[#0066FF]" : "px-2 py-1.5"}>{item}</p>
             ))}
           </nav>
         </aside>
-        <div className="min-w-0 p-3.5">
-          <p className="text-[15px] font-extrabold text-[#16324f]">Bosh sahifa</p>
-          <div className={compact ? "mt-2.5 grid grid-cols-2 gap-2" : "mt-2.5 grid grid-cols-3 gap-2"}>
-            {(compact
-              ? [["Bemorlar", "0"], ["Qabul", "0"], ["Daromad", "0"], ["Qarz", "0"]]
-              : [["Bemorlar", "0"], ["Bugungi qabul", "0"], ["Daromad", "0"]]
-            ).map(([label, value]) => (
-              <div key={label} className="rounded-xl bg-[#f4f8ff] px-2.5 py-2.5">
-                <p className="text-[12px] text-[#64748b]">{label}</p>
+        <div className="min-w-0 p-3">
+          <p className="flex items-center justify-between gap-2 text-[14px] font-extrabold text-[#16324f]">
+            Namuna kun
+            <span className="rounded-full bg-[#fff1e6] px-2 py-0.5 text-[11px] font-bold text-[#ea7a1c]">Namuna</span>
+          </p>
+          <div className="mt-2.5 grid grid-cols-2 gap-2">
+            {[
+              ["Bemorlar", String(sampleVisits.length)],
+              ["Qabul", String(rows.length)],
+            ].map(([label, value]) => (
+              <div key={label} className="rounded-xl bg-[#f4f8ff] px-2.5 py-2">
+                <p className="text-[11px] text-[#64748b]">{label}</p>
                 <p className="text-[16px] font-extrabold leading-tight text-[#16324f]">{value}</p>
               </div>
             ))}
           </div>
           <div className="mt-2.5 overflow-hidden rounded-xl border border-[#eef2f7]">
-            <div className="grid grid-cols-[58px_1fr_1fr] bg-[#f8fafc] px-2.5 py-2 text-[12px] font-bold text-[#64748b]">
-              <span>Vaqt</span><span>Bemor</span><span>Xizmat</span>
+            <div className="grid grid-cols-[42px_minmax(0,1fr)] bg-[#f8fafc] px-2 py-1.5 text-[11px] font-bold text-[#64748b]">
+              <span>Vaqt</span><span>Bemor</span>
             </div>
-            <p className="border-t border-[#f1f5f9] px-2.5 py-3 text-[12px] text-[#64748b]">Hozircha uchrashuv yo‘q</p>
+            {rows.map((row) => (
+              <p key={row.time} className="grid grid-cols-[42px_minmax(0,1fr)] items-center border-t border-[#f1f5f9] px-2 py-1.5 text-[11px]">
+                <span className="text-[#64748b]">{row.time}</span>
+                <span className="min-w-0">
+                  <span className="block truncate font-semibold text-[#16324f]">{row.name}</span>
+                  <span className="block truncate text-[#64748b]">{row.service}</span>
+                </span>
+              </p>
+            ))}
           </div>
-          <div className={compact ? "mt-2.5 grid gap-2" : "mt-2.5 grid grid-cols-[minmax(0,1fr)_148px] gap-2"}>
-            <div>
-              <p className="mb-1.5 text-[12px] font-bold text-[#64748b]">Bemorlar</p>
-              <p className="rounded-lg bg-[#f7f9fc] px-2 py-3 text-[12px] text-[#64748b]">Hozircha bemor yo‘q</p>
-            </div>
-            <div>
-              <p className="mb-1.5 text-[12px] font-bold text-[#64748b]">Tahlil</p>
-              <p className="flex h-[96px] items-center rounded-xl bg-[#f7f9fc] px-2 text-[12px] text-[#64748b]">Hozircha tahlil yo‘q</p>
-            </div>
-          </div>
+          <p className="mt-2 text-[11px] text-[#94a3b8]">Namuna ma’lumot — haqiqiy klinika emas.</p>
         </div>
       </div>
     </div>
@@ -362,6 +371,7 @@ function CrmBoard() {
                   <span className="px-1.5">Yil</span>
                 </span>
               </p>
+              <p className="mb-1 text-[11px] font-semibold text-[#ea7a1c]">Namuna ma’lumot — haqiqiy klinika emas.</p>
               <svg viewBox="0 0 100 100" preserveAspectRatio="none" className="mt-2 h-[92px] w-full" aria-hidden="true">
                 <defs>
                   <linearGradient id="crm-area" x1="0" x2="0" y1="0" y2="1">
@@ -384,7 +394,7 @@ function CrmBoard() {
 function StoreBadge({ store }: { store: "apple" | "google" }) {
   const apple = store === "apple";
   return (
-    <a href="#ilova" className="inline-flex h-[60px] items-center gap-3 rounded-xl bg-[#0b0f19] px-5 text-white transition hover:bg-[#1e2433]">
+    <span className="inline-flex h-[60px] cursor-default items-center gap-3 rounded-xl bg-[#0b0f19] px-5 text-white" aria-disabled="true">
       {apple ? (
         <svg viewBox="0 0 24 24" className="size-7" fill="currentColor" aria-hidden="true">
           <path d="M16.4 12.6c0-2.6 2.1-3.8 2.2-3.9-1.2-1.8-3.1-2-3.7-2-1.6-.2-3.1.9-3.9.9-.8 0-2-.9-3.4-.9-1.7 0-3.3 1-4.2 2.6-1.8 3.1-.5 7.7 1.3 10.2.9 1.2 1.9 2.6 3.2 2.6 1.3-.1 1.8-.8 3.3-.8 1.6 0 2 .8 3.4.8 1.4 0 2.3-1.3 3.1-2.5 1-1.4 1.4-2.8 1.4-2.9-.1 0-2.7-1-2.7-4.1zM13.9 5c.7-.9 1.2-2 1-3.2-1 0-2.3.7-3 1.6-.7.8-1.2 2-1.1 3.1 1.2.1 2.3-.6 3.1-1.5z" />
@@ -398,10 +408,10 @@ function StoreBadge({ store }: { store: "apple" | "google" }) {
         </svg>
       )}
       <span className="text-left leading-tight">
-        <span className="block text-[12px] opacity-80">{apple ? "App Store’dan" : "Google Play’dan"}</span>
-        <span className="block text-[16px] font-bold">yuklab oling</span>
+        <span className="block text-[12px] opacity-80">{apple ? "App Store" : "Google Play"}</span>
+        <span className="block text-[16px] font-bold">Tez kunda</span>
       </span>
-    </a>
+    </span>
   );
 }
 
@@ -453,11 +463,11 @@ export function LandingDesktop() {
           <div className="max-w-[600px]">
             <p className="inline-flex items-center gap-2 rounded-full bg-[#e8f3f2] px-3.5 py-1.5 text-[14px] font-semibold text-[#0f6f6b]">
               <ToothIcon className="size-4" />
-              Stomatologlar uchun yagona platforma
+              {heroEyebrow}
             </p>
             <h1 className="mt-5 font-[family-name:var(--font-outfit)] text-[clamp(46px,4.4vw,66px)] font-bold leading-[1.05] tracking-tight text-[#0f2147]">
-              Stomatologlar uchun
-              <span className="block text-[#1d6cf2]">yagona platforma</span>
+              {heroTitle}
+              <span className="block text-[#1d6cf2]">{heroAccent}</span>
             </h1>
             <p className="mt-5 max-w-[470px] text-[17px] leading-relaxed text-[#52637a]">{heroText}</p>
             <div className="mt-7 flex flex-wrap gap-3">
@@ -465,10 +475,12 @@ export function LandingDesktop() {
                 Bepul ro‘yxatdan o‘tish
                 <ArrowRight className="size-5" />
               </Link>
-              <Link href="/marketplace" className="inline-flex h-14 items-center gap-3 rounded-xl bg-white pr-7 pl-4 text-[16px] font-bold text-[#16324f] shadow-[0_8px_22px_rgba(15,39,68,0.08)] ring-1 ring-[#e3eaf3] transition hover:text-[#1d6cf2]">
-                <span className="grid size-8 place-items-center rounded-full bg-[#1d6cf2] text-white"><Play className="size-3.5 translate-x-px fill-current" /></span>
-                Marketplace’ni ko‘rish
-              </Link>
+              <a href="#demo" className="inline-flex h-14 items-center gap-3 rounded-xl bg-white px-6 text-[16px] font-bold text-[#16324f] shadow-[0_8px_22px_rgba(15,39,68,0.08)] ring-1 ring-[#e3eaf3] transition hover:text-[#1d6cf2]">
+                CRM demo band qilish
+              </a>
+              <a href={publicContact.telegramUrl} className="inline-flex h-14 items-center gap-2 rounded-xl bg-[#0b8f8a] px-6 text-[16px] font-bold text-white">
+                Telegram · {publicContact.telegramHandle}
+              </a>
             </div>
             <ul className="mt-8 flex flex-wrap gap-x-7 gap-y-3">
               {heroChips.map((chip) => (
@@ -489,6 +501,8 @@ export function LandingDesktop() {
           </div>
         </div>
       </section>
+
+      <LeadCapture variant="desktop" />
 
       <section data-section="features" className={`${wrap} py-12`}>
         <h2 className={title}>Nimalar bor?</h2>
@@ -555,9 +569,12 @@ export function LandingDesktop() {
                 </li>
               ))}
             </ul>
-            <Link href="/crm" className={`${btnPrimary} mt-8 h-14 px-7 text-[16px]`}>
-              CRM imkoniyatlarini ko‘rish <ArrowRight className="size-5" />
-            </Link>
+            <div className="mt-8 flex flex-wrap items-center gap-4">
+              <Link href="/crm" className={`${btnPrimary} h-14 px-7 text-[16px]`}>
+                CRM imkoniyatlarini ko‘rish <ArrowRight className="size-5" />
+              </Link>
+              <a href="#demo" className="text-[16px] font-bold text-[#1d6cf2]">CRM demo band qilish</a>
+            </div>
           </div>
           <CrmBoard />
         </div>
@@ -665,11 +682,7 @@ export function LandingDesktop() {
           ))}
           <div id="aloqa">
             <b className="text-[15px] text-[#0f2147]">Aloqa</b>
-            <ul className="mt-3 space-y-2.5 text-[14.5px] text-[#64748b]">
-              <li><a href="tel:+998901234567" className="flex items-center gap-2 hover:text-[#1d6cf2]"><Phone className="size-4 text-[#1d6cf2]" />+998 90 123 45 67</a></li>
-              <li><a href="mailto:info@stomahub.uz" className="flex items-center gap-2 hover:text-[#1d6cf2]"><Mail className="size-4 text-[#1d6cf2]" />info@stomahub.uz</a></li>
-              <li className="flex items-center gap-2"><MapPin className="size-4 text-[#1d6cf2]" />Toshkent, O‘zbekiston</li>
-            </ul>
+            <LandingContacts />
           </div>
           <div className="lg:border-l lg:border-[#eef2f7] lg:pl-6">
             <b className="text-[15px] text-[#0f2147]">To‘lov usullari</b>
