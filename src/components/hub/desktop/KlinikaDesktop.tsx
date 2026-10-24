@@ -31,6 +31,7 @@ import { labMaterialLabel, labServiceLabel } from "@/data/labs";
 import { orderStatusCopy } from "@/lib/lab-work";
 import { formatDotDate } from "@/lib/format";
 import { api } from "@/lib/work-client";
+import { BookingWizard } from "./BookingWizard";
 import "./hub.css";
 import "./klinika.css";
 
@@ -740,54 +741,22 @@ export function KlinikaDesktop() {
       ) : null}
 
       {bookOpen ? (
-        <div className="hub-modal" onClick={() => setBookOpen(null)}>
-          <form
-            className="hub-dialog"
-            onClick={(event) => event.stopPropagation()}
-            onSubmit={(event) => {
-              event.preventDefault();
-              const data = new FormData(event.currentTarget);
-              const name = String(data.get("name") || "Bemor").trim() || "Bemor";
-              const note = String(data.get("note") || "Qabul").trim() || "Qabul";
-              const appt: Appointment = {
-                id: `user-${Date.now()}`,
-                date: day,
-                start: bookOpen.time,
-                end: `${String(Math.floor((minutes(bookOpen.time) + 30) / 60)).padStart(2, "0")}:${String((minutes(bookOpen.time) + 30) % 60).padStart(2, "0")}`,
-                patient: name,
-                avatar: patients.find((item) => item.name === name)?.avatar || "",
-                service: note,
-                doctor: profile?.fullName || "Shifokor",
-                doctorId: "self",
-                room: apptRooms[CHAIRS.findIndex((chair) => chair.id === bookOpen.chair)] ?? bookOpen.chair,
-                status: "tasdiq",
-              };
-              setAppointments((prev) => [appt, ...prev]);
-              setBookOpen(null);
-            }}
-          >
-            <h3>
-              Qabulga yozish · {CHAIRS.find((chair) => chair.id === bookOpen.chair)?.name} · {bookOpen.time}
-            </h3>
-            <label htmlFor="kd-b-name">Bemor</label>
-            <input id="kd-b-name" name="name" list="kd-patients" required />
-            <datalist id="kd-patients">
-              {patients.map((patient) => (
-                <option key={patient.id} value={patient.name} />
-              ))}
-            </datalist>
-            <label htmlFor="kd-b-note">Sabab</label>
-            <input id="kd-b-note" name="note" placeholder="Konsultatsiya" />
-            <div className="hub-actions">
-              <button className="hub-btn" type="submit">
-                Yozish
-              </button>
-              <button className="hub-btn ghost" type="button" onClick={() => setBookOpen(null)}>
-                Bekor
-              </button>
-            </div>
-          </form>
-        </div>
+        <BookingWizard
+          chairs={CHAIRS}
+          initial={{ ...bookOpen, date: day }}
+          patients={patients}
+          appointments={appointments}
+          doctor={profile?.fullName || "Shifokor"}
+          city={clinicCity}
+          roomOf={(chairId) => apptRooms[CHAIRS.findIndex((chair) => chair.id === chairId)] ?? chairId}
+          debtOf={debtOf}
+          onAddPatient={(row) => setPatients((prev) => [row, ...prev])}
+          onSave={(appt) => {
+            setAppointments((prev) => [appt, ...prev]);
+            setBookOpen(null);
+          }}
+          onClose={() => setBookOpen(null)}
+        />
       ) : null}
 
       {settings ? (
