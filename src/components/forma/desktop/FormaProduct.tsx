@@ -137,10 +137,10 @@ function View({ product }: { product: DesktopForma }) {
 
         <section className="fxp-buy">
           <h1>{product.name}</h1>
-          {product.reviews > 0 || product.sold > 0 ? (
+          {(product.reviews > 0 || (product.sold ?? 0) > 0) ? (
             <div className="fxp-rate">
               {product.reviews > 0 ? <><Star className="i star" /> <b>{product.rating.toFixed(1)}</b> <span>({product.reviews} sharh)</span></> : null}
-              {product.sold > 0 ? <><i className="sep" /> <span>{product.sold} ta sotilgan</span></> : null}
+              {(product.sold ?? 0) > 0 ? <><i className="sep" /> <span>{product.sold} ta sotilgan</span></> : null}
             </div>
           ) : null}
           <div className="fxp-price">
