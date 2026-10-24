@@ -1,0 +1,66 @@
+/* Desktop specialist profile (mock "mutaxassislar profili"). */
+.sh .mpf { color: #0b1a3a; display: flex; flex-direction: column; gap: 14px; }
+.sh .mpf * { min-width: 0; }
+.sh .mpf a { text-decoration: none; color: inherit; }
+.sh .mpf-crumbs { display: flex; align-items: center; gap: 6px; color: #6a7c93; font-size: 12.5px; }
+.sh .mpf-crumbs a { display: inline-flex; align-items: center; gap: 4px; }
+.sh .mpf-crumbs svg { width: 13px; height: 13px; }
+.sh .mpf-crumbs b { color: #24344d; }
+.sh .mpf-hero { display: grid; grid-template-columns: 290px minmax(0, 1fr); gap: 22px; padding: 14px; border-radius: 16px; background: #fff; border: 1px solid #e8eef4; }
+.sh .mpf-photo { position: relative; aspect-ratio: 1 / 1.03; border-radius: 12px; overflow: hidden; background: #eef3f9; display: grid; place-items: center; }
+.sh .mpf-photo img { width: 100%; height: 100%; object-fit: cover; object-position: center top; }
+.sh .mpf-photo > span { font-size: 54px; font-weight: 800; color: #0F766E; }
+.sh .mpf-photo em { position: absolute; left: 10px; bottom: 10px; display: inline-flex; align-items: center; gap: 5px; height: 26px; padding: 0 10px; border-radius: 8px; background: #fff; color: #115E59; font-style: normal; font-size: 12px; font-weight: 600; box-shadow: 0 2px 8px rgba(0, 0, 0, .1); }
+.sh .mpf-photo em svg { width: 14px; height: 14px; }
+.sh .mpf-main { display: flex; flex-direction: column; gap: 10px; padding-top: 6px; }
+.sh .mpf-title { display: flex; align-items: flex-start; gap: 12px; }
+.sh .mpf-title h1 { flex: 1; margin: 0; font-size: 32px; line-height: 1.15; font-weight: 800; letter-spacing: -.01em; }
+.sh .mpf-title .acts { display: flex; gap: 8px; }
+.sh .mpf-title .acts button { width: 40px; height: 40px; border-radius: 50%; border: 1px solid #e3e9f0; background: #fff; color: #24344d; display: grid; place-items: center; }
+.sh .mpf-title .acts button.on { color: #e11d48; }
+.sh .mpf-title .acts svg { width: 18px; height: 18px; }
+.sh .mpf-main .role { margin: 0; color: #4b5568; font-size: 17px; }
+.sh .mpf-main .meta { margin: 0; display: flex; flex-wrap: wrap; gap: 6px 18px; color: #4b5568; font-size: 13.5px; }
+.sh .mpf-main .meta span { display: inline-flex; align-items: center; gap: 6px; }
+.sh .mpf-main .meta svg { width: 16px; height: 16px; color: #8b93a7; }
+.sh .mpf-main .tags { display: flex; flex-wrap: wrap; gap: 8px; }
+.sh .mpf-main .tags span { height: 30px; padding: 0 12px; border-radius: 8px; background: #f2f5f8; color: #24344d; font-size: 12.5px; display: inline-flex; align-items: center; }
+.sh .mpf-main blockquote { margin: 4px 0 0; padding: 0 0 0 14px; border-left: 3px solid #a8ddd8; color: #4b5568; font-size: 13.5px; line-height: 1.6; }
+.sh .mpf-main .cta { margin-top: auto; display: flex; gap: 10px; padding-top: 6px; }
+.sh .mpf-main .go, .sh .mpf-main .ghost { height: 46px; padding: 0 22px; border-radius: 11px; display: inline-flex; align-items: center; gap: 8px; font-size: 14px; font-weight: 600; }
+.sh .mpf-main .go { background: #0F766E; color: #fff !important; }
+.sh .mpf-main .ghost { border: 1.5px solid #0F766E; color: #0F766E !important; }
+.sh .mpf-main .go svg { width: 18px; height: 18px; }
+.sh .mpf-grid { display: grid; grid-template-columns: minmax(0, 1fr) 320px; gap: 14px; align-items: start; }
+.sh .mpf-card { padding: 16px; border-radius: 14px; background: #fff; border: 1px solid #e8eef4; }
+.sh .mpf-card h2 { margin: 0 0 10px; font-size: 17px; font-weight: 700; }
+.sh .mpf-card .copy { margin: 0; color: #4b5568; font-size: 13.5px; line-height: 1.6; white-space: pre-wrap; }
+.sh .mpf-facts { margin-top: 14px; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 10px; }
+.sh .mpf-facts > div { display: flex; align-items: center; gap: 10px; padding: 10px; border-radius: 11px; border: 1px solid #edf1f5; }
+.sh .mpf-facts i { flex: none; width: 40px; height: 40px; border-radius: 50%; background: #e3f6f5; color: #0F766E; display: grid; place-items: center; }
+.sh .mpf-facts i svg { width: 19px; height: 19px; }
+.sh .mpf-facts span { display: flex; flex-direction: column; }
+.sh .mpf-facts b { font-size: 14px; font-weight: 700; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.sh .mpf-facts small { color: #6a7c93; font-size: 11.5px; }
+.sh .mpf-side .clinic { margin: 0 0 8px; display: flex; align-items: center; gap: 12px; }
+.sh .mpf-side .clinic i { flex: none; width: 46px; height: 46px; border-radius: 12px; background: #e3f6f5; color: #0F766E; display: grid; place-items: center; }
+.sh .mpf-side .clinic i svg { width: 22px; height: 22px; }
+.sh .mpf-side .clinic span { display: flex; flex-direction: column; gap: 2px; }
+.sh .mpf-side .clinic b { font-size: 15px; }
+.sh .mpf-side .clinic small { display: inline-flex; align-items: center; gap: 4px; color: #6a7c93; font-size: 12px; }
+.sh .mpf-side .clinic small svg { width: 12px; height: 12px; }
+.sh .mpf-side .muted { margin: 0 0 8px; color: #6a7c93; font-size: 12.5px; }
+.sh .mpf-side .link { display: inline-flex; align-items: center; gap: 4px; color: #0F766E !important; font-size: 13px; font-weight: 600; }
+.sh .mpf-side .link svg { width: 14px; height: 14px; }
+.sh .mpf-similar h2 { margin: 0 0 10px; display: flex; align-items: center; justify-content: space-between; font-size: 18px; font-weight: 700; }
+.sh .mpf-similar h2 a { display: inline-flex; align-items: center; gap: 4px; color: #0F766E !important; font-size: 13px; font-weight: 600; }
+.sh .mpf-similar h2 svg { width: 14px; height: 14px; }
+.sh .mpf-similar > div { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 12px; }
+.sh .mpf-similar .sim { display: flex; align-items: center; gap: 12px; padding: 10px; border-radius: 12px; background: #fff; border: 1px solid #e8eef4; }
+.sh .mpf-similar .sim:hover { border-color: #a8ddd8; }
+.sh .mpf-similar img, .sh .mpf-similar .ini { flex: none; width: 54px; height: 54px; border-radius: 50%; object-fit: cover; background: #e3f6f5; color: #0F766E; display: grid; place-items: center; font-weight: 700; }
+.sh .mpf-similar .sim > span { display: flex; flex-direction: column; gap: 2px; }
+.sh .mpf-similar b { font-size: 13.5px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.sh .mpf-similar small { display: inline-flex; align-items: center; gap: 3px; color: #6a7c93; font-size: 11.5px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.sh .mpf-similar small svg { width: 11px; height: 11px; }
+.sh .mpf-toast { position: fixed; left: 50%; bottom: 28px; transform: translateX(-50%); z-index: 80; margin: 0; padding: 9px 16px; border-radius: 999px; background: #0b1220; color: #fff; font-size: 13px; }

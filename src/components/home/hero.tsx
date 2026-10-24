@@ -8,7 +8,7 @@ export function HomeHero() {
   return (
     <section className="grid grid-cols-[1.45fr_0.9fr] gap-4">
       <div className="relative min-h-[220px] overflow-hidden rounded-2xl bg-[#0F766E] text-white">
-        <div className="absolute inset-0 bg-[linear-gradient(90deg,#1d4ed8_0%,#2563eb_42%,transparent_78%)]" />
+        <div className="absolute inset-0 bg-[linear-gradient(90deg,#0F766E_0%,#0F766E_42%,transparent_78%)]" />
         <Image
           src="/images/hero-dentist.png"
           alt=""

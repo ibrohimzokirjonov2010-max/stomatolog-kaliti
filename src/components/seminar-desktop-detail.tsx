@@ -223,54 +223,52 @@ export function SeminarDetailDesktop({
 
       <div className="grid grid-cols-[minmax(0,1fr)_300px] gap-5 2xl:grid-cols-[minmax(0,1fr)_360px]">
         <div className="min-w-0">
-          {/* title row */}
-          <div className="flex items-start justify-between gap-4">
-            <div className="min-w-0">
-              <div className="flex flex-wrap items-center gap-2">
-                <span className="rounded-full bg-[#e3f6f4] px-2.5 py-0.5 text-[11.5px] font-semibold text-[#0F766E]">{specialtyLabels[s.specialty]}</span>
-                {!upcoming ? <span className="rounded-full bg-[#f1f3f8] px-2.5 py-0.5 text-[11.5px] font-semibold text-[#6b7280]">{s.status === "closed" ? "Yopilgan" : "O‘tgan"}</span> : null}
-                {s.organizer ? <span className="inline-flex items-center gap-1 text-[11.5px] text-[#6b7280]"><Building2 className="size-3.5" /> {s.organizer}</span> : null}
+          {/* hero banner: title over the seminar photo */}
+          <section className="relative overflow-hidden rounded-[18px] border border-[#e3e9f5] bg-[#eef6f6]">
+            {heroImg ? <Image key={heroImg} src={heroImg} alt="" fill priority className="object-cover object-right" sizes="(min-width:1536px) 980px, 780px" /> : null}
+            <div className="absolute inset-0 bg-gradient-to-r from-white via-white/90 to-white/10" aria-hidden />
+            <div className="relative flex min-h-[230px] flex-col p-5 2xl:min-h-[260px]">
+              <div className="flex items-start justify-between gap-4">
+                <div className="flex flex-wrap items-center gap-2">
+                  <span className="rounded-full bg-[#F0FDFA] px-2.5 py-0.5 text-[11.5px] font-semibold text-[#0F766E]">{specialtyLabels[s.specialty]}</span>
+                  {!upcoming ? <span className="rounded-full bg-[#f1f3f8] px-2.5 py-0.5 text-[11.5px] font-semibold text-[#6b7280]">{s.status === "closed" ? "Yopilgan" : "O‘tgan"}</span> : null}
+                  {s.organizer ? <span className="inline-flex items-center gap-1 rounded-full bg-white/80 px-2.5 py-0.5 text-[11.5px] text-[#4b5568]"><Building2 className="size-3.5" /> {s.organizer}</span> : null}
+                </div>
+                <div className="flex shrink-0 gap-2">
+                  <button
+                    type="button"
+                    aria-label={saved ? "Saqlanganlardan olib tashlash" : "Saqlash"}
+                    aria-pressed={saved}
+                    onClick={() => {
+                      toggleSavedSeminar(s.id);
+                      flash(saved ? "Saqlanganlardan olib tashlandi" : "Saqlandi");
+                    }}
+                    className={cn("grid size-10 place-items-center rounded-xl border bg-white transition-colors", saved ? "border-[#0F766E] text-[#0F766E]" : "border-[#e3e9f5] text-[#4b5568] hover:border-[#CCFBF1]")}
+                  >
+                    <Heart className={cn("size-[18px]", saved && "fill-current")} />
+                  </button>
+                  <button type="button" aria-label="Ulashish" onClick={shareNative} className="grid size-10 place-items-center rounded-xl border border-[#e3e9f5] bg-white text-[#4b5568] hover:border-[#CCFBF1]">
+                    <Share2 className="size-[18px]" />
+                  </button>
+                </div>
               </div>
-              <h1 className="mt-2 text-[27px] leading-[1.15] font-extrabold tracking-tight text-[#111827] 2xl:text-[31px]">{s.title}</h1>
-              {s.description ? <p className="mt-1.5 line-clamp-2 max-w-[760px] text-[13.5px] leading-snug text-[#5d6e86]">{s.description}</p> : null}
-            </div>
-            <div className="flex shrink-0 gap-2">
-              <button
-                type="button"
-                aria-label={saved ? "Saqlanganlardan olib tashlash" : "Saqlash"}
-                aria-pressed={saved}
-                onClick={() => {
-                  toggleSavedSeminar(s.id);
-                  flash(saved ? "Saqlanganlardan olib tashlandi" : "Saqlandi");
-                }}
-                className={cn("grid size-10 place-items-center rounded-xl border bg-white transition-colors", saved ? "border-[#0F766E] text-[#0F766E]" : "border-[#e3e9f5] text-[#4b5568] hover:border-[#CCFBF1]")}
-              >
-                <Heart className={cn("size-[18px]", saved && "fill-current")} />
-              </button>
-              <button type="button" aria-label="Ulashish" onClick={shareNative} className="grid size-10 place-items-center rounded-xl border border-[#e3e9f5] bg-white text-[#4b5568] hover:border-[#CCFBF1]">
-                <Share2 className="size-[18px]" />
-              </button>
-            </div>
-          </div>
+              <h1 className="mt-2 max-w-[62%] text-[28px] leading-[1.12] font-extrabold tracking-tight text-[#0f1e3d] 2xl:text-[32px]">{s.title}</h1>
+              {s.description ? <p className="mt-1.5 line-clamp-2 max-w-[60%] text-[13.5px] leading-snug text-[#4b5568]">{s.description}</p> : null}
+              <div className={cn("mt-auto grid max-w-[70%] grid-cols-2 gap-2 pt-4 xl:max-w-[78%]", facts.length === 4 ? "xl:grid-cols-4" : "xl:grid-cols-3")}>
+                {facts.map(({ icon: Icon, title, sub }) => (
+                  <div key={title + sub} className="flex items-center gap-2 rounded-xl border border-[#e3e9f5] bg-white/95 px-2.5 py-2 shadow-[0_2px_10px_rgba(15,30,61,0.05)]">
+                    <span className="grid size-8 shrink-0 place-items-center rounded-lg bg-[#F0FDFA] text-[#0F766E]">
+                      <Icon className="size-4" />
+                    </span>
+                    <span className="min-w-0">
+                      <span className="block truncate text-[12px] leading-tight font-bold text-[#0f1e3d]">{title}</span>
+                      <span className="mt-0.5 block truncate text-[10.5px] leading-snug text-[#0F766E]">{sub}</span>
+                    </span>
+                  </div>
+                ))}
 
-          {/* fact cards */}
-          <div className={cn("mt-4 grid gap-3", facts.length === 4 ? "grid-cols-4" : "grid-cols-3")}>
-            {facts.map(({ icon: Icon, title, sub }) => (
-              <div key={title + sub} className="flex items-center gap-2.5 rounded-2xl border border-[#e3e9f5] bg-white px-3 py-2.5">
-                <span className="grid size-9 shrink-0 place-items-center rounded-xl bg-[#e3f6f4] text-[#0F766E]">
-                  <Icon className="size-4" />
-                </span>
-                <span className="min-w-0">
-                  <span className="block text-[12.5px] leading-tight font-bold text-[#111827]">{title}</span>
-                  <span className="mt-0.5 block line-clamp-2 text-[11px] leading-snug text-[#0F766E]">{sub}</span>
-                </span>
               </div>
-            ))}
-          </div>
-
-          {/* hero strip */}
-          <section className="relative mt-4 h-[200px] overflow-hidden rounded-[18px] bg-[#e3eaf3] 2xl:h-[240px]">
-            {heroImg ? <Image key={heroImg} src={heroImg} alt={s.title} fill priority className="object-cover" sizes="(min-width:1536px) 980px, 780px" /> : null}
+            </div>
             {slides.length > 1 ? (
               <button
                 type="button"
@@ -283,12 +281,24 @@ export function SeminarDetailDesktop({
             ) : null}
           </section>
 
+          {/* format strip */}
+          {featureCards.some((f) => f.on) ? (
+            <div className="mt-3 grid gap-2" style={{ gridTemplateColumns: `repeat(${Math.min(5, featureCards.filter((f) => f.on).length)}, minmax(0, 1fr))` }}>
+              {featureCards.filter((f) => f.on).slice(0, 5).map(({ icon: Icon, title }) => (
+                <div key={title} className="flex items-center gap-2 rounded-xl border border-[#e3e9f5] bg-white px-3 py-2.5">
+                  <span className="grid size-8 shrink-0 place-items-center rounded-lg bg-[#F0FDFA] text-[#0F766E]"><Icon className="size-4" /></span>
+                  <span className="text-[12px] leading-tight font-semibold text-[#0f1e3d]">{title}</span>
+                </div>
+              ))}
+            </div>
+          ) : null}
+
           {/* about + speaker */}
-          <div className="mt-4 grid grid-cols-[minmax(0,1fr)_300px] gap-4 2xl:grid-cols-[minmax(0,1fr)_340px]">
+          <div className="mt-4 grid grid-cols-1 gap-4 xl:grid-cols-[minmax(0,1fr)_300px] 2xl:grid-cols-[minmax(0,1fr)_340px]">
             <section className="rounded-[18px] border border-[#e3e9f5] bg-white p-5">
               <SectionTitle>Seminar haqida</SectionTitle>
               {s.description ? <p className="text-[13.5px] leading-relaxed text-[#4b5568]">{s.description}</p> : <Soon>Seminar tavsifi tez orada qo‘shiladi.</Soon>}
-              <div className="mt-4 grid grid-cols-[minmax(0,1.15fr)_minmax(0,1fr)] gap-4">
+              <div className="mt-4 grid grid-cols-1 gap-4 md:grid-cols-[minmax(0,1.15fr)_minmax(0,1fr)]">
                 <div className="rounded-2xl bg-[#f6f9fc] p-4">
                   <p className="mb-2.5 text-[13.5px] font-bold text-[#111827]">Nimalarni o‘rganasiz?</p>
                   {learnings.length || days.length ? (
@@ -329,9 +339,9 @@ export function SeminarDetailDesktop({
                   {speakers.slice(0, 3).map((sp) => (
                     <li key={`${sp.name}-${sp.role}`} className="flex items-center gap-3">
                       {sp.photo ? (
-                        <Image src={sp.photo} alt="" width={64} height={64} className="size-16 shrink-0 rounded-full object-cover ring-2 ring-[#e3f6f4]" />
+                        <Image src={sp.photo} alt="" width={64} height={64} className="size-16 shrink-0 rounded-full object-cover ring-2 ring-[#F0FDFA]" />
                       ) : (
-                        <span className="grid size-16 shrink-0 place-items-center rounded-full bg-[#e3f6f4] text-[17px] font-bold text-[#0F766E]">{initials(sp.name)}</span>
+                        <span className="grid size-16 shrink-0 place-items-center rounded-full bg-[#F0FDFA] text-[17px] font-bold text-[#0F766E]">{initials(sp.name)}</span>
                       )}
                       <span className="min-w-0">
                         <span className="block text-[14px] font-bold text-[#111827]">{sp.name}</span>
@@ -473,7 +483,7 @@ export function SeminarDetailDesktop({
                 {similar.map((x) => (
                   <li key={x.id}>
                     <Link href={`/seminarlar/${x.id}`} className="group flex items-center gap-3">
-                      <span className="relative h-[46px] w-[64px] shrink-0 overflow-hidden rounded-lg bg-[#e3f6f4]">
+                      <span className="relative h-[46px] w-[64px] shrink-0 overflow-hidden rounded-lg bg-[#F0FDFA]">
                         {x.image ? <Image src={x.image} alt="" fill className="object-cover" sizes="64px" /> : null}
                       </span>
                       <span className="min-w-0 flex-1">
@@ -541,7 +551,7 @@ function ProgramList({ rows }: { rows: { time: string; title: string }[] }) {
 function DetailRow({ icon: Icon, label, children }: { icon: LucideIcon; label: string; children: ReactNode }) {
   return (
     <li className="flex items-start gap-3">
-      <span className="grid size-8 shrink-0 place-items-center rounded-lg bg-[#e3f6f4]">
+      <span className="grid size-8 shrink-0 place-items-center rounded-lg bg-[#F0FDFA]">
         <Icon className="size-4" style={{ color: BLUE }} />
       </span>
       <span className="min-w-0">

@@ -1,0 +1,59 @@
+/* "Yangi xizmat qo'shish" dialog. Every rule is scoped under .svm to beat ClinicShell resets. */
+.svm { position: fixed; inset: 0; z-index: 90; display: grid; place-items: center; padding: 24px; background: rgba(15, 23, 42, .45); }
+.svm * { box-sizing: border-box; min-width: 0; }
+.svm button { font: inherit; cursor: pointer; }
+.svm .svm-box { width: min(920px, 100%); max-height: calc(100dvh - 48px); display: flex; flex-direction: column; border-radius: 16px; background: #fff; color: #0b1a3a; box-shadow: 0 24px 60px rgba(15, 23, 42, .25); overflow: hidden; }
+.svm .svm-head { display: flex; align-items: center; gap: 14px; padding: 16px 20px; border-bottom: 1px solid #eef2f6; }
+.svm .svm-logo { flex: none; width: 46px; height: 46px; border-radius: 12px; background: #e3f6f5; color: #0F766E; display: grid; place-items: center; }
+.svm .svm-logo svg { width: 26px; height: 26px; }
+.svm .svm-head h2 { margin: 0; font-size: 19px; font-weight: 700; }
+.svm .svm-head p { margin: 2px 0 0; color: #6a7c93; font-size: 13px; }
+.svm .svm-x { margin-left: auto; width: 34px; height: 34px; border-radius: 50%; border: 0; background: none; color: #4b5568; display: grid; place-items: center; }
+.svm .svm-x:hover { background: #f1f5f9; }
+.svm .svm-x svg { width: 18px; height: 18px; }
+.svm .svm-body { flex: 1; min-height: 0; overflow: auto; display: grid; grid-template-columns: 1fr 1fr; gap: 14px; padding: 14px 20px; background: #f8fafc; }
+.svm .svm-col { display: flex; flex-direction: column; gap: 12px; }
+.svm .svm-card { padding: 14px; border-radius: 12px; background: #fff; border: 1px solid #e8eef4; display: flex; flex-direction: column; gap: 10px; }
+.svm .svm-card h3 { margin: 0; font-size: 14px; font-weight: 700; }
+.svm .svm-f { display: flex; flex-direction: column; gap: 5px; }
+.svm .svm-f > span:first-child { font-size: 12.5px; font-weight: 500; color: #24344d; }
+.svm .svm-f em { color: #e11d48; font-style: normal; }
+.svm .svm-f input, .svm .svm-f select, .svm .svm-f textarea { width: 100%; height: 38px; padding: 0 11px; border-radius: 9px; border: 1px solid #e0e7ef; background: #fff; font: inherit; font-size: 13px; color: #0b1a3a; outline: none; }
+.svm .svm-f textarea { height: auto; padding: 9px 11px; resize: vertical; line-height: 1.45; }
+.svm .svm-f input:focus, .svm .svm-f select:focus, .svm .svm-f textarea:focus { border-color: #0F766E; }
+.svm .svm-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+.svm .svm-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; }
+.svm .svm-code { display: flex; gap: 6px; }
+.svm .svm-code button { flex: none; width: 38px; height: 38px; border-radius: 9px; border: 1px solid #e0e7ef; background: #fff; color: #4b5568; display: grid; place-items: center; }
+.svm .svm-code svg { width: 15px; height: 15px; }
+.svm .svm-pics { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 8px; }
+.svm .svm-up { grid-row: span 2; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 4px; border-radius: 10px; border: 1.5px dashed #b9d9e6; background: #f4f9fc; text-align: center; cursor: pointer; overflow: hidden; }
+.svm .svm-up svg { width: 22px; height: 22px; color: #0F766E; }
+.svm .svm-up b { font-size: 11.5px; font-weight: 600; color: #0F766E; }
+.svm .svm-up small { color: #8b93a7; font-size: 10px; }
+.svm .svm-up img { width: 100%; height: 100%; object-fit: cover; }
+.svm .svm-pics > button { height: 56px; padding: 0; border-radius: 9px; border: 2px solid transparent; background: #f2f5f8; overflow: hidden; }
+.svm .svm-pics > button.on { border-color: #0F766E; }
+.svm .svm-pics > button img { width: 100%; height: 100%; object-fit: cover; }
+.svm .svm-hint { margin: 0; color: #8b93a7; font-size: 11.5px; }
+.svm .svm-sw { display: inline-flex; align-items: center; gap: 8px; height: 38px; border: 0; background: none; color: #24344d; font-size: 13px; }
+.svm .svm-sw i { position: relative; width: 38px; height: 22px; border-radius: 999px; background: #d5dde8; transition: background .15s; }
+.svm .svm-sw i::after { content: ""; position: absolute; top: 3px; left: 3px; width: 16px; height: 16px; border-radius: 50%; background: #fff; transition: left .15s; }
+.svm .svm-sw.on i { background: #0F766E; }
+.svm .svm-sw.on i::after { left: 19px; }
+.svm .svm-chips { display: flex; flex-wrap: wrap; align-items: center; gap: 6px; min-height: 38px; padding: 5px 9px; border-radius: 9px; border: 1px solid #e0e7ef; color: #8b93a7; }
+.svm .svm-chips > svg { width: 15px; height: 15px; flex: none; }
+.svm .svm-chips b { display: inline-flex; align-items: center; gap: 4px; height: 24px; padding: 0 8px; border-radius: 6px; background: #eef4fb; color: #1e3a6b; font-size: 12px; font-weight: 500; }
+.svm .svm-chips b button { border: 0; background: none; padding: 0; color: #4b5568; display: grid; place-items: center; }
+.svm .svm-chips b svg { width: 11px; height: 11px; }
+.svm .svm-chips input { flex: 1; min-width: 120px; height: 26px; border: 0; padding: 0; outline: 0; font: inherit; font-size: 12.5px; color: #0b1a3a; }
+.svm .svm-colors { display: flex; gap: 10px; }
+.svm .svm-colors button { width: 30px; height: 30px; border-radius: 50%; border: 2px solid #fff; box-shadow: 0 0 0 1px #dbe3ea; color: #115E59; display: grid; place-items: center; }
+.svm .svm-colors button.on { box-shadow: 0 0 0 2px #0F766E; }
+.svm .svm-colors svg { width: 15px; height: 15px; }
+.svm .svm-foot { display: flex; align-items: center; gap: 10px; padding: 12px 20px; border-top: 1px solid #eef2f6; }
+.svm .svm-foot > p, .svm .svm-foot > span { flex: 1; margin: 0; color: #dc2626; font-size: 13px; }
+.svm .svm-cancel, .svm .svm-save { height: 42px; padding: 0 26px; border-radius: 10px; font-size: 14px; font-weight: 600; display: inline-flex; align-items: center; gap: 8px; }
+.svm .svm-cancel { border: 1.5px solid #0F766E; background: #fff; color: #0F766E; }
+.svm .svm-save { border: 0; background: #0F766E; color: #fff; }
+.svm .svm-save svg { width: 17px; height: 17px; }

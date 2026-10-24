@@ -1,37 +1,30 @@
 "use client";
 /* eslint-disable @next/next/no-img-element */
 
-import { useEffect, useMemo, useState } from "react";
+import { useMemo, useState } from "react";
+import Link from "next/link";
 import { useSearchParams } from "next/navigation";
-import { ArrowRight, BadgeCheck, Bookmark, ClipboardList, Flame, Heart, HelpCircle, ImagePlus, MessageCircle, MessagesSquare, Plus, Send, ShieldCheck, Star, Trophy } from "lucide-react";
+import { ArrowRight, BadgeCheck, Bookmark, ChevronDown, ClipboardList, Flame, Heart, HelpCircle, MessageCircle, MessagesSquare, MoreHorizontal, Plus, Send, Share2, Trophy, X } from "lucide-react";
 import { ShopShell } from "@/components/shop/desktop/ShopShell";
 import { useShopLineCount } from "@/components/shop/desktop/shop-cart";
 import { useCommunityWork } from "@/components/community-provider";
-import { useDoctorProfile } from "@/components/doctor-profile-provider";
-import { uploadImage } from "@/lib/image-upload";
-import { CASE_TAGS, caseProblem } from "@/lib/forms/p0";
-import {
-  communityCategories,
-  communityRules,
-  type CommunityPost,
-  type PostKind,
-} from "@/data/desktop-hub";
+import { useFavorites } from "@/components/favorites-provider";
+import { CASE_TAGS } from "@/lib/forms/p0";
+import type { CommunityPost, PostKind } from "@/data/desktop-hub";
 import type { CommunityPost as LivePost } from "@/data/community";
+import { COMPOSER_KINDS, PostComposer } from "./PostComposer";
 import "./hub.css";
 import "./community.css";
-
-const kinds = [
-  { id: "keys" as PostKind, label: "Klinik keys", icon: ClipboardList },
-  { id: "savol" as PostKind, label: "Savol", icon: HelpCircle },
-  { id: "muhokama" as PostKind, label: "Muhokama", icon: MessagesSquare },
-];
 
 const tabs = [
   { id: "lenta", label: "Lenta" },
   { id: "keys", label: "Klinik keyslar" },
   { id: "savol", label: "Savollar" },
+  { id: "muhokama", label: "Muhokamalar" },
   { id: "mine", label: "Mening postlarim" },
 ] as const;
+
+type Tab = (typeof tabs)[number]["id"];
 
 function mapLive(post: LivePost, viewerId: string | null): CommunityPost {
   const lines = post.text.split("\n").filter((line) => line.trim());
@@ -47,7 +40,7 @@ function mapLive(post: LivePost, viewerId: string | null): CommunityPost {
     body: lines.length > 1 ? lines.slice(1).join("\n").trim() : post.text,
     kind,
     time: post.time,
-    category: post.tags[0] || "Klinik holatlar",
+    category: post.tags[0] || "",
     photos: (post.images ?? []).map((src) => ({ src, label: "" })),
     tags: post.tags,
     likes: post.likes,
@@ -56,341 +49,256 @@ function mapLive(post: LivePost, viewerId: string | null): CommunityPost {
   };
 }
 
+const kindLabel: Record<PostKind, string> = { keys: "Klinik keys", savol: "Savol", muhokama: "Muhokama" };
+
+/** Desktop /community (mock "community dizayini"). Posting happens in PostComposer. */
 export function CommunityDesktop() {
   const cartCount = useShopLineCount();
   const work = useCommunityWork();
-  const { profile } = useDoctorProfile();
+  const favorites = useFavorites();
   const params = useSearchParams();
   const paramQ = params.get("q") ?? "";
   const [q, setQ] = useState(paramQ);
   const posts = useMemo(() => work.feed.map((post) => mapLive(post, work.viewerId)), [work.feed, work.viewerId]);
-  const [text, setText] = useState("");
-  const [kind, setKind] = useState<PostKind>("keys");
-  const [photo, setPhoto] = useState<string | null>(null);
-  const [photoFile, setPhotoFile] = useState<File | null>(null);
-  const [tab, setTab] = useState<(typeof tabs)[number]["id"]>("lenta");
-  const [category, setCategory] = useState("Barchasi");
+  const [tab, setTab] = useState<Tab>("lenta");
+  const [topic, setTopic] = useState("");
   const [sort, setSort] = useState<"new" | "hot">("new");
-  const [sortOpen, setSortOpen] = useState(false);
-  const [likes, setLikes] = useState<Record<string, boolean>>({});
-  const [saved, setSaved] = useState<string[]>([]);
-  const [replyFor, setReplyFor] = useState<string | null>(null);
-  const [reply, setReply] = useState("");
   const [trendOn, setTrendOn] = useState<string | null>(null);
-  const [rulesOpen, setRulesOpen] = useState(true);
-  const [consent, setConsent] = useState(false);
-  const [faceAck, setFaceAck] = useState(false);
-  const [note, setNote] = useState("");
+  const [composer, setComposer] = useState<PostKind | null>(null);
+  const [promoOpen, setPromoOpen] = useState(true);
 
-  useEffect(() => {
+  // A new ?q= from the header search replaces whatever was typed before.
+  const [seenQ, setSeenQ] = useState(paramQ);
+  if (seenQ !== paramQ) {
+    setSeenQ(paramQ);
     setQ(paramQ);
-  }, [paramQ]);
+  }
+
+  const topics = useMemo(
+    () => CASE_TAGS.map((label) => ({ label, count: posts.filter((post) => post.tags.some((tag) => tag.toLowerCase() === label.toLowerCase())).length })),
+    [posts],
+  );
 
   const shown = useMemo(() => {
     const query = q.trim().toLowerCase();
     const rows = posts.filter((post) => {
       if (tab === "keys" && post.kind !== "keys") return false;
       if (tab === "savol" && post.kind !== "savol") return false;
+      if (tab === "muhokama" && post.kind !== "muhokama") return false;
       if (tab === "mine" && !post.mine) return false;
-      if (category !== "Barchasi" && post.category !== category && !(category === "Klinik holatlar" && post.kind === "keys")) return false;
-      if (trendOn && !post.tags.some((tag) => tag.toLowerCase() === trendOn.toLowerCase()) && !post.title.toLowerCase().includes(trendOn.replace("#", "").toLowerCase())) return false;
+      if (topic && !post.tags.some((tag) => tag.toLowerCase() === topic.toLowerCase())) return false;
+      if (trendOn && !post.tags.some((tag) => tag.toLowerCase() === trendOn.toLowerCase())) return false;
       if (!query) return true;
       return `${post.title} ${post.body} ${post.author} ${post.tags.join(" ")}`.toLowerCase().includes(query);
     });
-    if (sort === "hot") return [...rows].sort((a, b) => b.likes - a.likes);
+    if (sort === "hot") return [...rows].sort((a, b) => b.likes + b.comments - (a.likes + a.comments));
     return rows;
-  }, [posts, tab, category, q, sort, trendOn]);
+  }, [posts, tab, topic, q, sort, trendOn]);
 
-  async function publish() {
-    const body = text.trim();
-    if (!body) return;
-    if (kind === "keys") {
-      const problem = caseProblem({
-        text: body,
-        tags: CASE_TAGS.slice(0, 1),
-        images: [],
-        consent,
-        faceAck,
-        complaint: body,
-        diagnosis: body,
-        steps: body,
-      });
-      setNote(problem || "Klinik holatni /community dagi to‘liq formada joylang: rozilik, oldin/keyin rasmlar va bosqichlar.");
-      return;
-    }
-    let images: string[] | undefined;
-    if (photoFile) {
-      try {
-        images = [await uploadImage(photoFile, "post")];
-      } catch {
-        return;
-      }
-    }
-    const result = await work.publish({
-      kind: kind === "savol" ? "savol" : "yangilik",
-      text: body,
-      tags: category === "Barchasi" ? [] : [category],
-      images,
-    });
-    if (!result.ok) {
-      setNote(result.error);
-      return;
-    }
-    setNote("");
-    setText("");
-    setPhoto(null);
-    setPhotoFile(null);
-    setTab("mine");
-  }
+  const savedPosts = useMemo(() => posts.filter((post) => favorites.has(`post:${post.id}`)).slice(0, 3), [favorites, posts]);
 
   return (
-    <ShopShell searchPath="/community" cartCount={cartCount} placeholder="Stomatologga nima kerak?" showCamera={false}>
-      <div className="hub-split cmd">
-        <div className="hub-page">
-          <div className="hub-head">
+    <ShopShell searchPath="/community" cartCount={cartCount} placeholder="Stomatologlar, mavzular yoki postlarni qidirish..." showCamera={false}>
+      <div className="cv">
+        <div className="cv-main">
+          <div className="cv-head">
             <div>
               <h1>Community</h1>
-              <p>Stomatologlar uchun professional bilim va tajriba almashish maydoni.</p>
+              <p>Stomatologlar uchun professional bilim, tajriba va muhokama maydoni.</p>
             </div>
-            <button type="button" className="hub-btn" onClick={() => document.getElementById("hub-composer")?.focus()}>
-              <Plus className="i" /> Post yozish
+            <button type="button" className="cv-write" onClick={() => setComposer("keys")} data-testid="cv-write">
+              <Plus /> Post yozish
             </button>
           </div>
-          <section className="hub-box hub-compose">
-            {profile?.avatarUrl ? (
-              <img src={profile.avatarUrl} alt="" />
-            ) : (
-              <span className="cm-ini" aria-hidden>
-                {(profile?.fullName || "S").replace(/^Dr\.?\s*/i, "").slice(0, 1).toUpperCase()}
-              </span>
-            )}
-            <div style={{ flex: 1 }}>
-              <textarea id="hub-composer" value={text} onChange={(event) => setText(event.target.value)} placeholder="Keys yoki savolingizni yozing..." />
-              <div className="hub-kinds">
-                {kinds.map((item) => {
-                  const Icon = item.icon;
-                  return (
-                    <button key={item.id} type="button" className={kind === item.id ? "cm-kind on" : "cm-kind"} aria-pressed={kind === item.id} onClick={() => setKind(item.id)}>
-                      <Icon className="i" /> {item.label}
-                    </button>
-                  );
-                })}
-                <label className="cm-photo">
-                  <ImagePlus className="i" /> Rasm qo‘shish
-                  <input
-                    type="file"
-                    accept="image/*"
-                    hidden
-                    onChange={(event) => {
-                      const file = event.target.files?.[0];
-                      if (!file) return;
-                      setPhotoFile(file);
-                      const reader = new FileReader();
-                      reader.onload = () => setPhoto(String(reader.result));
-                      reader.readAsDataURL(file);
-                    }}
-                  />
-                </label>
-                <button type="button" className="hub-btn cm-publish" onClick={publish} disabled={!text.trim()}>
-                  Post joylash
+
+          <div className="cv-kinds">
+            {COMPOSER_KINDS.map((item) => {
+              const Icon = item.icon;
+              return (
+                <button key={item.id} type="button" className={`cv-kind ${item.tone}`} onClick={() => setComposer(item.id)}>
+                  <i><Icon /></i>
+                  <span><b>{item.label} <ArrowRight /></b><small>{item.text}</small></span>
                 </button>
-              </div>
-              {kind === "keys" ? (
-                <div className="mt-2 grid gap-1 text-[12.5px]">
-                  <label className="flex items-center gap-2"><input type="checkbox" checked={consent} onChange={(event) => setConsent(event.target.checked)} /> Bemor roziligi</label>
-                  <label className="flex items-center gap-2"><input type="checkbox" checked={faceAck} onChange={(event) => setFaceAck(event.target.checked)} /> Yuz ko‘rinmaydi</label>
-                </div>
-              ) : null}
-              {note ? <p className="mt-2 text-[13px] text-[#9a3412]">{note}</p> : null}
-              {photo ? <img className="hub-preview" src={photo} alt="" /> : null}
-            </div>
-          </section>
-          <div className="hub-frow cm-tabs" role="tablist">
+              );
+            })}
+          </div>
+
+          <div className="cv-topics">
+            <button type="button" className={topic === "" ? "on" : undefined} onClick={() => setTopic("")}>Barchasi</button>
+            {topics.map((item) => (
+              <button key={item.label} type="button" className={topic === item.label ? "on" : undefined} onClick={() => setTopic(topic === item.label ? "" : item.label)}>
+                {item.label} <small>{item.count}</small>
+              </button>
+            ))}
+          </div>
+
+          <div className="cv-tabs" role="tablist">
             {tabs.map((item) => (
-              <button key={item.id} type="button" role="tab" aria-selected={tab === item.id} className={tab === item.id ? "cm-tab on" : "cm-tab"} onClick={() => setTab(item.id)}>
+              <button key={item.id} type="button" role="tab" aria-selected={tab === item.id} className={tab === item.id ? "on" : undefined} onClick={() => setTab(item.id)}>
                 {item.label}
               </button>
             ))}
-            <div className="hub-tools">
-              <div className={sortOpen ? "dk-drop on" : "dk-drop"}>
-                <button type="button" onClick={() => setSortOpen((open) => !open)}>
-                  Saralash: {sort === "new" ? "Yangi" : "Mashhur"}
-                </button>
-                {sortOpen ? (
-                  <div className="dk-pop">
-                    <button type="button" className="hub-check" onClick={() => { setSort("new"); setSortOpen(false); }}>
-                      Yangi
-                    </button>
-                    <button type="button" className="hub-check" onClick={() => { setSort("hot"); setSortOpen(false); }}>
-                      Mashhur
-                    </button>
-                  </div>
-                ) : null}
-              </div>
+            <label className="cv-sort">
+              Saralash:
+              <select value={sort} onChange={(event) => setSort(event.target.value as "new" | "hot")} aria-label="Saralash">
+                <option value="new">Yangi</option>
+                <option value="hot">Mashhur</option>
+              </select>
+              <ChevronDown />
+            </label>
+          </div>
+
+          {trendOn ? (
+            <p className="cv-filter">
+              #{trendOn.replace(/\s+/g, "")} bo‘yicha postlar
+              <button type="button" aria-label="Filtrni olib tashlash" onClick={() => setTrendOn(null)}><X /></button>
+            </p>
+          ) : null}
+
+          {!work.ready ? <div className="cv-empty">Yuklanmoqda…</div> : shown.length === 0 ? (
+            <div className="cv-empty">
+              Bu bo‘limda post yo‘q.
+              <button type="button" onClick={() => setComposer(tab === "savol" ? "savol" : tab === "muhokama" ? "muhokama" : "keys")}>Birinchi bo‘lib yozing</button>
             </div>
-          </div>
-          <div className="hub-frow cmd-cats">
-            {communityCategories.map((item) => (
-              <button key={item} type="button" className={category === item ? "hub-chip on" : "hub-chip"} onClick={() => setCategory(item)}>
-                {item}
-              </button>
-            ))}
-          </div>
-          {shown.length === 0 ? <div className="hub-empty">Bu bo‘limda post yo‘q. Birinchi bo‘lib yozing.</div> : null}
-          {shown.map((post) => {
-            const liked = Boolean(likes[post.id]);
-            return (
-              <article className="hub-post" key={post.id}>
-                <div className="top">
-                  <img src={post.avatar} alt="" />
-                  <div>
-                    <b>
-                      {post.author} <BadgeCheck className="cm-verified" aria-label="Tasdiqlangan" />
-                    </b>
-                    <small>
-                      {post.role} · {post.city}
-                    </small>
-                  </div>
-                  <span className="hub-pill">
-                    {post.kind === "keys" ? <ClipboardList className="i" /> : post.kind === "savol" ? <HelpCircle className="i" /> : <MessagesSquare className="i" />}
-                    {post.kind === "keys" ? "Klinik keys" : post.kind === "savol" ? "Savol" : "Muhokama"}
-                  </span>
-                  <small>{post.time}</small>
-                </div>
-                {post.title ? <h3>{post.title}</h3> : null}
-                {post.body ? <p className="body">{post.body}</p> : null}
-                {post.fdi ? (
-                  <div className="hub-facts">
-                    <div className="hub-fact">
-                      <small>FDI tish raqami</small>
-                      <b>{post.fdi}</b>
-                    </div>
-                    <div className="hub-fact">
-                      <small>Diagnoz</small>
-                      <b>{post.diagnoz}</b>
-                    </div>
-                    <div className="hub-fact">
-                      <small>Davolash</small>
-                      <b>{post.davolash}</b>
-                    </div>
-                    <div className="hub-fact">
-                      <small>Natija</small>
-                      <b>{post.natija}</b>
-                    </div>
-                  </div>
-                ) : null}
-                {post.photos.length ? (
-                  <div className={post.photos.length > 4 ? "hub-photos five" : "hub-photos"}>
-                    {post.photos.slice(0, 5).map((photoItem, index) => (
-                      <figure key={`${index}-${photoItem.src}`}>
-                        <img src={photoItem.src} alt={photoItem.label || `${post.title || post.author}, rasm ${index + 1}`} />
-                        {photoItem.label ? <figcaption>{photoItem.label}</figcaption> : null}
-                      </figure>
-                    ))}
-                  </div>
-                ) : null}
-                <div className="hub-ptags">
-                  {post.tags.map((tag) => (
-                    <span key={tag}>#{tag.replace(/\s+/g, "")}</span>
-                  ))}
-                </div>
-                <div className="hub-react">
-                  <button type="button" className={work.isLiked(post.id) || liked ? "on" : ""} onClick={() => void work.toggleLike(post.id)}>
-                    <Heart className="i" /> {post.likes}
-                  </button>
-                  {post.mine ? <button type="button" onClick={() => void work.deletePost(post.id)}>O‘chirish</button> : null}
-                  <button type="button" onClick={() => setReplyFor(replyFor === post.id ? null : post.id)}>
-                    <MessageCircle className="i" /> {post.comments}
-                  </button>
-                  <button type="button" className={saved.includes(post.id) ? "on" : ""} onClick={() => setSaved((prev) => (prev.includes(post.id) ? prev.filter((id) => id !== post.id) : [...prev, post.id]))}>
-                    <Bookmark className="i" /> {saved.includes(post.id) ? "Saqlangan" : "Saqlash"}
-                  </button>
-                  <button type="button" className="go" onClick={() => setReplyFor(replyFor === post.id ? null : post.id)}>
-                    Javob berish <ArrowRight className="i" />
-                  </button>
-                </div>
-                {replyFor === post.id ? (
-                  <form
-                    className="hub-reply"
-                    onSubmit={(event) => {
-                      event.preventDefault();
-                      if (!reply.trim()) return;
-                      void work.addComment(post.id, reply).then((ok) => {
-                        if (!ok) return;
-                        setReply("");
-                        setReplyFor(null);
-                      });
-                    }}
-                  >
-                    <input value={reply} onChange={(event) => setReply(event.target.value)} placeholder="Javob yozing..." />
-                    <button type="submit" className="hub-btn" aria-label="Yuborish">
-                      <Send className="i" />
-                    </button>
-                  </form>
-                ) : null}
-              </article>
-            );
-          })}
+          ) : (
+            shown.map((post) => <PostCard key={post.id} post={post} />)
+          )}
         </div>
-        <aside className="hub-rail">
-          <section className="hub-box">
-            <h3>
-              <span className="cm-h">
-                <Trophy className="i gold" /> Haftaning top a’zolari
-              </span>
-            </h3>
-            {work.doctors.length === 0 ? <p className="hub-empty">Hali a’zo yo‘q</p> : work.doctors.map((member, index) => (
-              <div className="hub-member" key={member.id}>
+
+        <aside className="cv-rail">
+          <section className="cv-box">
+            <h3><span><Trophy className="gold" /> Haftaning top a’zolari</span><Link href="/mutaxassislar">Barchasini ko‘rish <ArrowRight /></Link></h3>
+            {work.doctors.length === 0 ? <p className="cv-muted">Hali a’zo yo‘q</p> : work.doctors.slice(0, 5).map((member, index) => (
+              <div className="cv-member" key={member.id}>
                 <span className={`n r${index + 1}`}>{index + 1}</span>
                 <img src={member.avatar || "/img/design-pr13/ui/avatar.png"} alt="" />
-                <div>
-                  <b>{member.name}</b>
-                  <small>{member.specialty}</small>
-                </div>
-                <em>
-                  <Star className="i" /> {member.score}
-                  <small>ball</small>
-                </em>
+                <span className="who"><b>{member.name}</b><small>{member.specialty}</small></span>
+                <em>{member.score}<small>ball</small></em>
               </div>
             ))}
           </section>
-          <section className="hub-box">
-            <h3>
-              <span className="cm-h">
-                <Flame className="i fire" /> Trend mavzular
-              </span>
-            </h3>
-            {work.trends.length === 0 ? <p className="hub-empty">Hali trend yo‘q</p> : work.trends.map((item, index) => (
-              <button key={item.tag} type="button" className="hub-trend" onClick={() => setTrendOn(trendOn === item.tag ? null : item.tag)}>
+
+          <section className="cv-box">
+            <h3><span><Flame className="fire" /> Trend mavzular</span>{trendOn ? <button type="button" onClick={() => setTrendOn(null)}>Barchasi</button> : null}</h3>
+            {work.trends.length === 0 ? <p className="cv-muted">Hali trend yo‘q</p> : work.trends.slice(0, 5).map((item, index) => (
+              <button key={item.tag} type="button" className={trendOn === item.tag ? "cv-trend on" : "cv-trend"} onClick={() => setTrendOn(trendOn === item.tag ? null : item.tag)}>
                 <span>{index + 1}</span>
                 <b>#{item.tag.replace(/\s+/g, "")}</b>
-                <em>{item.posts} ta post</em>
+                <em>{item.posts} post</em>
               </button>
             ))}
-            <button type="button" className="hub-more" onClick={() => setTrendOn(null)}>
-              Barcha trend mavzular →
-            </button>
           </section>
-          <section className="hub-box">
-            <h3>
-              <span className="cm-h">
-                <ShieldCheck className="i shield" /> Community qoidalari
-              </span>
-              <button type="button" onClick={() => setRulesOpen((open) => !open)}>
-                {rulesOpen ? "Yig‘ish" : "Ochish"}
-              </button>
-            </h3>
-            {rulesOpen
-              ? communityRules.map((rule, index) => (
-                  <div className="hub-rule" key={rule}>
-                    <i>{index + 1}</i>
-                    <span>{rule}</span>
-                  </div>
-                ))
-              : null}
+
+          {promoOpen ? (
+            <section className="cv-promo">
+              <img src="/img/marketing/community-share.jpg" alt="" />
+              <button type="button" className="cv-promo-x" aria-label="Yopish" onClick={() => setPromoOpen(false)}><X /></button>
+              <b>Klinik holatingizni ulashing</b>
+              <small>Hamkasblaringizdan fikr oling, tajriba almashing</small>
+              <button type="button" className="cv-promo-go" onClick={() => setComposer("keys")}><Plus /> Post yozish</button>
+            </section>
+          ) : null}
+
+          <section className="cv-box">
+            <h3><span>Mening saqlanganlarim</span><Link href="/saqlanganlar">Barchasini ko‘rish <ArrowRight /></Link></h3>
+            {savedPosts.length === 0 ? <p className="cv-muted">Saqlangan post yo‘q. Postdagi “Saqlash” tugmasini bosing.</p> : savedPosts.map((post) => (
+              <Link key={post.id} href={`/community/${post.id}`} className="cv-saved">
+                {post.photos[0] ? <img src={post.photos[0].src} alt="" /> : <i><Bookmark /></i>}
+                <span><b>{post.title || post.body.slice(0, 60)}</b><small>{post.author} · {post.time}</small></span>
+              </Link>
+            ))}
           </section>
         </aside>
       </div>
+
+      {composer ? (
+        <PostComposer
+          initialKind={composer}
+          onClose={() => setComposer(null)}
+          onPublished={() => {
+            setComposer(null);
+            setTab("lenta");
+            setTopic("");
+            setTrendOn(null);
+          }}
+        />
+      ) : null}
     </ShopShell>
+  );
+}
+
+function PostCard({ post }: { post: CommunityPost }) {
+  const work = useCommunityWork();
+  const favorites = useFavorites();
+  const [replyOpen, setReplyOpen] = useState(false);
+  const [reply, setReply] = useState("");
+  const [menu, setMenu] = useState(false);
+  const saved = favorites.has(`post:${post.id}`);
+  const KindIcon = post.kind === "keys" ? ClipboardList : post.kind === "savol" ? HelpCircle : MessagesSquare;
+  const photos = post.photos.slice(0, 4);
+  const extra = post.photos.length - photos.length;
+
+  return (
+    <article className="cv-post">
+      <header>
+        <img src={post.avatar} alt="" />
+        <span className="who">
+          <b>{post.author} <BadgeCheck aria-label="Tasdiqlangan" /></b>
+          <small>{[post.role, post.city].filter(Boolean).join(" · ")}<i>{post.time}</i></small>
+        </span>
+        <div className="cv-menu">
+          <button type="button" aria-label="Amallar" aria-expanded={menu} onClick={() => setMenu(!menu)}><MoreHorizontal /></button>
+          {menu ? (
+            <div role="menu" onMouseLeave={() => setMenu(false)}>
+              <Link role="menuitem" href={`/community/${post.id}`}>Postni ochish</Link>
+              {post.mine ? <button role="menuitem" type="button" onClick={() => { setMenu(false); if (window.confirm("Postni o‘chirasizmi?")) void work.deletePost(post.id); }}>O‘chirish</button> : null}
+            </div>
+          ) : null}
+        </div>
+      </header>
+      {post.title ? <h3><Link href={`/community/${post.id}`}>{post.title}</Link></h3> : null}
+      {post.body ? <p className="body">{post.body}</p> : null}
+      <div className="cv-tags">
+        <span className={`kind ${post.kind}`}><KindIcon /> {kindLabel[post.kind]}</span>
+        {post.tags.map((tag) => <span key={tag}>#{tag.replace(/\s+/g, "")}</span>)}
+      </div>
+      {photos.length ? (
+        <div className="cv-photos" style={{ gridTemplateColumns: `repeat(${Math.max(photos.length, 2)}, minmax(0, 1fr))` }}>
+          {photos.map((photo, index) => (
+            <Link key={`${index}-${photo.src}`} href={`/community/${post.id}`}>
+              <img src={photo.src} alt={`${post.title || post.author}, rasm ${index + 1}`} />
+              {index === photos.length - 1 && extra > 0 ? <i>+{extra}</i> : null}
+            </Link>
+          ))}
+        </div>
+      ) : null}
+      <footer>
+        <button type="button" className={work.isLiked(post.id) ? "like on" : "like"} aria-pressed={work.isLiked(post.id)} onClick={() => void work.toggleLike(post.id)}>
+          <Heart /> {post.likes}
+        </button>
+        <button type="button" onClick={() => setReplyOpen(!replyOpen)}><MessageCircle /> {post.comments}</button>
+        <button type="button" className={saved ? "save on" : "save"} aria-pressed={saved} onClick={() => favorites.toggle(`post:${post.id}`)}>
+          <Bookmark /> {saved ? "Saqlangan" : "Saqlash"}
+        </button>
+        <button type="button" className="share" onClick={() => void work.share(post.id)}><Share2 /> Ulashish</button>
+      </footer>
+      {replyOpen ? (
+        <form
+          className="cv-reply"
+          onSubmit={(event) => {
+            event.preventDefault();
+            if (!reply.trim()) return;
+            void work.addComment(post.id, reply).then((ok) => {
+              if (!ok) return;
+              setReply("");
+              setReplyOpen(false);
+            });
+          }}
+        >
+          <input value={reply} onChange={(event) => setReply(event.target.value)} placeholder="Javob yozing..." autoFocus />
+          <button type="submit" aria-label="Yuborish"><Send /></button>
+        </form>
+      ) : null}
+    </article>
   );
 }

@@ -15,9 +15,16 @@ import {
   Hash,
   Heart,
   MapPin,
+  Maximize2,
   Minus,
+  Package,
+  Palette,
   Plus,
+  RotateCcw,
+  ShieldCheck,
   ShoppingCart,
+  Stethoscope,
+  Tag,
   Star,
   Store,
   Truck,
@@ -146,13 +153,18 @@ export function MarketplacePdp({ id }: { id: string }) {
   const shopCount = product.shopProducts || (sameShop ? sameShop + 1 : 0);
 
   const facts = [
+    product.brand && product.brand !== "Brend" ? { icon: Tag, label: "Brend", value: product.brand } : null,
+    text(attrs, "type") ? { icon: Box, label: "Turi", value: text(attrs, "type") } : null,
+    text(attrs, "packCount") || text(attrs, "volume") ? { icon: Package, label: "Qadoq", value: text(attrs, "packCount") || text(attrs, "volume") } : null,
+    text(attrs, "color") ? { icon: Palette, label: "Shade", value: text(attrs, "color") } : null,
+    usage && usage.length <= 40 ? { icon: Stethoscope, label: "Qo‘llanilishi", value: usage } : null,
+    text(attrs, "manufacturer") ? { icon: MapPin, label: "Ishlab chiqaruvchi", value: text(attrs, "manufacturer") } : null,
     condition ? { icon: Box, label: "Holati", value: conditionLabel(condition) } : null,
     expiry ? { icon: CalendarClock, label: "Yaroqlilik muddati", value: formatDotDate(expiry) } : null,
     lot ? { icon: Hash, label: "Lot raqami", value: lot } : null,
-    { icon: Box, label: "Miqdor", value: stock > 0 ? `Omborda ${stock} ta` : "Tugagan", tone: stock > 0 ? "ok" : "bad" },
     city ? { icon: MapPin, label: "Joylashuv", value: city } : null,
-    delivery ? { icon: Truck, label: "Yetkazib berish", value: delivery } : null,
-  ].filter((item): item is { icon: typeof Box; label: string; value: string; tone?: string } => Boolean(item));
+  ].filter((item): item is { icon: typeof Box; label: string; value: string; tone?: string } => Boolean(item)).slice(0, 6);
+  const returnDays = Number(attrs.returnDays) > 0 ? Number(attrs.returnDays) : 0;
 
   const specs = [
     ["Brend", product.brand && product.brand !== "Brend" ? product.brand : ""],
@@ -209,6 +221,7 @@ export function MarketplacePdp({ id }: { id: string }) {
           <section>
             <div className={gallery.length > 1 ? "mpx-stage" : "mpx-stage solo"} onClick={() => shot && setLight(true)} role="button" tabIndex={0} onKeyDown={(event) => { if (event.key === "Enter") setLight(true); }}>
               {shot ? <img src={shot} alt={product.name} /> : <span className="mpx-spec">Rasm yo‘q</span>}
+              {shot ? <span className="mpx-zoomtag"><Maximize2 className="i" /> Rasmni kattalashtirish</span> : null}
               {gallery.length > 1 ? (
                 <>
                   <button type="button" className="mpx-nav prev" aria-label="Oldingi rasm" onClick={(event) => { event.stopPropagation(); setPhoto((photo - 1 + gallery.length) % gallery.length); }}><ChevronLeft className="i" /></button>
@@ -218,7 +231,7 @@ export function MarketplacePdp({ id }: { id: string }) {
             </div>
             {gallery.length > 1 ? (
               <div className="mpx-thumbs">
-                {gallery.slice(0, 5).map((src, index) => (
+                {gallery.slice(0, 6).map((src, index) => (
                   <button key={`${index}-${src}`} type="button" className={index === photo ? "on" : undefined} aria-label={`Rasm ${index + 1}`} onClick={() => setPhoto(index)}>
                     <img src={src} alt="" />
                   </button>
@@ -248,7 +261,7 @@ export function MarketplacePdp({ id }: { id: string }) {
                   const Icon = fact.icon;
                   return (
                     <div className="mpx-fact" key={fact.label}>
-                      <Icon className="i" />
+                      <i className="mpx-ic"><Icon className="i" /></i>
                       <span>
                         <small>{fact.label}</small>
                         <b className={fact.tone}>{fact.value}</b>
@@ -258,6 +271,25 @@ export function MarketplacePdp({ id }: { id: string }) {
                 })}
               </div>
             ) : null}
+            <div className="mpx-state">
+              {stock < 1 ? (
+                <div className="out">
+                  <b><Package className="i" /> Hozir mavjud emas</b>
+                  <small>Mahsulot vaqtincha omborda yo‘q. Muqobil mahsulotlarni pastda ko‘ring.</small>
+                </div>
+              ) : (
+                <div className="in">
+                  <b><Check className="i" /> Omborda bor</b>
+                  <small>{stock} dona mavjud{city ? ` · ${city}` : ""}</small>
+                </div>
+              )}
+              {delivery ? (
+                <div className="ship">
+                  <small><Truck className="i" /> Yetkazib berish</small>
+                  <b>{delivery}</b>
+                </div>
+              ) : null}
+            </div>
             {docs.length ? (
               <div className="mpx-docs">
                 {docs.slice(0, 2).map((doc) => (
@@ -296,11 +328,23 @@ export function MarketplacePdp({ id }: { id: string }) {
                 <small className={stock > 0 ? "ok" : "bad"}>{stock > 0 ? `${stock} dona mavjud` : "Tugagan"}</small>
               </div>
               {error ? <p className="mpx-err">{error}</p> : null}
-              <button type="button" className="mpx-go" data-testid="product-add" disabled={stock < 1} onClick={() => addLine()}>
-                <ShoppingCart className="i" /> Savatga qo‘shish
-              </button>
-              <button type="button" className="mpx-soft" disabled={stock < 1} onClick={() => addLine(true)}>Hozir xarid qilish</button>
-              <button type="button" className="mpx-linebtn" disabled={stock < 1} onClick={() => addLine()}>Tez qayta buyurtma</button>
+              {stock < 1 ? (
+                <>
+                  <p className="mpx-outpill"><Package className="i" /> Hozir mavjud emas</p>
+                  <button type="button" className="mpx-go" data-testid="product-add" disabled>
+                    <ShoppingCart className="i" /> Savatga qo‘shish
+                  </button>
+                  <a className="mpx-linebtn" href="#oxshash">Muqobil mahsulotlarni ko‘rish <ChevronRight className="i" /></a>
+                </>
+              ) : (
+                <>
+                  <button type="button" className="mpx-go" data-testid="product-add" onClick={() => addLine()}>
+                    <ShoppingCart className="i" /> Savatga qo‘shish
+                  </button>
+                  <button type="button" className="mpx-soft" onClick={() => addLine(true)}>Hozir xarid qilish</button>
+                  <button type="button" className="mpx-linebtn" onClick={() => addLine()}>Tez qayta buyurtma</button>
+                </>
+              )}
               {product.shopName ? (
                 <section className="mpx-seller">
                   <span className="ava">{product.shopLogo ? <img src={product.shopLogo} alt="" /> : <Store className="i" />}</span>
@@ -316,6 +360,12 @@ export function MarketplacePdp({ id }: { id: string }) {
                   {product.shopSlug ? <Link href={`/marketplace/dokon/${product.shopSlug}`}>Sotuvchi profili <ChevronRight className="i" /></Link> : null}
                 </section>
               ) : null}
+            </section>
+            <section className="mpx-perks">
+              {official ? <p><i className="mpx-ic"><ShieldCheck className="i" /></i><span><b>Rasmiy mahsulot</b><small>Rasmiy distribyutordan</small></span></p> : null}
+              {returnDays ? <p><i className="mpx-ic"><RotateCcw className="i" /></i><span><b>Qaytarish imkoniyati</b><small>{returnDays} kun ichida (shartlar asosida)</small></span></p> : null}
+              <p><i className="mpx-ic"><BadgeCheck className="i" /></i><span><b>Sotuvchi tasdiqlaydi</b><small>Buyurtma sotuvchi tasdiqlagach yuboriladi</small></span></p>
+              <p><i className="mpx-ic"><Truck className="i" /></i><span><b>To‘lov yetkazilganda</b><small>Naqd, mahsulotni qabul qilganda</small></span></p>
             </section>
           </aside>
         </div>
@@ -388,7 +438,7 @@ export function MarketplacePdp({ id }: { id: string }) {
         ) : null}
 
         {similar.length ? (
-          <section className="mpx-sim">
+          <section className="mpx-sim" id="oxshash">
             <div className="hd">
               <h2>O‘xshash mahsulotlar</h2>
               <Link href="/marketplace">Barchasini ko‘rish <ChevronRight className="i" /></Link>
@@ -402,6 +452,7 @@ export function MarketplacePdp({ id }: { id: string }) {
                     <b>{item.name}</b>
                     <small>{item.brand}</small>
                     {item.reviews > 0 ? <small>{item.rating.toFixed(1)} ({item.reviews})</small> : null}
+                    <small className={item.stockQty > 0 ? (item.stockQty <= 3 ? "stk low" : "stk") : "stk no"}>{item.stockQty > 0 ? (item.stockQty <= 3 ? `Faqat ${item.stockQty} dona qoldi` : "Sotuvda mavjud") : "Tugagan"}</small>
                     <span className="p">
                       {item.oldPrice ? <s>{som(item.oldPrice)}</s> : null}
                       <strong className={item.oldPrice ? "sale" : undefined}>{som(item.price)}</strong>

@@ -127,3 +127,22 @@
 }
 .sh .pdx-side .buy strong, .sh .pdx-side .buy .off { margin-right: calc(40 * var(--k)); }
 .sh .pdx-side .buy .off { align-self: flex-start; }
+
+/* New mockup pass (jihozlar product page). */
+.sh .pdx-gallery .stage .badges { position: absolute; top: calc(12 * var(--k)); left: calc(12 * var(--k)); display: flex; gap: calc(6 * var(--k)); }
+.sh .pdx-gallery .stage .badges em { font-style: normal; height: calc(26 * var(--k)); padding: 0 calc(12 * var(--k)); border-radius: calc(7 * var(--k)); display: inline-flex; align-items: center; color: #fff; font-size: calc(12.5 * var(--k)); font-weight: 700; }
+.sh .pdx-gallery .stage .badges .off { background: #ef3b3b; }
+.sh .pdx-gallery .stage .badges .new { background: #0F766E; }
+.sh .pdx-info .facts { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+.sh .pdx-info .facts > div { align-items: center; }
+.sh .pdx-info .facts .i { width: calc(34 * var(--k)); height: calc(34 * var(--k)); padding: calc(8 * var(--k)); border-radius: 50%; background: #e9f6f5; color: #0F766E; margin-top: 0; flex: none; }
+.sh .pdx-side .terms { display: flex; flex-direction: column; border: 1px solid #e8eef6; border-radius: calc(12 * var(--k)); background: #fff; }
+.sh .pdx-side .terms p { margin: 0; display: flex; align-items: center; gap: calc(10 * var(--k)); padding: calc(10 * var(--k)) calc(12 * var(--k)); }
+.sh .pdx-side .terms p + p { border-top: 1px solid #eef2f6; }
+.sh .pdx-side .terms .i { width: calc(30 * var(--k)); height: calc(30 * var(--k)); padding: calc(6 * var(--k)); border-radius: calc(8 * var(--k)); background: #e9f6f5; color: #0F766E; flex: none; }
+.sh .pdx-side .terms span { display: flex; flex-direction: column; min-width: 0; }
+.sh .pdx-side .terms b { font-size: calc(12 * var(--k)); font-weight: 600; }
+.sh .pdx-side .terms small { color: #6a7c93; font-size: calc(11 * var(--k)); }
+.sh .pdx-side .seller .stats { display: flex; align-items: center; gap: calc(6 * var(--k)); color: #4b5568; }
+.sh .pdx-side .seller .stats .star { width: calc(12 * var(--k)); height: calc(12 * var(--k)); color: #f5b301; fill: #f5b301; }
+.sh .pdx-side .seller .stats em { font-style: normal; color: #6a7c93; }

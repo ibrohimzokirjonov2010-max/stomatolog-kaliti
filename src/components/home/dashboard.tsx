@@ -61,7 +61,7 @@ export function HomeDashboard() {
 
 function HeroBanner() {
   return (
-    <section className="relative overflow-hidden rounded-2xl bg-[linear-gradient(120deg,#4b86ff_0%,#2f6bff_42%,#2563eb_100%)] text-white shadow-[0_12px_32px_rgba(15, 118, 110, 0.2)]">
+    <section className="relative overflow-hidden rounded-2xl bg-[linear-gradient(120deg,#0F766E_0%,#115E59_42%,#134E4A_100%)] text-white shadow-[0_12px_32px_rgba(15, 118, 110, 0.2)]">
       <div className="pointer-events-none absolute -top-24 -left-16 size-72 rounded-full bg-white/10" />
       <div className="pointer-events-none absolute top-4 right-[42%] size-24 rounded-full bg-white/10" />
       <div className="pointer-events-none absolute right-16 bottom-[-36px] size-40 rounded-full bg-white/10" />
