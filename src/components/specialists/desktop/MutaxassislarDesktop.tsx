@@ -135,7 +135,7 @@ export function MutaxassislarDesktop() {
             <h1>Mutaxassislar</h1>
             <p>Tajribali stomatolog mutaxassislar bilan bog‘laning</p>
             <ul className="mxv-perks">
-              <li><i><ShieldCheck /></i><span><b>Tasdiqlangan profillar</b><small>Admin moderatsiyasidan o‘tgan</small></span></li>
+              <li><i><ShieldCheck /></i><span><b>Haqiqiy profillar</b><small>Ro‘yxatdan o‘tgan shifokor va ustalar</small></span></li>
               <li><i><Search /></i><span><b>Qulay qidiruv</b><small>Mutaxassislik va shaharga ko‘ra</small></span></li>
               <li><i><UserCheck /></i><span><b>To‘g‘ridan-to‘g‘ri aloqa</b><small>{ready ? `${people.length} ta mutaxassis, ${cities.length} ta shahar` : "…"}</small></span></li>
             </ul>
@@ -212,7 +212,7 @@ export function MutaxassislarDesktop() {
                     <article className="mxv-card" key={person.id} data-testid="spec-card">
                       <div className="ph">
                         {photo ? <img src={photo} alt="" /> : <span className="mx-initials">{initials(person.name)}</span>}
-                        <em><BadgeCheck /> Tasdiqlangan</em>
+                        <em><BadgeCheck /> {person.kind === "usta" ? "Usta" : "Shifokor"}</em>
                         <button type="button" className={on ? "heart on" : "heart"} aria-label="Saqlash" aria-pressed={on} onClick={() => setSaved(on ? saved.filter((id) => id !== person.id) : [...saved, person.id])}><Heart fill={on ? "currentColor" : "none"} /></button>
                       </div>
                       <div className="bd">
