@@ -3,14 +3,18 @@
 
 import { useEffect, useMemo, useState } from "react";
 import { useSearchParams } from "next/navigation";
+import Link from "next/link";
 import {
   ArrowUpDown,
+  BookOpen,
   ChevronDown,
   PlayCircle,
+  Presentation,
   BadgeCheck,
   Clock3,
   Globe,
   MonitorPlay,
+  Radio,
   Search,
   Star,
   Users,
@@ -61,10 +65,32 @@ export function TalimDesktop() {
   const [live, setLive] = useState<LiveCourse[]>([]);
   const [ready, setReady] = useState(false);
   const [player, setPlayer] = useState<Course | null>(null);
+  const [seminars, setSeminars] = useState<{ id: string; title: string; date: string | null; city: string | null; image: string | null }[]>([]);
+  const catalog = params.get("view") === "kurslar";
 
   useEffect(() => {
     setQ(paramQ);
   }, [paramQ]);
+
+  useEffect(() => {
+    let stop = false;
+    void fetch("/api/seminars/catalog", { cache: "no-store" })
+      .then(async (res) => (await res.json()) as { seminars?: { id?: string; title?: string | null; date?: string | null; city?: string | null; image?: string | null; status?: string }[] })
+      .then((data) => {
+        if (stop) return;
+        const rows = (data.seminars ?? [])
+          .filter((item) => item.id && item.title && (!item.status || item.status === "published"))
+          .slice(0, 3)
+          .map((item) => ({ id: String(item.id), title: String(item.title), date: item.date ?? null, city: item.city ?? null, image: item.image ?? null }));
+        setSeminars(rows);
+      })
+      .catch(() => {
+        if (!stop) setSeminars([]);
+      });
+    return () => {
+      stop = true;
+    };
+  }, []);
 
   useEffect(() => {
     let stop = false;
@@ -114,6 +140,55 @@ export function TalimDesktop() {
   return (
     <ShopShell searchPath="/talim" cartCount={cartCount} placeholder="Stomatologga nima kerak?" showCamera={false}>
       <div className="odl" data-testid="talim-desktop">
+        {catalog ? null : (
+          <section className="odl-hub" data-testid="talim-hub">
+            <div>
+              <h1>Ta’lim</h1>
+              <p>Bilimingizni oshiring. Stomatologiya sohasidagi eng so‘nggi bilimlar, amaliyotlar va tajribalar.</p>
+            </div>
+            <h2>Nega Ta’lim?</h2>
+            <div className="odl-why">
+              <Link href="/seminarlar"><Presentation className="i" /> <b>Seminarlar va kurslar</b><small>Amaliy va klinik yondashuv</small></Link>
+              <Link href="/kitoblar"><BookOpen className="i" /> <b>Kitoblar</b><small>Klinik adabiyotlar</small></Link>
+              <Link href="/foydali-kanallar"><Radio className="i" /> <b>Foydali kanallar</b><small>Telegram va YouTube</small></Link>
+              <Link href="/mutaxassislar"><Users className="i" /> <b>Mutaxassislar</b><small>Yetakchi spikerlar</small></Link>
+              <Link href="/sertifikatlar"><BadgeCheck className="i" /> <b>Sertifikat</b><small>Kurs yakunida</small></Link>
+            </div>
+            <div className="odl-split">
+              <div className="odl-video">
+                {courses[0] ? (
+                  <button type="button" onClick={() => play(courses[0])}>
+                    <img src={courses[0].image} alt="" />
+                    <span><PlayCircle className="i" /> {courses[0].title}</span>
+                  </button>
+                ) : (
+                  <div className="odl-video-empty"><PlayCircle className="i" /><b>{ready ? "Hozircha video dars yo‘q" : "Yuklanmoqda..."}</b></div>
+                )}
+              </div>
+              <aside>
+                <header><h2>Yaqinlashayotgan seminarlar</h2><Link href="/seminarlar">Barchasi</Link></header>
+                {seminars.length === 0 ? <p className="odl-empty-inline">Hozircha e’lon qilingan seminar yo‘q.</p> : seminars.map((item) => (
+                  <Link key={item.id} href={`/seminarlar/${item.id}`} className="odl-sem">
+                    {item.image ? <img src={item.image} alt="" /> : <span className="ph" />}
+                    <span><b>{item.title}</b><small>{[item.date, item.city].filter(Boolean).join(" · ") || "Sana ko‘rsatilmagan"}</small></span>
+                  </Link>
+                ))}
+              </aside>
+            </div>
+            <header className="odl-kurs-hd"><h2>Kurslar</h2><Link href="/talim?view=kurslar">Barchasini ko‘rish</Link></header>
+            {courses.length === 0 ? <p className="odl-empty-inline">{ready ? "Hozircha kurs yo‘q." : "Yuklanmoqda..."}</p> : (
+              <div className="odl-row">
+                {courses.slice(0, 4).map((course) => (
+                  <article key={course.id} className="odl-card">
+                    <button type="button" className="ph" onClick={() => play(course)} aria-label={course.title}><img src={course.image} alt="" /></button>
+                    <div className="bd"><h3>{course.title}</h3><strong>{course.price === 0 ? "Bepul" : som(course.price)}</strong></div>
+                  </article>
+                ))}
+              </div>
+            )}
+          </section>
+        )}
+        {catalog ? <>
         <div className="odl-head">
           <div>
             <h1>Onlayn darslar</h1>
@@ -196,6 +271,7 @@ export function TalimDesktop() {
             })}
           </div>
         )}
+        </> : null}
       </div>
 
       {player ? (

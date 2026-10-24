@@ -43,7 +43,10 @@
 .sh .fx-bulk-btn .i { font-size: calc(1.05 * var(--u)); }
 .sh .fx-bulk-btn .i:last-child { font-size: calc(0.85 * var(--u)); margin-left: calc(.4 * var(--u)); }
 
-.sh .fx-tabs { display: flex; gap: calc(.75 * var(--u)); margin-bottom: calc(1 * var(--u)); overflow-x: auto; scrollbar-width: none; }
+.sh .fx-tabs { display: none; }
+.sh .fx-blurb, .sh .fx-dots, .sh .fx-chips, .sh .fx-rate { display: none; }
+.sh .fx-sort { height: 36px; border: 1px solid #e5eaf1; border-radius: 8px; background: #fff; padding: 0 10px; font: inherit; font-size: 13px; }
+.sh .fx-tabs-legacy { display: flex; gap: calc(.75 * var(--u)); margin-bottom: calc(1 * var(--u)); overflow-x: auto; scrollbar-width: none; }
 .sh .fx-tabs::-webkit-scrollbar { display: none; }
 .sh .fx-tab { flex: none; height: calc(2.4 * var(--u)); padding: 0 calc(1.05 * var(--u)); border-radius: calc(.75 * var(--u)); background: #fff; border: 1px solid var(--f-line); font-size: calc(0.72 * var(--u)); font-weight: 550; color: #111827; display: inline-flex; align-items: center; gap: calc(.55 * var(--u)); white-space: nowrap; }
 .sh .fx-tab .i { font-size: calc(1.15 * var(--u)); color: #2b3656; stroke-width: 1.7; }
@@ -51,7 +54,12 @@
 .sh .fx-tab.on { background: var(--f-teal); border-color: var(--f-teal); color: #fff; font-weight: 650; padding: 0 calc(1.25 * var(--u)); }
 .sh .fx-tab.on .i { color: #fff; }
 
-.sh .fx-cols { display: grid; grid-template-columns: calc(14.2 * var(--u)) minmax(0, 1fr) calc(17.6 * var(--u)); gap: calc(.9 * var(--u)); align-items: start; }
+.sh .fx-filters { display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)) auto; gap: 8px; margin: 0 0 12px; align-items: end; }
+.sh .fx-filters label { display: flex; flex-direction: column; gap: 4px; font-size: 11px; font-weight: 700; color: #5d6680; }
+.sh .fx-filters select { height: 36px; border: 1px solid #e5eaf1; border-radius: 8px; background: #fff; padding: 0 8px; font: inherit; font-size: 13px; color: #111827; }
+.sh .fx-filters button { height: 36px; padding: 0 12px; border-radius: 8px; background: #F0FDFA; color: #0F766E; font-weight: 700; font-size: 12px; }
+.sh .fx-cols { display: block; }
+.sh .fx-panel, .sh .fx-rail { display: none; }
 .sh .fx-rail { margin-left: calc(.35 * var(--u)); }
 
 /* filters */
@@ -355,3 +363,5 @@
 .sh .fxp-sim strong { font-size: calc(0.78 * var(--u)); font-weight: 800; margin-top: calc(.3 * var(--u)); letter-spacing: -.01em; }
 .sh .fxp-sim small { display: flex; align-items: center; gap: calc(.25 * var(--u)); font-size: calc(0.6 * var(--u)); color: var(--f-text); margin-top: calc(.15 * var(--u)); }
 .sh .fxp-sim small em { font-style: normal; color: var(--f-muted); }
+
+.sh .fx-panel, .sh .fx-rail { display: none !important; }

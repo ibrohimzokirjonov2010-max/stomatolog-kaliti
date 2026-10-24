@@ -181,7 +181,7 @@ export function NewPatientModal({ onClose, onSave }: { onClose: () => void; onSa
       testId="patient-modal"
       title="Yangi bemor qo‘shish"
       subtitle="Bemorning asosiy ma’lumotlarini kiriting"
-      width={540}
+      width={1080}
       onClose={onClose}
       footer={
         <>

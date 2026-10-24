@@ -94,7 +94,7 @@ export function NewStockModal({ suppliers, onClose, onSave }: { suppliers: strin
       testId="stock-modal"
       title="Omborga mahsulot qo‘shish"
       subtitle="Klinika omboriga yangi mahsulot qo‘shing"
-      width={560}
+      width={1120}
       onClose={onClose}
       footer={
         <>

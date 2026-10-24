@@ -159,7 +159,7 @@ export const desktopNavGroups: NavGroup[] = [
     icon: GraduationCap,
     items: [
       { href: "/seminarlar", label: "Seminarlar", icon: Presentation },
-      { href: "/talim", label: "Onlayn darslar", icon: MonitorPlay },
+      { href: "/talim?view=kurslar", label: "Onlayn darslar", icon: MonitorPlay },
       { href: "/kitoblar", label: "Kitoblar", icon: BookOpen },
       { href: "/mutaxassislar", label: "Mutaxassislar", icon: Users, primary: true },
       { href: "/sertifikatlar", label: "Sertifikatlar", icon: Award },

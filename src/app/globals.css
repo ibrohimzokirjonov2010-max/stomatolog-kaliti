@@ -413,6 +413,41 @@
   .sh .sh-sem .grid { grid-template-columns:repeat(4,1fr); } .sh .sh-cat .grid { grid-template-columns:repeat(9,1fr); } .sh .sh-prod .grid { grid-template-columns:repeat(6,1fr); }
   .sh .sh-search-box { width:auto; max-width:calc(40 * var(--u)); }
 }
+/* Logged-in Bosh sahifa (05-bosh-sahifa-desktop.png). */
+.sh .dhb { display: flex; flex-direction: column; gap: 14px; color: #111827; }
+.sh .dhb h1 { margin: 0; font-size: 28px; line-height: 1.15; font-weight: 800; letter-spacing: -.02em; }
+.sh .dhb h2 { margin: 4px 0 0; font-size: 18px; font-weight: 800; }
+.sh .dhb-hello { background: linear-gradient(90deg, #F0FDFA 0%, #fff 70%); border: 1px solid #CCFBF1; border-radius: 16px; padding: 18px 20px; }
+.sh .dhb-hello .quote { margin: 6px 0 0; font-size: 15px; color: #115E59; font-weight: 600; }
+.sh .dhb-hello .when { margin: 4px 0 0; color: #5B6B82; font-size: 13px; }
+.sh .dhb-stats { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 12px; }
+.sh .dhb-stats a { background: #fff; border: 1px solid #E4EAF2; border-radius: 14px; padding: 14px 16px; display: flex; flex-direction: column; gap: 2px; min-height: 92px; }
+.sh .dhb-stats b { font-size: 22px; font-weight: 800; color: #0F766E; }
+.sh .dhb-stats span { font-size: 14px; font-weight: 700; }
+.sh .dhb-stats small { color: #5B6B82; font-size: 12px; }
+.sh .dhb-stats .i { width: 22px; height: 22px; color: #0F766E; }
+.sh .dhb-quick { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 12px; }
+.sh .dhb-quick a { background: #fff; border: 1px solid #E4EAF2; border-radius: 14px; padding: 14px; display: flex; flex-direction: column; gap: 4px; min-height: 108px; }
+.sh .dhb-quick a:hover { border-color: #CCFBF1; background: #F0FDFA; }
+.sh .dhb-quick .i { width: 22px; height: 22px; color: #0F766E; }
+.sh .dhb-quick b { font-size: 14px; font-weight: 800; }
+.sh .dhb-quick small { color: #5B6B82; font-size: 12px; line-height: 1.35; }
+.sh .dhb-cols { display: grid; grid-template-columns: 1.2fr 1fr .9fr; gap: 12px; align-items: start; }
+.sh .dhb-cols section { background: #fff; border: 1px solid #E4EAF2; border-radius: 14px; padding: 14px; min-height: 180px; }
+.sh .dhb-cols header { display: flex; align-items: center; justify-content: space-between; gap: 8px; margin-bottom: 10px; }
+.sh .dhb-cols h3 { margin: 0; font-size: 15px; font-weight: 800; }
+.sh .dhb-cols header a { color: #0F766E; font-size: 12px; font-weight: 700; display: inline-flex; align-items: center; gap: 4px; }
+.sh .dhb-cols .i { width: 14px; height: 14px; }
+.sh .dhb-cols .empty { margin: 0; color: #5B6B82; font-size: 13px; }
+.sh .dhb-cols ul { margin: 0; padding: 0; list-style: none; display: flex; flex-direction: column; gap: 8px; }
+.sh .dhb-cols li a { display: flex; gap: 8px; align-items: center; }
+.sh .dhb-cols img, .sh .dhb-cols .ph { width: 48px; height: 48px; border-radius: 8px; object-fit: cover; background: #F0FDFA; flex: none; }
+.sh .dhb-cols li b { display: block; font-size: 13px; font-weight: 700; }
+.sh .dhb-cols li em { font-style: normal; color: #0F766E; font-size: 12px; font-weight: 800; }
+.sh .dhb-cols .cats { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+.sh .dhb-cols .cats a { display: flex; align-items: center; gap: 6px; height: 36px; padding: 0 8px; border-radius: 8px; background: #F0FDFA; color: #115E59; font-size: 12px; font-weight: 700; }
+.sh .dhb-cols .cats .i { width: 14px; height: 14px; }
+
 .sh strong, .sh .row b, .sh .row small, .sh .row button, .sh .meta span, .sh .why b { white-space:nowrap; }
 .sh .sh-prod strong { font-size: calc(0.88 * var(--u)); letter-spacing:-.02em; }
 .sh .sh-prod .card { padding:calc(.5 * var(--u)) calc(.5 * var(--u)) 0; }

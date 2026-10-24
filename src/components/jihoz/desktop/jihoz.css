@@ -34,7 +34,13 @@
 .sh .jx-heart.sm { width: calc(1.5 * var(--u)); height: calc(1.5 * var(--u)); font-size: calc(0.72 * var(--u)); }
 
 /* ================= catalog ================= */
-.sh .jx { display: grid; grid-template-columns: minmax(0, 1fr) calc(16 * var(--u)); gap: calc(.8 * var(--u)); align-items: start; }
+.sh .jx { display: block; }
+.sh .jx-rail { display: none; }
+.sh .jx-crumb { margin: 0 0 8px; color: #8b97a8; font-size: 12px; font-weight: 650; }
+.sh .jx-crumb span { margin: 0 6px; }
+.sh .jx-hero { display: flex; align-items: center; min-height: 148px; margin-bottom: 14px; padding: 22px 28px; border-radius: 16px; background: linear-gradient(100deg, #0F766E 0%, #115E59 55%, #134E4A 100%); color: #fff; }
+.sh .jx-hero h1 { margin: 0; color: #fff; font-size: 32px; font-weight: 800; }
+.sh .jx-hero p { margin: 8px 0 0; max-width: 640px; color: #F0FDFA; font-size: 14px; line-height: 1.45; }
 .sh .jx-main { min-width: 0; }
 .sh .jx-head { display: flex; align-items: flex-start; justify-content: space-between; gap: calc(1 * var(--u)); padding-top: calc(.4 * var(--u)); margin-bottom: calc(1.6 * var(--u)); }
 .sh .jx-head h1 { margin: 0; font-size: calc(1.9 * var(--u)); font-weight: 800; letter-spacing: -.03em; line-height: 1.1; }
@@ -43,6 +49,8 @@
 .sh .jx-trust li { display: flex; align-items: center; gap: calc(.5 * var(--u)); font-size: calc(0.66 * var(--u)); line-height: 1.35; color: var(--j-text); font-weight: 550; }
 .sh .jx-trust .i { font-size: calc(1.35 * var(--u)); color: var(--j-teal); stroke-width: 1.7; }
 
+.sh .jx-sort { height: calc(1.9 * var(--u)); min-width: calc(11 * var(--u)); border: 1px solid var(--j-line); border-radius: calc(.4 * var(--u)); background: #fff; padding: 0 calc(.6 * var(--u)); font: inherit; font-size: calc(.7 * var(--u)); }
+.sh .jx-dots, .sh .jx-month { display: none; }
 .sh .jx-tabs { display: flex; gap: calc(.35 * var(--u)); margin-bottom: calc(.85 * var(--u)); overflow-x: auto; scrollbar-width: none; }
 .sh .jx-tabs::-webkit-scrollbar { display: none; }
 .sh .jx-tab { flex: none; height: calc(2 * var(--u)); padding: 0 calc(.9 * var(--u)); border-radius: 99px; background: #fff; border: 1px solid var(--j-line); font-size: calc(0.7 * var(--u)); font-weight: 550; color: #111827; white-space: nowrap; }
@@ -375,3 +383,5 @@
 .sh .jxp-sim .txt > a:hover { color: var(--j-teal-ink); }
 .sh .jxp-sim small { display: flex; align-items: center; gap: calc(.25 * var(--u)); font-size: calc(0.6 * var(--u)); color: var(--j-sub); margin-top: calc(.1 * var(--u)); }
 .sh .jxp-sim strong { font-size: calc(0.88 * var(--u)); font-weight: 800; margin-top: calc(.2 * var(--u)); letter-spacing: -.01em; }
+
+.sh .jx-rail { display: none !important; }

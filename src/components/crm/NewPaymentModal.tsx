@@ -138,7 +138,7 @@ export function NewPaymentModal({
       testId="pay-modal"
       title="Yangi to‘lov qo‘shish"
       subtitle="Bemor to‘lovini kiriting"
-      width={578}
+      width={1000}
       onClose={onClose}
       footer={
         <>

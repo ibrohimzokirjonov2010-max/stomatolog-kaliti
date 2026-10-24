@@ -5,6 +5,11 @@
 .sh .elv-main { display: flex; flex-direction: column; gap: 12px; }
 .sh .elv-head h1 { margin: 0; font-size: 28px; line-height: 1.15; font-weight: 800; letter-spacing: -.01em; }
 .sh .elv-head p { margin: 4px 0 0; color: #5c6b82; font-size: 13px; }
+.sh .elv-stats { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 10px; }
+.sh .elv-stats button { min-height: 88px; border-radius: 14px; border: 1px solid #e6edf3; background: #fff; display: flex; flex-direction: column; align-items: flex-start; justify-content: center; gap: 4px; padding: 14px 16px; text-align: left; }
+.sh .elv-stats button.on { border-color: #0F766E; background: #F0FDFA; }
+.sh .elv-stats b { font-size: 26px; font-weight: 800; color: #0F766E; line-height: 1; }
+.sh .elv-stats span { font-size: 13px; font-weight: 700; color: #24344d; }
 .sh .elv-tiles { display: grid; grid-template-columns: repeat(9, minmax(0, 1fr)); gap: 8px; }
 .sh .elv-tiles button { min-height: 82px; padding: 10px 4px 8px; border-radius: 11px; border: 1px solid #e6edf3; background: #fff; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 4px; text-align: center; transition: border-color .15s; }
 .sh .elv-tiles button:hover { border-color: #a8ddd8; }

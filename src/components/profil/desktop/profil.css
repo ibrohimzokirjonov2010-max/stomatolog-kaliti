@@ -1,6 +1,10 @@
 .sh .pf-page { display: flex; flex-direction: column; gap: calc(.5 * var(--u)); min-width: 0; max-width: 100%; }
 .sh .pf-hero, .sh .pf-card, .sh .pf-menu { background: #fff; border: 1px solid #e8eef6; border-radius: calc(.55 * var(--u)); min-width: 0; }
-.sh .pf-hero { display: grid; grid-template-columns: auto minmax(0, 1fr) minmax(0, calc(14 * var(--u))) auto; gap: calc(.6 * var(--u)); align-items: center; padding: calc(.6 * var(--u)); }
+.sh .pf-kicker { margin: 0 0 4px; font-size: 12px; font-weight: 800; letter-spacing: .08em; color: #0F766E; }
+.sh .pf-hero { display: grid; grid-template-columns: auto minmax(0, 1fr); gap: 14px; align-items: center; padding: 16px; }
+.sh .pf-bar, .sh .pf-stats, .sh .pf-menu { display: none; }
+.sh .pf-body { display: block; }
+.sh .pf-top { grid-template-columns: 1fr; }
 .sh .pf-ava { position: relative; width: calc(4.6 * var(--u)); height: calc(4.6 * var(--u)); }
 .sh .pf-ava img, .sh .pf-ava-empty { width: 100%; height: 100%; object-fit: cover; border-radius: calc(.5 * var(--u)); }
 .sh .pf-ava-empty { display: grid; place-items: center; background: #e8eef8; color: #8b93a7; }
@@ -152,3 +156,28 @@
 .sh .pf-hero .pf-bar { grid-column: 3; grid-row: 1; }
 .sh .pf-hero .pf-edit { grid-column: 4; grid-row: 1; }
 .sh .pf-hero .pf-stats { grid-row: 2; }
+
+/* 22-profil-desktop: one column — photo, telegram, orders, seller, personal fields. */
+.sh .pf-page .pf-bar,
+.sh .pf-page .pf-stats,
+.sh .pf-page .pf-menu,
+.sh .pf-page .pf-mid,
+.sh .pf-page .pf-bot,
+.sh .pf-page .pf-edit,
+.sh .pf-page .pf-top > :nth-child(n + 2) { display: none !important; }
+.sh .pf-page .pf-body { display: block !important; }
+.sh .pf-page .pf-hero {
+  display: grid !important;
+  grid-template-columns: 112px minmax(0, 1fr) !important;
+  grid-template-rows: auto !important;
+}
+.sh .pf-page .pf-hero .pf-ava { grid-row: 1 !important; }
+.sh .pf-page .pf-who { grid-column: 2 !important; grid-row: 1 !important; }
+.sh .pf-tg p { margin: 0 0 10px; color: #5d6e86; font-size: 13px; }
+.sh .pf-tg .pf-go { display: inline-flex; align-items: center; color: #fff; }
+.sh .pf-orders { display: flex; align-items: center; justify-content: space-between; font-weight: 800; }
+.sh .pf-orders span { display: inline-flex; align-items: center; gap: 8px; }
+.sh .pf-orders b { color: #0F766E; font-size: 13px; }
+.sh .pf-seller { display: flex; align-items: center; justify-content: space-between; background: #F0FDFA; border-color: #CCFBF1; }
+.sh .pf-seller small { display: block; color: #5d6e86; font-weight: 500; font-size: 12px; }
+.sh .pf-seller em { font-style: normal; background: #0F766E; color: #fff; border-radius: 8px; padding: 8px 12px; font-size: 12px; font-weight: 700; }

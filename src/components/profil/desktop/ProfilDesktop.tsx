@@ -226,6 +226,7 @@ export function ProfilDesktop() {
             <input ref={fileRef} type="file" accept="image/*" hidden aria-label="Profil rasmi" onChange={onAvatar} />
           </div>
           <div className="pf-who">
+            <p className="pf-kicker">PROFIL</p>
             <h1>{form.name.trim() || "Ism ko‘rsatilmagan"}</h1>
             <p className="pf-role">{form.spec.trim() || EMPTY_FIELD}</p>
             <div className="pf-meta">
@@ -301,6 +302,23 @@ export function ProfilDesktop() {
           <div className="pf-stack">
             {section === "shaxsiy" ? (
               <>
+                <section className="pf-card pf-tg">
+                  <h3>Telegram</h3>
+                  {profile?.telegramUsername ? (
+                    <p>Ulangan: @{profile.telegramUsername.replace(/^@/, "")}</p>
+                  ) : (
+                    <p>Telegram orqali bildirishnomalar oling. Hali ulanmagan.</p>
+                  )}
+                  <Link className="pf-go" href="/kirish">{profile?.telegramUsername ? "Telegramni yangilash" : "Telegramga ulanish"}</Link>
+                </section>
+                <Link className="pf-card pf-orders" href="/buyurtmalarim">
+                  <span><ShoppingBag className="i" /> Buyurtmalarim</span>
+                  <b>{orderCount} ta buyurtma</b>
+                </Link>
+                <Link className="pf-card pf-seller" href="/marketplace/sotuvchi">
+                  <span><b>Sotuvchi bo‘lish</b><small>Do‘kon oching va mahsulot qo‘shing</small></span>
+                  <em>Do‘kon ochish</em>
+                </Link>
                 <div className="pf-top">
                   <PersonalCard form={form} setForm={setForm} editing={editing} setEditing={setEditing} onSave={savePersonal} />
                   <ClinicCard clinic={clinic} setClinic={setClinic} editing={editClinic} setEditing={setEditClinic} onSave={() => { setEditClinic(false); void updateProfile({ clinic: clinic.name.trim(), city: clinic.address.trim() }).then((result) => setNote(result.ok ? "Klinika ma‘lumotlari saqlandi" : "Saqlab bo‘lmadi")); }} />

@@ -262,7 +262,7 @@ export function NewPlanModal({ onClose, onSave }: { onClose: () => void; onSave:
       testId="plan-modal"
       title="Yangi davolash rejasi"
       subtitle="Bemorga davolash rejasi tuzing va xizmatlarni qo‘shing"
-      width={800}
+      width={1240}
       onClose={onClose}
       footer={
         <>

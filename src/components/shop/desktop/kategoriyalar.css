@@ -15,7 +15,7 @@
   width: calc(2.1 * var(--u));
   height: calc(2.1 * var(--u));
   border-radius: calc(.45 * var(--u));
-  background: #eef5ff;
+  background: #F0FDFA;
   color: #0F766E;
   display: grid;
   place-items: center;

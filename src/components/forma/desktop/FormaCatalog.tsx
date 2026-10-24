@@ -193,9 +193,48 @@ export function FormaCatalog() {
             <h1>Tibbiy forma</h1>
             <p>Stomatologlar va klinika xodimlari uchun sifatli, qulay va zamonaviy tibbiy kiyimlar.</p>
           </div>
-          <button type="button" className="fx-bulk-btn" onClick={() => setBulk(true)}>
-            <Building2 className="i" /> Klinika uchun ulgurji buyurtma <ArrowRight className="i" />
-          </button>
+          <Link className="fx-bulk-btn" href="/buyurtmalarim">
+            Mening forma buyurtmalarim <ArrowRight className="i" />
+          </Link>
+        </div>
+
+        <div className="fx-filters" aria-label="Filtrlar">
+          <label>Jins
+            <select aria-label="Jins" value={genders[0] ?? ""} onChange={(event) => setGenders(event.target.value ? [event.target.value as FormaGender] : [])}>
+              <option value="">Barchasi</option>
+              {formaGenders.map((item) => <option key={item.id} value={item.id}>{item.label}</option>)}
+            </select>
+          </label>
+          <label>O‘lcham
+            <select aria-label="O‘lcham" value={sizes[0] ?? ""} onChange={(event) => setSizes(event.target.value ? [event.target.value] : [])}>
+              <option value="">S–XXL</option>
+              {formaSizes.map((size) => <option key={size} value={size}>{size}</option>)}
+            </select>
+          </label>
+          <label>Rang
+            <select aria-label="Rang" value={colors[0] ?? ""} onChange={(event) => setColors(event.target.value ? [event.target.value] : [])}>
+              <option value="">Barchasi</option>
+              {formaSwatches.map((color) => <option key={color.id} value={color.id}>{color.label}</option>)}
+            </select>
+          </label>
+          <label>Brend
+            <select aria-label="Brend" value={brands[0] ?? ""} onChange={(event) => setBrands(event.target.value ? [event.target.value] : [])}>
+              <option value="">Barchasi</option>
+              {liveBrands.map((item) => <option key={item.id} value={item.id}>{item.label}</option>)}
+            </select>
+          </label>
+          <label>Material
+            <select aria-label="Material" value={materials[0] ?? ""} onChange={(event) => setMaterials(event.target.value ? [event.target.value as FormaMaterial] : [])}>
+              <option value="">Barchasi</option>
+              {formaMaterials.map((item) => <option key={item.id} value={item.id}>{item.label}</option>)}
+            </select>
+          </label>
+          <label>Narx
+            <select aria-label="Narx" value={price[1]} onChange={(event) => setPrice([0, Number(event.target.value)])}>
+              {priceTo.map((value) => <option key={value} value={value}>{somPlain(value)} gacha</option>)}
+            </select>
+          </label>
+          <button type="button" onClick={reset}>Tozalash</button>
         </div>
 
         <div className="fx-tabs" role="tablist" aria-label="Kategoriya">
@@ -281,11 +320,11 @@ export function FormaCatalog() {
 
           <div className="fx-list">
             <div className="fx-tools">
-              <div className="fx-sorts">
-                {sorts.map((item) => (
-                  <button key={item.id} type="button" aria-pressed={sort === item.id} className={sort === item.id ? "on" : ""} onClick={() => setSort(item.id)}>{item.label}</button>
-                ))}
-              </div>
+              <label className="fx-sorts" style={{ display: "contents" }}>
+                <select className="fx-sort" aria-label="Saralash" value={sort} onChange={(event) => setSort(event.target.value as SortId)}>
+                  {sorts.map((item) => <option key={item.id} value={item.id}>{item.label}</option>)}
+                </select>
+              </label>
               <span className="fx-count">{items.length} ta mahsulot</span>
               <div className="fx-view">
                 <button type="button" className={list ? "" : "on"} aria-label="Katak" aria-pressed={!list} onClick={() => setList(false)}><LayoutGrid className="i" /></button>
