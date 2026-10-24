@@ -37,7 +37,7 @@ export function useSavedJobs() {
 export const categoryBadge: Record<JobCategory, string> = {
   klinika: "bg-[#22c55e]",
   texnik: "bg-[#7c3aed]",
-  shifokor: "bg-[#0b7f7d]",
+  shifokor: "bg-[#0F766E]",
 };
 
 export function CategoryBadge({ job, className }: { job: Job; className?: string }) {
@@ -87,11 +87,11 @@ export function mapHref(job: Job) {
 export function JobPhoto({ job, src, sizes, priority, className, iconClass }: { job: Job; src?: string; sizes: string; priority?: boolean; className?: string; iconClass?: string }) {
   const url = src ?? job.photos?.[0];
   return (
-    <div className={cn("relative overflow-hidden bg-gradient-to-br from-[#e6efff] to-[#f3f7ff]", className)}>
+    <div className={cn("relative overflow-hidden bg-gradient-to-br from-[#F0FDFA] to-[#f3f7ff]", className)}>
       {url ? (
         <Image src={url} alt={`${job.clinic} — ${job.title}`} fill sizes={sizes} priority={priority} className="object-cover" />
       ) : (
-        <div className="absolute inset-0 grid place-items-center text-[#9db8ea]" data-testid="job-photo-placeholder">
+        <div className="absolute inset-0 grid place-items-center text-[#CCFBF1]" data-testid="job-photo-placeholder">
           <Building2 className={cn("size-9", iconClass)} strokeWidth={1.5} />
         </div>
       )}
@@ -111,7 +111,7 @@ export function EmployerLogo({ job, size = 48, className }: { job: Job; size?: n
       {job.logo ? (
         <Image src={job.logo} alt={`${job.clinic} logotipi`} fill sizes={`${size}px`} className="object-contain p-1" />
       ) : (
-        <span className="text-[14px] font-bold text-[#0b7f7d]" style={{ fontSize: Math.round(size * 0.32) }}>
+        <span className="text-[14px] font-bold text-[#0F766E]" style={{ fontSize: Math.round(size * 0.32) }}>
           {initials}
         </span>
       )}

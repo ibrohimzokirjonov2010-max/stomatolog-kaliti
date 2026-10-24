@@ -85,7 +85,7 @@ function notifIcon(type: AppNotification["type"]) {
     return <CheckCircle2 className="size-4 text-emerald-600" />;
   }
   if (type === "order_track") return <ShoppingBag className="size-4 text-violet-600" />;
-  return <Package className="size-4 text-[#0066FF]" />;
+  return <Package className="size-4 text-[#0F766E]" />;
 }
 
 function relativeTime(iso: string) {
@@ -119,10 +119,10 @@ export function MyOrdersList() {
       <BonusNotice />
       <BonusBalanceCard compact />
       {notifs.length ? (
-        <section className="overflow-hidden rounded-[20px] border border-[#eceff5] bg-white shadow-[0_1px_3px_rgba(15,23,42,0.04)]">
+        <section className="overflow-hidden rounded-[20px] border border-[#eceff5] bg-white shadow-[0_1px_3px_rgba(17, 24, 39, 0.04)]">
           <div className="flex items-center justify-between gap-3 border-b border-[#f0f3f8] px-4 py-3.5 sm:px-5">
             <div className="flex items-center gap-3">
-              <span className="relative flex size-10 items-center justify-center rounded-2xl bg-[#e8f1ff] text-[#0066FF]">
+              <span className="relative flex size-10 items-center justify-center rounded-2xl bg-[#F0FDFA] text-[#0F766E]">
                 <Bell className="size-[18px]" />
                 {unread ? (
                   <span className="absolute -right-1 -top-1 flex size-4.5 items-center justify-center rounded-full bg-destructive text-[9px] font-bold text-white">
@@ -164,7 +164,7 @@ export function MyOrdersList() {
                   <span
                     className={cn(
                       "mt-0.5 flex size-9 shrink-0 items-center justify-center rounded-xl",
-                      !n.readAt ? "bg-white shadow-sm ring-1 ring-[#e8f1ff]" : "bg-[#f4f7fb]",
+                      !n.readAt ? "bg-white shadow-sm ring-1 ring-[#F0FDFA]" : "bg-[#f4f7fb]",
                     )}
                   >
                     {notifIcon(n.type)}
@@ -179,7 +179,7 @@ export function MyOrdersList() {
                     </p>
                   </div>
                   {!n.readAt ? (
-                    <span className="mt-2 size-2 shrink-0 rounded-full bg-[#0066FF]" aria-hidden />
+                    <span className="mt-2 size-2 shrink-0 rounded-full bg-[#0F766E]" aria-hidden />
                   ) : null}
                 </Link>
               </li>
@@ -189,8 +189,8 @@ export function MyOrdersList() {
       ) : null}
 
       {!orders.length ? (
-        <div className="rounded-[20px] border border-[#eceff5] bg-white px-6 py-16 text-center shadow-[0_1px_3px_rgba(15,23,42,0.04)]">
-          <span className="mx-auto flex size-14 items-center justify-center rounded-2xl bg-[#e8f1ff] text-[#0066FF]">
+        <div className="rounded-[20px] border border-[#eceff5] bg-white px-6 py-16 text-center shadow-[0_1px_3px_rgba(17, 24, 39, 0.04)]">
+          <span className="mx-auto flex size-14 items-center justify-center rounded-2xl bg-[#F0FDFA] text-[#0F766E]">
             <Package className="size-7" />
           </span>
           <p className="mt-4 text-[17px] font-semibold text-[#1a1d26]">Hali buyurtma yo‘q</p>
@@ -212,9 +212,9 @@ export function MyOrdersList() {
               <li key={order.id}>
                 <Link
                   href={`/buyurtmalarim/${encodeURIComponent(order.id)}`}
-                  className="group flex items-center gap-3 rounded-[18px] border border-[#eceff5] bg-white p-3.5 shadow-[0_1px_2px_rgba(15,23,42,0.03)] transition hover:border-[#bfdbfe] hover:shadow-[0_8px_24px_rgba(0,102,255,0.07)] sm:p-4"
+                  className="group flex items-center gap-3 rounded-[18px] border border-[#eceff5] bg-white p-3.5 shadow-[0_1px_2px_rgba(17, 24, 39, 0.03)] transition hover:border-[#CCFBF1] hover:shadow-[0_8px_24px_rgba(15, 118, 110, 0.07)] sm:p-4"
                 >
-                  <span className="flex size-11 shrink-0 items-center justify-center rounded-2xl bg-[#f4f7fb] text-[#0066FF] group-hover:bg-[#e8f1ff]">
+                  <span className="flex size-11 shrink-0 items-center justify-center rounded-2xl bg-[#f4f7fb] text-[#0F766E] group-hover:bg-[#F0FDFA]">
                     <Package className="size-5" />
                   </span>
                   <div className="min-w-0 flex-1">
@@ -235,10 +235,10 @@ export function MyOrdersList() {
                     </p>
                     <p className="mt-1 text-[14px] font-bold text-[#1a1d26]">
                       {formatMoney(order.payable ?? order.total, "UZS")}
-                      {order.bonusUsed ? <span className="ml-1.5 text-[11.5px] font-medium text-[#0066FF]">bonus −{formatMoney(order.bonusUsed, "UZS")}</span> : null}
+                      {order.bonusUsed ? <span className="ml-1.5 text-[11.5px] font-medium text-[#0F766E]">bonus −{formatMoney(order.bonusUsed, "UZS")}</span> : null}
                     </p>
                   </div>
-                  <ChevronRight className="size-4 shrink-0 text-[#c5cad6] group-hover:text-[#0066FF]" />
+                  <ChevronRight className="size-4 shrink-0 text-[#c5cad6] group-hover:text-[#0F766E]" />
                 </Link>
               </li>
             ))}
@@ -327,9 +327,9 @@ export function MyOrderDetail({ orderId, initialOrder }: { orderId: string; init
     order.status === "yetkazildi" && order.paymentState !== "refunded" ? <OrderReviewForm orderId={order.id} items={order.items} /> : null;
 
   const escrowSection = (
-      <section className="overflow-hidden rounded-[20px] border border-[#eceff5] bg-white shadow-[0_1px_3px_rgba(15,23,42,0.04)]">
+      <section className="overflow-hidden rounded-[20px] border border-[#eceff5] bg-white shadow-[0_1px_3px_rgba(17, 24, 39, 0.04)]">
         <div className="flex items-center gap-2.5 px-4 py-3.5 text-[12.5px] text-[#4b5568] sm:px-5">
-          <CheckCircle2 className="size-4 shrink-0 text-[#0066FF]" />
+          <CheckCircle2 className="size-4 shrink-0 text-[#0F766E]" />
           <span>
             <span className="font-semibold text-[#1a1d26]">
               {paymentStateLabel[order.paymentState]}
@@ -387,7 +387,7 @@ export function MyOrderDetail({ orderId, initialOrder }: { orderId: string; init
                   maxLength={1000}
                   rows={3}
                   placeholder="Nima muammo? Masalan: mahsulot kelmadi, boshqa mahsulot keldi, shikastlangan…"
-                  className="w-full rounded-xl border border-[#e2e8f0] p-3 text-[13px] outline-none focus:border-[#0066FF]"
+                  className="w-full rounded-xl border border-[#e2e8f0] p-3 text-[13px] outline-none focus:border-[#0F766E]"
                 />
                 <div className="flex gap-2">
                   <Button type="button" variant="outline" className="h-10 flex-1 !rounded-xl" onClick={() => setDisputeOpen(false)}>
@@ -435,7 +435,7 @@ export function MyOrderDetail({ orderId, initialOrder }: { orderId: string; init
       <OrderTrackMap order={order} />
 
       {/* Status + horizontal stepper */}
-      <section className="overflow-hidden rounded-[20px] border border-[#eceff5] bg-white px-4 py-5 shadow-[0_1px_3px_rgba(15,23,42,0.04)] sm:px-6 sm:py-6">
+      <section className="overflow-hidden rounded-[20px] border border-[#eceff5] bg-white px-4 py-5 shadow-[0_1px_3px_rgba(17, 24, 39, 0.04)] sm:px-6 sm:py-6">
         <div className="mb-1 flex items-center justify-between gap-2">
           <p className="text-[11px] font-bold tracking-[0.14em] text-[#9aa3b5]">
             {order.id}
@@ -453,8 +453,8 @@ export function MyOrderDetail({ orderId, initialOrder }: { orderId: string; init
       </section>
 
       {/* Seller row — Tezkor shop card */}
-      <section className="flex items-center gap-3 rounded-[20px] border border-[#eceff5] bg-white px-4 py-3.5 shadow-[0_1px_3px_rgba(15,23,42,0.04)]">
-        <span className="flex size-11 shrink-0 items-center justify-center rounded-full bg-[#e8f1ff] text-[#0066FF]">
+      <section className="flex items-center gap-3 rounded-[20px] border border-[#eceff5] bg-white px-4 py-3.5 shadow-[0_1px_3px_rgba(17, 24, 39, 0.04)]">
+        <span className="flex size-11 shrink-0 items-center justify-center rounded-full bg-[#F0FDFA] text-[#0F766E]">
           <Store className="size-5" />
         </span>
         <div className="min-w-0 flex-1">
@@ -471,11 +471,11 @@ export function MyOrderDetail({ orderId, initialOrder }: { orderId: string; init
       <OrderCourierCard order={order} />
 
       {/* Delivery details */}
-      <section className="rounded-[20px] border border-[#eceff5] bg-white px-4 py-4 shadow-[0_1px_3px_rgba(15,23,42,0.04)] sm:px-5">
+      <section className="rounded-[20px] border border-[#eceff5] bg-white px-4 py-4 shadow-[0_1px_3px_rgba(17, 24, 39, 0.04)] sm:px-5">
         <h2 className="text-[15px] font-semibold text-[#1a1d26]">Yetkazib berish tafsilotlari</h2>
         <dl className="mt-3 space-y-3">
           <div className="flex gap-3">
-            <span className="mt-0.5 flex size-8 shrink-0 items-center justify-center rounded-xl bg-[#f4f7fb] text-[#0066FF]">
+            <span className="mt-0.5 flex size-8 shrink-0 items-center justify-center rounded-xl bg-[#f4f7fb] text-[#0F766E]">
               <MapPin className="size-3.5" />
             </span>
             <div className="min-w-0">
@@ -491,7 +491,7 @@ export function MyOrderDetail({ orderId, initialOrder }: { orderId: string; init
             </div>
           </div>
           <div className="flex gap-3">
-            <span className="mt-0.5 flex size-8 shrink-0 items-center justify-center rounded-xl bg-[#f4f7fb] text-[#0066FF]">
+            <span className="mt-0.5 flex size-8 shrink-0 items-center justify-center rounded-xl bg-[#f4f7fb] text-[#0F766E]">
               <Phone className="size-3.5" />
             </span>
             <div className="min-w-0">
@@ -516,7 +516,7 @@ export function MyOrderDetail({ orderId, initialOrder }: { orderId: string; init
                   Bonus −{formatMoney(order.bonusUsed, "UZS")} · jami {formatMoney(order.total, "UZS")}
                 </p>
               ) : null}
-              <p className="text-[15px] font-bold text-[#0066FF]">{formatMoney(order.payable ?? order.total, "UZS")}</p>
+              <p className="text-[15px] font-bold text-[#0F766E]">{formatMoney(order.payable ?? order.total, "UZS")}</p>
             </div>
           </div>
         </dl>
@@ -525,7 +525,7 @@ export function MyOrderDetail({ orderId, initialOrder }: { orderId: string; init
       {escrowSection}
 
       {/* Products */}
-      <section className="rounded-[20px] border border-[#eceff5] bg-white p-4 shadow-[0_1px_3px_rgba(15,23,42,0.04)] sm:p-5">
+      <section className="rounded-[20px] border border-[#eceff5] bg-white p-4 shadow-[0_1px_3px_rgba(17, 24, 39, 0.04)] sm:p-5">
         <h2 className="text-[15px] font-semibold text-[#1a1d26]">Mahsulotlar</h2>
         <ul className="mt-3 space-y-0">
           {goods.map((item, index) => (
@@ -557,7 +557,7 @@ export function MyOrderDetail({ orderId, initialOrder }: { orderId: string; init
           </div>
           <div className="flex items-center justify-between">
             <span className="text-[14px] font-semibold text-[#1a1d26]">Jami</span>
-            <span className="text-[16px] font-bold text-[#0066FF]">{formatMoney(order.total, "UZS")}</span>
+            <span className="text-[16px] font-bold text-[#0F766E]">{formatMoney(order.total, "UZS")}</span>
           </div>
         </div>
         {order.bonusUsed ? (

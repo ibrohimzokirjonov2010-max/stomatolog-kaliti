@@ -278,7 +278,7 @@ export function MarketMobileCatalog() {
             <input value={brandQ} onChange={(event) => setBrandQ(event.target.value)} placeholder="Brend qidirish" />
             <div style={{ display: "flex", flexDirection: "column", gap: 6, marginTop: 8, maxHeight: 140, overflow: "auto" }}>
               {brandRows.map((row) => (
-                <label key={row.key} style={{ display: "flex", gap: 8, alignItems: "center", fontSize: 14, fontWeight: 600, color: "#0f172a" }}>
+                <label key={row.key} style={{ display: "flex", gap: 8, alignItems: "center", fontSize: 14, fontWeight: 600, color: "#111827" }}>
                   <input
                     type="checkbox"
                     checked={brands.includes(row.key)}
@@ -301,7 +301,7 @@ export function MarketMobileCatalog() {
               <option value="tez">Tez orada</option>
             </select>
             {officialCount > 0 ? (
-              <label style={{ display: "flex", gap: 8, alignItems: "center", marginTop: 12, color: "#0f172a" }}>
+              <label style={{ display: "flex", gap: 8, alignItems: "center", marginTop: 12, color: "#111827" }}>
                 <input type="checkbox" checked={officialOnly} onChange={(event) => setOfficialOnly(event.target.checked)} />
                 Rasmiy distribyutor ({officialCount})
               </label>

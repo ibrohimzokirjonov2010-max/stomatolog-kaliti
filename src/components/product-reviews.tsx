@@ -75,7 +75,7 @@ export function ProductReviewsList({ data, columns = 3 }: { data: ProductReviews
     <div>
       {data.avg != null ? (
         <p className="mb-3 flex items-center gap-2 text-[13px] text-[#4b5568]">
-          <span className="text-[20px] font-extrabold text-[#0B1F4D]">{data.avg.toFixed(1)}</span>
+          <span className="text-[20px] font-extrabold text-[#111827]">{data.avg.toFixed(1)}</span>
           <StarRow value={data.avg} />
           <span>{data.count} ta sharh</span>
         </p>
@@ -90,8 +90,8 @@ export function ProductReviewsList({ data, columns = 3 }: { data: ProductReviews
             <div className="mt-2"><StarRow value={r.rating} /></div>
             {r.body ? <p className="mt-2 text-[13px] break-words whitespace-pre-line">{r.body}</p> : null}
             {r.reply ? (
-              <div className="mt-3 rounded-lg border-l-2 border-[#0066FF] bg-white px-3 py-2">
-                <p className="flex items-center gap-1 text-[11.5px] font-semibold text-[#0066FF]">
+              <div className="mt-3 rounded-lg border-l-2 border-[#0F766E] bg-white px-3 py-2">
+                <p className="flex items-center gap-1 text-[11.5px] font-semibold text-[#0F766E]">
                   <MessageSquareReply className="size-3.5" /> Sotuvchi javobi{r.replyAt ? ` · ${fmtReviewDate(r.replyAt)}` : ""}
                 </p>
                 <p className="mt-1 text-[12.5px] break-words whitespace-pre-line text-[#4b5568]">{r.reply}</p>

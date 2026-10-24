@@ -43,14 +43,14 @@ export default function TicketPage({ params }: { params: Promise<{ id: string }>
   const code = state.kind === "ok" ? state.reg.ticketCode : "";
   useEffect(() => {
     if (!code) return;
-    QRCode.toDataURL(code, { margin: 1, width: 440, errorCorrectionLevel: "M", color: { dark: "#0B1F4D", light: "#ffffff" } })
+    QRCode.toDataURL(code, { margin: 1, width: 440, errorCorrectionLevel: "M", color: { dark: "#111827", light: "#ffffff" } })
       .then(setQr)
       .catch(() => setQr(""));
   }, [code]);
 
   const back = (
     <p className="mb-3 text-[13px]">
-      <Link href="/seminarlar/yozuvlarim" className="inline-flex items-center gap-1 text-[#0066FF] hover:underline">
+      <Link href="/seminarlar/yozuvlarim" className="inline-flex items-center gap-1 text-[#0F766E] hover:underline">
         <ChevronLeft className="size-4" />
         Mening yozuvlarim
       </Link>

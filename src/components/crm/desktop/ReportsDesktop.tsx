@@ -16,7 +16,7 @@ import "./reports.css";
 const MONTHS = ["yanvar", "fevral", "mart", "aprel", "may", "iyun", "iyul", "avgust", "sentabr", "oktabr", "noyabr", "dekabr"];
 const SHORT = ["yan", "fev", "mar", "apr", "may", "iyun", "iyul", "avg", "sen", "okt", "noy", "dek"];
 /** Fixed order, validated for colour-vision separation; every slice also has a text label and value. */
-const METHOD_COLOR: Record<PayMethod, string> = { Naqd: "#0d9488", Click: "#3b82f6", Payme: "#f59e0b", Karta: "#8b5cf6", "O‘tkazma": "#e11d48" };
+const METHOD_COLOR: Record<PayMethod, string> = { Naqd: "#0F766E", Click: "#134E4A", Payme: "#f59e0b", Karta: "#8b5cf6", "O‘tkazma": "#e11d48" };
 const METHODS = Object.keys(METHOD_COLOR) as PayMethod[];
 const PAGE = 8;
 

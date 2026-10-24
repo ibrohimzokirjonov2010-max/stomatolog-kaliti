@@ -117,7 +117,7 @@ function SidebarBody({ admin, pathname, onNavigate }: { admin: ShellAdmin; pathn
         <Link href="/admin" onClick={onNavigate}>
           <Logo />
         </Link>
-        <span className="rounded-md bg-[#0f172a] px-1.5 py-0.5 text-[10px] font-bold tracking-wider text-white">ADMIN</span>
+        <span className="rounded-md bg-[#111827] px-1.5 py-0.5 text-[10px] font-bold tracking-wider text-white">ADMIN</span>
       </div>
       <div className="px-4 pb-2 text-[11px] font-semibold uppercase tracking-wider text-slate-400">Boshqaruv</div>
       <nav aria-label="Admin menyu" className="flex-1 space-y-0.5 overflow-y-auto px-3">
@@ -136,7 +136,7 @@ function SidebarBody({ admin, pathname, onNavigate }: { admin: ShellAdmin; pathn
             {initials(admin.fullName)}
           </span>
           <span className="min-w-0 flex-1">
-            <span className="block truncate text-[13px] font-semibold text-[#0f172a]">{admin.fullName}</span>
+            <span className="block truncate text-[13px] font-semibold text-[#111827]">{admin.fullName}</span>
             <span className="block text-[11.5px] text-slate-500">{ROLE_LABEL[admin.adminRole]}</span>
           </span>
           <button type="button" onClick={() => void logout(router)} className="text-slate-400 hover:text-slate-700" aria-label="Chiqish" title="Chiqish">
@@ -243,14 +243,14 @@ export function AdminShell({ admin, children }: { admin: ShellAdmin; children: R
 
   return (
     <AdminCtx.Provider value={admin}>
-    <div className="flex h-screen bg-[#F4F7FC] font-sans text-[#0f172a]">
+    <div className="flex h-screen bg-[#F4F7FC] font-sans text-[#111827]">
       <aside className="hidden w-[252px] shrink-0 border-r border-[#e2e8f0] bg-white lg:block">
         <SidebarBody admin={admin} pathname={pathname} />
       </aside>
 
       {drawer ? (
         <div className="fixed inset-0 z-50 lg:hidden">
-          <button type="button" aria-label="Yopish" className="absolute inset-0 bg-[#0f172a]/40" onClick={() => setDrawer(false)} />
+          <button type="button" aria-label="Yopish" className="absolute inset-0 bg-[#111827]/40" onClick={() => setDrawer(false)} />
           <aside className="absolute inset-y-0 left-0 w-[272px] bg-white shadow-2xl">
             <button type="button" onClick={() => setDrawer(false)} className="absolute right-3 top-4 z-10 flex size-8 items-center justify-center rounded-lg text-slate-500" aria-label="Yopish">
               <X className="size-4" />
@@ -264,7 +264,7 @@ export function AdminShell({ admin, children }: { admin: ShellAdmin; children: R
         {/* desktop topbar */}
         <header className="hidden h-[60px] shrink-0 items-center gap-4 border-b border-[#e2e8f0] bg-white/90 px-6 backdrop-blur lg:flex">
           <div className="text-[13px] text-slate-400">
-            Admin <span className="mx-1">/</span> <span className="font-semibold text-[#0f172a]">{current.crumb}</span>
+            Admin <span className="mx-1">/</span> <span className="font-semibold text-[#111827]">{current.crumb}</span>
           </div>
           <GlobalSearch />
           <div className="ml-auto flex items-center gap-2">

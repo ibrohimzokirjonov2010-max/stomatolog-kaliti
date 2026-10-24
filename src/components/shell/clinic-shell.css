@@ -1,5 +1,5 @@
-.shell-teal { --teal: #0198a4; }
-.shell-blue { --teal: #3773fe; }
+.shell-teal { --teal: #0F766E; }
+.shell-blue { --teal: #0F766E; }
 
 .sh .cl-sub {
   padding-left: calc(1.55 * var(--u));
@@ -25,7 +25,7 @@
   background: #fff;
   border: 1px solid #e6edf5;
   border-radius: calc(.5 * var(--u));
-  box-shadow: 0 calc(.4 * var(--u)) calc(1.2 * var(--u)) rgba(20, 40, 80, .12);
+  box-shadow: 0 calc(.4 * var(--u)) calc(1.2 * var(--u)) rgba(17, 24, 39, .12);
   padding: calc(.55 * var(--u));
 }
 

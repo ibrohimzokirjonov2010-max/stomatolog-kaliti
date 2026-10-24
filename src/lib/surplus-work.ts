@@ -134,7 +134,7 @@ export function normalizePhone(phone: string) {
 }
 
 export const interestStatusCopy: Record<InterestStatus, { label: string; cls: string }> = {
-  yuborildi: { label: "Javob kutilmoqda", cls: "bg-[#eef4ff] text-[#0066FF]" },
+  yuborildi: { label: "Javob kutilmoqda", cls: "bg-[#F0FDFA] text-[#0F766E]" },
   qabul: { label: "Qabul qilindi", cls: "bg-[#ecfdf3] text-[#15803d]" },
   rad: { label: "Rad etildi", cls: "bg-[#fef2f2] text-[#b91c1c]" },
   bekor: { label: "Bekor qilindi", cls: "bg-[#f3f5f9] text-[#8b93a7]" },

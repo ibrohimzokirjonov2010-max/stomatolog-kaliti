@@ -5,15 +5,15 @@
   --j-teal-ink: var(--teal);
   --j-teal-dark: var(--teal);
   --j-teal-soft: #e6f6f5;
-  --j-teal-line: #bfe6e4;
-  --j-ink: #101833;
+  --j-teal-line: #CCFBF1;
+  --j-ink: #111827;
   --j-text: #36405a;
   --j-sub: #5d6680;
   --j-muted: #7f879b;
   --j-line: #e5eaf1;
   --j-green: #17a34a;
   --j-red: #e5394a;
-  --j-blue: #2563eb;
+  --j-blue: #0F766E;
   color: var(--j-ink);
 }
 .sh .jx .i, .sh .jxp .i { width: 1em; height: 1em; flex: none; }
@@ -27,14 +27,20 @@
 .sh .jx-add:hover, .sh .jxp-add:hover { filter: brightness(1.08); }
 .sh .jx-ghost { border: 1px solid var(--j-teal); color: var(--j-teal-ink); background: #fff; font-weight: 650; display: inline-flex; align-items: center; justify-content: center; gap: calc(.3 * var(--u)); border-radius: calc(.4 * var(--u)); white-space: nowrap; transition: background .15s; }
 .sh .jx-ghost:hover { background: var(--j-teal-soft); }
-.sh .jx-heart { position: absolute; top: calc(.55 * var(--u)); right: calc(.55 * var(--u)); width: calc(1.75 * var(--u)); height: calc(1.75 * var(--u)); border-radius: 50%; background: #fff; display: grid; place-items: center; color: #1d2540; font-size: calc(0.85 * var(--u)); box-shadow: 0 1px calc(.3 * var(--u)) rgba(15, 30, 60, .14); z-index: 2; }
+.sh .jx-heart { position: absolute; top: calc(.55 * var(--u)); right: calc(.55 * var(--u)); width: calc(1.75 * var(--u)); height: calc(1.75 * var(--u)); border-radius: 50%; background: #fff; display: grid; place-items: center; color: #111827; font-size: calc(0.85 * var(--u)); box-shadow: 0 1px calc(.3 * var(--u)) rgba(17, 24, 39, .14); z-index: 2; }
 .sh .jx-heart:hover { color: var(--j-red); }
 .sh .jx-heart.on { color: var(--j-red); }
 .sh .jx-heart.on .i { fill: currentColor; }
 .sh .jx-heart.sm { width: calc(1.5 * var(--u)); height: calc(1.5 * var(--u)); font-size: calc(0.72 * var(--u)); }
 
 /* ================= catalog ================= */
-.sh .jx { display: grid; grid-template-columns: minmax(0, 1fr) calc(16 * var(--u)); gap: calc(.8 * var(--u)); align-items: start; }
+.sh .jx { display: block; }
+.sh .jx-rail { display: none; }
+.sh .jx-crumb { margin: 0 0 8px; color: #8b97a8; font-size: 12px; font-weight: 650; }
+.sh .jx-crumb span { margin: 0 6px; }
+.sh .jx-hero { display: flex; align-items: center; min-height: 148px; margin-bottom: 14px; padding: 22px 28px; border-radius: 16px; background: linear-gradient(100deg, #0F766E 0%, #115E59 55%, #134E4A 100%); color: #fff; }
+.sh .jx-hero h1 { margin: 0; color: #fff; font-size: 32px; font-weight: 800; }
+.sh .jx-hero p { margin: 8px 0 0; max-width: 640px; color: #F0FDFA; font-size: 14px; line-height: 1.45; }
 .sh .jx-main { min-width: 0; }
 .sh .jx-head { display: flex; align-items: flex-start; justify-content: space-between; gap: calc(1 * var(--u)); padding-top: calc(.4 * var(--u)); margin-bottom: calc(1.6 * var(--u)); }
 .sh .jx-head h1 { margin: 0; font-size: calc(1.9 * var(--u)); font-weight: 800; letter-spacing: -.03em; line-height: 1.1; }
@@ -43,9 +49,11 @@
 .sh .jx-trust li { display: flex; align-items: center; gap: calc(.5 * var(--u)); font-size: calc(0.66 * var(--u)); line-height: 1.35; color: var(--j-text); font-weight: 550; }
 .sh .jx-trust .i { font-size: calc(1.35 * var(--u)); color: var(--j-teal); stroke-width: 1.7; }
 
+.sh .jx-sort { height: calc(1.9 * var(--u)); min-width: calc(11 * var(--u)); border: 1px solid var(--j-line); border-radius: calc(.4 * var(--u)); background: #fff; padding: 0 calc(.6 * var(--u)); font: inherit; font-size: calc(.7 * var(--u)); }
+.sh .jx-dots, .sh .jx-month { display: none; }
 .sh .jx-tabs { display: flex; gap: calc(.35 * var(--u)); margin-bottom: calc(.85 * var(--u)); overflow-x: auto; scrollbar-width: none; }
 .sh .jx-tabs::-webkit-scrollbar { display: none; }
-.sh .jx-tab { flex: none; height: calc(2 * var(--u)); padding: 0 calc(.9 * var(--u)); border-radius: 99px; background: #fff; border: 1px solid var(--j-line); font-size: calc(0.7 * var(--u)); font-weight: 550; color: #1b2340; white-space: nowrap; }
+.sh .jx-tab { flex: none; height: calc(2 * var(--u)); padding: 0 calc(.9 * var(--u)); border-radius: 99px; background: #fff; border: 1px solid var(--j-line); font-size: calc(0.7 * var(--u)); font-weight: 550; color: #111827; white-space: nowrap; }
 .sh .jx-tab:hover { border-color: var(--j-teal-line); }
 .sh .jx-tab.on { background: var(--j-teal); border-color: var(--j-teal); color: #fff; font-weight: 650; padding: 0 calc(1.45 * var(--u)); }
 
@@ -88,7 +96,7 @@
 .sh .jx-list { min-width: 0; }
 .sh .jx-tools { display: flex; align-items: center; gap: calc(.6 * var(--u)); margin-bottom: calc(.85 * var(--u)); }
 .sh .jx-sorts { display: flex; gap: calc(.5 * var(--u)); flex-wrap: wrap; flex: 1; min-width: 0; }
-.sh .jx-sorts button { height: calc(1.85 * var(--u)); padding: 0 calc(1 * var(--u)); border-radius: 99px; background: #fff; border: 1px solid var(--j-line); font-size: calc(0.7 * var(--u)); color: #1b2340; white-space: nowrap; }
+.sh .jx-sorts button { height: calc(1.85 * var(--u)); padding: 0 calc(1 * var(--u)); border-radius: 99px; background: #fff; border: 1px solid var(--j-line); font-size: calc(0.7 * var(--u)); color: #111827; white-space: nowrap; }
 .sh .jx-sorts button:hover { border-color: var(--j-teal-line); }
 .sh .jx-sorts button.on { background: var(--j-teal); border-color: var(--j-teal); color: #fff; font-weight: 650; }
 .sh .jx-count { color: var(--j-sub); font-size: calc(0.72 * var(--u)); white-space: nowrap; }
@@ -99,7 +107,7 @@
 /* cards */
 .sh .jx-grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: calc(.95 * var(--u)) calc(.9 * var(--u)); }
 .sh .jx-card { background: #fff; border: 1px solid var(--j-line); border-radius: calc(.6 * var(--u)); overflow: hidden; display: flex; flex-direction: column; transition: box-shadow .15s, border-color .15s; }
-.sh .jx-card:hover { border-color: var(--j-teal-line); box-shadow: 0 calc(.3 * var(--u)) calc(1 * var(--u)) rgba(15, 30, 60, .08); }
+.sh .jx-card:hover { border-color: var(--j-teal-line); box-shadow: 0 calc(.3 * var(--u)) calc(1 * var(--u)) rgba(17, 24, 39, .08); }
 .sh .jx-card .ph { position: relative; height: calc(9.2 * var(--u)); background: #f2f4f5; overflow: hidden; }
 .sh .jx-card .ph > a { display: block; width: 100%; height: 100%; }
 .sh .jx-card .ph img { width: 100%; height: 100%; object-fit: cover; transition: transform .25s; }
@@ -107,18 +115,18 @@
 .sh .jx-badge { position: absolute; top: calc(.55 * var(--u)); left: calc(.55 * var(--u)); z-index: 2; height: calc(1.15 * var(--u)); padding: 0 calc(.45 * var(--u)); border-radius: calc(.25 * var(--u)); display: inline-flex; align-items: center; font-size: calc(0.62 * var(--u)); font-weight: 650; color: #fff; background: var(--j-green); }
 .sh .jx-badge.ishlatilgan { background: var(--j-red); }
 .sh .jx-badge.korgazma { background: #d98a0b; }
-.sh .jx-cmp { position: absolute; top: calc(2.55 * var(--u)); right: calc(.55 * var(--u)); z-index: 2; width: calc(1.75 * var(--u)); height: calc(1.75 * var(--u)); border-radius: 50%; background: #fff; display: grid; place-items: center; color: #4d5670; font-size: calc(0.8 * var(--u)); box-shadow: 0 1px calc(.3 * var(--u)) rgba(15, 30, 60, .14); opacity: 0; transition: opacity .15s; }
+.sh .jx-cmp { position: absolute; top: calc(2.55 * var(--u)); right: calc(.55 * var(--u)); z-index: 2; width: calc(1.75 * var(--u)); height: calc(1.75 * var(--u)); border-radius: 50%; background: #fff; display: grid; place-items: center; color: #4d5670; font-size: calc(0.8 * var(--u)); box-shadow: 0 1px calc(.3 * var(--u)) rgba(17, 24, 39, .14); opacity: 0; transition: opacity .15s; }
 .sh .jx-card:hover .jx-cmp, .sh .jx-cmp:focus-visible { opacity: 1; }
 .sh .jx-cmp.on { background: var(--j-teal); color: #fff; }
 .sh .jx-card .bd { padding: calc(.3 * var(--u)) calc(.6 * var(--u)) calc(.6 * var(--u)); display: flex; flex-direction: column; flex: 1; }
-.sh .jx-mark { display: block; height: calc(1.05 * var(--u)); font-size: calc(0.82 * var(--u)); font-weight: 800; letter-spacing: -.01em; color: #1d2c4f; line-height: 1.3; }
-.sh .jx-mark.planmeca { color: #0e57b5; letter-spacing: .02em; font-size: calc(0.74 * var(--u)); }
+.sh .jx-mark { display: block; height: calc(1.05 * var(--u)); font-size: calc(0.82 * var(--u)); font-weight: 800; letter-spacing: -.01em; color: #111827; line-height: 1.3; }
+.sh .jx-mark.planmeca { color: #0F766E; letter-spacing: .02em; font-size: calc(0.74 * var(--u)); }
 .sh .jx-mark.shape { font-weight: 600; letter-spacing: .04em; color: #151515; }
-.sh .jx-mark.zeiss { display: inline-flex; align-self: flex-start; align-items: center; background: #0d3d8c; color: #fff; font-size: calc(0.5 * var(--u)); padding: 0 calc(.25 * var(--u)); height: calc(1.05 * var(--u)); letter-spacing: .05em; }
+.sh .jx-mark.zeiss { display: inline-flex; align-self: flex-start; align-items: center; background: #111827; color: #fff; font-size: calc(0.5 * var(--u)); padding: 0 calc(.25 * var(--u)); height: calc(1.05 * var(--u)); letter-spacing: .05em; }
 .sh .jx-mark.kavo { color: #1a1a1a; }
-.sh .jx-mark.melag { color: #1b5fa8; font-size: calc(0.7 * var(--u)); letter-spacing: .04em; }
+.sh .jx-mark.melag { color: #0F766E; font-size: calc(0.7 * var(--u)); letter-spacing: .04em; }
 .sh .jx-mark.cattani { color: #c8102e; font-size: calc(0.68 * var(--u)); letter-spacing: .03em; }
-.sh .jx-mark.ivoclar { color: #154f8f; font-weight: 700; }
+.sh .jx-mark.ivoclar { color: #111827; font-weight: 700; }
 .sh .jx-mark.sirona { color: #111; font-weight: 700; }
 .sh .jx-card h3 { margin: calc(.15 * var(--u)) 0 0; font-size: calc(0.8 * var(--u)); font-weight: 750; line-height: 1.3; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 .sh .jx-card h3 a:hover { color: var(--j-teal-ink); }
@@ -152,7 +160,7 @@
 
 /* rail */
 .sh .jx-rail { display: flex; flex-direction: column; gap: calc(.8 * var(--u)); min-width: 0; }
-.sh .jx-sell { height: calc(3 * var(--u)); border-radius: calc(.65 * var(--u)); background: var(--j-teal); color: #fff; display: flex; align-items: center; justify-content: center; gap: calc(.5 * var(--u)); font-size: calc(0.82 * var(--u)); font-weight: 650; margin-top: calc(.6 * var(--u)); box-shadow: 0 calc(.2 * var(--u)) calc(.6 * var(--u)) rgba(0, 151, 151, .22); transition: filter .15s; }
+.sh .jx-sell { height: calc(3 * var(--u)); border-radius: calc(.65 * var(--u)); background: var(--j-teal); color: #fff; display: flex; align-items: center; justify-content: center; gap: calc(.5 * var(--u)); font-size: calc(0.82 * var(--u)); font-weight: 650; margin-top: calc(.6 * var(--u)); box-shadow: 0 calc(.2 * var(--u)) calc(.6 * var(--u)) rgba(15, 118, 110, .22); transition: filter .15s; }
 .sh .jx-sell:hover { filter: brightness(1.07); }
 .sh .jx-sell .i { font-size: calc(1.15 * var(--u)); }
 .sh .jx-box-hd { display: flex; flex-direction: column; margin-bottom: calc(.6 * var(--u)); }
@@ -169,7 +177,7 @@
 .sh .jx-cmp-row .x:hover { color: var(--j-red); }
 .sh .jx-wide { width: 100%; height: calc(2.15 * var(--u)); border-radius: calc(.45 * var(--u)); background: var(--j-teal); color: #fff; font-size: calc(0.72 * var(--u)); font-weight: 650; display: flex; align-items: center; justify-content: center; gap: calc(.35 * var(--u)); }
 .sh .jx-wide:disabled { opacity: .5; cursor: not-allowed; }
-.sh .jx-consult { position: relative; overflow: hidden; background: linear-gradient(135deg, #eaf9f7 0%, #dff4f3 100%); border-color: #d2efed; padding-bottom: calc(.85 * var(--u)); }
+.sh .jx-consult { position: relative; overflow: hidden; background: linear-gradient(135deg, #eaf9f7 0%, #dff4f3 100%); border-color: #F0FDFA; padding-bottom: calc(.85 * var(--u)); }
 .sh .jx-consult .txt { position: relative; z-index: 1; max-width: 72%; }
 .sh .jx-consult h3 { font-size: calc(1.02 * var(--u)); font-weight: 800; letter-spacing: -.01em; }
 .sh .jx-consult p { margin: calc(.3 * var(--u)) 0 calc(.7 * var(--u)); color: var(--j-sub); font-size: calc(0.64 * var(--u)); }
@@ -188,8 +196,8 @@
 .sh .jx-why small { font-size: calc(0.6 * var(--u)); color: var(--j-muted); margin-top: calc(.1 * var(--u)); }
 
 /* modal + toast (used by both pages) */
-.sh .jx-modal { position: fixed; inset: 0; z-index: 80; background: rgba(12, 20, 40, .45); display: grid; place-items: center; padding: calc(1.5 * var(--u)); }
-.sh .jx-dialog { width: min(calc(28 * var(--u)), 100%); max-height: 90vh; overflow: auto; background: #fff; border-radius: calc(.8 * var(--u)); padding: calc(1.3 * var(--u)); display: flex; flex-direction: column; gap: calc(.65 * var(--u)); color: var(--j-ink); box-shadow: 0 calc(1 * var(--u)) calc(3 * var(--u)) rgba(10, 20, 40, .25); }
+.sh .jx-modal { position: fixed; inset: 0; z-index: 80; background: rgba(17, 24, 39, .45); display: grid; place-items: center; padding: calc(1.5 * var(--u)); }
+.sh .jx-dialog { width: min(calc(28 * var(--u)), 100%); max-height: 90vh; overflow: auto; background: #fff; border-radius: calc(.8 * var(--u)); padding: calc(1.3 * var(--u)); display: flex; flex-direction: column; gap: calc(.65 * var(--u)); color: var(--j-ink); box-shadow: 0 calc(1 * var(--u)) calc(3 * var(--u)) rgba(17, 24, 39, .25); }
 .sh .jx-dialog.wide { width: min(calc(56 * var(--u)), 100%); }
 .sh .jx-dialog h3 { margin: 0; font-size: calc(1.2 * var(--u)); font-weight: 800; }
 .sh .jx-dialog .sub { margin: calc(-.35 * var(--u)) 0 calc(.2 * var(--u)); color: var(--j-sub); font-size: calc(0.78 * var(--u)); }
@@ -205,7 +213,7 @@
 .sh .jx-table th { font-weight: 700; font-size: calc(0.76 * var(--u)); }
 .sh .jx-table th img { width: calc(5 * var(--u)); height: calc(4 * var(--u)); object-fit: cover; border-radius: calc(.35 * var(--u)); margin-bottom: calc(.35 * var(--u)); background: #f2f4f5; }
 .sh .jx-table td:first-child { color: var(--j-muted); white-space: nowrap; }
-.sh .jx-toast { position: fixed; left: 50%; bottom: calc(1.6 * var(--u)); z-index: 90; transform: translateX(-50%); margin: 0; max-width: min(calc(40 * var(--u)), 90vw); background: #12223d; color: #fff; padding: calc(.7 * var(--u)) calc(1.1 * var(--u)); border-radius: calc(.55 * var(--u)); font-size: calc(0.76 * var(--u)); box-shadow: 0 calc(.5 * var(--u)) calc(1.5 * var(--u)) rgba(0, 0, 0, .25); animation: jx-toast 4.2s ease forwards; }
+.sh .jx-toast { position: fixed; left: 50%; bottom: calc(1.6 * var(--u)); z-index: 90; transform: translateX(-50%); margin: 0; max-width: min(calc(40 * var(--u)), 90vw); background: #111827; color: #fff; padding: calc(.7 * var(--u)) calc(1.1 * var(--u)); border-radius: calc(.55 * var(--u)); font-size: calc(0.76 * var(--u)); box-shadow: 0 calc(.5 * var(--u)) calc(1.5 * var(--u)) rgba(0, 0, 0, .25); animation: jx-toast 4.2s ease forwards; }
 @keyframes jx-toast { 0% { opacity: 0; transform: translate(-50%, 10px); } 6%, 88% { opacity: 1; transform: translate(-50%, 0); } 100% { opacity: 0; transform: translate(-50%, 0); } }
 
 /* ================= product page ================= */
@@ -235,7 +243,7 @@
 .sh .jxp-pills { display: flex; gap: calc(.45 * var(--u)); flex-wrap: wrap; }
 .sh .jxp-pills .pill { height: calc(1.3 * var(--u)); padding: 0 calc(.55 * var(--u)); border-radius: calc(.3 * var(--u)); display: inline-flex; align-items: center; gap: calc(.3 * var(--u)); font-size: calc(0.62 * var(--u)); font-weight: 650; }
 .sh .jxp-pills .green { background: #e2f6ea; color: #138a40; }
-.sh .jxp-pills .blue { background: #e6efff; color: #1d5ed8; }
+.sh .jxp-pills .blue { background: #F0FDFA; color: #0F766E; }
 .sh .jxp-pills .plain { background: #fff; border: 1px solid var(--j-line); color: var(--j-text); font-weight: 550; }
 .sh .jxp-buy h1 { margin: calc(.6 * var(--u)) 0 0; font-size: calc(1.72 * var(--u)); font-weight: 800; letter-spacing: -.025em; line-height: 1.2; }
 .sh .jxp-rate { display: flex; align-items: center; gap: calc(.35 * var(--u)); margin-top: calc(.55 * var(--u)); font-size: calc(0.74 * var(--u)); color: var(--j-sub); flex-wrap: wrap; }
@@ -247,7 +255,7 @@
 .sh .jxp-stock { display: flex; gap: calc(1.2 * var(--u)); margin-top: calc(.75 * var(--u)); font-size: calc(0.74 * var(--u)); flex-wrap: wrap; }
 .sh .jxp-stock span { display: inline-flex; align-items: center; gap: calc(.35 * var(--u)); }
 .sh .jxp-stock .ok { color: var(--j-green); font-weight: 600; }
-.sh .jxp-stock .ship { color: #1f63c6; }
+.sh .jxp-stock .ship { color: #0F766E; }
 .sh .jxp-plan { margin-top: calc(.75 * var(--u)); width: 100%; height: calc(4 * var(--u)); border: 1px solid var(--j-line); border-radius: calc(.6 * var(--u)); background: #fff; display: flex; align-items: center; gap: calc(.85 * var(--u)); padding: 0 calc(1.1 * var(--u)) 0 calc(.9 * var(--u)); text-align: left; transition: border-color .15s; }
 .sh .jxp-plan:hover, .sh .jxp-plan.open { border-color: var(--j-teal-line); }
 .sh .jxp-plan .ic { width: calc(2 * var(--u)); height: calc(2 * var(--u)); border-radius: calc(.45 * var(--u)); background: var(--j-teal-soft); color: var(--j-teal); display: grid; place-items: center; font-size: calc(1 * var(--u)); flex: none; }
@@ -375,3 +383,5 @@
 .sh .jxp-sim .txt > a:hover { color: var(--j-teal-ink); }
 .sh .jxp-sim small { display: flex; align-items: center; gap: calc(.25 * var(--u)); font-size: calc(0.6 * var(--u)); color: var(--j-sub); margin-top: calc(.1 * var(--u)); }
 .sh .jxp-sim strong { font-size: calc(0.88 * var(--u)); font-weight: 800; margin-top: calc(.2 * var(--u)); letter-spacing: -.01em; }
+
+.sh .jx-rail { display: none !important; }

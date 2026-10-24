@@ -39,7 +39,7 @@ export default function FormaOrdersPage() {
     <div>
       <header className="mb-4">
         <p className="text-[13px] text-[#8b93a7]">
-          <Link href="/forma" className="text-[#0066FF] hover:underline">
+          <Link href="/forma" className="text-[#0F766E] hover:underline">
             Forma
           </Link>
           <span className="mx-1">/</span>
@@ -90,7 +90,7 @@ export default function FormaOrdersPage() {
                     </ul>
                     <Link
                       href={`/buyurtma/tasdiq?id=${encodeURIComponent(order.id)}`}
-                      className="mt-2 inline-block text-[13px] font-semibold text-[#0066FF]"
+                      className="mt-2 inline-block text-[13px] font-semibold text-[#0F766E]"
                     >
                       Tasdiq
                     </Link>

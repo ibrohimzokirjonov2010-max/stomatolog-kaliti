@@ -1,6 +1,6 @@
 .vm-head { display: flex; align-items: flex-start; justify-content: space-between; gap: 8px; }
 .vm-head .am-lead { margin: 2px 0 0; }
-.vm-new { flex: none; display: inline-flex; align-items: center; gap: 6px; height: 32px; padding: 0 12px; border-radius: 8px; background: #087f80; color: #fff; font-size: 10px; font-weight: 600; box-shadow: 0 4px 10px rgba(8,127,128,.22); }
+.vm-new { flex: none; display: inline-flex; align-items: center; gap: 6px; height: 32px; padding: 0 12px; border-radius: 8px; background: #0F766E; color: #fff; font-size: 10px; font-weight: 600; box-shadow: 0 4px 10px rgba(15, 118, 110, .22); }
 .vm-new svg { width: 14px; height: 14px; }
 .vm-dot { width: 6px; height: 6px; border-radius: 50%; background: #16a34a; display: inline-block; flex: none; }
 .vm-card { padding: 6px 6px 8px; }
@@ -11,19 +11,19 @@
 .vm-menu-wrap { position: relative; flex: none; }
 .vm-more { width: 16px; height: 20px; display: grid; place-items: center; color: #4b5568; }
 .vm-more svg { width: 13px; height: 13px; }
-.vm-menu { position: absolute; top: 22px; right: 0; z-index: 5; min-width: 140px; padding: 4px; background: #fff; border: 1px solid #e6eef4; border-radius: 10px; box-shadow: 0 8px 20px rgba(15,23,42,.12); display: flex; flex-direction: column; }
-.vm-menu a, .vm-menu button { padding: 8px 10px; border-radius: 8px; font-size: 12px; font-weight: 600; color: #0b1a3a; text-align: left; }
+.vm-menu { position: absolute; top: 22px; right: 0; z-index: 5; min-width: 140px; padding: 4px; background: #fff; border: 1px solid #e6eef4; border-radius: 10px; box-shadow: 0 8px 20px rgba(17, 24, 39, .12); display: flex; flex-direction: column; }
+.vm-menu a, .vm-menu button { padding: 8px 10px; border-radius: 8px; font-size: 12px; font-weight: 600; color: #111827; text-align: left; }
 .vm-menu button { color: #e11d48; }
 .vm-row { margin-top: 3px; display: flex; align-items: center; gap: 6px; }
-.vm-count { flex: none; display: inline-flex; align-items: center; gap: 4px; height: 24px; padding: 0 6px; border-radius: 6px; border: 1px solid #edf2f6; background: #fff; color: #0b1a3a; font-size: 8.5px; font-weight: 600; }
-.vm-count svg { width: 12px; height: 12px; color: #0d8f8c; }
-.vm-count svg:last-child { width: 11px; height: 11px; color: #0b1a3a; }
-.vm-count em { font-style: normal; color: #0d8f8c; }
+.vm-count { flex: none; display: inline-flex; align-items: center; gap: 4px; height: 24px; padding: 0 6px; border-radius: 6px; border: 1px solid #edf2f6; background: #fff; color: #111827; font-size: 8.5px; font-weight: 600; }
+.vm-count svg { width: 12px; height: 12px; color: #0F766E; }
+.vm-count svg:last-child { width: 11px; height: 11px; color: #111827; }
+.vm-count em { font-style: normal; color: #0F766E; }
 .vm-reason { margin: 4px 0 0; color: #be123c; font-size: 9px; font-weight: 600; }
 .vm-actions { margin-top: 6px; display: grid; grid-template-columns: 1.25fr 1fr 1fr; gap: 6px; }
 .vm-act { height: 26px; display: inline-flex; align-items: center; justify-content: center; gap: 4px; border-radius: 6px; border: 1px solid #edf2f6; background: #fff; color: #3b4658; font-size: 8px; font-weight: 500; white-space: nowrap; }
 .vm-act svg { width: 11px; height: 11px; flex: none; }
-.vm-act.teal { background: #e6f7f6; border-color: #e6f7f6; color: #0b5f5e; }
-.vm-act.teal svg { color: #0d8f8c; }
+.vm-act.teal { background: #e6f7f6; border-color: #e6f7f6; color: #115E59; }
+.vm-act.teal svg { color: #0F766E; }
 .vm-act.red { border-color: #f6cdd5; color: #e11d48; }
 .vm-act:disabled { opacity: .5; }

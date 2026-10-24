@@ -143,12 +143,14 @@ function View({ product }: { product: DesktopJihoz }) {
             <h1>{product.name}</h1>
             <div className="jxp-rate">
               <b>{product.brand}</b>
-              <Star className="i star" />
-              <b>{product.rating.toFixed(1)}</b>
-              <span>({reviewCount} sharh)</span>
-              <span className="sep" />
-              <Package className="i" />
-              <span>{product.sold}+ ta sotilgan</span>
+              {reviewCount > 0 ? (
+                <>
+                  <Star className="i star" />
+                  <b>{product.rating.toFixed(1)}</b>
+                  <span>({reviewCount} sharh)</span>
+                </>
+              ) : null}
+              {product.sold > 0 ? <><span className="sep" /><Package className="i" /><span>{product.sold}+ ta sotilgan</span></> : null}
             </div>
             <div className="jxp-sum">{som(product.price)}</div>
             <div className="jxp-stock">
@@ -316,7 +318,7 @@ function View({ product }: { product: DesktopJihoz }) {
                     <div className="txt">
                       <b>{item.brand}</b>
                       <Link href={`/jihozlar/${item.slug}`}>{item.name.replace(new RegExp(`^${item.brand}\\s+`), "")}</Link>
-                      <small><Star className="i star" /> {item.rating.toFixed(1)} ({item.reviews})</small>
+                      {item.reviews > 0 ? <small><Star className="i star" /> {item.rating.toFixed(1)} ({item.reviews})</small> : null}
                       <strong>{som(item.price)}</strong>
                     </div>
                   </article>

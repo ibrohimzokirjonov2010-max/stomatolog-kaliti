@@ -188,7 +188,7 @@ export function FormaBrowse() {
               value={mobileQuery}
               onChange={(event) => setMobileQuery(event.target.value)}
               placeholder="Mahsulot, brend yoki turi..."
-              className="h-12 w-full rounded-2xl border border-[#e8eef4] bg-[#f4f6fa] pr-3 pl-10 text-[14px] text-[#1a1d26] outline-none placeholder:text-[#8b93a7] focus:border-[#0066FF] focus:bg-white focus:ring-2 focus:ring-[#0066FF]/15"
+              className="h-12 w-full rounded-2xl border border-[#e8eef4] bg-[#f4f6fa] pr-3 pl-10 text-[14px] text-[#1a1d26] outline-none placeholder:text-[#8b93a7] focus:border-[#0F766E] focus:bg-white focus:ring-2 focus:ring-[#0F766E]/15"
             />
           </div>
         ) : null}
@@ -220,7 +220,7 @@ export function FormaBrowse() {
                 }}
                 className="flex w-[72px] shrink-0 flex-col items-center gap-1.5"
               >
-                <span className={cn("grid size-[54px] place-items-center rounded-2xl border", on ? "border-[#0066FF] bg-[#0066FF] text-white shadow-[0_6px_14px_rgba(0,102,255,0.28)]" : "border-[#e1e9f8] bg-white text-[#0066FF]")}>
+                <span className={cn("grid size-[54px] place-items-center rounded-2xl border", on ? "border-[#0F766E] bg-[#0F766E] text-white shadow-[0_6px_14px_rgba(15, 118, 110, 0.28)]" : "border-[#F0FDFA] bg-white text-[#0F766E]")}>
                   {chip.img ? (
                     // eslint-disable-next-line @next/next/no-img-element
                     <img
@@ -235,7 +235,7 @@ export function FormaBrowse() {
                     <MobileCatIcon name={chip.icon ?? "bag"} />
                   )}
                 </span>
-                <span className={cn("text-center text-[11.5px] leading-tight", on ? "font-semibold text-[#0B1F4D]" : "font-medium text-[#6b7280]")}>{chip.label}</span>
+                <span className={cn("text-center text-[11.5px] leading-tight", on ? "font-semibold text-[#111827]" : "font-medium text-[#6b7280]")}>{chip.label}</span>
               </button>
             );
           })}
@@ -244,7 +244,7 @@ export function FormaBrowse() {
 
         <section className="mb-5">
           <div className="mb-2.5 flex items-center justify-between">
-            <h2 className="text-[16px] font-bold tracking-tight text-[#0B1F4D]">Mashhur kategoriyalar</h2>
+            <h2 className="text-[16px] font-bold tracking-tight text-[#111827]">Mashhur kategoriyalar</h2>
             <button
               type="button"
               onClick={() => {
@@ -253,7 +253,7 @@ export function FormaBrowse() {
                 setShowAllMobile(true);
                 showCatalog();
               }}
-              className="inline-flex items-center text-[12.5px] font-semibold text-[#0066FF]"
+              className="inline-flex items-center text-[12.5px] font-semibold text-[#0F766E]"
             >
               Barchasini ko‘rish <ArrowRight className="ml-1 size-3.5" />
             </button>
@@ -284,7 +284,7 @@ export function FormaBrowse() {
                     <span className="block text-[13px] leading-tight font-bold">{c.label}</span>
                     {c.count > 0 ? <span className="block text-[11px] text-white/80">{c.count} ta mahsulot</span> : null}
                   </span>
-                  <span className="grid size-6 shrink-0 place-items-center rounded-full bg-white text-[#0066FF]">
+                  <span className="grid size-6 shrink-0 place-items-center rounded-full bg-white text-[#0F766E]">
                     <ArrowRight className="size-3.5" />
                   </span>
                 </span>
@@ -300,9 +300,9 @@ export function FormaBrowse() {
             className="relative inline-flex h-10 shrink-0 items-center gap-1 rounded-xl border border-[#e6eaf2] bg-white px-2 text-[11px] font-semibold text-[#1a1d26]"
             aria-label="Filtrlar"
           >
-            <SlidersHorizontal className="size-3.5 text-[#0066FF]" />
+            <SlidersHorizontal className="size-3.5 text-[#0F766E]" />
             Filtrlar
-            {filterBadge > 0 ? <span className="grid size-[18px] place-items-center rounded-full bg-[#0066FF] text-[10px] font-bold text-white">{filterBadge}</span> : null}
+            {filterBadge > 0 ? <span className="grid size-[18px] place-items-center rounded-full bg-[#0F766E] text-[10px] font-bold text-white">{filterBadge}</span> : null}
           </button>
           <MobileFilterSelect label="Brend" value={brand} onChange={setBrand} options={brandOptions.map((item) => ({ value: item, label: item }))} />
           <MobileFilterSelect label="Rang" value={color} onChange={setColor} options={formaColors.map((item) => ({ value: item.id, label: item.label }))} />
@@ -321,11 +321,11 @@ export function FormaBrowse() {
 
         <section id="katalog" className="mb-4 scroll-mt-16">
           <div className="mb-3 flex items-center justify-between gap-2">
-            <h2 className="text-[16px] font-bold tracking-tight text-[#0B1F4D]">
+            <h2 className="text-[16px] font-bold tracking-tight text-[#111827]">
               {filtersTouched ? "Natijalar" : "Tavsiya etilgan mahsulotlar"} <span className="text-[13px] font-semibold text-[#8b93a7]">({visible.length})</span>
             </h2>
             {!showAllMobile && visible.length > 4 ? (
-              <button type="button" onClick={() => setShowAllMobile(true)} className="inline-flex items-center gap-0.5 text-[12.5px] font-semibold text-[#0066FF]">
+              <button type="button" onClick={() => setShowAllMobile(true)} className="inline-flex items-center gap-0.5 text-[12.5px] font-semibold text-[#0F766E]">
                 Barchasini ko‘rish
                 <ChevronRight className="size-3.5" />
               </button>
@@ -336,7 +336,7 @@ export function FormaBrowse() {
             <div className="rounded-2xl border border-[#eceff5] bg-white px-4 py-12 text-center">
               <p className="text-[14px] font-semibold text-[#1a1d26]">Hozircha mahsulot yo‘q</p>
               <p className="mt-1 text-[13px] text-[#8b93a7]">Bu bo‘limga tez orada yangi mahsulotlar qo‘shiladi.</p>
-              <button type="button" onClick={reset} className="mt-4 inline-flex h-11 items-center justify-center rounded-2xl bg-[#0066FF] px-5 text-[14px] font-semibold text-white">
+              <button type="button" onClick={reset} className="mt-4 inline-flex h-11 items-center justify-center rounded-2xl bg-[#0F766E] px-5 text-[14px] font-semibold text-white">
                 Barcha mahsulotlar
               </button>
             </div>
@@ -348,7 +348,7 @@ export function FormaBrowse() {
             </div>
           )}
           {!showAllMobile && visible.length > 6 ? (
-            <button type="button" onClick={() => setShowAllMobile(true)} className="mt-3 h-11 w-full rounded-2xl border border-[#e6eaf2] bg-white text-[14px] font-semibold text-[#0066FF]">
+            <button type="button" onClick={() => setShowAllMobile(true)} className="mt-3 h-11 w-full rounded-2xl border border-[#e6eaf2] bg-white text-[14px] font-semibold text-[#0F766E]">
               Yana ko‘rsatish ({visible.length - 6})
             </button>
           ) : null}
@@ -357,9 +357,9 @@ export function FormaBrowse() {
         <button
           type="button"
           onClick={() => setEmbroidery(true)}
-          className="mb-3 flex w-full items-center gap-3 rounded-2xl border border-[#dbe7ff] bg-[#f5f8ff] px-3.5 py-3 text-left"
+          className="mb-3 flex w-full items-center gap-3 rounded-2xl border border-[#F0FDFA] bg-[#f5f8ff] px-3.5 py-3 text-left"
         >
-          <span className="grid size-10 shrink-0 place-items-center rounded-xl bg-white text-[#0066FF] shadow-sm">
+          <span className="grid size-10 shrink-0 place-items-center rounded-xl bg-white text-[#0F766E] shadow-sm">
             <EmbroideryIcon />
           </span>
           <span className="min-w-0 flex-1 leading-tight">
@@ -373,7 +373,7 @@ export function FormaBrowse() {
           href="/forma/buyurtmalarim"
           className="mb-3 flex min-h-[52px] items-center gap-3 rounded-2xl border border-[#eceff5] bg-white px-3.5 py-3"
         >
-          <span className="grid size-10 shrink-0 place-items-center rounded-xl bg-[#0066FF] text-white">
+          <span className="grid size-10 shrink-0 place-items-center rounded-xl bg-[#0F766E] text-white">
             <ClipboardList className="size-[18px]" />
           </span>
           <span className="min-w-0 flex-1 leading-tight">
@@ -404,7 +404,7 @@ export function FormaBrowse() {
                       onClick={() => setSize(on ? "" : item)}
                       className={cn(
                         "flex h-11 min-w-11 items-center justify-center rounded-full px-3 text-[14px] font-semibold",
-                        on ? "bg-[#0066FF] text-white" : "bg-[#f4f6fa] text-[#4b5568]",
+                        on ? "bg-[#0F766E] text-white" : "bg-[#f4f6fa] text-[#4b5568]",
                       )}
                     >
                       {item}
@@ -426,7 +426,7 @@ export function FormaBrowse() {
                       onClick={() => setColor(on ? "" : item.id)}
                       className={cn(
                         "inline-flex h-11 items-center gap-2 rounded-xl px-3 text-[13px] font-semibold",
-                        on ? "bg-[#e8f1ff] text-[#0066FF] ring-1 ring-[#0066FF]" : "bg-[#f4f6fa] text-[#4b5568]",
+                        on ? "bg-[#F0FDFA] text-[#0F766E] ring-1 ring-[#0F766E]" : "bg-[#f4f6fa] text-[#4b5568]",
                       )}
                     >
                       <span
@@ -451,7 +451,7 @@ export function FormaBrowse() {
                   onClick={() => setGender("")}
                   className={cn(
                     "h-11 rounded-xl text-sm font-semibold",
-                    !gender ? "bg-[#0066FF] text-white" : "bg-[#f4f6fa] text-[#4b5568]",
+                    !gender ? "bg-[#0F766E] text-white" : "bg-[#f4f6fa] text-[#4b5568]",
                   )}
                 >
                   Barchasi
@@ -463,7 +463,7 @@ export function FormaBrowse() {
                     onClick={() => setGender(item.id)}
                     className={cn(
                       "h-11 rounded-xl text-sm font-semibold",
-                      gender === item.id ? "bg-[#0066FF] text-white" : "bg-[#f4f6fa] text-[#4b5568]",
+                      gender === item.id ? "bg-[#0F766E] text-white" : "bg-[#f4f6fa] text-[#4b5568]",
                     )}
                   >
                     {item.label}
@@ -480,7 +480,7 @@ export function FormaBrowse() {
                   onClick={() => setBrand("")}
                   className={cn(
                     "h-11 rounded-xl text-sm font-semibold",
-                    !brand ? "bg-[#0066FF] text-white" : "bg-[#f4f6fa] text-[#4b5568]",
+                    !brand ? "bg-[#0F766E] text-white" : "bg-[#f4f6fa] text-[#4b5568]",
                   )}
                 >
                   Barchasi
@@ -492,7 +492,7 @@ export function FormaBrowse() {
                     onClick={() => setBrand(item)}
                     className={cn(
                       "h-11 rounded-xl text-sm font-semibold",
-                      brand === item ? "bg-[#0066FF] text-white" : "bg-[#f4f6fa] text-[#4b5568]",
+                      brand === item ? "bg-[#0F766E] text-white" : "bg-[#f4f6fa] text-[#4b5568]",
                     )}
                   >
                     {item}
@@ -513,7 +513,7 @@ export function FormaBrowse() {
                   setPriceDirty(true);
                   setMaxPrice(Math.max(Number(event.target.value), minPrice));
                 }}
-                className="w-full accent-[#0066FF]"
+                className="w-full accent-[#0F766E]"
               />
               <p className="mt-1 text-sm font-semibold text-[#1a1d26]">{formatMoney(maxPrice, "UZS")}</p>
             </section>
@@ -529,7 +529,7 @@ export function FormaBrowse() {
               <button
                 type="button"
                 onClick={() => setFiltersOpen(false)}
-                className="h-12 rounded-2xl bg-[#0066FF] text-sm font-semibold text-white"
+                className="h-12 rounded-2xl bg-[#0F766E] text-sm font-semibold text-white"
               >
                 Ko‘rsatish ({visible.length})
               </button>
@@ -562,7 +562,7 @@ function FilterSheet({
         <div className="mx-auto mb-3 h-1 w-10 rounded-full bg-[#e6eaf2]" />
         <div className="mb-3 flex items-center justify-between">
           <p className="text-[16px] font-bold text-[#1a1d26]">{title}</p>
-          <button type="button" onClick={onClose} className="text-sm font-semibold text-[#0066FF]">
+          <button type="button" onClick={onClose} className="text-sm font-semibold text-[#0F766E]">
             Tayyor
           </button>
         </div>
@@ -633,7 +633,7 @@ function MobileFilterSelect({
       className={cn(
         "relative inline-flex h-10 shrink-0 items-center gap-1 rounded-xl border pl-2 text-[11px] font-semibold",
         sortIcon ? "pr-6" : "pr-5",
-        active ? "border-[#0066FF]/40 bg-[#e8f1ff] text-[#0066FF]" : "border-[#e6eaf2] bg-white text-[#1a1d26]",
+        active ? "border-[#0F766E]/40 bg-[#F0FDFA] text-[#0F766E]" : "border-[#e6eaf2] bg-white text-[#1a1d26]",
       )}
     >
       <span className="pointer-events-none">{active ? options.find((o) => o.value === value)?.label ?? label : label}</span>
@@ -650,7 +650,7 @@ function MobileFilterSelect({
           </option>
         ))}
       </select>
-      {sortIcon ? <ArrowUpDown className="pointer-events-none absolute right-1.5 size-3.5 text-[#0066FF]" /> : <ChevronDown className="pointer-events-none absolute right-1 size-3.5 text-[#8b93a7]" />}
+      {sortIcon ? <ArrowUpDown className="pointer-events-none absolute right-1.5 size-3.5 text-[#0F766E]" /> : <ChevronDown className="pointer-events-none absolute right-1 size-3.5 text-[#8b93a7]" />}
     </label>
   );
 }

@@ -79,7 +79,7 @@ export function KanallarDesktop() {
             name: item.name,
             handle: item.username,
             category: channelCategoryLabel[item.category] ? item.category : "umumiy",
-            color: item.avatarColor || "#0d9f9a",
+            color: item.avatarColor || "#0F766E",
             rank: index,
           })),
         );

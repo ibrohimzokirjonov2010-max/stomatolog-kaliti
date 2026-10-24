@@ -101,13 +101,13 @@ export function MarketProduct({ id }: { id: string }) {
             </div>
             <h1 className="pd-title">{product.id === "optibond-solo-plus" ? "OptiBond Solo Plus" : product.name.replace(/ \(.*\)$/, "")}</h1>
             <p className="pd-sub">{product.subtitle}</p>
-            <div className="pd-rate">
-              <Star className="i" />
-              <b>{product.rating.toFixed(1)}</b>
-              <span>({product.reviews} ta sharh)</span>
-              <span>|</span>
-              <span>{product.sold.toLocaleString("ru-RU")} ta sotilgan</span>
-            </div>
+            {product.reviews > 0 ? (
+              <div className="pd-rate">
+                <Star className="i" />
+                <b>{product.rating.toFixed(1)}</b>
+                <span>({product.reviews} ta sharh)</span>
+              </div>
+            ) : null}
             <p className="pd-blurb">{product.blurb}</p>
             <div className="pd-facts">
               <div className="pd-fact"><small>Holati</small><b>{product.condition}</b></div>
@@ -229,14 +229,7 @@ export function MarketProduct({ id }: { id: string }) {
                 Mahsulot sertifikati va yo‘riqnoma PDF ko‘rinishida yuklab olinadi. Lot {product.lot}. Yaroqlilik: {product.expiry}.
               </p>
             ) : null}
-            {tab === "Sharhlar" ? (
-              product.reviewsList.map((review) => (
-                <div className="pd-rev" key={review.name}>
-                  <b>{review.name}</b> · {review.rating.toFixed(1)} · <span style={{ color: "#8b9bb0" }}>{review.date}</span>
-                  <p>{review.text}</p>
-                </div>
-              ))
-            ) : null}
+            {tab === "Sharhlar" ? <p>Hali sharh yo‘q.</p> : null}
             {tab === "Yetkazib berish" ? (
               <p>
                 <MapPin className="i" /> {product.city}. {product.delivery}. {freeDeliveryText()}

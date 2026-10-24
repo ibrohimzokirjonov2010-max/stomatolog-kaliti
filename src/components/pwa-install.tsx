@@ -149,7 +149,7 @@ export function PwaInstall() {
       className="fixed inset-x-3 z-[45] mx-auto max-w-md lg:hidden"
       style={{ bottom }}
     >
-      <div className="relative flex items-start gap-3 rounded-2xl border border-[#e3ebfa] bg-white p-3 pr-9 text-[#0B1220] shadow-[0_12px_32px_rgba(15,23,42,0.14)]">
+      <div className="relative flex items-start gap-3 rounded-2xl border border-[#F0FDFA] bg-white p-3 pr-9 text-[#0B1220] shadow-[0_12px_32px_rgba(17, 24, 39, 0.14)]">
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img src="/icons/pwa/icon-192.png" alt="" width={44} height={44} className="size-11 shrink-0 rounded-xl" />
         <div className="min-w-0 flex-1">
@@ -162,7 +162,7 @@ export function PwaInstall() {
               <button
                 type="button"
                 onClick={install}
-                className="mt-2 h-9 rounded-xl bg-[#0066FF] px-4 text-[13.5px] font-semibold text-white active:scale-[0.98]"
+                className="mt-2 h-9 rounded-xl bg-[#0F766E] px-4 text-[13.5px] font-semibold text-white active:scale-[0.98]"
               >
                 O‘rnatish
               </button>
@@ -170,7 +170,7 @@ export function PwaInstall() {
           ) : (
             <p className="mt-1 text-[12.5px] leading-snug text-[#5b6478]">
               Pastdagi{" "}
-              <span className="inline-flex translate-y-[2px] items-center text-[#0066FF]">
+              <span className="inline-flex translate-y-[2px] items-center text-[#0F766E]">
                 <Share className="size-4" aria-label="Ulashish" />
               </span>{" "}
               <b className="text-[#0B1220]">Ulashish</b> tugmasini bosing, so‘ng{" "}

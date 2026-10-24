@@ -139,7 +139,7 @@ export function KitoblarMobile() {
             <h3>Filtr</h3>
             <input aria-label="Eng yuqori narx" inputMode="numeric" value={maxPrice} onChange={(event) => setMaxPrice(event.target.value)} placeholder="Eng yuqori narx" />
             <div className="row">
-              <button type="button" className="go" style={{ background: "#eef2f6", color: "#24344d" }} onClick={() => { setMaxPrice(""); setFilters(false); }}>Tozalash</button>
+              <button type="button" className="go" style={{ background: "#eef2f6", color: "#111827" }} onClick={() => { setMaxPrice(""); setFilters(false); }}>Tozalash</button>
               <button type="submit" className="go">Ko‘rish</button>
             </div>
           </form>

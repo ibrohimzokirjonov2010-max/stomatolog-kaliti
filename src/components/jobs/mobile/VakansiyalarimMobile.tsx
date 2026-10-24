@@ -168,7 +168,7 @@ export function VakansiyalarimMobile() {
       {applicants ? (
         <Modal title={`${applicants.title} — arizalar`} onClose={() => setApplicants(null)}>
           {forJob.length === 0 ? (
-            <p className="py-6 text-center text-sm text-[#8b93a7]"><CheckCircle2 className="mx-auto mb-2 size-6 text-[#0d8f8c]" />Hali ariza yo‘q.</p>
+            <p className="py-6 text-center text-sm text-[#8b93a7]"><CheckCircle2 className="mx-auto mb-2 size-6 text-[#0F766E]" />Hali ariza yo‘q.</p>
           ) : (
             <ul className="space-y-2.5">
               {forJob.map((item) => (

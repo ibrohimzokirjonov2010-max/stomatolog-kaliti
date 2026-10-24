@@ -9,7 +9,6 @@ import {
   BadgeCheck,
   CalendarClock,
   CheckCircle2,
-  FileText,
   Headphones,
   Heart,
   LayoutGrid,
@@ -195,18 +194,13 @@ export function JihozCatalog() {
     <ShopShell searchPath="/jihozlar" cartCount={cartCount} placeholder="Stomatologik jihozlar, brend yoki model qidirish..." showCamera={false}>
       <div className="jx" data-testid="jihoz-catalog">
         <div className="jx-main">
-          <div className="jx-head">
+          <p className="jx-crumb">Bosh sahifa <span>/</span> Marketplace <span>/</span> Jihozlar</p>
+          <section className="jx-hero">
             <div>
-              <h1>Stomatologik jihozlar</h1>
-              <p>Klinikangiz uchun zamonaviy va ishonchli uskunalar. Yangi va ishlatilgan, kafolat va servis bilan.</p>
+              <h1>Jihozlar</h1>
+              <p>Stomatologik klinika uchun zamonaviy jihoz va uskunalar: samarali klinika endomotor, apeks-lokator, rentgen, avtoklav va boshqalar.</p>
             </div>
-            <ul className="jx-trust">
-              <li><BadgeCheck className="i" /><span>Rasmiy<br />distribyutorlar</span></li>
-              <li><ShieldCheck className="i" /><span>Kafolat<br />va servis</span></li>
-              <li><FileText className="i" /><span>Lizing /<br />bo‘lib to‘lash</span></li>
-              <li><Wrench className="i" /><span>O‘rnatish<br />xizmati</span></li>
-            </ul>
-          </div>
+          </section>
 
           <div className="jx-tabs" role="tablist" aria-label="Kategoriya">
             {jihozCats.map((item) => (
@@ -260,11 +254,9 @@ export function JihozCatalog() {
 
             <div className="jx-list">
               <div className="jx-tools">
-                <div className="jx-sorts">
-                  {sorts.map((item) => (
-                    <button key={item.id} type="button" className={sort === item.id ? "on" : ""} aria-pressed={sort === item.id} onClick={() => setSort(item.id)}>{item.label}</button>
-                  ))}
-                </div>
+                <select className="jx-sort" aria-label="Saralash" value={sort} onChange={(event) => setSort(event.target.value as SortId)}>
+                  {sorts.map((item) => <option key={item.id} value={item.id}>{item.label}</option>)}
+                </select>
                 <span className="jx-count">{items.length} ta mahsulot</span>
                 <div className="jx-view">
                   <button type="button" className={list ? "" : "on"} aria-label="Katak" aria-pressed={!list} onClick={() => setList(false)}><LayoutGrid className="i" /></button>

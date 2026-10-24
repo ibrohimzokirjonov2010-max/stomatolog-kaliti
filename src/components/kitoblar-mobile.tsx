@@ -77,7 +77,7 @@ export function useBookDownload() {
 export function BookToast({ text }: { text: string }) {
   if (!text) return null;
   return (
-    <div role="status" className="fixed inset-x-4 bottom-[calc(5.5rem+env(safe-area-inset-bottom))] z-[70] mx-auto w-fit max-w-[90%] rounded-2xl bg-[#0B1F4D] px-4 py-2.5 text-center text-[13px] font-medium text-white shadow-lg">
+    <div role="status" className="fixed inset-x-4 bottom-[calc(5.5rem+env(safe-area-inset-bottom))] z-[70] mx-auto w-fit max-w-[90%] rounded-2xl bg-[#111827] px-4 py-2.5 text-center text-[13px] font-medium text-white shadow-lg">
       {text}
     </div>
   );
@@ -100,7 +100,7 @@ function BookCard({ book, onDownload, wide }: { book: Book; onDownload: (b: Book
         >
           <Heart className={cn("size-4", saved && "fill-[#f43f5e] text-[#f43f5e]")} />
         </button>
-        <Link href={bookHref(book.id)} className="relative block aspect-[3/4] overflow-hidden rounded-2xl bg-[#eef2f8] shadow-[0_6px_16px_rgba(15,23,42,0.1)]">
+        <Link href={bookHref(book.id)} className="relative block aspect-[3/4] overflow-hidden rounded-2xl bg-[#eef2f8] shadow-[0_6px_16px_rgba(17, 24, 39, 0.1)]">
           <Image src={book.image} alt="" fill sizes="158px" className="object-cover" />
         </Link>
       </div>
@@ -110,13 +110,13 @@ function BookCard({ book, onDownload, wide }: { book: Book; onDownload: (b: Book
       </Link>
       <p className="mt-1 truncate text-[11px] text-[#8b93a7]">{book.pages} bet · {formatCount(book.downloads)} yuklangan</p>
       <div className="mt-1 flex items-center justify-between gap-1.5">
-        <p className={cn("min-w-0 text-[12px] leading-tight font-bold", hasFile ? "text-[#16a34a]" : "text-[#0B1F4D]")}>{hasFile ? "Bepul" : "Narx tez orada"}</p>
+        <p className={cn("min-w-0 text-[12px] leading-tight font-bold", hasFile ? "text-[#16a34a]" : "text-[#111827]")}>{hasFile ? "Bepul" : "Narx tez orada"}</p>
         <button
           type="button"
           aria-label={hasFile ? "Yuklab olish" : "Savatga qo‘shish"}
           data-testid="book-card-download"
           onClick={() => onDownload(book)}
-          className="grid size-9 shrink-0 place-items-center rounded-xl bg-[#0066FF] text-white shadow-[0_6px_14px_rgba(0,102,255,0.28)]"
+          className="grid size-9 shrink-0 place-items-center rounded-xl bg-[#0F766E] text-white shadow-[0_6px_14px_rgba(15, 118, 110, 0.28)]"
         >
           {hasFile ? <Download className="size-4" /> : <ShoppingCart className="size-4" />}
         </button>
@@ -135,12 +135,12 @@ function Hero({ onAll }: { onAll: () => void }) {
         onScroll={(e) => setIdx(Math.round(e.currentTarget.scrollLeft / Math.max(1, e.currentTarget.clientWidth)))}
         className="flex snap-x snap-mandatory gap-3 overflow-x-auto [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
       >
-        <div className="relative h-[184px] w-full shrink-0 snap-center overflow-hidden rounded-[22px] bg-gradient-to-br from-[#0066FF] via-[#0a4fd6] to-[#0B1F4D] p-4 text-white shadow-[0_10px_28px_rgba(0,102,255,0.28)]">
+        <div className="relative h-[184px] w-full shrink-0 snap-center overflow-hidden rounded-[22px] bg-gradient-to-br from-[#0F766E] via-[#0F766E] to-[#111827] p-4 text-white shadow-[0_10px_28px_rgba(15, 118, 110, 0.28)]">
           <div className="relative z-10 flex h-full max-w-[58%] flex-col">
-            <span className="w-fit rounded-full bg-white px-2.5 py-1 text-[10px] leading-none font-bold tracking-[0.08em] text-[#0066FF]">TAVSIYA</span>
+            <span className="w-fit rounded-full bg-white px-2.5 py-1 text-[10px] leading-none font-bold tracking-[0.08em] text-[#0F766E]">TAVSIYA</span>
             <h2 className="mt-2.5 text-[18px] leading-[1.18] font-bold">Stomatologlar uchun eng yaxshi adabiyotlar</h2>
             <p className="mt-1 text-[11.5px] leading-snug text-white/80">Bilimingizni oshiring, kasbiy rivojlaning</p>
-            <button type="button" onClick={onAll} className="mt-auto inline-flex h-9 w-fit items-center gap-1.5 rounded-xl bg-white px-3.5 text-[12.5px] font-bold text-[#0066FF]">
+            <button type="button" onClick={onAll} className="mt-auto inline-flex h-9 w-fit items-center gap-1.5 rounded-xl bg-white px-3.5 text-[12.5px] font-bold text-[#0F766E]">
               Barchasini ko‘rish
               <ArrowRight className="size-3.5" />
             </button>
@@ -154,7 +154,7 @@ function Hero({ onAll }: { onAll: () => void }) {
           </div>
         </div>
         {top.slice(0, 2).map((b) => (
-          <Link key={b.id} href={bookHref(b.id)} className="relative flex h-[184px] w-full shrink-0 snap-center items-center gap-4 overflow-hidden rounded-[22px] bg-gradient-to-br from-[#0a4fd6] to-[#0B1F4D] p-4 text-white">
+          <Link key={b.id} href={bookHref(b.id)} className="relative flex h-[184px] w-full shrink-0 snap-center items-center gap-4 overflow-hidden rounded-[22px] bg-gradient-to-br from-[#0F766E] to-[#111827] p-4 text-white">
             <div className="relative h-[140px] w-[100px] shrink-0 overflow-hidden rounded-xl border-2 border-white/80 shadow-xl">
               <Image src={b.image} alt="" fill sizes="100px" className="object-cover" />
             </div>
@@ -169,7 +169,7 @@ function Hero({ onAll }: { onAll: () => void }) {
       </div>
       <div className="mt-2.5 flex justify-center gap-1.5" aria-hidden>
         {Array.from({ length: total }).map((_, i) => (
-          <span key={i} className={cn("h-1.5 rounded-full transition-all", i === idx ? "w-4 bg-[#0066FF]" : "w-1.5 bg-[#cdd5e4]")} />
+          <span key={i} className={cn("h-1.5 rounded-full transition-all", i === idx ? "w-4 bg-[#0F766E]" : "w-1.5 bg-[#cdd5e4]")} />
         ))}
       </div>
     </section>
@@ -223,7 +223,7 @@ export function KitoblarMobile() {
             value={q}
             onChange={(e) => setQ(e.target.value)}
             placeholder="Kitob nomi, muallif yoki mavzu bo‘yicha qidirish..."
-            className="h-12 w-full rounded-2xl border border-[#e8eef4] bg-[#f4f6fa] pr-9 pl-10 text-[14px] text-[#1a1d26] outline-none placeholder:text-[#8b93a7] focus:border-[#0066FF] focus:bg-white focus:ring-2 focus:ring-[#0066FF]/15"
+            className="h-12 w-full rounded-2xl border border-[#e8eef4] bg-[#f4f6fa] pr-9 pl-10 text-[14px] text-[#1a1d26] outline-none placeholder:text-[#8b93a7] focus:border-[#0F766E] focus:bg-white focus:ring-2 focus:ring-[#0F766E]/15"
           />
           {q ? (
             <button type="button" aria-label="Tozalash" onClick={() => setQ("")} className="absolute top-1/2 right-2 grid size-8 -translate-y-1/2 place-items-center text-[#8b93a7]">
@@ -231,7 +231,7 @@ export function KitoblarMobile() {
             </button>
           ) : null}
         </div>
-        <button type="button" aria-label="Filtrlar" onClick={() => setSheet(true)} className="relative grid size-12 shrink-0 place-items-center rounded-2xl bg-[#0066FF] text-white shadow-[0_6px_14px_rgba(0,102,255,0.28)]">
+        <button type="button" aria-label="Filtrlar" onClick={() => setSheet(true)} className="relative grid size-12 shrink-0 place-items-center rounded-2xl bg-[#0F766E] text-white shadow-[0_6px_14px_rgba(15, 118, 110, 0.28)]">
           <SlidersHorizontal className="size-5" />
           {filterCount > 0 ? <span className="absolute -top-1 -right-1 grid size-[18px] place-items-center rounded-full bg-[#FF3B30] text-[10px] font-bold text-white ring-2 ring-white">{filterCount}</span> : null}
         </button>
@@ -245,10 +245,10 @@ export function KitoblarMobile() {
           const on = cat === t.id;
           return (
             <button key={t.id} type="button" aria-pressed={on} onClick={() => setCat(t.id)} className="flex w-[78px] shrink-0 flex-col items-center gap-1.5">
-              <span className={cn("grid size-[58px] place-items-center rounded-2xl", on ? "bg-[#e8f1ff] text-[#0066FF] ring-1 ring-[#0066FF]/40" : "bg-[#f1f3f7] text-[#6b7280]")}>
+              <span className={cn("grid size-[58px] place-items-center rounded-2xl", on ? "bg-[#F0FDFA] text-[#0F766E] ring-1 ring-[#0F766E]/40" : "bg-[#f1f3f7] text-[#6b7280]")}>
                 <Icon className="size-6" strokeWidth={1.7} />
               </span>
-              <span className={cn("text-center text-[11.5px] leading-tight", on ? "font-semibold text-[#0066FF]" : "font-medium text-[#4b5568]")}>{t.label}</span>
+              <span className={cn("text-center text-[11.5px] leading-tight", on ? "font-semibold text-[#0F766E]" : "font-medium text-[#4b5568]")}>{t.label}</span>
             </button>
           );
         })}
@@ -268,7 +268,7 @@ export function KitoblarMobile() {
               setLevel("");
               setOnlySaved(false);
             }}
-            className="mt-4 inline-flex h-11 items-center rounded-2xl bg-[#0066FF] px-5 text-[14px] font-semibold text-white"
+            className="mt-4 inline-flex h-11 items-center rounded-2xl bg-[#0F766E] px-5 text-[14px] font-semibold text-white"
           >
             Tozalash
           </button>
@@ -277,8 +277,8 @@ export function KitoblarMobile() {
         <>
           <section className="mb-5">
             <div className="mb-2.5 flex items-center justify-between">
-              <h2 className="text-[16px] font-bold tracking-tight text-[#0B1F4D]">Mashhur kitoblar</h2>
-              <button type="button" onClick={() => setOpenPop((v) => !v)} className="inline-flex items-center text-[12.5px] font-semibold text-[#0066FF]">
+              <h2 className="text-[16px] font-bold tracking-tight text-[#111827]">Mashhur kitoblar</h2>
+              <button type="button" onClick={() => setOpenPop((v) => !v)} className="inline-flex items-center text-[12.5px] font-semibold text-[#0F766E]">
                 {openPop ? "Yig‘ish" : "Barchasini ko‘rish"} <ChevronRight className={cn("size-3.5", openPop && "rotate-90")} />
               </button>
             </div>
@@ -290,8 +290,8 @@ export function KitoblarMobile() {
           </section>
           <section className="mb-5">
             <div className="mb-2.5 flex items-center justify-between">
-              <h2 className="text-[16px] font-bold tracking-tight text-[#0B1F4D]">So‘nggi qo‘shilganlar</h2>
-              <button type="button" onClick={() => setOpenNew((v) => !v)} className="inline-flex items-center text-[12.5px] font-semibold text-[#0066FF]">
+              <h2 className="text-[16px] font-bold tracking-tight text-[#111827]">So‘nggi qo‘shilganlar</h2>
+              <button type="button" onClick={() => setOpenNew((v) => !v)} className="inline-flex items-center text-[12.5px] font-semibold text-[#0F766E]">
                 {openNew ? "Yig‘ish" : "Barchasini ko‘rish"} <ChevronRight className={cn("size-3.5", openNew && "rotate-90")} />
               </button>
             </div>
@@ -309,10 +309,10 @@ export function KitoblarMobile() {
           <FileText className="size-6" />
         </span>
         <div className="min-w-0 flex-1 leading-tight">
-          <p className="text-[14px] font-bold text-[#0B1F4D]">PDF formatdagi adabiyotlar</p>
+          <p className="text-[14px] font-bold text-[#111827]">PDF formatdagi adabiyotlar</p>
           <p className="mt-0.5 text-[11.5px] text-[#6b7280]">Kitoblarni PDF formatda yuklab olish</p>
         </div>
-        <button type="button" onClick={() => setToast("PDF kitoblar bo‘limi tez orada ochiladi.")} className="inline-flex h-10 shrink-0 flex-col items-center justify-center rounded-xl bg-[#0066FF] px-3 text-[12.5px] leading-none font-semibold text-white">
+        <button type="button" onClick={() => setToast("PDF kitoblar bo‘limi tez orada ochiladi.")} className="inline-flex h-10 shrink-0 flex-col items-center justify-center rounded-xl bg-[#0F766E] px-3 text-[12.5px] leading-none font-semibold text-white">
           <span className="inline-flex items-center gap-1">PDF kitoblar <ArrowRight className="size-3" /></span>
           <span className="mt-0.5 text-[9.5px] font-medium text-white/80">Tez orada</span>
         </button>
@@ -327,14 +327,14 @@ export function KitoblarMobile() {
             <div className="mx-auto mb-3 h-1 w-10 rounded-full bg-[#e6eaf2]" />
             <div className="mb-3 flex items-center justify-between">
               <p className="text-[16px] font-bold text-[#1a1d26]">Filtrlar</p>
-              <button type="button" onClick={() => setSheet(false)} className="text-sm font-semibold text-[#0066FF]">Tayyor</button>
+              <button type="button" onClick={() => setSheet(false)} className="text-sm font-semibold text-[#0F766E]">Tayyor</button>
             </div>
             <div className="space-y-4 pb-2">
               <div>
                 <p className="mb-2 text-sm font-semibold text-[#1a1d26]">Til</p>
                 <div className="flex flex-wrap gap-2">
                   {(["uz", "ru", "en"] as BookLanguage[]).map((l) => (
-                    <button key={l} type="button" onClick={() => setLanguage(language === l ? "" : l)} className={cn("h-11 rounded-xl px-4 text-[14px] font-semibold", language === l ? "bg-[#0066FF] text-white" : "bg-[#f4f6fa] text-[#4b5568]")}>
+                    <button key={l} type="button" onClick={() => setLanguage(language === l ? "" : l)} className={cn("h-11 rounded-xl px-4 text-[14px] font-semibold", language === l ? "bg-[#0F766E] text-white" : "bg-[#f4f6fa] text-[#4b5568]")}>
                       {bookLanguageLabels[l]}
                     </button>
                   ))}
@@ -344,19 +344,19 @@ export function KitoblarMobile() {
                 <p className="mb-2 text-sm font-semibold text-[#1a1d26]">Daraja</p>
                 <div className="flex flex-wrap gap-2">
                   {(["boshlangich", "orta", "yuqori"] as BookLevel[]).map((l) => (
-                    <button key={l} type="button" onClick={() => setLevel(level === l ? "" : l)} className={cn("h-11 rounded-xl px-4 text-[14px] font-semibold", level === l ? "bg-[#0066FF] text-white" : "bg-[#f4f6fa] text-[#4b5568]")}>
+                    <button key={l} type="button" onClick={() => setLevel(level === l ? "" : l)} className={cn("h-11 rounded-xl px-4 text-[14px] font-semibold", level === l ? "bg-[#0F766E] text-white" : "bg-[#f4f6fa] text-[#4b5568]")}>
                       {bookLevelLabels[l]}
                     </button>
                   ))}
                 </div>
               </div>
-              <button type="button" aria-pressed={onlySaved} onClick={() => setOnlySaved((v) => !v)} className={cn("flex h-11 w-full items-center justify-between rounded-xl px-4 text-[14px] font-semibold", onlySaved ? "bg-[#e8f1ff] text-[#0066FF]" : "bg-[#f4f6fa] text-[#4b5568]")}>
+              <button type="button" aria-pressed={onlySaved} onClick={() => setOnlySaved((v) => !v)} className={cn("flex h-11 w-full items-center justify-between rounded-xl px-4 text-[14px] font-semibold", onlySaved ? "bg-[#F0FDFA] text-[#0F766E]" : "bg-[#f4f6fa] text-[#4b5568]")}>
                 Faqat saqlanganlar
                 <Heart className={cn("size-4", onlySaved && "fill-current")} />
               </button>
               <div className="grid grid-cols-2 gap-2 pt-1">
                 <button type="button" onClick={() => { setLanguage(""); setLevel(""); setOnlySaved(false); }} className="h-12 rounded-2xl bg-[#f4f6fa] text-sm font-semibold text-[#4b5568]">Tozalash</button>
-                <button type="button" onClick={() => setSheet(false)} className="h-12 rounded-2xl bg-[#0066FF] text-sm font-semibold text-white">Ko‘rsatish ({filtered.length})</button>
+                <button type="button" onClick={() => setSheet(false)} className="h-12 rounded-2xl bg-[#0F766E] text-sm font-semibold text-white">Ko‘rsatish ({filtered.length})</button>
               </div>
             </div>
           </div>

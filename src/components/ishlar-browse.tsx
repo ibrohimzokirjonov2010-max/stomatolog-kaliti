@@ -216,7 +216,7 @@ function FilterChip({
       onClick={onClick}
       className={cn(
         "h-11 rounded-xl text-[13px] font-semibold",
-        active ? "bg-[#0066FF] text-white" : "bg-[#f4f6fa] text-[#4b5568]",
+        active ? "bg-[#0F766E] text-white" : "bg-[#f4f6fa] text-[#4b5568]",
       )}
     >
       {label}
@@ -249,7 +249,7 @@ function FilterSheet({
             <button type="button" onClick={onClear} className="text-sm font-semibold text-[#8b93a7]">
               Tozalash
             </button>
-            <button type="button" onClick={onClose} className="text-sm font-semibold text-[#0066FF]">
+            <button type="button" onClick={onClose} className="text-sm font-semibold text-[#0F766E]">
               Tayyor
             </button>
           </div>
@@ -353,7 +353,7 @@ function JobCard({
   onApply: () => void;
 }) {
   return (
-    <article className="flex flex-col rounded-[14px] border border-[#eceff5] bg-white p-4 shadow-[0_1px_2px_rgba(15,23,42,0.04)]">
+    <article className="flex flex-col rounded-[14px] border border-[#eceff5] bg-white p-4 shadow-[0_1px_2px_rgba(17, 24, 39, 0.04)]">
       <div className="flex gap-3">
         <ClinicMark brand={job.brand} name={job.clinic} />
         <div className="min-w-0 flex-1">
@@ -475,7 +475,7 @@ function CandidateAvatar({ person, large = false }: { person: Candidate; large?:
     <span
       className={cn(
         size,
-        "flex shrink-0 items-center justify-center rounded-full bg-[#dbeafe] text-sm font-semibold text-primary"
+        "flex shrink-0 items-center justify-center rounded-full bg-[#F0FDFA] text-sm font-semibold text-primary"
       )}
     >
       {initials}

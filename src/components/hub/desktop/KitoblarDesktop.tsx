@@ -326,7 +326,7 @@ export function KitoblarDesktop() {
                       <p className="by">{bookFacts(book)}</p>
                       {book.reviews > 0 ? (
                         <div className="hub-meta">
-                          <Star className="i" /> {book.rating.toFixed(1)} ({book.reviews} ta sharh)
+                          {book.reviews > 0 ? <><Star className="i" /> {book.rating.toFixed(1)} ({book.reviews} ta sharh)</> : null}
                         </div>
                       ) : null}
                       <div className="hub-price">

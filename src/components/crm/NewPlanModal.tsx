@@ -25,13 +25,13 @@ export const PLAN_SERVICES: { name: string; price: number }[] = [
   { name: "Ortodontik davolash", price: 3_000_000 },
 ];
 const STATUSES: { value: TreatmentPlan["status"]; label: string; color: string }[] = [
-  { value: "reja", label: "Reja qilingan", color: "#3b82f6" },
+  { value: "reja", label: "Reja qilingan", color: "#0F766E" },
   { value: "davom", label: "Davom etmoqda", color: "#f59e0b" },
   { value: "yakun", label: "Yakunlangan", color: "#16a34a" },
 ];
 const DURATIONS = ["1 kun", "1 hafta", "1-2 hafta", "2-4 hafta", "1-2 oy", "2-3 oy", "3-6 oy"];
 const DISCOUNTS = [0, 5, 10, 15, 20, 25, 30];
-const STAGE_COLORS = ["#2563eb", "#22c55e", "#f59e0b", "#8b5cf6", "#ef4444"];
+const STAGE_COLORS = ["#0F766E", "#22c55e", "#f59e0b", "#8b5cf6", "#ef4444"];
 const LEGEND: { id: ToothState; label: string; mark?: "ring" | "dash" }[] = [
   { id: "soglom", label: "Sog‘lom tish", mark: "ring" },
   { id: "kariyes", label: "Karies" },
@@ -104,7 +104,7 @@ function ToothGlyph({ id, state, lower }: { id: string; state: ToothState; lower
                 <rect x="0" y="0" width="24" height="18" fill="#eef2f6" />
                 <path d="M8 3h8l-1 15H9Z" fill={color} />
                 {[5, 8, 11, 14].map((y) => <path key={y} d={`M7.5 ${y}h9`} stroke="#64748b" strokeWidth=".9" />)}
-                <rect x="0" y="18" width="24" height="22" fill="#a5d8f5" opacity=".7" />
+                <rect x="0" y="18" width="24" height="22" fill="#CCFBF1" opacity=".7" />
               </>
             ) : null}
             <path d="M6.5 18.5Q12 21 17.5 18.5" fill="none" stroke="#d5deea" strokeWidth=".8" strokeLinecap="round" />
@@ -255,14 +255,14 @@ export function NewPlanModal({ onClose, onSave }: { onClose: () => void; onSave:
     }, asTemplate);
   }
 
-  const statusColor = STATUSES.find((item) => item.value === status)?.color ?? "#3b82f6";
+  const statusColor = STATUSES.find((item) => item.value === status)?.color ?? "#0F766E";
 
   return (
     <CmDialog
       testId="plan-modal"
       title="Yangi davolash rejasi"
       subtitle="Bemorga davolash rejasi tuzing va xizmatlarni qo‘shing"
-      width={800}
+      width={1240}
       onClose={onClose}
       footer={
         <>

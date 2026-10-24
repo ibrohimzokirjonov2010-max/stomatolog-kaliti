@@ -134,7 +134,7 @@ export function RegisterForm() {
         <button
           type="button"
           onClick={() => router.push(nextPath())}
-          className="flex h-12 w-full items-center justify-center rounded-full bg-[#0066FF] text-[16px] font-bold text-white shadow-[0_8px_20px_rgba(0,102,255,0.28)] hover:bg-[#0052cc]"
+          className="flex h-12 w-full items-center justify-center rounded-full bg-[#0F766E] text-[16px] font-bold text-white shadow-[0_8px_20px_rgba(15, 118, 110, 0.28)] hover:bg-[#115E59]"
         >
           Davom etish
         </button>
@@ -159,7 +159,7 @@ export function RegisterForm() {
         <button
           type="button"
           onClick={() => router.push(nextPath())}
-          className="flex h-12 w-full items-center justify-center rounded-full bg-[#0066FF] text-[16px] font-bold text-white shadow-[0_8px_20px_rgba(0,102,255,0.28)] hover:bg-[#0052cc]"
+          className="flex h-12 w-full items-center justify-center rounded-full bg-[#0F766E] text-[16px] font-bold text-white shadow-[0_8px_20px_rgba(15, 118, 110, 0.28)] hover:bg-[#115E59]"
         >
           Marketplace’ga o‘tish
         </button>
@@ -228,16 +228,16 @@ export function RegisterForm() {
                 aria-pressed={role === id}
                 onClick={() => setRole(id)}
                 className={`relative flex flex-col items-center gap-1 rounded-xl border px-2 py-3 text-center transition ${index < 3 ? "sm:col-span-2" : "sm:col-span-3"} ${
-                  role === id ? "border-[#1d6cf2] bg-[#eef4ff]" : "border-[#e3e9f1] bg-white hover:border-[#a9c6fb]"
+                  role === id ? "border-[#0F766E] bg-[#eef4ff]" : "border-[#e3e9f1] bg-white hover:border-[#CCFBF1]"
                 }`}
               >
                 {role === id ? (
-                  <span className="absolute top-1.5 right-1.5 grid size-5 place-items-center rounded-full bg-[#1d6cf2] text-white">
+                  <span className="absolute top-1.5 right-1.5 grid size-5 place-items-center rounded-full bg-[#0F766E] text-white">
                     <Check className="size-3" />
                   </span>
                 ) : null}
-                <Icon className="size-6 text-[#1d6cf2]" />
-                <span className="text-[12.5px] font-bold text-[#0f1e3d]">{label}</span>
+                <Icon className="size-6 text-[#0F766E]" />
+                <span className="text-[12.5px] font-bold text-[#111827]">{label}</span>
                 <span className="text-[10.5px] leading-tight text-[#6b7a90]">{sub}</span>
               </button>
             ))}
@@ -252,12 +252,12 @@ export function RegisterForm() {
               setAccepted(e.target.checked);
               if (e.target.checked && error === CONSENT_ERROR) setError("");
             }}
-            className="mt-0.5 size-[18px] shrink-0 accent-[#1d6cf2]"
+            className="mt-0.5 size-[18px] shrink-0 accent-[#0F766E]"
             data-testid="consent-checkbox"
           />
           <span>
-            <Link href="/shartlar" target="_blank" className="font-semibold text-[#1d6cf2] hover:underline">Foydalanish shartlari</Link> va{" "}
-            <Link href="/maxfiylik" target="_blank" className="font-semibold text-[#1d6cf2] hover:underline">Maxfiylik siyosati</Link>ga roziman
+            <Link href="/shartlar" target="_blank" className="font-semibold text-[#0F766E] hover:underline">Foydalanish shartlari</Link> va{" "}
+            <Link href="/maxfiylik" target="_blank" className="font-semibold text-[#0F766E] hover:underline">Maxfiylik siyosati</Link>ga roziman
           </span>
         </label>
         {error ? (

@@ -103,13 +103,13 @@ const features: { icon: LucideIcon; title: string; sub: string }[] = [
 function ScrubDiagram() {
   return (
     <svg viewBox="0 0 320 300" className="h-[250px] w-full" fill="none" aria-label="Scrub ko‘ylak chizmasi">
-      <g stroke="#0B1F4D" strokeWidth="2" strokeLinejoin="round" strokeLinecap="round" fill="#f4f8ff">
+      <g stroke="#111827" strokeWidth="2" strokeLinejoin="round" strokeLinecap="round" fill="#f4f8ff">
         <path d="M118 36 L88 48 L40 86 L62 128 L92 108 L92 252 Q160 262 228 252 L228 108 L258 128 L280 86 L232 48 L202 36 Q160 74 118 36 Z" />
         <path d="M118 36 Q160 74 202 36" fill="none" />
         <rect x="190" y="150" width="26" height="34" rx="3" fill="none" />
         <path d="M92 108 L62 128" fill="none" />
       </g>
-      <g stroke="#0066FF" strokeWidth="1.8" strokeDasharray="5 4">
+      <g stroke="#0F766E" strokeWidth="1.8" strokeDasharray="5 4">
         <path d="M92 100 H228" />
         <path d="M92 190 H228" />
         <path d="M290 36 V252" />
@@ -120,7 +120,7 @@ function ScrubDiagram() {
         { x: 290, y: 144, t: "C" },
       ].map((m) => (
         <g key={m.t}>
-          <circle cx={m.x} cy={m.y} r="12" fill="#0066FF" />
+          <circle cx={m.x} cy={m.y} r="12" fill="#0F766E" />
           <text x={m.x} y={m.y + 4.5} textAnchor="middle" fontSize="13" fontWeight="700" fill="#fff">
             {m.t}
           </text>
@@ -146,7 +146,7 @@ function Stars({ value, className }: { value: number; className?: string }) {
 function Section({ title, children }: { title: string; children: ReactNode }) {
   return (
     <div>
-      <h3 className="text-[16px] font-bold text-[#0B1F4D]">{title}</h3>
+      <h3 className="text-[16px] font-bold text-[#111827]">{title}</h3>
       {children}
     </div>
   );
@@ -190,7 +190,7 @@ export function FormaProductDesktop({ product }: { product: Product }) {
   );
 
   const badge = isBestseller(product)
-    ? { text: "Bestseller", cls: "bg-[#0066FF]" }
+    ? { text: "Bestseller", cls: "bg-[#0F766E]" }
     : product.discount
       ? { text: `-${product.discount}%`, cls: "bg-[#ef4444]" }
       : isNewForma(product)
@@ -236,7 +236,7 @@ export function FormaProductDesktop({ product }: { product: Product }) {
       aria-label={`Rasm ${i + 1}`}
       className={cn(
         "size-[76px] shrink-0 overflow-hidden rounded-xl border-2 bg-[#f7f8fb]",
-        i === active ? "border-[#0066FF]" : "border-[#eceff5] hover:border-[#bcd5ff]",
+        i === active ? "border-[#0F766E]" : "border-[#eceff5] hover:border-[#CCFBF1]",
       )}
     >
       <Image src={src} alt="" width={152} height={152} className="size-full object-cover" />
@@ -246,9 +246,9 @@ export function FormaProductDesktop({ product }: { product: Product }) {
   return (
     <div className="space-y-5">
       <nav className="flex flex-wrap items-center gap-1 text-[12.5px] text-[#8b93a7]">
-        <Link href="/" className="hover:text-[#0066FF]">Bosh sahifa</Link>
+        <Link href="/" className="hover:text-[#0F766E]">Bosh sahifa</Link>
         <ChevronRight className="size-3.5" />
-        <Link href="/forma" className="hover:text-[#0066FF]">Forma</Link>
+        <Link href="/forma" className="hover:text-[#0F766E]">Forma</Link>
         <ChevronRight className="size-3.5" />
         <span className="line-clamp-1 text-[#4b5568]">{product.name}</span>
       </nav>
@@ -277,7 +277,7 @@ export function FormaProductDesktop({ product }: { product: Product }) {
                   type="button"
                   aria-label="Oldingi rasm"
                   onClick={() => setActive((active - 1 + gallery.length) % gallery.length)}
-                  className="absolute top-1/2 left-3 grid size-10 -translate-y-1/2 place-items-center rounded-full bg-white/95 text-[#0B1F4D] shadow-md hover:bg-white"
+                  className="absolute top-1/2 left-3 grid size-10 -translate-y-1/2 place-items-center rounded-full bg-white/95 text-[#111827] shadow-md hover:bg-white"
                 >
                   <ChevronLeft className="size-5" />
                 </button>
@@ -285,7 +285,7 @@ export function FormaProductDesktop({ product }: { product: Product }) {
                   type="button"
                   aria-label="Keyingi rasm"
                   onClick={() => setActive((active + 1) % gallery.length)}
-                  className="absolute top-1/2 right-3 grid size-10 -translate-y-1/2 place-items-center rounded-full bg-white/95 text-[#0B1F4D] shadow-md hover:bg-white"
+                  className="absolute top-1/2 right-3 grid size-10 -translate-y-1/2 place-items-center rounded-full bg-white/95 text-[#111827] shadow-md hover:bg-white"
                 >
                   <ChevronRight className="size-5" />
                 </button>
@@ -296,11 +296,11 @@ export function FormaProductDesktop({ product }: { product: Product }) {
 
         {/* Info */}
         <div className="min-w-0">
-          <p className="inline-flex items-center gap-1 text-[13px] font-extrabold tracking-wide text-[#0B1F4D] uppercase">
+          <p className="inline-flex items-center gap-1 text-[13px] font-extrabold tracking-wide text-[#111827] uppercase">
             {product.brand}
-            <BadgeCheck className="size-4 fill-[#0066FF] text-white" />
+            <BadgeCheck className="size-4 fill-[#0F766E] text-white" />
           </p>
-          <h1 className="mt-1 text-[28px] leading-tight font-bold tracking-tight text-[#0B1F4D]">{product.name}</h1>
+          <h1 className="mt-1 text-[28px] leading-tight font-bold tracking-tight text-[#111827]">{product.name}</h1>
           <div className="mt-2 flex items-center gap-2 text-[13px]">
             {rv.count > 0 && rv.avg != null ? (
               <>
@@ -308,13 +308,13 @@ export function FormaProductDesktop({ product }: { product: Product }) {
                 <span className="font-semibold text-[#1a1d26]">{rv.avg.toFixed(1)}</span>
               </>
             ) : null}
-            <button type="button" onClick={() => setTab("sharhlar")} className="text-[#0066FF] hover:underline">
+            <button type="button" onClick={() => setTab("sharhlar")} className="text-[#0F766E] hover:underline">
               {rv.count > 0 ? `Sharhlarni ko‘rish (${rv.count})` : "Hali sharh yo‘q"}
             </button>
           </div>
 
           <div className="mt-4 flex flex-wrap items-baseline gap-3">
-            <p className="text-[34px] leading-none font-extrabold text-[#0B1F4D]">{formatMoney(product.price, "UZS")}</p>
+            <p className="text-[34px] leading-none font-extrabold text-[#111827]">{formatMoney(product.price, "UZS")}</p>
             {oldPrice ? <p className="text-[16px] text-[#9aa3b2] line-through">{formatMoney(oldPrice, "UZS")}</p> : null}
             {product.discount ? (
               <span className="rounded-md bg-[#fee2e2] px-2 py-1 text-[12px] font-bold text-[#ef4444]">-{product.discount}%</span>
@@ -326,7 +326,7 @@ export function FormaProductDesktop({ product }: { product: Product }) {
               <Check className="size-4" strokeWidth={2.6} />
               {stockLabel(product)}
             </span>
-            <span className="inline-flex items-center gap-1.5 rounded-lg bg-[#eaf2ff] px-3 py-1.5 text-[12.5px] font-semibold text-[#0066FF]">
+            <span className="inline-flex items-center gap-1.5 rounded-lg bg-[#eaf2ff] px-3 py-1.5 text-[12.5px] font-semibold text-[#0F766E]">
               <Truck className="size-4" />
               {product.delivery || "Toshkent 24 soat"}
             </span>
@@ -337,7 +337,7 @@ export function FormaProductDesktop({ product }: { product: Product }) {
             {own ? null : (
               <>
                 <span className="mx-2 text-[#d4dae6]">|</span>
-                <Link href="/forma" className="font-semibold text-[#0066FF] hover:underline">
+                <Link href="/forma" className="font-semibold text-[#0F766E] hover:underline">
                   Klinika uchun ham mos
                 </Link>
               </>
@@ -364,7 +364,7 @@ export function FormaProductDesktop({ product }: { product: Product }) {
                       aria-pressed={on}
                       className={cn(
                         "size-9 rounded-full border-2 border-white shadow-[0_0_0_1px_#d4dae6]",
-                        on && "shadow-[0_0_0_2px_#0066FF]",
+                        on && "shadow-[0_0_0_2px_#0F766E]",
                       )}
                       style={{ backgroundColor: formaColors.find((c) => c.id === id)?.hex ?? "#cbd5e1" }}
                     />
@@ -381,7 +381,7 @@ export function FormaProductDesktop({ product }: { product: Product }) {
                   O‘lcham: <span className="font-medium text-[#4b5568]">{size || "tanlang"}</span>
                 </p>
                 {showChart ? (
-                  <button type="button" onClick={openSizeChart} className="text-[13px] font-semibold text-[#0066FF] hover:underline">
+                  <button type="button" onClick={openSizeChart} className="text-[13px] font-semibold text-[#0F766E] hover:underline">
                     O‘lcham jadvali
                   </button>
                 ) : null}
@@ -397,7 +397,7 @@ export function FormaProductDesktop({ product }: { product: Product }) {
                       aria-pressed={on}
                       className={cn(
                         "h-11 min-w-14 rounded-lg border px-3 text-[14px] font-semibold transition-colors",
-                        on ? "border-[#0066FF] bg-[#eaf2ff] text-[#0066FF]" : "border-[#e6eaf2] bg-white text-[#2b3447] hover:border-[#0066FF]/50",
+                        on ? "border-[#0F766E] bg-[#eaf2ff] text-[#0F766E]" : "border-[#e6eaf2] bg-white text-[#2b3447] hover:border-[#0F766E]/50",
                       )}
                     >
                       {item}
@@ -423,7 +423,7 @@ export function FormaProductDesktop({ product }: { product: Product }) {
             <button
               type="button"
               onClick={() => { add(); }}
-              className="flex h-12 flex-1 items-center justify-center gap-2 rounded-xl bg-[#0066FF] text-[15px] font-bold text-white shadow-[0_6px_16px_rgba(0,102,255,0.28)] hover:bg-[#0058dd]"
+              className="flex h-12 flex-1 items-center justify-center gap-2 rounded-xl bg-[#0F766E] text-[15px] font-bold text-white shadow-[0_6px_16px_rgba(15, 118, 110, 0.28)] hover:bg-[#115E59]"
             >
               <ShoppingCart className="size-5" />
               Savatga qo‘shish
@@ -441,7 +441,7 @@ export function FormaProductDesktop({ product }: { product: Product }) {
           <button
             type="button"
             onClick={() => { if (add()) router.push("/buyurtma"); }}
-            className="mt-2.5 h-11 w-full rounded-xl border border-[#0066FF] text-[14px] font-semibold text-[#0066FF] hover:bg-[#f2f7ff]"
+            className="mt-2.5 h-11 w-full rounded-xl border border-[#0F766E] text-[14px] font-semibold text-[#0F766E] hover:bg-[#f2f7ff]"
           >
             Hozir sotib olish
           </button>
@@ -449,7 +449,7 @@ export function FormaProductDesktop({ product }: { product: Product }) {
       </section>
 
       {/* Tabs */}
-      <section className="rounded-2xl border border-[#eceff5] bg-white shadow-[0_2px_10px_rgba(15,23,42,0.04)]">
+      <section className="rounded-2xl border border-[#eceff5] bg-white shadow-[0_2px_10px_rgba(17, 24, 39, 0.04)]">
         <div className="flex gap-7 border-b border-[#eceff5] px-6">
           {tabs.map((t) => (
             <button
@@ -458,7 +458,7 @@ export function FormaProductDesktop({ product }: { product: Product }) {
               onClick={() => setTab(t.id)}
               className={cn(
                 "-mb-px border-b-2 py-4 text-[14px] font-semibold",
-                tab === t.id ? "border-[#0066FF] text-[#0066FF]" : "border-transparent text-[#4b5568] hover:text-[#0066FF]",
+                tab === t.id ? "border-[#0F766E] text-[#0F766E]" : "border-transparent text-[#4b5568] hover:text-[#0F766E]",
               )}
             >
               {t.label}
@@ -483,10 +483,10 @@ export function FormaProductDesktop({ product }: { product: Product }) {
                   <div className="mt-3 grid grid-cols-5 gap-3">
                     {features.map(({ icon: Icon, title, sub }) => (
                       <div key={title} className="flex flex-col items-center rounded-xl bg-[#f5f8ff] px-2 py-3 text-center">
-                        <span className="grid size-10 place-items-center rounded-full bg-white text-[#0066FF] shadow-sm">
+                        <span className="grid size-10 place-items-center rounded-full bg-white text-[#0F766E] shadow-sm">
                           <Icon className="size-5" />
                         </span>
-                        <p className="mt-2 text-[12px] leading-tight font-semibold text-[#0B1F4D]">{title}</p>
+                        <p className="mt-2 text-[12px] leading-tight font-semibold text-[#111827]">{title}</p>
                         <p className="mt-0.5 text-[11px] leading-tight text-[#8b93a7]">{sub}</p>
                       </div>
                     ))}
@@ -498,18 +498,18 @@ export function FormaProductDesktop({ product }: { product: Product }) {
               <div className="space-y-4">
                 <Section title="Material tarkibi">
                   <div className="mt-3 rounded-xl bg-[#f5f8ff] p-4">
-                    <p className="text-[18px] font-extrabold text-[#0B1F4D]">{material.composition}</p>
+                    <p className="text-[18px] font-extrabold text-[#111827]">{material.composition}</p>
                     <p className="mt-1 text-[13px] text-[#6b7280]">Zichlik: {material.density}</p>
                   </div>
                 </Section>
                 <div className="relative overflow-hidden rounded-xl">
                   <Image src={gallery[1] ?? product.image} alt="Material tarkibi" width={560} height={300} className="h-[170px] w-full object-cover" />
-                  <div className="absolute inset-0 grid place-items-center bg-[#0B1F4D]/25">
-                    <span className="grid size-14 place-items-center rounded-full bg-white/95 text-[#0066FF] shadow-lg">
-                      <Play className="size-6 fill-[#0066FF]" />
+                  <div className="absolute inset-0 grid place-items-center bg-[#111827]/25">
+                    <span className="grid size-14 place-items-center rounded-full bg-white/95 text-[#0F766E] shadow-lg">
+                      <Play className="size-6 fill-[#0F766E]" />
                     </span>
                   </div>
-                  <span className="absolute bottom-2 left-3 rounded-md bg-white/95 px-2 py-1 text-[12px] font-semibold text-[#0B1F4D]">
+                  <span className="absolute bottom-2 left-3 rounded-md bg-white/95 px-2 py-1 text-[12px] font-semibold text-[#111827]">
                     Material tarkibi
                   </span>
                 </div>
@@ -545,7 +545,7 @@ export function FormaProductDesktop({ product }: { product: Product }) {
 
           {tab === "yetkazib" ? (
             <div className="space-y-2 text-[14px] leading-relaxed text-[#4b5568]">
-              <p className="flex items-center gap-2 font-semibold text-[#0066FF]">
+              <p className="flex items-center gap-2 font-semibold text-[#0F766E]">
                 <Truck className="size-4" />
                 {product.delivery || "Toshkent 24 soat"}
               </p>
@@ -559,9 +559,9 @@ export function FormaProductDesktop({ product }: { product: Product }) {
 
       {/* Size chart */}
       {showChart && chartOpen ? (
-        <section id="olcham-jadvali" className="scroll-mt-24 rounded-2xl border border-[#eceff5] bg-white p-6 shadow-[0_2px_10px_rgba(15,23,42,0.04)]">
+        <section id="olcham-jadvali" className="scroll-mt-24 rounded-2xl border border-[#eceff5] bg-white p-6 shadow-[0_2px_10px_rgba(17, 24, 39, 0.04)]">
           <div className="flex items-center justify-between">
-            <h2 className="text-[20px] font-bold text-[#0B1F4D]">O‘lcham jadvali</h2>
+            <h2 className="text-[20px] font-bold text-[#111827]">O‘lcham jadvali</h2>
             <button type="button" onClick={() => setChartOpen(false)} aria-label="Yopish" className="grid size-8 place-items-center rounded-full text-[#8b93a7] hover:bg-slate-100">
               <X className="size-5" />
             </button>
@@ -574,7 +574,7 @@ export function FormaProductDesktop({ product }: { product: Product }) {
                 onClick={() => setChart(id)}
                 className={cn(
                   "h-10 rounded-lg border px-5 text-[14px] font-semibold",
-                  chart === id ? "border-[#0066FF] bg-[#0066FF] text-white" : "border-[#e6eaf2] bg-white text-[#2b3447] hover:border-[#0066FF]/50",
+                  chart === id ? "border-[#0F766E] bg-[#0F766E] text-white" : "border-[#e6eaf2] bg-white text-[#2b3447] hover:border-[#0F766E]/50",
                 )}
               >
                 {charts[id].label}
@@ -591,7 +591,7 @@ export function FormaProductDesktop({ product }: { product: Product }) {
             <div>
               <div className="overflow-hidden rounded-xl border border-[#eceff5]">
                 <table className="w-full text-center text-[14px]">
-                  <thead className="bg-[#f5f8ff] text-[#0B1F4D]">
+                  <thead className="bg-[#f5f8ff] text-[#111827]">
                     <tr>
                       <th className="py-3 font-bold">O‘lcham</th>
                       <th className="py-3 font-bold">A — Ko‘krak (sm)</th>
@@ -602,7 +602,7 @@ export function FormaProductDesktop({ product }: { product: Product }) {
                   <tbody>
                     {charts[chart].rows.map((row) => (
                       <tr key={row.size} className={cn("border-t border-[#eceff5]", size === row.size && "bg-[#eaf2ff]")}>
-                        <td className="py-3 font-bold text-[#0B1F4D]">{row.size}</td>
+                        <td className="py-3 font-bold text-[#111827]">{row.size}</td>
                         <td className="py-3 text-[#4b5568]">{row.chest}</td>
                         <td className="py-3 text-[#4b5568]">{row.waist}</td>
                         <td className="py-3 text-[#4b5568]">{row.height}</td>
@@ -615,7 +615,7 @@ export function FormaProductDesktop({ product }: { product: Product }) {
             </div>
 
             <div>
-              <h3 className="text-[16px] font-bold text-[#0B1F4D]">Qanday o‘lchash kerak?</h3>
+              <h3 className="text-[16px] font-bold text-[#111827]">Qanday o‘lchash kerak?</h3>
               <ol className="mt-3 space-y-3">
                 {[
                   { t: "A", title: "Ko‘krak", text: "Ko‘krakning eng keng qismi bo‘ylab, qo‘lni pastga tushirib o‘lchang." },
@@ -623,7 +623,7 @@ export function FormaProductDesktop({ product }: { product: Product }) {
                   { t: "C", title: "Bo‘y", text: "Poyabzalsiz, tik turib, boshdan tovongacha bo‘lgan balandlikni o‘lchang." },
                 ].map((step) => (
                   <li key={step.t} className="flex gap-3">
-                    <span className="grid size-7 shrink-0 place-items-center rounded-full bg-[#0066FF] text-[13px] font-bold text-white">{step.t}</span>
+                    <span className="grid size-7 shrink-0 place-items-center rounded-full bg-[#0F766E] text-[13px] font-bold text-white">{step.t}</span>
                     <p className="text-[13px] leading-snug text-[#4b5568]">
                       <span className="font-semibold text-[#1a1d26]">{step.title}.</span> {step.text}
                     </p>
@@ -637,7 +637,7 @@ export function FormaProductDesktop({ product }: { product: Product }) {
 
       {related.length ? (
         <section>
-          <h2 className="mb-3 text-[18px] font-bold text-[#0B1F4D]">O‘xshash mahsulotlar</h2>
+          <h2 className="mb-3 text-[18px] font-bold text-[#111827]">O‘xshash mahsulotlar</h2>
           <div className="grid grid-cols-4 gap-4">
             {related.map((item) => (
               <FormaProductCard key={item.id} product={item} />

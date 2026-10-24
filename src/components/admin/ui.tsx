@@ -107,7 +107,7 @@ export async function adminPost(url: string, body: unknown, method = "POST") {
 /* ───────── primitives ───────── */
 export function Card({ className, children }: { className?: string; children: ReactNode }) {
   return (
-    <div className={cn("rounded-2xl border border-[#eceff5] bg-white shadow-[0_1px_2px_rgba(15,23,42,0.04)]", className)}>
+    <div className={cn("rounded-2xl border border-[#eceff5] bg-white shadow-[0_1px_2px_rgba(17, 24, 39, 0.04)]", className)}>
       {children}
     </div>
   );
@@ -117,7 +117,7 @@ const TONES = {
   green: "bg-[#ecfdf3] text-[#15803d]",
   orange: "bg-[#fff7ed] text-[#c2410c]",
   red: "bg-[#fef2f2] text-[#b91c1c]",
-  blue: "bg-[#e8f1ff] text-[#0066FF]",
+  blue: "bg-[#F0FDFA] text-[#0F766E]",
   gray: "bg-[#f1f5f9] text-[#475569]",
   violet: "bg-[#f3efff] text-[#6d28d9]",
 } as const;
@@ -150,7 +150,7 @@ export function Def({ text, className }: { text: string; className?: string }) {
       </button>
       <span
         role="tooltip"
-        className="pointer-events-none absolute left-1/2 top-6 z-30 hidden w-64 -translate-x-1/2 rounded-xl bg-[#0f172a] px-3 py-2 text-[11.5px] font-medium leading-snug text-white shadow-lg group-focus-within/def:block group-hover/def:block"
+        className="pointer-events-none absolute left-1/2 top-6 z-30 hidden w-64 -translate-x-1/2 rounded-xl bg-[#111827] px-3 py-2 text-[11.5px] font-medium leading-snug text-white shadow-lg group-focus-within/def:block group-hover/def:block"
       >
         {text}
       </span>
@@ -203,11 +203,11 @@ export function ErrorBox({ text, onRetry }: { text: string; onRetry?: () => void
 
 export function Avatar({ name, src, className, tone = 0 }: { name: string; src?: string | null; className?: string; tone?: number }) {
   const palette = [
-    ["#e8f1ff", "#0066FF"],
+    ["#F0FDFA", "#0F766E"],
     ["#ecfdf3", "#15803d"],
     ["#f3efff", "#6d28d9"],
     ["#fff7ed", "#c2410c"],
-    ["#e0f2fe", "#0369a1"],
+    ["#F0FDFA", "#115E59"],
     ["#fdf2f8", "#be185d"],
   ];
   const [bg, fg] = palette[Math.abs(tone) % palette.length];
@@ -235,7 +235,7 @@ export function PageHead({ title, subtitle, actions }: { title: string; subtitle
   return (
     <div className="mb-5 flex flex-wrap items-end justify-between gap-3">
       <div className="min-w-0">
-        <h1 className="hidden font-heading text-[22px] font-bold tracking-tight text-[#0f172a] lg:block lg:text-[24px]">{title}</h1>
+        <h1 className="hidden font-heading text-[22px] font-bold tracking-tight text-[#111827] lg:block lg:text-[24px]">{title}</h1>
         {subtitle ? <p className="mt-0.5 text-[13px] text-slate-500">{subtitle}</p> : null}
       </div>
       {actions ? <div className="flex flex-wrap items-center gap-2">{actions}</div> : null}
@@ -291,7 +291,7 @@ export function Chips<T extends string>({
           onClick={() => onChange(o.id)}
           className={cn(
             "rounded-full px-3 py-1.5 text-[12.5px] font-semibold transition-colors",
-            value === o.id ? "bg-[#0f172a] text-white" : "bg-[#f1f5f9] text-slate-600 hover:bg-[#e2e8f0]",
+            value === o.id ? "bg-[#111827] text-white" : "bg-[#f1f5f9] text-slate-600 hover:bg-[#e2e8f0]",
           )}
         >
           {o.label}
@@ -304,7 +304,7 @@ export function Chips<T extends string>({
 
 export const btn = {
   primary:
-    "inline-flex h-9 items-center justify-center gap-1.5 rounded-xl bg-primary px-3.5 text-[13px] font-semibold text-white hover:bg-[#0057d9] disabled:opacity-60",
+    "inline-flex h-9 items-center justify-center gap-1.5 rounded-xl bg-primary px-3.5 text-[13px] font-semibold text-white hover:bg-[#0F766E] disabled:opacity-60",
   outline:
     "inline-flex h-9 items-center justify-center gap-1.5 rounded-xl border border-[#e2e8f0] bg-white px-3.5 text-[13px] font-semibold text-slate-700 hover:bg-slate-50 disabled:opacity-60",
   danger:
@@ -325,7 +325,7 @@ export function AreaChart({
   bars,
   labels,
   height = 240,
-  color = "#0066FF",
+  color = "#0F766E",
   yFormat = (v: number) => (v >= 1_000_000 ? `${+(v / 1_000_000).toFixed(1)}M` : v >= 10_000 ? `${Math.round(v / 1_000)}k` : fmtInt(Math.round(v))),
 }: {
   values: number[];
@@ -370,7 +370,7 @@ export function AreaChart({
       {bars?.map((b, i) => {
         const bw = (iw / n) * 0.55;
         const bh = (ih * b) / ymax;
-        return <rect key={i} x={xs[i] - bw / 2} y={padT + ih - bh} width={bw} height={bh} rx={2} fill="#dbe7ff" />;
+        return <rect key={i} x={xs[i] - bw / 2} y={padT + ih - bh} width={bw} height={bh} rx={2} fill="#F0FDFA" />;
       })}
       {values.length > 1 ? (
         <>
@@ -404,7 +404,7 @@ function pickLabelIdx(len: number, count: number) {
   return [...new Set(out)];
 }
 
-export function Spark({ values, color = "#0066FF", w = 96, h = 30 }: { values: number[]; color?: string; w?: number; h?: number }) {
+export function Spark({ values, color = "#0F766E", w = 96, h = 30 }: { values: number[]; color?: string; w?: number; h?: number }) {
   if (values.length < 2) return <svg width={w} height={h} />;
   const mx = Math.max(...values);
   const mn = Math.min(...values);
@@ -466,7 +466,7 @@ export function Drawer({ open, onClose, title, children, footer }: { open: boole
   if (!open) return null;
   return (
     <div className="fixed inset-0 z-50">
-      <button type="button" aria-label="Yopish" className="absolute inset-0 bg-[#0f172a]/40" onClick={onClose} />
+      <button type="button" aria-label="Yopish" className="absolute inset-0 bg-[#111827]/40" onClick={onClose} />
       <aside className="absolute inset-y-0 right-0 flex w-full max-w-[460px] flex-col bg-white shadow-2xl">
         <div className="flex h-14 items-center justify-between border-b border-[#eef2f7] px-5">
           <p className="text-[13.5px] font-semibold text-slate-700">{title}</p>
@@ -488,7 +488,7 @@ export function Toast({ text, tone = "ok", onDone }: { text: string; tone?: "ok"
   }, [onDone]);
   return (
     <div className="fixed inset-x-4 bottom-20 z-[60] mx-auto max-w-sm lg:bottom-6 lg:left-auto lg:right-6 lg:mx-0">
-      <div className={cn("rounded-2xl px-4 py-3 text-[13px] font-semibold shadow-lg", tone === "ok" ? "bg-[#0f172a] text-white" : "bg-[#dc2626] text-white")}>
+      <div className={cn("rounded-2xl px-4 py-3 text-[13px] font-semibold shadow-lg", tone === "ok" ? "bg-[#111827] text-white" : "bg-[#dc2626] text-white")}>
         {text}
       </div>
     </div>

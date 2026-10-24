@@ -29,7 +29,7 @@
 .rg-back svg { width: 22px; height: 22px; }
 .rg-brand b {
   display: block;
-  color: #0b7f7d;
+  color: #0F766E;
   font-size: 16px;
   font-weight: 800;
   letter-spacing: 0.08em;
@@ -56,11 +56,11 @@
   font-size: 12px;
   font-weight: 800;
 }
-.rg-step.on { color: #0b7f7d; }
-.rg-step.on i, .rg-step.done i { background: #0b7f7d; color: #fff; }
-.rg-step.done { color: #0b7f7d; }
+.rg-step.on { color: #0F766E; }
+.rg-step.on i, .rg-step.done i { background: #0F766E; color: #fff; }
+.rg-step.done { color: #0F766E; }
 .rg-line { flex: 1; height: 2px; background: #e1e7f0; border-radius: 2px; }
-.rg-line.on { background: #0b7f7d; }
+.rg-line.on { background: #0F766E; }
 .rg-card {
   display: grid;
   grid-template-columns: 92px minmax(0, 1fr);
@@ -82,14 +82,14 @@
   padding: 3px 6px;
   border-radius: 8px;
 }
-.rg-tags .line { color: #0b7f7d; background: #fff; border: 1px solid #c5d9ff; }
+.rg-tags .line { color: #0F766E; background: #fff; border: 1px solid #F0FDFA; }
 .rg-tags .green { color: #12805a; background: #e5f8ee; }
-.rg-tags .blue { color: #0b7f7d; background: #e3f6f5; }
+.rg-tags .blue { color: #0F766E; background: #e3f6f5; }
 .rg-meta { display: flex; flex-direction: column; gap: 3px; color: #5c6b82; font-size: 12px; flex: 1; }
 .rg-meta p { display: flex; align-items: flex-start; gap: 4px; }
 .rg-meta svg { width: 13px; height: 13px; flex: none; margin-top: 2px; }
 .rg-price { flex: none; text-align: right; align-self: center; }
-.rg-price b { display: block; color: #0b7f7d; font-size: 13px; font-weight: 800; white-space: nowrap; }
+.rg-price b { display: block; color: #0F766E; font-size: 13px; font-weight: 800; white-space: nowrap; }
 .rg-price span { display: block; color: #8b93a7; font-size: 10px; font-weight: 600; }
 .rg-block {
   background: #fff;
@@ -106,7 +106,7 @@
   font-size: 14px;
   font-weight: 800;
 }
-.rg-block h2 svg { width: 16px; height: 16px; color: #0b7f7d; }
+.rg-block h2 svg { width: 16px; height: 16px; color: #0F766E; }
 .rg-grid { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 8px; }
 .rg-field { display: flex; flex-direction: column; gap: 4px; }
 .rg-field > span { color: #8b93a7; font-size: 11px; font-weight: 600; }
@@ -146,7 +146,7 @@
   padding: 10px 28px 10px 10px;
   min-height: 72px;
 }
-.rg-choice.on { border-color: #0b7f7d; background: #f2fbfa; }
+.rg-choice.on { border-color: #0F766E; background: #f2fbfa; }
 .rg-choice i.ic {
   width: 28px;
   height: 28px;
@@ -157,11 +157,11 @@
   color: #5c6b82;
   margin-bottom: 6px;
 }
-.rg-choice.on i.ic { background: #e3f6f5; color: #0b7f7d; }
+.rg-choice.on i.ic { background: #e3f6f5; color: #0F766E; }
 .rg-choice i.ic svg { width: 16px; height: 16px; }
 .rg-choice b { display: block; font-size: 13px; }
 .rg-choice small { display: block; margin-top: 2px; color: #8b93a7; font-size: 11px; line-height: 1.3; }
-.rg-choice .cost { display: block; margin-top: 6px; color: #0b7f7d; font-size: 13px; font-weight: 800; }
+.rg-choice .cost { display: block; margin-top: 6px; color: #0F766E; font-size: 13px; font-weight: 800; }
 .rg-dot {
   position: absolute;
   top: 8px;
@@ -175,7 +175,7 @@
   color: transparent;
   background: #fff;
 }
-.rg-choice.on .rg-dot, .rg-pay.on .rg-dot { background: #0b7f7d; border-color: #0b7f7d; color: #fff; }
+.rg-choice.on .rg-dot, .rg-pay.on .rg-dot { background: #0F766E; border-color: #0F766E; color: #fff; }
 .rg-dot svg { width: 12px; height: 12px; }
 .rg-check {
   display: flex;
@@ -198,7 +198,7 @@
   color: transparent;
   margin-top: 1px;
 }
-.rg-check.on i { background: #0b7f7d; border-color: #0b7f7d; color: #fff; }
+.rg-check.on i { background: #0F766E; border-color: #0F766E; color: #fff; }
 .rg-check i svg { width: 12px; height: 12px; }
 .rg-check b { display: block; font-size: 13px; }
 .rg-check span { display: block; color: #8b93a7; font-size: 11px; line-height: 1.35; }
@@ -211,7 +211,7 @@
   padding: 10px 28px 10px 10px;
   min-height: 78px;
 }
-.rg-pay.on { border-color: #0b7f7d; background: #f2fbfa; }
+.rg-pay.on { border-color: #0F766E; background: #f2fbfa; }
 .rg-mark {
   width: 28px;
   height: 28px;
@@ -234,9 +234,9 @@
   border-radius: 4px;
   background: #f4f7fc;
 }
-.rg-logos .uz { color: #0b6f6d; }
+.rg-logos .uz { color: #115E59; }
 .rg-logos .hu { color: #059669; }
-.rg-logos .vi { color: #0b6f6d; }
+.rg-logos .vi { color: #115E59; }
 .rg-promo { display: flex; gap: 8px; }
 .rg-promo input {
   flex: 1;
@@ -252,7 +252,7 @@
   height: 44px;
   padding: 0 14px;
   border-radius: 12px;
-  background: #0b7f7d;
+  background: #0F766E;
   color: #fff;
   font-size: 14px;
   font-weight: 800;
@@ -262,7 +262,7 @@
 .rg-rows b { color: #1a1d26; font-weight: 700; }
 .rg-rows .free b { color: #16a34a; font-weight: 700; }
 .rg-rows .jami { margin-top: 4px; padding-top: 8px; border-top: 1px solid #eef2f7; color: #1a1d26; font-weight: 800; }
-.rg-rows .jami b { color: #0b7f7d; font-size: 16px; }
+.rg-rows .jami b { color: #0F766E; font-size: 16px; }
 .rg-note {
   display: flex;
   gap: 8px;
@@ -274,7 +274,7 @@
   line-height: 1.4;
   margin-bottom: 10px;
 }
-.rg-note svg { width: 16px; height: 16px; color: #0b7f7d; flex: none; margin-top: 1px; }
+.rg-note svg { width: 16px; height: 16px; color: #0F766E; flex: none; margin-top: 1px; }
 .rg-error { margin: 0 0 8px; color: #dc2626; font-size: 12px; font-weight: 700; }
 .rg-bar {
   flex: none;
@@ -287,13 +287,13 @@
 }
 .rg-sum { flex: none; }
 .rg-sum span { display: block; color: #8b93a7; font-size: 11px; font-weight: 600; }
-.rg-sum b { display: block; color: #0b7f7d; font-size: 15px; font-weight: 800; white-space: nowrap; }
+.rg-sum b { display: block; color: #0F766E; font-size: 15px; font-weight: 800; white-space: nowrap; }
 .rg-go {
   flex: 1;
   height: 52px;
   min-height: 52px;
   border-radius: 12px;
-  background: #0b7f7d;
+  background: #0F766E;
   color: #fff;
   display: flex;
   flex-direction: column;
@@ -309,7 +309,7 @@
   height: 64px;
   margin: 0 auto 10px;
   border-radius: 50%;
-  background: #0b7f7d;
+  background: #0F766E;
   color: #fff;
   display: grid;
   place-items: center;
@@ -334,8 +334,8 @@
 .rg-ticket b { display: block; font-size: 14px; }
 .rg-ticket span { display: block; margin-top: 4px; color: #5c6b82; font-size: 12px; }
 .rg-miss { padding: 24px 12px; text-align: center; }
-.rg-miss a { color: #0b7f7d; font-weight: 700; }
-.rg-brand b { color: #0b1a3a; } .rg-brand b span { color: #0b7f7d; }
+.rg-miss a { color: #0F766E; font-weight: 700; }
+.rg-brand b { color: #111827; } .rg-brand b span { color: #0F766E; }
 /* Step 2 mockup pass: one-line brand, centred stepper, row payment cards. */
 .rg-brand b span { display: inline; margin: 0; font-size: inherit; }
 .rg-brand b { font-size: 18px; letter-spacing: 0.02em; }
@@ -345,10 +345,10 @@
 .rg-pay > .rg-mark { font-size: 15px; }
 .rg-pay > b, .rg-pay > small, .rg-pay > .rg-logos { grid-column: 2; }
 .rg-logos span { font-size: 7.5px; padding: 3px 4px; color: #fff !important; }
-.rg-logos .uz { background: #13355f; }
-.rg-logos .hu { background: #0e2f4f; color: #f5c518 !important; }
-.rg-logos .vi { background: none; color: #1a3fa6 !important; font-style: italic; font-size: 10px; padding: 1px 2px; }
-.rg-block h2 svg { padding: 5px; width: 28px !important; height: 28px !important; border-radius: 8px; background: #e3f6f5; color: #0b7f7d; }
+.rg-logos .uz { background: #111827; }
+.rg-logos .hu { background: #111827; color: #f5c518 !important; }
+.rg-logos .vi { background: none; color: #111827 !important; font-style: italic; font-size: 10px; padding: 1px 2px; }
+.rg-block h2 svg { padding: 5px; width: 28px !important; height: 28px !important; border-radius: 8px; background: #e3f6f5; color: #0F766E; }
 .rg-pay { grid-template-columns: 30px minmax(0, 1fr); column-gap: 8px; padding: 10px 22px 10px 8px; }
 .rg-pay > .rg-mark, .rg-pay > i.ic { width: 30px !important; height: 30px !important; }
 .rg-pay b { font-size: 12.5px; white-space: nowrap; }

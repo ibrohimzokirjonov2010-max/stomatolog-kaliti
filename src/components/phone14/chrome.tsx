@@ -41,7 +41,7 @@ export function PhoneFrame({
             <ShoppingCart />
             <span className="p14-badge" data-testid="phone-cart-badge">{badge > 9 ? "9+" : badge}</span>
           </Link>
-          <NotificationBell variant="mobile" buttonClassName="!size-10 text-[#1a2438]" />
+          <NotificationBell variant="mobile" buttonClassName="!size-10 text-[#111827]" />
         </span>
       </header>
       <div className="p14-body">{children}</div>

@@ -3,8 +3,8 @@
 export const SERVICES_KEY = "sk-crm-services-v1";
 
 export const SERVICE_CATEGORIES = [
-  { id: "profilaktika", label: "Profilaktika", tone: "#0ea5e9" },
-  { id: "terapiya", label: "Terapiya", tone: "#3b82f6" },
+  { id: "profilaktika", label: "Profilaktika", tone: "#115E59" },
+  { id: "terapiya", label: "Terapiya", tone: "#0F766E" },
   { id: "endodontiya", label: "Endodontiya", tone: "#e11d48" },
   { id: "jarrohlik", label: "Jarrohlik", tone: "#8b5cf6" },
   { id: "implantologiya", label: "Implantologiya", tone: "#0d9488" },

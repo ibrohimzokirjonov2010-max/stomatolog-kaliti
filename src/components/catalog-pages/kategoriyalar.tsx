@@ -38,8 +38,8 @@ function href(c: Cat) {
   return c.cat ? `/marketplace?cat=${c.cat}` : `/marketplace?q=${encodeURIComponent(c.q ?? c.name)}`;
 }
 
-const TINTS = ["#e3f6f5", "#e7f8ec", "#efe9fe", "#fff1e3", "#fde8ee", "#ece9fe", "#e3f6f5", "#e8f1ff", "#fff4dc"];
-const INKS = ["#0d8f8c", "#16a34a", "#7c3aed", "#ea7a12", "#e11d48", "#6d28d9", "#0d8f8c", "#2563eb", "#b7791f"];
+const TINTS = ["#e3f6f5", "#e7f8ec", "#efe9fe", "#fff1e3", "#fde8ee", "#ece9fe", "#e3f6f5", "#F0FDFA", "#fff4dc"];
+const INKS = ["#0F766E", "#16a34a", "#7c3aed", "#ea7a12", "#e11d48", "#6d28d9", "#0F766E", "#0F766E", "#b7791f"];
 
 /** Phone /kategoriyalar (desktop renders KategoriyalarDesktop from AppChrome). */
 export function KategoriyalarPage() {

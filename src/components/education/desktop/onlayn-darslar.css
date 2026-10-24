@@ -20,7 +20,7 @@
   padding: 0 calc(.6 * var(--u));
   color: #8b9bb0;
 }
-.sh .od-search input { flex: 1; min-width: 0; border: 0; outline: 0; background: transparent; font: inherit; font-size: calc(1.041 * var(--uf)); color: #0f1e3d; }
+.sh .od-search input { flex: 1; min-width: 0; border: 0; outline: 0; background: transparent; font: inherit; font-size: calc(1.041 * var(--uf)); color: #111827; }
 .sh .od-search input::placeholder { color: #8b9bb0; }
 .sh .od-search .i, .sh .od-select .i { font-size: calc(1.179 * var(--uf)); color: #6a7c93; }
 .sh .od-select {
@@ -45,7 +45,7 @@
   font: inherit;
   font-size: calc(1.021 * var(--uf));
   font-weight: 650;
-  color: #24344d;
+  color: #111827;
   appearance: none;
 }
 
@@ -62,7 +62,7 @@
   font-weight: 650;
   white-space: nowrap;
 }
-.sh .od-chips button.on { background: #0b8f8a; border-color: #0b8f8a; color: #fff; }
+.sh .od-chips button.on { background: #0F766E; border-color: #0F766E; color: #fff; }
 
 .sh .od-grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: calc(.85 * var(--u)); }
 .sh .od-card {
@@ -71,9 +71,9 @@
   border: 1px solid #e8eef6;
   border-radius: calc(.7 * var(--u));
   min-width: 0;
-  box-shadow: 0 calc(.12 * var(--u)) calc(.7 * var(--u)) rgba(20, 40, 80, .08);
+  box-shadow: 0 calc(.12 * var(--u)) calc(.7 * var(--u)) rgba(17, 24, 39, .08);
 }
-.sh .od-card:hover { border-color: #bfe3df; box-shadow: 0 calc(.15 * var(--u)) calc(.5 * var(--u)) rgba(11, 143, 138, .08); }
+.sh .od-card:hover { border-color: #CCFBF1; box-shadow: 0 calc(.15 * var(--u)) calc(.5 * var(--u)) rgba(15, 118, 110, .08); }
 .sh .od-hit { display: block; padding: calc(.4 * var(--u)); color: inherit; }
 .sh .od-ph { position: relative; height: calc(10.3 * var(--u)); border-radius: calc(.45 * var(--u)); background: #eef3f8; overflow: hidden; }
 .sh .od-ph img { width: 100%; height: 100%; object-fit: cover; }
@@ -92,7 +92,7 @@
 }
 .sh .od-flag.best { background: #ef3b3b; }
 .sh .od-flag.new { background: #16a34a; }
-.sh .od-flag.pop { background: #0b8f8a; }
+.sh .od-flag.pop { background: #0F766E; }
 .sh .od-flag.pro { background: #f59e0b; }
 .sh .od-hours {
   position: absolute;
@@ -102,13 +102,13 @@
   padding: 0 calc(.4 * var(--u));
   border-radius: calc(.3 * var(--u));
   background: #fff;
-  color: #24344d;
+  color: #111827;
   font-size: calc(0.962 * var(--uf));
   font-weight: 750;
   display: inline-flex;
   align-items: center;
   gap: calc(.18 * var(--u));
-  box-shadow: 0 calc(.04 * var(--u)) calc(.16 * var(--u)) rgba(15, 30, 60, .1);
+  box-shadow: 0 calc(.04 * var(--u)) calc(.16 * var(--u)) rgba(17, 24, 39, .1);
 }
 .sh .od-hours .i { font-size: calc(1.1 * var(--uf)); }
 .sh .od-mark {
@@ -123,10 +123,10 @@
   color: #5c6d84;
   display: grid;
   place-items: center;
-  box-shadow: 0 calc(.04 * var(--u)) calc(.16 * var(--u)) rgba(15, 30, 60, .12);
+  box-shadow: 0 calc(.04 * var(--u)) calc(.16 * var(--u)) rgba(17, 24, 39, .12);
 }
 .sh .od-mark .i { font-size: calc(1.179 * var(--uf)); }
-.sh .od-mark.on { color: #0b8f8a; }
+.sh .od-mark.on { color: #0F766E; }
 .sh .od-mark.on .i { fill: currentColor; }
 .sh .od-card h3 {
   margin: calc(.4 * var(--u)) 0 0;
@@ -150,22 +150,22 @@
   color: #5b6b82;
 }
 .sh .od-meta .star { color: #f5b400; fill: #f5b400; font-size: calc(1.1 * var(--uf)); }
-.sh .od-meta b { color: #24344d; font-weight: 750; }
+.sh .od-meta b { color: #111827; font-weight: 750; }
 .sh .od-meta .stu { margin-left: auto; display: inline-flex; align-items: center; gap: calc(.15 * var(--u)); white-space: nowrap; }
 .sh .od-meta .stu .i { font-size: calc(1.1 * var(--uf)); }
-.sh .od-price { margin: calc(.28 * var(--u)) 0 0; color: #0b8f8a; font-size: calc(1.809 * var(--uf)); font-weight: 800; }
+.sh .od-price { margin: calc(.28 * var(--u)) 0 0; color: #0F766E; font-size: calc(1.809 * var(--uf)); font-weight: 800; }
 .sh .od-empty { background: #fff; border-radius: calc(.6 * var(--u)); padding: calc(1.6 * var(--u)); text-align: center; color: #5b6b82; }
 .sh .od-empty button {
   margin-top: calc(.5 * var(--u));
   height: calc(1.8 * var(--u));
   padding: 0 calc(.9 * var(--u));
-  background: #0b8f8a;
+  background: #0F766E;
   color: #fff;
   border-radius: calc(.4 * var(--u));
   font-weight: 750;
   font-size: calc(1.06 * var(--uf));
 }
-.sh .brd-promo .od-cap { color: #0b8f8a; font-size: calc(1.543 * var(--uf)); }
+.sh .brd-promo .od-cap { color: #0F766E; font-size: calc(1.543 * var(--uf)); }
 .sh .od-promo { min-height: calc(8.6 * var(--u)); }
 .sh .od-promo b, .sh .od-promo small { max-width: calc(7.6 * var(--u)); }
 .sh .od-promo img {

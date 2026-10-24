@@ -88,7 +88,7 @@ function apiPay(): PaymentMethod {
 
 function PayMark({ mark, color }: { mark: string; color: string }) {
   if (mark === "card") {
-    return <span className="ck-mark" style={{ background: "#e8f1ff", color }}><CreditCard /></span>;
+    return <span className="ck-mark" style={{ background: "#F0FDFA", color }}><CreditCard /></span>;
   }
   if (mark === "cash") {
     return <span className="ck-mark" style={{ background: color }}><Banknote /></span>;

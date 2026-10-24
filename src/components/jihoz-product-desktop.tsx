@@ -88,21 +88,21 @@ function DimsDrawing({ dims }: { dims: [number, number, number] }) {
   const [w, h, d] = dims;
   return (
     <svg viewBox="0 0 360 230" className="h-[230px] w-full" fill="none" aria-label="Qurilma o‘lchamlari chizmasi">
-      <g stroke="#0B1F4D" strokeWidth="2" strokeLinejoin="round" fill="#f4f8ff">
+      <g stroke="#111827" strokeWidth="2" strokeLinejoin="round" fill="#f4f8ff">
         <path d="M70 70 H250 V170 H70 Z" />
         <path d="M70 70 L110 40 H290 L250 70" />
         <path d="M250 70 L290 40 V140 L250 170" />
-        <rect x="92" y="88" width="90" height="56" rx="6" fill="#dbe9ff" />
+        <rect x="92" y="88" width="90" height="56" rx="6" fill="#F0FDFA" />
         <circle cx="212" cy="116" r="12" fill="#fff" />
       </g>
-      <g stroke="#0066FF" strokeWidth="1.6">
+      <g stroke="#0F766E" strokeWidth="1.6">
         <path d="M70 192 H250" />
         <path d="M70 186 V198 M250 186 V198" />
         <path d="M312 40 V140" />
         <path d="M306 40 H318 M306 140 H318" />
         <path d="M262 190 L292 170" />
       </g>
-      <g fontSize="13" fontWeight="700" fill="#0066FF" textAnchor="middle">
+      <g fontSize="13" fontWeight="700" fill="#0F766E" textAnchor="middle">
         <text x="160" y="214">{w} mm</text>
         <text x="338" y="94">{h} mm</text>
         <text x="296" y="190">{d} mm</text>
@@ -112,7 +112,7 @@ function DimsDrawing({ dims }: { dims: [number, number, number] }) {
 }
 
 function SectionTitle({ children }: { children: React.ReactNode }) {
-  return <h3 className="text-[16px] font-bold text-[#0B1F4D]">{children}</h3>;
+  return <h3 className="text-[16px] font-bold text-[#111827]">{children}</h3>;
 }
 
 export function JihozProductDesktop({ product }: { product: Product }) {
@@ -184,11 +184,11 @@ export function JihozProductDesktop({ product }: { product: Product }) {
           const Icon = icons[f.icon];
           return (
             <div key={f.title} className="flex items-start gap-3 rounded-xl bg-[#f5f8ff] p-3">
-              <span className="grid size-10 shrink-0 place-items-center rounded-full bg-white text-[#0066FF] shadow-sm">
+              <span className="grid size-10 shrink-0 place-items-center rounded-full bg-white text-[#0F766E] shadow-sm">
                 <Icon className="size-5" />
               </span>
               <div>
-                <p className="text-[13px] leading-tight font-semibold text-[#0B1F4D]">{f.title}</p>
+                <p className="text-[13px] leading-tight font-semibold text-[#111827]">{f.title}</p>
                 <p className="mt-0.5 text-[11.5px] leading-tight text-[#6b7280]">{f.sub}</p>
               </div>
             </div>
@@ -238,7 +238,7 @@ export function JihozProductDesktop({ product }: { product: Product }) {
             const Icon = icons[k.icon];
             return (
               <li key={`${k.label}-${i}`} className="flex items-center gap-2.5 text-[13.5px] text-[#2b3447]">
-                <span className="grid size-8 shrink-0 place-items-center rounded-lg bg-[#eaf2ff] text-[#0066FF]">
+                <span className="grid size-8 shrink-0 place-items-center rounded-lg bg-[#eaf2ff] text-[#0F766E]">
                   <Icon className="size-4" />
                 </span>
                 {k.label}
@@ -261,11 +261,11 @@ export function JihozProductDesktop({ product }: { product: Product }) {
   return (
     <div className="space-y-5">
       <nav className="flex flex-wrap items-center gap-1 text-[12.5px] text-[#8b93a7]">
-        <Link href="/" className="hover:text-[#0066FF]">Bosh sahifa</Link>
+        <Link href="/" className="hover:text-[#0F766E]">Bosh sahifa</Link>
         <ChevronRight className="size-3.5" />
-        <Link href="/marketplace" className="hover:text-[#0066FF]">Marketplace</Link>
+        <Link href="/marketplace" className="hover:text-[#0F766E]">Marketplace</Link>
         <ChevronRight className="size-3.5" />
-        <Link href="/jihozlar" className="hover:text-[#0066FF]">Jihozlar</Link>
+        <Link href="/jihozlar" className="hover:text-[#0F766E]">Jihozlar</Link>
         <ChevronRight className="size-3.5" />
         <span className="line-clamp-1 text-[#4b5568]">{product.name}</span>
       </nav>
@@ -282,7 +282,7 @@ export function JihozProductDesktop({ product }: { product: Product }) {
                 aria-label={`Rasm ${i + 1}`}
                 className={cn(
                   "relative size-[76px] shrink-0 overflow-hidden rounded-xl border-2 bg-[#f7f8fb]",
-                  i === active && !video ? "border-[#0066FF]" : "border-[#eceff5] hover:border-[#bcd5ff]",
+                  i === active && !video ? "border-[#0F766E]" : "border-[#eceff5] hover:border-[#CCFBF1]",
                 )}
               >
                 <SafeProductImage src={src} alt="" category="jihozlar" fill sizes="76px" className="object-contain p-1 mix-blend-multiply" />
@@ -316,7 +316,7 @@ export function JihozProductDesktop({ product }: { product: Product }) {
               type="button"
               aria-label="Oldingi rasm"
               onClick={() => { setActive((active - 1 + gallery.length) % gallery.length); setVideo(false); }}
-              className="absolute top-1/2 left-3 grid size-9 -translate-y-1/2 place-items-center rounded-full bg-white/95 text-[#0B1F4D] shadow-md"
+              className="absolute top-1/2 left-3 grid size-9 -translate-y-1/2 place-items-center rounded-full bg-white/95 text-[#111827] shadow-md"
             >
               <ChevronLeft className="size-5" />
             </button>
@@ -324,7 +324,7 @@ export function JihozProductDesktop({ product }: { product: Product }) {
               type="button"
               aria-label="Keyingi rasm"
               onClick={() => { setActive((active + 1) % gallery.length); setVideo(false); }}
-              className="absolute top-1/2 right-3 grid size-9 -translate-y-1/2 place-items-center rounded-full bg-white/95 text-[#0B1F4D] shadow-md"
+              className="absolute top-1/2 right-3 grid size-9 -translate-y-1/2 place-items-center rounded-full bg-white/95 text-[#111827] shadow-md"
             >
               <ChevronRight className="size-5" />
             </button>
@@ -333,15 +333,15 @@ export function JihozProductDesktop({ product }: { product: Product }) {
             <button
               type="button"
               onClick={() => setVideo(true)}
-              className="absolute bottom-3 left-3 inline-flex h-10 items-center gap-2 rounded-full bg-white px-4 text-[13px] font-semibold text-[#0B1F4D] shadow-md hover:text-[#0066FF]"
+              className="absolute bottom-3 left-3 inline-flex h-10 items-center gap-2 rounded-full bg-white px-4 text-[13px] font-semibold text-[#111827] shadow-md hover:text-[#0F766E]"
             >
-              <span className="grid size-6 place-items-center rounded-full bg-[#0066FF] text-white">
+              <span className="grid size-6 place-items-center rounded-full bg-[#0F766E] text-white">
                 <Play className="size-3 fill-white" />
               </span>
               Videoni ko‘rish
             </button>
             {video ? (
-              <div className="absolute inset-0 z-20 grid place-items-center bg-[#0B1F4D]/85 p-6 text-center text-white">
+              <div className="absolute inset-0 z-20 grid place-items-center bg-[#111827]/85 p-6 text-center text-white">
                 <button type="button" onClick={() => setVideo(false)} aria-label="Yopish" className="absolute top-3 right-3 grid size-9 place-items-center rounded-full bg-white/15 hover:bg-white/25">
                   <X className="size-5" />
                 </button>
@@ -362,20 +362,20 @@ export function JihozProductDesktop({ product }: { product: Product }) {
           <div className="flex flex-wrap items-center gap-2">
             <span className="rounded-md bg-[#e6f7ee] px-2.5 py-1 text-[12px] leading-none font-semibold text-[#16a34a]">{conditionLabels[condition]}</span>
             {details.officialImport ? (
-              <span className="rounded-md bg-[#eaf2ff] px-2.5 py-1 text-[12px] leading-none font-semibold text-[#0066FF]">Rasmiy import</span>
+              <span className="rounded-md bg-[#eaf2ff] px-2.5 py-1 text-[12px] leading-none font-semibold text-[#0F766E]">Rasmiy import</span>
             ) : null}
             {details.certified ? (
-              <span className="inline-flex items-center gap-1 rounded-md border border-[#bcd5ff] bg-white px-2.5 py-[3px] text-[12px] leading-none font-semibold text-[#0066FF]">
+              <span className="inline-flex items-center gap-1 rounded-md border border-[#CCFBF1] bg-white px-2.5 py-[3px] text-[12px] leading-none font-semibold text-[#0F766E]">
                 <BadgeCheck className="size-3.5" />
                 Sertifikat
               </span>
             ) : null}
           </div>
-          <h1 className="mt-3 text-[28px] leading-tight font-bold tracking-tight text-[#0B1F4D]">{product.name}</h1>
+          <h1 className="mt-3 text-[28px] leading-tight font-bold tracking-tight text-[#111827]">{product.name}</h1>
           <div className="mt-2 flex flex-wrap items-center gap-3 text-[13px]">
-            <span className="inline-flex items-center gap-1 text-[13px] font-extrabold tracking-wide text-[#0B1F4D] uppercase">
+            <span className="inline-flex items-center gap-1 text-[13px] font-extrabold tracking-wide text-[#111827] uppercase">
               {product.brand}
-              <BadgeCheck className="size-4 fill-[#0066FF] text-white" />
+              <BadgeCheck className="size-4 fill-[#0F766E] text-white" />
             </span>
             {rv.count > 0 && rv.avg != null ? (
               <>
@@ -383,13 +383,13 @@ export function JihozProductDesktop({ product }: { product: Product }) {
                 <span className="font-semibold text-[#1a1d26]">{rv.avg.toFixed(1)}</span>
               </>
             ) : null}
-            <button type="button" onClick={() => setTab("sharhlar")} className="text-[#0066FF] hover:underline">
+            <button type="button" onClick={() => setTab("sharhlar")} className="text-[#0F766E] hover:underline">
               {rv.count > 0 ? `${rv.count} ta sharh` : "Hali sharh yo‘q"}
             </button>
           </div>
 
           <div className="mt-4 flex flex-wrap items-baseline gap-3">
-            <p className="text-[34px] leading-none font-extrabold text-[#0B1F4D]">{formatMoney(product.price, "UZS")}</p>
+            <p className="text-[34px] leading-none font-extrabold text-[#111827]">{formatMoney(product.price, "UZS")}</p>
             {oldPrice ? <p className="text-[16px] text-[#9aa3b2] line-through">{formatMoney(oldPrice, "UZS")}</p> : null}
             {product.discount ? (
               <span className="rounded-md bg-[#fee2e2] px-2 py-1 text-[12px] font-bold text-[#ef4444]">-{product.discount}%</span>
@@ -401,7 +401,7 @@ export function JihozProductDesktop({ product }: { product: Product }) {
               <Check className="size-4" strokeWidth={2.6} />
               {stockText}
             </span>
-            <span className="inline-flex items-center gap-1.5 rounded-lg bg-[#eaf2ff] px-3 py-1.5 text-[12.5px] font-semibold text-[#0066FF]">
+            <span className="inline-flex items-center gap-1.5 rounded-lg bg-[#eaf2ff] px-3 py-1.5 text-[12.5px] font-semibold text-[#0F766E]">
               <Truck className="size-4" />
               {product.delivery}
             </span>
@@ -426,7 +426,7 @@ export function JihozProductDesktop({ product }: { product: Product }) {
             <button
               type="button"
               onClick={add}
-              className="flex h-12 flex-1 items-center justify-center gap-2 rounded-xl bg-[#0066FF] text-[15px] font-bold text-white shadow-[0_6px_16px_rgba(0,102,255,0.28)] hover:bg-[#0058dd]"
+              className="flex h-12 flex-1 items-center justify-center gap-2 rounded-xl bg-[#0F766E] text-[15px] font-bold text-white shadow-[0_6px_16px_rgba(15, 118, 110, 0.28)] hover:bg-[#115E59]"
             >
               {added ? <Check className="size-5" /> : <ShoppingCart className="size-5" />}
               {added ? "Savatga qo‘shildi" : "Savatga qo‘shish"}
@@ -438,27 +438,27 @@ export function JihozProductDesktop({ product }: { product: Product }) {
               href={site.telegram}
               target="_blank"
               rel="noopener noreferrer"
-              className="flex h-11 flex-1 items-center justify-center gap-2 rounded-xl border border-[#0066FF] text-[14px] font-semibold text-[#0066FF] hover:bg-[#f2f7ff]"
+              className="flex h-11 flex-1 items-center justify-center gap-2 rounded-xl border border-[#0F766E] text-[14px] font-semibold text-[#0F766E] hover:bg-[#f2f7ff]"
             >
               <Headset className="size-4.5" />
               Maslahat olish
             </a>
             <a
               href={site.phoneHref}
-              className="flex h-11 items-center justify-center gap-2 rounded-xl border border-[#e6eaf2] px-4 text-[13.5px] font-semibold text-[#2b3447] hover:border-[#0066FF]/50"
+              className="flex h-11 items-center justify-center gap-2 rounded-xl border border-[#e6eaf2] px-4 text-[13.5px] font-semibold text-[#2b3447] hover:border-[#0F766E]/50"
             >
-              <Phone className="size-4 text-[#0066FF]" />
+              <Phone className="size-4 text-[#0F766E]" />
               {site.phoneDisplay}
             </a>
           </div>
 
           {/* Seller */}
           <div className="mt-4 flex items-center gap-3 rounded-xl border border-[#eceff5] bg-[#fafbfd] p-3">
-            <Image src="/images/clinic/logo-tooth.png" alt="" width={44} height={44} className="size-11 shrink-0 rounded-full bg-[#e8f1ff] object-contain p-1.5" />
+            <Image src="/images/clinic/logo-tooth.png" alt="" width={44} height={44} className="size-11 shrink-0 rounded-full bg-[#F0FDFA] object-contain p-1.5" />
             <div className="min-w-0 flex-1 leading-tight">
               <p className="flex items-center gap-1 text-[14px] font-bold text-[#1a1d26]">
                 <span className="truncate">{sellerName}</span>
-                <BadgeCheck className="size-4 shrink-0 fill-[#0066FF] text-white" />
+                <BadgeCheck className="size-4 shrink-0 fill-[#0F766E] text-white" />
                 <span className="text-[11.5px] font-medium text-[#16a34a]">Tasdiqlangan</span>
               </p>
               <p className="mt-1 flex items-center gap-1 text-[12px] text-[#8b93a7]">
@@ -474,7 +474,7 @@ export function JihozProductDesktop({ product }: { product: Product }) {
               </p>
             </div>
             {shop ? (
-              <Link href={shopHref(shop.slug)} className="inline-flex h-9 items-center rounded-lg border border-[#dbe7ff] bg-white px-4 text-[13px] font-semibold text-[#0066FF] hover:bg-[#f3f8ff]">
+              <Link href={shopHref(shop.slug)} className="inline-flex h-9 items-center rounded-lg border border-[#F0FDFA] bg-white px-4 text-[13px] font-semibold text-[#0F766E] hover:bg-[#f3f8ff]">
                 Do‘konni ko‘rish
               </Link>
             ) : null}
@@ -488,9 +488,9 @@ export function JihozProductDesktop({ product }: { product: Product }) {
               { icon: Clock, title: "Servis bo‘yicha maslahat", sub: "Savollar uchun bog‘laning" },
             ].map(({ icon: Icon, title, sub }) => (
               <div key={title} className="flex items-start gap-2 rounded-xl bg-[#f5f8ff] p-3">
-                <Icon className="mt-0.5 size-5 shrink-0 text-[#0066FF]" />
+                <Icon className="mt-0.5 size-5 shrink-0 text-[#0F766E]" />
                 <div>
-                  <p className="text-[12.5px] leading-tight font-semibold text-[#0B1F4D]">{title}</p>
+                  <p className="text-[12.5px] leading-tight font-semibold text-[#111827]">{title}</p>
                   <p className="mt-0.5 text-[11px] leading-tight text-[#6b7280]">{sub}</p>
                 </div>
               </div>
@@ -500,7 +500,7 @@ export function JihozProductDesktop({ product }: { product: Product }) {
       </section>
 
       {/* Tabs */}
-      <section className="rounded-2xl border border-[#eceff5] bg-white shadow-[0_2px_10px_rgba(15,23,42,0.04)]">
+      <section className="rounded-2xl border border-[#eceff5] bg-white shadow-[0_2px_10px_rgba(17, 24, 39, 0.04)]">
         <div className="flex gap-7 overflow-x-auto border-b border-[#eceff5] px-6">
           {tabs.map((t) => (
             <button
@@ -509,7 +509,7 @@ export function JihozProductDesktop({ product }: { product: Product }) {
               onClick={() => setTab(t.id)}
               className={cn(
                 "-mb-px shrink-0 border-b-2 py-4 text-[14px] font-semibold",
-                tab === t.id ? "border-[#0066FF] text-[#0066FF]" : "border-transparent text-[#4b5568] hover:text-[#0066FF]",
+                tab === t.id ? "border-[#0F766E] text-[#0F766E]" : "border-transparent text-[#4b5568] hover:text-[#0F766E]",
               )}
             >
               {t.label}
@@ -543,9 +543,9 @@ export function JihozProductDesktop({ product }: { product: Product }) {
             <div className="max-w-2xl space-y-3 text-[14px] text-[#4b5568]">
               <p>{details.delivery}</p>
               <ul className="space-y-2">
-                <li className="flex gap-2"><Truck className="mt-0.5 size-4 shrink-0 text-[#0066FF]" />{product.delivery}</li>
-                <li className="flex gap-2"><Package className="mt-0.5 size-4 shrink-0 text-[#0066FF]" />Viloyatlarga 2–3 ish kuni</li>
-                <li className="flex gap-2"><Clock className="mt-0.5 size-4 shrink-0 text-[#0066FF]" />Buyurtma 16:00 gacha berilsa, shu kuni jo‘natiladi</li>
+                <li className="flex gap-2"><Truck className="mt-0.5 size-4 shrink-0 text-[#0F766E]" />{product.delivery}</li>
+                <li className="flex gap-2"><Package className="mt-0.5 size-4 shrink-0 text-[#0F766E]" />Viloyatlarga 2–3 ish kuni</li>
+                <li className="flex gap-2"><Clock className="mt-0.5 size-4 shrink-0 text-[#0F766E]" />Buyurtma 16:00 gacha berilsa, shu kuni jo‘natiladi</li>
               </ul>
             </div>
           ) : null}
@@ -556,8 +556,8 @@ export function JihozProductDesktop({ product }: { product: Product }) {
       {related.length ? (
         <section>
           <div className="mb-3 flex items-center justify-between">
-            <h2 className="text-[18px] font-bold text-[#0B1F4D]">O‘xshash mahsulotlar</h2>
-            <Link href="/jihozlar" className="text-[13px] font-semibold text-[#0066FF] hover:underline">Barchasini ko‘rish</Link>
+            <h2 className="text-[18px] font-bold text-[#111827]">O‘xshash mahsulotlar</h2>
+            <Link href="/jihozlar" className="text-[13px] font-semibold text-[#0F766E] hover:underline">Barchasini ko‘rish</Link>
           </div>
           <div className="grid grid-cols-4 gap-3">
             {related.map((item) => (

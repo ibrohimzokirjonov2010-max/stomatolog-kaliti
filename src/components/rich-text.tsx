@@ -15,7 +15,7 @@ function inline(text: string, keyBase: string): ReactNode[] {
     const link = part.match(/^\[([^\]]+)\]\((https?:\/\/[^\s)]+)\)$/);
     if (link)
       return (
-        <a key={key} href={link[2]} target="_blank" rel="noopener noreferrer nofollow" className="font-medium text-[#0066FF] underline">
+        <a key={key} href={link[2]} target="_blank" rel="noopener noreferrer nofollow" className="font-medium text-[#0F766E] underline">
           {link[1]}
         </a>
       );

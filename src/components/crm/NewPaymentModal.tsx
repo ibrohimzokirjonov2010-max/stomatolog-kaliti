@@ -12,7 +12,7 @@ import { tashkentDateParts } from "@/lib/tashkent-date";
 function ClickLogo() {
   return (
     <svg viewBox="0 0 28 28" aria-hidden="true">
-      <circle cx="14" cy="14" r="12" fill="#0a8cf5" />
+      <circle cx="14" cy="14" r="12" fill="#0F766E" />
       <path d="M18.6 10.2a6 6 0 1 0 0 7.6" fill="none" stroke="#fff" strokeWidth="3.4" strokeLinecap="round" />
     </svg>
   );
@@ -21,7 +21,7 @@ function ClickLogo() {
 function PaymeLogo() {
   return (
     <svg viewBox="0 0 28 28" aria-hidden="true">
-      <rect x="2" y="2" width="24" height="24" rx="5" fill="#12b5b0" />
+      <rect x="2" y="2" width="24" height="24" rx="5" fill="#0F766E" />
       <path d="M10 21V7h5a4.3 4.3 0 0 1 0 8.6h-5" fill="none" stroke="#fff" strokeWidth="3" strokeLinejoin="round" />
     </svg>
   );
@@ -29,10 +29,10 @@ function PaymeLogo() {
 
 const METHODS: { id: PayMethod; label: string; logo: ReactNode }[] = [
   { id: "Naqd", label: "Naqd", logo: <Banknote style={{ color: "#16a34a" }} /> },
-  { id: "Karta", label: "Karta", logo: <CreditCard style={{ color: "#2563eb" }} /> },
+  { id: "Karta", label: "Karta", logo: <CreditCard style={{ color: "#0F766E" }} /> },
   { id: "Click", label: "Click", logo: <ClickLogo /> },
   { id: "Payme", label: "Payme", logo: <PaymeLogo /> },
-  { id: "O‘tkazma", label: "O‘tkazma", logo: <Landmark style={{ color: "#1e3a8a" }} /> },
+  { id: "O‘tkazma", label: "O‘tkazma", logo: <Landmark style={{ color: "#111827" }} /> },
 ];
 
 function money(n: number) {
@@ -138,7 +138,7 @@ export function NewPaymentModal({
       testId="pay-modal"
       title="Yangi to‘lov qo‘shish"
       subtitle="Bemor to‘lovini kiriting"
-      width={578}
+      width={1000}
       onClose={onClose}
       footer={
         <>

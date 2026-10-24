@@ -48,21 +48,21 @@ export function SellerCatalogHint({ className }: { className?: string }) {
       {session && isShopApproved(session) ? (
         <>
           Do‘koningiz ochiq.{" "}
-          <Link href={sellerCabinetHref()} className="font-semibold text-[#0066FF] hover:underline">
+          <Link href={sellerCabinetHref()} className="font-semibold text-[#0F766E] hover:underline">
             Mening do‘konim
           </Link>
         </>
       ) : session ? (
         <>
           Ariza tekshiruvda.{" "}
-          <Link href={sellerCabinetHref()} className="font-semibold text-[#0066FF] hover:underline">
+          <Link href={sellerCabinetHref()} className="font-semibold text-[#0F766E] hover:underline">
             Holatni ko‘rish
           </Link>
         </>
       ) : (
         <>
           Ishonchli do‘konlargina sotadi.{" "}
-          <Link href={sellerCabinetHref()} className="font-semibold text-[#0066FF] hover:underline">
+          <Link href={sellerCabinetHref()} className="font-semibold text-[#0F766E] hover:underline">
             Ariza topshirish
           </Link>
         </>
@@ -81,9 +81,9 @@ export function ProfileSellerRow({ icon }: { icon: ReactNode }) {
     <Link
       href={sellerCabinetHref()}
       data-testid="profile-seller-row"
-      className="flex items-center gap-3 rounded-2xl bg-[#f5f9ff] px-3.5 py-3 ring-1 ring-[#e0ecff] transition hover:bg-[#e8f1ff]"
+      className="flex items-center gap-3 rounded-2xl bg-[#f5f9ff] px-3.5 py-3 ring-1 ring-[#F0FDFA] transition hover:bg-[#F0FDFA]"
     >
-      <span className="flex size-9 items-center justify-center rounded-xl bg-white text-[#0066FF] shadow-sm">{icon}</span>
+      <span className="flex size-9 items-center justify-center rounded-xl bg-white text-[#0F766E] shadow-sm">{icon}</span>
       <span className="min-w-0 flex-1">
         <span className="block text-[13.5px] font-semibold text-[#1a1d26]">{title}</span>
         <span className="block text-[12px] text-[#8b93a7]">{sub}</span>

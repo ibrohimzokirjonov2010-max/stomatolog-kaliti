@@ -136,7 +136,7 @@ export function SurplusMobileCatalog({ onPost }: { onPost: () => void }) {
               <button
                 type="button"
                 className="go"
-                style={{ background: "#eef2f6", color: "#24344d" }}
+                style={{ background: "#eef2f6", color: "#111827" }}
                 onClick={() => {
                   setCity("");
                   setFilters(false);

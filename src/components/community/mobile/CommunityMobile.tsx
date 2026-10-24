@@ -349,7 +349,7 @@ export function CommunityMobile() {
               </>
             ) : null}
             <div className="row">
-              <button type="button" className="go" style={{ background: "#eef2f6", color: "#24344d" }} onClick={() => setComposer(false)}>Yopish</button>
+              <button type="button" className="go" style={{ background: "#eef2f6", color: "#111827" }} onClick={() => setComposer(false)}>Yopish</button>
               <button type="submit" className="go">Joylash</button>
             </div>
           </form>
@@ -376,7 +376,7 @@ export function CommunityMobile() {
             <h3>Izoh</h3>
             <textarea aria-label="Izoh matni" value={comment} onChange={(event) => setComment(event.target.value)} placeholder="Izoh yozing" />
             <div className="row">
-              <button type="button" className="go" style={{ background: "#eef2f6", color: "#24344d" }} onClick={() => setCommentFor(null)}>Yopish</button>
+              <button type="button" className="go" style={{ background: "#eef2f6", color: "#111827" }} onClick={() => setCommentFor(null)}>Yopish</button>
               <button type="submit" className="go">Yuborish</button>
             </div>
           </form>
@@ -392,7 +392,7 @@ export function CommunityMobile() {
               <input type="checkbox" checked={onlySaved} onChange={(event) => setOnlySaved(event.target.checked)} /> Saqlanganlar
             </label>
             <div className="row">
-              <button type="button" className="go" style={{ background: "#eef2f6", color: "#24344d" }} onClick={() => { setOnlySaved(false); setFilters(false); }}>Tozalash</button>
+              <button type="button" className="go" style={{ background: "#eef2f6", color: "#111827" }} onClick={() => { setOnlySaved(false); setFilters(false); }}>Tozalash</button>
               <button type="submit" className="go">Ko‘rish</button>
             </div>
           </form>

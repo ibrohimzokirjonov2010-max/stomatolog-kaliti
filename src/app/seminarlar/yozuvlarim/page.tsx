@@ -38,7 +38,7 @@ export default function MySeminarRegistrationsPage() {
       <div className="hidden lg:block">
       <header className="mb-4">
         <p className="text-[13px] text-[#8b93a7]">
-          <Link href="/seminarlar" className="text-[#0066FF] hover:underline">
+          <Link href="/seminarlar" className="text-[#0F766E] hover:underline">
             Seminarlar
           </Link>
           <span className="mx-1">/</span>
@@ -51,7 +51,7 @@ export default function MySeminarRegistrationsPage() {
         {organizer ? (
           <Link
             href="/seminarlar/yozuvlarim/tashkilotchi"
-            className="mt-3 inline-flex h-10 items-center gap-2 rounded-xl bg-[#e8f1ff] px-3.5 text-[13px] font-semibold text-[#0066FF]"
+            className="mt-3 inline-flex h-10 items-center gap-2 rounded-xl bg-[#F0FDFA] px-3.5 text-[13px] font-semibold text-[#0F766E]"
           >
             <Ticket className="size-4" />
             Tashkilotchi kabineti
@@ -109,13 +109,13 @@ export default function MySeminarRegistrationsPage() {
                 ) : null}
                 <div className="mt-3 flex flex-wrap gap-4">
                   {item.status !== "cancelled" ? (
-                    <Link href={`/seminarlar/yozuvlarim/${item.id}`} className="inline-flex items-center gap-1.5 text-[13px] font-semibold text-[#0066FF]">
+                    <Link href={`/seminarlar/yozuvlarim/${item.id}`} className="inline-flex items-center gap-1.5 text-[13px] font-semibold text-[#0F766E]">
                       <QrCode className="size-4" />
                       Chiptani ochish
                     </Link>
                   ) : null}
                   {seminar ? (
-                    <Link href={seminarHref(seminar.id)} className="text-[13px] font-semibold text-[#0066FF]">
+                    <Link href={seminarHref(seminar.id)} className="text-[13px] font-semibold text-[#0F766E]">
                       Batafsil
                     </Link>
                   ) : null}

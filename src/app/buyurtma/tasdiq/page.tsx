@@ -60,7 +60,7 @@ function Confirmation() {
   }
 
   return (
-    <div className="mx-auto max-w-xl overflow-hidden rounded-[20px] border border-[#eceff5] bg-white shadow-[0_1px_3px_rgba(15,23,42,0.04)]">
+    <div className="mx-auto max-w-xl overflow-hidden rounded-[20px] border border-[#eceff5] bg-white shadow-[0_1px_3px_rgba(17, 24, 39, 0.04)]">
       <div className="bg-gradient-to-b from-[#ecfdf3] to-white px-6 pb-2 pt-8 text-center">
         <span className="mx-auto flex size-14 items-center justify-center rounded-full bg-white text-[#16a34a] shadow-[0_4px_16px_rgba(22,163,74,0.18)]">
           <CheckCircle2 className="size-8" />
@@ -75,7 +75,7 @@ function Confirmation() {
               : "To‘lov hali tasdiqlanmagan. Sotuvchi qabulini kutmoqda."
             : "Sotuvchi qabulini kutmoqda."}
         </p>
-        <p className="mt-4 inline-flex rounded-xl bg-[#e8f1ff] px-4 py-2.5 text-[15px] font-semibold text-[#0066FF]">
+        <p className="mt-4 inline-flex rounded-xl bg-[#F0FDFA] px-4 py-2.5 text-[15px] font-semibold text-[#0F766E]">
           {order.id}
         </p>
         <div className="mt-3 flex flex-wrap items-center justify-center gap-2">

@@ -89,11 +89,11 @@ export default function MyMasterPage() {
     <div className="mx-auto max-w-2xl">
       <header className="mb-4">
         <p className="text-[13px] text-[#8b93a7]">
-          <Link href="/ustalar" className="text-[#0066FF] hover:underline">Ustalar</Link>
+          <Link href="/ustalar" className="text-[#0F766E] hover:underline">Ustalar</Link>
           <span className="mx-1">/</span>
           <span>Usta profilim</span>
         </p>
-        <h1 className="mt-2 text-[26px] font-bold tracking-tight text-[#0B1F4D] lg:text-[#1a1d26]">{mine ? "Usta profilim" : "Usta sifatida e’lon berish"}</h1>
+        <h1 className="mt-2 text-[26px] font-bold tracking-tight text-[#111827] lg:text-[#1a1d26]">{mine ? "Usta profilim" : "Usta sifatida e’lon berish"}</h1>
         <p className="mt-1 text-sm text-[#8b93a7]">Profilingiz administrator tasdiqlagach katalogda chiqadi. Telefon raqamingiz ochiq ko‘rsatilmaydi — faqat siz so‘rovni qabul qilganingizda mijozga ochiladi.</p>
       </header>
 
@@ -102,7 +102,7 @@ export default function MyMasterPage() {
       ) : state === "loading" ? (
         <p className="py-10 text-center text-sm text-[#8b93a7]">Yuklanmoqda…</p>
       ) : (
-        <form onSubmit={submit} noValidate className="space-y-4 rounded-[18px] border border-[#eceff5] bg-white p-4 shadow-[0_4px_14px_rgba(15,23,42,0.04)] sm:p-6" data-testid="master-form">
+        <form onSubmit={submit} noValidate className="space-y-4 rounded-[18px] border border-[#eceff5] bg-white p-4 shadow-[0_4px_14px_rgba(17, 24, 39, 0.04)] sm:p-6" data-testid="master-form">
           {mine ? <ModBanner status={mine.status} reason={mine.rejectReason} /> : null}
           {error ? <p role="alert" className="rounded-xl bg-red-50 px-3 py-2 text-sm text-red-800">{error}</p> : null}
           {saved ? <p role="status" className="rounded-xl bg-emerald-50 px-3 py-2 text-sm font-medium text-emerald-800">{mine?.status === "pending" ? "Saqlandi. Administrator tasdiqlashini kuting." : "Saqlandi."}</p> : null}
@@ -156,12 +156,12 @@ export default function MyMasterPage() {
             </FormField>
           </div>
           <div className="flex flex-wrap gap-2 pt-1">
-            <button type="submit" disabled={busy} className="inline-flex h-12 min-w-[160px] items-center justify-center rounded-2xl bg-[#0066FF] px-6 text-[14px] font-semibold text-white disabled:opacity-60">
+            <button type="submit" disabled={busy} className="inline-flex h-12 min-w-[160px] items-center justify-center rounded-2xl bg-[#0F766E] px-6 text-[14px] font-semibold text-white disabled:opacity-60">
               {busy ? "Saqlanmoqda…" : mine ? "Saqlash" : "Moderatsiyaga yuborish"}
             </button>
             {mine ? (
               <>
-                <Link href="/ustalar/sorovlarim?tab=kelgan" className="inline-flex h-12 items-center justify-center rounded-2xl border border-[#dbe7ff] px-5 text-[14px] font-semibold text-[#0066FF]">Kelgan so‘rovlar</Link>
+                <Link href="/ustalar/sorovlarim?tab=kelgan" className="inline-flex h-12 items-center justify-center rounded-2xl border border-[#F0FDFA] px-5 text-[14px] font-semibold text-[#0F766E]">Kelgan so‘rovlar</Link>
                 <button type="button" onClick={remove} className="inline-flex h-12 items-center justify-center rounded-2xl px-4 text-[14px] font-semibold text-[#dc2626]">O‘chirish</button>
               </>
             ) : null}

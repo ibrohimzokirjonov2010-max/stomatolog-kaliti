@@ -27,14 +27,14 @@ export const BABY_LOWER = ["85", "84", "83", "82", "81", "71", "72", "73", "74",
 /** Colours follow designs/add-forms-1020/yengi davolsah rejasi qoshi (karies red, plomba blue, shtift yellow…). */
 export const toothFill: Record<ToothState, string> = {
   soglom: "#e8eef5",
-  davolanmoqda: "#5b9df5",
+  davolanmoqda: "#0F766E",
   davolangan: "#2fbf8f",
   muammo: "#ef4444",
   kariyes: "#ef4444",
-  plomba: "#4aa8f0",
+  plomba: "#0F766E",
   endo: "#f27a7a",
   implant: "#94a3b8",
-  koronka: "#3b82f6",
+  koronka: "#0F766E",
   shtift: "#f5b638",
   ekstraksiya: "#cbd5e1",
 };
@@ -86,8 +86,8 @@ export function ToothChart({
           <linearGradient id={`${uid}-shade`} x1="0" y1="0" x2="1" y2="0">
             <stop offset="0" stopColor="#fff" stopOpacity=".55" />
             <stop offset=".35" stopColor="#fff" stopOpacity=".12" />
-            <stop offset=".75" stopColor="#0f1d33" stopOpacity="0" />
-            <stop offset="1" stopColor="#0f1d33" stopOpacity=".14" />
+            <stop offset=".75" stopColor="#111827" stopOpacity="0" />
+            <stop offset="1" stopColor="#111827" stopOpacity=".14" />
           </linearGradient>
         </defs>
       </svg>

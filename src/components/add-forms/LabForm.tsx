@@ -241,7 +241,7 @@ export function LabForm() {
               <span className="logo">{logo ? <img src={logo.preview || logo.url} alt="" /> : <FlaskConical size={26} />}</span>
             </div>
             <div className="cap">
-              <h3 className="af-name">{form.name.trim() || "Laboratoriya nomi"}<BadgeCheck size={16} color="#0066ff" /></h3>
+              <h3 className="af-name">{form.name.trim() || "Laboratoriya nomi"}<BadgeCheck size={16} color="#0F766E" /></h3>
               <p className="muted">{names || "Mutaxassislik tanlanmagan"}</p>
               <p className="af-line"><MapPin size={14} /> {[form.city, form.district, form.address].filter(Boolean).join(", ") || "Manzil"}</p>
               <p className="muted">{form.delivery ? "Yetkazib berish bor" : "Yetkazib berish yo‘q"} · {form.openTime}–{form.closeTime}</p>

@@ -182,7 +182,7 @@ export function UstaRequestSheet({ master, onClose, onProfile }: { master: Maste
         <div ref={scrollRef} className="min-h-0 flex-1 overflow-y-auto overscroll-contain px-4 pt-2.5 pb-4">
           <div className="mx-auto mb-3 h-1 w-10 rounded-full bg-[#d5dbe7]" />
           <div className="flex items-start gap-3">
-            <span className="grid size-12 shrink-0 place-items-center rounded-2xl bg-[#e3eeff] text-[#0066FF]">
+            <span className="grid size-12 shrink-0 place-items-center rounded-2xl bg-[#F0FDFA] text-[#0F766E]">
               <Send className="size-[22px]" />
             </span>
             <div className="min-w-0 flex-1">
@@ -201,19 +201,19 @@ export function UstaRequestSheet({ master, onClose, onProfile }: { master: Maste
               const active = i === current || (current === -1 && i === 3);
               return (
                 <li key={label} className="relative flex flex-col items-center">
-                  {i > 0 ? <span className={cn("absolute top-[13px] right-1/2 h-[2px] w-full", flags[i - 1] ? "bg-[#0066FF]" : "bg-[#dde3ee]")} aria-hidden /> : null}
+                  {i > 0 ? <span className={cn("absolute top-[13px] right-1/2 h-[2px] w-full", flags[i - 1] ? "bg-[#0F766E]" : "bg-[#dde3ee]")} aria-hidden /> : null}
                   <button
                     type="button"
                     onClick={() => jump(["services", "note", "media", "submit"][i])}
                     className={cn(
                       "relative z-10 grid size-[27px] place-items-center rounded-full text-[12px] font-bold",
-                      active ? "bg-[#0066FF] text-white shadow-[0_0_0_4px_rgba(0,102,255,0.15)]" : isDone ? "bg-[#0066FF] text-white" : "bg-[#e6eaf2] text-[#8b93a7]",
+                      active ? "bg-[#0F766E] text-white shadow-[0_0_0_4px_rgba(15, 118, 110, 0.15)]" : isDone ? "bg-[#0F766E] text-white" : "bg-[#e6eaf2] text-[#8b93a7]",
                     )}
                     aria-current={active ? "step" : undefined}
                   >
                     {isDone && !active ? <Check className="size-3.5" strokeWidth={3} /> : i + 1}
                   </button>
-                  <span className={cn("mt-1.5 text-[11px]", active ? "font-semibold text-[#0066FF]" : "text-[#6b7487]")}>{label}</span>
+                  <span className={cn("mt-1.5 text-[11px]", active ? "font-semibold text-[#0F766E]" : "text-[#6b7487]")}>{label}</span>
                 </li>
               );
             })}
@@ -227,7 +227,7 @@ export function UstaRequestSheet({ master, onClose, onProfile }: { master: Maste
                 <span className="block text-[13px] font-semibold text-[#1a1d26]">Yuborish uchun tizimga kiring</span>
                 <span className="block truncate text-[11.5px] text-[#8b93a7]">Usta qabul qilgach, telefon raqami ochiladi</span>
               </span>
-              <Link href={`/kirish?next=/ustalar/${master.id}`} className="inline-flex h-9 shrink-0 items-center rounded-xl bg-[#0066FF] px-4 text-[13px] font-semibold text-white">
+              <Link href={`/kirish?next=/ustalar/${master.id}`} className="inline-flex h-9 shrink-0 items-center rounded-xl bg-[#0F766E] px-4 text-[13px] font-semibold text-white">
                 Kirish
               </Link>
             </div>
@@ -241,7 +241,7 @@ export function UstaRequestSheet({ master, onClose, onProfile }: { master: Maste
               <p className="mt-3 text-[17px] font-bold text-[#0B1220]">So‘rov yuborildi!</p>
               <p className="mt-1 text-[13px] text-[#6b7487]">Usta qabul qilsa, bildirishnoma olasiz va uning telefon raqami ochiladi.</p>
               <div className="mt-4 flex justify-center gap-2">
-                <Link href="/ustalar/sorovlarim" className="inline-flex h-11 items-center rounded-xl bg-[#0066FF] px-5 text-[14px] font-semibold text-white">
+                <Link href="/ustalar/sorovlarim" className="inline-flex h-11 items-center rounded-xl bg-[#0F766E] px-5 text-[14px] font-semibold text-white">
                   Mening so‘rovlarim
                 </Link>
                 <button type="button" onClick={onClose} className="inline-flex h-11 items-center rounded-xl border border-[#dbe3f0] bg-white px-5 text-[14px] font-semibold text-[#1a1d26]">
@@ -252,7 +252,7 @@ export function UstaRequestSheet({ master, onClose, onProfile }: { master: Maste
           ) : null}
 
           {/* Master mini card */}
-          <div className="mt-4 flex items-center gap-3 rounded-[20px] bg-white p-3.5 shadow-[0_2px_10px_rgba(15,23,42,0.04)]">
+          <div className="mt-4 flex items-center gap-3 rounded-[20px] bg-white p-3.5 shadow-[0_2px_10px_rgba(17, 24, 39, 0.04)]">
             <MasterAvatar master={master} size={60} dot={false} />
             <div className="min-w-0 flex-1">
               <p className="flex items-center gap-1 text-[15.5px] font-bold text-[#0B1220]">
@@ -264,16 +264,16 @@ export function UstaRequestSheet({ master, onClose, onProfile }: { master: Maste
                 {master.years > 0 ? ` · ${master.years} yillik tajriba` : ""}
               </p>
               <p className="mt-1 flex items-center gap-1 text-[12.5px] text-[#4b5568]">
-                <MapPin className="size-3.5 text-[#0066FF]" />
+                <MapPin className="size-3.5 text-[#0F766E]" />
                 {placeLine(master)}
               </p>
             </div>
             {onProfile ? (
-              <button type="button" onClick={onProfile} className="inline-flex h-9 shrink-0 items-center gap-0.5 rounded-xl bg-[#eaf2ff] px-3 text-[12px] font-semibold text-[#0066FF]">
+              <button type="button" onClick={onProfile} className="inline-flex h-9 shrink-0 items-center gap-0.5 rounded-xl bg-[#eaf2ff] px-3 text-[12px] font-semibold text-[#0F766E]">
                 Profilni ko‘rish <ChevronRight className="size-3.5" />
               </button>
             ) : (
-              <Link href={`/ustalar/${master.id}`} onClick={onClose} className="inline-flex h-9 shrink-0 items-center gap-0.5 rounded-xl bg-[#eaf2ff] px-3 text-[12px] font-semibold text-[#0066FF]">
+              <Link href={`/ustalar/${master.id}`} onClick={onClose} className="inline-flex h-9 shrink-0 items-center gap-0.5 rounded-xl bg-[#eaf2ff] px-3 text-[12px] font-semibold text-[#0F766E]">
                 Profilni ko‘rish <ChevronRight className="size-3.5" />
               </Link>
             )}
@@ -281,7 +281,7 @@ export function UstaRequestSheet({ master, onClose, onProfile }: { master: Maste
 
           {/* Xizmat turi */}
           <section id="ureq-services" className="mt-5 scroll-mt-3">
-            <SectionTitle icon={<Settings className="size-[18px]" />} title="Xizmat turi" required right={<span className="text-[11.5px] text-[#0066FF]">Bir nechtasini tanlash mumkin</span>} />
+            <SectionTitle icon={<Settings className="size-[18px]" />} title="Xizmat turi" required right={<span className="text-[11.5px] text-[#0F766E]">Bir nechtasini tanlash mumkin</span>} />
             <div className="mt-2.5 grid grid-cols-4 gap-2">
               {requestServicesV2.map((s) => {
                 const on = services.includes(s.id);
@@ -293,15 +293,15 @@ export function UstaRequestSheet({ master, onClose, onProfile }: { master: Maste
                     aria-pressed={on}
                     className={cn(
                       "relative flex min-h-[84px] flex-col items-start justify-between rounded-2xl border bg-white p-2.5 text-left",
-                      on ? "border-[#0066FF] bg-[#f3f8ff] shadow-[0_0_0_1px_#0066FF]" : "border-[#e8edf5]",
+                      on ? "border-[#0F766E] bg-[#f3f8ff] shadow-[0_0_0_1px_#0F766E]" : "border-[#e8edf5]",
                     )}
                   >
-                    <span className={cn("grid size-9 place-items-center rounded-xl", on ? "bg-[#dceaff] text-[#0066FF]" : "bg-[#eff4fc] text-[#0066FF]")}>
+                    <span className={cn("grid size-9 place-items-center rounded-xl", on ? "bg-[#F0FDFA] text-[#0F766E]" : "bg-[#eff4fc] text-[#0F766E]")}>
                       <UstaIcon name={s.id} className="size-[22px]" />
                     </span>
                     <span className="mt-1.5 text-[11px] leading-tight font-semibold text-[#1a1d26]">{s.label}</span>
                     {on ? (
-                      <span className="absolute top-2 right-2 grid size-[18px] place-items-center rounded-full bg-[#0066FF] text-white">
+                      <span className="absolute top-2 right-2 grid size-[18px] place-items-center rounded-full bg-[#0F766E] text-white">
                         <Check className="size-3" strokeWidth={3} />
                       </span>
                     ) : null}
@@ -337,9 +337,9 @@ export function UstaRequestSheet({ master, onClose, onProfile }: { master: Maste
             <SectionTitle icon={<MapPin className="size-[18px]" />} title="Manzil" required />
             <div className="mt-2.5 overflow-hidden rounded-2xl border border-[#e8edf5] bg-white">
               <label className={cn("relative flex h-12 items-center gap-2 bg-[#eef4fd] px-3.5", errors.district && "bg-red-50")}>
-                <MapPin className="size-4 shrink-0 fill-[#0066FF] text-[#0066FF]" />
+                <MapPin className="size-4 shrink-0 fill-[#0F766E] text-[#0F766E]" />
                 <span className={cn("min-w-0 flex-1 truncate text-[13.5px]", district ? "font-medium text-[#1a1d26]" : "text-[#8b93a7]")}>{placeText || "Tumanni tanlang"}</span>
-                <span className="inline-flex items-center gap-0.5 text-[12.5px] font-semibold text-[#0066FF]">
+                <span className="inline-flex items-center gap-0.5 text-[12.5px] font-semibold text-[#0F766E]">
                   {district ? "O‘zgartirish" : "Tanlash"} <ChevronRight className="size-3.5" />
                 </span>
                 <select
@@ -440,7 +440,7 @@ export function UstaRequestSheet({ master, onClose, onProfile }: { master: Maste
                 <button
                   type="button"
                   onClick={() => fileRef.current?.click()}
-                  className="flex size-[78px] shrink-0 flex-col items-center justify-center gap-1 rounded-2xl border-[1.5px] border-dashed border-[#9cc0ff] bg-white text-[#0066FF]"
+                  className="flex size-[78px] shrink-0 flex-col items-center justify-center gap-1 rounded-2xl border-[1.5px] border-dashed border-[#CCFBF1] bg-white text-[#0F766E]"
                 >
                   <Plus className="size-6" />
                   <span className="text-[10.5px] font-semibold">Fayl qo‘shish</span>
@@ -505,7 +505,7 @@ export function UstaRequestSheet({ master, onClose, onProfile }: { master: Maste
             type="button"
             onClick={() => void submit()}
             disabled={busy || done || !profile || uploading > 0}
-            className="flex h-[58px] w-full flex-col items-center justify-center rounded-2xl bg-gradient-to-r from-[#0066FF] to-[#2f86ff] text-white shadow-[0_8px_20px_rgba(0,102,255,0.32)] disabled:opacity-60"
+            className="flex h-[58px] w-full flex-col items-center justify-center rounded-2xl bg-gradient-to-r from-[#0F766E] to-[#0F766E] text-white shadow-[0_8px_20px_rgba(15, 118, 110, 0.32)] disabled:opacity-60"
             data-testid="ureq-submit"
           >
             <span className="inline-flex items-center gap-2 text-[16px] font-semibold">
@@ -523,7 +523,7 @@ export function UstaRequestSheet({ master, onClose, onProfile }: { master: Maste
 function SectionTitle({ icon, title, required, optional, right }: { icon: ReactNode; title: string; required?: boolean; optional?: boolean; right?: ReactNode }) {
   return (
     <div className="flex items-center gap-2">
-      <span className="text-[#0066FF]">{icon}</span>
+      <span className="text-[#0F766E]">{icon}</span>
       <h3 className="text-[14.5px] font-bold text-[#0B1220]">
         {title}
         {required ? <span className="ml-0.5 text-[#ef4444]">*</span> : null}

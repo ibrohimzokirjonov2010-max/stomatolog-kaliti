@@ -4,7 +4,7 @@
 .sh .eld a { color: inherit; text-decoration: none; }
 .sh .eld-top { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
 .sh .eld-crumbs { display: flex; align-items: center; gap: 6px; color: #6a7c93; font-size: 12.5px; }
-.sh .eld-crumbs a:hover { color: #0b7f7d; }
+.sh .eld-crumbs a:hover { color: #0F766E; }
 .sh .eld-crumbs svg { width: 13px; height: 13px; }
 .sh .eld-crumbs span { color: #24344d; }
 .sh .eld-acts { display: flex; gap: 8px; }
@@ -31,17 +31,17 @@
 .sh .eld-stage .count { position: absolute; left: 14px; bottom: 14px; padding: 4px 10px; border-radius: 999px; background: rgba(11, 18, 32, .6); color: #fff; font-size: 12px; }
 .sh .eld-thumbs { display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); gap: 8px; }
 .sh .eld-thumbs button { height: 70px; border-radius: 9px; overflow: hidden; border: 2px solid transparent; padding: 0; background: #eef3f9; }
-.sh .eld-thumbs button.on { border-color: #0d9f9a; }
+.sh .eld-thumbs button.on { border-color: #0F766E; }
 .sh .eld-thumbs img { width: 100%; height: 100%; object-fit: cover; }
 .sh .eld-card { padding: 16px; border-radius: 14px; background: #fff; border: 1px solid #e8eef4; }
 .sh .eld-price { display: flex; align-items: center; flex-wrap: wrap; gap: 10px; padding-bottom: 12px; border-bottom: 1px solid #eef2f6; }
 .sh .eld-price b { font-size: 26px; font-weight: 800; letter-spacing: -.01em; }
-.sh .eld-price em { margin-left: auto; display: inline-flex; align-items: center; gap: 6px; height: 32px; padding: 0 12px; border-radius: 9px; background: #e9f7f6; color: #0b6f6d; font-style: normal; font-size: 12.5px; font-weight: 600; }
+.sh .eld-price em { margin-left: auto; display: inline-flex; align-items: center; gap: 6px; height: 32px; padding: 0 12px; border-radius: 9px; background: #e9f7f6; color: #115E59; font-style: normal; font-size: 12.5px; font-weight: 600; }
 .sh .eld-price em svg { width: 15px; height: 15px; }
 .sh .eld-cols { display: grid; grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr); gap: 20px; padding-top: 12px; }
 .sh .eld-cols h2 { margin: 0 0 8px; font-size: 15px; font-weight: 700; }
 .sh .eld-desc { margin: 0; color: #4b5568; font-size: 13px; line-height: 1.6; white-space: pre-wrap; }
-.sh .eld-link { margin-top: 8px; display: inline-flex; align-items: center; gap: 6px; color: #2563eb !important; font-size: 13px; font-weight: 600; }
+.sh .eld-link { margin-top: 8px; display: inline-flex; align-items: center; gap: 6px; color: #0F766E !important; font-size: 13px; font-weight: 600; }
 .sh .eld-link + .eld-link { margin-left: 14px; }
 .sh .eld-link svg { width: 15px; height: 15px; }
 .sh .eld-facts { margin: 0; }
@@ -57,24 +57,24 @@
 .sh .eld-owner b { font-size: 15px; font-weight: 700; }
 .sh .eld-owner small { color: #6a7c93; font-size: 12px; }
 .sh .eld-call, .sh .eld-msg { height: 46px; border-radius: 11px; display: flex; align-items: center; justify-content: center; gap: 8px; font-size: 14px; font-weight: 600; }
-.sh .eld-call { background: #0d9f9a; color: #fff !important; }
-.sh .eld-msg { border: 1.5px solid #0d9f9a; color: #0b7f7d !important; background: #fff; }
+.sh .eld-call { background: #0F766E; color: #fff !important; }
+.sh .eld-msg { border: 1.5px solid #0F766E; color: #0F766E !important; background: #fff; }
 .sh .eld-call svg, .sh .eld-msg svg { width: 18px; height: 18px; }
 .sh .eld-muted { margin: 0; color: #8b93a7; font-size: 13px; }
 .sh .eld-mini { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
 .sh .eld-mini span { display: grid; grid-template-columns: auto 1fr; column-gap: 8px; align-items: center; padding: 10px; border-radius: 10px; background: #f6f9fb; }
-.sh .eld-mini svg { grid-row: span 2; width: 18px; height: 18px; color: #0b8f8a; }
+.sh .eld-mini svg { grid-row: span 2; width: 18px; height: 18px; color: #0F766E; }
 .sh .eld-mini small { color: #6a7c93; font-size: 11px; }
 .sh .eld-mini b { font-size: 12.5px; font-weight: 600; }
 .sh .eld-tip { display: flex; gap: 12px; background: #eaf7f5; border-color: #d3ecea; }
-.sh .eld-tip i { flex: none; width: 44px; height: 44px; border-radius: 12px; background: #0d9f9a; color: #fff; display: grid; place-items: center; }
+.sh .eld-tip i { flex: none; width: 44px; height: 44px; border-radius: 12px; background: #0F766E; color: #fff; display: grid; place-items: center; }
 .sh .eld-tip i svg { width: 22px; height: 22px; }
 .sh .eld-tip span { display: flex; flex-direction: column; gap: 3px; }
 .sh .eld-tip b { font-size: 14px; font-weight: 700; }
 .sh .eld-tip small { color: #4b5568; font-size: 12px; line-height: 1.5; }
 .sh .eld-similar { padding: 14px 16px; border-radius: 14px; background: #fff; border: 1px solid #e8eef4; }
 .sh .eld-similar h2 { margin: 0 0 10px; display: flex; align-items: center; justify-content: space-between; font-size: 17px; font-weight: 700; }
-.sh .eld-similar h2 a { display: inline-flex; align-items: center; gap: 3px; color: #0b8f8a; font-size: 12.5px; font-weight: 600; }
+.sh .eld-similar h2 a { display: inline-flex; align-items: center; gap: 3px; color: #0F766E; font-size: 12.5px; font-weight: 600; }
 .sh .eld-similar h2 svg { width: 14px; height: 14px; }
 .sh .eld-similar > div { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 12px; }
 .sh .eld-sim { position: relative; display: flex; gap: 10px; padding: 8px; border-radius: 11px; border: 1px solid #edf1f5; }
@@ -85,13 +85,13 @@
 .sh .eld-sim .txt { display: flex; flex-direction: column; gap: 2px; }
 .sh .eld-sim b { font-size: 12.5px; font-weight: 700; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 .sh .eld-sim small { color: #6a7c93; font-size: 11px; }
-.sh .eld-sim em { color: #0b8f8a; font-style: normal; font-size: 13.5px; font-weight: 800; white-space: nowrap; }
+.sh .eld-sim em { color: #0F766E; font-style: normal; font-size: 13.5px; font-weight: 800; white-space: nowrap; }
 .sh .eld-sim .row { display: flex; justify-content: space-between; gap: 6px; }
 .sh .eld-sim .row span { display: inline-flex; align-items: center; gap: 3px; }
 .sh .eld-sim .row svg { width: 11px; height: 11px; }
 .sh .eld-sim .saved { position: absolute; top: 8px; right: 8px; width: 15px; height: 15px; color: #e11d48; }
 .sh .eld-empty { padding: 60px 20px; border-radius: 14px; background: #fff; border: 1px solid #e8eef4; text-align: center; color: #5c6b82; display: flex; flex-direction: column; align-items: center; gap: 10px; }
-.sh .eld-empty a { color: #0b7f7d; font-weight: 600; }
+.sh .eld-empty a { color: #0F766E; font-weight: 600; }
 .sh .eld-toast { position: fixed; left: 50%; bottom: 28px; transform: translateX(-50%); z-index: 80; margin: 0; padding: 9px 16px; border-radius: 999px; background: #0b1220; color: #fff; font-size: 13px; }
 .sh .eld-zoom { position: fixed; inset: 0; z-index: 90; background: rgba(11, 18, 32, .88); display: grid; place-items: center; padding: 40px; }
 .sh .eld-zoom img { max-width: 100%; max-height: 100%; object-fit: contain; border-radius: 8px; }

@@ -41,13 +41,13 @@ export function JobsMinePage() {
     <div>
       <header className="mb-4">
         <p className="text-[13px] text-[#8b93a7]">
-          <Link href="/ishlar" className="text-[#0066FF] hover:underline">Ishlar</Link>
+          <Link href="/ishlar" className="text-[#0F766E] hover:underline">Ishlar</Link>
           <span className="mx-1">/</span>
           <span>Mening vakansiyalarim</span>
         </p>
         <div className="mt-2 flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
           <div>
-            <h1 className="text-[26px] font-bold tracking-tight text-[#0B1F4D] lg:text-[#1a1d26]">Mening vakansiyalarim</h1>
+            <h1 className="text-[26px] font-bold tracking-tight text-[#111827] lg:text-[#1a1d26]">Mening vakansiyalarim</h1>
             <p className="mt-1 text-sm text-[#8b93a7]">Vakansiyalaringiz va nomzodlardan kelgan arizalar. Nomzod telefoni arizada ko‘rinadi.</p>
           </div>
           <Button className="h-11 !rounded-xl px-4" onClick={() => setCreating(true)}>Vakansiya qo‘shish</Button>
@@ -81,10 +81,10 @@ export function JobsMinePage() {
                   const busy = busyId === job.id;
                   const closed = job.modStatus === "closed";
                   return (
-                    <li key={job.id} className="rounded-2xl border border-[#eceff5] bg-white p-4 shadow-[0_4px_16px_rgba(15,23,42,0.04)] lg:rounded-[14px] lg:shadow-none" data-testid="my-job-row">
+                    <li key={job.id} className="rounded-2xl border border-[#eceff5] bg-white p-4 shadow-[0_4px_16px_rgba(17, 24, 39, 0.04)] lg:rounded-[14px] lg:shadow-none" data-testid="my-job-row">
                       <div className="flex flex-wrap items-start justify-between gap-2">
                         <div className="min-w-0">
-                          <Link href={`/ishlar/${job.id}`} className="text-[15px] font-semibold text-[#1a1d26] hover:text-[#0066FF]">{job.title}</Link>
+                          <Link href={`/ishlar/${job.id}`} className="text-[15px] font-semibold text-[#1a1d26] hover:text-[#0F766E]">{job.title}</Link>
                           <p className="mt-0.5 text-[13px] text-[#4b5568]">{job.clinic}</p>
                           <p className="mt-0.5 flex items-center gap-1 text-[12px] text-[#8b93a7]"><MapPin className="size-3" />{job.city} · {jobTypeLabels[job.type]} · {formatSalaryRange(job.salaryMin, job.salaryMax)}</p>
                         </div>
@@ -147,7 +147,7 @@ export function IncomingRow({ item, busy, onSet }: { item: JobApplication; busy:
   const badge = appStatusCopy[item.status];
   const open = item.status === "yuborildi" || item.status === "korilmoqda";
   return (
-    <li className="rounded-2xl border border-[#eceff5] bg-white p-4 shadow-[0_4px_16px_rgba(15,23,42,0.04)] lg:rounded-[14px] lg:shadow-none" data-testid="incoming-app-row">
+    <li className="rounded-2xl border border-[#eceff5] bg-white p-4 shadow-[0_4px_16px_rgba(17, 24, 39, 0.04)] lg:rounded-[14px] lg:shadow-none" data-testid="incoming-app-row">
       <div className="flex flex-wrap items-start justify-between gap-2">
         <div>
           <p className="text-[14px] font-semibold text-[#1a1d26]">{item.name}</p>
@@ -157,7 +157,7 @@ export function IncomingRow({ item, busy, onSet }: { item: JobApplication; busy:
       </div>
       {item.note ? <p className="mt-2 text-[13px] leading-relaxed text-[#4b5568]">“{item.note}”</p> : null}
       {item.phone ? (
-        <a href={phoneHref(item.phone)} className="mt-2 inline-flex items-center gap-1.5 text-[13px] font-semibold text-[#0066FF]">
+        <a href={phoneHref(item.phone)} className="mt-2 inline-flex items-center gap-1.5 text-[13px] font-semibold text-[#0F766E]">
           <Phone className="size-3.5" />
           {item.phone}
         </a>

@@ -3,6 +3,7 @@
 
 import { useState } from "react";
 import Link from "next/link";
+import { usePathname, useRouter } from "next/navigation";
 import { AlertTriangle, BarChart3, CalendarDays, ChevronRight, Filter, MoreVertical, Package, Plus, Search, Trash2 } from "lucide-react";
 import { NewStockModal } from "@/components/crm/NewStockModal";
 import { stockCategories, stockSuppliers, type StockItem } from "@/data/crm";
@@ -29,11 +30,13 @@ function expiryText(expiry: string) {
 
 /** Phone /crm/ombor (mocks "ombor telefon" + "omborga mahsulot qo‘shish telefon"). Same storage as the desktop page. */
 export function OmborMobile() {
+  const pathname = usePathname();
+  const router = useRouter();
   const [items, setItems] = useStoredList<StockItem>("sk-crm-stock-v2", []);
   const [q, setQ] = useState("");
   const [cat, setCat] = useState("");
   const [lowOnly, setLowOnly] = useState(false);
-  const [adding, setAdding] = useState(false);
+  const [adding, setAdding] = useState(pathname === "/crm/ombor/qoshish");
   const [restock, setRestock] = useState<StockItem | null>(null);
   const [amount, setAmount] = useState("10");
   const [menu, setMenu] = useState("");
@@ -149,10 +152,11 @@ export function OmborMobile() {
       {adding ? (
         <NewStockModal
           suppliers={suppliers}
-          onClose={() => setAdding(false)}
+          onClose={() => { setAdding(false); if (pathname === "/crm/ombor/qoshish") router.replace("/crm/ombor"); }}
           onSave={(item) => {
             setItems((prev) => [item, ...prev]);
             setAdding(false);
+            if (pathname === "/crm/ombor/qoshish") router.replace("/crm/ombor");
           }}
         />
       ) : null}

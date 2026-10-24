@@ -3,7 +3,7 @@
   margin: -1rem -1rem 0;
   padding: 8px 10px 16px;
   background: #f5f9fd;
-  color: #0b1a3a;
+  color: #111827;
   display: flex;
   flex-direction: column;
   gap: 8px;
@@ -24,7 +24,7 @@
 .cp-menu-wrap { position: relative; flex: none; }
 .cp-more { width: 18px; height: 22px; display: grid; place-items: center; color: #4b5568; }
 .cp-more svg { width: 14px; height: 14px; }
-.cp-menu { position: absolute; top: 24px; right: 0; z-index: 5; padding: 4px; background: #fff; border: 1px solid #e6eef4; border-radius: 10px; box-shadow: 0 8px 20px rgba(15,23,42,.12); }
+.cp-menu { position: absolute; top: 24px; right: 0; z-index: 5; padding: 4px; background: #fff; border: 1px solid #e6eef4; border-radius: 10px; box-shadow: 0 8px 20px rgba(17, 24, 39, .12); }
 .cp-menu button { display: flex; align-items: center; gap: 6px; padding: 8px 10px; border-radius: 7px; color: #e11d48; font-size: 12px; font-weight: 600; white-space: nowrap; }
 .cp-menu svg { width: 13px; height: 13px; }
 .cp-text { margin: 0; font-size: 11px; line-height: 1.5; color: #1b2433; white-space: pre-line; }
@@ -37,11 +37,11 @@
 .cp-img { width: 100%; height: 100%; object-fit: cover; }
 .cp-more-imgs { position: absolute; inset: 0; display: grid; place-items: center; background: rgba(11,18,32,.45); color: #fff; font-size: 16px; font-weight: 800; }
 .cp-tags { display: flex; flex-wrap: wrap; gap: 6px; }
-.cp-tags span { height: 20px; padding: 0 9px; border-radius: 999px; background: #e6f7f6; color: #0b5f5e; font-size: 9px; font-weight: 500; display: inline-flex; align-items: center; }
+.cp-tags span { height: 20px; padding: 0 9px; border-radius: 999px; background: #e6f7f6; color: #115E59; font-size: 9px; font-weight: 500; display: inline-flex; align-items: center; }
 .cp-actions { display: flex; align-items: center; gap: 14px; }
 .cp-actions button { display: inline-flex; align-items: center; gap: 5px; color: #3b4658; font-size: 9.5px; font-weight: 500; }
-.cp-actions svg { width: 17px; height: 17px; color: #0b6f6d; }
-.cp-actions button.on svg { fill: #0b7f7d; color: #0b7f7d; }
+.cp-actions svg { width: 17px; height: 17px; color: #115E59; }
+.cp-actions button.on svg { fill: #0F766E; color: #0F766E; }
 .cp-actions .cp-save { margin-left: auto; }
 .cp-c-head { display: flex; align-items: center; justify-content: space-between; }
 .cp-c-head h2 { margin: 0; font-size: 13px; font-weight: 800; }
@@ -49,11 +49,11 @@
 .cp-sort svg { width: 12px; height: 12px; }
 .cp-compose { display: flex; align-items: center; gap: 6px; }
 .cp-compose input { flex: 1; height: 34px; padding: 0 12px; border-radius: 10px; border: 1px solid #d9efee; background: #f2fbfa; font-size: 11px; outline: none; }
-.cp-compose input:focus { border-color: #0d8f8c; }
-.cp-send { flex: none; width: 34px; height: 34px; border-radius: 50%; background: #dcf5f3; color: #0b6f6d; display: grid; place-items: center; }
+.cp-compose input:focus { border-color: #0F766E; }
+.cp-send { flex: none; width: 34px; height: 34px; border-radius: 50%; background: #F0FDFA; color: #115E59; display: grid; place-items: center; }
 .cp-send svg { width: 15px; height: 15px; }
 .cp-send:disabled { opacity: .5; }
-.cp-login { height: 34px; border-radius: 10px; background: #e6f7f6; color: #0b5f5e; font-size: 12px; font-weight: 600; }
+.cp-login { height: 34px; border-radius: 10px; background: #e6f7f6; color: #115E59; font-size: 12px; font-weight: 600; }
 .cp-empty { margin: 0; color: #7b8aa5; font-size: 11px; text-align: center; padding: 8px 0; }
 .cp-list { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 10px; }
 .cp-list li { display: flex; gap: 10px; }

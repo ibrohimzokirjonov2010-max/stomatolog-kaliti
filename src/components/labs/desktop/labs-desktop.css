@@ -1,5 +1,5 @@
 /* Laboratoriyalar (desktop) — designs/add-forms-1020/ustlar labnarotiyasi diyini.png */
-.sh .lbx { --lb: #0b8f8a; --lb-dark: #0a6f6b; --lb-soft: #e6f6f4; --lb-line: #e3eaf1; --lb-ink: #0f1d33; --lb-mute: #6b7a90; color: var(--lb-ink); max-width: 1260px; }
+.sh .lbx { --lb: #0F766E; --lb-dark: #0F766E; --lb-soft: #e6f6f4; --lb-line: #e3eaf1; --lb-ink: #111827; --lb-mute: #6b7a90; color: var(--lb-ink); max-width: 1260px; }
 .sh .lbx a { color: inherit; text-decoration: none; }
 .sh .lbx button { font-family: inherit; cursor: pointer; }
 .sh .lbx-head { display: flex; justify-content: space-between; align-items: flex-start; gap: 16px; margin-bottom: 14px; }
@@ -27,13 +27,13 @@
 .sh .lbx-status i { width: 10px; height: 10px; border-radius: 50%; background: #c5d0dc; }
 .sh .lbx-status .done i { background: var(--lb); }
 .sh .lbx-status .now { color: var(--lb-dark); font-weight: 700; }
-.sh .lbx-status .now i { background: var(--lb-dark); box-shadow: 0 0 0 3px rgba(11, 143, 138, .2); }
+.sh .lbx-status .now i { background: var(--lb-dark); box-shadow: 0 0 0 3px rgba(15, 118, 110, .2); }
 
 .sh .lbx-list { display: flex; flex-direction: column; gap: 12px; }
 .sh .lbx-row { display: grid; grid-template-columns: 150px minmax(150px, .9fr) minmax(0, 1.6fr) 220px; gap: 16px; align-items: center; padding: 12px; background: #fff; border: 1px solid var(--lb-line); border-radius: 12px; }
 .sh .lbx-ph { position: relative; display: block; height: 112px; border-radius: 9px; overflow: visible; }
 .sh .lbx-ph > img, .sh .lbx-ph .ph-blank { width: 100%; height: 100%; border-radius: 9px; object-fit: cover; display: grid; place-items: center; background: #eef3f6; color: var(--lb); }
-.sh .lbx-ph .logo { position: absolute; right: -10px; top: 10px; width: 40px; height: 40px; border-radius: 50%; display: grid; place-items: center; overflow: hidden; background: #0f1d33; color: #fff; font-size: 13px; font-weight: 800; border: 2px solid #fff; box-shadow: 0 2px 6px rgba(15, 29, 51, .2); }
+.sh .lbx-ph .logo { position: absolute; right: -10px; top: 10px; width: 40px; height: 40px; border-radius: 50%; display: grid; place-items: center; overflow: hidden; background: #111827; color: #fff; font-size: 13px; font-weight: 800; border: 2px solid #fff; box-shadow: 0 2px 6px rgba(17, 24, 39, .2); }
 .sh .lbx-ph .logo img { width: 100%; height: 100%; object-fit: cover; }
 .sh .lbx-info { min-width: 0; }
 .sh .lbx-info h3 { display: flex; align-items: center; gap: 6px; margin: 0 0 6px; font-size: 15.5px; font-weight: 800; }
@@ -58,7 +58,7 @@
 .sh .lbx-side li { display: flex; align-items: flex-start; gap: 6px; font-size: 12px; color: #34445a; line-height: 1.35; }
 .sh .lbx-side li svg { color: var(--lb); flex: none; margin-top: 1px; }
 .sh .lbx .lbx-order { margin-top: 4px; height: 38px; display: inline-flex; align-items: center; justify-content: center; gap: 8px; border: 0; border-radius: 9px; background: var(--lb-dark); color: #fff; font-size: 13px; font-weight: 700; }
-.sh .lbx .lbx-order:hover { background: #085e5b; }
+.sh .lbx .lbx-order:hover { background: #115E59; }
 .sh .lbx-empty { display: flex; flex-direction: column; align-items: center; gap: 10px; padding: 48px 16px; border: 1px dashed #cfdbe6; border-radius: 12px; background: #fff; color: var(--lb-mute); }
 .sh .lbx-empty b { color: var(--lb-ink); font-size: 15px; }
 .sh .lbx .lbx-empty button, .sh .lbx .lbx-empty a { height: 36px; display: inline-flex; align-items: center; padding: 0 16px; border: 0; border-radius: 9px; background: var(--lb-dark); color: #fff; font-weight: 700; font-size: 13px; }

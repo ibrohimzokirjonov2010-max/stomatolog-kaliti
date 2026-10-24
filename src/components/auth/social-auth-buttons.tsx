@@ -39,7 +39,7 @@ function GoogleMark() {
   return (
     <svg className="size-5 shrink-0" viewBox="0 0 24 24" aria-hidden>
       <path
-        fill="#4285F4"
+        fill="#0F766E"
         d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"
       />
       <path
@@ -61,7 +61,7 @@ function GoogleMark() {
 function TelegramMark() {
   return (
     <svg className="size-5 shrink-0" viewBox="0 0 24 24" aria-hidden>
-      <circle cx="12" cy="12" r="12" fill="#229ED9" />
+      <circle cx="12" cy="12" r="12" fill="#0F766E" />
       <path
         fill="#fff"
         d="M17.6 7.2 6.9 11.3c-.7.3-.7.7-.1.9l2.7.8 1 .3.4-1.1c.1-.3.5-.2.5 0l1.1 2.8c.1.4.4.5.7.3l7.2-4.4c.5-.3.3-.9-.6-1.7z"
@@ -315,7 +315,7 @@ export function SocialAuthButtons({
           >
             <div className="mb-5 flex items-start justify-between gap-3">
               <div>
-                <h2 className="font-[family-name:var(--font-outfit)] text-xl font-bold text-[#0f172a]">
+                <h2 className="font-[family-name:var(--font-outfit)] text-xl font-bold text-[#111827]">
                   {modal === "google" ? "Google bilan kirish" : "Telegram bilan kirish"}
                 </h2>
                 <p className="mt-1 text-[14px] text-[#64748b]">

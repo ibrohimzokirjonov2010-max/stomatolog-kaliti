@@ -52,15 +52,15 @@ export type LiveNews = {
 };
 
 const SWATCH: Record<string, string> = {
-  teal: "#1aa6a0",
-  navy: "#1d3d6e",
+  teal: "#0F766E",
+  navy: "#111827",
   white: "#f7f8fa",
   oq: "#f4f6f8",
   black: "#1c2430",
   qora: "#1c2430",
   purple: "#6d4ea3",
   green: "#2f8f4e",
-  yalpiz: "#7ddec8",
+  yalpiz: "#CCFBF1",
   pushti: "#e7b7c8",
 };
 

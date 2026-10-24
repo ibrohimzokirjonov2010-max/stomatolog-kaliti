@@ -128,7 +128,7 @@ function Bubble({
       <span
         className={cn(
           "flex size-[30px] shrink-0 items-center justify-center rounded-[9px] text-white",
-          tone === "blue" ? "bg-[#0b7f7d]" : "bg-[#14a38b]",
+          tone === "blue" ? "bg-[#0F766E]" : "bg-[#0F766E]",
         )}
       >
         {icon}
@@ -141,7 +141,7 @@ function Bubble({
     </>
   );
   const cls = cn(
-    "absolute z-[3] flex max-w-[210px] items-center gap-2 rounded-[12px] bg-white py-1.5 pr-2 pl-1.5 shadow-[0_6px_18px_rgba(15,23,42,0.16)]",
+    "absolute z-[3] flex max-w-[210px] items-center gap-2 rounded-[12px] bg-white py-1.5 pr-2 pl-1.5 shadow-[0_6px_18px_rgba(17, 24, 39, 0.16)]",
     className,
   );
   return href ? (
@@ -158,7 +158,7 @@ function Bubble({
 function DestPin({ x, y }: { x: number; y: number }) {
   return (
     <span className="absolute z-[2] -translate-x-1/2 -translate-y-1/2" style={{ left: x, top: y }}>
-      <span className="flex size-[34px] items-center justify-center rounded-full bg-[#0b7f7d] text-white ring-[4px] ring-white shadow-[0_4px_12px_rgba(31,107,255,0.4)]">
+      <span className="flex size-[34px] items-center justify-center rounded-full bg-[#0F766E] text-white ring-[4px] ring-white shadow-[0_4px_12px_rgba(15, 118, 110, 0.4)]">
         <House className="size-4" strokeWidth={2.4} />
       </span>
     </span>
@@ -168,7 +168,7 @@ function DestPin({ x, y }: { x: number; y: number }) {
 function SellerPin({ x, y }: { x: number; y: number }) {
   return (
     <span className="absolute z-[2] -translate-x-1/2 -translate-y-1/2" style={{ left: x, top: y }}>
-      <span className="flex size-[34px] items-center justify-center rounded-full bg-[#14a38b] text-white ring-[4px] ring-white shadow-[0_4px_12px_rgba(20,163,139,0.4)]">
+      <span className="flex size-[34px] items-center justify-center rounded-full bg-[#0F766E] text-white ring-[4px] ring-white shadow-[0_4px_12px_rgba(15, 118, 110, 0.4)]">
         <Store className="size-4" strokeWidth={2.4} />
       </span>
     </span>
@@ -178,8 +178,8 @@ function SellerPin({ x, y }: { x: number; y: number }) {
 function CourierPin({ x, y, live }: { x: number; y: number; live: boolean }) {
   return (
     <span className="absolute z-[2] -translate-x-1/2 -translate-y-1/2" style={{ left: x, top: y }}>
-      {live ? <span className="absolute inset-[-8px] rounded-full bg-[#14a38b]/20" /> : null}
-      <span className="relative flex size-[40px] items-center justify-center rounded-full bg-[#14b8a6] text-[#0B1220] ring-[4px] ring-white shadow-[0_6px_16px_rgba(15,23,42,0.25)]">
+      {live ? <span className="absolute inset-[-8px] rounded-full bg-[#0F766E]/20" /> : null}
+      <span className="relative flex size-[40px] items-center justify-center rounded-full bg-[#0F766E] text-[#0B1220] ring-[4px] ring-white shadow-[0_6px_16px_rgba(17, 24, 39, 0.25)]">
         <Scooter className="size-[21px]" strokeWidth={2.2} />
       </span>
     </span>
@@ -264,7 +264,7 @@ function TrackMap({
           {d && c ? (
             <>
               <path d={curvePath(c, d)} fill="none" stroke="#ffffff" strokeWidth={9} strokeLinecap="round" />
-              <path d={curvePath(c, d)} fill="none" stroke="#0b7f7d" strokeWidth={5} strokeLinecap="round" />
+              <path d={curvePath(c, d)} fill="none" stroke="#0F766E" strokeWidth={5} strokeLinecap="round" />
             </>
           ) : null}
         </svg>
@@ -306,7 +306,7 @@ function TrackMap({
         <ellipse cx={W * 0.12} cy={H * 0.3} rx={60} ry={34} fill="#d6ead2" />
         <ellipse cx={W * 0.55} cy={H * 0.22} rx={46} ry={26} fill="#d6ead2" />
         <ellipse cx={W * 0.9} cy={H * 0.7} rx={70} ry={40} fill="#d6ead2" />
-        <path d={`M${-10} ${H * 0.45} C${W * 0.3} ${H * 0.35}, ${W * 0.55} ${H * 0.95}, ${W + 10} ${H * 0.85}`} stroke="#cfe1f2" strokeWidth={10} fill="none" />
+        <path d={`M${-10} ${H * 0.45} C${W * 0.3} ${H * 0.35}, ${W * 0.55} ${H * 0.95}, ${W + 10} ${H * 0.85}`} stroke="#F0FDFA" strokeWidth={10} fill="none" />
         {[0.2, 0.42, 0.66, 0.86].map((k) => (
           <path key={`v${k}`} d={`M${W * k} 0 L${W * (k + 0.05)} ${H}`} stroke="#ffffff" strokeWidth={7} />
         ))}
@@ -315,7 +315,7 @@ function TrackMap({
         ))}
         <path d={`M0 ${H * 0.62} C${W * 0.3} ${H * 0.58}, ${W * 0.6} ${H * 0.4}, ${W} ${H * 0.28}`} stroke="#fde9b0" strokeWidth={6} fill="none" />
         <path d={routeD} fill="none" stroke="#ffffff" strokeWidth={9} strokeLinecap="round" />
-        <path d={routeD} fill="none" stroke="#0b7f7d" strokeWidth={5} strokeLinecap="round" />
+        <path d={routeD} fill="none" stroke="#0F766E" strokeWidth={5} strokeLinecap="round" />
       </svg>
       <SellerPin x={s.x} y={s.y} />
       <DestPin x={t.x} y={t.y} />
@@ -456,25 +456,25 @@ export function OrderTrackMobile({
   const more = items.length - thumbs.length;
 
   return (
-    <div className="-mx-4 -mt-4 space-y-2.5 bg-[#f5f9fd] px-3 pt-3 pb-5 text-[#0b1a3a] lg:hidden" data-testid="order-track-mobile">
+    <div className="-mx-4 -mt-4 space-y-2.5 bg-[#f5f9fd] px-3 pt-3 pb-5 text-[#111827] lg:hidden" data-testid="order-track-mobile">
       <div className="px-1">
         <h1 className="text-[22px] leading-tight font-extrabold tracking-tight">Buyurtmani kuzatish</h1>
         <p className="mt-0.5 text-[11px] text-[#7b8aa5]">Buyurtma holatini real vaqtda kuzating.</p>
       </div>
 
       <section className="flex items-center gap-3 rounded-[12px] border border-[#e9f0f5] bg-white p-3" data-testid="track-status">
-        <span className="flex size-[56px] shrink-0 items-center justify-center rounded-full bg-[#dcf5f3]">
-          <span className="flex size-[40px] items-center justify-center rounded-full bg-[#0b7f7d] text-white">
+        <span className="flex size-[56px] shrink-0 items-center justify-center rounded-full bg-[#F0FDFA]">
+          <span className="flex size-[40px] items-center justify-center rounded-full bg-[#0F766E] text-white">
             {order.status === "yolda" ? <Scooter className="size-5" /> : <Check className="size-5" strokeWidth={3} />}
           </span>
         </span>
         <div className="min-w-0 flex-1">
           <p className="truncate text-[13px] font-bold">Buyurtma #{order.id}</p>
-          <p className="text-[15px] leading-tight font-bold text-[#0b7f7d]">{statusTitle}</p>
+          <p className="text-[15px] leading-tight font-bold text-[#0F766E]">{statusTitle}</p>
           <p className="mt-0.5 text-[10px] leading-snug text-[#6a7c93]">{statusText}</p>
         </div>
         <span className="flex shrink-0 flex-col items-center rounded-[10px] bg-[#e6f7f6] px-2.5 py-2 text-center">
-          <CalendarDays className="size-4 text-[#0b7f7d]" />
+          <CalendarDays className="size-4 text-[#0F766E]" />
           <span className="mt-1 text-[8.5px] text-[#6a7c93]">Buyurtma sanasi</span>
           <span className="text-[10.5px] font-semibold">{dayLabel(order.createdAt, true)}</span>
           <span className="text-[9.5px] text-[#6a7c93]">{hm(order.createdAt)}</span>
@@ -488,15 +488,15 @@ export function OrderTrackMobile({
           return (
             <li key={step.title} className="relative flex gap-3 pb-3 last:pb-0">
               {i < timeline.length - 1 ? (
-                <span className={cn("absolute top-[26px] left-[13px] h-[calc(100%-22px)] w-[2px]", i < active ? "bg-[#0b7f7d]" : "bg-[#e3e8f0]")} aria-hidden />
+                <span className={cn("absolute top-[26px] left-[13px] h-[calc(100%-22px)] w-[2px]", i < active ? "bg-[#0F766E]" : "bg-[#e3e8f0]")} aria-hidden />
               ) : null}
               <span className="relative z-[1] flex w-[28px] shrink-0 justify-center">
                 {on ? (
-                  <span className="flex size-[28px] items-center justify-center rounded-full bg-[#0b7f7d] text-white ring-4 ring-[#dcf5f3]">
+                  <span className="flex size-[28px] items-center justify-center rounded-full bg-[#0F766E] text-white ring-4 ring-[#F0FDFA]">
                     {i === 2 ? <Scooter className="size-[14px]" /> : <Clock className="size-[14px]" />}
                   </span>
                 ) : done ? (
-                  <span className="flex size-[26px] items-center justify-center rounded-full bg-[#0b7f7d] text-white">
+                  <span className="flex size-[26px] items-center justify-center rounded-full bg-[#0F766E] text-white">
                     <Check className="size-[14px]" strokeWidth={3} />
                   </span>
                 ) : (
@@ -504,8 +504,8 @@ export function OrderTrackMobile({
                 )}
               </span>
               <span className="w-[42%] shrink-0">
-                <span className={cn("block text-[12px] font-semibold", on ? "text-[#0b7f7d]" : done ? "text-[#0b1a3a]" : "text-[#6a7c93]")}>{step.title}</span>
-                <span className={cn("block text-[10px]", on ? "text-[#0b7f7d]" : "text-[#8b93a7]")}>
+                <span className={cn("block text-[12px] font-semibold", on ? "text-[#0F766E]" : done ? "text-[#111827]" : "text-[#6a7c93]")}>{step.title}</span>
+                <span className={cn("block text-[10px]", on ? "text-[#0F766E]" : "text-[#8b93a7]")}>
                   {step.at ? `${dayLabel(step.at)}, ${hm(step.at)}` : "Kutilmoqda"}
                 </span>
               </span>
@@ -521,12 +521,12 @@ export function OrderTrackMobile({
             <TrackMap order={order} width={width} dest={dest} courier={courier} destLabel={addrShort} />
           </div>
           <div className="flex items-center gap-2.5 border-t border-[#eef1f5] px-3 py-2.5">
-            <span className="flex size-[36px] items-center justify-center rounded-full bg-[#e6f7f6] text-[#0b7f7d]">
+            <span className="flex size-[36px] items-center justify-center rounded-full bg-[#e6f7f6] text-[#0F766E]">
               <Scooter className="size-[18px]" />
             </span>
             <span className="min-w-0 flex-1">
-              <span className="block text-[10px] text-[#0b7f7d]">{etaLabel}</span>
-              <span className="block truncate text-[15px] leading-tight font-extrabold text-[#0b5f5e]">{etaBig}</span>
+              <span className="block text-[10px] text-[#0F766E]">{etaLabel}</span>
+              <span className="block truncate text-[15px] leading-tight font-extrabold text-[#115E59]">{etaBig}</span>
             </span>
             {chip.tone === "green" ? <span className="shrink-0 rounded-[8px] bg-[#e3f8ec] px-2 py-1 text-[11px] font-semibold text-[#166534]">{chip.text}</span> : null}
           </div>
@@ -535,7 +535,7 @@ export function OrderTrackMobile({
 
       {pickup ? (
         <section className="flex items-center gap-3 rounded-[12px] border border-[#e9f0f5] bg-white p-3">
-          <span className="flex size-[48px] shrink-0 items-center justify-center rounded-full bg-[#e6f7f6] text-[#0b7f7d]">
+          <span className="flex size-[48px] shrink-0 items-center justify-center rounded-full bg-[#e6f7f6] text-[#0F766E]">
             <Store className="size-6" />
           </span>
           <div className="min-w-0">
@@ -548,7 +548,7 @@ export function OrderTrackMobile({
           <span
             className={cn(
               "flex size-[52px] shrink-0 items-center justify-center rounded-full text-[16px] font-bold",
-              name ? "bg-[#0b7f7d] text-white" : "bg-[#eef3f7] text-[#9aa3b5]",
+              name ? "bg-[#0F766E] text-white" : "bg-[#eef3f7] text-[#9aa3b5]",
             )}
           >
             {name ? initials(name) : <Scooter className="size-6" />}
@@ -558,12 +558,12 @@ export function OrderTrackMobile({
             <p className="truncate text-[10.5px] text-[#6a7c93]">{order.carInfo || (name ? "Kuryer" : "Sotuvchi kuryer chaqirgach ko‘rinadi")}</p>
           </div>
           {phone ? (
-            <a href={`tel:${phone.replace(/[^\d+]/g, "")}`} className="flex h-[34px] shrink-0 items-center gap-1.5 rounded-[8px] border border-[#0d8f8c] px-2.5 text-[11px] font-semibold text-[#0b5f5e]">
+            <a href={`tel:${phone.replace(/[^\d+]/g, "")}`} className="flex h-[34px] shrink-0 items-center gap-1.5 rounded-[8px] border border-[#0F766E] px-2.5 text-[11px] font-semibold text-[#115E59]">
               <Phone className="size-[15px]" /> Qo‘ng‘iroq
             </a>
           ) : null}
           {trackHref ? (
-            <a href={trackHref} target="_blank" rel="noopener noreferrer" className="flex h-[34px] shrink-0 items-center gap-1.5 rounded-[8px] border border-[#0d8f8c] px-2.5 text-[11px] font-semibold text-[#0b5f5e]">
+            <a href={trackHref} target="_blank" rel="noopener noreferrer" className="flex h-[34px] shrink-0 items-center gap-1.5 rounded-[8px] border border-[#0F766E] px-2.5 text-[11px] font-semibold text-[#115E59]">
               <MapPinned className="size-[15px]" /> Kuzatish
             </a>
           ) : null}
@@ -573,10 +573,10 @@ export function OrderTrackMobile({
       <section className="rounded-[12px] border border-[#e9f0f5] bg-white p-3" data-testid="track-products">
         <div className="flex items-center justify-between">
           <p className="flex items-center gap-2 text-[13px] font-bold">
-            <span className="flex size-[28px] items-center justify-center rounded-full bg-[#e6f7f6] text-[#0b7f7d]"><ShoppingBag className="size-[15px]" /></span>
+            <span className="flex size-[28px] items-center justify-center rounded-full bg-[#e6f7f6] text-[#0F766E]"><ShoppingBag className="size-[15px]" /></span>
             Mahsulotlar ({items.length} ta)
           </p>
-          <button type="button" onClick={() => setShowAll((v) => !v)} className="flex items-center gap-0.5 text-[11px] font-semibold text-[#0b7f7d]">
+          <button type="button" onClick={() => setShowAll((v) => !v)} className="flex items-center gap-0.5 text-[11px] font-semibold text-[#0F766E]">
             {showAll ? "Yig‘ish" : "Batafsil"}
             <ChevronRight className={cn("size-3.5 transition-transform", showAll && "rotate-90")} />
           </button>
@@ -593,7 +593,7 @@ export function OrderTrackMobile({
                     {it.qty} dona
                   </p>
                 </div>
-                <span className="shrink-0 text-[12px] font-bold text-[#0b7f7d]">{formatMoney(it.price * it.qty, "UZS")}</span>
+                <span className="shrink-0 text-[12px] font-bold text-[#0F766E]">{formatMoney(it.price * it.qty, "UZS")}</span>
               </li>
             ))}
           </ul>
@@ -614,7 +614,7 @@ export function OrderTrackMobile({
           const destHref = destinationLink(order);
           const row = (
             <>
-              <MapPin className="size-[16px] shrink-0 text-[#0b7f7d]" />
+              <MapPin className="size-[16px] shrink-0 text-[#0F766E]" />
               <span className="shrink-0 text-[12px]">{pickup ? "Olib ketish" : "Manzil"}</span>
               <span className="min-w-0 flex-1 truncate text-right text-[11.5px] font-medium">{address}</span>
             </>
@@ -626,15 +626,15 @@ export function OrderTrackMobile({
           );
         })()}
         <div className="flex h-[44px] items-center gap-2.5 border-b border-[#eef1f5]">
-          <Package className="size-[16px] shrink-0 text-[#0b7f7d]" />
+          <Package className="size-[16px] shrink-0 text-[#0F766E]" />
           <span className="shrink-0 text-[12px]">Buyurtma raqami</span>
           <span className="min-w-0 flex-1 truncate text-right text-[11.5px] font-semibold">{order.id}</span>
           <button type="button" onClick={copyId} aria-label="Nusxa olish" className="flex size-[26px] shrink-0 items-center justify-center rounded-[7px] bg-[#f1f4f8] text-[#4b5568]">
-            {copied ? <Check className="size-4 text-[#0b7f7d]" /> : <Copy className="size-[14px]" />}
+            {copied ? <Check className="size-4 text-[#0F766E]" /> : <Copy className="size-[14px]" />}
           </button>
         </div>
         <button type="button" onClick={() => setOpenDetails((v) => !v)} className="flex h-[44px] w-full items-center gap-2.5 text-left" data-testid="track-total">
-          <CreditCard className="size-[16px] shrink-0 text-[#0b7f7d]" />
+          <CreditCard className="size-[16px] shrink-0 text-[#0F766E]" />
           <span className="shrink-0 text-[12px]">To‘lov va tasdiqlash</span>
           <span className="min-w-0 flex-1 truncate text-right text-[11.5px] font-medium">{payLabel}</span>
           <ChevronRight className={cn("size-4 shrink-0 text-[#8b93a7] transition-transform", openDetails && "rotate-90")} />
@@ -644,10 +644,10 @@ export function OrderTrackMobile({
       {openDetails ? <div className="space-y-3" data-testid="track-details">{details}</div> : null}
 
       <div className="grid grid-cols-2 gap-2">
-        <a href={site.telegram} target="_blank" rel="noopener noreferrer" className="flex h-[40px] items-center justify-center gap-2 rounded-[9px] border border-[#0d8f8c] bg-white text-[12px] font-semibold text-[#0b5f5e]">
+        <a href={site.telegram} target="_blank" rel="noopener noreferrer" className="flex h-[40px] items-center justify-center gap-2 rounded-[9px] border border-[#0F766E] bg-white text-[12px] font-semibold text-[#115E59]">
           <Headset className="size-[16px]" /> Yordam
         </a>
-        <Link href="/buyurtmalarim" className="flex h-[40px] items-center justify-center gap-2 rounded-[9px] bg-[#0b7f7d] text-[12px] font-semibold text-white">
+        <Link href="/buyurtmalarim" className="flex h-[40px] items-center justify-center gap-2 rounded-[9px] bg-[#0F766E] text-[12px] font-semibold text-white">
           <FileText className="size-[16px]" /> Buyurtmalarim
         </Link>
       </div>

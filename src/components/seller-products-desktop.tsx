@@ -49,7 +49,7 @@ const STATUS_META: Record<Status, { label: string; pill: string; dot: string }> 
 };
 
 const CAT_PILL: Record<string, string> = {
-  materiallar: "bg-[#e8f1ff] text-[#0066FF]",
+  materiallar: "bg-[#F0FDFA] text-[#0F766E]",
   implantlar: "bg-[#f3ecff] text-[#7c3aed]",
   asboblar: "bg-[#fff2e6] text-[#ea580c]",
   jihozlar: "bg-[#ecfdf3] text-[#15803d]",
@@ -81,7 +81,7 @@ function Select({ label, value, onChange, children, className }: { label: string
       <select
         value={value}
         onChange={(e) => onChange(e.target.value)}
-        className="h-10 w-full appearance-none rounded-xl border border-[#e3e8f1] bg-white pr-8 pl-3.5 text-[13px] font-medium text-[#1a1d26] outline-none focus:border-[#0066FF] focus:ring-3 focus:ring-[#0066FF]/15"
+        className="h-10 w-full appearance-none rounded-xl border border-[#e3e8f1] bg-white pr-8 pl-3.5 text-[13px] font-medium text-[#1a1d26] outline-none focus:border-[#0F766E] focus:ring-3 focus:ring-[#0F766E]/15"
       >
         {children}
       </select>
@@ -115,8 +115,8 @@ function StatusCard({
       type="button"
       onClick={onClick}
       className={cn(
-        "rounded-2xl border bg-white p-4 text-left shadow-[0_1px_3px_rgba(15,23,42,0.04)] transition hover:border-[#c9d8f5]",
-        active ? "border-[#0066FF] ring-2 ring-[#0066FF]/10" : "border-[#eceff5]",
+        "rounded-2xl border bg-white p-4 text-left shadow-[0_1px_3px_rgba(17, 24, 39, 0.04)] transition hover:border-[#CCFBF1]",
+        active ? "border-[#0F766E] ring-2 ring-[#0F766E]/10" : "border-[#eceff5]",
       )}
     >
       <div className="flex items-center gap-3">
@@ -125,7 +125,7 @@ function StatusCard({
         </span>
         <div className="min-w-0">
           <p className="truncate text-[12.5px] text-[#6b7280]">{label}</p>
-          <p className="text-[22px] leading-tight font-extrabold text-[#0B1F4D]">{count}</p>
+          <p className="text-[22px] leading-tight font-extrabold text-[#111827]">{count}</p>
         </div>
       </div>
       <div className="mt-3">
@@ -293,7 +293,7 @@ export function SellerProductsDesktop({
     <div className="space-y-4">
       <header className="flex items-start justify-between gap-4">
         <div>
-          <h1 className="text-[26px] leading-tight font-extrabold tracking-tight text-[#0B1F4D]">Mahsulotlar</h1>
+          <h1 className="text-[26px] leading-tight font-extrabold tracking-tight text-[#111827]">Mahsulotlar</h1>
           <p className="mt-1 text-[13.5px] text-[#6b7280]">Do‘koningiz mahsulotlarini boshqaring, narx va zaxirani yangilang.</p>
         </div>
         <div className="flex items-center gap-2.5">
@@ -305,7 +305,7 @@ export function SellerProductsDesktop({
             Katalogdan import
             <span className="rounded-full bg-[#f1f4f9] px-1.5 text-[10px] leading-[16px] font-semibold text-[#8b93a7]">Tez orada</span>
           </span>
-          <button type="button" onClick={onAdd} className="inline-flex h-10 items-center gap-1.5 rounded-xl bg-[#0066FF] px-4 text-[13.5px] font-bold text-white shadow-[0_6px_14px_rgba(0,102,255,0.25)] hover:bg-[#0058dd]">
+          <button type="button" onClick={onAdd} className="inline-flex h-10 items-center gap-1.5 rounded-xl bg-[#0F766E] px-4 text-[13.5px] font-bold text-white shadow-[0_6px_14px_rgba(15, 118, 110, 0.25)] hover:bg-[#115E59]">
             <Plus className="size-4" />
             Mahsulot qo‘shish
           </button>
@@ -313,14 +313,14 @@ export function SellerProductsDesktop({
       </header>
 
       <div className="grid grid-cols-5 gap-3">
-        <StatusCard icon={Package} tone="bg-[#e8f1ff] text-[#0066FF]" label="Jami mahsulotlar" count={total} total={total} active={tab === "all"} onClick={() => { setTab("all"); setPage(1); }} />
+        <StatusCard icon={Package} tone="bg-[#F0FDFA] text-[#0F766E]" label="Jami mahsulotlar" count={total} total={total} active={tab === "all"} onClick={() => { setTab("all"); setPage(1); }} />
         <StatusCard icon={ShieldCheck} tone="bg-[#ecfdf3] text-[#16a34a]" label="Faol" count={counts.active} total={total} active={tab === "active"} onClick={() => { setTab("active"); setPage(1); }} />
         <StatusCard icon={Hammer} tone="bg-[#fff7ed] text-[#f97316]" label="Moderatsiyada" count={0} total={total} soon onClick={() => { setTab("moderation"); setPage(1); }} active={tab === "moderation"} />
         <StatusCard icon={XCircle} tone="bg-[#fef2f2] text-[#ef4444]" label="Rad etilgan" count={0} total={total} soon onClick={() => { setTab("rejected"); setPage(1); }} active={tab === "rejected"} />
         <StatusCard icon={PackageX} tone="bg-[#f1f4f9] text-[#6b7280]" label="Tugagan" count={counts.out} total={total} active={tab === "out"} onClick={() => { setTab("out"); setPage(1); }} />
       </div>
 
-      <section className="rounded-2xl border border-[#eceff5] bg-white shadow-[0_1px_3px_rgba(15,23,42,0.04)]">
+      <section className="rounded-2xl border border-[#eceff5] bg-white shadow-[0_1px_3px_rgba(17, 24, 39, 0.04)]">
         <div className="flex items-center gap-1.5 overflow-x-auto border-b border-[#eef1f6] px-4 pt-3">
           {tabs.map((t) => (
             <button
@@ -329,11 +329,11 @@ export function SellerProductsDesktop({
               onClick={() => { setTab(t.id); setPage(1); }}
               className={cn(
                 "-mb-px flex h-10 shrink-0 items-center gap-1.5 border-b-2 px-3 text-[13px] font-semibold transition",
-                tab === t.id ? "border-[#0066FF] text-[#0066FF]" : "border-transparent text-[#6b7280] hover:text-[#1a1d26]",
+                tab === t.id ? "border-[#0F766E] text-[#0F766E]" : "border-transparent text-[#6b7280] hover:text-[#1a1d26]",
               )}
             >
               {t.label}
-              <span className={cn("rounded-full px-1.5 text-[11px] leading-[18px]", tab === t.id ? "bg-[#e8f1ff] text-[#0066FF]" : "bg-[#f1f4f9] text-[#8b93a7]")}>{t.n}</span>
+              <span className={cn("rounded-full px-1.5 text-[11px] leading-[18px]", tab === t.id ? "bg-[#F0FDFA] text-[#0F766E]" : "bg-[#f1f4f9] text-[#8b93a7]")}>{t.n}</span>
             </button>
           ))}
         </div>
@@ -345,7 +345,7 @@ export function SellerProductsDesktop({
               value={q}
               onChange={(e) => { setQ(e.target.value); setPage(1); }}
               placeholder="Mahsulot qidirish..."
-              className="h-10 w-full rounded-xl border border-[#e3e8f1] bg-white pr-3 pl-10 text-[13px] outline-none placeholder:text-[#a3abbd] focus:border-[#0066FF] focus:ring-3 focus:ring-[#0066FF]/15"
+              className="h-10 w-full rounded-xl border border-[#e3e8f1] bg-white pr-3 pl-10 text-[13px] outline-none placeholder:text-[#a3abbd] focus:border-[#0F766E] focus:ring-3 focus:ring-[#0F766E]/15"
             />
           </div>
           <Select label="Kategoriya" value={cat} onChange={(v) => { setCat(v); setPage(1); }} className="w-[150px]">
@@ -366,7 +366,7 @@ export function SellerProductsDesktop({
               value={sort}
               onChange={(e) => setSort(e.target.value as SortId)}
               aria-label="Saralash"
-              className="h-10 w-full appearance-none rounded-xl border border-[#e3e8f1] bg-white pr-8 pl-9 text-[13px] font-medium text-[#1a1d26] outline-none focus:border-[#0066FF] focus:ring-3 focus:ring-[#0066FF]/15"
+              className="h-10 w-full appearance-none rounded-xl border border-[#e3e8f1] bg-white pr-8 pl-9 text-[13px] font-medium text-[#1a1d26] outline-none focus:border-[#0F766E] focus:ring-3 focus:ring-[#0F766E]/15"
             >
               {SORTS.map((s) => <option key={s.id} value={s.id}>{s.label}</option>)}
             </select>
@@ -390,7 +390,7 @@ export function SellerProductsDesktop({
                   <input
                     type="checkbox"
                     aria-label="Hammasini tanlash"
-                    className="size-4 accent-[#0066FF]"
+                    className="size-4 accent-[#0F766E]"
                     checked={allOnPage}
                     onChange={(e) => setSelected((s) => e.target.checked ? [...new Set([...s, ...slice.map((p) => p.id)])] : s.filter((id) => !slice.some((p) => p.id === id)))}
                   />
@@ -415,7 +415,7 @@ export function SellerProductsDesktop({
                 return (
                   <tr key={p.id} className={cn("border-b border-[#f1f3f8] last:border-0 hover:bg-[#fafcff]", selected.includes(p.id) && "bg-[#f5f9ff]")}>
                     <td className="py-3 pl-4">
-                      <input type="checkbox" aria-label="Tanlash" className="size-4 accent-[#0066FF]" checked={selected.includes(p.id)} onChange={(e) => setSelected((s) => e.target.checked ? [...s, p.id] : s.filter((id) => id !== p.id))} />
+                      <input type="checkbox" aria-label="Tanlash" className="size-4 accent-[#0F766E]" checked={selected.includes(p.id)} onChange={(e) => setSelected((s) => e.target.checked ? [...s, p.id] : s.filter((id) => id !== p.id))} />
                     </td>
                     <td className={cell}>
                       <div className="flex min-w-[220px] items-center gap-3">
@@ -456,10 +456,10 @@ export function SellerProductsDesktop({
                     </td>
                     <td className="py-3 pr-4 pl-3">
                       <div className="flex items-center justify-end gap-0.5">
-                        <button type="button" aria-label="Tahrirlash" title="Tahrirlash" onClick={() => onEdit(p)} className="flex size-8 items-center justify-center rounded-lg text-[#6b7280] hover:bg-[#e8f1ff] hover:text-[#0066FF]">
+                        <button type="button" aria-label="Tahrirlash" title="Tahrirlash" onClick={() => onEdit(p)} className="flex size-8 items-center justify-center rounded-lg text-[#6b7280] hover:bg-[#F0FDFA] hover:text-[#0F766E]">
                           <Pencil className="size-4" />
                         </button>
-                        <button type="button" aria-label="Nusxa" title="Nusxa ko‘chirish" onClick={() => onDuplicate(p)} className="flex size-8 items-center justify-center rounded-lg text-[#6b7280] hover:bg-[#e8f1ff] hover:text-[#0066FF]">
+                        <button type="button" aria-label="Nusxa" title="Nusxa ko‘chirish" onClick={() => onDuplicate(p)} className="flex size-8 items-center justify-center rounded-lg text-[#6b7280] hover:bg-[#F0FDFA] hover:text-[#0F766E]">
                           <Copy className="size-4" />
                         </button>
                         <RowMenu
@@ -481,9 +481,9 @@ export function SellerProductsDesktop({
               <p className="text-[14px] font-semibold text-[#1a1d26]">{total ? "Mos mahsulot topilmadi" : "Hali mahsulot yo‘q"}</p>
               <p className="mt-1 text-[12.5px] text-[#8b93a7]">{total ? "Qidiruv yoki filtrlarni o‘zgartiring." : "Birinchi mahsulotingizni qo‘shing."}</p>
               {total && filtered ? (
-                <button type="button" onClick={reset} className="mt-3 text-[13px] font-semibold text-[#0066FF] hover:underline">Filtrlarni tozalash</button>
+                <button type="button" onClick={reset} className="mt-3 text-[13px] font-semibold text-[#0F766E] hover:underline">Filtrlarni tozalash</button>
               ) : !total ? (
-                <button type="button" onClick={onAdd} className="mt-3 inline-flex h-9 items-center gap-1.5 rounded-xl bg-[#0066FF] px-4 text-[13px] font-bold text-white">
+                <button type="button" onClick={onAdd} className="mt-3 inline-flex h-9 items-center gap-1.5 rounded-xl bg-[#0F766E] px-4 text-[13px] font-bold text-white">
                   <Plus className="size-4" /> Mahsulot qo‘shish
                 </button>
               ) : null}
@@ -496,7 +496,7 @@ export function SellerProductsDesktop({
             <span>Tanlangan: <b className="text-[#1a1d26]">{selected.length} ta mahsulot</b></span>
             {selectedRows.length ? (
               <>
-                <button type="button" className="font-semibold text-[#0066FF] hover:underline" onClick={() => { selectedRows.forEach((p) => p.active !== false && deactivate(p.id)); setSelected([]); }}>Faolsizlantirish</button>
+                <button type="button" className="font-semibold text-[#0F766E] hover:underline" onClick={() => { selectedRows.forEach((p) => p.active !== false && deactivate(p.id)); setSelected([]); }}>Faolsizlantirish</button>
                 <button type="button" className="font-semibold text-[#b91c1c] hover:underline" onClick={() => { if (window.confirm(`${selectedRows.length} ta mahsulotni o‘chirasizmi?`)) { selectedRows.forEach((p) => removeProduct(p.id)); setSelected([]); } }}>O‘chirish</button>
               </>
             ) : null}
@@ -515,7 +515,7 @@ export function SellerProductsDesktop({
                 n === "…" ? (
                   <span key={`d${i}`} className="px-1 text-[#a3abbd]">…</span>
                 ) : (
-                  <button key={n} type="button" onClick={() => setPage(n)} className={cn("size-9 rounded-lg text-[13px] font-semibold", n === cur ? "bg-[#0066FF] text-white" : "border border-[#e3e8f1] text-[#4b5568] hover:bg-[#f7f9fc]")}>
+                  <button key={n} type="button" onClick={() => setPage(n)} className={cn("size-9 rounded-lg text-[13px] font-semibold", n === cur ? "bg-[#0F766E] text-white" : "border border-[#e3e8f1] text-[#4b5568] hover:bg-[#f7f9fc]")}>
                     {n}
                   </button>
                 ),

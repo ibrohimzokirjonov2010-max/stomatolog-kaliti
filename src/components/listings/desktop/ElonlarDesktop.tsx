@@ -157,24 +157,24 @@ export function ListingsDesktop() {
             <p>Stomatologiya sohasidagi e’lonlar: sotiladi, ijaraga, ish o‘rni va boshqalar</p>
           </div>
 
-          <div className="elv-tiles">
-            {TILES.map((item) => {
-              const Icon = item.icon;
-              const count = item.id === "" ? all.length : item.api ? outside[item.id] : all.filter((row) => item.match?.(row)).length;
-              return (
-                <button
-                  key={item.id || "all"}
-                  type="button"
-                  className={tile === item.id && !item.href ? "on" : undefined}
-                  data-testid={`listing-tile-${item.id || "all"}`}
-                  onClick={() => (item.href ? router.push(item.href) : setTile(item.id))}
-                >
-                  <Icon strokeWidth={1.6} />
-                  <b>{item.label}</b>
-                  <small>{count ?? "…"}</small>
-                </button>
-              );
-            })}
+          <div className="elv-stats">
+            {([
+              { id: "sotiladi" as const, label: "Sotiladi", count: all.filter((row) => row.type === "sotiladi").length },
+              { id: "ijara" as const, label: "Ijaraga", count: all.filter((row) => row.type === "ijara").length },
+              { id: "ish" as const, label: "Ish o‘rni", count: outside.ish ?? 0, href: "/ishlar" },
+              { id: "xizmat" as const, label: "Xizmatlar", count: outside.xizmat ?? 0, href: "/ustalar" },
+              { id: "hamkor" as const, label: "Hamkorlik", count: all.filter((row) => row.type === "hamkor").length },
+            ]).map((item) => (
+              <button
+                key={item.id}
+                type="button"
+                className={deal === item.id ? "on" : undefined}
+                onClick={() => (item.href ? router.push(item.href) : setDeal(deal === item.id ? "" : item.id))}
+              >
+                <b>{item.count}</b>
+                <span>{item.label}</span>
+              </button>
+            ))}
           </div>
 
           <div className="elv-tools">

@@ -90,9 +90,9 @@ export function PrivacyRequestForm({ initialScope }: { initialScope?: string }) 
           {SCOPES.map((s) => (
             <label
               key={s.id}
-              className={`flex cursor-pointer items-start gap-3 rounded-xl border px-3.5 py-3 ${scope === s.id ? "border-[#0066FF] bg-[#f5f8ff]" : "border-[#e2e8f0] bg-white"}`}
+              className={`flex cursor-pointer items-start gap-3 rounded-xl border px-3.5 py-3 ${scope === s.id ? "border-[#0F766E] bg-[#f5f8ff]" : "border-[#e2e8f0] bg-white"}`}
             >
-              <input type="radio" name="scope" value={s.id} checked={scope === s.id} onChange={() => setScope(s.id)} className="mt-1 size-4 accent-[#0066FF]" />
+              <input type="radio" name="scope" value={s.id} checked={scope === s.id} onChange={() => setScope(s.id)} className="mt-1 size-4 accent-[#0F766E]" />
               <span>
                 <span className="block text-[14px] font-semibold text-[#1a1d26]">{s.title}</span>
                 <span className="block text-[12.5px] text-[#64748b]">{s.text}</span>

@@ -31,7 +31,7 @@
 .vd-brand { flex: 1; }
 .vd-brand b {
   display: block;
-  color: #0066ff;
+  color: #0F766E;
   font-size: 16px;
   font-weight: 800;
   letter-spacing: 0.08em;
@@ -45,7 +45,7 @@
   margin: 0 12px;
   border-radius: 16px;
   overflow: hidden;
-  background: #102033;
+  background: #111827;
 }
 .vd-player.full {
   position: fixed;
@@ -62,7 +62,7 @@
   height: 100%;
   object-fit: cover;
   pointer-events: none;
-  background: #102033;
+  background: #111827;
 }
 .vd-big {
   position: absolute;
@@ -150,7 +150,7 @@
   color: #1a1d26;
   border-radius: 10px;
   overflow: hidden;
-  box-shadow: 0 8px 24px rgba(15, 23, 42, 0.2);
+  box-shadow: 0 8px 24px rgba(17, 24, 39, 0.2);
 }
 .vd-menu button {
   display: block;
@@ -162,7 +162,7 @@
   background: #fff;
   color: inherit;
 }
-.vd-menu button.on { color: #0066ff; }
+.vd-menu button.on { color: #0F766E; }
 .vd-pad { padding: 0 12px; }
 .vd-title {
   margin: 12px 0 10px;
@@ -200,7 +200,7 @@
   padding: 0 4px;
 }
 .vd-actions button svg { width: 15px; height: 15px; flex: none; }
-.vd-actions button.on { color: #0066ff; border-color: #cfe0ff; background: #f3f7ff; }
+.vd-actions button.on { color: #0F766E; border-color: #F0FDFA; background: #f3f7ff; }
 .vd-tabs {
   display: flex;
   margin: 10px 0 10px;
@@ -217,7 +217,7 @@
   padding: 0 2px;
   white-space: nowrap;
 }
-.vd-tabs button.on { color: #0066ff; }
+.vd-tabs button.on { color: #0F766E; }
 .vd-tabs button.on::after {
   content: "";
   position: absolute;
@@ -226,7 +226,7 @@
   bottom: 0;
   height: 2px;
   border-radius: 2px;
-  background: #0066ff;
+  background: #0F766E;
 }
 .vd-course {
   display: grid;
@@ -239,9 +239,9 @@
   font-weight: 600;
 }
 .vd-course b { color: #1a1d26; font-weight: 700; white-space: nowrap; }
-.vd-course em { color: #0066ff; font-style: normal; font-weight: 800; }
+.vd-course em { color: #0F766E; font-style: normal; font-weight: 800; }
 .vd-track { height: 6px; border-radius: 99px; background: #e1eaf6; overflow: hidden; }
-.vd-track i { display: block; height: 100%; background: #0066ff; border-radius: 99px; }
+.vd-track i { display: block; height: 100%; background: #0F766E; border-radius: 99px; }
 .vd-list { display: flex; flex-direction: column; gap: 2px; padding: 0 8px 8px; }
 .vd-lesson {
   display: grid;
@@ -255,7 +255,7 @@
   background: transparent;
   color: inherit;
 }
-.vd-lesson.on { background: #e7f0ff; }
+.vd-lesson.on { background: #F0FDFA; }
 .vd-n {
   width: 22px;
   height: 22px;
@@ -267,9 +267,9 @@
   font-size: 12px;
   font-weight: 800;
 }
-.vd-lesson.on .vd-n { background: #0066ff; color: #fff; }
+.vd-lesson.on .vd-n { background: #0F766E; color: #fff; }
 .vd-lesson b { display: block; font-size: 13px; font-weight: 700; line-height: 1.25; }
-.vd-lesson .sub { display: block; color: #0066ff; font-size: 11px; font-weight: 600; }
+.vd-lesson .sub { display: block; color: #0F766E; font-size: 11px; font-weight: 600; }
 .vd-lesson time { color: #8b93a7; font-size: 12px; white-space: nowrap; }
 .vd-lesson.lock b, .vd-lesson.lock time { color: #9aa6b8; }
 .vd-mark {
@@ -280,7 +280,7 @@
 }
 .vd-mark svg { width: 16px; height: 16px; }
 .vd-mark.done { color: #16a34a; }
-.vd-mark.now { color: #0066ff; }
+.vd-mark.now { color: #0F766E; }
 .vd-mark.lock { color: #9aa6b8; }
 .vd-copy p { margin: 0 0 10px; font-size: 14px; line-height: 1.45; color: #243044; }
 .vd-file {
@@ -297,8 +297,8 @@
   width: 36px;
   height: 36px;
   border-radius: 10px;
-  background: #e8f1ff;
-  color: #0066ff;
+  background: #F0FDFA;
+  color: #0F766E;
   display: grid;
   place-items: center;
   flex: none;
@@ -314,7 +314,7 @@
   height: 32px;
   padding: 0 10px;
   border-radius: 8px;
-  background: #0066ff;
+  background: #0F766E;
   color: #fff;
   font-size: 12px;
   font-weight: 700;
@@ -339,7 +339,7 @@
   height: 40px;
   padding: 0 12px;
   border-radius: 12px;
-  background: #0066ff;
+  background: #0F766E;
   color: #fff;
   font-size: 13px;
   font-weight: 700;
@@ -355,7 +355,7 @@
   min-height: 52px;
   flex: none;
   border-radius: 14px;
-  background: #0066ff;
+  background: #0F766E;
   color: #fff;
   display: flex;
   flex-direction: column;

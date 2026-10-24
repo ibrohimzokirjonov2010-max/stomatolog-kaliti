@@ -74,8 +74,8 @@ export const mobileSurplusItems: MobileSurplusItem[] = [
     description:
       "3M Filtek Z350 XT universal kompozit materiali. Rang: A2. To‘plamda 3 ta shprits (har biri 4 g). Mahsulot yangi, ochilmagan, yaroqlilik muddati 12.2026. Klinikada ortiqcha qolgan, sifatli va original mahsulot.",
     seller: "Dr. Dilnoza Karimova",
-    rating: 4.9,
-    reviews: 28,
+    rating: 0,
+    reviews: 0,
   },
   {
     id: "om-protaper",
@@ -96,8 +96,8 @@ export const mobileSurplusItems: MobileSurplusItem[] = [
     subtitle: "Endodontik fayllar, 25 mm, 6 ta",
     description: "ProTaper Next fayllar to‘plami. Yangi, ochilmagan. Yaroqlilik muddati 11.2027. Samarqanddagi klinikada ortiqcha qolgan.",
     seller: "Dr. Dilnoza Karimova",
-    rating: 4.8,
-    reviews: 16,
+    rating: 0,
+    reviews: 0,
   },
   {
     id: "om-tokuyama",
@@ -118,8 +118,8 @@ export const mobileSurplusItems: MobileSurplusItem[] = [
     subtitle: "Universal bond, 5 ml",
     description: "Tokuyama Universal Bond. Yangi, ochilmagan. Yaroqlilik muddati 06.2026. Toshkentdagi klinikada ortiqcha qolgan.",
     seller: "Dr. Dilnoza Karimova",
-    rating: 4.7,
-    reviews: 11,
+    rating: 0,
+    reviews: 0,
   },
   {
     id: "om-biooss",
@@ -140,8 +140,8 @@ export const mobileSurplusItems: MobileSurplusItem[] = [
     subtitle: "Suyak o‘rnini bosuvchi material, 0.5 g",
     description: "Geistlich Bio-Oss suyak materiali. Yangi. Yaroqlilik muddati 10.2026. Toshkentdagi klinikada ortiqcha qolgan.",
     seller: "Dr. Dilnoza Karimova",
-    rating: 4.9,
-    reviews: 21,
+    rating: 0,
+    reviews: 0,
   },
   {
     id: "om-relyx",
@@ -162,8 +162,8 @@ export const mobileSurplusItems: MobileSurplusItem[] = [
     subtitle: "O‘z-o‘zidan yopishadigan sement, A2, 11 g",
     description: "3M RelyX U200 sement. Yangi. Yaroqlilik muddati 08.2026. Buxorodagi klinikada ortiqcha qolgan.",
     seller: "Dr. Dilnoza Karimova",
-    rating: 4.8,
-    reviews: 9,
+    rating: 0,
+    reviews: 0,
   },
   {
     id: "om-gloves",
@@ -184,8 +184,8 @@ export const mobileSurplusItems: MobileSurplusItem[] = [
     subtitle: "Nitril qo‘lqoplar, M, 100 dona",
     description: "Medicom nitril qo‘lqoplar. Yangi quti. Yaroqlilik muddati 12.2027. Andijondagi klinikada ortiqcha qolgan.",
     seller: "Dr. Dilnoza Karimova",
-    rating: 4.6,
-    reviews: 7,
+    rating: 0,
+    reviews: 0,
   },
 ];
 

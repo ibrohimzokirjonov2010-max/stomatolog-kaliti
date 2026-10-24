@@ -70,7 +70,7 @@ export function PhoneCerts() {
     ctx.strokeStyle = "#d4a017";
     ctx.lineWidth = 12;
     ctx.strokeRect(28, 28, 1144, 744);
-    ctx.fillStyle = "#0f1e3d";
+    ctx.fillStyle = "#111827";
     ctx.font = "700 36px sans-serif";
     ctx.fillText("STOMAHUB SERTIFIKAT", 80, 140);
     ctx.font = "800 42px sans-serif";

@@ -167,7 +167,7 @@ export function SurplusMobileDetail({ item }: { item: MobileSurplusItem }) {
             <h3>Sotuvchiga yozish</h3>
             <textarea aria-label="Xabar" value={draft} onChange={(event) => setDraft(event.target.value)} placeholder="Xabaringiz..." rows={4} />
             <div className="row">
-              <button type="button" className="go" style={{ background: "#eef2f6", color: "#24344d" }} onClick={() => setChat(false)}>
+              <button type="button" className="go" style={{ background: "#eef2f6", color: "#111827" }} onClick={() => setChat(false)}>
                 Yopish
               </button>
               <button type="submit" className="go">

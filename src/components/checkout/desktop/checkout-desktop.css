@@ -1,10 +1,10 @@
 /* Checkout (desktop) — matches designs/add-forms-1020/buyutma berihs * (3 steps). */
 .ckx {
-  --ck: #0b8f8a;
-  --ck-dark: #0a6f6b;
+  --ck: #0F766E;
+  --ck-dark: #0F766E;
   --ck-soft: #e6f6f4;
   --ck-line: #e3eaf1;
-  --ck-ink: #0f1d33;
+  --ck-ink: #111827;
   --ck-mute: #6b7a90;
   color: var(--ck-ink);
   font-family: var(--font-plus-jakarta), ui-sans-serif, system-ui, sans-serif;
@@ -39,7 +39,7 @@
 .ckx-steps small { display: block; font-size: 11.5px; color: var(--ck-mute); white-space: nowrap; margin-top: 2px; padding-right: 12px; }
 .ckx-steps .on strong { color: var(--ck); }
 
-.ckx-card { background: #fff; border: 1px solid var(--ck-line); border-radius: 14px; padding: 18px 18px 16px; box-shadow: 0 1px 2px rgba(15, 29, 51, .03); }
+.ckx-card { background: #fff; border: 1px solid var(--ck-line); border-radius: 14px; padding: 18px 18px 16px; box-shadow: 0 1px 2px rgba(17, 24, 39, .03); }
 .ckx-card h2 { margin: 0; font-size: 17px; font-weight: 800; letter-spacing: -.01em; display: flex; align-items: center; justify-content: space-between; gap: 8px; }
 .ckx-card h2 small { color: var(--ck-dark); background: var(--ck-soft); border-radius: 8px; padding: 5px 9px; font-size: 11.5px; font-weight: 600; }
 .ckx-hint { margin: 2px 0 14px; color: var(--ck-mute); font-size: 13px; }
@@ -52,7 +52,7 @@
 .ckx-2 label > span:first-child i { color: #e2453c; font-style: normal; }
 .ckx-2 label.wide { grid-column: 1 / -1; }
 .ckx-2 input, .ckx-2 select { width: 100%; height: 38px; border: 1px solid #dbe3ec; border-radius: 9px; padding: 0 12px; font-size: 13.5px; font-weight: 500; color: var(--ck-ink); background: #fff; outline: none; }
-.ckx-2 input:focus, .ckx-2 select:focus, .ckx-note textarea:focus, .ckx-promo input:focus { border-color: var(--ck); box-shadow: 0 0 0 3px rgba(11, 143, 138, .12); }
+.ckx-2 input:focus, .ckx-2 select:focus, .ckx-note textarea:focus, .ckx-promo input:focus { border-color: var(--ck); box-shadow: 0 0 0 3px rgba(15, 118, 110, .12); }
 .ckx-2 label.bad input { border-color: #dc2626; }
 .ckx-2 .err { color: #dc2626; font-size: 11.5px; font-weight: 600; }
 .ckx-sel { position: relative; display: block; }
@@ -70,9 +70,9 @@
 .ckx-mapgrid { display: grid; grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr); gap: 12px; margin-top: 12px; }
 .sh .ckx .ckx-map { position: relative; height: 170px; border-radius: 10px; overflow: hidden; border: 1px solid var(--ck-line); background: #e9eef2; display: block; padding: 0; }
 .ckx-map img { width: 100%; height: 100%; object-fit: cover; display: block; }
-.ckx-map .search { position: absolute; left: 10px; top: 10px; right: 54px; height: 32px; white-space: nowrap; display: flex; align-items: center; gap: 8px; padding: 0 10px; border-radius: 8px; background: #fff; color: #8a97a8; font-size: 12px; box-shadow: 0 1px 4px rgba(15, 29, 51, .12); }
+.ckx-map .search { position: absolute; left: 10px; top: 10px; right: 54px; height: 32px; white-space: nowrap; display: flex; align-items: center; gap: 8px; padding: 0 10px; border-radius: 8px; background: #fff; color: #8a97a8; font-size: 12px; box-shadow: 0 1px 4px rgba(17, 24, 39, .12); }
 .ckx-map .pin { position: absolute; left: 50%; top: 50%; transform: translate(-50%, -80%); filter: drop-shadow(0 2px 3px rgba(0, 0, 0, .25)); }
-.ckx-map .zoom { position: absolute; right: 12px; bottom: 12px; display: grid; background: #fff; border-radius: 8px; box-shadow: 0 1px 4px rgba(15, 29, 51, .15); }
+.ckx-map .zoom { position: absolute; right: 12px; bottom: 12px; display: grid; background: #fff; border-radius: 8px; box-shadow: 0 1px 4px rgba(17, 24, 39, .15); }
 .ckx-map .zoom i { width: 30px; height: 28px; display: grid; place-items: center; font-style: normal; font-size: 18px; font-weight: 600; color: #26354b; }
 .ckx-map .zoom i + i { border-top: 1px solid var(--ck-line); }
 .sh .ckx .ckx-map:hover { border-color: var(--ck); }
@@ -97,7 +97,7 @@
 .ckx-ship .radio { width: 18px; height: 18px; flex: none; border-radius: 50%; border: 2px solid #b8c4d2; display: grid; place-items: center; }
 .ckx-ship .on .radio { border-color: var(--ck); }
 .ckx-ship .on .radio::after { content: ""; width: 8px; height: 8px; border-radius: 50%; background: var(--ck); }
-.ckx-ship .big { color: #2f8f8b; flex: none; }
+.ckx-ship .big { color: #0F766E; flex: none; }
 .ckx-ship b { display: block; font-size: 14px; font-weight: 800; }
 .ckx-ship small { display: block; color: var(--ck-mute); font-size: 12px; margin-top: 2px; }
 .ckx-ship .side { margin-left: auto; text-align: right; display: flex; flex-direction: column; align-items: flex-end; gap: 6px; }
@@ -121,11 +121,11 @@
 .ckx-pays .tag { position: absolute; right: 10px; top: 10px; font-style: normal; font-size: 11px; font-weight: 600; color: var(--ck-dark); background: var(--ck-soft); border-radius: 6px; padding: 4px 8px; }
 .ckx-pays .tag.soon { color: #8a6300; background: #fff4d6; }
 .ckx-logo { width: 42px; height: 42px; display: grid; place-items: center; flex: none; }
-.ckx-logo.click { border-radius: 50%; background: #0a8f8f; }
+.ckx-logo.click { border-radius: 50%; background: #0F766E; }
 .ckx-logo.click i { width: 26px; height: 26px; border-radius: 50%; border: 6px solid #fff; border-right-color: transparent; transform: rotate(-20deg); }
-.ckx-logo.payme { border-radius: 8px; background: linear-gradient(135deg, #1bc4d6, #0e9fb4); color: #fff; font-weight: 900; font-size: 26px; }
+.ckx-logo.payme { border-radius: 8px; background: linear-gradient(135deg, #0F766E, #0F766E); color: #fff; font-weight: 900; font-size: 26px; }
 .ckx-logo.uzum { border-radius: 50%; background: #7a1fd6; color: #fff; font-weight: 900; font-size: 24px; }
-.ckx-logo.ico { color: #0e8d88; border-radius: 9px; background: var(--ck-soft); }
+.ckx-logo.ico { color: #0F766E; border-radius: 9px; background: var(--ck-soft); }
 .ckx-safebar { display: flex; align-items: center; gap: 14px; margin-top: 14px; padding: 12px 16px; border-radius: 10px; background: #eef8f7; color: var(--ck-dark); }
 .ckx-safebar b { display: block; font-size: 14px; font-weight: 800; color: var(--ck-ink); }
 .ckx-safebar small { display: block; font-size: 12px; color: var(--ck-mute); margin-top: 2px; }
@@ -140,7 +140,7 @@
 .ckx-paybox .ckx-mini .total b { color: var(--ck-dark); font-size: 21px; }
 .ckx-invoice, .ckx-oferta { position: relative; display: flex; align-items: flex-start; gap: 12px; cursor: pointer; }
 .ckx-invoice { border: 1px solid var(--ck-line); border-radius: 10px; padding: 12px; }
-.ckx-invoice.on { border-color: #bfe5e2; background: #f6fcfb; }
+.ckx-invoice.on { border-color: #CCFBF1; background: #f6fcfb; }
 .ckx-invoice input, .ckx-oferta input { position: absolute; opacity: 0; width: 1px; height: 1px; }
 .ckx-invoice .ckb, .ckx-oferta .ckb { width: 22px; height: 22px; flex: none; border-radius: 5px; border: 2px solid #b8c4d2; display: grid; place-items: center; color: #fff; background: #fff; }
 .ckx-invoice.on .ckb, .ckx-oferta.on .ckb { background: var(--ck); border-color: var(--ck); }
@@ -167,7 +167,7 @@
 .ckx-rbox .thumb img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
 .ckx-rbox .thumb svg { position: relative; filter: drop-shadow(0 2px 3px rgba(0, 0, 0, .25)); }
 .ckx-rbox.when { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; background: none; border: 0; padding: 0; }
-.ckx-rbox .pair { display: flex; align-items: center; gap: 10px; color: #2f8f8b; }
+.ckx-rbox .pair { display: flex; align-items: center; gap: 10px; color: #0F766E; }
 .ckx-rbox .pair b { display: block; font-size: 13px; font-weight: 700; color: var(--ck-ink); }
 .ckx-rbox .pair small { display: block; font-size: 11.5px; color: var(--ck-mute); }
 .ckx-rbox.pay { display: flex; align-items: center; gap: 14px; background: #eef8f7; border-color: #d9efed; }
@@ -205,13 +205,13 @@ a.ckx-line:hover b { color: var(--ck); }
 .ckx-promo .ckx-inicon > svg { color: #5d6b80; }
 .ckx-promo input { width: 100%; height: 38px; border: 1px solid #dbe3ec; border-radius: 9px; padding: 0 10px 0 38px; font-size: 13px; outline: none; }
 .sh .ckx .ckx-promo button { height: 38px; padding: 0 16px; border-radius: 9px; background: var(--ck-soft); color: var(--ck-dark); font-size: 13px; font-weight: 700; }
-.sh .ckx .ckx-promo button:hover { background: #d5efec; }
+.sh .ckx .ckx-promo button:hover { background: #F0FDFA; }
 .ckx-promomsg { margin: 6px 0 0; color: #b45309; font-size: 12px; font-weight: 600; }
 .ckx-total { display: flex; align-items: baseline; justify-content: space-between; margin-top: 12px; padding: 12px 14px; border-radius: 10px; background: #eef8f7; }
 .ckx-total span { font-size: 16px; font-weight: 800; }
 .ckx-total b { font-size: 25px; font-weight: 800; color: var(--ck-dark); letter-spacing: -.02em; white-space: nowrap; }
 .sh .ckx .ckx-cta { width: 100%; height: 46px; margin-top: 12px; display: flex; align-items: center; justify-content: center; gap: 10px; border-radius: 10px; background: var(--ck-dark); color: #fff; font-size: 15px; font-weight: 700; }
-.sh .ckx .ckx-cta:hover { background: #085e5b; }
+.sh .ckx .ckx-cta:hover { background: #115E59; }
 .ckx-lock { display: flex; align-items: center; justify-content: center; gap: 6px; margin: 10px 0 0; color: var(--ck-mute); font-size: 12px; }
 .ckx-lock svg { color: var(--ck-dark); }
 .ckx-info { display: flex; gap: 12px; align-items: flex-start; margin-top: 12px; padding: 12px 14px; border-radius: 10px; background: #eef8f7; color: var(--ck-dark); }
@@ -222,9 +222,9 @@ a.ckx-line:hover b { color: var(--ck); }
 /* Bottom navigation (steps 2–3) */
 .ckx-nav { display: flex; justify-content: space-between; align-items: center; margin-top: 14px; }
 .sh .ckx .ckx-nav button { height: 46px; display: inline-flex; align-items: center; gap: 10px; border-radius: 10px; font-size: 15px; font-weight: 700; }
-.sh .ckx .ckx-nav .back { padding: 0 24px; border: 1px solid #d5dee8; background: #fff; color: #24344b; }
+.sh .ckx .ckx-nav .back { padding: 0 24px; border: 1px solid #d5dee8; background: #fff; color: #111827; }
 .sh .ckx .ckx-nav .next { padding: 0 34px; background: var(--ck-dark); color: #fff; }
-.sh .ckx .ckx-nav .next:hover { background: #085e5b; }
+.sh .ckx .ckx-nav .next:hover { background: #115E59; }
 .sh .ckx .ckx-nav .next:disabled { opacity: .7; }
 .ckx-error { margin: 12px 0 0; padding: 10px 12px; border-radius: 9px; background: #fef2f2; color: #dc2626; font-weight: 600; font-size: 13px; }
 

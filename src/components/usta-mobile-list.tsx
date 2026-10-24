@@ -66,7 +66,7 @@ export function UstaMobileList() {
           onChange={(e) => setQuery(e.target.value)}
           type="search"
           placeholder="Usta, mutaxassislik yoki xizmatlar..."
-          className="h-[52px] w-full rounded-2xl border border-[#e6ebf3] bg-white pr-14 pl-11 text-[14.5px] text-[#1a1d26] shadow-[0_4px_14px_rgba(15,23,42,0.04)] outline-none placeholder:text-[#8b93a7] focus:border-[#0b7f7d]"
+          className="h-[52px] w-full rounded-2xl border border-[#e6ebf3] bg-white pr-14 pl-11 text-[14.5px] text-[#1a1d26] shadow-[0_4px_14px_rgba(17, 24, 39, 0.04)] outline-none placeholder:text-[#8b93a7] focus:border-[#0F766E]"
         />
         <label className="absolute top-1/2 right-2 grid size-9 -translate-y-1/2 place-items-center rounded-xl bg-[#eef6f6] text-[#4b5568]">
           <SlidersHorizontal className="size-[18px]" />
@@ -91,7 +91,7 @@ export function UstaMobileList() {
               <span
                 className={cn(
                   "grid aspect-square w-full place-items-center rounded-2xl border",
-                  on ? "border-[#0b7f7d] bg-[#0b7f7d] shadow-[0_6px_14px_rgba(11,127,125,0.28)]" : "border-[#e3edf2] bg-white",
+                  on ? "border-[#0F766E] bg-[#0F766E] shadow-[0_6px_14px_rgba(15, 118, 110, 0.28)]" : "border-[#e3edf2] bg-white",
                 )}
               >
                 {/* eslint-disable-next-line @next/next/no-img-element */}
@@ -104,7 +104,7 @@ export function UstaMobileList() {
                   style={on ? { filter: "brightness(0) invert(1)" } : undefined}
                 />
               </span>
-              <span className={cn("text-center text-[10.5px] leading-tight tracking-tight whitespace-nowrap", on ? "font-semibold text-[#0B1F4D]" : "font-medium text-[#6b7280]")}>{t.label}</span>
+              <span className={cn("text-center text-[10.5px] leading-tight tracking-tight whitespace-nowrap", on ? "font-semibold text-[#111827]" : "font-medium text-[#6b7280]")}>{t.label}</span>
             </button>
           );
         })}
@@ -116,7 +116,7 @@ export function UstaMobileList() {
           Tajribali ustalar <span className="ml-1 align-middle text-[13px] font-semibold text-[#8b93a7]" data-testid="usta-count">{visible.length} ta</span>
         </h2>
         <label className="relative ml-auto inline-flex h-9 shrink-0 items-center gap-1 rounded-xl border border-[#e6ebf3] bg-white pr-2 pl-2.5 text-[12px] font-medium text-[#1a1d26]">
-          <MapPin className="size-3.5 text-[#0b7f7d]" />
+          <MapPin className="size-3.5 text-[#0F766E]" />
           {city || "Barchasi"}
           <ChevronDown className="size-3.5 text-[#8b93a7]" />
           <select value={city} onChange={(e) => setCity(e.target.value)} className="absolute inset-0 cursor-pointer opacity-0" aria-label="Shahar">
@@ -148,7 +148,7 @@ export function UstaMobileList() {
           ))}
         </div>
       ) : visible.length === 0 ? (
-        <div className="rounded-[22px] bg-white px-5 py-10 text-center shadow-[0_4px_14px_rgba(15,23,42,0.04)]" data-testid="usta-empty">
+        <div className="rounded-[22px] bg-white px-5 py-10 text-center shadow-[0_4px_14px_rgba(17, 24, 39, 0.04)]" data-testid="usta-empty">
           <p className="text-[15px] font-semibold text-[#1a1d26]">{masters.length ? "Bu filtr bo‘yicha usta topilmadi" : "Hali tasdiqlangan usta yo‘q"}</p>
           <p className="mt-1 text-[13px] text-[#8b93a7]">{masters.length ? "Kategoriya yoki shaharni o‘zgartiring." : "Birinchi bo‘lib profilingizni joylang."}</p>
           {masters.length ? (
@@ -159,12 +159,12 @@ export function UstaMobileList() {
                 setCity("");
                 setQuery("");
               }}
-              className="mt-4 inline-flex h-11 items-center rounded-xl bg-[#0b7f7d] px-5 text-[14px] font-semibold text-white"
+              className="mt-4 inline-flex h-11 items-center rounded-xl bg-[#0F766E] px-5 text-[14px] font-semibold text-white"
             >
               Filtrlarni tozalash
             </button>
           ) : (
-            <Link href="/ustalar/yangi" className="mt-4 inline-flex h-11 items-center rounded-xl bg-[#0b7f7d] px-5 text-[14px] font-semibold text-white">
+            <Link href="/ustalar/yangi" className="mt-4 inline-flex h-11 items-center rounded-xl bg-[#0F766E] px-5 text-[14px] font-semibold text-white">
               Usta qo‘shish
             </Link>
           )}
@@ -179,8 +179,8 @@ export function UstaMobileList() {
         </ul>
       )}
 
-      <Link href="/ustalar/sorovlarim" className="mt-4 flex min-h-[56px] items-center gap-3 rounded-2xl border border-[#d3efed] bg-white px-3.5 py-3">
-        <span className="grid size-10 shrink-0 place-items-center rounded-xl bg-[#e3f6f5] text-[#0b7f7d]">
+      <Link href="/ustalar/sorovlarim" className="mt-4 flex min-h-[56px] items-center gap-3 rounded-2xl border border-[#F0FDFA] bg-white px-3.5 py-3">
+        <span className="grid size-10 shrink-0 place-items-center rounded-xl bg-[#e3f6f5] text-[#0F766E]">
           <ClipboardList className="size-[18px]" />
         </span>
         <span className="min-w-0 flex-1 leading-tight">
@@ -198,7 +198,7 @@ export function UstaMobileList() {
           el?.scrollIntoView({ behavior: "smooth", block: "center" });
           el?.focus({ preventScroll: true });
         }}
-        className="fixed inset-x-3 z-30 flex h-12 items-center justify-center gap-2 rounded-[12px] bg-[#0b7f7d] text-[14px] font-semibold text-white shadow-[0_8px_18px_rgba(11,127,125,0.3)]"
+        className="fixed inset-x-3 z-30 flex h-12 items-center justify-center gap-2 rounded-[12px] bg-[#0F766E] text-[14px] font-semibold text-white shadow-[0_8px_18px_rgba(15, 118, 110, 0.3)]"
         style={{ bottom: "calc(4.6rem + env(safe-area-inset-bottom))" }}
       >
         <Plus className="size-5" /> Usta topish yoki so‘rov qoldirish
@@ -229,7 +229,7 @@ function MasterCard({ master: m, solid, saved, onSave, onOpen, onRequest }: { ma
               <span className="truncate text-[13px] font-bold text-[#0B1220]">{m.name}</span>
               <VerifiedBadge />
             </button>
-            <button type="button" onClick={onSave} className="grid size-6 shrink-0 place-items-center text-[#0b6f6d]" aria-label={saved ? "Saqlanganlardan olib tashlash" : "Saqlash"} aria-pressed={saved}>
+            <button type="button" onClick={onSave} className="grid size-6 shrink-0 place-items-center text-[#115E59]" aria-label={saved ? "Saqlanganlardan olib tashlash" : "Saqlash"} aria-pressed={saved}>
               <Heart className={cn("size-[16px]", saved && "fill-[#e11d48] text-[#e11d48]")} />
             </button>
           </div>
@@ -238,7 +238,7 @@ function MasterCard({ master: m, solid, saved, onSave, onOpen, onRequest }: { ma
             <div className="min-w-0 flex-1">
               <p className="flex flex-wrap items-center gap-x-2 gap-y-0.5 text-[10px] text-[#1a1d26]">
                 {m.years > 0 ? <span>{m.years} yil tajriba</span> : null}
-                <span className="inline-flex items-center gap-0.5"><MapPin className="size-3 text-[#0b6f6d]" />{m.city}</span>
+                <span className="inline-flex items-center gap-0.5"><MapPin className="size-3 text-[#115E59]" />{m.city}</span>
               </p>
               <div className="mt-1 flex flex-wrap gap-1">
                 {m.services.slice(0, 3).map((s) => (
@@ -259,12 +259,12 @@ function MasterCard({ master: m, solid, saved, onSave, onOpen, onRequest }: { ma
           </div>
           <p className="mt-1.5 text-[10px] text-[#6b7487]">
             Xizmat narxi:{" "}
-            <b className="text-[12.5px] text-[#0b7f7d]">{m.priceFrom ? `${formatGroupedNumber(m.priceFrom)} so‘m dan` : "Kelishiladi"}</b>
+            <b className="text-[12.5px] text-[#0F766E]">{m.priceFrom ? `${formatGroupedNumber(m.priceFrom)} so‘m dan` : "Kelishiladi"}</b>
           </p>
           <div className="mt-1.5 flex gap-1.5">
             {phone ? (
-              <a href={`tel:${phone}`} className="inline-flex h-8 flex-1 items-center justify-center gap-1 rounded-[8px] border border-[#cfe2ea] text-[11px] font-semibold text-[#0B1A3A]">
-                <Phone className="size-3.5 text-[#0b6f6d]" /> Qo‘ng‘iroq
+              <a href={`tel:${phone}`} className="inline-flex h-8 flex-1 items-center justify-center gap-1 rounded-[8px] border border-[#cfe2ea] text-[11px] font-semibold text-[#111827]">
+                <Phone className="size-3.5 text-[#115E59]" /> Qo‘ng‘iroq
               </a>
             ) : null}
             {m.mine ? (
@@ -275,7 +275,7 @@ function MasterCard({ master: m, solid, saved, onSave, onOpen, onRequest }: { ma
               <button
                 type="button"
                 onClick={onRequest}
-                className={cn("inline-flex h-8 flex-[1.4] items-center justify-center gap-1 rounded-[8px] text-[11px] font-semibold", solid ? "bg-[#0b7f7d] text-white" : "border border-[#0b7f7d] text-[#0b7f7d]")}
+                className={cn("inline-flex h-8 flex-[1.4] items-center justify-center gap-1 rounded-[8px] text-[11px] font-semibold", solid ? "bg-[#0F766E] text-white" : "border border-[#0F766E] text-[#0F766E]")}
                 data-testid="usta-request-btn"
               >
                 <CalendarCheck className="size-3.5" /> Buyurtma berish

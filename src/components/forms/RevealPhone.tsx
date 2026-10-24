@@ -8,7 +8,7 @@ export function RevealPhone({ kind, id, initial }: { kind: "master" | "lab" | "j
   const [busy, setBusy] = useState(false);
   if (phone) {
     return (
-      <a href={`tel:${phone.replace(/\s/g, "")}`} className="font-semibold text-[#0066FF]">
+      <a href={`tel:${phone.replace(/\s/g, "")}`} className="font-semibold text-[#0F766E]">
         {phone}
       </a>
     );
@@ -17,7 +17,7 @@ export function RevealPhone({ kind, id, initial }: { kind: "master" | "lab" | "j
     <span>
       <button
         type="button"
-        className="font-semibold text-[#0066FF]"
+        className="font-semibold text-[#0F766E]"
         disabled={busy}
         onClick={() => {
           setBusy(true);

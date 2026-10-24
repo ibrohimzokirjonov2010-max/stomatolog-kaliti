@@ -15,8 +15,8 @@ export const PAYMENTS = [
   { id: "click", name: "Click", text: "Click orqali to‘lov qilish", mark: "C", color: "#00b4d8" },
   { id: "payme", name: "Payme", text: "Payme orqali to‘lov qilish", mark: "P", color: "#14b87a" },
   { id: "uzum", name: "Uzum Bank", text: "Uzum Bank orqali to‘lov", mark: "U", color: "#7c3aed" },
-  { id: "card", name: "Bank kartasi", text: "Uzcard, Humo, Visa", mark: "", color: "#0066ff" },
-  { id: "installment", name: "Bo‘lib to‘lash", text: "Muddatli to‘lov (3-12 oy)", mark: "", color: "#0066ff" },
+  { id: "card", name: "Bank kartasi", text: "Uzcard, Humo, Visa", mark: "", color: "#0F766E" },
+  { id: "installment", name: "Bo‘lib to‘lash", text: "Muddatli to‘lov (3-12 oy)", mark: "", color: "#0F766E" },
 ] as const;
 
 export type PayId = (typeof PAYMENTS)[number]["id"];
@@ -57,7 +57,7 @@ export function useSeminarRegister(id: string, initialPayment: PayId = "installm
   useEffect(() => {
     if (!ticket) return;
     let alive = true;
-    QRCode.toDataURL(ticket.code, { margin: 1, width: 320, errorCorrectionLevel: "M", color: { dark: "#0B1F4D", light: "#ffffff" } })
+    QRCode.toDataURL(ticket.code, { margin: 1, width: 320, errorCorrectionLevel: "M", color: { dark: "#111827", light: "#ffffff" } })
       .then((url) => {
         if (alive) setQr(url);
       })

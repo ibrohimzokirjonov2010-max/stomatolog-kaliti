@@ -133,7 +133,7 @@ export function PostJobForm({ job, onDone, onCancel }: { job?: Job; onDone: () =
               role="radio"
               aria-checked={form.category === c}
               onClick={() => set({ category: c })}
-              className={cn("h-10 rounded-xl border text-[13px] font-semibold", form.category === c ? "border-[#0066FF] bg-[#0066FF] text-white" : "border-[#dbe3f0] bg-white text-[#1a1d26]")}
+              className={cn("h-10 rounded-xl border text-[13px] font-semibold", form.category === c ? "border-[#0F766E] bg-[#0F766E] text-white" : "border-[#dbe3f0] bg-white text-[#1a1d26]")}
             >
               {{ klinika: "Klinika xodimi", texnik: "Texnik", shifokor: "Shifokor" }[c]}
             </button>
@@ -227,9 +227,9 @@ export function PostJobForm({ job, onDone, onCancel }: { job?: Job; onDone: () =
                 type="button"
                 aria-pressed={on}
                 onClick={() => toggleBenefit(b.id)}
-                className={cn("rounded-xl border px-2.5 py-2 text-left leading-tight", on ? "border-[#0066FF] bg-[#eef4ff]" : "border-[#e6ebf3] bg-white")}
+                className={cn("rounded-xl border px-2.5 py-2 text-left leading-tight", on ? "border-[#0F766E] bg-[#eef4ff]" : "border-[#e6ebf3] bg-white")}
               >
-                <span className={cn("block text-[12.5px] font-semibold", on ? "text-[#0066FF]" : "text-[#1a1d26]")}>{b.title}</span>
+                <span className={cn("block text-[12.5px] font-semibold", on ? "text-[#0F766E]" : "text-[#1a1d26]")}>{b.title}</span>
                 <span className="block text-[11px] text-[#8b93a7]">{b.sub}</span>
               </button>
             );
@@ -337,7 +337,7 @@ export function ResumeForm({ initial, onDone, onCancel }: { initial: DbResume | 
 
 function Avatar({ name }: { name: string }) {
   const initials = name.split(" ").map((p) => p[0]).join("").slice(0, 2).toUpperCase();
-  return <span className="flex size-16 shrink-0 items-center justify-center rounded-full bg-[#dbeafe] text-lg font-semibold text-primary">{initials}</span>;
+  return <span className="flex size-16 shrink-0 items-center justify-center rounded-full bg-[#F0FDFA] text-lg font-semibold text-primary">{initials}</span>;
 }
 
 export function ProfileView({ person, onClose }: { person: Candidate; onClose: () => void }) {

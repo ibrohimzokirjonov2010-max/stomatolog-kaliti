@@ -36,7 +36,7 @@ export function SizeColorPickers({
                   onClick={() => onSize(item)}
                   className={cn(
                     "min-w-9 rounded-full px-2.5 py-1.5 text-[13px] font-semibold",
-                    on ? "bg-[#0066FF] text-white" : "border border-[#e6eaf2] bg-white text-[#4b5568]",
+                    on ? "bg-[#0F766E] text-white" : "border border-[#e6eaf2] bg-white text-[#4b5568]",
                   )}
                 >
                   {item}
@@ -65,7 +65,7 @@ export function SizeColorPickers({
                   aria-label={colorLabel(id)}
                   className={cn(
                     "flex items-center gap-1.5 rounded-full border px-2 py-1 text-[12px] font-medium",
-                    on ? "border-[#0066FF] bg-[#e8f1ff] text-[#0066FF]" : "border-[#e6eaf2] text-[#4b5568]",
+                    on ? "border-[#0F766E] bg-[#F0FDFA] text-[#0F766E]" : "border-[#e6eaf2] text-[#4b5568]",
                   )}
                 >
                   <span

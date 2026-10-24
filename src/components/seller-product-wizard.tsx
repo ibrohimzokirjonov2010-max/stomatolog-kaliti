@@ -89,15 +89,15 @@ function scrollToFirstError() {
 
 function Card({ title, sub, icon: Icon, children }: { title: string; sub?: string; icon?: typeof Tag; children: ReactNode }) {
   return (
-    <section className="rounded-2xl border border-[#e6eaf2] bg-white p-4 lg:p-5 shadow-[0_1px_2px_rgba(15,23,42,0.03)]">
+    <section className="rounded-2xl border border-[#e6eaf2] bg-white p-4 lg:p-5 shadow-[0_1px_2px_rgba(17, 24, 39, 0.03)]">
       <div className="flex items-start gap-3">
         {Icon ? (
-          <span className="grid size-9 shrink-0 place-items-center rounded-xl bg-[#e8f1ff] text-[#0066FF]">
+          <span className="grid size-9 shrink-0 place-items-center rounded-xl bg-[#F0FDFA] text-[#0F766E]">
             <Icon className="size-[18px]" />
           </span>
         ) : null}
         <div>
-          <h3 className="text-[15px] leading-tight font-bold text-[#0B1F4D]">{title}</h3>
+          <h3 className="text-[15px] leading-tight font-bold text-[#111827]">{title}</h3>
           {sub ? <p className="mt-0.5 text-[12.5px] text-[#8b93a7]">{sub}</p> : null}
         </div>
       </div>
@@ -152,7 +152,7 @@ function F({ label, req, hint, error, children, right }: { label: string; req?: 
 
 const inputCls = (err?: string) =>
   cn(
-    "h-11 w-full rounded-xl border bg-white px-3.5 text-[14px] text-[#1a1d26] outline-none transition-colors placeholder:text-[#a6aebf] focus:border-[#0066FF] focus:ring-2 focus:ring-[#0066FF]/15",
+    "h-11 w-full rounded-xl border bg-white px-3.5 text-[14px] text-[#1a1d26] outline-none transition-colors placeholder:text-[#a6aebf] focus:border-[#0F766E] focus:ring-2 focus:ring-[#0F766E]/15",
     err ? "border-[#fca5a5] bg-[#fff8f8]" : "border-[#dfe5ef]",
   );
 const DELIVERY_TIMES = ["Toshkent 24 soat", "Toshkent 1–2 kun", "O‘zbekiston bo‘ylab 1–3 kun", "O‘zbekiston bo‘ylab 3–5 kun", "O‘zbekiston bo‘ylab 5–7 kun"];
@@ -640,9 +640,9 @@ export function SellerProductWizard({ product, onDone }: { product?: Product; on
       {/* eslint-disable-next-line @next/next/no-img-element */}
       <img src={gallery[0] ?? placeholderProductImage(form.category)} alt="" className="size-14 shrink-0 rounded-xl border border-[#eceff5] bg-[#f7f9fc] object-contain" />
       <div className="min-w-0 flex-1">
-        <p className="line-clamp-2 text-[13px] leading-tight font-bold text-[#0B1F4D]">{form.name.trim() || "Mahsulot nomi"}</p>
+        <p className="line-clamp-2 text-[13px] leading-tight font-bold text-[#111827]">{form.name.trim() || "Mahsulot nomi"}</p>
         <p className="mt-0.5 truncate text-[12px] text-[#6b7280]">{form.brand.trim() || "Brend"}</p>
-        <button type="button" onClick={onLink} className="mt-1 text-[12px] font-semibold text-[#0066FF] hover:underline">{linkLabel}</button>
+        <button type="button" onClick={onLink} className="mt-1 text-[12px] font-semibold text-[#0F766E] hover:underline">{linkLabel}</button>
       </div>
     </div>
   );
@@ -655,11 +655,11 @@ export function SellerProductWizard({ product, onDone }: { product?: Product; on
         return (
           <li key={s.title}>
             <button type="button" onClick={() => goTo(i)} className={cn("flex w-full items-center gap-3 rounded-xl px-2.5 py-2.5 text-left", active ? "bg-[#eaf2ff]" : "hover:bg-[#f7f9fc]")}>
-              <span className={cn("grid size-7 shrink-0 place-items-center rounded-full text-[12.5px] font-bold", active ? "bg-[#0066FF] text-white" : done ? "bg-[#16a34a] text-white" : "border border-[#d5dbe7] bg-white text-[#8b93a7]")}>
+              <span className={cn("grid size-7 shrink-0 place-items-center rounded-full text-[12.5px] font-bold", active ? "bg-[#0F766E] text-white" : done ? "bg-[#16a34a] text-white" : "border border-[#d5dbe7] bg-white text-[#8b93a7]")}>
                 {done ? <Check className="size-3.5" strokeWidth={3} /> : i + 1}
               </span>
               <span className="leading-tight">
-                <span className={cn("block text-[13px] font-bold", active ? "text-[#0066FF]" : "text-[#1a1d26]")}>{s.title}</span>
+                <span className={cn("block text-[13px] font-bold", active ? "text-[#0F766E]" : "text-[#1a1d26]")}>{s.title}</span>
                 <span className="block text-[11px] text-[#8b93a7]">{SIDE_HINTS[i]}</span>
               </span>
             </button>
@@ -669,8 +669,8 @@ export function SellerProductWizard({ product, onDone }: { product?: Product; on
     </ol>
   );
   const previewCard = (title: string, opts?: { blue?: boolean; carousel?: boolean }) => (
-    <div className="rounded-2xl border border-[#e6eaf2] bg-white p-4 shadow-[0_1px_2px_rgba(15,23,42,0.03)]">
-      <p className="mb-3 text-[14px] font-bold text-[#0B1F4D]">{title}</p>
+    <div className="rounded-2xl border border-[#e6eaf2] bg-white p-4 shadow-[0_1px_2px_rgba(17, 24, 39, 0.03)]">
+      <p className="mb-3 text-[14px] font-bold text-[#111827]">{title}</p>
       <div className="relative aspect-[4/3] overflow-hidden rounded-xl border border-[#eceff5] bg-[#f7f9fc]">
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img src={gallery[slideIdx] ?? placeholderProductImage(form.category)} alt="" className={cn("size-full object-contain p-3", !gallery.length && "opacity-40")} />
@@ -686,22 +686,22 @@ export function SellerProductWizard({ product, onDone }: { product?: Product; on
             <button type="button" aria-label="Keyingi rasm" onClick={() => setSlide((slideIdx + 1) % gallery.length)} className="absolute top-1/2 right-2 grid size-8 -translate-y-1/2 place-items-center rounded-full bg-white/95 shadow"><ChevronRight className="size-4" /></button>
             <span className="absolute bottom-2.5 left-1/2 flex -translate-x-1/2 gap-1.5">
               {gallery.map((_, i) => (
-                <span key={i} className={cn("size-1.5 rounded-full", i === slideIdx ? "bg-[#0066FF]" : "bg-[#c5ccda]")} />
+                <span key={i} className={cn("size-1.5 rounded-full", i === slideIdx ? "bg-[#0F766E]" : "bg-[#c5ccda]")} />
               ))}
             </span>
           </>
         ) : null}
       </div>
-      <h4 className={cn("mt-3.5 line-clamp-2 text-[16px] leading-snug font-bold", form.name.trim() ? "text-[#0B1F4D]" : "text-[#a6aebf]")}>{form.name.trim() || "Mahsulot nomi"}</h4>
+      <h4 className={cn("mt-3.5 line-clamp-2 text-[16px] leading-snug font-bold", form.name.trim() ? "text-[#111827]" : "text-[#a6aebf]")}>{form.name.trim() || "Mahsulot nomi"}</h4>
       <p className={cn("mt-0.5 text-[13px]", form.brand.trim() ? "text-[#4b5568]" : "text-[#a6aebf]")}>{form.brand.trim() || "Brend"}</p>
       <div className="mt-2.5 flex flex-wrap gap-1.5">
-        <span className="inline-flex items-center gap-1 rounded-full bg-[#e8f1ff] px-2.5 py-1 text-[11.5px] font-semibold text-[#0066FF]"><Tag className="size-3" />{categoryLabels[form.category]}</span>
-        {form.subcategory ? <span className="rounded-full bg-[#e8f1ff] px-2.5 py-1 text-[11.5px] font-semibold text-[#0066FF]">{form.subcategory}</span> : null}
+        <span className="inline-flex items-center gap-1 rounded-full bg-[#F0FDFA] px-2.5 py-1 text-[11.5px] font-semibold text-[#0F766E]"><Tag className="size-3" />{categoryLabels[form.category]}</span>
+        {form.subcategory ? <span className="rounded-full bg-[#F0FDFA] px-2.5 py-1 text-[11.5px] font-semibold text-[#0F766E]">{form.subcategory}</span> : null}
       </div>
       <div className="mt-3.5">
         {salePrice > 0 ? (
           <div className="flex flex-wrap items-baseline gap-x-2.5 gap-y-1">
-            <p className={cn("text-[22px] leading-none font-extrabold", opts?.blue ? "text-[#0066FF]" : "text-[#0B1F4D]")}>{formatMoney(salePrice, "UZS")}</p>
+            <p className={cn("text-[22px] leading-none font-extrabold", opts?.blue ? "text-[#0F766E]" : "text-[#111827]")}>{formatMoney(salePrice, "UZS")}</p>
             {discountOn ? (
               <>
                 <span className="text-[12.5px] text-[#9aa3b2] line-through">{formatMoney(priceNum, "UZS")}</span>
@@ -715,8 +715,8 @@ export function SellerProductWizard({ product, onDone }: { product?: Product; on
         {form.stock.trim() !== "" && maxStep >= 1 ? <p className="mt-1.5 text-[12px] text-[#16a34a]">{Number(form.stock) > 0 ? `Omborda ${form.stock} dona` : "Omborda yo‘q"} · {form.delivery || "—"}</p> : null}
       </div>
       <div className="mt-4 flex items-start gap-2.5 rounded-xl bg-[#eef5ff] p-3">
-        <ShieldCheck className="mt-0.5 size-5 shrink-0 text-[#0066FF]" />
-        <p className="text-[12px] leading-snug text-[#4b5568]"><b className="block text-[13px] text-[#0B1F4D]">Sifat kafolati</b>Original mahsulot, sertifikat bilan</p>
+        <ShieldCheck className="mt-0.5 size-5 shrink-0 text-[#0F766E]" />
+        <p className="text-[12px] leading-snug text-[#4b5568]"><b className="block text-[13px] text-[#111827]">Sifat kafolati</b>Original mahsulot, sertifikat bilan</p>
       </div>
     </div>
   );
@@ -823,7 +823,7 @@ export function SellerProductWizard({ product, onDone }: { product?: Product; on
                           <img src={form.image} alt="" className="size-full object-contain p-2" />
                           <span className="absolute top-2 left-2 inline-flex items-center gap-1 rounded-full bg-[#16a34a] px-2 py-0.5 text-[11px] font-semibold text-white"><Check className="size-3" strokeWidth={3} />Asosiy rasm yuklandi</span>
                           <div className="absolute inset-x-2 bottom-2 flex gap-2">
-                            <button type="button" disabled={upload !== ""} onClick={() => { replacingCover.current = true; mainRef.current?.click(); }} className="h-9 flex-1 rounded-xl bg-white/95 text-[12.5px] font-semibold text-[#0066FF] shadow hover:bg-white disabled:opacity-60">Almashtirish</button>
+                            <button type="button" disabled={upload !== ""} onClick={() => { replacingCover.current = true; mainRef.current?.click(); }} className="h-9 flex-1 rounded-xl bg-white/95 text-[12.5px] font-semibold text-[#0F766E] shadow hover:bg-white disabled:opacity-60">Almashtirish</button>
                             <button type="button" aria-label="Asosiy rasmni olib tashlash" onClick={removeCover} className="grid size-9 place-items-center rounded-xl bg-white/95 text-[#dc2626] shadow hover:bg-white"><Trash2 className="size-4" /></button>
                           </div>
                         </div>
@@ -834,15 +834,15 @@ export function SellerProductWizard({ product, onDone }: { product?: Product; on
                           onDrop={onDrop}
                           className={cn(
                             "flex aspect-square flex-col items-center justify-center rounded-2xl border-2 border-dashed px-4 text-center transition-colors",
-                            errs.image ? "border-[#fca5a5] bg-[#fff8f8]" : drag ? "border-[#0066FF] bg-[#f3f8ff]" : "border-[#c9d6ee] bg-[#fafcff]",
+                            errs.image ? "border-[#fca5a5] bg-[#fff8f8]" : drag ? "border-[#0F766E] bg-[#f3f8ff]" : "border-[#CCFBF1] bg-[#fafcff]",
                           )}
                         >
-                          <span className="grid size-12 place-items-center rounded-full bg-[#e8f1ff] text-[#0066FF]">
+                          <span className="grid size-12 place-items-center rounded-full bg-[#F0FDFA] text-[#0F766E]">
                             {upload === "main" ? <Loader2 className="size-6 animate-spin" /> : <CloudUpload className="size-6" />}
                           </span>
                           <p className="mt-3 text-[14px] font-semibold text-[#1a1d26]">{upload === "main" ? "Yuklanmoqda…" : <>Asosiy rasm yuklash <span className="text-[#ef4444]">*</span></>}</p>
                           <p className="mt-0.5 text-[12px] text-[#8b93a7]">JPG, PNG, WebP · maks. 10 MB · bir nechtasini birdan tanlash mumkin</p>
-                          <button type="button" disabled={upload !== ""} onClick={() => mainRef.current?.click()} className="mt-3 h-10 rounded-xl bg-[#0066FF] px-6 text-[13.5px] font-semibold text-white hover:bg-[#0058dd] disabled:opacity-60">
+                          <button type="button" disabled={upload !== ""} onClick={() => mainRef.current?.click()} className="mt-3 h-10 rounded-xl bg-[#0F766E] px-6 text-[13.5px] font-semibold text-white hover:bg-[#115E59] disabled:opacity-60">
                             Rasmlarni tanlash
                           </button>
                         </div>
@@ -861,13 +861,13 @@ export function SellerProductWizard({ product, onDone }: { product?: Product; on
                       </div>
                       <div className="mt-3 grid grid-cols-4 gap-2.5">
                         {gallery.map((src, i) => (
-                          <div key={src + i} data-testid="wizard-photo" className={cn("group relative aspect-square overflow-hidden rounded-xl border-2 bg-white", i === slideIdx ? "border-[#0066FF]" : "border-[#e6eaf2]")}>
+                          <div key={src + i} data-testid="wizard-photo" className={cn("group relative aspect-square overflow-hidden rounded-xl border-2 bg-white", i === slideIdx ? "border-[#0F766E]" : "border-[#e6eaf2]")}>
                             <button type="button" aria-label={`${i + 1}-rasmni ko‘rish`} onClick={() => setSlide(i)} className="size-full">
                               {/* eslint-disable-next-line @next/next/no-img-element */}
                               <img src={src} alt="" className="size-full object-contain p-1" />
                             </button>
                             {i === 0 ? (
-                              <span className="pointer-events-none absolute inset-x-0 bottom-0 bg-[#0066FF] py-0.5 text-center text-[10px] font-semibold text-white">Asosiy</span>
+                              <span className="pointer-events-none absolute inset-x-0 bottom-0 bg-[#0F766E] py-0.5 text-center text-[10px] font-semibold text-white">Asosiy</span>
                             ) : (
                               <>
                                 <button type="button" aria-label={`${i + 1}-rasmni olib tashlash`} onClick={() => removeExtra(i - 1)} className="absolute top-1 right-1 grid size-6 place-items-center rounded-full bg-white/95 text-[#dc2626] shadow lg:opacity-0 lg:group-hover:opacity-100 lg:focus-visible:opacity-100">
@@ -876,7 +876,7 @@ export function SellerProductWizard({ product, onDone }: { product?: Product; on
                                 <button type="button" aria-label={`${i + 1}-rasmni asosiy qilish`} title="Asosiy rasm qilish" onClick={() => makeCover(i - 1)} className="absolute bottom-1 left-1 grid size-6 place-items-center rounded-full bg-white/95 text-[#f59e0b] shadow lg:opacity-0 lg:group-hover:opacity-100 lg:focus-visible:opacity-100">
                                   <Star className="size-3.5" />
                                 </button>
-                                <button type="button" aria-label={`${i + 1}-rasmni chapga surish`} title="Oldinga surish" onClick={() => movePhoto(i, -1)} className="absolute right-1 bottom-1 grid size-6 place-items-center rounded-full bg-white/95 text-[#0066FF] shadow lg:opacity-0 lg:group-hover:opacity-100 lg:focus-visible:opacity-100">
+                                <button type="button" aria-label={`${i + 1}-rasmni chapga surish`} title="Oldinga surish" onClick={() => movePhoto(i, -1)} className="absolute right-1 bottom-1 grid size-6 place-items-center rounded-full bg-white/95 text-[#0F766E] shadow lg:opacity-0 lg:group-hover:opacity-100 lg:focus-visible:opacity-100">
                                   <ChevronLeft className="size-3.5" />
                                 </button>
                               </>
@@ -888,7 +888,7 @@ export function SellerProductWizard({ product, onDone }: { product?: Product; on
                             type="button"
                             disabled={upload !== ""}
                             onClick={() => extraRef.current?.click()}
-                            className="grid aspect-square place-items-center rounded-xl border-2 border-dashed border-[#c9d6ee] text-[#0066FF] hover:bg-[#f3f8ff] disabled:opacity-60"
+                            className="grid aspect-square place-items-center rounded-xl border-2 border-dashed border-[#CCFBF1] text-[#0F766E] hover:bg-[#f3f8ff] disabled:opacity-60"
                             aria-label="Qo‘shimcha rasm qo‘shish"
                           >
                             {upload === "extra" ? <Loader2 className="size-5 animate-spin" /> : <Plus className="size-6" />}
@@ -919,10 +919,10 @@ export function SellerProductWizard({ product, onDone }: { product?: Product; on
                       <Suf suffix="%" err={errs.discount} inputMode="numeric" value={form.discount} onChange={(v) => set("discount", v.replace(/\D/g, "").slice(0, 2))} placeholder="0" />
                     </F>
                   </div>
-                  <div className="mt-4 flex items-center justify-between rounded-xl border border-[#cfe0ff] bg-[#eef5ff] px-4 py-3">
+                  <div className="mt-4 flex items-center justify-between rounded-xl border border-[#F0FDFA] bg-[#eef5ff] px-4 py-3">
                     <div>
                       <p className="text-[12px] font-semibold text-[#6b7280]">Sotuv narxi</p>
-                      <p className="mt-0.5 text-[24px] leading-none font-extrabold text-[#0066FF]">{salePrice > 0 ? formatMoney(salePrice, "UZS") : "—"}</p>
+                      <p className="mt-0.5 text-[24px] leading-none font-extrabold text-[#0F766E]">{salePrice > 0 ? formatMoney(salePrice, "UZS") : "—"}</p>
                     </div>
                     {discountOn && priceNum > 0 ? (
                       <div className="flex flex-col items-end gap-1">
@@ -961,7 +961,7 @@ export function SellerProductWizard({ product, onDone }: { product?: Product; on
                     </F>
                   </div>
                   <p className="mt-4 flex items-start gap-2 rounded-xl bg-[#eef5ff] px-3.5 py-2.5 text-[12.5px] text-[#3a4a68]">
-                    <Info className="mt-0.5 size-4 shrink-0 text-[#0066FF]" />
+                    <Info className="mt-0.5 size-4 shrink-0 text-[#0F766E]" />
                     Stomatologik materiallar uchun partiya raqami va yaroqlilik muddatini ko‘rsatish xaridorlar ishonchini oshiradi.
                   </p>
                 </Card>
@@ -973,15 +973,15 @@ export function SellerProductWizard({ product, onDone }: { product?: Product; on
                       const on = form.deliveryMethod === m.id;
                       const Icon = m.icon;
                       return (
-                        <button key={m.id} type="button" aria-pressed={on} onClick={() => set("deliveryMethod", m.id)} className={cn("flex items-center gap-3 rounded-xl border-2 p-3 text-left transition-colors", on ? "border-[#0066FF] bg-[#f3f8ff]" : "border-[#dfe5ef] bg-white hover:bg-[#f7f9fc]")}>
-                          <span className={cn("grid size-10 shrink-0 place-items-center rounded-xl", on ? "bg-[#0066FF] text-white" : "bg-[#f1f4f9] text-[#8b93a7]")}>
+                        <button key={m.id} type="button" aria-pressed={on} onClick={() => set("deliveryMethod", m.id)} className={cn("flex items-center gap-3 rounded-xl border-2 p-3 text-left transition-colors", on ? "border-[#0F766E] bg-[#f3f8ff]" : "border-[#dfe5ef] bg-white hover:bg-[#f7f9fc]")}>
+                          <span className={cn("grid size-10 shrink-0 place-items-center rounded-xl", on ? "bg-[#0F766E] text-white" : "bg-[#f1f4f9] text-[#8b93a7]")}>
                             <Icon className="size-5" />
                           </span>
                           <span className="min-w-0 flex-1">
-                            <span className="block text-[13.5px] font-bold text-[#0B1F4D]">{m.title}</span>
+                            <span className="block text-[13.5px] font-bold text-[#111827]">{m.title}</span>
                             <span className="block text-[11.5px] leading-snug text-[#8b93a7]">{m.hint}</span>
                           </span>
-                          {on ? <Check className="size-4 shrink-0 text-[#0066FF]" strokeWidth={3} /> : null}
+                          {on ? <Check className="size-4 shrink-0 text-[#0F766E]" strokeWidth={3} /> : null}
                         </button>
                       );
                     })}
@@ -1024,15 +1024,15 @@ export function SellerProductWizard({ product, onDone }: { product?: Product; on
                     <div>
                       <div className="flex gap-6 border-b border-[#e6eaf2]">
                         {([["short", "Qisqa tavsif"], ["full", "To‘liq tavsif"]] as const).map(([id, label]) => (
-                          <button key={id} type="button" onClick={() => setDescTab(id)} className={cn("-mb-px border-b-2 pb-2 text-[13.5px] font-semibold", descTab === id ? "border-[#0066FF] text-[#0066FF]" : "border-transparent text-[#6b7280] hover:text-[#1a1d26]")}>
+                          <button key={id} type="button" onClick={() => setDescTab(id)} className={cn("-mb-px border-b-2 pb-2 text-[13.5px] font-semibold", descTab === id ? "border-[#0F766E] text-[#0F766E]" : "border-transparent text-[#6b7280] hover:text-[#1a1d26]")}>
                             {label}
                           </button>
                         ))}
                       </div>
-                      <div className="mt-3 overflow-hidden rounded-xl border border-[#dfe5ef] bg-white focus-within:border-[#0066FF] focus-within:ring-2 focus-within:ring-[#0066FF]/15">
+                      <div className="mt-3 overflow-hidden rounded-xl border border-[#dfe5ef] bg-white focus-within:border-[#0F766E] focus-within:ring-2 focus-within:ring-[#0F766E]/15">
                         <div className="flex items-center gap-0.5 border-b border-[#eef1f6] bg-[#fafbfe] px-2 py-1.5">
                           {([["bold", Bold, "Qalin"], ["italic", Italic, "Kursiv"], ["underline", Underline, "Tagiga chizish"], ["list", List, "Ro‘yxat"], ["link", Link2, "Havola"]] as const).map(([k, Icon, label]) => (
-                            <button key={k} type="button" title={label} aria-label={label} onMouseDown={(e) => e.preventDefault()} onClick={() => fmt(k)} className="grid size-8 place-items-center rounded-lg text-[#4b5568] hover:bg-[#eaf2ff] hover:text-[#0066FF]">
+                            <button key={k} type="button" title={label} aria-label={label} onMouseDown={(e) => e.preventDefault()} onClick={() => fmt(k)} className="grid size-8 place-items-center rounded-lg text-[#4b5568] hover:bg-[#eaf2ff] hover:text-[#0F766E]">
                               <Icon className="size-4" />
                             </button>
                           ))}
@@ -1061,11 +1061,11 @@ export function SellerProductWizard({ product, onDone }: { product?: Product; on
                         <p className="px-3.5 pb-2 text-right text-[12px] text-[#8b93a7]">{descTab === "short" ? `${form.shortDescription.length}/1000` : `${form.description.length}/4000`}</p>
                       </div>
                     </div>
-                    <div className="flex flex-col rounded-2xl border border-[#cfe0ff] bg-[#eef5ff] p-4">
-                      <span className="grid size-10 place-items-center rounded-xl bg-white text-[#0066FF] shadow-sm"><Sparkles className="size-5" /></span>
-                      <p className="mt-3 text-[14px] font-bold text-[#0B1F4D]">Tavsif uchun AI yordam</p>
+                    <div className="flex flex-col rounded-2xl border border-[#F0FDFA] bg-[#eef5ff] p-4">
+                      <span className="grid size-10 place-items-center rounded-xl bg-white text-[#0F766E] shadow-sm"><Sparkles className="size-5" /></span>
+                      <p className="mt-3 text-[14px] font-bold text-[#111827]">Tavsif uchun AI yordam</p>
                       <p className="mt-1 text-[12px] leading-snug text-[#5b6a86]">Tavsifni avtomatik yozib berish imkoniyati tayyorlanmoqda.</p>
-                      <button type="button" disabled className="mt-auto flex h-10 w-full cursor-not-allowed items-center justify-center gap-1.5 rounded-xl bg-white text-[12.5px] font-semibold text-[#8b93a7] ring-1 ring-[#dbe7ff]">
+                      <button type="button" disabled className="mt-auto flex h-10 w-full cursor-not-allowed items-center justify-center gap-1.5 rounded-xl bg-white text-[12.5px] font-semibold text-[#8b93a7] ring-1 ring-[#F0FDFA]">
                         <Sparkles className="size-4" /> AI bilan yozish · Tez orada
                       </button>
                     </div>
@@ -1096,7 +1096,7 @@ export function SellerProductWizard({ product, onDone }: { product?: Product; on
                         {clothingSizes.map((s) => {
                           const on = form.sizes.includes(s);
                           return (
-                            <button key={s} type="button" onClick={() => set("sizes", on ? form.sizes.filter((x) => x !== s) : [...form.sizes, s])} className={cn("grid size-10 place-items-center rounded-full text-[13px] font-semibold", on ? "bg-[#0066FF] text-white" : "bg-white text-[#4b5568] ring-1 ring-[#dfe5ef]")}>
+                            <button key={s} type="button" onClick={() => set("sizes", on ? form.sizes.filter((x) => x !== s) : [...form.sizes, s])} className={cn("grid size-10 place-items-center rounded-full text-[13px] font-semibold", on ? "bg-[#0F766E] text-white" : "bg-white text-[#4b5568] ring-1 ring-[#dfe5ef]")}>
                               {s}
                             </button>
                           );
@@ -1110,7 +1110,7 @@ export function SellerProductWizard({ product, onDone }: { product?: Product; on
                         {formaColors.map((c) => {
                           const on = form.colors.includes(c.id);
                           return (
-                            <button key={c.id} type="button" onClick={() => set("colors", on ? form.colors.filter((x) => x !== c.id) : [...form.colors, c.id])} className={cn("inline-flex items-center gap-2 rounded-full bg-white px-3 py-1.5 text-[12.5px] font-medium ring-1", on ? "text-[#0066FF] ring-[#0066FF]" : "text-[#4b5568] ring-[#dfe5ef]")}>
+                            <button key={c.id} type="button" onClick={() => set("colors", on ? form.colors.filter((x) => x !== c.id) : [...form.colors, c.id])} className={cn("inline-flex items-center gap-2 rounded-full bg-white px-3 py-1.5 text-[12.5px] font-medium ring-1", on ? "text-[#0F766E] ring-[#0F766E]" : "text-[#4b5568] ring-[#dfe5ef]")}>
                               <span className="size-3.5 rounded-full border border-black/10" style={{ backgroundColor: c.hex }} />
                               {c.label}
                             </button>
@@ -1176,8 +1176,8 @@ export function SellerProductWizard({ product, onDone }: { product?: Product; on
 
                 <Card icon={ShieldCheck} title="Sertifikatlar va hujjatlar">
                   <input ref={docRef} type="file" accept="application/pdf,image/jpeg,image/png,image/webp" multiple className="hidden" onChange={(e) => { const f = e.target.files; void addDocs(f).then(() => { e.target.value = ""; }); }} />
-                  <button type="button" disabled={upload !== ""} onClick={() => docRef.current?.click()} className="flex w-full flex-col items-center rounded-2xl border-2 border-dashed border-[#c9d6ee] bg-[#fafcff] px-5 py-5 text-center hover:bg-[#f3f8ff] disabled:opacity-60">
-                    <span className="grid size-11 place-items-center rounded-full bg-[#e8f1ff] text-[#0066FF]">{upload === "doc" ? <Loader2 className="size-5 animate-spin" /> : <CloudUpload className="size-5" />}</span>
+                  <button type="button" disabled={upload !== ""} onClick={() => docRef.current?.click()} className="flex w-full flex-col items-center rounded-2xl border-2 border-dashed border-[#CCFBF1] bg-[#fafcff] px-5 py-5 text-center hover:bg-[#f3f8ff] disabled:opacity-60">
+                    <span className="grid size-11 place-items-center rounded-full bg-[#F0FDFA] text-[#0F766E]">{upload === "doc" ? <Loader2 className="size-5 animate-spin" /> : <CloudUpload className="size-5" />}</span>
                     <span className="mt-2 block text-[14px] font-semibold text-[#1a1d26]">{upload === "doc" ? "Yuklanmoqda…" : "Fayl yuklash"}</span>
                     <span className="block text-[12px] text-[#8b93a7]">PDF, JPG, PNG · 10 MB gacha · {form.docs.length}/{MAX_DOCS} ta</span>
                   </button>
@@ -1213,7 +1213,7 @@ export function SellerProductWizard({ product, onDone }: { product?: Product; on
                       ["show", "Sotuvda ko‘rsatish"],
                     ] as const).map(([key, label]) => (
                       <label key={key} className="flex cursor-pointer items-center gap-2.5 text-[14px] font-medium text-[#1a1d26]">
-                        <input type="checkbox" className="size-[18px] rounded accent-[#0066FF]" checked={form[key]} onChange={(e) => set(key, e.target.checked)} />
+                        <input type="checkbox" className="size-[18px] rounded accent-[#0F766E]" checked={form[key]} onChange={(e) => set(key, e.target.checked)} />
                         {label}
                       </label>
                     ))}
@@ -1229,7 +1229,7 @@ export function SellerProductWizard({ product, onDone }: { product?: Product; on
               <>
                 {previewCard("Tanlangan mahsulot", { carousel: false })}
                 <div className="rounded-2xl border border-[#e6eaf2] bg-white p-4">
-                  <p className="mb-3 text-[14px] font-bold text-[#0B1F4D]">Joriy sozlamalar</p>
+                  <p className="mb-3 text-[14px] font-bold text-[#111827]">Joriy sozlamalar</p>
                   <dl className="space-y-2.5 text-[13px]">
                     {([
                       ["Asosiy narx", priceNum > 0 ? formatMoney(priceNum, "UZS") : "—"],
@@ -1241,7 +1241,7 @@ export function SellerProductWizard({ product, onDone }: { product?: Product; on
                     ] as const).map(([k, v]) => (
                       <div key={k} className="flex items-start justify-between gap-3">
                         <dt className="text-[#6b7280]">{k}</dt>
-                        <dd className={cn("text-right font-semibold", k === "Sotuv narxi" ? "text-[#0066FF]" : "text-[#1a1d26]")}>{v}</dd>
+                        <dd className={cn("text-right font-semibold", k === "Sotuv narxi" ? "text-[#0F766E]" : "text-[#1a1d26]")}>{v}</dd>
                       </div>
                     ))}
                   </dl>
@@ -1253,13 +1253,13 @@ export function SellerProductWizard({ product, onDone }: { product?: Product; on
                 {step === 2 ? (
                   <div className="rounded-2xl border border-[#e6eaf2] bg-white p-4">
                     <div className="mb-3 flex items-center justify-between">
-                      <p className="flex items-center gap-1.5 text-[14px] font-bold text-[#0B1F4D]"><Lightbulb className="size-4 text-[#f59e0b]" />Yaxshiroq ko‘rinish uchun tavsiyalar</p>
+                      <p className="flex items-center gap-1.5 text-[14px] font-bold text-[#111827]"><Lightbulb className="size-4 text-[#f59e0b]" />Yaxshiroq ko‘rinish uchun tavsiyalar</p>
                       <span className="text-[12px] font-semibold text-[#6b7280]">{checklistDone}/{checklist.length}</span>
                     </div>
                     <ul className="space-y-2.5">
                       {checklist.map((c) => (
                         <li key={c.text} className="flex items-start gap-2.5 text-[12.5px] leading-snug">
-                          <span className={cn("mt-0.5 grid size-5 shrink-0 place-items-center rounded-full", c.ok ? "bg-[#0066FF] text-white" : "border border-[#d5dbe7] bg-white text-transparent")}>
+                          <span className={cn("mt-0.5 grid size-5 shrink-0 place-items-center rounded-full", c.ok ? "bg-[#0F766E] text-white" : "border border-[#d5dbe7] bg-white text-transparent")}>
                             <Check className="size-3.5" strokeWidth={3} />
                           </span>
                           <span className={c.ok ? "text-[#1a1d26]" : "text-[#4b5568]"}>
@@ -1279,7 +1279,7 @@ export function SellerProductWizard({ product, onDone }: { product?: Product; on
   const footerBtns = (
     <>
       {step === 2 ? (
-        <button type="button" onClick={() => submit(true)} disabled={upload !== ""} className="mb-2 inline-flex h-11 w-full items-center justify-center gap-2 rounded-xl border border-[#dbe7ff] bg-white text-[14px] font-semibold text-[#0066FF] active:bg-[#f3f8ff] disabled:opacity-60">
+        <button type="button" onClick={() => submit(true)} disabled={upload !== ""} className="mb-2 inline-flex h-11 w-full items-center justify-center gap-2 rounded-xl border border-[#F0FDFA] bg-white text-[14px] font-semibold text-[#0F766E] active:bg-[#f3f8ff] disabled:opacity-60">
           <FolderOpen className="size-4" /> Qoralama saqlash
         </button>
       ) : null}
@@ -1293,7 +1293,7 @@ export function SellerProductWizard({ product, onDone }: { product?: Product; on
             <ArrowLeft className="size-4" /> Orqaga
           </button>
         )}
-        <button type="button" onClick={next} disabled={upload !== ""} className="inline-flex h-12 min-w-0 flex-1 items-center justify-center gap-2 rounded-xl bg-[#0066FF] px-4 text-[14.5px] font-bold text-white shadow-[0_8px_18px_rgba(0,102,255,0.28)] active:bg-[#0058dd] disabled:opacity-60">
+        <button type="button" onClick={next} disabled={upload !== ""} className="inline-flex h-12 min-w-0 flex-1 items-center justify-center gap-2 rounded-xl bg-[#0F766E] px-4 text-[14.5px] font-bold text-white shadow-[0_8px_18px_rgba(15, 118, 110, 0.28)] active:bg-[#115E59] disabled:opacity-60">
           {step < 2 ? "Keyingi bosqich" : product ? "Saqlash" : "Katalogga qo‘shish"}
           <ArrowRight className="size-4 shrink-0" />
         </button>
@@ -1306,11 +1306,11 @@ export function SellerProductWizard({ product, onDone }: { product?: Product; on
       <div role="dialog" aria-modal="true" aria-label={product ? "Mahsulotni tahrirlash" : "Mahsulot qo‘shish"} className="fixed inset-0 z-50 flex flex-col bg-[#f7f9fc]">
         <div className="flex items-center justify-between gap-3 border-b border-[#eef1f6] bg-white px-4 pt-[max(0.75rem,env(safe-area-inset-top))] pb-3">
           <div className="flex min-w-0 items-center gap-3">
-            <span className="grid size-10 shrink-0 place-items-center rounded-xl bg-[#e8f1ff] text-[#0066FF]">
+            <span className="grid size-10 shrink-0 place-items-center rounded-xl bg-[#F0FDFA] text-[#0F766E]">
               <Package className="size-5" />
             </span>
             <div className="min-w-0">
-              <h2 className="truncate text-[17px] leading-tight font-extrabold tracking-tight text-[#0B1F4D]">{product ? "Mahsulotni tahrirlash" : "Mahsulot qo‘shish"}</h2>
+              <h2 className="truncate text-[17px] leading-tight font-extrabold tracking-tight text-[#111827]">{product ? "Mahsulotni tahrirlash" : "Mahsulot qo‘shish"}</h2>
               <p className="truncate text-[12px] text-[#6b7280]">{product ? "3 bosqichda yangilang" : "3 oddiy bosqichda qo‘shing"}</p>
             </div>
           </div>
@@ -1327,12 +1327,12 @@ export function SellerProductWizard({ product, onDone }: { product?: Product; on
               <li key={s.title} className="flex flex-1 flex-col items-center last:flex-none first:flex-none">
                 <div className="flex w-full items-center">
                   <span className={cn("h-px flex-1", i === 0 ? "bg-transparent" : i <= step ? "bg-[#16a34a]" : "bg-[#dfe5ef]")} />
-                  <button type="button" aria-label={`${i + 1}-bosqich: ${s.title}`} aria-current={active ? "step" : undefined} onClick={() => goTo(i)} className={cn("mx-1 grid size-9 shrink-0 place-items-center rounded-full text-[14px] font-bold", active ? "bg-[#0066FF] text-white shadow-[0_6px_14px_rgba(0,102,255,0.3)]" : done ? "bg-[#16a34a] text-white" : "border border-[#d5dbe7] bg-white text-[#8b93a7]")}>
+                  <button type="button" aria-label={`${i + 1}-bosqich: ${s.title}`} aria-current={active ? "step" : undefined} onClick={() => goTo(i)} className={cn("mx-1 grid size-9 shrink-0 place-items-center rounded-full text-[14px] font-bold", active ? "bg-[#0F766E] text-white shadow-[0_6px_14px_rgba(15, 118, 110, 0.3)]" : done ? "bg-[#16a34a] text-white" : "border border-[#d5dbe7] bg-white text-[#8b93a7]")}>
                     {done ? <Check className="size-4" strokeWidth={3} /> : i + 1}
                   </button>
                   <span className={cn("h-px flex-1", i === STEPS.length - 1 ? "bg-transparent" : i < step ? "bg-[#16a34a]" : "bg-[#dfe5ef]")} />
                 </div>
-                <span className={cn("mt-1.5 text-[12.5px] leading-tight font-bold", active ? "text-[#0066FF]" : "text-[#4b5568]")}>{s.title}</span>
+                <span className={cn("mt-1.5 text-[12.5px] leading-tight font-bold", active ? "text-[#0F766E]" : "text-[#4b5568]")}>{s.title}</span>
               </li>
             );
           })}
@@ -1345,8 +1345,8 @@ export function SellerProductWizard({ product, onDone }: { product?: Product; on
           <section className="overflow-hidden rounded-2xl border border-[#e6eaf2] bg-white">
             <button type="button" aria-expanded={previewOpen} onClick={() => setPreviewOpen((v) => !v)} className="flex w-full items-center justify-between gap-3 px-4 py-3.5 text-left">
               <span className="flex items-center gap-2.5">
-                <span className="grid size-9 place-items-center rounded-xl bg-[#e8f1ff] text-[#0066FF]"><Eye className="size-[18px]" /></span>
-                <span className="text-[15px] font-bold text-[#0B1F4D]">Ko‘rinish (oldindan)</span>
+                <span className="grid size-9 place-items-center rounded-xl bg-[#F0FDFA] text-[#0F766E]"><Eye className="size-[18px]" /></span>
+                <span className="text-[15px] font-bold text-[#111827]">Ko‘rinish (oldindan)</span>
               </span>
               <ChevronDown className={cn("size-5 text-[#8b93a7] transition-transform", previewOpen && "rotate-180")} />
             </button>
@@ -1354,7 +1354,7 @@ export function SellerProductWizard({ product, onDone }: { product?: Product; on
           </section>
         </div>
 
-        <div className="border-t border-[#e6eaf2] bg-white px-4 pt-3 pb-[max(0.75rem,env(safe-area-inset-bottom))] shadow-[0_-6px_18px_rgba(15,23,42,0.06)]">{footerBtns}</div>
+        <div className="border-t border-[#e6eaf2] bg-white px-4 pt-3 pb-[max(0.75rem,env(safe-area-inset-bottom))] shadow-[0_-6px_18px_rgba(17, 24, 39, 0.06)]">{footerBtns}</div>
       </div>
     );
   }
@@ -1362,15 +1362,15 @@ export function SellerProductWizard({ product, onDone }: { product?: Product; on
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-slate-900/45 p-4 backdrop-blur-[3px] [@media(min-height:760px)]:p-6">
       <button type="button" aria-label="Yopish" className="absolute inset-0" onClick={onDone} />
-      <div role="dialog" aria-modal="true" className="relative flex max-h-full w-full max-w-[1360px] flex-col overflow-hidden rounded-[20px] bg-[#f7f9fc] shadow-[0_24px_80px_rgba(15,23,42,0.28)]">
+      <div role="dialog" aria-modal="true" className="relative flex max-h-full w-full max-w-[1360px] flex-col overflow-hidden rounded-[20px] bg-[#f7f9fc] shadow-[0_24px_80px_rgba(17, 24, 39, 0.28)]">
         {/* header */}
         <div className="flex items-start justify-between gap-4 bg-white px-7 pt-5 pb-3 [@media(min-height:760px)]:pt-6 [@media(min-height:760px)]:pb-4">
           <div className="flex items-center gap-3.5">
-            <span className="grid size-12 place-items-center rounded-2xl bg-[#e8f1ff] text-[#0066FF] [@media(max-height:760px)]:size-10">
+            <span className="grid size-12 place-items-center rounded-2xl bg-[#F0FDFA] text-[#0F766E] [@media(max-height:760px)]:size-10">
               <Package className="size-6" />
             </span>
             <div>
-              <h2 className="text-[22px] leading-tight font-extrabold tracking-tight text-[#0B1F4D] [@media(max-height:760px)]:text-[19px]">{product ? "Mahsulotni tahrirlash" : "Mahsulot qo‘shish"}</h2>
+              <h2 className="text-[22px] leading-tight font-extrabold tracking-tight text-[#111827] [@media(max-height:760px)]:text-[19px]">{product ? "Mahsulotni tahrirlash" : "Mahsulot qo‘shish"}</h2>
               <p className="mt-0.5 text-[13px] text-[#6b7280] [@media(max-height:760px)]:text-[12px]">{product ? "Mahsulot ma’lumotlarini 3 bosqichda yangilang" : "Yangi mahsulotingizni 3 oddiy bosqichda qo‘shing"}</p>
             </div>
           </div>
@@ -1390,14 +1390,14 @@ export function SellerProductWizard({ product, onDone }: { product?: Product; on
                   <span
                     className={cn(
                       "grid size-9 shrink-0 place-items-center rounded-full text-[14px] font-bold",
-                      active ? "bg-[#0066FF] text-white shadow-[0_6px_14px_rgba(0,102,255,0.3)]" : done ? "bg-[#16a34a] text-white" : "border border-[#d5dbe7] bg-white text-[#8b93a7]",
+                      active ? "bg-[#0F766E] text-white shadow-[0_6px_14px_rgba(15, 118, 110, 0.3)]" : done ? "bg-[#16a34a] text-white" : "border border-[#d5dbe7] bg-white text-[#8b93a7]",
                     )}
                   >
                     {done ? <Check className="size-4" strokeWidth={3} /> : i + 1}
                   </span>
                   <span className="leading-tight">
-                    <span className={cn("block text-[14px] font-bold", active ? "text-[#0B1F4D]" : done ? "text-[#0B1F4D]" : "text-[#4b5568]")}>{s.title}</span>
-                    <span className={cn("block text-[12px]", active ? "text-[#0066FF]" : "text-[#8b93a7]")}>{s.hint}</span>
+                    <span className={cn("block text-[14px] font-bold", active ? "text-[#111827]" : done ? "text-[#111827]" : "text-[#4b5568]")}>{s.title}</span>
+                    <span className={cn("block text-[12px]", active ? "text-[#0F766E]" : "text-[#8b93a7]")}>{s.hint}</span>
                   </span>
                 </button>
                 {i < STEPS.length - 1 ? <span className={cn("h-px flex-1", i < step ? "bg-[#16a34a]" : "bg-[#dfe5ef]")} /> : null}
@@ -1437,11 +1437,11 @@ export function SellerProductWizard({ product, onDone }: { product?: Product; on
           )}
           <div className="flex items-center gap-2.5">
             {step === 2 ? (
-              <button type="button" onClick={() => submit(true)} disabled={upload !== ""} className="inline-flex h-11 items-center gap-2 rounded-xl border border-[#dbe7ff] bg-white px-5 text-[14px] font-semibold text-[#0066FF] hover:bg-[#f3f8ff] disabled:opacity-60">
+              <button type="button" onClick={() => submit(true)} disabled={upload !== ""} className="inline-flex h-11 items-center gap-2 rounded-xl border border-[#F0FDFA] bg-white px-5 text-[14px] font-semibold text-[#0F766E] hover:bg-[#f3f8ff] disabled:opacity-60">
                 <FolderOpen className="size-4" /> Qoralama saqlash
               </button>
             ) : null}
-            <button type="button" onClick={next} disabled={upload !== ""} className="inline-flex h-11 items-center gap-2 rounded-xl bg-[#0066FF] px-6 text-[14px] font-bold text-white shadow-[0_8px_18px_rgba(0,102,255,0.28)] hover:bg-[#0058dd] disabled:opacity-60">
+            <button type="button" onClick={next} disabled={upload !== ""} className="inline-flex h-11 items-center gap-2 rounded-xl bg-[#0F766E] px-6 text-[14px] font-bold text-white shadow-[0_8px_18px_rgba(15, 118, 110, 0.28)] hover:bg-[#115E59] disabled:opacity-60">
               {step < 2 ? "Keyingi bosqich" : product ? "Saqlash" : "Katalogga qo‘shish"}
               <ArrowRight className="size-4" />
             </button>

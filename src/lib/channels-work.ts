@@ -70,14 +70,14 @@ export function normalizeUsername(value: string) {
 }
 
 const avatarPalette = [
-  "#0066FF",
-  "#0d9488",
+  "#0F766E",
+  "#0F766E",
   "#7c3aed",
   "#ea580c",
   "#db2777",
-  "#2563eb",
+  "#0F766E",
   "#059669",
-  "#4f46e5",
+  "#0F766E",
 ];
 
 function sortByBid(list: Channel[]) {

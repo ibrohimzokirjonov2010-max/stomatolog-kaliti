@@ -15,10 +15,10 @@ export function Panel({
   className?: string;
 }) {
   return (
-    <section className={cn("rounded-2xl border border-[#eceff5] bg-white p-5 shadow-[0_1px_3px_rgba(15,23,42,0.04)]", className)}>
+    <section className={cn("rounded-2xl border border-[#eceff5] bg-white p-5 shadow-[0_1px_3px_rgba(17, 24, 39, 0.04)]", className)}>
       {title || action ? (
         <div className="flex items-center justify-between gap-2">
-          {title ? <h2 className="text-[15.5px] font-bold text-[#0B1F4D]">{title}</h2> : <span />}
+          {title ? <h2 className="text-[15.5px] font-bold text-[#111827]">{title}</h2> : <span />}
           {action}
         </div>
       ) : null}
@@ -56,8 +56,8 @@ export function PillTabs<T extends string>({
           className={cn(
             "h-10 rounded-xl border px-4 text-[13.5px] font-semibold transition-colors",
             value === t.id
-              ? "border-[#0066FF] bg-[#0066FF] text-white shadow-[0_4px_12px_rgba(0,102,255,0.25)]"
-              : "border-[#e4e9f2] bg-white text-[#4b5568] hover:border-[#bcd3ff] hover:text-[#0066FF]",
+              ? "border-[#0F766E] bg-[#0F766E] text-white shadow-[0_4px_12px_rgba(15, 118, 110, 0.25)]"
+              : "border-[#e4e9f2] bg-white text-[#4b5568] hover:border-[#CCFBF1] hover:text-[#0F766E]",
           )}
         >
           {t.label}
@@ -86,7 +86,7 @@ export function SelectBox({
       value={value}
       onChange={(e) => onChange(e.target.value)}
       className={cn(
-        "h-9 rounded-lg border border-[#e4e9f2] bg-white px-2.5 text-[12.5px] font-medium text-[#0B1F4D] outline-none focus:border-[#0066FF]",
+        "h-9 rounded-lg border border-[#e4e9f2] bg-white px-2.5 text-[12.5px] font-medium text-[#111827] outline-none focus:border-[#0F766E]",
         className,
       )}
     >
@@ -200,7 +200,7 @@ export function LineChart({
               />
             ))}
             {active != null ? (
-              <line x1={X(active)} x2={X(active)} y1="0" y2="100" stroke="#cfd8ea" strokeWidth="1" vectorEffect="non-scaling-stroke" />
+              <line x1={X(active)} x2={X(active)} y1="0" y2="100" stroke="#CCFBF1" strokeWidth="1" vectorEffect="non-scaling-stroke" />
             ) : null}
           </svg>
           {active != null
@@ -219,17 +219,17 @@ export function LineChart({
           </div>
           {active != null ? (
             <div
-              className="pointer-events-none absolute top-2 z-10 min-w-[150px] rounded-xl border border-[#e4e9f2] bg-white p-2.5 text-[12px] shadow-[0_8px_24px_rgba(15,23,42,0.12)]"
+              className="pointer-events-none absolute top-2 z-10 min-w-[150px] rounded-xl border border-[#e4e9f2] bg-white p-2.5 text-[12px] shadow-[0_8px_24px_rgba(17, 24, 39, 0.12)]"
               style={X(active) > 62 ? { right: `${100 - X(active) + 2}%` } : { left: `${X(active) + 2}%` }}
             >
-              <p className="font-semibold text-[#0B1F4D]">{tooltipLabels?.[active] ?? labels[active]}</p>
+              <p className="font-semibold text-[#111827]">{tooltipLabels?.[active] ?? labels[active]}</p>
               {series.map((s) => (
                 <p key={s.key} className="mt-1 flex items-center justify-between gap-3 text-[#4b5568]">
                   <span className="flex items-center gap-1.5">
                     <span className="size-2 rounded-full" style={{ background: s.color }} />
                     {s.label}
                   </span>
-                  <b className="text-[#0B1F4D]">{s.fmt(s.values[active] ?? 0)}</b>
+                  <b className="text-[#111827]">{s.fmt(s.values[active] ?? 0)}</b>
                 </p>
               ))}
             </div>
@@ -256,7 +256,7 @@ export function LineChart({
   );
 }
 
-const DONUT_COLORS = ["#0066FF", "#7c3aed", "#14b8a6", "#f59e0b", "#ef4444"];
+const DONUT_COLORS = ["#0F766E", "#7c3aed", "#0F766E", "#f59e0b", "#ef4444"];
 
 export function Donut({
   parts,

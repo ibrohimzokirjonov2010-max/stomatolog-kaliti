@@ -7,7 +7,7 @@ import { useCart } from "@/components/cart-provider";
 import { NotificationBell } from "@/components/notification-bell";
 import { cn } from "@/lib/utils";
 
-const actionCls = "relative grid size-10 shrink-0 place-items-center rounded-full bg-[#eef3f7] text-[#0B1A3A]";
+const actionCls = "relative grid size-10 shrink-0 place-items-center rounded-full bg-[#eef3f7] text-[#111827]";
 
 /** Focus the section's own search input (marked with data-section-search). */
 function focusSectionSearch() {
@@ -51,8 +51,8 @@ export function MobileSectionHeader({
       style={{ paddingTop: `max(${topPad}, env(safe-area-inset-top))` }}
     >
       <div className="flex items-center justify-between gap-2">
-        <Link href="/" className="text-[20px] font-black tracking-[0.02em] text-[#0B1A3A]">
-          STOMA<span className="text-[#0b7f7d]">HUB</span>
+        <Link href="/" className="text-[20px] font-black tracking-[0.02em] text-[#111827]">
+          STOMA<span className="text-[#0F766E]">HUB</span>
         </Link>
         <div className="flex shrink-0 items-center gap-1.5">
           {extra}
@@ -78,13 +78,13 @@ export function MobileSectionHeader({
             ) : null}
           </Link>
           <div className="rounded-full bg-[#eef3f7]">
-            <NotificationBell variant="mobile" buttonClassName="rounded-full text-[#0B1A3A]" />
+            <NotificationBell variant="mobile" buttonClassName="rounded-full text-[#111827]" />
           </div>
         </div>
       </div>
       {title ? (
         <div className="mt-2 min-w-0">
-          <h1 className="text-[24px] leading-tight font-extrabold tracking-tight text-[#0B1A3A]">{title}</h1>
+          <h1 className="text-[24px] leading-tight font-extrabold tracking-tight text-[#111827]">{title}</h1>
           {subtitle ? <p className="mt-0.5 text-[11.5px] leading-snug text-[#7b8aa5]">{subtitle}</p> : null}
         </div>
       ) : null}

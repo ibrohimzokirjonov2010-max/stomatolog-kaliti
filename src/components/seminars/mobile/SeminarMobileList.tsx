@@ -220,7 +220,7 @@ export function SeminarMobileList() {
               <option value="onlayn">Onlayn</option>
             </select>
             <div className="row">
-              <button type="button" className="go" style={{ background: "#eef2f6", color: "#24344d" }} onClick={() => { setCity(""); setFilters(false); }}>
+              <button type="button" className="go" style={{ background: "#eef2f6", color: "#111827" }} onClick={() => { setCity(""); setFilters(false); }}>
                 Tozalash
               </button>
               <button type="submit" className="go">

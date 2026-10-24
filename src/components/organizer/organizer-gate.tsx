@@ -5,7 +5,7 @@ import { cn } from "@/lib/utils";
 
 export type OrgApplication = { status: "pending" | "approved" | "rejected"; orgName: string; phone: string; city: string | null; bio: string | null; telegram: string | null; rejectReason: string | null };
 
-const input = "h-11 w-full rounded-xl border bg-white px-3.5 text-[14px] outline-none focus:border-[#0066FF] focus:ring-2 focus:ring-[#0066FF]/15";
+const input = "h-11 w-full rounded-xl border bg-white px-3.5 text-[14px] outline-none focus:border-[#0F766E] focus:ring-2 focus:ring-[#0F766E]/15";
 
 /** Seminar-organizer application (admin approves). Shown to signed-in users who cannot create seminars yet. */
 export function OrganizerGate({ application, onDone }: { application: OrgApplication | null; onDone: () => void }) {
@@ -82,7 +82,7 @@ export function OrganizerGate({ application, onDone }: { application: OrgApplica
           {err("bio")}
         </div>
         {error ? <p role="alert" className="rounded-xl bg-red-50 px-3.5 py-2.5 text-[13px] font-medium text-red-800">{error}</p> : null}
-        <button type="submit" disabled={busy} className="inline-flex h-11 w-full items-center justify-center rounded-xl bg-[#0066FF] px-6 text-[14px] font-semibold text-white shadow-[0_6px_14px_rgba(0,102,255,0.28)] disabled:opacity-60 sm:w-auto" data-testid="org-submit">
+        <button type="submit" disabled={busy} className="inline-flex h-11 w-full items-center justify-center rounded-xl bg-[#0F766E] px-6 text-[14px] font-semibold text-white shadow-[0_6px_14px_rgba(15, 118, 110, 0.28)] disabled:opacity-60 sm:w-auto" data-testid="org-submit">
           {busy ? "Yuborilmoqda…" : "Ariza yuborish"}
         </button>
       </form>

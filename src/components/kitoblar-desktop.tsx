@@ -187,11 +187,11 @@ export function KitoblarDesktop() {
                 className={cn(
                   "flex h-[58px] shrink-0 items-center gap-2.5 rounded-xl border px-3.5 text-left transition-colors",
                   active
-                    ? "border-[#0066FF] bg-[#0066FF] text-white shadow-[0_6px_16px_rgba(0,102,255,0.28)]"
-                    : "border-[#eceff5] bg-white text-[#1a1d26] hover:border-[#0066FF]/40",
+                    ? "border-[#0F766E] bg-[#0F766E] text-white shadow-[0_6px_16px_rgba(15, 118, 110, 0.28)]"
+                    : "border-[#eceff5] bg-white text-[#1a1d26] hover:border-[#0F766E]/40",
                 )}
               >
-                <span className={cn("grid size-8 shrink-0 place-items-center rounded-lg", active ? "bg-white/20" : "bg-[#eaf2ff] text-[#0066FF]")}>
+                <span className={cn("grid size-8 shrink-0 place-items-center rounded-lg", active ? "bg-white/20" : "bg-[#eaf2ff] text-[#0F766E]")}>
                   <Icon className="size-[17px]" strokeWidth={1.9} />
                 </span>
                 <span className="leading-tight">
@@ -211,14 +211,14 @@ export function KitoblarDesktop() {
             const atEnd = el.scrollLeft + el.clientWidth >= el.scrollWidth - 4;
             el.scrollBy({ left: atEnd ? -el.scrollWidth : 320, behavior: "smooth" });
           }}
-          className="absolute top-1/2 right-0 grid size-9 -translate-y-1/2 place-items-center rounded-full border border-[#e6eaf2] bg-white text-[#4b5568] shadow-[0_2px_10px_rgba(15,23,42,0.1)] hover:text-[#0066FF]"
+          className="absolute top-1/2 right-0 grid size-9 -translate-y-1/2 place-items-center rounded-full border border-[#e6eaf2] bg-white text-[#4b5568] shadow-[0_2px_10px_rgba(17, 24, 39, 0.1)] hover:text-[#0F766E]"
         >
           <ChevronRight className="size-4" />
         </button>
       </div>
 
       {/* Filter bar */}
-      <div className="relative flex items-stretch gap-2 rounded-xl border border-[#eceff5] bg-white p-2 shadow-[0_2px_10px_rgba(15,23,42,0.04)]">
+      <div className="relative flex items-stretch gap-2 rounded-xl border border-[#eceff5] bg-white p-2 shadow-[0_2px_10px_rgba(17, 24, 39, 0.04)]">
         <label className="flex h-[46px] min-w-0 flex-[1.5] items-center gap-2 rounded-lg border border-[#e6eaf2] bg-[#f7f9fc] px-3">
           <Search className="size-4 shrink-0 text-[#8b93a7]" />
           <input
@@ -239,13 +239,13 @@ export function KitoblarDesktop() {
           aria-expanded={panel}
           className={cn(
             "relative inline-flex min-w-[96px] items-center justify-center gap-2 rounded-lg border px-3 text-[13px] font-semibold transition-colors",
-            panel || extraOn ? "border-[#0066FF] bg-[#f3f8ff] text-[#0066FF]" : "border-[#e6eaf2] bg-white text-[#1a1d26] hover:bg-slate-50",
+            panel || extraOn ? "border-[#0F766E] bg-[#f3f8ff] text-[#0F766E]" : "border-[#e6eaf2] bg-white text-[#1a1d26] hover:bg-slate-50",
           )}
         >
           <SlidersHorizontal className="size-4" />
           Filtrlar
           {extraOn ? (
-            <span className="absolute -top-1.5 -right-1.5 grid size-[18px] place-items-center rounded-full bg-[#0066FF] text-[10px] font-bold text-white">
+            <span className="absolute -top-1.5 -right-1.5 grid size-[18px] place-items-center rounded-full bg-[#0F766E] text-[10px] font-bold text-white">
               {extraOn}
             </span>
           ) : null}
@@ -294,9 +294,9 @@ export function KitoblarDesktop() {
         />
 
         {panel ? (
-          <div className="absolute top-full right-0 z-20 mt-2 w-[260px] rounded-xl border border-[#eceff5] bg-white p-4 shadow-[0_12px_36px_rgba(15,23,42,0.14)]">
+          <div className="absolute top-full right-0 z-20 mt-2 w-[260px] rounded-xl border border-[#eceff5] bg-white p-4 shadow-[0_12px_36px_rgba(17, 24, 39, 0.14)]">
             <div className="mb-2 flex items-center justify-between">
-              <p className="text-[14px] font-bold text-[#0B1F4D]">Qo‘shimcha filtrlar</p>
+              <p className="text-[14px] font-bold text-[#111827]">Qo‘shimcha filtrlar</p>
               <button type="button" onClick={() => setPanel(false)} aria-label="Yopish" className="text-[#8b93a7] hover:text-[#1a1d26]">
                 <X className="size-4" />
               </button>
@@ -305,15 +305,15 @@ export function KitoblarDesktop() {
               <input type="checkbox" checked={filters.onlySaved} onChange={() => set({ onlySaved: !filters.onlySaved })} className="peer sr-only" />
               <span
                 className={cn(
-                  "grid size-4 shrink-0 place-items-center rounded-[5px] border transition-colors peer-focus-visible:ring-2 peer-focus-visible:ring-[#0066FF]/30",
-                  filters.onlySaved ? "border-[#0066FF] bg-[#0066FF]" : "border-[#cfd6e4] bg-white",
+                  "grid size-4 shrink-0 place-items-center rounded-[5px] border transition-colors peer-focus-visible:ring-2 peer-focus-visible:ring-[#0F766E]/30",
+                  filters.onlySaved ? "border-[#0F766E] bg-[#0F766E]" : "border-[#cfd6e4] bg-white",
                 )}
               >
                 {filters.onlySaved ? <Check className="size-3 text-white" strokeWidth={3} /> : null}
               </span>
               Faqat saqlanganlar
             </label>
-            <button type="button" onClick={reset} className="mt-3 text-[12.5px] font-semibold text-[#0066FF] hover:underline">
+            <button type="button" onClick={reset} className="mt-3 text-[12.5px] font-semibold text-[#0F766E] hover:underline">
               Barchasini tozalash
             </button>
           </div>
@@ -323,19 +323,19 @@ export function KitoblarDesktop() {
       <div className="grid grid-cols-[minmax(0,1fr)_280px] items-start gap-4">
         {/* Grid */}
         <div ref={gridRef} className="min-w-0 scroll-mt-4">
-          <p className="mb-3 flex items-baseline gap-2 text-[15px] font-bold text-[#0B1F4D]">
+          <p className="mb-3 flex items-baseline gap-2 text-[15px] font-bold text-[#111827]">
             {visible.length} ta kitob
             {dirty ? (
-              <button type="button" onClick={reset} className="text-[12px] font-semibold text-[#0066FF] hover:underline">
+              <button type="button" onClick={reset} className="text-[12px] font-semibold text-[#0F766E] hover:underline">
                 Tozalash
               </button>
             ) : null}
           </p>
           {visible.length === 0 ? (
-            <div className="rounded-xl border border-[#eceff5] bg-white px-6 py-16 text-center shadow-[0_2px_10px_rgba(15,23,42,0.04)]">
+            <div className="rounded-xl border border-[#eceff5] bg-white px-6 py-16 text-center shadow-[0_2px_10px_rgba(17, 24, 39, 0.04)]">
               <p className="font-semibold text-[#1a1d26]">Mos kitob topilmadi.</p>
               <p className="mt-1 text-sm text-[#8b93a7]">Qidiruv yoki filtrlarni o‘zgartiring.</p>
-              <button type="button" onClick={reset} className="mt-4 inline-flex h-10 items-center rounded-xl bg-[#0066FF] px-5 text-sm font-semibold text-white">
+              <button type="button" onClick={reset} className="mt-4 inline-flex h-10 items-center rounded-xl bg-[#0F766E] px-5 text-sm font-semibold text-white">
                 Filtrlarni tozalash
               </button>
             </div>
@@ -356,8 +356,8 @@ export function KitoblarDesktop() {
 
         {/* Right column */}
         <aside className="space-y-3">
-          <section className="rounded-xl border border-[#eceff5] bg-white p-4 shadow-[0_2px_10px_rgba(15,23,42,0.04)]">
-            <h3 className="mb-3 text-[14px] font-bold text-[#0B1F4D]">Eng ko‘p yuklangan kitoblar</h3>
+          <section className="rounded-xl border border-[#eceff5] bg-white p-4 shadow-[0_2px_10px_rgba(17, 24, 39, 0.04)]">
+            <h3 className="mb-3 text-[14px] font-bold text-[#111827]">Eng ko‘p yuklangan kitoblar</h3>
             <ol className="space-y-3">
               {top.map((b, i) => (
                 <li key={b.id}>
@@ -370,7 +370,7 @@ export function KitoblarDesktop() {
                     }}
                     className="flex w-full items-center gap-2.5 text-left"
                   >
-                    <span className="w-3 shrink-0 text-center text-[13px] font-bold text-[#0066FF]">{i + 1}</span>
+                    <span className="w-3 shrink-0 text-center text-[13px] font-bold text-[#0F766E]">{i + 1}</span>
                     <span className="relative size-11 shrink-0 overflow-hidden rounded-lg bg-[#f1f3f7]">
                       <BookCover src={b.image} sizes="44px" iconClass="size-5" eager />
                     </span>
@@ -392,13 +392,13 @@ export function KitoblarDesktop() {
                 setSort("popular");
                 toGrid();
               }}
-              className="mt-3 text-[12.5px] font-semibold text-[#0066FF] hover:underline"
+              className="mt-3 text-[12.5px] font-semibold text-[#0F766E] hover:underline"
             >
               Barchasini ko‘rish
             </button>
           </section>
 
-          <section className="rounded-xl bg-gradient-to-br from-[#0066FF] to-[#0049c7] p-4 text-white shadow-[0_8px_24px_rgba(0,102,255,0.28)]">
+          <section className="rounded-xl bg-gradient-to-br from-[#0F766E] to-[#0F766E] p-4 text-white shadow-[0_8px_24px_rgba(15, 118, 110, 0.28)]">
             <div className="flex items-start gap-2.5">
               <span className="grid size-9 shrink-0 place-items-center rounded-full bg-white/20">
                 <Sparkles className="size-[18px]" />
@@ -419,20 +419,20 @@ export function KitoblarDesktop() {
                 setFilters({ ...emptyFilters, category: "implantologiya" });
                 toGrid();
               }}
-              className="mt-4 inline-flex h-10 w-full items-center justify-center gap-2 rounded-[10px] bg-white text-[13px] font-semibold text-[#0066FF] hover:bg-[#f3f8ff]"
+              className="mt-4 inline-flex h-10 w-full items-center justify-center gap-2 rounded-[10px] bg-white text-[13px] font-semibold text-[#0F766E] hover:bg-[#f3f8ff]"
             >
               Tavsiyalarni ko‘rish
               <ArrowRight className="size-4" />
             </button>
           </section>
 
-          <section className="rounded-xl border border-[#fde4e4] bg-gradient-to-br from-[#fff5f5] to-white p-4 shadow-[0_2px_10px_rgba(15,23,42,0.04)]">
+          <section className="rounded-xl border border-[#fde4e4] bg-gradient-to-br from-[#fff5f5] to-white p-4 shadow-[0_2px_10px_rgba(17, 24, 39, 0.04)]">
             <div className="flex items-start gap-3">
-              <span className="grid size-11 shrink-0 place-items-center rounded-xl bg-white text-[#e5484d] shadow-[0_2px_8px_rgba(15,23,42,0.08)]">
+              <span className="grid size-11 shrink-0 place-items-center rounded-xl bg-white text-[#e5484d] shadow-[0_2px_8px_rgba(17, 24, 39, 0.08)]">
                 <BookPlus className="size-5" />
               </span>
               <div>
-                <p className="text-[14px] font-bold text-[#0B1F4D]">Kitob qo‘shish</p>
+                <p className="text-[14px] font-bold text-[#111827]">Kitob qo‘shish</p>
                 <p className="mt-0.5 text-[12px] leading-snug text-[#6b7488]">
                   Agar sifatli va foydali kitobga ega bo‘lsangiz, uni platformaga qo‘shing.
                 </p>
@@ -442,7 +442,7 @@ export function KitoblarDesktop() {
               href={site.telegram}
               target="_blank"
               rel="noreferrer"
-              className="mt-3 inline-flex h-10 w-full items-center justify-center gap-2 rounded-[10px] border border-[#0066FF] bg-white text-[13px] font-semibold text-[#0066FF] hover:bg-[#f3f8ff]"
+              className="mt-3 inline-flex h-10 w-full items-center justify-center gap-2 rounded-[10px] border border-[#0F766E] bg-white text-[13px] font-semibold text-[#0F766E] hover:bg-[#f3f8ff]"
             >
               Kitob qo‘shish
               <ArrowRight className="size-4" />
@@ -452,7 +452,7 @@ export function KitoblarDesktop() {
       </div>
 
       {toast ? (
-        <div role="status" className="fixed bottom-6 left-1/2 z-50 -translate-x-1/2 rounded-xl bg-[#0B1F4D] px-4 py-2.5 text-[13px] font-medium text-white shadow-[0_12px_32px_rgba(15,23,42,0.3)]">
+        <div role="status" className="fixed bottom-6 left-1/2 z-50 -translate-x-1/2 rounded-xl bg-[#111827] px-4 py-2.5 text-[13px] font-medium text-white shadow-[0_12px_32px_rgba(17, 24, 39, 0.3)]">
           {toast}
         </div>
       ) : null}
@@ -462,9 +462,9 @@ export function KitoblarDesktop() {
 
 function Hero() {
   const stats: { icon: IconType; value: string; label: string; tone: string }[] = [
-    { icon: BookOpen, value: "250+", label: "bepul kitob", tone: "bg-[#e3eeff] text-[#0066FF]" },
-    { icon: FolderOpen, value: "10+", label: "mutaxassislik", tone: "bg-[#e3eeff] text-[#0066FF]" },
-    { icon: Globe, value: "UZ · RU · EN", label: "O‘zbek, Rus, Ingliz tillarida", tone: "bg-[#e3eeff] text-[#0066FF]" },
+    { icon: BookOpen, value: "250+", label: "bepul kitob", tone: "bg-[#F0FDFA] text-[#0F766E]" },
+    { icon: FolderOpen, value: "10+", label: "mutaxassislik", tone: "bg-[#F0FDFA] text-[#0F766E]" },
+    { icon: Globe, value: "UZ · RU · EN", label: "O‘zbek, Rus, Ingliz tillarida", tone: "bg-[#F0FDFA] text-[#0F766E]" },
     { icon: RefreshCw, value: "Doimiy", label: "yangilanib boradi", tone: "bg-[#e3f7ea] text-[#16a34a]" },
   ];
   const benefits: { icon: IconType; text: string; tone: string }[] = [
@@ -475,14 +475,14 @@ function Hero() {
     { icon: RefreshCw, text: "Doimiy yangilanib boradi", tone: "bg-[#ffe9e9] text-[#e5484d]" },
   ];
   return (
-    <section className="relative overflow-hidden rounded-2xl border border-[#dbe7ff] bg-gradient-to-r from-[#eaf2ff] via-[#f3f8ff] to-[#eaf2ff]">
+    <section className="relative overflow-hidden rounded-2xl border border-[#F0FDFA] bg-gradient-to-r from-[#eaf2ff] via-[#f3f8ff] to-[#eaf2ff]">
       <Image src="/images/implant-cutout.png" alt="" fill priority sizes="900px" className="object-cover opacity-[0.14] blur-[2px]" />
       <div className="absolute inset-0 bg-gradient-to-r from-[#eaf2ff] via-[#eaf2ff]/80 to-[#f5f9ff]/60" />
 
       <div className="relative z-10 flex items-stretch gap-5 p-6">
         <div className="min-w-0 flex-1">
-          <p className="text-[12px] font-bold tracking-[0.04em] text-[#0066FF]">Dental E-Library</p>
-          <h1 className="mt-1.5 max-w-[470px] text-[28px] leading-[1.15] font-extrabold tracking-tight text-[#0B1F4D] min-[1400px]:text-[31px]">
+          <p className="text-[12px] font-bold tracking-[0.04em] text-[#0F766E]">Dental E-Library</p>
+          <h1 className="mt-1.5 max-w-[470px] text-[28px] leading-[1.15] font-extrabold tracking-tight text-[#111827] min-[1400px]:text-[31px]">
             Stomatologiya bo‘yicha bepul kitoblar
           </h1>
           <p className="mt-2 max-w-[440px] text-[13px] leading-snug text-[#4b5568]">
@@ -495,7 +495,7 @@ function Hero() {
                   <Icon className="size-[17px]" strokeWidth={1.9} />
                 </span>
                 <span className="min-w-0 leading-tight">
-                  <span className="block text-[13px] font-extrabold whitespace-nowrap text-[#0B1F4D]">{value}</span>
+                  <span className="block text-[13px] font-extrabold whitespace-nowrap text-[#111827]">{value}</span>
                   <span className="block text-[10.5px] text-[#6b7488]">{label}</span>
                 </span>
               </li>
@@ -505,14 +505,14 @@ function Hero() {
 
         {/* CSS-built book visual */}
         <div className="relative hidden w-[190px] shrink-0 min-[1280px]:block" aria-hidden>
-          <div className="absolute bottom-3 left-2 h-[26px] w-[170px] -skew-x-6 rounded-sm bg-gradient-to-r from-[#0a2a6b] to-[#1546a8] shadow-[0_6px_14px_rgba(7,22,51,0.3)]" />
-          <div className="absolute bottom-[38px] left-5 h-[22px] w-[150px] -skew-x-6 rounded-sm bg-gradient-to-r from-[#e9eef8] to-[#ffffff] shadow-[0_4px_10px_rgba(7,22,51,0.2)]" />
-          <div className="absolute bottom-[58px] left-6 h-[176px] w-[128px] -rotate-3 overflow-hidden rounded-[5px] bg-gradient-to-br from-[#0b3a96] via-[#0a2f7a] to-[#06193f] p-3 text-white shadow-[0_14px_28px_rgba(7,22,51,0.45)]">
+          <div className="absolute bottom-3 left-2 h-[26px] w-[170px] -skew-x-6 rounded-sm bg-gradient-to-r from-[#111827] to-[#111827] shadow-[0_6px_14px_rgba(17, 24, 39, 0.3)]" />
+          <div className="absolute bottom-[38px] left-5 h-[22px] w-[150px] -skew-x-6 rounded-sm bg-gradient-to-r from-[#e9eef8] to-[#ffffff] shadow-[0_4px_10px_rgba(17, 24, 39, 0.2)]" />
+          <div className="absolute bottom-[58px] left-6 h-[176px] w-[128px] -rotate-3 overflow-hidden rounded-[5px] bg-gradient-to-br from-[#111827] via-[#111827] to-[#111827] p-3 text-white shadow-[0_14px_28px_rgba(17, 24, 39, 0.45)]">
             <div className="absolute inset-y-0 left-0 w-2 bg-black/25" />
-            <p className="pl-1 text-[7px] font-bold tracking-[0.18em] text-[#7fb2ff]">DENTAL</p>
+            <p className="pl-1 text-[7px] font-bold tracking-[0.18em] text-[#CCFBF1]">DENTAL</p>
             <p className="pl-1 text-[15px] leading-[1.05] font-extrabold tracking-tight">IMPLANTOLOGY</p>
             <p className="pl-1 text-[8px] font-semibold text-white/80">A CLINICAL ATLAS</p>
-            <div className="absolute inset-x-3 bottom-3 grid h-[78px] place-items-center rounded bg-gradient-to-b from-[#1b5fd0] to-[#0a2a6b]">
+            <div className="absolute inset-x-3 bottom-3 grid h-[78px] place-items-center rounded bg-gradient-to-b from-[#0F766E] to-[#111827]">
               <svg viewBox="0 0 40 60" className="h-[62px] text-white/90" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round">
                 <path d="M12 4h16l-2 14H14z" fill="currentColor" fillOpacity=".25" />
                 <path d="M15 22h10M15 28h10M16 34h8M17 40h6M18 46h4" />
@@ -522,7 +522,7 @@ function Hero() {
           </div>
         </div>
 
-        <ul className="relative z-10 flex w-[232px] shrink-0 flex-col justify-center gap-2.5 rounded-2xl bg-white p-4 shadow-[0_8px_28px_rgba(0,60,160,0.12)]">
+        <ul className="relative z-10 flex w-[232px] shrink-0 flex-col justify-center gap-2.5 rounded-2xl bg-white p-4 shadow-[0_8px_28px_rgba(17, 94, 89, 0.12)]">
           {benefits.map(({ icon: Icon, text, tone }) => (
             <li key={text} className="flex items-center gap-2.5">
               <span className={cn("grid size-7 shrink-0 place-items-center rounded-full", tone)}>
@@ -542,8 +542,8 @@ function Flag({ lang }: { lang: BookLanguage }) {
     lang === "uz"
       ? "linear-gradient(#0099b5 0 32%, #ce1126 32% 36%, #fff 36% 64%, #ce1126 64% 68%, #1eb53a 68%)"
       : lang === "ru"
-        ? "linear-gradient(#fff 0 33%, #0039a6 33% 66%, #d52b1e 66%)"
-        : "linear-gradient(90deg, transparent 42%, #c8102e 42% 58%, transparent 58%), linear-gradient(transparent 42%, #c8102e 42% 58%, transparent 58%), #1d3f91";
+        ? "linear-gradient(#fff 0 33%, #115E59 33% 66%, #d52b1e 66%)"
+        : "linear-gradient(90deg, transparent 42%, #c8102e 42% 58%, transparent 58%), linear-gradient(transparent 42%, #c8102e 42% 58%, transparent 58%), #111827";
   return <span aria-hidden className="inline-block h-[9px] w-[13px] shrink-0 rounded-[2px] border border-black/10" style={{ background: bg }} />;
 }
 
@@ -552,7 +552,7 @@ function BookCover({ src, sizes, iconClass, eager, className }: { src?: string; 
   const [failed, setFailed] = useState(false);
   if (!src || failed) {
     return (
-      <span aria-hidden className="absolute inset-0 grid place-items-center bg-gradient-to-br from-[#dbe8ff] via-[#eaf2ff] to-[#f5f9ff] text-[#0066FF]/60">
+      <span aria-hidden className="absolute inset-0 grid place-items-center bg-gradient-to-br from-[#F0FDFA] via-[#eaf2ff] to-[#f5f9ff] text-[#0F766E]/60">
         <BookOpen className={iconClass} strokeWidth={1.6} />
       </span>
     );
@@ -582,7 +582,7 @@ function BookCard({
   onDownload: () => void;
 }) {
   return (
-    <article className="group flex flex-col overflow-hidden rounded-xl border border-[#eceff5] bg-white shadow-[0_2px_10px_rgba(15,23,42,0.05)] transition-shadow hover:shadow-[0_8px_24px_rgba(15,23,42,0.10)]">
+    <article className="group flex flex-col overflow-hidden rounded-xl border border-[#eceff5] bg-white shadow-[0_2px_10px_rgba(17, 24, 39, 0.05)] transition-shadow hover:shadow-[0_8px_24px_rgba(17, 24, 39, 0.10)]">
       <div className="relative h-[128px] overflow-hidden bg-[#f1f3f7]">
         <BookCover src={book.image} sizes="240px" iconClass="size-9" eager className="transition-transform duration-500 group-hover:scale-[1.04]" />
         <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent" />
@@ -602,7 +602,7 @@ function BookCard({
           <span className="truncate">{book.author}</span>
         </p>
         <div className="mt-2 flex flex-wrap gap-1">
-          <span className="rounded-full bg-[#e8f1ff] px-2 py-[3px] text-[10.5px] leading-none font-semibold text-[#0066FF]">
+          <span className="rounded-full bg-[#F0FDFA] px-2 py-[3px] text-[10.5px] leading-none font-semibold text-[#0F766E]">
             {bookCategoryLabels[book.category]}
           </span>
           <span className={cn("rounded-full px-2 py-[3px] text-[10.5px] leading-none font-semibold", levelStyle[book.level])}>
@@ -617,7 +617,7 @@ function BookCard({
           <button
             type="button"
             onClick={onDownload}
-            className="inline-flex h-9 min-w-0 flex-1 items-center justify-center gap-1.5 rounded-[10px] bg-[#0066FF] text-[12.5px] font-semibold text-white shadow-[0_3px_10px_rgba(0,102,255,0.25)] transition-colors hover:bg-[#0052cc]"
+            className="inline-flex h-9 min-w-0 flex-1 items-center justify-center gap-1.5 rounded-[10px] bg-[#0F766E] text-[12.5px] font-semibold text-white shadow-[0_3px_10px_rgba(15, 118, 110, 0.25)] transition-colors hover:bg-[#115E59]"
           >
             <Download className="size-3.5" />
             Yuklab olish
@@ -629,7 +629,7 @@ function BookCard({
             aria-label={saved ? "Saqlanganlardan olib tashlash" : "Saqlash"}
             className={cn(
               "grid size-9 shrink-0 place-items-center rounded-[10px] border transition-colors",
-              saved ? "border-[#0066FF] bg-[#eaf2ff] text-[#0066FF]" : "border-[#e6eaf2] bg-white text-[#4b5568] hover:text-[#0066FF]",
+              saved ? "border-[#0F766E] bg-[#eaf2ff] text-[#0F766E]" : "border-[#e6eaf2] bg-white text-[#4b5568] hover:text-[#0F766E]",
             )}
           >
             {saved ? <BookmarkCheck className="size-4" /> : <Bookmark className="size-4" />}

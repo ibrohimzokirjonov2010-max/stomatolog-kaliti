@@ -196,7 +196,7 @@ export function SellerApplyForm({
     <form
       id="dokon-form"
       onSubmit={submit}
-      className="scroll-mt-24 space-y-2.5 rounded-[14px] border border-[#d7e4ff] bg-white p-3.5 shadow-[0_6px_20px_rgba(15,23,42,0.05)] sm:p-4"
+      className="scroll-mt-24 space-y-2.5 rounded-[14px] border border-[#F0FDFA] bg-white p-3.5 shadow-[0_6px_20px_rgba(17, 24, 39, 0.05)] sm:p-4"
     >
       <div>
         <h2 className="text-[16px] font-bold text-[#1a1d26] sm:text-[17px]">{title}</h2>
@@ -336,7 +336,7 @@ export function SellerApplyForm({
             <span className="text-[12.5px] font-medium text-[#1a1d26]">Guvohnoma / litsenziya</span>
             <label
               className={cn(
-                "mt-1 flex h-10 cursor-pointer items-center justify-center gap-1.5 rounded-lg border border-dashed border-[#bcd3ff] bg-white px-3 text-[13px] font-medium text-[#0066FF] hover:bg-[#f5f9ff]",
+                "mt-1 flex h-10 cursor-pointer items-center justify-center gap-1.5 rounded-lg border border-dashed border-[#CCFBF1] bg-white px-3 text-[13px] font-medium text-[#0F766E] hover:bg-[#f5f9ff]",
                 uploading && "pointer-events-none opacity-60",
               )}
             >
@@ -358,7 +358,7 @@ export function SellerApplyForm({
           <ul className="mt-2 space-y-1">
             {docs.map((doc) => (
               <li key={doc.path} className="flex items-center gap-2 rounded-lg bg-white px-2.5 py-1.5 text-[12.5px] text-[#1a1d26]">
-                <FileText className="size-4 shrink-0 text-[#0066FF]" />
+                <FileText className="size-4 shrink-0 text-[#0F766E]" />
                 <span className="min-w-0 flex-1 truncate">{doc.name}</span>
                 <span className="shrink-0 text-[11px] text-[#8b93a7]">{Math.max(1, Math.round(doc.size / 1024))} KB</span>
                 <button
@@ -410,7 +410,7 @@ export function SellerOnboarding() {
     </div>
     <div className="mx-auto w-full max-w-[760px] lg:hidden">
       <p className="text-[12.5px] text-[#8b93a7]">
-        <Link href="/marketplace" className="text-[#0066FF] hover:underline">
+        <Link href="/marketplace" className="text-[#0F766E] hover:underline">
           Marketplace
         </Link>
         <span className="mx-1">/</span>
@@ -420,7 +420,7 @@ export function SellerOnboarding() {
       <p className="mt-0.5 text-[13px] leading-snug text-[#6b7280]">
         Ishonchli do‘konlargina sotadi. Ariza → tekshiruv → ochiladi.
       </p>
-      <p className="mt-2 inline-flex rounded-full bg-[#eaf2ff] px-3 py-1 text-[12px] font-semibold text-[#0052cc]">
+      <p className="mt-2 inline-flex rounded-full bg-[#eaf2ff] px-3 py-1 text-[12px] font-semibold text-[#115E59]">
         Platforma komissiyasi: {MARKETPLACE_COMMISSION_PERCENT}% (faqat yakunlangan buyurtmadan)
       </p>
 
@@ -429,10 +429,10 @@ export function SellerOnboarding() {
           <li key={step.n} className="flex items-center gap-1.5 sm:gap-2">
             <span
               className={cn(
-                "inline-flex h-8 items-center gap-1.5 rounded-full border border-[#d7e4ff] bg-[#f5f9ff] px-2.5 text-[12.5px] font-semibold text-[#0066FF]",
+                "inline-flex h-8 items-center gap-1.5 rounded-full border border-[#F0FDFA] bg-[#f5f9ff] px-2.5 text-[12.5px] font-semibold text-[#0F766E]",
               )}
             >
-              <span className="flex size-5 items-center justify-center rounded-full bg-[#0066FF] text-[11px] font-bold text-white">
+              <span className="flex size-5 items-center justify-center rounded-full bg-[#0F766E] text-[11px] font-bold text-white">
                 {step.n}
               </span>
               <step.icon className="size-3.5 shrink-0" />

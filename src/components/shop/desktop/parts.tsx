@@ -8,11 +8,12 @@ import { FREE_DELIVERY_MIN_UZS, freeDeliveryText, returnWindowText } from "@/lib
 import { shopClear, shopRemove, shopSetQty, som, type ShopLine } from "./shop-cart";
 
 export function Stars({ value, reviews }: { value: number; reviews?: number }) {
+  if (!(reviews && reviews > 0) || !(value > 0)) return null;
   return (
     <span className="dk-meta">
       <Star className="i" />
       <b>{value.toFixed(1)}</b>
-      {reviews != null ? <span>({reviews} ta sharh)</span> : null}
+      <span>({reviews} ta sharh)</span>
     </span>
   );
 }
@@ -47,36 +48,32 @@ export function RangeSlider({
   labels?: [string, string];
 }) {
   const [lo, hi] = value;
-  const left = ((lo - min) / (max - min)) * 100;
-  const right = 100 - ((hi - min) / (max - min)) * 100;
   return (
-    <div>
-      <div className="dk-range">
-        <div className="rail" />
-        <div className="fill" style={{ left: `${left}%`, right: `${right}%` }} />
+    <div className="dk-range-labs" style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 8 }}>
+      <label style={{ display: "grid", gap: 4, fontSize: 12 }}>
+        <span>{labels?.[0] ?? "Dan"}</span>
         <input
-          type="range"
+          type="number"
           min={min}
-          max={max}
+          max={hi}
           step={step}
           value={lo}
           aria-label="Eng past narx"
-          onChange={(event) => onChange([Math.min(Number(event.target.value), hi), hi])}
+          onChange={(event) => onChange([Math.min(Number(event.target.value) || min, hi), hi])}
         />
+      </label>
+      <label style={{ display: "grid", gap: 4, fontSize: 12 }}>
+        <span>{labels?.[1] ?? "Gacha"}</span>
         <input
-          type="range"
-          min={min}
+          type="number"
+          min={lo}
           max={max}
           step={step}
           value={hi}
           aria-label="Eng yuqori narx"
-          onChange={(event) => onChange([lo, Math.max(Number(event.target.value), lo)])}
+          onChange={(event) => onChange([lo, Math.max(Number(event.target.value) || max, lo)])}
         />
-      </div>
-      <div className="dk-range-labs">
-        <span>{labels?.[0] ?? "0"}</span>
-        <span>{labels?.[1] ?? "50 000 000"}</span>
-      </div>
+      </label>
     </div>
   );
 }

@@ -1,7 +1,33 @@
 /* Onlayn darslar (/talim desktop) — designs/add-forms-1020/onlini darslar bolimi dizyaini.png */
-.sh .odl { --ol: #0b8f8a; --ol-dark: #0a6f6b; --ol-soft: #e6f6f4; --ol-line: #e3eaf1; --ol-ink: #0f1d33; --ol-mute: #6b7a90; color: var(--ol-ink); }
+.sh .odl { --ol: #0F766E; --ol-dark: #0F766E; --ol-soft: #e6f6f4; --ol-line: #e3eaf1; --ol-ink: #111827; --ol-mute: #6b7a90; color: var(--ol-ink); }
 .sh .odl .i { width: 16px; height: 16px; flex: none; }
 .sh .odl button { font-family: inherit; cursor: pointer; }
+.sh .odl-hub { display: flex; flex-direction: column; gap: 12px; margin-bottom: 8px; }
+.sh .odl-hub h1 { margin: 0; font-size: 32px; font-weight: 800; letter-spacing: -.02em; }
+.sh .odl-hub > div > p, .sh .odl-hub > p { margin: 4px 0 0; color: #5B6B82; font-size: 14px; max-width: 760px; }
+.sh .odl-hub > h2, .sh .odl-kurs-hd h2, .sh .odl-split aside h2 { margin: 0; font-size: 18px; font-weight: 800; }
+.sh .odl-why { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 10px; }
+.sh .odl-split { display: grid; grid-template-columns: 1.4fr .9fr; gap: 12px; align-items: stretch; }
+.sh .odl-video button, .sh .odl-video-empty { position: relative; display: block; width: 100%; min-height: 240px; border: 0; border-radius: 16px; overflow: hidden; background: #134E4A; color: #fff; text-align: left; }
+.sh .odl-video img { width: 100%; height: 240px; object-fit: cover; display: block; opacity: .85; }
+.sh .odl-video { position: relative; }
+.sh .odl-video button span { position: absolute; left: 16px; bottom: 16px; display: flex; align-items: center; gap: 8px; font-weight: 800; color: #fff; }
+.sh .odl-video-empty { position: relative; display: flex; align-items: flex-end; padding: 16px; background: linear-gradient(160deg, #0F766E, #134E4A); }
+.sh .odl-video .i, .sh .odl-video-empty .i { width: 28px; height: 28px; }
+.sh .odl-split aside { background: #fff; border: 1px solid #E4EAF2; border-radius: 16px; padding: 12px; display: flex; flex-direction: column; gap: 8px; }
+.sh .odl-split aside header, .sh .odl-kurs-hd { display: flex; align-items: center; justify-content: space-between; gap: 8px; }
+.sh .odl-split aside header a, .sh .odl-kurs-hd a { color: #0F766E; font-size: 13px; font-weight: 700; }
+.sh .odl-sem { display: flex; gap: 8px; align-items: center; color: #111827; }
+.sh .odl-sem img, .sh .odl-sem .ph { width: 56px; height: 40px; border-radius: 8px; object-fit: cover; background: #F0FDFA; flex: none; }
+.sh .odl-sem b { display: block; font-size: 13px; font-weight: 700; }
+.sh .odl-sem small { color: #5B6B82; font-size: 12px; }
+.sh .odl-empty-inline { margin: 0; color: #5B6B82; font-size: 13px; }
+.sh .odl-row { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 12px; }
+.sh .odl-why a { display: flex; flex-direction: column; gap: 2px; min-height: 88px; padding: 12px; border-radius: 12px; background: #fff; border: 1px solid #E4EAF2; color: #111827; }
+.sh .odl-why a:hover { border-color: #0F766E; }
+.sh .odl-why .i { width: 18px; height: 18px; color: #0F766E; }
+.sh .odl-why b { font-size: 13px; font-weight: 800; }
+.sh .odl-why small { color: #5B6B82; font-size: 11.5px; line-height: 1.3; }
 .sh .odl-head { display: flex; justify-content: space-between; align-items: flex-start; gap: 16px; }
 .sh .odl-head h1 { margin: 0; font-size: 32px; font-weight: 800; letter-spacing: -.02em; line-height: 1.1; }
 .sh .odl-head p { margin: 4px 0 0; color: var(--ol-mute); font-size: 14px; }
@@ -40,7 +66,7 @@
 
 .sh .odl-grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 14px; }
 .sh .odl-card { background: #fff; border: 1px solid var(--ol-line); border-radius: 12px; overflow: hidden; display: flex; flex-direction: column; min-width: 0; transition: box-shadow .15s; }
-.sh .odl-card:hover { box-shadow: 0 6px 18px rgba(15, 29, 51, .08); }
+.sh .odl-card:hover { box-shadow: 0 6px 18px rgba(17, 24, 39, .08); }
 .sh .odl .odl-card .ph { position: relative; display: block; padding: 0; border: 0; background: #eef3f9; }
 .sh .odl-card .ph img { width: 100%; aspect-ratio: 16 / 9; object-fit: cover; display: block; }
 .sh .odl-card .tag { position: absolute; left: 10px; top: 10px; height: 22px; padding: 0 9px; border-radius: 6px; display: inline-flex; align-items: center; font-size: 11px; font-weight: 700; color: #fff; background: var(--ol-dark); }
@@ -62,7 +88,7 @@
 .sh .odl-card .buy { margin-top: auto; display: flex; justify-content: space-between; align-items: center; }
 .sh .odl-card .buy strong { font-size: 17px; font-weight: 800; color: var(--ol-dark); }
 .sh .odl .odl-card .go { width: 36px; height: 34px; border-radius: 9px; border: 0; display: grid; place-items: center; background: var(--ol-dark); color: #fff; }
-.sh .odl .odl-card .go:hover { background: #085e5b; }
+.sh .odl .odl-card .go:hover { background: #115E59; }
 .sh .odl-card .go .i { width: 18px; height: 18px; }
 .sh .odl-empty { display: flex; flex-direction: column; align-items: center; gap: 10px; padding: 48px 16px; border: 1px dashed #cfdbe6; border-radius: 12px; background: #fff; }
 .sh .odl .odl-empty button { height: 36px; padding: 0 16px; border: 0; border-radius: 9px; background: var(--ol-dark); color: #fff; font-weight: 700; }

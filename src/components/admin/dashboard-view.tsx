@@ -78,14 +78,14 @@ function Kpi({
   spark?: number[]; tone?: "blue" | "violet" | "orange" | "green" | "sky"; hero?: boolean;
 }) {
   const tones = {
-    blue: ["bg-[#e8f1ff] text-primary", "#0066FF"],
+    blue: ["bg-[#F0FDFA] text-primary", "#0F766E"],
     violet: ["bg-[#f3efff] text-[#6d28d9]", "#7c3aed"],
     orange: ["bg-[#fff7ed] text-[#ea580c]", "#f97316"],
     green: ["bg-[#ecfdf3] text-[#15803d]", "#16a34a"],
-    sky: ["bg-[#e0f2fe] text-[#0369a1]", "#0284c7"],
+    sky: ["bg-[#F0FDFA] text-[#115E59]", "#0F766E"],
   } as const;
   return (
-    <Card className={cn("relative min-w-0 p-3 sm:p-4", hero && "col-span-2 sm:col-span-1", hero && "border-transparent bg-gradient-to-br from-[#0a6cff] to-[#0050d8] text-white shadow-[0_10px_30px_rgba(0,102,255,0.28)]")}>
+    <Card className={cn("relative min-w-0 p-3 sm:p-4", hero && "col-span-2 sm:col-span-1", hero && "border-transparent bg-gradient-to-br from-[#0F766E] to-[#0F766E] text-white shadow-[0_10px_30px_rgba(15, 118, 110, 0.28)]")}>
       <div className="flex items-center gap-2">
         <span className={cn("flex size-7 shrink-0 sm:size-8 items-center justify-center rounded-lg", hero ? "bg-white/20 text-white" : tones[tone][0])}>
           <Icon className="size-4" />
@@ -117,8 +117,8 @@ export function DashboardView() {
   const recent = series.slice(-14);
   const sources = c
     ? [
-        { label: "Marketplace komissiyasi", value: c.commission, color: "#0066FF" },
-        { label: "Reklama", value: c.ads, color: "#60a5fa" },
+        { label: "Marketplace komissiyasi", value: c.commission, color: "#0F766E" },
+        { label: "Reklama", value: c.ads, color: "#0F766E" },
         { label: "Kanal auksion", value: c.channels, color: "#f59e0b" },
         { label: "Obuna (sotuvchi)", value: c.subs, color: "#a78bfa" },
       ]
@@ -209,7 +209,7 @@ export function DashboardView() {
                 </div>
                 <div className="flex items-center gap-3 text-[12px] text-slate-500">
                   <span className="flex items-center gap-1.5"><span className="h-0.5 w-4 rounded bg-primary" /> Sof foyda</span>
-                  <span className="flex items-center gap-1.5"><span className="size-2.5 rounded-sm bg-[#dbe7ff]" /> GMV</span>
+                  <span className="flex items-center gap-1.5"><span className="size-2.5 rounded-sm bg-[#F0FDFA]" /> GMV</span>
                 </div>
               </div>
               <div className="mt-3 flex flex-wrap gap-6">
@@ -337,7 +337,7 @@ function Attention({ a }: { a: Data["attention"] }) {
       sub: "Hamjamiyat moderatsiyasi", href: "/admin/kontent", cta: "Ochish",
     },
     a.staleInTransit > 0 && {
-      icon: Clock, tone: "bg-[#e8f1ff] text-primary", title: `${a.staleInTransit} ta buyurtma 48 soatdan beri “Yo‘lda”`,
+      icon: Clock, tone: "bg-[#F0FDFA] text-primary", title: `${a.staleInTransit} ta buyurtma 48 soatdan beri “Yo‘lda”`,
       sub: "Sotuvchi yoki xaridor bilan bog‘laning", href: "/admin/buyurtmalar?filter=escrow", cta: "Ko‘rish",
     },
   ].filter(Boolean) as { icon: typeof Flag; tone: string; title: string; sub: string; href: string; cta: string }[];

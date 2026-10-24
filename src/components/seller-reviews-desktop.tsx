@@ -72,7 +72,7 @@ function Avatar({ name, size = 40 }: { name: string; size?: number }) {
   );
 }
 
-function MiniBars({ values, color = "#0066FF" }: { values: number[]; color?: string }) {
+function MiniBars({ values, color = "#0F766E" }: { values: number[]; color?: string }) {
   const max = Math.max(...values, 1);
   return (
     <div className="flex h-9 items-end gap-[3px]" aria-hidden="true">
@@ -253,10 +253,10 @@ export function SellerReviewsDesktop() {
     <div className="space-y-4">
       <header className="flex items-start justify-between gap-4">
         <div>
-          <h1 className="text-[26px] leading-tight font-extrabold tracking-tight text-[#0B1F4D]">Reyting va sharhlar</h1>
+          <h1 className="text-[26px] leading-tight font-extrabold tracking-tight text-[#111827]">Reyting va sharhlar</h1>
           <p className="mt-1 text-[13.5px] text-[#6b7280]">Mijozlar baholari va fikrlarini kuzating. Bu sizning obro‘yingiz va savdoingizga ta’sir qiladi.</p>
         </div>
-        <label className="flex h-10 items-center gap-2 rounded-xl border border-[#e4e9f2] bg-white pr-2 pl-3.5 text-[13px] font-medium text-[#0B1F4D]">
+        <label className="flex h-10 items-center gap-2 rounded-xl border border-[#e4e9f2] bg-white pr-2 pl-3.5 text-[13px] font-medium text-[#111827]">
           <CalendarDays className="size-4 text-[#8b93a7]" />
           <span className="text-[#4b5568]">{rangeLabel}</span>
           <SelectBox label="Davr" value={range} onChange={setRange} options={RANGES.map(({ value, label }) => ({ value, label }))} className="h-7 border-0 bg-[#f4f7fc]" />
@@ -270,7 +270,7 @@ export function SellerReviewsDesktop() {
           <p className="text-[13px] font-medium text-[#6b7280]">Umumiy reyting</p>
           <div className="mt-2 flex items-center gap-4">
             <div>
-              <p className="flex items-baseline gap-1 text-[34px] leading-none font-extrabold text-[#0B1F4D]">
+              <p className="flex items-baseline gap-1 text-[34px] leading-none font-extrabold text-[#111827]">
                 {calc.mean != null ? calc.mean.toFixed(1) : "—"}
                 <span className="text-[14px] font-semibold text-[#8b93a7]">/ 5</span>
               </p>
@@ -293,7 +293,7 @@ export function SellerReviewsDesktop() {
         <Panel className="!p-4">
           <p className="text-[13px] font-medium text-[#6b7280]">Jami sharhlar</p>
           <div className="mt-2 flex items-end justify-between gap-2">
-            <p className="text-[30px] leading-none font-extrabold text-[#0B1F4D]">{calc.total}</p>
+            <p className="text-[30px] leading-none font-extrabold text-[#111827]">{calc.total}</p>
             <MiniBars values={tail(calc.counts)} />
           </div>
           <p className="mt-2.5 text-[11.5px] text-[#8b93a7]">
@@ -304,7 +304,7 @@ export function SellerReviewsDesktop() {
         <Panel className="!p-4">
           <p className="flex items-center gap-1.5 text-[13px] font-medium text-[#6b7280]"><Timer className="size-3.5" />O‘rtacha javob vaqti</p>
           <div className="mt-2 flex items-end justify-between gap-2">
-            <p className="text-[26px] leading-none font-extrabold text-[#0B1F4D]">{calc.resp != null ? fmtDuration(calc.resp) : "—"}</p>
+            <p className="text-[26px] leading-none font-extrabold text-[#111827]">{calc.resp != null ? fmtDuration(calc.resp) : "—"}</p>
             <MiniBars values={tail(calc.resps)} color="#7c3aed" />
           </div>
           <p className="mt-2.5 text-[11.5px] text-[#8b93a7]">
@@ -316,7 +316,7 @@ export function SellerReviewsDesktop() {
         <Panel className="!p-4">
           <p className="flex items-center gap-1.5 text-[13px] font-medium text-[#6b7280]"><ThumbsUp className="size-3.5" />Mijozlar qoniqish darajasi</p>
           <div className="mt-2 flex items-end justify-between gap-2">
-            <p className="text-[30px] leading-none font-extrabold text-[#0B1F4D]">{calc.satisfaction != null ? `${calc.satisfaction}%` : "—"}</p>
+            <p className="text-[30px] leading-none font-extrabold text-[#111827]">{calc.satisfaction != null ? `${calc.satisfaction}%` : "—"}</p>
             <MiniBars values={tail(calc.sats)} color="#16a34a" />
           </div>
           <p className="mt-2.5 text-[11.5px] text-[#8b93a7]">
@@ -338,7 +338,7 @@ export function SellerReviewsDesktop() {
               onClick={() => setStar(s)}
               className={cn(
                 "inline-flex h-9 items-center gap-1.5 rounded-lg border px-3.5 text-[13px] font-semibold transition-colors",
-                star === s ? "border-[#0066FF] bg-[#0066FF] text-white" : "border-[#e4e9f2] bg-white text-[#4b5568] hover:border-[#bcd3ff] hover:text-[#0066FF]",
+                star === s ? "border-[#0F766E] bg-[#0F766E] text-white" : "border-[#e4e9f2] bg-white text-[#4b5568] hover:border-[#CCFBF1] hover:text-[#0F766E]",
               )}
             >
               {s === 0 ? "Barchasi" : <>{s} <Star className={cn("size-3.5", star === s ? "fill-white text-white" : "fill-[#f5b100] text-[#f5b100]")} /></>} ({n})
@@ -347,7 +347,7 @@ export function SellerReviewsDesktop() {
         })}
         <div className="ml-auto flex items-center gap-2">
           <SelectBox label="Saralash" value={sort} onChange={setSort} options={SORTS} className="h-9 min-w-[130px]" />
-          <button type="button" onClick={() => setFiltersOpen((v) => !v)} className={cn("inline-flex h-9 items-center gap-1.5 rounded-lg border px-3.5 text-[13px] font-semibold", filtersOpen || onlyUnanswered || onlyPhotos ? "border-[#0066FF] text-[#0066FF]" : "border-[#e4e9f2] text-[#4b5568]")}>
+          <button type="button" onClick={() => setFiltersOpen((v) => !v)} className={cn("inline-flex h-9 items-center gap-1.5 rounded-lg border px-3.5 text-[13px] font-semibold", filtersOpen || onlyUnanswered || onlyPhotos ? "border-[#0F766E] text-[#0F766E]" : "border-[#e4e9f2] text-[#4b5568]")}>
             <Filter className="size-4" />Filtr
           </button>
         </div>
@@ -362,14 +362,14 @@ export function SellerReviewsDesktop() {
       {reviews && all.length === 0 ? (
         <Panel className="grid place-items-center py-16 text-center">
           <span className="grid size-16 place-items-center rounded-2xl bg-[#fff7e6]"><Star className="size-8 text-[#f5b100]" /></span>
-          <p className="mt-4 text-[17px] font-bold text-[#0B1F4D]">Hali sharh yo‘q</p>
+          <p className="mt-4 text-[17px] font-bold text-[#111827]">Hali sharh yo‘q</p>
           <p className="mt-1.5 max-w-md text-[13.5px] leading-relaxed text-[#6b7280]">
             Xaridorlar yetkazilgan buyurtmadagi mahsulotga baho qoldirganda, sharhlar va reyting shu yerda paydo bo‘ladi. Siz ularga javob yozishingiz mumkin.
           </p>
         </Panel>
       ) : (
         <div className="grid grid-cols-[300px_minmax(0,1fr)_300px] items-start gap-4 xl:grid-cols-[330px_minmax(0,1fr)_330px]">
-          <section className="max-h-[640px] overflow-y-auto rounded-2xl border border-[#eceff5] bg-white shadow-[0_1px_3px_rgba(15,23,42,0.04)]">
+          <section className="max-h-[640px] overflow-y-auto rounded-2xl border border-[#eceff5] bg-white shadow-[0_1px_3px_rgba(17, 24, 39, 0.04)]">
             {reviews == null ? <p className="p-5 text-center text-[13px] text-[#8b93a7]">Yuklanmoqda…</p> : null}
             {reviews && list.length === 0 ? <p className="p-6 text-center text-[13px] text-[#8b93a7]">Tanlangan filtr bo‘yicha sharh topilmadi.</p> : null}
             <ul>
@@ -378,12 +378,12 @@ export function SellerReviewsDesktop() {
                   <button
                     type="button"
                     onClick={() => { setSelId(r.id); setEditing(false); setReply(""); }}
-                    className={cn("flex w-full gap-3 border-b border-l-[3px] border-b-[#f1f4f9] px-3.5 py-3 text-left hover:bg-[#f7faff]", sel?.id === r.id ? "border-l-[#0066FF] bg-[#f0f6ff]" : "border-l-transparent")}
+                    className={cn("flex w-full gap-3 border-b border-l-[3px] border-b-[#f1f4f9] px-3.5 py-3 text-left hover:bg-[#f7faff]", sel?.id === r.id ? "border-l-[#0F766E] bg-[#f0f6ff]" : "border-l-transparent")}
                   >
                     <Avatar name={r.buyerName ?? "?"} />
                     <div className="min-w-0 flex-1">
                       <div className="flex items-center justify-between gap-2">
-                        <p className="truncate text-[13.5px] font-bold text-[#0B1F4D]">{r.buyerName ?? "Xaridor"}</p>
+                        <p className="truncate text-[13.5px] font-bold text-[#111827]">{r.buyerName ?? "Xaridor"}</p>
                         <span className="shrink-0 text-[11px] text-[#8b93a7]">{dmy(new Date(r.createdAt))}</span>
                       </div>
                       <div className="mt-0.5 flex items-center gap-2"><Stars value={r.rating} size={12} />{!r.reply ? <span className="size-1.5 rounded-full bg-[#ef4444]" title="Javobsiz" /> : null}</div>
@@ -397,13 +397,13 @@ export function SellerReviewsDesktop() {
             </ul>
           </section>
 
-          <section className="rounded-2xl border border-[#eceff5] bg-white p-5 shadow-[0_1px_3px_rgba(15,23,42,0.04)]">
+          <section className="rounded-2xl border border-[#eceff5] bg-white p-5 shadow-[0_1px_3px_rgba(17, 24, 39, 0.04)]">
             {sel ? (
               <>
                 <div className="flex items-start gap-3">
                   <Avatar name={sel.buyerName ?? "?"} size={46} />
                   <div className="min-w-0 flex-1">
-                    <p className="text-[15px] font-bold text-[#0B1F4D]">{sel.buyerName ?? "Xaridor"}</p>
+                    <p className="text-[15px] font-bold text-[#111827]">{sel.buyerName ?? "Xaridor"}</p>
                     <div className="mt-0.5 flex items-center gap-2 text-[12px] text-[#8b93a7]"><Stars value={sel.rating} size={14} />{dmyHm(new Date(sel.createdAt))}</div>
                   </div>
                   <span className="inline-flex items-center gap-1 rounded-full bg-[#ecfdf3] px-2.5 py-1 text-[11.5px] font-semibold text-[#15803d]"><BadgeCheck className="size-3.5" />Tasdiqlangan xaridor</span>
@@ -424,29 +424,29 @@ export function SellerReviewsDesktop() {
                   {/* eslint-disable-next-line @next/next/no-img-element */}
                   {sel.productImage ? <img src={sel.productImage} alt="" className="size-12 shrink-0 rounded-lg bg-white object-contain" /> : <span className="size-12 shrink-0 rounded-lg bg-[#f1f4f9]" />}
                   <div className="min-w-0 flex-1">
-                    <p className="truncate text-[13px] font-bold text-[#0B1F4D]">{sel.productName ?? "Mahsulot"}</p>
+                    <p className="truncate text-[13px] font-bold text-[#111827]">{sel.productName ?? "Mahsulot"}</p>
                     <p className="text-[12px] text-[#6b7280]">{sel.productPrice != null ? formatMoney(sel.productPrice, "UZS") : `Buyurtma ${sel.orderId}`}</p>
                   </div>
-                  {sel.productId ? <Link href={`/marketplace/${sel.productId}`} className="inline-flex h-9 items-center rounded-lg border border-[#d7e4ff] bg-white px-3.5 text-[12.5px] font-semibold text-[#0066FF] hover:bg-[#f5f9ff]">Mahsulotni ko‘rish</Link> : null}
+                  {sel.productId ? <Link href={`/marketplace/${sel.productId}`} className="inline-flex h-9 items-center rounded-lg border border-[#F0FDFA] bg-white px-3.5 text-[12.5px] font-semibold text-[#0F766E] hover:bg-[#f5f9ff]">Mahsulotni ko‘rish</Link> : null}
                 </div>
 
                 <div className="mt-5 border-t border-[#eef1f6] pt-4">
                   {sel.reply && !editing ? (
                     <div className="rounded-xl bg-[#f0f6ff] p-4">
                       <div className="flex items-center justify-between gap-2">
-                        <p className="flex items-center gap-1.5 text-[13px] font-bold text-[#0B1F4D]"><MessageSquareText className="size-4 text-[#0066FF]" />Sizning javobingiz</p>
+                        <p className="flex items-center gap-1.5 text-[13px] font-bold text-[#111827]"><MessageSquareText className="size-4 text-[#0F766E]" />Sizning javobingiz</p>
                         <span className="text-[11.5px] text-[#8b93a7]">
                           {sel.replyAt ? dmyHm(new Date(sel.replyAt)) : ""}{sel.replyEditedAt ? " · tahrirlangan" : ""}
                         </span>
                       </div>
                       <p className="mt-2 text-[13.5px] leading-relaxed break-words whitespace-pre-wrap text-[#1a1d26]">{sel.reply}</p>
-                      <button type="button" onClick={() => { setEditing(true); setReply(sel.reply ?? ""); }} className="mt-3 inline-flex h-8 items-center gap-1.5 rounded-lg border border-[#d7e4ff] bg-white px-3 text-[12.5px] font-semibold text-[#0066FF] hover:bg-[#f5f9ff]">
+                      <button type="button" onClick={() => { setEditing(true); setReply(sel.reply ?? ""); }} className="mt-3 inline-flex h-8 items-center gap-1.5 rounded-lg border border-[#F0FDFA] bg-white px-3 text-[12.5px] font-semibold text-[#0F766E] hover:bg-[#f5f9ff]">
                         <Edit3 className="size-3.5" />Javobni tahrirlash
                       </button>
                     </div>
                   ) : (
                     <div>
-                      <p className="text-[13px] font-bold text-[#0B1F4D]">{editing ? "Javobni tahrirlash" : "Javob yozing"}</p>
+                      <p className="text-[13px] font-bold text-[#111827]">{editing ? "Javobni tahrirlash" : "Javob yozing"}</p>
                       <div className="mt-2 flex items-end gap-2">
                         <textarea
                           value={reply}
@@ -454,10 +454,10 @@ export function SellerReviewsDesktop() {
                           rows={3}
                           maxLength={1500}
                           placeholder="Javobingizni yozing..."
-                          className="min-h-[84px] flex-1 resize-none rounded-xl border border-[#e4e9f2] bg-[#f7f9fc] px-3.5 py-2.5 text-[13.5px] outline-none focus:border-[#0066FF] focus:bg-white"
+                          className="min-h-[84px] flex-1 resize-none rounded-xl border border-[#e4e9f2] bg-[#f7f9fc] px-3.5 py-2.5 text-[13.5px] outline-none focus:border-[#0F766E] focus:bg-white"
                         />
                         <div className="flex flex-col gap-2">
-                          <button type="button" disabled={!reply.trim() || busy} onClick={() => void saveReply()} className="grid size-11 place-items-center rounded-xl bg-[#0066FF] text-white hover:bg-[#0055d4] disabled:bg-[#b9d2ff]" aria-label="Javobni yuborish">
+                          <button type="button" disabled={!reply.trim() || busy} onClick={() => void saveReply()} className="grid size-11 place-items-center rounded-xl bg-[#0F766E] text-white hover:bg-[#0F766E] disabled:bg-[#CCFBF1]" aria-label="Javobni yuborish">
                             <Send className="size-[18px]" />
                           </button>
                           {editing ? <button type="button" onClick={() => { setEditing(false); setReply(""); }} className="h-8 rounded-lg border border-[#e4e9f2] px-2 text-[12px] font-semibold text-[#4b5568]">Bekor</button> : null}
@@ -477,7 +477,7 @@ export function SellerReviewsDesktop() {
             <Panel title="Reyting dinamikasi" className="!p-4">
               {chartVals.length && calc.firstIdx >= 0 ? (
                 <div className="mt-3">
-                  <LineChart labels={chartLabels} tooltipLabels={chartTips} series={[{ key: "r", label: "O‘rtacha reyting", color: "#0066FF", values: chartVals, area: true, fmt: (n) => n.toFixed(2) }]} height={150} leftTick={(n) => String(n)} />
+                  <LineChart labels={chartLabels} tooltipLabels={chartTips} series={[{ key: "r", label: "O‘rtacha reyting", color: "#0F766E", values: chartVals, area: true, fmt: (n) => n.toFixed(2) }]} height={150} leftTick={(n) => String(n)} />
                   <p className="mt-1 text-[11px] text-[#8b93a7]">Kumulyativ o‘rtacha baho (1–5)</p>
                 </div>
               ) : (
@@ -488,8 +488,8 @@ export function SellerReviewsDesktop() {
               <ul className="mt-3 space-y-3">
                 {calc.cats.map((c) => (
                   <li key={c.key}>
-                    <div className="flex items-center justify-between text-[12.5px]"><span className="text-[#4b5568]">{c.label}</span><b className="text-[#0B1F4D]">{c.v != null ? c.v.toFixed(1) : "—"}</b></div>
-                    <div className="mt-1 h-1.5 rounded-full bg-[#eef1f6]"><div className="h-1.5 rounded-full bg-[#0066FF]" style={{ width: `${c.v != null ? (c.v / 5) * 100 : 0}%` }} /></div>
+                    <div className="flex items-center justify-between text-[12.5px]"><span className="text-[#4b5568]">{c.label}</span><b className="text-[#111827]">{c.v != null ? c.v.toFixed(1) : "—"}</b></div>
+                    <div className="mt-1 h-1.5 rounded-full bg-[#eef1f6]"><div className="h-1.5 rounded-full bg-[#0F766E]" style={{ width: `${c.v != null ? (c.v / 5) * 100 : 0}%` }} /></div>
                   </li>
                 ))}
               </ul>
@@ -504,10 +504,10 @@ export function SellerReviewsDesktop() {
                       {/* eslint-disable-next-line @next/next/no-img-element */}
                       {p.image ? <img src={p.image} alt="" className="size-9 shrink-0 rounded-lg bg-[#f4f6fa] object-contain" /> : <span className="size-9 shrink-0 rounded-lg bg-[#f4f6fa]" />}
                       <div className="min-w-0 flex-1">
-                        <p className="truncate font-semibold text-[#0B1F4D]">{p.name}</p>
+                        <p className="truncate font-semibold text-[#111827]">{p.name}</p>
                         <p className="flex items-center gap-1 text-[11px] text-[#8b93a7]"><Star className="size-3 fill-[#f5b100] text-[#f5b100]" />{(p.sum / p.count).toFixed(1)}</p>
                       </div>
-                      <b className="text-[#0B1F4D]">{p.count} ta</b>
+                      <b className="text-[#111827]">{p.count} ta</b>
                     </li>
                   ))}
                 </ol>

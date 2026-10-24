@@ -106,7 +106,7 @@ function Inner() {
     <div className="mx-auto max-w-3xl">
       <header className="mb-4">
         <p className="text-[13px]">
-          <Link href="/seminarlar/yozuvlarim" className="inline-flex items-center gap-1 text-[#0066FF] hover:underline">
+          <Link href="/seminarlar/yozuvlarim" className="inline-flex items-center gap-1 text-[#0F766E] hover:underline">
             <ChevronLeft className="size-4" />
             Mening yozuvlarim
           </Link>
@@ -131,9 +131,9 @@ function Inner() {
       ) : data ? (
         <>
           {me?.canCreate ? <MySeminars seminars={mine} onChanged={() => void load()} /> : me ? <div className="mb-5"><OrganizerGate application={me.application} onDone={() => void load()} /></div> : null}
-          {items.length > 0 ? <section className="mb-5 rounded-[16px] border border-[#dbe7ff] bg-[#f5f8ff] p-4">
-            <h2 className="flex items-center gap-2 text-[15px] font-bold text-[#0B1F4D]">
-              <ScanLine className="size-5 text-[#0066FF]" />
+          {items.length > 0 ? <section className="mb-5 rounded-[16px] border border-[#F0FDFA] bg-[#f5f8ff] p-4">
+            <h2 className="flex items-center gap-2 text-[15px] font-bold text-[#111827]">
+              <ScanLine className="size-5 text-[#0F766E]" />
               Chiptani tekshirish
             </h2>
             <form onSubmit={runCheck} className="mt-3 flex gap-2">
@@ -210,7 +210,7 @@ function Inner() {
                             <div className="flex flex-wrap items-start justify-between gap-2">
                               <div className="min-w-0">
                                 <p className="text-[14px] font-semibold text-[#1a1d26]">{r.name}</p>
-                                <a href={`tel:+998${r.phone}`} className="mt-0.5 inline-flex items-center gap-1 text-[13px] text-[#0066FF]">
+                                <a href={`tel:+998${r.phone}`} className="mt-0.5 inline-flex items-center gap-1 text-[13px] text-[#0F766E]">
                                   <Phone className="size-3.5" />+998 {r.phone}
                                 </a>
                                 {r.clinic ? <p className="text-[12px] text-[#8b93a7]">{r.clinic}</p> : null}
@@ -224,7 +224,7 @@ function Inner() {
                             <div className="mt-2 flex flex-wrap items-center gap-3 text-[12px]">
                               <span className="font-mono font-semibold text-[#4b5568]">{r.ticketCode}</span>
                               {r.paymentStatus === "awaiting" && r.status !== "cancelled" ? (
-                                <button type="button" onClick={() => void markPaid(r)} className="font-semibold text-[#0066FF] hover:underline">
+                                <button type="button" onClick={() => void markPaid(r)} className="font-semibold text-[#0F766E] hover:underline">
                                   To‘lov qabul qilindi deb belgilash
                                 </button>
                               ) : null}

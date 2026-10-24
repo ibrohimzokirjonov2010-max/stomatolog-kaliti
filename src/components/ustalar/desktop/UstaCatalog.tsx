@@ -470,7 +470,7 @@ function MiniMap({ items, zoom, top, big }: { items: UstaView[]; zoom: number; t
       <div className="us-map-in" style={{ transform: `scale(${zoom})` }}>
         <svg viewBox="0 0 200 120" preserveAspectRatio="none" aria-hidden="true">
           <rect width="200" height="120" fill="#e9f4ef" />
-          <path d="M0 78 C40 70 60 90 100 80 S160 60 200 70" stroke="#bfe0f2" strokeWidth="7" fill="none" />
+          <path d="M0 78 C40 70 60 90 100 80 S160 60 200 70" stroke="#CCFBF1" strokeWidth="7" fill="none" />
           <path d="M20 0 L60 120 M120 0 L95 120 M0 40 L200 30 M150 0 L190 120 M0 100 L200 92" stroke="#fff" strokeWidth="3" fill="none" />
           <path d="M70 0 L80 120 M0 60 L200 54 M40 0 C70 40 120 50 200 12" stroke="#fff" strokeWidth="1.6" fill="none" />
           <circle cx="132" cy="70" r="16" fill="#d7ecdd" />

@@ -103,7 +103,7 @@ export function NewAppointmentModal({ initial, onClose, onSave }: { initial: App
   }
 
   return (
-    <Overlay testId="appt-modal" title="Yangi uchrashuv" onClose={onClose}>
+    <Overlay testId="appt-modal" title="Yangi uchrashuv" wide onClose={onClose}>
       <Head title="Yangi uchrashuv" subtitle="Uchrashuv ma’lumotlarini kiriting" onClose={onClose} />
       <div className="px-grid">
         <label>

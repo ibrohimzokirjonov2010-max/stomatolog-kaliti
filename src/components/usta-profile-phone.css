@@ -3,7 +3,7 @@
   margin: -1rem -1rem 0;
   padding-bottom: 12px;
   background: #f3f8fa;
-  color: #0b1a3a;
+  color: #111827;
   display: flex;
   flex-direction: column;
   gap: 8px;
@@ -11,8 +11,8 @@
 }
 .up * { min-width: 0; }
 .up-cover { position: relative; height: 170px; background: #dfeef0; overflow: hidden; }
-.up-cover.blank { height: 110px; background: linear-gradient(135deg, #0b6f6d, #19a7a0); }
-.up-float { position: absolute; z-index: 1; top: max(14px, env(safe-area-inset-top)); width: 38px; height: 38px; border-radius: 12px; background: #fff; color: #0b1a3a; display: grid; place-items: center; box-shadow: 0 4px 14px rgba(11, 26, 58, .12); }
+.up-cover.blank { height: 110px; background: linear-gradient(135deg, #115E59, #0F766E); }
+.up-float { position: absolute; z-index: 1; top: max(14px, env(safe-area-inset-top)); width: 38px; height: 38px; border-radius: 12px; background: #fff; color: #111827; display: grid; place-items: center; box-shadow: 0 4px 14px rgba(17, 24, 39, .12); }
 .up-float svg { width: 20px; height: 20px; }
 .up-float.back { left: 12px; }
 .up-float.heart { right: 58px; }
@@ -20,7 +20,7 @@
 .up-float.on { color: #e11d48; }
 .up-toast { position: fixed; left: 50%; top: 64px; transform: translateX(-50%); z-index: 50; margin: 0; padding: 8px 14px; border-radius: 999px; background: #0b1220; color: #fff; font-size: 12px; }
 .up-card { margin: 0 8px; padding: 12px; border-radius: 16px; background: #fff; border: 1px solid #e8f0f2; }
-.up-main { margin-top: -26px; position: relative; z-index: 1; display: grid; grid-template-columns: auto 1fr; column-gap: 12px; row-gap: 10px; box-shadow: 0 6px 20px rgba(11, 26, 58, .06); }
+.up-main { margin-top: -26px; position: relative; z-index: 1; display: grid; grid-template-columns: auto 1fr; column-gap: 12px; row-gap: 10px; box-shadow: 0 6px 20px rgba(17, 24, 39, .06); }
 .up-ava { position: relative; align-self: start; }
 .up-ava i { position: absolute; right: 4px; bottom: 6px; width: 14px; height: 14px; border-radius: 50%; border: 2.5px solid #fff; background: #b6bdca; }
 .up-ava i.on { background: #22c55e; }
@@ -40,25 +40,25 @@
 .up-stats { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); padding: 10px 4px; }
 .up-stats article { display: flex; align-items: center; gap: 5px; padding: 0 5px; }
 .up-stats article + article { border-left: 1px solid #edf1f5; }
-.up-stats svg { flex: none; width: 20px; height: 20px; color: #0b8f8a; }
+.up-stats svg { flex: none; width: 20px; height: 20px; color: #0F766E; }
 .up-stats span { display: flex; flex-direction: column; }
 .up-stats b { font-size: 12px; font-weight: 700; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 .up-stats small { color: #6a7c93; font-size: 9.5px; line-height: 1.2; }
 .up-tabs { position: sticky; top: 0; z-index: 20; margin: 0 8px; padding: 3px; display: grid; grid-template-columns: repeat(4, 1fr); border-radius: 12px; background: #fff; border: 1px solid #e8f0f2; }
 .up-tabs button { height: 34px; border-radius: 9px; color: #4b5568; font-size: 12.5px; }
-.up-tabs button.on { background: #0d9f9a; color: #fff; font-weight: 600; }
+.up-tabs button.on { background: #0F766E; color: #fff; font-weight: 600; }
 .up-sec { scroll-margin-top: 52px; }
 .up-sec h2 { margin: 0 0 8px; font-size: 16px; font-weight: 700; }
 .up-sechead { display: flex; align-items: center; justify-content: space-between; gap: 8px; }
-.up-sechead button { margin-bottom: 8px; display: inline-flex; align-items: center; gap: 3px; color: #1d5fd1; font-size: 12px; }
+.up-sechead button { margin-bottom: 8px; display: inline-flex; align-items: center; gap: 3px; color: #0F766E; font-size: 12px; }
 .up-sechead button svg { width: 14px; height: 14px; }
 .up-services { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 6px; }
 .up-services button { width: 100%; display: flex; align-items: center; gap: 10px; padding: 6px 8px 6px 6px; border-radius: 12px; border: 1px solid #e8eef3; text-align: left; }
-.up-sic { flex: none; width: 46px; height: 40px; border-radius: 9px; background: #f2f6f9; color: #0b6f6d; display: grid; place-items: center; }
+.up-sic { flex: none; width: 46px; height: 40px; border-radius: 9px; background: #f2f6f9; color: #115E59; display: grid; place-items: center; }
 .up-sname { flex: 1; display: flex; flex-direction: column; gap: 1px; }
 .up-sname b { font-size: 12.5px; font-weight: 600; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 .up-sname small { color: #6a7c93; font-size: 10.5px; }
-.up-services em { flex: none; font-style: normal; color: #0b8f8a; font-size: 12.5px; font-weight: 700; white-space: nowrap; }
+.up-services em { flex: none; font-style: normal; color: #0F766E; font-size: 12.5px; font-weight: 700; white-space: nowrap; }
 .up-services button > svg { flex: none; width: 16px; height: 16px; color: #8b93a7; }
 .up-works { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 5px; }
 .up-works button { position: relative; aspect-ratio: 4 / 3; border-radius: 8px; overflow: hidden; background: #eef2f8; }
@@ -70,14 +70,14 @@
 .up-rows { margin: 8px 0 0; font-size: 12.5px; }
 .up-rows > div + div { border-top: 1px solid #eef1f6; }
 .up-links { margin-top: 6px; display: flex; flex-direction: column; gap: 6px; }
-.up-links a, .up-links button { display: inline-flex; align-items: center; gap: 6px; color: #1d5fd1; font-size: 12.5px; font-weight: 600; text-align: left; word-break: break-all; }
+.up-links a, .up-links button { display: inline-flex; align-items: center; gap: 6px; color: #0F766E; font-size: 12.5px; font-weight: 600; text-align: left; word-break: break-all; }
 .up-links button { color: #6a7c93; font-weight: 500; }
 .up-links svg { flex: none; width: 15px; height: 15px; }
 .up-pad { height: 64px; }
 .up-bar { position: fixed; left: 0; right: 0; z-index: 35; bottom: calc(64px + env(safe-area-inset-bottom)); display: flex; gap: 8px; padding: 8px 8px; background: rgba(243, 248, 250, .96); backdrop-filter: blur(6px); }
 .up-call, .up-go { height: 46px; border-radius: 12px; display: inline-flex; align-items: center; justify-content: center; gap: 10px; font-size: 14.5px; font-weight: 600; }
-.up-call { flex: 0 0 42%; border: 1.5px solid #3b82f6; background: #fff; color: #1d5fd1; }
-.up-go { flex: 1; background: #0d9f9a; color: #fff; }
+.up-call { flex: 0 0 42%; border: 1.5px solid #0F766E; background: #fff; color: #0F766E; }
+.up-go { flex: 1; background: #0F766E; color: #fff; }
 .up-call svg, .up-go svg { width: 19px; height: 19px; }
 .up-stats b { white-space: normal; line-height: 1.15; }
 .up-stats svg { width: 18px; height: 18px; }

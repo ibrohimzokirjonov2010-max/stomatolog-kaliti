@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useState, type ReactNode } from "react";
+import { type ReactNode } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { ArrowRight } from "lucide-react";
@@ -18,7 +18,7 @@ export type PromoSlide = {
   /** Either a click handler (in-page filter) or a link. */
   onClick?: () => void;
   href?: string;
-  /** "light" = pale blue card with dark text (default); "dark" = #0066FF→#0B1220 gradient with white text. */
+  /** "light" = pale blue card with dark text (default); "dark" = #0F766E→#0B1220 gradient with white text. */
   tone?: "light" | "dark";
   /** Wide 1200×675 poster (text-free left side) used full-bleed on desktop (lg+). Without it desktop keeps the right-side photo. */
   desktopImage?: string;
@@ -28,57 +28,25 @@ export type PromoSlide = {
   ctaTone?: "white";
 };
 
-const AUTOPLAY_MS = 5000;
-
 /**
- * Mobile promo carousel shared by Forma and Marketplace: text left, photo right (object-cover, top-anchored),
- * swipe + clickable dots + ~5s auto-rotate (paused while touching, off for reduced motion). First image eager, rest lazy.
+ * Static promo banner. Only the first slide is shown — no swipe, dots, or auto-rotate.
  */
 export function PromoSlider({ slides, testId, label, className }: { slides: PromoSlide[]; testId: string; label: string; className?: string }) {
-  const [idx, setIdx] = useState(0);
-  const [paused, setPaused] = useState(false);
-  const trackRef = useRef<HTMLDivElement>(null);
-  const count = slides.length;
-
-  function goTo(i: number) {
-    const el = trackRef.current;
-    if (!el) return;
-    el.scrollTo({ left: i * el.clientWidth, behavior: "smooth" });
-  }
-
-  useEffect(() => {
-    if (paused || count < 2) return;
-    if (typeof window !== "undefined" && window.matchMedia?.("(prefers-reduced-motion: reduce)").matches) return;
-    const t = window.setTimeout(() => goTo((idx + 1) % count), AUTOPLAY_MS);
-    return () => window.clearTimeout(t);
-  }, [idx, paused, count]);
-
-  if (!count) return null;
+  const shown = slides.slice(0, 1);
+  if (!shown.length) return null;
 
   return (
-    <section className={cn("mb-5 min-w-0 lg:mx-auto lg:w-full lg:max-w-[1360px]", className)} data-testid={testId} aria-roledescription="karusel" aria-label={label}>
-      <div
-        ref={trackRef}
-        onScroll={(e) => {
-          const el = e.currentTarget;
-          const i = Math.round(el.scrollLeft / Math.max(1, el.clientWidth));
-          if (i !== idx) setIdx(Math.min(Math.max(i, 0), count - 1));
-        }}
-        onTouchStart={() => setPaused(true)}
-        onTouchEnd={() => setPaused(false)}
-        onMouseEnter={() => setPaused(true)}
-        onMouseLeave={() => setPaused(false)}
-        className="flex snap-x snap-mandatory overflow-x-auto overscroll-x-contain [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
-      >
-        {slides.map((s, i) => {
+    <section className={cn("mb-5 min-w-0 lg:mx-auto lg:w-full lg:max-w-[1360px]", className)} data-testid={testId} aria-label={label}>
+      <div className="min-w-0">
+        {shown.map((s, i) => {
           const dark = s.tone === "dark";
           const btnCls = cn(
             "mt-2.5 inline-flex h-9 w-fit shrink-0 items-center gap-1.5 rounded-xl px-3.5 text-[13px] font-semibold lg:mt-4 lg:h-11 lg:px-5 lg:text-[14px]",
             dark
-              ? "bg-white text-[#0066FF]"
+              ? "bg-white text-[#0F766E]"
               : s.ctaTone === "white"
-                ? "bg-white text-[#0066FF] shadow-[0_6px_14px_rgba(15,23,42,0.12)] ring-1 ring-[#0066FF]/15"
-                : "bg-[#0066FF] text-white shadow-[0_6px_14px_rgba(0,102,255,0.3)]",
+                ? "bg-white text-[#0F766E] shadow-[0_6px_14px_rgba(17, 24, 39, 0.12)] ring-1 ring-[#0F766E]/15"
+                : "bg-[#0F766E] text-white shadow-[0_6px_14px_rgba(15, 118, 110, 0.3)]",
           );
           const btn = (
             <>
@@ -87,11 +55,11 @@ export function PromoSlider({ slides, testId, label, className }: { slides: Prom
             </>
           );
           return (
-            <div key={s.id} className="w-full shrink-0 snap-center" aria-roledescription="slayd" aria-label={`${i + 1} / ${count}`}>
+            <div key={s.id} className="w-full min-w-0">
               <div
                 className={cn(
                   "relative h-[168px] overflow-hidden rounded-[20px] lg:h-[220px] xl:h-[240px] 2xl:h-[260px]",
-                  dark ? "bg-gradient-to-br from-[#0066FF] to-[#0B1220]" : "bg-gradient-to-r from-[#dcebff] via-[#e8f3ff] to-[#F4F7FC]",
+                  dark ? "bg-gradient-to-br from-[#0F766E] to-[#0B1220]" : "bg-gradient-to-r from-[#F0FDFA] via-[#F0FDFA] to-[#F4F7FC]",
                 )}
               >
                 {s.desktopImage ? (
@@ -171,23 +139,6 @@ export function PromoSlider({ slides, testId, label, className }: { slides: Prom
           );
         })}
       </div>
-      {count > 1 ? (
-        <div className="mt-2.5 flex justify-center gap-1.5">
-          {slides.map((s, i) => (
-            <button
-              key={s.id}
-              type="button"
-              data-testid={`${testId}-dot`}
-              aria-label={`${i + 1}-slayd`}
-              aria-current={i === idx}
-              onClick={() => goTo(i)}
-              className="grid h-4 place-items-center px-0.5"
-            >
-              <span className={cn("block h-1.5 rounded-full transition-all", i === idx ? "w-4 bg-[#0066FF]" : "w-1.5 bg-[#cdd5e4]")} />
-            </button>
-          ))}
-        </div>
-      ) : null}
     </section>
   );
 }
