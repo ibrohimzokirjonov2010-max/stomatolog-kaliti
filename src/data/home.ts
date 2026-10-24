@@ -2,7 +2,7 @@ export const quickCategories = [
   {
     href: "/jihozlar",
     label: "Jihozlar",
-    tone: "bg-[#F0FDFA] text-[#0F766E]",
+    tone: "bg-[#e8f1ff] text-[#3b82f6]",
     icon: "chair",
   },
   {

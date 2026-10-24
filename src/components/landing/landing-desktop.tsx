@@ -27,7 +27,7 @@ import { LandingFaq, LandingLang, LandingLogo, LandingSearch, LandingSocials, to
 import { crmPoints, desktopNav, faqs, features, heroText, people, steps } from "@/components/landing/landing-content";
 
 const wrap = "mx-auto w-[min(1320px,calc(100%-64px))]";
-const title = "text-left font-[family-name:var(--font-outfit)] text-[clamp(32px,2.8vw,40px)] font-bold tracking-tight text-[#111827]";
+const title = "text-left font-[family-name:var(--font-outfit)] text-[clamp(32px,2.8vw,40px)] font-bold tracking-tight text-[#0f2744]";
 
 const phoneCats = [
   { label: "Seminar", src: "/img/phone14/cat-seminar.png" },
@@ -57,9 +57,9 @@ const phoneTabs = [
 
 function PhoneShell({ children, className = "", width = "w-[300px]", height = "h-[540px]" }: { children: ReactNode; className?: string; width?: string; height?: string }) {
   return (
-    <div className={`${width} overflow-hidden rounded-[28px] border-[6px] border-[#111827] bg-white shadow-[0_18px_40px_rgba(17, 24, 39, 0.18)] ${className}`}>
+    <div className={`${width} overflow-hidden rounded-[28px] border-[6px] border-[#0f172a] bg-white shadow-[0_18px_40px_rgba(15,23,42,0.18)] ${className}`}>
       <div className={`relative flex flex-col overflow-hidden rounded-[22px] bg-[#f4f7fb] ${height}`}>
-        <span className="absolute left-1/2 top-1.5 z-10 h-3 w-14 -translate-x-1/2 rounded-full bg-[#111827]" />
+        <span className="absolute left-1/2 top-1.5 z-10 h-3 w-14 -translate-x-1/2 rounded-full bg-[#0f172a]" />
         <div className="flex h-full min-h-0 flex-col px-2 pt-5">{children}</div>
       </div>
     </div>
@@ -70,7 +70,7 @@ function PhoneTabs() {
   return (
     <div className="mt-auto grid grid-cols-4 border-t border-[#e6ebf3] bg-white px-0.5 py-1.5">
       {phoneTabs.map((tab, index) => (
-        <div key={tab.label} className={`text-center ${index === 0 ? "text-[#0F766E]" : "text-[#94a3b8]"}`}>
+        <div key={tab.label} className={`text-center ${index === 0 ? "text-[#0066FF]" : "text-[#94a3b8]"}`}>
           <tab.icon className="mx-auto size-4" />
           <span className="mt-0.5 block text-[12px] font-semibold leading-none">{tab.label}</span>
         </div>
@@ -84,7 +84,7 @@ export function HomePhone({ width, height, className = "", variant = "full" }: {
     return (
       <PhoneShell width={width} height={height} className={className}>
         <div className="flex h-full flex-col">
-          <b className="text-[13px] text-[#111827]">Stoma<span className="text-[#0F766E]">Hub</span></b>
+          <b className="text-[13px] text-[#16324f]">Stoma<span className="text-[#0066FF]">Hub</span></b>
           <div className="mt-2 grid grid-cols-4 gap-1">
             {phoneCats.map((cat) => (
               <div key={cat.label} className="text-center">
@@ -95,7 +95,7 @@ export function HomePhone({ width, height, className = "", variant = "full" }: {
               </div>
             ))}
           </div>
-          <div className="mt-2 rounded-xl bg-[#0F766E] px-2 py-2 text-[12px] font-bold leading-tight text-white">
+          <div className="mt-2 rounded-xl bg-[#0066FF] px-2 py-2 text-[12px] font-bold leading-tight text-white">
             Stomatologlar uchun yagona platforma
           </div>
         </div>
@@ -106,7 +106,7 @@ export function HomePhone({ width, height, className = "", variant = "full" }: {
     <PhoneShell width={width} height={height} className={className}>
       <div className="flex h-full min-h-0 flex-col">
         <div className="flex items-center justify-between">
-          <b className="text-[13px] text-[#111827]">Stoma<span className="text-[#0F766E]">Hub</span></b>
+          <b className="text-[13px] text-[#16324f]">Stoma<span className="text-[#0066FF]">Hub</span></b>
           <img src="/images/avatar-azizbek.png" alt="" className="size-6 rounded-full object-cover" />
         </div>
         <div className="mt-2 flex h-8 items-center gap-1 rounded-full bg-white px-2 text-[12px] text-[#94a3b8] ring-1 ring-[#e6ebf3]">
@@ -123,25 +123,25 @@ export function HomePhone({ width, height, className = "", variant = "full" }: {
             </div>
           ))}
         </div>
-        <div className="mt-2 rounded-xl bg-[#0F766E] px-2.5 py-2 text-[12px] font-bold leading-snug text-white">
+        <div className="mt-2 rounded-xl bg-[#0066FF] px-2.5 py-2 text-[12px] font-bold leading-snug text-white">
           Stomatologlar uchun yagona platforma
         </div>
-        <p className="mt-2 text-[12px] font-bold text-[#111827]">Ommabop kategoriyalar</p>
+        <p className="mt-2 text-[12px] font-bold text-[#16324f]">Ommabop kategoriyalar</p>
         <div className="mt-1 grid grid-cols-3 gap-1">
           {phoneProducts.map((item) => (
             <div key={item.label} className="overflow-hidden rounded-lg bg-white shadow-sm">
               <img src={item.src} alt="" className="h-16 w-full object-cover" />
-              <p className="truncate px-1 py-1 text-[12px] font-semibold text-[#111827]">{item.label}</p>
+              <p className="truncate px-1 py-1 text-[12px] font-semibold text-[#16324f]">{item.label}</p>
             </div>
           ))}
         </div>
-        <p className="mt-2 text-[12px] font-bold text-[#111827]">Seminarlar</p>
+        <p className="mt-2 text-[12px] font-bold text-[#16324f]">Seminarlar</p>
         <div className="mt-1 min-h-0 flex-1 space-y-1 overflow-hidden">
           {phoneSeminars.map((item) => (
             <div key={item.title} className="flex items-center gap-2 rounded-lg bg-white p-1 shadow-sm">
               <img src={item.src} alt="" className="h-10 w-12 shrink-0 rounded-md object-cover" />
               <span className="min-w-0 leading-tight">
-                <span className="block truncate text-[12px] font-semibold text-[#111827]">{item.title}</span>
+                <span className="block truncate text-[12px] font-semibold text-[#16324f]">{item.title}</span>
                 <span className="block truncate text-[11px] text-[#64748b]">{item.kind}</span>
               </span>
             </div>
@@ -157,21 +157,21 @@ export function ProfilePhone({ width, height, className = "" }: { width?: string
   return (
     <PhoneShell width={width} height={height} className={className}>
       <div className="flex h-full min-h-0 flex-col">
-        <p className="text-center text-[12px] font-extrabold text-[#111827]">Profil</p>
+        <p className="text-center text-[12px] font-extrabold text-[#16324f]">Profil</p>
         <img src="/images/avatar-azizbek.png" alt="" className="mx-auto mt-2 size-12 rounded-full object-cover" />
-        <p className="mt-1 text-center text-[13px] font-bold leading-tight text-[#111827]">Dr. Azizbek</p>
+        <p className="mt-1 text-center text-[13px] font-bold leading-tight text-[#16324f]">Dr. Azizbek</p>
         <p className="text-center text-[12px] text-[#64748b]">Stomatolog</p>
         <div className="mt-2 grid grid-cols-2 gap-1">
           {[["12", "Kurs"], ["4", "Buyurtma"]].map(([value, label]) => (
             <div key={label} className="rounded-lg bg-white py-1 text-center shadow-sm">
-              <b className="block text-[13px] text-[#0F766E]">{value}</b>
+              <b className="block text-[13px] text-[#0066FF]">{value}</b>
               <span className="block text-[12px] text-[#64748b]">{label}</span>
             </div>
           ))}
         </div>
         <div className="mt-2 min-h-0 flex-1 space-y-1 overflow-hidden">
           {["Kurslarim", "Buyurtmalar", "Uchrashuvlar", "Sertifikatlar", "Sevimlilar", "Sozlamalar"].map((label) => (
-            <div key={label} className="flex items-center justify-between rounded-lg bg-white px-1.5 py-1.5 text-[12px] font-semibold text-[#111827] shadow-sm">
+            <div key={label} className="flex items-center justify-between rounded-lg bg-white px-1.5 py-1.5 text-[12px] font-semibold text-[#16324f] shadow-sm">
               <span className="truncate">{label}</span>
               <ChevronRight className="size-3 shrink-0 text-[#94a3b8]" />
             </div>
@@ -185,18 +185,18 @@ export function ProfilePhone({ width, height, className = "" }: { width?: string
 
 export function CrmMock({ compact = false }: { compact?: boolean }) {
   return (
-    <div className="overflow-hidden rounded-[24px] border border-[#e6ebf3] bg-white shadow-[0_22px_50px_rgba(17, 24, 39, 0.1)]">
+    <div className="overflow-hidden rounded-[24px] border border-[#e6ebf3] bg-white shadow-[0_22px_50px_rgba(15,23,42,0.1)]">
       <div className={compact ? "grid grid-cols-[104px_minmax(0,1fr)]" : "grid grid-cols-[168px_minmax(0,1fr)]"}>
         <aside className="border-r border-[#eef2f7] bg-[#f8fafc] p-3">
-          <p className="px-2 text-[13px] font-extrabold tracking-tight text-[#111827]">Stoma<span className="text-[#0F766E]">Hub</span></p>
+          <p className="px-2 text-[13px] font-extrabold tracking-tight text-[#16324f]">Stoma<span className="text-[#0066FF]">Hub</span></p>
           <nav className="mt-3 space-y-1 text-[12px] font-semibold text-[#52637a]">
             {["Bosh sahifa", "Bemorlar", "Uchrashuvlar", "To‘lovlar", "Ombor", "Hisobotlar"].map((item, index) => (
-              <p key={item} className={index === 0 ? "rounded-lg bg-[#F0FDFA] px-2 py-2 text-[#0F766E]" : "px-2 py-2"}>{item}</p>
+              <p key={item} className={index === 0 ? "rounded-lg bg-[#e8f1ff] px-2 py-2 text-[#0066FF]" : "px-2 py-2"}>{item}</p>
             ))}
           </nav>
         </aside>
         <div className="min-w-0 p-3.5">
-          <p className="text-[15px] font-extrabold text-[#111827]">Bosh sahifa</p>
+          <p className="text-[15px] font-extrabold text-[#16324f]">Bosh sahifa</p>
           <div className={compact ? "mt-2.5 grid grid-cols-2 gap-2" : "mt-2.5 grid grid-cols-3 gap-2"}>
             {(compact
               ? [["Bemorlar", "0"], ["Qabul", "0"], ["Daromad", "0"], ["Qarz", "0"]]
@@ -204,7 +204,7 @@ export function CrmMock({ compact = false }: { compact?: boolean }) {
             ).map(([label, value]) => (
               <div key={label} className="rounded-xl bg-[#f4f8ff] px-2.5 py-2.5">
                 <p className="text-[12px] text-[#64748b]">{label}</p>
-                <p className="text-[16px] font-extrabold leading-tight text-[#111827]">{value}</p>
+                <p className="text-[16px] font-extrabold leading-tight text-[#16324f]">{value}</p>
               </div>
             ))}
           </div>
@@ -230,7 +230,7 @@ export function CrmMock({ compact = false }: { compact?: boolean }) {
   );
 }
 
-const btnPrimary = "inline-flex items-center gap-2.5 rounded-xl bg-[#0F766E] font-bold text-white shadow-[0_10px_24px_rgba(15, 118, 110, 0.28)] transition hover:bg-[#0F766E]";
+const btnPrimary = "inline-flex items-center gap-2.5 rounded-xl bg-[#1d6cf2] font-bold text-white shadow-[0_10px_24px_rgba(29,108,242,0.28)] transition hover:bg-[#1557d0]";
 
 const heroChips = [
   { icon: ToothIcon, text: "Barcha imkoniyatlar bir joyda" },
@@ -238,7 +238,7 @@ const heroChips = [
   { icon: Users, text: "Stomatologlar hamjamiyati" },
 ];
 
-const featureTones = ["bg-[#eaf2ff] text-[#0F766E]", "bg-[#e6f7f5] text-[#0F766E]"];
+const featureTones = ["bg-[#eaf2ff] text-[#1d6cf2]", "bg-[#e6f7f5] text-[#0b8f8a]"];
 
 const boardNav = [
   { label: "Bosh sahifa", icon: Home },
@@ -252,9 +252,9 @@ const boardNav = [
 ];
 
 const boardStats = [
-  { label: "Bugungi uchrashuvlar", value: "4", icon: CalendarDays, tone: "bg-[#eaf2ff] text-[#0F766E]" },
-  { label: "Bemorlar", value: "4", icon: Users, tone: "bg-[#e6f7f5] text-[#0F766E]" },
-  { label: "Davolash rejalari", value: "3", icon: ClipboardList, tone: "bg-[#eef0ff] text-[#0F766E]" },
+  { label: "Bugungi uchrashuvlar", value: "4", icon: CalendarDays, tone: "bg-[#eaf2ff] text-[#1d6cf2]" },
+  { label: "Bemorlar", value: "4", icon: Users, tone: "bg-[#e6f7f5] text-[#0b8f8a]" },
+  { label: "Davolash rejalari", value: "3", icon: ClipboardList, tone: "bg-[#eef0ff] text-[#5b5bd6]" },
   { label: "Qarzdorlik", value: "1", icon: Wallet, tone: "bg-[#fff1e6] text-[#ea7a1c]" },
 ];
 
@@ -290,12 +290,12 @@ function CrmBoard() {
   const max = Math.max(...chartPoints);
   const line = chartPoints.map((value, index) => `${(index / (chartPoints.length - 1)) * 100},${100 - (value / max) * 82}`).join(" ");
   return (
-    <div className="rounded-[26px] border border-white/70 bg-white/60 p-3 shadow-[0_30px_70px_rgba(17, 24, 39, 0.16)] backdrop-blur">
+    <div className="rounded-[26px] border border-white/70 bg-white/60 p-3 shadow-[0_30px_70px_rgba(15,39,68,0.16)] backdrop-blur">
       <div className="overflow-hidden rounded-[18px] border border-[#e6edf6] bg-white">
         <div className="flex items-center justify-between border-b border-[#eef2f7] px-4 py-2.5">
           <span className="flex items-center gap-2">
-            <ToothIcon className="size-6 text-[#0F766E]" />
-            <b className="text-[14px] text-[#111827]">Stoma<span className="text-[#0F766E]">Hub</span></b>
+            <ToothIcon className="size-6 text-[#1d6cf2]" />
+            <b className="text-[14px] text-[#16324f]">Stoma<span className="text-[#1d6cf2]">Hub</span></b>
           </span>
           <span className="flex h-8 w-[38%] items-center gap-2 rounded-lg bg-[#f4f7fb] px-3 text-[12px] text-[#94a3b8]">
             <Search className="size-3.5" /> Qidiruv
@@ -309,44 +309,44 @@ function CrmBoard() {
         <div className="grid grid-cols-[150px_minmax(0,1fr)]">
           <nav className="space-y-0.5 border-r border-[#eef2f7] p-2.5">
             {boardNav.map((item, index) => (
-              <span key={item.label} className={`flex items-center gap-2 rounded-lg px-2.5 py-2 text-[12px] font-semibold ${index === 0 ? "bg-[#0F766E] text-white" : "text-[#52637a]"}`}>
+              <span key={item.label} className={`flex items-center gap-2 rounded-lg px-2.5 py-2 text-[12px] font-semibold ${index === 0 ? "bg-[#1d6cf2] text-white" : "text-[#52637a]"}`}>
                 <item.icon className="size-3.5" />
                 {item.label}
               </span>
             ))}
           </nav>
           <div className="min-w-0 space-y-3 p-3.5">
-            <p className="text-[15px] font-extrabold text-[#111827]">Bosh sahifa</p>
+            <p className="text-[15px] font-extrabold text-[#16324f]">Bosh sahifa</p>
             <div className="grid grid-cols-4 gap-2">
               {boardStats.map((stat) => (
                 <div key={stat.label} className="flex items-center gap-2 rounded-xl border border-[#eef2f7] p-2">
                   <span className={`grid size-8 shrink-0 place-items-center rounded-lg ${stat.tone}`}><stat.icon className="size-4" /></span>
                   <span className="min-w-0 leading-tight">
                     <span className="block truncate text-[10.5px] text-[#64748b]">{stat.label}</span>
-                    <b className="text-[15px] text-[#111827]">{stat.value}</b>
+                    <b className="text-[15px] text-[#16324f]">{stat.value}</b>
                   </span>
                 </div>
               ))}
             </div>
             <div className="grid grid-cols-[minmax(0,1fr)_150px] gap-2">
               <div className="rounded-xl border border-[#eef2f7] p-2.5">
-                <p className="mb-1.5 flex justify-between text-[12px] font-bold text-[#111827]">
+                <p className="mb-1.5 flex justify-between text-[12px] font-bold text-[#16324f]">
                   Bugungi uchrashuvlar
-                  <span className="rounded-md bg-[#eaf2ff] px-1.5 text-[10.5px] text-[#0F766E]">Bugun</span>
+                  <span className="rounded-md bg-[#eaf2ff] px-1.5 text-[10.5px] text-[#1d6cf2]">Bugun</span>
                 </p>
                 {boardPatients.map((row) => (
                   <p key={row.time} className="grid grid-cols-[40px_minmax(0,1fr)_minmax(0,1fr)_12px] items-center gap-2 border-t border-[#f3f6fa] py-1.5 text-[11.5px]">
                     <span className="text-[#64748b]">{row.time}</span>
-                    <span className="truncate font-semibold text-[#111827]">{row.name}</span>
+                    <span className="truncate font-semibold text-[#16324f]">{row.name}</span>
                     <span className="truncate text-[#64748b]">{row.service}</span>
                     <ChevronRight className="size-3 text-[#94a3b8]" />
                   </p>
                 ))}
               </div>
               <div className="rounded-xl border border-[#eef2f7] p-2.5">
-                <p className="mb-1.5 text-[12px] font-bold text-[#111827]">Bemorlar</p>
+                <p className="mb-1.5 text-[12px] font-bold text-[#16324f]">Bemorlar</p>
                 {boardPatients.map((row) => (
-                  <p key={row.name} className="flex items-center gap-2 py-1 text-[11.5px] font-semibold text-[#111827]">
+                  <p key={row.name} className="flex items-center gap-2 py-1 text-[11.5px] font-semibold text-[#16324f]">
                     <img src={row.avatar} alt="" className="size-6 shrink-0 rounded-full object-cover" />
                     <span className="truncate">{row.name}</span>
                   </p>
@@ -354,10 +354,10 @@ function CrmBoard() {
               </div>
             </div>
             <div className="rounded-xl border border-[#eef2f7] p-2.5">
-              <p className="flex justify-between text-[12px] font-bold text-[#111827]">
+              <p className="flex justify-between text-[12px] font-bold text-[#16324f]">
                 Daromad dinamikasi
                 <span className="flex gap-1 text-[10.5px] font-semibold text-[#64748b]">
-                  <span className="rounded-md bg-[#eaf2ff] px-1.5 text-[#0F766E]">Hafta</span>
+                  <span className="rounded-md bg-[#eaf2ff] px-1.5 text-[#1d6cf2]">Hafta</span>
                   <span className="px-1.5">Oy</span>
                   <span className="px-1.5">Yil</span>
                 </span>
@@ -365,13 +365,13 @@ function CrmBoard() {
               <svg viewBox="0 0 100 100" preserveAspectRatio="none" className="mt-2 h-[92px] w-full" aria-hidden="true">
                 <defs>
                   <linearGradient id="crm-area" x1="0" x2="0" y1="0" y2="1">
-                    <stop offset="0" stopColor="#0F766E" stopOpacity="0.22" />
-                    <stop offset="1" stopColor="#0F766E" stopOpacity="0" />
+                    <stop offset="0" stopColor="#0b8f8a" stopOpacity="0.22" />
+                    <stop offset="1" stopColor="#0b8f8a" stopOpacity="0" />
                   </linearGradient>
                 </defs>
                 {[25, 50, 75].map((y) => <line key={y} x1="0" x2="100" y1={y} y2={y} stroke="#eef2f7" strokeWidth="0.6" vectorEffect="non-scaling-stroke" />)}
                 <polygon points={`0,100 ${line} 100,100`} fill="url(#crm-area)" />
-                <polyline points={line} fill="none" stroke="#0F766E" strokeWidth="2" vectorEffect="non-scaling-stroke" />
+                <polyline points={line} fill="none" stroke="#0b8f8a" strokeWidth="2" vectorEffect="non-scaling-stroke" />
               </svg>
             </div>
           </div>
@@ -413,7 +413,7 @@ const footerCols = [
 
 export function LandingDesktop() {
   return (
-    <div className="bg-[#f8fbfe] text-[#111827]" data-testid="desktop-landing">
+    <div className="bg-[#f8fbfe] text-[#16324f]" data-testid="desktop-landing">
       <header data-section="header" data-landing-header className="sticky top-0 z-40 border-b border-[#e8eef6] bg-white/95 backdrop-blur">
         <div className={`${wrap} flex h-[80px] items-center gap-3`}>
           <Link href="/landing" aria-label="StomaHub" className="shrink-0">
@@ -421,14 +421,14 @@ export function LandingDesktop() {
           </Link>
           <nav aria-label="Asosiy" className="flex min-w-0 flex-1 items-center justify-center gap-1">
             {desktopNav.map((item) => (
-              <Link key={item.href} href={item.href} className="whitespace-nowrap rounded-lg px-2.5 py-2 text-[15px] font-semibold text-[#111827] transition hover:bg-[#f4f7fb] hover:text-[#0F766E] xl:px-3">
+              <Link key={item.href} href={item.href} className="whitespace-nowrap rounded-lg px-2.5 py-2 text-[15px] font-semibold text-[#16324f] transition hover:bg-[#f4f7fb] hover:text-[#1d6cf2] xl:px-3">
                 {item.label}
               </Link>
             ))}
           </nav>
           <div className="flex shrink-0 items-center gap-2.5">
             <LandingSearch />
-            <Link href="/kirish" className="inline-flex h-11 items-center rounded-xl border border-[#0F766E] px-6 text-[15px] font-bold text-[#0F766E] transition hover:bg-[#f3f8ff]">
+            <Link href="/kirish" className="inline-flex h-11 items-center rounded-xl border border-[#1d6cf2] px-6 text-[15px] font-bold text-[#1d6cf2] transition hover:bg-[#f3f8ff]">
               Kirish
             </Link>
             <Link href="/royxat" className={`${btnPrimary} h-11 px-5 text-[15px]`}>
@@ -451,13 +451,13 @@ export function LandingDesktop() {
         </div>
         <div className={`${wrap} relative grid min-h-[600px] items-center gap-6 py-10 lg:grid-cols-[minmax(0,1fr)_330px]`}>
           <div className="max-w-[600px]">
-            <p className="inline-flex items-center gap-2 rounded-full bg-[#e8f3f2] px-3.5 py-1.5 text-[14px] font-semibold text-[#0F766E]">
+            <p className="inline-flex items-center gap-2 rounded-full bg-[#e8f3f2] px-3.5 py-1.5 text-[14px] font-semibold text-[#0f6f6b]">
               <ToothIcon className="size-4" />
               Stomatologlar uchun yagona platforma
             </p>
-            <h1 className="mt-5 font-[family-name:var(--font-outfit)] text-[clamp(46px,4.4vw,66px)] font-bold leading-[1.05] tracking-tight text-[#111827]">
+            <h1 className="mt-5 font-[family-name:var(--font-outfit)] text-[clamp(46px,4.4vw,66px)] font-bold leading-[1.05] tracking-tight text-[#0f2147]">
               Stomatologlar uchun
-              <span className="block text-[#0F766E]">yagona platforma</span>
+              <span className="block text-[#1d6cf2]">yagona platforma</span>
             </h1>
             <p className="mt-5 max-w-[470px] text-[17px] leading-relaxed text-[#52637a]">{heroText}</p>
             <div className="mt-7 flex flex-wrap gap-3">
@@ -465,15 +465,15 @@ export function LandingDesktop() {
                 Bepul ro‘yxatdan o‘tish
                 <ArrowRight className="size-5" />
               </Link>
-              <Link href="/marketplace" className="inline-flex h-14 items-center gap-3 rounded-xl bg-white pr-7 pl-4 text-[16px] font-bold text-[#111827] shadow-[0_8px_22px_rgba(17, 24, 39, 0.08)] ring-1 ring-[#e3eaf3] transition hover:text-[#0F766E]">
-                <span className="grid size-8 place-items-center rounded-full bg-[#0F766E] text-white"><Play className="size-3.5 translate-x-px fill-current" /></span>
+              <Link href="/marketplace" className="inline-flex h-14 items-center gap-3 rounded-xl bg-white pr-7 pl-4 text-[16px] font-bold text-[#16324f] shadow-[0_8px_22px_rgba(15,39,68,0.08)] ring-1 ring-[#e3eaf3] transition hover:text-[#1d6cf2]">
+                <span className="grid size-8 place-items-center rounded-full bg-[#1d6cf2] text-white"><Play className="size-3.5 translate-x-px fill-current" /></span>
                 Marketplace’ni ko‘rish
               </Link>
             </div>
             <ul className="mt-8 flex flex-wrap gap-x-7 gap-y-3">
               {heroChips.map((chip) => (
                 <li key={chip.text} className="flex max-w-[170px] items-center gap-2.5 text-[13.5px] leading-snug text-[#52637a]">
-                  <span className="grid size-10 shrink-0 place-items-center rounded-full bg-white text-[#0F766E] shadow-sm ring-1 ring-[#e3eef0]">
+                  <span className="grid size-10 shrink-0 place-items-center rounded-full bg-white text-[#0b8f8a] shadow-sm ring-1 ring-[#e3eef0]">
                     <chip.icon className="size-5" />
                   </span>
                   {chip.text}
@@ -482,7 +482,7 @@ export function LandingDesktop() {
             </ul>
           </div>
           <div className="relative justify-self-end">
-            <span className="absolute -right-7 top-[44%] z-10 grid size-[68px] place-items-center rounded-2xl bg-[#0F766E] text-white shadow-[0_14px_30px_rgba(15, 118, 110, 0.35)]">
+            <span className="absolute -right-7 top-[44%] z-10 grid size-[68px] place-items-center rounded-2xl bg-[#1d6cf2] text-white shadow-[0_14px_30px_rgba(29,108,242,0.35)]">
               <ToothIcon className="size-9" />
             </span>
             <HomePhone width="w-[300px]" height="h-[560px]" />
@@ -495,12 +495,12 @@ export function LandingDesktop() {
         <p className="mt-1.5 text-[16px] text-[#52637a]">Stomatologlar uchun kerakli barcha imkoniyatlar bir joyda</p>
         <div className="mt-6 grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
           {features.map((item, index) => (
-            <Link key={item.href} href={item.href} className="flex min-h-[184px] flex-col items-start gap-4 rounded-[18px] border border-[#e8eef6] bg-white p-6 shadow-[0_8px_20px_rgba(17, 24, 39, 0.04)] transition hover:-translate-y-0.5 hover:border-[#F0FDFA] hover:shadow-[0_14px_28px_rgba(17, 24, 39, 0.08)]">
+            <Link key={item.href} href={item.href} className="flex min-h-[184px] flex-col items-start gap-4 rounded-[18px] border border-[#e8eef6] bg-white p-6 shadow-[0_8px_20px_rgba(15,23,42,0.04)] transition hover:-translate-y-0.5 hover:border-[#cfe0ff] hover:shadow-[0_14px_28px_rgba(15,23,42,0.08)]">
               <span className={`grid size-14 shrink-0 place-items-center rounded-2xl ${featureTones[(index + Math.floor(index / 4)) % 2]}`}>
                 {item.href === "/ustalar" ? <ToothIcon className="size-7" /> : <item.icon className="size-7" strokeWidth={1.75} />}
               </span>
               <span className="min-w-0">
-                <h3 className="font-[family-name:var(--font-outfit)] text-[18px] font-bold leading-tight text-[#111827]">{item.title}</h3>
+                <h3 className="font-[family-name:var(--font-outfit)] text-[18px] font-bold leading-tight text-[#0f2147]">{item.title}</h3>
                 <p className="mt-1.5 line-clamp-2 text-[14.5px] leading-snug text-[#64748b]">{item.text}</p>
               </span>
             </Link>
@@ -513,17 +513,17 @@ export function LandingDesktop() {
         <p className="mt-1.5 text-[16px] text-[#52637a]">StomaHub barcha stomatologiya sohasidagi mutaxassislar uchun</p>
         <div className="mt-6 grid grid-cols-2 gap-4 md:grid-cols-3 xl:grid-cols-5">
           {people.map((person) => (
-            <Link key={person.title} href={person.href} className={`group overflow-hidden rounded-[20px] border bg-[linear-gradient(180deg,#eaf3fd_0%,#f5f9fe_100%)] transition hover:-translate-y-0.5 hover:shadow-[0_14px_28px_rgba(17, 24, 39, 0.08)] ${person.selected ? "border-2 border-[#0F766E]" : "border-[#e3ecf7]"}`}>
+            <Link key={person.title} href={person.href} className={`group overflow-hidden rounded-[20px] border bg-[linear-gradient(180deg,#eaf3fd_0%,#f5f9fe_100%)] transition hover:-translate-y-0.5 hover:shadow-[0_14px_28px_rgba(15,23,42,0.08)] ${person.selected ? "border-2 border-[#1d6cf2]" : "border-[#e3ecf7]"}`}>
               <span className="relative block h-[190px] overflow-hidden">
                 {/* The source cards print a name along the bottom; render taller so the frame cuts it off. */}
                 <img src={person.image} alt="" className="h-[236px] w-full object-cover object-top" />
               </span>
               <span className="flex items-center justify-between gap-2 bg-white/70 px-4 py-3.5">
                 <span>
-                  <b className="block text-[16px] text-[#111827]">{person.title}</b>
+                  <b className="block text-[16px] text-[#0f2147]">{person.title}</b>
                   <span className="mt-0.5 block text-[13px] text-[#64748b]">{person.text}</span>
                 </span>
-                <span className="grid size-8 shrink-0 place-items-center rounded-full bg-white text-[#0F766E] ring-1 ring-[#e3eaf3] group-hover:bg-[#0F766E] group-hover:text-white">
+                <span className="grid size-8 shrink-0 place-items-center rounded-full bg-white text-[#1d6cf2] ring-1 ring-[#e3eaf3] group-hover:bg-[#1d6cf2] group-hover:text-white">
                   <ChevronRight className="size-4" />
                 </span>
               </span>
@@ -539,7 +539,7 @@ export function LandingDesktop() {
         </div>
         <div className={`${wrap} relative grid items-center gap-10 lg:grid-cols-[minmax(0,0.8fr)_minmax(0,1.2fr)]`}>
           <div>
-            <p className="inline-flex items-center gap-2 rounded-full bg-[#e8f3f2] px-3.5 py-1.5 text-[13.5px] font-semibold text-[#0F766E]">
+            <p className="inline-flex items-center gap-2 rounded-full bg-[#e8f3f2] px-3.5 py-1.5 text-[13.5px] font-semibold text-[#0f6f6b]">
               <LayoutDashboard className="size-4" />
               Klinikangizni to‘liq nazorat qiling
             </p>
@@ -550,7 +550,7 @@ export function LandingDesktop() {
             <ul className="mt-6 space-y-3">
               {crmPoints.map((point) => (
                 <li key={point} className="flex items-center gap-3 text-[16px] text-[#334155]">
-                  <span className="grid size-6 place-items-center rounded-full bg-[#0F766E] text-white"><Check className="size-3.5" strokeWidth={3} /></span>
+                  <span className="grid size-6 place-items-center rounded-full bg-[#1d6cf2] text-white"><Check className="size-3.5" strokeWidth={3} /></span>
                   {point}
                 </li>
               ))}
@@ -569,23 +569,23 @@ export function LandingDesktop() {
         <ol className="mt-6 grid items-stretch gap-3 lg:grid-cols-[1fr_auto_1fr_auto_1fr]">
           {steps.map((step, index) => (
             <li key={step.n} className="contents">
-              <div className="flex items-center gap-5 rounded-[20px] border border-[#e8eef6] bg-white px-7 py-7 shadow-[0_8px_20px_rgba(17, 24, 39, 0.04)]">
+              <div className="flex items-center gap-5 rounded-[20px] border border-[#e8eef6] bg-white px-7 py-7 shadow-[0_8px_20px_rgba(15,23,42,0.04)]">
                 <span className="grid size-[60px] shrink-0 place-items-center rounded-full bg-[#eaf2ff]">
-                  <span className="grid size-10 place-items-center rounded-full bg-[#0F766E] font-[family-name:var(--font-outfit)] text-[18px] font-bold text-white">{step.n}</span>
+                  <span className="grid size-10 place-items-center rounded-full bg-[#1d6cf2] font-[family-name:var(--font-outfit)] text-[18px] font-bold text-white">{step.n}</span>
                 </span>
                 <span>
-                  <h3 className="text-[18px] font-bold text-[#111827]">{step.title}</h3>
+                  <h3 className="text-[18px] font-bold text-[#0f2147]">{step.title}</h3>
                   <p className="mt-1 text-[15px] leading-snug text-[#64748b]">{step.text}</p>
                 </span>
               </div>
-              {index < steps.length - 1 ? <ArrowRight className="mx-auto hidden size-6 self-center text-[#0F766E] lg:block" aria-hidden="true" /> : null}
+              {index < steps.length - 1 ? <ArrowRight className="mx-auto hidden size-6 self-center text-[#1d6cf2] lg:block" aria-hidden="true" /> : null}
             </li>
           ))}
         </ol>
       </section>
 
       <section data-section="app" id="ilova" className="relative overflow-hidden py-12">
-        <div className="pointer-events-none absolute inset-x-0 bottom-0 h-[70%] bg-[radial-gradient(ellipse_at_45%_100%,#dcebff_0%,rgba(240, 253, 250, 0.5)_40%,transparent_70%)]" />
+        <div className="pointer-events-none absolute inset-x-0 bottom-0 h-[70%] bg-[radial-gradient(ellipse_at_45%_100%,#dcebff_0%,rgba(220,235,255,0.5)_40%,transparent_70%)]" />
         <div className={`${wrap} relative grid items-center gap-8 lg:grid-cols-[minmax(0,0.9fr)_auto_minmax(0,0.75fr)]`}>
           <div>
             <h2 className={title}>Har doim yoningizda</h2>
@@ -601,10 +601,10 @@ export function LandingDesktop() {
             <HomePhone width="w-[240px]" height="h-[480px]" className="relative z-10 -rotate-3" />
             <ProfilePhone width="w-[220px]" height="h-[440px]" className="-ml-3 mb-6 rotate-3" />
           </div>
-          <ul className="space-y-3.5 rounded-[22px] border border-[#e8eef6] bg-white p-6 shadow-[0_14px_34px_rgba(17, 24, 39, 0.06)]">
+          <ul className="space-y-3.5 rounded-[22px] border border-[#e8eef6] bg-white p-6 shadow-[0_14px_34px_rgba(15,23,42,0.06)]">
             {appChecklist.map((point) => (
               <li key={point} className="flex items-center gap-3 text-[15.5px] text-[#334155]">
-                <span className="grid size-6 shrink-0 place-items-center rounded-full bg-[#0F766E] text-white"><Check className="size-3.5" strokeWidth={3} /></span>
+                <span className="grid size-6 shrink-0 place-items-center rounded-full bg-[#0b8f8a] text-white"><Check className="size-3.5" strokeWidth={3} /></span>
                 {point}
               </li>
             ))}
@@ -624,14 +624,14 @@ export function LandingDesktop() {
           <svg viewBox="0 0 32 32" className="size-[84px] shrink-0" fill="none" strokeWidth={1.8} strokeLinejoin="round" aria-hidden="true">
             <defs>
               <linearGradient id="cta-tooth" x1="0" x2="1" y1="0" y2="1">
-                <stop offset="0" stopColor="#0F766E" />
-                <stop offset="1" stopColor="#0F766E" />
+                <stop offset="0" stopColor="#1d6cf2" />
+                <stop offset="1" stopColor="#0b8f8a" />
               </linearGradient>
             </defs>
             <path d={toothOutline} stroke="url(#cta-tooth)" />
           </svg>
           <div className="min-w-[260px] flex-1">
-            <h2 className="font-[family-name:var(--font-outfit)] text-[clamp(26px,2.2vw,34px)] font-bold tracking-tight text-[#0F766E]">Stomatologlar hamjamiyatiga qo‘shiling</h2>
+            <h2 className="font-[family-name:var(--font-outfit)] text-[clamp(26px,2.2vw,34px)] font-bold tracking-tight text-[#1d6cf2]">Stomatologlar hamjamiyatiga qo‘shiling</h2>
             <p className="mt-1.5 text-[16px] text-[#52637a]">Kasbiy o‘sish, yangi imkoniyatlar va ishonchli hamkorlar — barchasi StomaHub’da.</p>
           </div>
           <Link href="/royxat" className={`${btnPrimary} h-14 shrink-0 px-8 text-[16px]`}>
@@ -653,32 +653,32 @@ export function LandingDesktop() {
           </div>
           {footerCols.map((col) => (
             <div key={col.title}>
-              <b className="text-[15px] text-[#111827]">{col.title}</b>
+              <b className="text-[15px] text-[#0f2147]">{col.title}</b>
               <ul className="mt-3 space-y-2 text-[14.5px] text-[#64748b]">
                 {col.links.map(([href, label]) => (
                   <li key={label}>
-                    {href.startsWith("#") ? <a href={href} className="hover:text-[#0F766E]">{label}</a> : <Link href={href} className="hover:text-[#0F766E]">{label}</Link>}
+                    {href.startsWith("#") ? <a href={href} className="hover:text-[#1d6cf2]">{label}</a> : <Link href={href} className="hover:text-[#1d6cf2]">{label}</Link>}
                   </li>
                 ))}
               </ul>
             </div>
           ))}
           <div id="aloqa">
-            <b className="text-[15px] text-[#111827]">Aloqa</b>
+            <b className="text-[15px] text-[#0f2147]">Aloqa</b>
             <ul className="mt-3 space-y-2.5 text-[14.5px] text-[#64748b]">
-              <li><a href="tel:+998901234567" className="flex items-center gap-2 hover:text-[#0F766E]"><Phone className="size-4 text-[#0F766E]" />+998 90 123 45 67</a></li>
-              <li><a href="mailto:info@stomahub.uz" className="flex items-center gap-2 hover:text-[#0F766E]"><Mail className="size-4 text-[#0F766E]" />info@stomahub.uz</a></li>
-              <li className="flex items-center gap-2"><MapPin className="size-4 text-[#0F766E]" />Toshkent, O‘zbekiston</li>
+              <li><a href="tel:+998901234567" className="flex items-center gap-2 hover:text-[#1d6cf2]"><Phone className="size-4 text-[#1d6cf2]" />+998 90 123 45 67</a></li>
+              <li><a href="mailto:info@stomahub.uz" className="flex items-center gap-2 hover:text-[#1d6cf2]"><Mail className="size-4 text-[#1d6cf2]" />info@stomahub.uz</a></li>
+              <li className="flex items-center gap-2"><MapPin className="size-4 text-[#1d6cf2]" />Toshkent, O‘zbekiston</li>
             </ul>
           </div>
           <div className="lg:border-l lg:border-[#eef2f7] lg:pl-6">
-            <b className="text-[15px] text-[#111827]">To‘lov usullari</b>
+            <b className="text-[15px] text-[#0f2147]">To‘lov usullari</b>
             <div className="mt-4 space-y-3">
-              <p className="flex items-center gap-1.5 text-[19px] font-black tracking-tight text-[#111827]">
-                <span className="grid size-6 place-items-center rounded-full bg-[#0F766E] text-[13px] text-white">C</span>CLICK
+              <p className="flex items-center gap-1.5 text-[19px] font-black tracking-tight text-[#0f2147]">
+                <span className="grid size-6 place-items-center rounded-full bg-[#1d6cf2] text-[13px] text-white">C</span>CLICK
               </p>
-              <p className="text-[22px] font-extrabold tracking-tight text-[#111827]">
-                Pay<span className="rounded-md bg-[#0F766E] px-1 text-white">me</span>
+              <p className="text-[22px] font-extrabold tracking-tight text-[#0f2147]">
+                Pay<span className="rounded-md bg-[#33cccc] px-1 text-white">me</span>
               </p>
             </div>
           </div>
