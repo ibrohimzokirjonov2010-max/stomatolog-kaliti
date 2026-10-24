@@ -89,7 +89,7 @@ export default function MyMasterPage() {
     <div className="mx-auto max-w-2xl">
       <header className="mb-4">
         <p className="text-[13px] text-[#8b93a7]">
-          <Link href="/ustalar" className="text-[#0066FF] hover:underline">Ustalar</Link>
+          <Link href="/ustalar" className="text-[#0F766E] hover:underline">Ustalar</Link>
           <span className="mx-1">/</span>
           <span>Usta profilim</span>
         </p>
@@ -156,12 +156,12 @@ export default function MyMasterPage() {
             </FormField>
           </div>
           <div className="flex flex-wrap gap-2 pt-1">
-            <button type="submit" disabled={busy} className="inline-flex h-12 min-w-[160px] items-center justify-center rounded-2xl bg-[#0066FF] px-6 text-[14px] font-semibold text-white disabled:opacity-60">
+            <button type="submit" disabled={busy} className="inline-flex h-12 min-w-[160px] items-center justify-center rounded-2xl bg-[#0F766E] px-6 text-[14px] font-semibold text-white disabled:opacity-60">
               {busy ? "Saqlanmoqda…" : mine ? "Saqlash" : "Moderatsiyaga yuborish"}
             </button>
             {mine ? (
               <>
-                <Link href="/ustalar/sorovlarim?tab=kelgan" className="inline-flex h-12 items-center justify-center rounded-2xl border border-[#dbe7ff] px-5 text-[14px] font-semibold text-[#0066FF]">Kelgan so‘rovlar</Link>
+                <Link href="/ustalar/sorovlarim?tab=kelgan" className="inline-flex h-12 items-center justify-center rounded-2xl border border-[#CCFBF1] px-5 text-[14px] font-semibold text-[#0F766E]">Kelgan so‘rovlar</Link>
                 <button type="button" onClick={remove} className="inline-flex h-12 items-center justify-center rounded-2xl px-4 text-[14px] font-semibold text-[#dc2626]">O‘chirish</button>
               </>
             ) : null}

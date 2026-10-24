@@ -19,7 +19,7 @@ const SERVICES = [
 
 const METHODS = [
   { name: "Naqd", pct: 45, color: "#0E8F94" },
-  { name: "Karta", pct: 28, color: "#2F6BFF" },
+  { name: "Karta", pct: 28, color: "#0F766E" },
   { name: "Click", pct: 15, color: "#F5A524" },
   { name: "Payme", pct: 8, color: "#22A06B" },
   { name: "O‘tkazma", pct: 4, color: "#94A3B8" },

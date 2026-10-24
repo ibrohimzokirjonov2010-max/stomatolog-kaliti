@@ -323,7 +323,7 @@ export function UzumCartBar({
             <Link
               href="/savat"
               data-testid="uzum-goto-cart"
-              className="flex h-[52px] flex-1 items-center justify-center gap-2 rounded-[14px] bg-[#e8f1ff] text-[16px] font-semibold text-[#0066FF] active:scale-[0.98]"
+              className="flex h-[52px] flex-1 items-center justify-center gap-2 rounded-[14px] bg-[#F0FDFA] text-[16px] font-semibold text-[#0F766E] active:scale-[0.98]"
             >
               <ShoppingBag className="size-5" strokeWidth={2} />
               O‘tish
@@ -335,7 +335,7 @@ export function UzumCartBar({
             onClick={add}
             disabled={!ready}
             data-testid="uzum-add"
-            className="mx-auto flex h-[52px] w-full max-w-lg flex-col items-center justify-center rounded-[14px] bg-[#0066FF] leading-tight text-white shadow-[0_8px_18px_rgba(0,102,255,0.28)] active:scale-[0.98] disabled:opacity-60"
+            className="mx-auto flex h-[52px] w-full max-w-lg flex-col items-center justify-center rounded-[14px] bg-[#0F766E] leading-tight text-white shadow-[0_8px_18px_rgba(15,118,110,0.28)] active:scale-[0.98] disabled:opacity-60"
           >
             <span className="text-[16px] font-semibold">Savatga</span>
             <span className="text-[12px] text-white/80">{som(product.price)}</span>

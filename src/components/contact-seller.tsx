@@ -121,7 +121,7 @@ export function ContactSeller({
         type="button"
         onClick={() => setOpen(true)}
         className={cn(
-          "inline-flex h-8 w-full items-center justify-center gap-1.5 rounded-lg border border-[#dbe7ff] bg-white text-[12.5px] font-semibold text-[#0066FF] hover:bg-[#f3f8ff]",
+          "inline-flex h-8 w-full items-center justify-center gap-1.5 rounded-lg border border-[#CCFBF1] bg-white text-[12.5px] font-semibold text-[#0F766E] hover:bg-[#F0FDFA]",
           className,
         )}
       >
@@ -146,7 +146,7 @@ export function ContactSeller({
             {!profile ? (
               <div className="p-5 text-center">
                 <p className="text-[13px] text-[#4b5568]">Sotuvchiga yozish uchun akkauntingizga kiring.</p>
-                <Link href={`/kirish?next=${encodeURIComponent(nextHref)}`} className="mt-3 inline-flex h-10 items-center rounded-xl bg-[#0066FF] px-5 text-[13px] font-semibold text-white">
+                <Link href={`/kirish?next=${encodeURIComponent(nextHref)}`} className="mt-3 inline-flex h-10 items-center rounded-xl bg-[#0F766E] px-5 text-[13px] font-semibold text-white">
                   Kirish
                 </Link>
               </div>
@@ -158,7 +158,7 @@ export function ContactSeller({
                   ) : (
                     msgs.map((m) => (
                       <div key={m.id} className={cn("flex", m.mine ? "justify-end" : "justify-start")}>
-                        <div className={cn("max-w-[80%] rounded-2xl px-3 py-2 text-[13px]", m.mine ? "bg-[#0066FF] text-white" : "bg-white text-[#1a1d26] ring-1 ring-[#eceff5]")}>
+                        <div className={cn("max-w-[80%] rounded-2xl px-3 py-2 text-[13px]", m.mine ? "bg-[#0F766E] text-white" : "bg-white text-[#1a1d26] ring-1 ring-[#eceff5]")}>
                           <p className="whitespace-pre-wrap break-words">{m.body}</p>
                           <p className={cn("mt-0.5 text-[10.5px]", m.mine ? "text-white/70" : "text-[#a3abbd]")}>{fmt(m.createdAt)}</p>
                         </div>
@@ -180,9 +180,9 @@ export function ContactSeller({
                     onChange={(e) => setText(e.target.value)}
                     maxLength={2000}
                     placeholder="Xabar yozing..."
-                    className="h-10 min-w-0 flex-1 rounded-xl border border-[#e2e8f0] px-3 text-[13px] outline-none focus:border-[#0066FF]"
+                    className="h-10 min-w-0 flex-1 rounded-xl border border-[#e2e8f0] px-3 text-[13px] outline-none focus:border-[#0F766E]"
                   />
-                  <button type="submit" disabled={busy || !text.trim()} className="inline-flex size-10 items-center justify-center rounded-xl bg-[#0066FF] text-white disabled:opacity-50" aria-label="Yuborish">
+                  <button type="submit" disabled={busy || !text.trim()} className="inline-flex size-10 items-center justify-center rounded-xl bg-[#0F766E] text-white disabled:opacity-50" aria-label="Yuborish">
                     <Send className="size-4" />
                   </button>
                 </form>

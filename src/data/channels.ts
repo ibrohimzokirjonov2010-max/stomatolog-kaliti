@@ -42,7 +42,7 @@ export const seedChannels: Channel[] = [
     name: "Implant Klinikasi",
     category: "implantologiya",
     bidSum: 10000,
-    avatarColor: "#0066FF",
+    avatarColor: "#0F766E",
     createdAt: "2026-01-10T10:00:00.000Z",
   },
   {
@@ -87,7 +87,7 @@ export const seedChannels: Channel[] = [
     name: "Stomatolog Uz",
     category: "umumiy",
     bidSum: 800,
-    avatarColor: "#2563eb",
+    avatarColor: "#0F766E",
     createdAt: "2026-02-20T10:00:00.000Z",
   },
   {

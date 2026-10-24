@@ -27,7 +27,7 @@ export function ToothMark({ id, kind, selected }: { id: string; kind?: string; s
   return (
     <svg viewBox="0 0 40 56" aria-hidden="true">
       <path d={molar(!front ? false : id.endsWith("1") || id.endsWith("2") || id.endsWith("3"))} fill={selected ? "#e7f7f6" : "#ffffff"} stroke={selected ? "#0e8f94" : "#3d4f66"} strokeWidth={selected ? 2.6 : 1.8} />
-      {kind === "plomba" ? <ellipse cx="20" cy="18" rx="8" ry="6" fill="#2563eb" /> : null}
+      {kind === "plomba" ? <ellipse cx="20" cy="18" rx="8" ry="6" fill="#0F766E" /> : null}
       {kind === "endo" ? <path d="M20 14 v24" stroke="#dc2626" strokeWidth="3.2" strokeLinecap="round" /> : null}
       {kind === "krona" ? <path d="M7 12c3-7 23-7 26 0 1 5-1 8-5 9H12c-4-1-6-4-5-9z" fill="#e0b044" stroke="#8a6418" strokeWidth="1.2" /> : null}
       {kind === "implant" ? (
@@ -77,6 +77,6 @@ export function ToothChart({
 }
 
 export function ToothLegend() {
-  const items = [["#e8eef5", "Sog‘lom"], ["#3b82f6", "Plomba"], ["#ef4444", "Endo"], ["#e0b044", "Krona"], ["#8b97a8", "Implant"], ["#94a3b8", "Olib tashlangan"], ["#6b4f3a", "Karies"]];
+  const items = [["#e8eef5", "Sog‘lom"], ["#0F766E", "Plomba"], ["#ef4444", "Endo"], ["#e0b044", "Krona"], ["#8b97a8", "Implant"], ["#94a3b8", "Olib tashlangan"], ["#6b4f3a", "Karies"]];
   return <p className="crm-legend">{items.map(([color, label]) => <span key={label}><i style={{ background: color }} />{label}</span>)}</p>;
 }

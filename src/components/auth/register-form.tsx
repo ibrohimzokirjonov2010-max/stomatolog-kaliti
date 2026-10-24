@@ -134,7 +134,7 @@ export function RegisterForm() {
         <button
           type="button"
           onClick={() => router.push(nextPath())}
-          className="flex h-12 w-full items-center justify-center rounded-full bg-[#0066FF] text-[16px] font-bold text-white shadow-[0_8px_20px_rgba(0,102,255,0.28)] hover:bg-[#0052cc]"
+          className="flex h-12 w-full items-center justify-center rounded-full bg-[#0F766E] text-[16px] font-bold text-white shadow-[0_8px_20px_rgba(15,118,110,0.28)] hover:bg-[#115E59]"
         >
           Davom etish
         </button>
@@ -159,7 +159,7 @@ export function RegisterForm() {
         <button
           type="button"
           onClick={() => router.push(nextPath())}
-          className="flex h-12 w-full items-center justify-center rounded-full bg-[#0066FF] text-[16px] font-bold text-white shadow-[0_8px_20px_rgba(0,102,255,0.28)] hover:bg-[#0052cc]"
+          className="flex h-12 w-full items-center justify-center rounded-full bg-[#0F766E] text-[16px] font-bold text-white shadow-[0_8px_20px_rgba(15,118,110,0.28)] hover:bg-[#115E59]"
         >
           Marketplace’ga o‘tish
         </button>

@@ -185,7 +185,7 @@
   left: calc(.25 * var(--u));
   top: calc(.25 * var(--u));
   background: #fff;
-  color: #0066ff;
+  color: #0F766E;
   border-radius: calc(.45 * var(--u));
   padding: calc(.15 * var(--u)) calc(.35 * var(--u));
   font-size: calc(.95 * var(--u));
@@ -348,7 +348,7 @@
 .mh-banner small { display: block; color: #0b1a3a; font-size: calc(1.1 * var(--u)); font-weight: 600; }
 .mh-banner b { font-size: calc(1.75 * var(--u)); line-height: 1.1; font-weight: 800; color: #0b5f5e; letter-spacing: -0.01em; }
 .mh-banner a.go { background: #0d8f8c; color: #fff; box-shadow: 0 6px 14px rgba(13, 143, 140, .25); }
-.mh-more { color: #2563eb; font-weight: 600; font-size: calc(1.1 * var(--u)); }
+.mh-more { color: #0F766E; font-weight: 600; font-size: calc(1.1 * var(--u)); }
 .mh-head h2 { font-size: calc(1.5 * var(--u)); }
 .mh-sem { grid-template-columns: calc(9.5 * var(--u)) minmax(0, 1fr) auto; border: 1px solid #e9eff6; box-shadow: none; }
 .mh-thumb { display: block; }

@@ -7,7 +7,7 @@ const SLIDES: (Omit<PromoSlide, "onClick" | "href"> & { cat: UstaService })[] = 
   {
     id: "ornatish",
     badge: "O‘RNATISH",
-    badgeCls: "bg-[#0066FF] text-white",
+    badgeCls: "bg-[#0F766E] text-white",
     title: "Stomatologik uskunalarni professional o‘rnatish",
     subtitle: "Tajribali ustalar — kafolat bilan",
     cta: "Usta topish",

@@ -133,24 +133,30 @@ export const navGroups: NavGroup[] = [
  * Desktop sidebar (design variant A). Mobile keeps `navGroups` so the drawer
  * stays as it is. Every href from `navGroups` is still listed here.
  */
+/**
+ * Desktop sidebar from the StomaHub PNGs.
+ * Visible rows match the main-page menu. Extra routes stay under "Yana..."
+ * so every designed screen is still one click away. The fourth group is
+ * "Mening hisobim" (owner rule), with the Ustalar / Ishlar rows the PNGs place there.
+ */
 export const desktopNavGroups: NavGroup[] = [
   {
     id: "dokon",
     title: "Do’kon",
     icon: Store,
     items: [
-      { href: "/marketplace", label: "Barcha mahsulotlar", icon: LayoutGrid },
       { href: "/marketplace", label: "Marketplace", icon: ShoppingBag, primary: true, match: ["/product", "/savat", "/cart", "/checkout", "/buyurtma"] },
       { href: "/ortiqcha-material", label: "Ortiqcha material", icon: Package },
+      { href: "/jihozlar", label: "Jihozlar", icon: Cpu },
+      { href: "/forma", label: "Forma", icon: Shirt },
+      { href: "/buyurtmalarim", label: "Buyurtmalarim", icon: Receipt },
+    ],
+    more: [
       { href: "/kategoriyalar", label: "Kategoriyalar", icon: Tag },
       { href: "/marketplace/brendlar", label: "Brendlar", icon: Award },
       { href: "/marketplace/aksiyalar", label: "Aksiyalar", icon: BadgePercent },
-    ],
-    more: [
-      { href: "/buyurtmalarim", label: "Buyurtmalarim", icon: Receipt },
-      { href: "/forma", label: "Forma", icon: Shirt },
-      { href: "/jihozlar", label: "Jihozlar", icon: Cpu },
       { href: "/marketplace/sotuvchi", label: "Sotuvchi kabineti", icon: Store, match: ["/sotuvchi"] },
+      { href: "/elonlar", label: "E’lonlar", icon: Megaphone },
     ],
   },
   {
@@ -159,12 +165,16 @@ export const desktopNavGroups: NavGroup[] = [
     icon: GraduationCap,
     items: [
       { href: "/seminarlar", label: "Seminarlar", icon: Presentation },
-      { href: "/talim", label: "Onlayn darslar", icon: MonitorPlay },
+      { href: "/talim", label: "Ta’lim", icon: MonitorPlay },
+      { href: "/kitoblar", label: "Kitoblar", icon: BookOpen },
+      { href: "/foydali-kanallar", label: "Foydali kanallar", icon: Radio, match: ["/kanallar"] },
+    ],
+    more: [
       { href: "/mutaxassislar", label: "Mutaxassislar", icon: Users, primary: true },
       { href: "/sertifikatlar", label: "Sertifikatlar", icon: Award },
-      { href: "/kitoblar", label: "Kitoblar", icon: BookOpen },
+      { href: "/yangiliklar", label: "Yangiliklar", icon: Newspaper },
+      { href: "/community", label: "Community", icon: MessagesSquare },
     ],
-    more: [{ href: "/yangiliklar", label: "Yangiliklar", icon: Newspaper }],
   },
   {
     id: "klinika",
@@ -172,33 +182,28 @@ export const desktopNavGroups: NavGroup[] = [
     icon: Building2,
     items: [
       { href: "/mening-klinikam", label: "Mening klinikam", icon: Building2, match: ["/klinika"] },
+      { href: "/laboratoriya", label: "Laboratoriya", icon: FlaskConical },
+      { href: "/marketing", label: "Marketing", icon: Megaphone },
+    ],
+    more: [
       { href: "/crm/bemorlar", label: "Bemorlar CRM", icon: UserRound, match: ["/crm"] },
       { href: "/crm/uchrashuvlar", label: "Uchrashuvlar", icon: CalendarDays },
       { href: "/crm/davolash-rejalari", label: "Davolash rejalari", icon: ClipboardList },
       { href: "/crm/tolovlar", label: "To‘lovlar", icon: Wallet },
-      { href: "/crm/ombor", label: "Ombor (Inventar)", icon: Warehouse },
-    ],
-    more: [
-      { href: "/crm/xizmatlar", label: "Xizmatlar", icon: Stethoscope },
+      { href: "/crm/ombor", label: "Ombor", icon: Warehouse },
       { href: "/crm/hisobotlar", label: "Hisobotlar", icon: BarChart3 },
+      { href: "/crm/xizmatlar", label: "Xizmatlar", icon: Stethoscope },
     ],
   },
   {
-    id: "xizmatlar",
-    title: "Xizmatlar",
-    icon: HeartHandshake,
+    id: "hisob",
+    title: "Mening hisobim",
+    icon: UserRound,
     items: [
-      { href: "/ustalar", label: "Ustalar va laboratoriyalar", icon: Wrench },
-      { href: "/mutaxassislar", label: "Konsultatsiyalar", icon: Stethoscope },
-      { href: "/foydali-kanallar", label: "Foydali kanallar", icon: Radio, match: ["/kanallar"] },
-      { href: "/community", label: "Community", icon: MessagesSquare },
-    ],
-    more: [
-      { href: "/laboratoriya", label: "Laboratoriya", icon: FlaskConical },
+      { href: "/ustalar", label: "Ustalar", icon: Wrench },
       { href: "/ishlar", label: "Ishlar", icon: BriefcaseBusiness },
-      { href: "/elonlar", label: "E’lonlar", icon: Megaphone },
-      { href: "/marketing", label: "Marketing", icon: Megaphone },
     ],
+    more: [{ href: "/saqlanganlar", label: "Saqlanganlar", icon: HeartHandshake }],
   },
 ];
 

@@ -49,7 +49,7 @@ export function LabPriceEditor({ rows, onChange, error }: { rows: PriceRowDraft[
         ))}
       </div>
       {rows.length < 30 ? (
-        <button type="button" onClick={() => onChange([...rows, newPriceRow()])} className="mt-2.5 inline-flex h-10 items-center gap-1.5 rounded-xl border border-dashed border-[#9ec0ff] bg-[#f5f9ff] px-3.5 text-[13px] font-semibold text-[#0066FF]">
+        <button type="button" onClick={() => onChange([...rows, newPriceRow()])} className="mt-2.5 inline-flex h-10 items-center gap-1.5 rounded-xl border border-dashed border-[#5EEAD4] bg-[#F0FDFA] px-3.5 text-[13px] font-semibold text-[#0F766E]">
           <Plus className="size-4" />
           Xizmat qo‘shish
         </button>
@@ -78,7 +78,7 @@ function RowPhoto({ value, onChange }: { value: string; onChange: (url: string) 
     }
   }
   return (
-    <button type="button" onClick={() => (value ? onChange("") : ref.current?.click())} disabled={busy} className="relative grid h-[54px] w-[72px] shrink-0 place-items-center overflow-hidden rounded-xl border border-dashed border-[#9ec0ff] bg-[#f5f9ff] text-[#0066FF]" aria-label={value ? "Rasmni olib tashlash" : "Rasm qo‘shish"}>
+    <button type="button" onClick={() => (value ? onChange("") : ref.current?.click())} disabled={busy} className="relative grid h-[54px] w-[72px] shrink-0 place-items-center overflow-hidden rounded-xl border border-dashed border-[#5EEAD4] bg-[#F0FDFA] text-[#0F766E]" aria-label={value ? "Rasmni olib tashlash" : "Rasm qo‘shish"}>
       {value ? <Image src={value} alt="" fill sizes="72px" className="object-cover" /> : <ImagePlus className="size-5" />}
       {busy ? <span className="absolute inset-0 grid place-items-center bg-white/70 text-[10px]">…</span> : null}
       <input ref={ref} type="file" accept="image/jpeg,image/png,image/webp" hidden onChange={(e) => void pick(e.target.files)} />

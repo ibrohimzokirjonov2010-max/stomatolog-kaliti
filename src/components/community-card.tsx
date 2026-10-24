@@ -45,7 +45,7 @@ export function PostMedia({
       <span
         role="img"
         aria-label={alt || "Rasm yuklanmadi"}
-        className={cn("grid place-items-center bg-gradient-to-br from-[#e8f1ff] to-[#f5f9ff] text-[#0066FF]/50", className)}
+        className={cn("grid place-items-center bg-gradient-to-br from-[#F0FDFA] to-[#F0FDFA] text-[#0F766E]/50", className)}
       >
         <ImageOff className="size-5" strokeWidth={1.6} />
       </span>
@@ -201,7 +201,7 @@ function splitTitle(text: string) {
 }
 
 const kindTone: Record<CommunityPost["kind"], string> = {
-  case: "bg-[#e8f1ff] text-[#0066FF]",
+  case: "bg-[#F0FDFA] text-[#0F766E]",
   savol: "bg-amber-50 text-amber-700",
   yangilik: "bg-emerald-50 text-emerald-700",
 };
@@ -288,7 +288,7 @@ export function FeedPost({
             className="size-11 rounded-full object-cover"
           />
         ) : (
-          <span className="flex size-11 items-center justify-center rounded-full bg-[#dbeafe] text-sm font-semibold text-primary">
+          <span className="flex size-11 items-center justify-center rounded-full bg-[#CCFBF1] text-sm font-semibold text-primary">
             {initialsOf(post.author.name)}
           </span>
         )}
@@ -299,7 +299,7 @@ export function FeedPost({
                 <Link href={communityHref(post.id)} className="hover:text-primary">
                   {post.author.name}
                 </Link>
-                {post.author.verified ? <BadgeCheck className="size-3.5 fill-[#0066FF] text-white" /> : null}
+                {post.author.verified ? <BadgeCheck className="size-3.5 fill-[#0F766E] text-white" /> : null}
               </p>
               <p className="text-[12px] text-[#8b93a7]">
                 {post.author.specialty} · {post.author.city}
@@ -336,7 +336,7 @@ export function FeedPost({
                 key={item}
                 type="button"
                 onClick={() => onTag(item)}
-                className="text-[12px] font-medium text-[#0066FF] hover:underline"
+                className="text-[12px] font-medium text-[#0F766E] hover:underline"
               >
                 #{item.replace(/\s+/g, "")}
               </button>
@@ -346,16 +346,16 @@ export function FeedPost({
             <button
               type="button"
               onClick={onLike}
-              className={cn("inline-flex items-center gap-1.5 hover:text-[#0066FF]", liked && "text-[#0066FF]")}
+              className={cn("inline-flex items-center gap-1.5 hover:text-[#0F766E]", liked && "text-[#0F766E]")}
             >
-              <Heart className={cn("size-4", liked && "fill-[#0066FF]")} />
+              <Heart className={cn("size-4", liked && "fill-[#0F766E]")} />
               Like <span className="font-semibold">{likes}</span>
             </button>
-            <button type="button" onClick={onToggleComments} className="inline-flex items-center gap-1.5 hover:text-[#0066FF]">
+            <button type="button" onClick={onToggleComments} className="inline-flex items-center gap-1.5 hover:text-[#0F766E]">
               <MessageCircle className="size-4" />
               Izoh <span className="font-semibold">{post.comments}</span>
             </button>
-            <button type="button" onClick={onShare} className="inline-flex items-center gap-1.5 hover:text-[#0066FF]">
+            <button type="button" onClick={onShare} className="inline-flex items-center gap-1.5 hover:text-[#0F766E]">
               <Share2 className="size-4" />
               Ulashish {post.shares > 0 ? <span className="font-semibold">{post.shares}</span> : null}
             </button>
@@ -363,14 +363,14 @@ export function FeedPost({
               type="button"
               onClick={() => favorites.toggle(`post:${post.id}`)}
               aria-pressed={saved}
-              className={cn("inline-flex items-center gap-1.5 hover:text-[#0066FF]", saved && "text-[#0066FF]")}
+              className={cn("inline-flex items-center gap-1.5 hover:text-[#0F766E]", saved && "text-[#0F766E]")}
             >
               {saved ? <BookmarkCheck className="size-4" /> : <Bookmark className="size-4" />}
               {saved ? "Saqlangan" : "Saqlash"}
             </button>
             <Link
               href={communityHref(post.id)}
-              className="ml-auto inline-flex h-8 items-center rounded-[9px] border border-[#cfe0ff] bg-white px-3.5 text-[12.5px] font-semibold text-[#0066FF] hover:bg-[#f5f8ff]"
+              className="ml-auto inline-flex h-8 items-center rounded-[9px] border border-[#99F6E4] bg-white px-3.5 text-[12.5px] font-semibold text-[#0F766E] hover:bg-[#f5f8ff]"
             >
               Batafsil
             </Link>
@@ -389,7 +389,7 @@ export function FeedPost({
               className="mt-0.5 size-7 rounded-full object-cover"
             />
           ) : (
-            <span className="mt-0.5 flex size-7 shrink-0 items-center justify-center rounded-full bg-[#dbeafe] text-[10px] font-semibold text-primary">
+            <span className="mt-0.5 flex size-7 shrink-0 items-center justify-center rounded-full bg-[#CCFBF1] text-[10px] font-semibold text-primary">
               {initialsOf(preview.author)}
             </span>
           )}
@@ -403,7 +403,7 @@ export function FeedPost({
             <button
               type="button"
               onClick={onToggleComments}
-              className="mt-1 text-[12px] font-medium text-[#0066FF] hover:underline"
+              className="mt-1 text-[12px] font-medium text-[#0F766E] hover:underline"
             >
               Javoblarni ko‘rish ({post.replies.length})
             </button>
@@ -427,7 +427,7 @@ export function FeedPost({
                     className="mt-0.5 size-7 rounded-full object-cover"
                   />
                 ) : (
-                  <span className="mt-0.5 flex size-7 shrink-0 items-center justify-center rounded-full bg-[#dbeafe] text-[10px] font-semibold text-primary">
+                  <span className="mt-0.5 flex size-7 shrink-0 items-center justify-center rounded-full bg-[#CCFBF1] text-[10px] font-semibold text-primary">
                     {initialsOf(reply.author)}
                   </span>
                 )}
@@ -529,17 +529,17 @@ function MobileFeedPost({
             className="size-11 shrink-0 rounded-full object-cover"
           />
         ) : (
-          <span className="flex size-11 shrink-0 items-center justify-center rounded-full bg-[#dbeafe] text-sm font-semibold text-[#0066FF]">
+          <span className="flex size-11 shrink-0 items-center justify-center rounded-full bg-[#CCFBF1] text-sm font-semibold text-[#0F766E]">
             {initialsOf(post.author.name)}
           </span>
         )}
         <div className="min-w-0 flex-1 pt-0.5">
           <p className="flex min-w-0 items-center gap-1 text-[15px] font-bold text-[#1a1d26]">
-            <Link href={communityHref(post.id)} className="truncate hover:text-[#0066FF]">
+            <Link href={communityHref(post.id)} className="truncate hover:text-[#0F766E]">
               {post.author.name}
             </Link>
             {post.author.verified ? (
-              <BadgeCheck className="size-4 shrink-0 fill-[#0066FF] text-white" />
+              <BadgeCheck className="size-4 shrink-0 fill-[#0F766E] text-white" />
             ) : null}
           </p>
           <p className="mt-0.5 truncate text-[12.5px] text-[#8b93a7]">
@@ -589,9 +589,9 @@ function MobileFeedPost({
         <button
           type="button"
           onClick={onLike}
-          className={cn("inline-flex items-center gap-1.5 active:opacity-70", liked && "text-[#0066FF]")}
+          className={cn("inline-flex items-center gap-1.5 active:opacity-70", liked && "text-[#0F766E]")}
         >
-          <Heart className={cn("size-[18px]", liked && "fill-[#0066FF]")} />
+          <Heart className={cn("size-[18px]", liked && "fill-[#0F766E]")} />
           {likes}
         </button>
         <button
@@ -623,7 +623,7 @@ function MobileFeedPost({
               className="mt-0.5 size-8 rounded-full object-cover"
             />
           ) : (
-            <span className="mt-0.5 flex size-8 shrink-0 items-center justify-center rounded-full bg-[#dbeafe] text-[10px] font-semibold text-[#0066FF]">
+            <span className="mt-0.5 flex size-8 shrink-0 items-center justify-center rounded-full bg-[#CCFBF1] text-[10px] font-semibold text-[#0F766E]">
               {initialsOf(preview.author)}
             </span>
           )}
@@ -637,7 +637,7 @@ function MobileFeedPost({
             <button
               type="button"
               onClick={onToggleComments}
-              className="mt-1.5 inline-flex h-8 items-center text-[12px] font-semibold text-[#0066FF]"
+              className="mt-1.5 inline-flex h-8 items-center text-[12px] font-semibold text-[#0F766E]"
             >
               Javoblarni ko‘rish ({post.replies.length})
             </button>
@@ -661,7 +661,7 @@ function MobileFeedPost({
                     className="mt-0.5 size-8 rounded-full object-cover"
                   />
                 ) : (
-                  <span className="mt-0.5 flex size-8 shrink-0 items-center justify-center rounded-full bg-[#dbeafe] text-[10px] font-semibold text-[#0066FF]">
+                  <span className="mt-0.5 flex size-8 shrink-0 items-center justify-center rounded-full bg-[#CCFBF1] text-[10px] font-semibold text-[#0F766E]">
                     {initialsOf(reply.author)}
                   </span>
                 )}
@@ -692,11 +692,11 @@ function MobileFeedPost({
               value={replyDraft}
               onChange={(event) => onReplyChange(event.target.value)}
               placeholder="Javob yozing..."
-              className="h-11 flex-1 rounded-2xl border border-[#e6eaf2] bg-white px-3.5 text-[14px] outline-none focus:border-[#0066FF] focus:ring-2 focus:ring-[#0066FF]/15"
+              className="h-11 flex-1 rounded-2xl border border-[#e6eaf2] bg-white px-3.5 text-[14px] outline-none focus:border-[#0F766E] focus:ring-2 focus:ring-[#0F766E]/15"
             />
             <button
               type="submit"
-              className="inline-flex h-11 shrink-0 items-center justify-center rounded-2xl bg-[#0066FF] px-4 text-[13px] font-semibold text-white shadow-[0_4px_12px_rgba(0,102,255,0.22)]"
+              className="inline-flex h-11 shrink-0 items-center justify-center rounded-2xl bg-[#0F766E] px-4 text-[13px] font-semibold text-white shadow-[0_4px_12px_rgba(15,118,110,0.22)]"
             >
               Yuborish
             </button>

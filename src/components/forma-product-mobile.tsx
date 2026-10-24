@@ -97,13 +97,13 @@ export function FormaProductMobile({ product }: { product: Product }) {
                       setPickError("");
                       setColor(id);
                     }}
-                    className={cn("grid size-10 place-items-center rounded-full border-2", on ? "border-[#0066FF]" : "border-transparent")}
+                    className={cn("grid size-10 place-items-center rounded-full border-2", on ? "border-[#0F766E]" : "border-transparent")}
                   >
                     <span
                       className={cn("grid size-8 place-items-center rounded-full border", id === "white" ? "border-slate-300" : "border-black/10")}
                       style={{ backgroundColor: formaColors.find((c) => c.id === id)?.hex ?? "#cbd5e1" }}
                     >
-                      {on ? <Check className={cn("size-4", id === "white" ? "text-[#0066FF]" : "text-white")} strokeWidth={3} /> : null}
+                      {on ? <Check className={cn("size-4", id === "white" ? "text-[#0F766E]" : "text-white")} strokeWidth={3} /> : null}
                     </span>
                   </button>
                 );
@@ -118,7 +118,7 @@ export function FormaProductMobile({ product }: { product: Product }) {
             <div className="mb-2 flex items-center justify-between">
               <p className="text-[14px] font-semibold text-[#1a1d26]">O‘lcham{size ? <span className="font-normal text-[#6b7280]">: {size}</span> : ":"}</p>
               {stdSizes ? (
-                <button type="button" onClick={() => setSizeChart(true)} className="inline-flex items-center gap-1 text-[13px] font-semibold text-[#0066FF]">
+                <button type="button" onClick={() => setSizeChart(true)} className="inline-flex items-center gap-1 text-[13px] font-semibold text-[#0F766E]">
                   <Grid3x3 className="size-4" />
                   O‘lcham jadvali
                 </button>
@@ -140,7 +140,7 @@ export function FormaProductMobile({ product }: { product: Product }) {
                     }}
                     className={cn(
                       "h-12 min-w-[52px] rounded-xl border px-3 text-[14px] font-semibold",
-                      off ? "border-[#eef1f6] bg-[#f6f7fa] text-[#c3c9d6] line-through" : on ? "border-[#0066FF] bg-[#e8f1ff] text-[#0066FF]" : "border-[#e6eaf2] bg-white text-[#4b5568]",
+                      off ? "border-[#eef1f6] bg-[#f6f7fa] text-[#c3c9d6] line-through" : on ? "border-[#0F766E] bg-[#F0FDFA] text-[#0F766E]" : "border-[#e6eaf2] bg-white text-[#4b5568]",
                     )}
                   >
                     {item}
@@ -162,7 +162,7 @@ export function FormaProductMobile({ product }: { product: Product }) {
             { icon: ShieldCheck, title: "Stomatologlar tavsiyasi", sub: "Klinik ish uchun mos." },
           ].map(({ icon: Icon, title, sub }) => (
             <div key={title} className="flex items-start gap-2.5 rounded-2xl bg-[#f2f6ff] p-3">
-              <span className="grid size-9 shrink-0 place-items-center rounded-xl bg-[#dfeaff] text-[#0066FF]">
+              <span className="grid size-9 shrink-0 place-items-center rounded-xl bg-[#dfeaff] text-[#0F766E]">
                 <Icon className="size-[18px]" strokeWidth={1.8} />
               </span>
               <div className="min-w-0 leading-tight">
@@ -182,7 +182,7 @@ export function FormaProductMobile({ product }: { product: Product }) {
                 key={t.id}
                 type="button"
                 onClick={() => setTab(t.id)}
-                className={cn("shrink-0 border-b-2 py-3 text-[14px] font-semibold", tab === t.id ? "border-[#0066FF] text-[#0066FF]" : "border-transparent text-[#6b7280]")}
+                className={cn("shrink-0 border-b-2 py-3 text-[14px] font-semibold", tab === t.id ? "border-[#0F766E] text-[#0F766E]" : "border-transparent text-[#6b7280]")}
               >
                 {t.label}
               </button>
@@ -196,7 +196,7 @@ export function FormaProductMobile({ product }: { product: Product }) {
                     <RichText text={desc} />
                   </div>
                   {true ? (
-                    <button type="button" onClick={() => setMore((v) => !v)} className="mt-1.5 inline-flex items-center gap-1 text-[13.5px] font-semibold text-[#0066FF]">
+                    <button type="button" onClick={() => setMore((v) => !v)} className="mt-1.5 inline-flex items-center gap-1 text-[13.5px] font-semibold text-[#0F766E]">
                       {more ? "Yopish" : "Ko‘proq o‘qish"}
                       <ChevronDown className={cn("size-4 transition-transform", more && "rotate-180")} />
                     </button>
@@ -228,7 +228,7 @@ export function FormaProductMobile({ product }: { product: Product }) {
           <section>
             <div className="mb-2.5 flex items-center justify-between">
               <h2 className="text-[16px] font-bold tracking-tight text-[#0B1F4D]">To‘plam bilan birga</h2>
-              <Link href="/forma" className="inline-flex items-center text-[12.5px] font-semibold text-[#0066FF]">
+              <Link href="/forma" className="inline-flex items-center text-[12.5px] font-semibold text-[#0F766E]">
                 Barchasini ko‘rish <ChevronRight className="size-3.5" />
               </Link>
             </div>
@@ -248,7 +248,7 @@ export function FormaProductMobile({ product }: { product: Product }) {
             { icon: ShieldCheck, title: "Xavfsiz buyurtma", sub: "Qabul qilgach tasdiqlanadi" },
           ].map(({ icon: Icon, title, sub }) => (
             <div key={sub} className="flex flex-col items-center gap-1 px-2 text-center">
-              <Icon className="size-5 text-[#0066FF]" strokeWidth={1.7} />
+              <Icon className="size-5 text-[#0F766E]" strokeWidth={1.7} />
               <p className="text-[11.5px] leading-tight font-bold text-[#0B1F4D]">{title}</p>
               <p className="text-[10.5px] leading-tight text-[#6b7280]">{sub}</p>
             </div>
@@ -318,7 +318,7 @@ function BundleCard({ product }: { product: Product }) {
       )}
       <div className="mt-1 flex items-center justify-between gap-1">
         <p className="text-[13px] font-bold text-[#0B1F4D]">{formatMoney(product.price, "UZS")}</p>
-        <button type="button" aria-label="Savatga qo‘shish" data-testid="forma-bundle-add" onClick={onAdd} className="grid size-8 shrink-0 place-items-center rounded-full bg-[#0066FF] text-white">
+        <button type="button" aria-label="Savatga qo‘shish" data-testid="forma-bundle-add" onClick={onAdd} className="grid size-8 shrink-0 place-items-center rounded-full bg-[#0F766E] text-white">
           <Plus className="size-4" />
         </button>
       </div>
@@ -361,7 +361,7 @@ function SizeChart({ onClose }: { onClose: () => void }) {
             <tbody>
               {sizeRows.map((r, i) => (
                 <tr key={r[0]} className={i % 2 ? "bg-[#fafbfd]" : "bg-white"}>
-                  <td className="py-2.5 font-bold text-[#0066FF]">{r[0]}</td>
+                  <td className="py-2.5 font-bold text-[#0F766E]">{r[0]}</td>
                   <td className="py-2.5 text-[#1a1d26]">{r[1]}</td>
                   <td className="py-2.5 text-[#1a1d26]">{r[2]}</td>
                   <td className="py-2.5 text-[#1a1d26]">{r[3]}</td>

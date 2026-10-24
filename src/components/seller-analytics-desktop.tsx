@@ -311,7 +311,7 @@ export function SellerAnalyticsDesktop() {
             onClick={() => setRange(r.id)}
             className={cn(
               "h-9 rounded-lg border px-4 text-[13px] font-semibold transition-colors",
-              range === r.id ? "border-[#0066FF] bg-[#0066FF] text-white" : "border-[#e4e9f2] bg-white text-[#4b5568] hover:border-[#bcd3ff] hover:text-[#0066FF]",
+              range === r.id ? "border-[#0F766E] bg-[#0F766E] text-white" : "border-[#e4e9f2] bg-white text-[#4b5568] hover:border-[#99F6E4] hover:text-[#0F766E]",
             )}
           >
             {r.label}
@@ -322,13 +322,13 @@ export function SellerAnalyticsDesktop() {
 
       <div className="grid grid-cols-5 gap-3">
         <Kpi
-          icon={<Wallet className="size-[18px] text-[#0066FF]" />}
-          tone="bg-[#e8f1ff]"
+          icon={<Wallet className="size-[18px] text-[#0F766E]" />}
+          tone="bg-[#F0FDFA]"
           title="Jami savdo"
           value={money(data.total)}
           note={<Growth cur={data.total} prev={data.prevTotal} />}
           spark={data.totals}
-          color="#0066FF"
+          color="#0F766E"
         />
         <Kpi
           icon={<ShoppingBag className="size-[18px] text-[#16a34a]" />}
@@ -351,7 +351,7 @@ export function SellerAnalyticsDesktop() {
             <div className="flex items-center gap-4">
               <span className="flex items-center gap-3 text-[12px] text-[#4b5568]">
                 <span className="flex items-center gap-1.5">
-                  <span className="size-2 rounded-full bg-[#0066FF]" />
+                  <span className="size-2 rounded-full bg-[#0F766E]" />
                   Savdo (so‘m)
                 </span>
                 <span className="flex items-center gap-1.5">
@@ -381,7 +381,7 @@ export function SellerAnalyticsDesktop() {
               labels={data.buckets.map((b) => b.label)}
               tooltipLabels={data.buckets.map((b) => b.tip)}
               series={[
-                { key: "sales", label: "Savdo", color: "#0066FF", values: data.totals, area: true, fmt: money },
+                { key: "sales", label: "Savdo", color: "#0F766E", values: data.totals, area: true, fmt: money },
                 { key: "orders", label: "Buyurtmalar", color: "#7c3aed", values: data.counts, dashed: true, axis: "right", fmt: (n) => `${n} ta buyurtma` },
               ]}
               leftTick={shortMoney}
@@ -500,7 +500,7 @@ export function SellerAnalyticsDesktop() {
                     style={{
                       gridColumn: `${r.col + 1} / span ${r.span ?? 1}`,
                       gridRow: r.row + 1,
-                      ...(n ? { background: `rgba(0,102,255,${a.toFixed(2)})`, color: a > 0.55 ? "#fff" : "#0B1F4D" } : {}),
+                      ...(n ? { background: `rgba(15,118,110,${a.toFixed(2)})`, color: a > 0.55 ? "#fff" : "#0B1F4D" } : {}),
                     }}
                   >
                     {r.label}
@@ -514,7 +514,7 @@ export function SellerAnalyticsDesktop() {
                   {geoTop.map((g) => (
                     <li key={g.id} className="flex items-center justify-between gap-2">
                       <span className="flex items-center gap-2 text-[#4b5568]">
-                        <MapPin className="size-3.5 text-[#0066FF]" />
+                        <MapPin className="size-3.5 text-[#0F766E]" />
                         {g.label}
                       </span>
                       <b className="text-[#0B1F4D]">{pct(g.n, geoTotal)}%</b>
@@ -540,7 +540,7 @@ export function SellerAnalyticsDesktop() {
             <Donut
               size={130}
               parts={[
-                { label: "Yangi", value: newCust, color: "#0066FF" },
+                { label: "Yangi", value: newCust, color: "#0F766E" },
                 { label: "Doimiy", value: data.returning, color: "#7c3aed" },
               ]}
               center={
@@ -553,7 +553,7 @@ export function SellerAnalyticsDesktop() {
             <ul className="flex-1 space-y-3 text-[12.5px]">
               <li className="flex items-center justify-between gap-2">
                 <span className="flex items-center gap-2 text-[#4b5568]">
-                  <span className="size-2.5 rounded-full bg-[#0066FF]" />
+                  <span className="size-2.5 rounded-full bg-[#0F766E]" />
                   Yangi mijozlar
                 </span>
                 <b className="text-[#0B1F4D]">{pct(newCust, data.custTotal)}%</b>

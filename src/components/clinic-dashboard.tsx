@@ -23,7 +23,7 @@ type Modal = null | "clinic" | "patient" | "visit" | "staff";
 
 const statusClass: Record<VisitStatus, string> = {
   Keldi: "bg-emerald-50 text-emerald-700",
-  Kutilyapti: "bg-sky-50 text-sky-700",
+  Kutilyapti: "bg-[#F0FDFA] text-[#0F766E]",
   Bekor: "bg-slate-100 text-slate-500",
 };
 
@@ -138,7 +138,7 @@ export function ClinicDashboard() {
         ) : (
           <>
             <section className="grid grid-cols-2 gap-2.5 lg:grid-cols-4 lg:gap-3" data-testid="clinic-kpis">
-              <Kpi icon={<CalendarDays className="size-5" />} tone="bg-sky-50 text-sky-600" label="Bugungi qabullar" value={todays.filter((v) => v.status !== "Bekor").length} />
+              <Kpi icon={<CalendarDays className="size-5" />} tone="bg-[#F0FDFA] text-[#0F766E]" label="Bugungi qabullar" value={todays.filter((v) => v.status !== "Bekor").length} />
               <Kpi icon={<CalendarPlus className="size-5" />} tone="bg-amber-50 text-amber-600" label="Kutilmoqda" value={todays.filter((v) => v.status === "Kutilyapti").length} />
               <Kpi icon={<Users className="size-5" />} tone="bg-emerald-50 text-emerald-600" label="Jami bemorlar" value={state?.patients.length ?? 0} />
               <Kpi icon={<UserPlus className="size-5" />} tone="bg-violet-50 text-violet-600" label="Xodimlar" value={state?.staff.length ?? 0} />
@@ -172,7 +172,7 @@ export function ClinicDashboard() {
               <section className="rounded-3xl border border-slate-100 bg-white p-4 shadow-[0_2px_12px_rgba(15,23,42,0.03)] lg:rounded-2xl">
                 <div className="mb-3 flex items-center justify-between gap-2">
                   <h2 className="text-[16px] font-bold text-[#0d1727]">Xodimlar</h2>
-                  <button type="button" onClick={() => setModal("staff")} className="inline-flex h-9 items-center gap-1 rounded-full bg-[#eef4ff] px-3 text-[13px] font-semibold text-[#0066FF]">
+                  <button type="button" onClick={() => setModal("staff")} className="inline-flex h-9 items-center gap-1 rounded-full bg-[#eef4ff] px-3 text-[13px] font-semibold text-[#0F766E]">
                     <Plus className="size-3.5" />
                     Qo‘shish
                   </button>
@@ -183,7 +183,7 @@ export function ClinicDashboard() {
                   <ul className="space-y-2" data-testid="staff-list">
                     {state!.staff.map((s) => (
                       <li key={s.id} className="flex items-center gap-3 rounded-2xl border border-[#eceff5] bg-[#fbfcfd] p-2.5">
-                        <span className="grid size-10 shrink-0 place-items-center rounded-full bg-[#e8f1ff] text-[12px] font-bold text-[#0066FF]">{initials(s.name)}</span>
+                        <span className="grid size-10 shrink-0 place-items-center rounded-full bg-[#F0FDFA] text-[12px] font-bold text-[#0F766E]">{initials(s.name)}</span>
                         <span className="min-w-0 flex-1">
                           <span className="block truncate text-[14px] font-bold text-[#0d1727]">{s.name}</span>
                           <span className="block truncate text-[12px] text-[#7b879d]">{s.role}</span>
@@ -207,7 +207,7 @@ export function ClinicDashboard() {
                 {(state?.patients.length ?? 0) > 0 ? (
                   <label className="relative block w-full sm:w-64">
                     <Search className="pointer-events-none absolute left-3 top-1/2 size-4 -translate-y-1/2 text-[#8b93a7]" />
-                    <input data-section-search value={search} onChange={(e) => setSearch(e.target.value)} placeholder="Ism yoki telefon" className="h-11 w-full rounded-xl border border-[#dfe5ef] bg-white pl-9 pr-3 text-[14px] outline-none focus:border-[#0066FF]" />
+                    <input data-section-search value={search} onChange={(e) => setSearch(e.target.value)} placeholder="Ism yoki telefon" className="h-11 w-full rounded-xl border border-[#dfe5ef] bg-white pl-9 pr-3 text-[14px] outline-none focus:border-[#0F766E]" />
                   </label>
                 ) : null}
               </div>
@@ -219,7 +219,7 @@ export function ClinicDashboard() {
                 <ul className="divide-y divide-[#eef1f6]" data-testid="patient-list">
                   {patients.map((p) => (
                     <li key={p.id} className="flex items-center gap-3 py-2.5">
-                      <span className="grid size-10 shrink-0 place-items-center rounded-full bg-[#e8f1ff] text-[12px] font-bold text-[#0066FF]">{initials(p.name)}</span>
+                      <span className="grid size-10 shrink-0 place-items-center rounded-full bg-[#F0FDFA] text-[12px] font-bold text-[#0F766E]">{initials(p.name)}</span>
                       <button type="button" className="min-w-0 flex-1 text-left" onClick={() => { setEditPatient(p); setModal("patient"); }}>
                         <span className="block truncate text-[14px] font-bold text-[#0d1727]">{p.name}</span>
                         <span className="block truncate text-[12px] text-[#7b879d]">
@@ -227,7 +227,7 @@ export function ClinicDashboard() {
                         </span>
                       </button>
                       {p.phone ? (
-                        <a href={`tel:+${p.phone.replace(/\D/g, "")}`} className="hidden items-center gap-1 text-[13px] font-semibold text-[#0066FF] sm:inline-flex">
+                        <a href={`tel:+${p.phone.replace(/\D/g, "")}`} className="hidden items-center gap-1 text-[13px] font-semibold text-[#0F766E] sm:inline-flex">
                           <Phone className="size-3.5" />
                           {p.phone}
                         </a>

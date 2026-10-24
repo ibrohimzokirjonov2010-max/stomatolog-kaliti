@@ -70,7 +70,7 @@ function PhoneTabs() {
   return (
     <div className="mt-auto grid grid-cols-4 border-t border-[#e6ebf3] bg-white px-0.5 py-1.5">
       {phoneTabs.map((tab, index) => (
-        <div key={tab.label} className={`text-center ${index === 0 ? "text-[#0066FF]" : "text-[#94a3b8]"}`}>
+        <div key={tab.label} className={`text-center ${index === 0 ? "text-[#0F766E]" : "text-[#94a3b8]"}`}>
           <tab.icon className="mx-auto size-4" />
           <span className="mt-0.5 block text-[12px] font-semibold leading-none">{tab.label}</span>
         </div>
@@ -84,7 +84,7 @@ export function HomePhone({ width, height, className = "", variant = "full" }: {
     return (
       <PhoneShell width={width} height={height} className={className}>
         <div className="flex h-full flex-col">
-          <b className="text-[13px] text-[#16324f]">Stoma<span className="text-[#0066FF]">Hub</span></b>
+          <b className="text-[13px] text-[#16324f]">Stoma<span className="text-[#0F766E]">Hub</span></b>
           <div className="mt-2 grid grid-cols-4 gap-1">
             {phoneCats.map((cat) => (
               <div key={cat.label} className="text-center">
@@ -95,7 +95,7 @@ export function HomePhone({ width, height, className = "", variant = "full" }: {
               </div>
             ))}
           </div>
-          <div className="mt-2 rounded-xl bg-[#0066FF] px-2 py-2 text-[12px] font-bold leading-tight text-white">
+          <div className="mt-2 rounded-xl bg-[#0F766E] px-2 py-2 text-[12px] font-bold leading-tight text-white">
             Stomatologlar uchun yagona platforma
           </div>
         </div>
@@ -106,7 +106,7 @@ export function HomePhone({ width, height, className = "", variant = "full" }: {
     <PhoneShell width={width} height={height} className={className}>
       <div className="flex h-full min-h-0 flex-col">
         <div className="flex items-center justify-between">
-          <b className="text-[13px] text-[#16324f]">Stoma<span className="text-[#0066FF]">Hub</span></b>
+          <b className="text-[13px] text-[#16324f]">Stoma<span className="text-[#0F766E]">Hub</span></b>
           <img src="/images/avatar-azizbek.png" alt="" className="size-6 rounded-full object-cover" />
         </div>
         <div className="mt-2 flex h-8 items-center gap-1 rounded-full bg-white px-2 text-[12px] text-[#94a3b8] ring-1 ring-[#e6ebf3]">
@@ -123,7 +123,7 @@ export function HomePhone({ width, height, className = "", variant = "full" }: {
             </div>
           ))}
         </div>
-        <div className="mt-2 rounded-xl bg-[#0066FF] px-2.5 py-2 text-[12px] font-bold leading-snug text-white">
+        <div className="mt-2 rounded-xl bg-[#0F766E] px-2.5 py-2 text-[12px] font-bold leading-snug text-white">
           Stomatologlar uchun yagona platforma
         </div>
         <p className="mt-2 text-[12px] font-bold text-[#16324f]">Ommabop kategoriyalar</p>
@@ -164,7 +164,7 @@ export function ProfilePhone({ width, height, className = "" }: { width?: string
         <div className="mt-2 grid grid-cols-2 gap-1">
           {[["12", "Kurs"], ["4", "Buyurtma"]].map(([value, label]) => (
             <div key={label} className="rounded-lg bg-white py-1 text-center shadow-sm">
-              <b className="block text-[13px] text-[#0066FF]">{value}</b>
+              <b className="block text-[13px] text-[#0F766E]">{value}</b>
               <span className="block text-[12px] text-[#64748b]">{label}</span>
             </div>
           ))}
@@ -188,10 +188,10 @@ export function CrmMock({ compact = false }: { compact?: boolean }) {
     <div className="overflow-hidden rounded-[24px] border border-[#e6ebf3] bg-white shadow-[0_22px_50px_rgba(15,23,42,0.1)]">
       <div className={compact ? "grid grid-cols-[104px_minmax(0,1fr)]" : "grid grid-cols-[168px_minmax(0,1fr)]"}>
         <aside className="border-r border-[#eef2f7] bg-[#f8fafc] p-3">
-          <p className="px-2 text-[13px] font-extrabold tracking-tight text-[#16324f]">Stoma<span className="text-[#0066FF]">Hub</span></p>
+          <p className="px-2 text-[13px] font-extrabold tracking-tight text-[#16324f]">Stoma<span className="text-[#0F766E]">Hub</span></p>
           <nav className="mt-3 space-y-1 text-[12px] font-semibold text-[#52637a]">
             {["Bosh sahifa", "Bemorlar", "Uchrashuvlar", "To‘lovlar", "Ombor", "Hisobotlar"].map((item, index) => (
-              <p key={item} className={index === 0 ? "rounded-lg bg-[#e8f1ff] px-2 py-2 text-[#0066FF]" : "px-2 py-2"}>{item}</p>
+              <p key={item} className={index === 0 ? "rounded-lg bg-[#F0FDFA] px-2 py-2 text-[#0F766E]" : "px-2 py-2"}>{item}</p>
             ))}
           </nav>
         </aside>
@@ -238,7 +238,7 @@ const heroChips = [
   { icon: Users, text: "Stomatologlar hamjamiyati" },
 ];
 
-const featureTones = ["bg-[#eaf2ff] text-[#1d6cf2]", "bg-[#e6f7f5] text-[#0b8f8a]"];
+const featureTones = ["bg-[#F0FDFA] text-[#1d6cf2]", "bg-[#e6f7f5] text-[#0F766E]"];
 
 const boardNav = [
   { label: "Bosh sahifa", icon: Home },
@@ -252,8 +252,8 @@ const boardNav = [
 ];
 
 const boardStats = [
-  { label: "Bugungi uchrashuvlar", value: "4", icon: CalendarDays, tone: "bg-[#eaf2ff] text-[#1d6cf2]" },
-  { label: "Bemorlar", value: "4", icon: Users, tone: "bg-[#e6f7f5] text-[#0b8f8a]" },
+  { label: "Bugungi uchrashuvlar", value: "4", icon: CalendarDays, tone: "bg-[#F0FDFA] text-[#1d6cf2]" },
+  { label: "Bemorlar", value: "4", icon: Users, tone: "bg-[#e6f7f5] text-[#0F766E]" },
   { label: "Davolash rejalari", value: "3", icon: ClipboardList, tone: "bg-[#eef0ff] text-[#5b5bd6]" },
   { label: "Qarzdorlik", value: "1", icon: Wallet, tone: "bg-[#fff1e6] text-[#ea7a1c]" },
 ];
@@ -332,7 +332,7 @@ function CrmBoard() {
               <div className="rounded-xl border border-[#eef2f7] p-2.5">
                 <p className="mb-1.5 flex justify-between text-[12px] font-bold text-[#16324f]">
                   Bugungi uchrashuvlar
-                  <span className="rounded-md bg-[#eaf2ff] px-1.5 text-[10.5px] text-[#1d6cf2]">Bugun</span>
+                  <span className="rounded-md bg-[#F0FDFA] px-1.5 text-[10.5px] text-[#1d6cf2]">Bugun</span>
                 </p>
                 {boardPatients.map((row) => (
                   <p key={row.time} className="grid grid-cols-[40px_minmax(0,1fr)_minmax(0,1fr)_12px] items-center gap-2 border-t border-[#f3f6fa] py-1.5 text-[11.5px]">
@@ -357,7 +357,7 @@ function CrmBoard() {
               <p className="flex justify-between text-[12px] font-bold text-[#16324f]">
                 Daromad dinamikasi
                 <span className="flex gap-1 text-[10.5px] font-semibold text-[#64748b]">
-                  <span className="rounded-md bg-[#eaf2ff] px-1.5 text-[#1d6cf2]">Hafta</span>
+                  <span className="rounded-md bg-[#F0FDFA] px-1.5 text-[#1d6cf2]">Hafta</span>
                   <span className="px-1.5">Oy</span>
                   <span className="px-1.5">Yil</span>
                 </span>
@@ -365,13 +365,13 @@ function CrmBoard() {
               <svg viewBox="0 0 100 100" preserveAspectRatio="none" className="mt-2 h-[92px] w-full" aria-hidden="true">
                 <defs>
                   <linearGradient id="crm-area" x1="0" x2="0" y1="0" y2="1">
-                    <stop offset="0" stopColor="#0b8f8a" stopOpacity="0.22" />
-                    <stop offset="1" stopColor="#0b8f8a" stopOpacity="0" />
+                    <stop offset="0" stopColor="#0F766E" stopOpacity="0.22" />
+                    <stop offset="1" stopColor="#0F766E" stopOpacity="0" />
                   </linearGradient>
                 </defs>
                 {[25, 50, 75].map((y) => <line key={y} x1="0" x2="100" y1={y} y2={y} stroke="#eef2f7" strokeWidth="0.6" vectorEffect="non-scaling-stroke" />)}
                 <polygon points={`0,100 ${line} 100,100`} fill="url(#crm-area)" />
-                <polyline points={line} fill="none" stroke="#0b8f8a" strokeWidth="2" vectorEffect="non-scaling-stroke" />
+                <polyline points={line} fill="none" stroke="#0F766E" strokeWidth="2" vectorEffect="non-scaling-stroke" />
               </svg>
             </div>
           </div>
@@ -428,7 +428,7 @@ export function LandingDesktop() {
           </nav>
           <div className="flex shrink-0 items-center gap-2.5">
             <LandingSearch />
-            <Link href="/kirish" className="inline-flex h-11 items-center rounded-xl border border-[#1d6cf2] px-6 text-[15px] font-bold text-[#1d6cf2] transition hover:bg-[#f3f8ff]">
+            <Link href="/kirish" className="inline-flex h-11 items-center rounded-xl border border-[#1d6cf2] px-6 text-[15px] font-bold text-[#1d6cf2] transition hover:bg-[#F0FDFA]">
               Kirish
             </Link>
             <Link href="/royxat" className={`${btnPrimary} h-11 px-5 text-[15px]`}>
@@ -473,7 +473,7 @@ export function LandingDesktop() {
             <ul className="mt-8 flex flex-wrap gap-x-7 gap-y-3">
               {heroChips.map((chip) => (
                 <li key={chip.text} className="flex max-w-[170px] items-center gap-2.5 text-[13.5px] leading-snug text-[#52637a]">
-                  <span className="grid size-10 shrink-0 place-items-center rounded-full bg-white text-[#0b8f8a] shadow-sm ring-1 ring-[#e3eef0]">
+                  <span className="grid size-10 shrink-0 place-items-center rounded-full bg-white text-[#0F766E] shadow-sm ring-1 ring-[#e3eef0]">
                     <chip.icon className="size-5" />
                   </span>
                   {chip.text}
@@ -495,7 +495,7 @@ export function LandingDesktop() {
         <p className="mt-1.5 text-[16px] text-[#52637a]">Stomatologlar uchun kerakli barcha imkoniyatlar bir joyda</p>
         <div className="mt-6 grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
           {features.map((item, index) => (
-            <Link key={item.href} href={item.href} className="flex min-h-[184px] flex-col items-start gap-4 rounded-[18px] border border-[#e8eef6] bg-white p-6 shadow-[0_8px_20px_rgba(15,23,42,0.04)] transition hover:-translate-y-0.5 hover:border-[#cfe0ff] hover:shadow-[0_14px_28px_rgba(15,23,42,0.08)]">
+            <Link key={item.href} href={item.href} className="flex min-h-[184px] flex-col items-start gap-4 rounded-[18px] border border-[#e8eef6] bg-white p-6 shadow-[0_8px_20px_rgba(15,23,42,0.04)] transition hover:-translate-y-0.5 hover:border-[#99F6E4] hover:shadow-[0_14px_28px_rgba(15,23,42,0.08)]">
               <span className={`grid size-14 shrink-0 place-items-center rounded-2xl ${featureTones[(index + Math.floor(index / 4)) % 2]}`}>
                 {item.href === "/ustalar" ? <ToothIcon className="size-7" /> : <item.icon className="size-7" strokeWidth={1.75} />}
               </span>
@@ -570,7 +570,7 @@ export function LandingDesktop() {
           {steps.map((step, index) => (
             <li key={step.n} className="contents">
               <div className="flex items-center gap-5 rounded-[20px] border border-[#e8eef6] bg-white px-7 py-7 shadow-[0_8px_20px_rgba(15,23,42,0.04)]">
-                <span className="grid size-[60px] shrink-0 place-items-center rounded-full bg-[#eaf2ff]">
+                <span className="grid size-[60px] shrink-0 place-items-center rounded-full bg-[#F0FDFA]">
                   <span className="grid size-10 place-items-center rounded-full bg-[#1d6cf2] font-[family-name:var(--font-outfit)] text-[18px] font-bold text-white">{step.n}</span>
                 </span>
                 <span>
@@ -604,7 +604,7 @@ export function LandingDesktop() {
           <ul className="space-y-3.5 rounded-[22px] border border-[#e8eef6] bg-white p-6 shadow-[0_14px_34px_rgba(15,23,42,0.06)]">
             {appChecklist.map((point) => (
               <li key={point} className="flex items-center gap-3 text-[15.5px] text-[#334155]">
-                <span className="grid size-6 shrink-0 place-items-center rounded-full bg-[#0b8f8a] text-white"><Check className="size-3.5" strokeWidth={3} /></span>
+                <span className="grid size-6 shrink-0 place-items-center rounded-full bg-[#0F766E] text-white"><Check className="size-3.5" strokeWidth={3} /></span>
                 {point}
               </li>
             ))}
@@ -625,7 +625,7 @@ export function LandingDesktop() {
             <defs>
               <linearGradient id="cta-tooth" x1="0" x2="1" y1="0" y2="1">
                 <stop offset="0" stopColor="#1d6cf2" />
-                <stop offset="1" stopColor="#0b8f8a" />
+                <stop offset="1" stopColor="#0F766E" />
               </linearGradient>
             </defs>
             <path d={toothOutline} stroke="url(#cta-tooth)" />

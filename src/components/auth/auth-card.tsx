@@ -74,7 +74,7 @@ export function AuthCard({
           <ul className="flex max-w-[440px] flex-col gap-4">
             {FEATURES.map(({ icon: Icon, title: name, text }) => (
               <li key={name} className="flex items-start gap-4">
-                <span className="grid size-14 shrink-0 place-items-center rounded-2xl bg-white/80 text-[#0b8f8a] shadow-sm backdrop-blur">
+                <span className="grid size-14 shrink-0 place-items-center rounded-2xl bg-white/80 text-[#0F766E] shadow-sm backdrop-blur">
                   <Icon className="size-6" />
                 </span>
                 <span>

@@ -71,7 +71,7 @@ export function TelegramNotifyCard() {
   }
 
   return (
-    <div className="flex items-center gap-3 rounded-2xl bg-[#f5f9ff] px-3.5 py-3 ring-1 ring-[#e0ecff]" data-testid="telegram-card">
+    <div className="flex items-center gap-3 rounded-2xl bg-[#F0FDFA] px-3.5 py-3 ring-1 ring-[#CCFBF1]" data-testid="telegram-card">
       <span className="flex size-9 shrink-0 items-center justify-center rounded-xl bg-white text-[#229ED9] shadow-sm">
         <Send className="size-4" />
       </span>
@@ -99,7 +99,7 @@ export function TelegramNotifyCard() {
             </button>
           </span>
         ) : (
-          <button type="button" disabled={busy} onClick={() => void connect()} className="inline-flex h-9 shrink-0 items-center gap-1.5 rounded-xl bg-[#0066FF] px-3.5 text-[12.5px] font-bold text-white disabled:opacity-60">
+          <button type="button" disabled={busy} onClick={() => void connect()} className="inline-flex h-9 shrink-0 items-center gap-1.5 rounded-xl bg-[#0F766E] px-3.5 text-[12.5px] font-bold text-white disabled:opacity-60">
             {busy ? <Loader2 className="size-3.5 animate-spin" /> : null}
             Telegramni ulash
           </button>

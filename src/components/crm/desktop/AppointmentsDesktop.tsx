@@ -110,7 +110,7 @@ export function AppointmentsDesktop() {
   const [doctor, setDoctor] = useState("");
   const [room, setRoom] = useState("");
   const [adding, setAdding] = useState(false);
-  const [form, setForm] = useState({ patient: "", service: "Konsultatsiya", doctorId: "self", room: "Xona 1", date: today, start: "09:00", end: "10:00", status: "tasdiq" as ApptStatus, note: "" });
+  const [form, setForm] = useState({ patient: "", service: "Konsultatsiya", doctorId: "self", room: "Kreslo 1", date: today, start: "09:00", end: "10:00", status: "tasdiq" as ApptStatus, note: "" });
   const doctors = useMemo(() => {
     const map = new Map<string, string>();
     const self = profile?.fullName?.trim();
@@ -165,7 +165,7 @@ export function AppointmentsDesktop() {
             ))}
           </div>
           <label className="crm-select"><select data-testid="appt-doctor" aria-label="Shifokor" value={doctor} onChange={(event) => setDoctor(event.target.value)}><option value="">Barcha shifokorlar</option>{doctors.map((item) => <option key={item.id} value={item.id}>{item.name}</option>)}</select></label>
-          <label className="crm-select"><select data-testid="appt-room" aria-label="Xona" value={room} onChange={(event) => setRoom(event.target.value)}><option value="">Barcha xonalar</option>{apptRooms.map((item) => <option key={item}>{item}</option>)}</select></label>
+          <label className="crm-select"><select data-testid="appt-room" aria-label="Kreslo" value={room} onChange={(event) => setRoom(event.target.value)}><option value="">Barcha kreslolar</option>{apptRooms.map((item) => <option key={item}>{item}</option>)}</select></label>
         </div>
         <div className="ap-docs">
           <button type="button" className={doctor === "" ? "on" : undefined} onClick={() => setDoctor("")}>Barchasi</button>
@@ -177,7 +177,7 @@ export function AppointmentsDesktop() {
           <div className="ap-legend">
             <span><i style={{ background: "#22c55e" }} />Tasdiqlangan</span>
             <span><i style={{ background: "#f59e0b" }} />Kutilmoqda</span>
-            <span><i style={{ background: "#3b82f6" }} />Davolanmoqda</span>
+            <span><i style={{ background: "#0F766E" }} />Davolanmoqda</span>
             <span><i style={{ background: "#94a3b8" }} />Yakunlangan</span>
             <span><i style={{ background: "#ef4444" }} />Bekor qilingan</span>
           </div>

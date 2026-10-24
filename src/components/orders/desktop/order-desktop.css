@@ -1,6 +1,6 @@
 /* Order detail, tracking page and tracking drawer (desktop). Designs: buyutma malutlari, buyumtr akuzaiths, buyutmani kuzaiths. */
 .odx {
-  --ok: #0b8f8a;
+  --ok: #0F766E;
   --ok-dark: #0a6f6b;
   --ok-soft: #e6f6f4;
   --ok-line: #e3eaf1;
@@ -42,7 +42,7 @@
 .odx-badge.go { background: #dff5ec; color: #0a7a5a; }
 .odx-badge.prep { background: #fff3dc; color: #b26a00; }
 .odx-badge.done { background: #e2f6e9; color: #15803d; }
-.odx-badge.wait { background: #eef2ff; color: #3949ab; }
+.odx-badge.wait { background: #F0FDFA; color: #0F766E; }
 .odx-badge.off { background: #fdeceb; color: #c0392b; }
 
 .odx-note { margin: 12px 0 0; padding: 10px 14px; border-radius: 9px; background: var(--ok-soft); color: var(--ok-dark); font-size: 13px; font-weight: 600; }

@@ -1,5 +1,5 @@
 /* Laboratoriyalar (desktop) — designs/add-forms-1020/ustlar labnarotiyasi diyini.png */
-.sh .lbx { --lb: #0b8f8a; --lb-dark: #0a6f6b; --lb-soft: #e6f6f4; --lb-line: #e3eaf1; --lb-ink: #0f1d33; --lb-mute: #6b7a90; color: var(--lb-ink); max-width: 1260px; }
+.sh .lbx { --lb: #0F766E; --lb-dark: #0a6f6b; --lb-soft: #e6f6f4; --lb-line: #e3eaf1; --lb-ink: #0f1d33; --lb-mute: #6b7a90; color: var(--lb-ink); max-width: 1260px; }
 .sh .lbx a { color: inherit; text-decoration: none; }
 .sh .lbx button { font-family: inherit; cursor: pointer; }
 .sh .lbx-head { display: flex; justify-content: space-between; align-items: flex-start; gap: 16px; margin-bottom: 14px; }

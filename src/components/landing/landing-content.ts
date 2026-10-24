@@ -37,11 +37,11 @@ export const helpLinks = [
 ] as const;
 
 export const features: { href: string; title: string; text: string; icon: LucideIcon; tone: string }[] = [
-  { href: "/marketplace", title: "Marketplace", text: "Stomatologik mahsulotlar, uskunalar va materiallar", icon: ShoppingBag, tone: "bg-[#e8f1ff] text-[#0066FF]" },
+  { href: "/marketplace", title: "Marketplace", text: "Stomatologik mahsulotlar, uskunalar va materiallar", icon: ShoppingBag, tone: "bg-[#F0FDFA] text-[#0F766E]" },
   { href: "/talim", title: "Onlayn darslar", text: "Professional kurslar va videodarslar", icon: GraduationCap, tone: "bg-[#ffe8ee] text-[#e11d48]" },
   { href: "/seminarlar", title: "Seminarlar", text: "Amaliy seminarlar va master-klasslar", icon: CalendarDays, tone: "bg-[#e6faf6] text-[#00A896]" },
-  { href: "/kitoblar", title: "Kitoblar", text: "Stomatologiyaga oid kitoblar va qo‘llanmalar", icon: BookOpen, tone: "bg-[#eef2ff] text-[#4f46e5]" },
-  { href: "/crm", title: "Klinika CRM", text: "Bemorlar, rejalar, to‘lovlar va hisobotlar", icon: LayoutDashboard, tone: "bg-[#e8f1ff] text-[#0066FF]" },
+  { href: "/kitoblar", title: "Kitoblar", text: "Stomatologiyaga oid kitoblar va qo‘llanmalar", icon: BookOpen, tone: "bg-[#F0FDFA] text-[#0F766E]" },
+  { href: "/crm", title: "Klinika CRM", text: "Bemorlar, rejalar, to‘lovlar va hisobotlar", icon: LayoutDashboard, tone: "bg-[#F0FDFA] text-[#0F766E]" },
   { href: "/ustalar", title: "Ustalar laboratoriyalari", text: "Tish texniklari va laboratoriyalar", icon: FlaskConical, tone: "bg-[#fff4e5] text-[#d97706]" },
   { href: "/mutaxassislar", title: "Konsultatsiyalar", text: "Hamkasblar bilan maslahat va tajriba almashish", icon: Stethoscope, tone: "bg-[#f3e8ff] text-[#7c3aed]" },
   { href: "/elonlar", title: "E’lonlar", text: "Ish, hamkorlik va xizmatlar e’lonlari", icon: Megaphone, tone: "bg-[#fff1e8] text-[#ea580c]" },

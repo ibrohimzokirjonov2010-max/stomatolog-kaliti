@@ -50,10 +50,10 @@ export type MyLab = {
 
 export const orderStatusCopy: Record<LabOrderStatus, { label: string; className: string }> = {
   yangi: { label: "Yuborildi", className: "bg-amber-50 text-amber-800 ring-1 ring-amber-200/80" },
-  qabul_qilindi: { label: "Qabul qilindi", className: "bg-sky-50 text-sky-800 ring-1 ring-sky-200/80" },
-  ishlanmoqda: { label: "Ishlanmoqda", className: "bg-sky-50 text-sky-800 ring-1 ring-sky-200/80" },
+  qabul_qilindi: { label: "Qabul qilindi", className: "bg-[#F0FDFA] text-[#115E59] ring-1 ring-[#99F6E4]/80" },
+  ishlanmoqda: { label: "Ishlanmoqda", className: "bg-[#F0FDFA] text-[#115E59] ring-1 ring-[#99F6E4]/80" },
   tayyor: { label: "Tayyor", className: "bg-emerald-50 text-emerald-800 ring-1 ring-emerald-200/80" },
-  yetkazildi: { label: "Yetkazildi", className: "bg-indigo-50 text-indigo-800 ring-1 ring-indigo-200/80" },
+  yetkazildi: { label: "Yetkazildi", className: "bg-[#F0FDFA] text-[#115E59] ring-1 ring-[#99F6E4]/80" },
   bekor: { label: "Bekor", className: "bg-slate-100 text-slate-500 ring-1 ring-slate-200/80" },
 };
 

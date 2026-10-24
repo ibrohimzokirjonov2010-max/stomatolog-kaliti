@@ -40,7 +40,7 @@ export function JobApplicationsPage() {
     <div>
       <header className="mb-4">
         <p className="text-[13px] text-[#8b93a7]">
-          <Link href="/ishlar" className="text-[#0066FF] hover:underline">Ishlar</Link>
+          <Link href="/ishlar" className="text-[#0F766E] hover:underline">Ishlar</Link>
           <span className="mx-1">/</span>
           <span>Mening arizalarim</span>
         </p>
@@ -83,7 +83,7 @@ export function JobApplicationsPage() {
                 <li key={o.id} className="rounded-2xl border border-[#eceff5] bg-white p-4" data-testid="offer-row">
                   <p className="text-[14px] font-semibold text-[#1a1d26]">{o.name} <span className="font-normal text-[#8b93a7]">· {timeAgoUz(o.createdAt)}</span></p>
                   {o.message ? <p className="mt-1 text-[13px] leading-relaxed text-[#4b5568]">“{o.message}”</p> : null}
-                  <a href={phoneHref(o.phone)} className="mt-2 inline-flex items-center gap-1.5 text-[13px] font-semibold text-[#0066FF]">
+                  <a href={phoneHref(o.phone)} className="mt-2 inline-flex items-center gap-1.5 text-[13px] font-semibold text-[#0F766E]">
                     <Phone className="size-3.5" />
                     {o.phone}
                   </a>
@@ -124,7 +124,7 @@ function ApplicationRow({ item, busy, onWithdraw }: { item: JobApplication; busy
           </Button>
         ) : null}
         {item.jobStatus !== "closed" ? (
-          <Link href={`/ishlar/${item.jobId}`} className="text-[13px] font-semibold text-[#0066FF]">Vakansiya</Link>
+          <Link href={`/ishlar/${item.jobId}`} className="text-[13px] font-semibold text-[#0F766E]">Vakansiya</Link>
         ) : null}
       </div>
     </li>

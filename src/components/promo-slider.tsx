@@ -18,7 +18,7 @@ export type PromoSlide = {
   /** Either a click handler (in-page filter) or a link. */
   onClick?: () => void;
   href?: string;
-  /** "light" = pale blue card with dark text (default); "dark" = #0066FF→#0B1220 gradient with white text. */
+  /** "light" = pale blue card with dark text (default); "dark" = #0F766E→#0B1220 gradient with white text. */
   tone?: "light" | "dark";
   /** Wide 1200×675 poster (text-free left side) used full-bleed on desktop (lg+). Without it desktop keeps the right-side photo. */
   desktopImage?: string;
@@ -75,10 +75,10 @@ export function PromoSlider({ slides, testId, label, className }: { slides: Prom
           const btnCls = cn(
             "mt-2.5 inline-flex h-9 w-fit shrink-0 items-center gap-1.5 rounded-xl px-3.5 text-[13px] font-semibold lg:mt-4 lg:h-11 lg:px-5 lg:text-[14px]",
             dark
-              ? "bg-white text-[#0066FF]"
+              ? "bg-white text-[#0F766E]"
               : s.ctaTone === "white"
-                ? "bg-white text-[#0066FF] shadow-[0_6px_14px_rgba(15,23,42,0.12)] ring-1 ring-[#0066FF]/15"
-                : "bg-[#0066FF] text-white shadow-[0_6px_14px_rgba(0,102,255,0.3)]",
+                ? "bg-white text-[#0F766E] shadow-[0_6px_14px_rgba(15,23,42,0.12)] ring-1 ring-[#0F766E]/15"
+                : "bg-[#0F766E] text-white shadow-[0_6px_14px_rgba(15,118,110,0.3)]",
           );
           const btn = (
             <>
@@ -91,7 +91,7 @@ export function PromoSlider({ slides, testId, label, className }: { slides: Prom
               <div
                 className={cn(
                   "relative h-[168px] overflow-hidden rounded-[20px] lg:h-[220px] xl:h-[240px] 2xl:h-[260px]",
-                  dark ? "bg-gradient-to-br from-[#0066FF] to-[#0B1220]" : "bg-gradient-to-r from-[#dcebff] via-[#e8f3ff] to-[#F4F7FC]",
+                  dark ? "bg-gradient-to-br from-[#0F766E] to-[#0B1220]" : "bg-gradient-to-r from-[#dcebff] via-[#F0FDFA] to-[#F4F7FC]",
                 )}
               >
                 {s.desktopImage ? (
@@ -183,7 +183,7 @@ export function PromoSlider({ slides, testId, label, className }: { slides: Prom
               onClick={() => goTo(i)}
               className="grid h-4 place-items-center px-0.5"
             >
-              <span className={cn("block h-1.5 rounded-full transition-all", i === idx ? "w-4 bg-[#0066FF]" : "w-1.5 bg-[#cdd5e4]")} />
+              <span className={cn("block h-1.5 rounded-full transition-all", i === idx ? "w-4 bg-[#0F766E]" : "w-1.5 bg-[#cdd5e4]")} />
             </button>
           ))}
         </div>

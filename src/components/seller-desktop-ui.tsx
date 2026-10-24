@@ -56,8 +56,8 @@ export function PillTabs<T extends string>({
           className={cn(
             "h-10 rounded-xl border px-4 text-[13.5px] font-semibold transition-colors",
             value === t.id
-              ? "border-[#0066FF] bg-[#0066FF] text-white shadow-[0_4px_12px_rgba(0,102,255,0.25)]"
-              : "border-[#e4e9f2] bg-white text-[#4b5568] hover:border-[#bcd3ff] hover:text-[#0066FF]",
+              ? "border-[#0F766E] bg-[#0F766E] text-white shadow-[0_4px_12px_rgba(15,118,110,0.25)]"
+              : "border-[#e4e9f2] bg-white text-[#4b5568] hover:border-[#99F6E4] hover:text-[#0F766E]",
           )}
         >
           {t.label}
@@ -86,7 +86,7 @@ export function SelectBox({
       value={value}
       onChange={(e) => onChange(e.target.value)}
       className={cn(
-        "h-9 rounded-lg border border-[#e4e9f2] bg-white px-2.5 text-[12.5px] font-medium text-[#0B1F4D] outline-none focus:border-[#0066FF]",
+        "h-9 rounded-lg border border-[#e4e9f2] bg-white px-2.5 text-[12.5px] font-medium text-[#0B1F4D] outline-none focus:border-[#0F766E]",
         className,
       )}
     >
@@ -256,7 +256,7 @@ export function LineChart({
   );
 }
 
-const DONUT_COLORS = ["#0066FF", "#7c3aed", "#14b8a6", "#f59e0b", "#ef4444"];
+const DONUT_COLORS = ["#0F766E", "#7c3aed", "#14b8a6", "#f59e0b", "#ef4444"];
 
 export function Donut({
   parts,

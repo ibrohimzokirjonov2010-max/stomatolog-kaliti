@@ -1,6 +1,6 @@
 /* Desktop "Ortiqcha material" catalog (.ok) + listing page (.okd). Lengths use .sh's --u. */
 .sh .ok, .sh .okd {
-  --ok-teal: #00A8A3;
+  --ok-teal: #0F766E;
   --ok-teal-ink: #007a8c;
   --ok-teal-soft: #eaf8fb;
   --ok-teal-line: #cdecf2;

@@ -122,14 +122,14 @@ export function UstaWorkProvider({ children }: { children: ReactNode }) {
       {children}
       {toast ? (
         <div className="pointer-events-none fixed inset-x-4 bottom-24 z-[70] lg:inset-x-auto lg:right-4 lg:bottom-4 lg:w-[min(100%-2rem,380px)]">
-          <div className="pointer-events-auto mx-auto max-w-md rounded-2xl border border-[#d7e4ff] bg-white p-4 shadow-[0_12px_40px_rgba(15,23,42,0.16)] lg:mx-0">
+          <div className="pointer-events-auto mx-auto max-w-md rounded-2xl border border-[#CCFBF1] bg-white p-4 shadow-[0_12px_40px_rgba(15,23,42,0.16)] lg:mx-0">
             <div className="flex items-start gap-3">
               <span className="flex size-9 shrink-0 items-center justify-center rounded-full bg-[#ecfdf3] text-[#16a34a]">
                 <Check className="size-4" strokeWidth={2.5} />
               </span>
               <div className="min-w-0 flex-1">
                 <p className="text-sm font-semibold text-[#1a1d26]">{toast}</p>
-                <Link href="/ustalar/sorovlarim" className="mt-2 inline-flex items-center gap-1 text-[13px] font-semibold text-[#0066FF] hover:underline">
+                <Link href="/ustalar/sorovlarim" className="mt-2 inline-flex items-center gap-1 text-[13px] font-semibold text-[#0F766E] hover:underline">
                   <Wrench className="size-3.5" />
                   Mening so‘rovlarim
                 </Link>

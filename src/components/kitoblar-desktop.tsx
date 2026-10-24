@@ -187,11 +187,11 @@ export function KitoblarDesktop() {
                 className={cn(
                   "flex h-[58px] shrink-0 items-center gap-2.5 rounded-xl border px-3.5 text-left transition-colors",
                   active
-                    ? "border-[#0066FF] bg-[#0066FF] text-white shadow-[0_6px_16px_rgba(0,102,255,0.28)]"
-                    : "border-[#eceff5] bg-white text-[#1a1d26] hover:border-[#0066FF]/40",
+                    ? "border-[#0F766E] bg-[#0F766E] text-white shadow-[0_6px_16px_rgba(15,118,110,0.28)]"
+                    : "border-[#eceff5] bg-white text-[#1a1d26] hover:border-[#0F766E]/40",
                 )}
               >
-                <span className={cn("grid size-8 shrink-0 place-items-center rounded-lg", active ? "bg-white/20" : "bg-[#eaf2ff] text-[#0066FF]")}>
+                <span className={cn("grid size-8 shrink-0 place-items-center rounded-lg", active ? "bg-white/20" : "bg-[#F0FDFA] text-[#0F766E]")}>
                   <Icon className="size-[17px]" strokeWidth={1.9} />
                 </span>
                 <span className="leading-tight">
@@ -211,7 +211,7 @@ export function KitoblarDesktop() {
             const atEnd = el.scrollLeft + el.clientWidth >= el.scrollWidth - 4;
             el.scrollBy({ left: atEnd ? -el.scrollWidth : 320, behavior: "smooth" });
           }}
-          className="absolute top-1/2 right-0 grid size-9 -translate-y-1/2 place-items-center rounded-full border border-[#e6eaf2] bg-white text-[#4b5568] shadow-[0_2px_10px_rgba(15,23,42,0.1)] hover:text-[#0066FF]"
+          className="absolute top-1/2 right-0 grid size-9 -translate-y-1/2 place-items-center rounded-full border border-[#e6eaf2] bg-white text-[#4b5568] shadow-[0_2px_10px_rgba(15,23,42,0.1)] hover:text-[#0F766E]"
         >
           <ChevronRight className="size-4" />
         </button>
@@ -239,13 +239,13 @@ export function KitoblarDesktop() {
           aria-expanded={panel}
           className={cn(
             "relative inline-flex min-w-[96px] items-center justify-center gap-2 rounded-lg border px-3 text-[13px] font-semibold transition-colors",
-            panel || extraOn ? "border-[#0066FF] bg-[#f3f8ff] text-[#0066FF]" : "border-[#e6eaf2] bg-white text-[#1a1d26] hover:bg-slate-50",
+            panel || extraOn ? "border-[#0F766E] bg-[#F0FDFA] text-[#0F766E]" : "border-[#e6eaf2] bg-white text-[#1a1d26] hover:bg-slate-50",
           )}
         >
           <SlidersHorizontal className="size-4" />
           Filtrlar
           {extraOn ? (
-            <span className="absolute -top-1.5 -right-1.5 grid size-[18px] place-items-center rounded-full bg-[#0066FF] text-[10px] font-bold text-white">
+            <span className="absolute -top-1.5 -right-1.5 grid size-[18px] place-items-center rounded-full bg-[#0F766E] text-[10px] font-bold text-white">
               {extraOn}
             </span>
           ) : null}
@@ -305,15 +305,15 @@ export function KitoblarDesktop() {
               <input type="checkbox" checked={filters.onlySaved} onChange={() => set({ onlySaved: !filters.onlySaved })} className="peer sr-only" />
               <span
                 className={cn(
-                  "grid size-4 shrink-0 place-items-center rounded-[5px] border transition-colors peer-focus-visible:ring-2 peer-focus-visible:ring-[#0066FF]/30",
-                  filters.onlySaved ? "border-[#0066FF] bg-[#0066FF]" : "border-[#cfd6e4] bg-white",
+                  "grid size-4 shrink-0 place-items-center rounded-[5px] border transition-colors peer-focus-visible:ring-2 peer-focus-visible:ring-[#0F766E]/30",
+                  filters.onlySaved ? "border-[#0F766E] bg-[#0F766E]" : "border-[#cfd6e4] bg-white",
                 )}
               >
                 {filters.onlySaved ? <Check className="size-3 text-white" strokeWidth={3} /> : null}
               </span>
               Faqat saqlanganlar
             </label>
-            <button type="button" onClick={reset} className="mt-3 text-[12.5px] font-semibold text-[#0066FF] hover:underline">
+            <button type="button" onClick={reset} className="mt-3 text-[12.5px] font-semibold text-[#0F766E] hover:underline">
               Barchasini tozalash
             </button>
           </div>
@@ -326,7 +326,7 @@ export function KitoblarDesktop() {
           <p className="mb-3 flex items-baseline gap-2 text-[15px] font-bold text-[#0B1F4D]">
             {visible.length} ta kitob
             {dirty ? (
-              <button type="button" onClick={reset} className="text-[12px] font-semibold text-[#0066FF] hover:underline">
+              <button type="button" onClick={reset} className="text-[12px] font-semibold text-[#0F766E] hover:underline">
                 Tozalash
               </button>
             ) : null}
@@ -335,7 +335,7 @@ export function KitoblarDesktop() {
             <div className="rounded-xl border border-[#eceff5] bg-white px-6 py-16 text-center shadow-[0_2px_10px_rgba(15,23,42,0.04)]">
               <p className="font-semibold text-[#1a1d26]">Mos kitob topilmadi.</p>
               <p className="mt-1 text-sm text-[#8b93a7]">Qidiruv yoki filtrlarni o‘zgartiring.</p>
-              <button type="button" onClick={reset} className="mt-4 inline-flex h-10 items-center rounded-xl bg-[#0066FF] px-5 text-sm font-semibold text-white">
+              <button type="button" onClick={reset} className="mt-4 inline-flex h-10 items-center rounded-xl bg-[#0F766E] px-5 text-sm font-semibold text-white">
                 Filtrlarni tozalash
               </button>
             </div>
@@ -370,7 +370,7 @@ export function KitoblarDesktop() {
                     }}
                     className="flex w-full items-center gap-2.5 text-left"
                   >
-                    <span className="w-3 shrink-0 text-center text-[13px] font-bold text-[#0066FF]">{i + 1}</span>
+                    <span className="w-3 shrink-0 text-center text-[13px] font-bold text-[#0F766E]">{i + 1}</span>
                     <span className="relative size-11 shrink-0 overflow-hidden rounded-lg bg-[#f1f3f7]">
                       <BookCover src={b.image} sizes="44px" iconClass="size-5" eager />
                     </span>
@@ -392,13 +392,13 @@ export function KitoblarDesktop() {
                 setSort("popular");
                 toGrid();
               }}
-              className="mt-3 text-[12.5px] font-semibold text-[#0066FF] hover:underline"
+              className="mt-3 text-[12.5px] font-semibold text-[#0F766E] hover:underline"
             >
               Barchasini ko‘rish
             </button>
           </section>
 
-          <section className="rounded-xl bg-gradient-to-br from-[#0066FF] to-[#0049c7] p-4 text-white shadow-[0_8px_24px_rgba(0,102,255,0.28)]">
+          <section className="rounded-xl bg-gradient-to-br from-[#0F766E] to-[#0049c7] p-4 text-white shadow-[0_8px_24px_rgba(15,118,110,0.28)]">
             <div className="flex items-start gap-2.5">
               <span className="grid size-9 shrink-0 place-items-center rounded-full bg-white/20">
                 <Sparkles className="size-[18px]" />
@@ -419,7 +419,7 @@ export function KitoblarDesktop() {
                 setFilters({ ...emptyFilters, category: "implantologiya" });
                 toGrid();
               }}
-              className="mt-4 inline-flex h-10 w-full items-center justify-center gap-2 rounded-[10px] bg-white text-[13px] font-semibold text-[#0066FF] hover:bg-[#f3f8ff]"
+              className="mt-4 inline-flex h-10 w-full items-center justify-center gap-2 rounded-[10px] bg-white text-[13px] font-semibold text-[#0F766E] hover:bg-[#F0FDFA]"
             >
               Tavsiyalarni ko‘rish
               <ArrowRight className="size-4" />
@@ -442,7 +442,7 @@ export function KitoblarDesktop() {
               href={site.telegram}
               target="_blank"
               rel="noreferrer"
-              className="mt-3 inline-flex h-10 w-full items-center justify-center gap-2 rounded-[10px] border border-[#0066FF] bg-white text-[13px] font-semibold text-[#0066FF] hover:bg-[#f3f8ff]"
+              className="mt-3 inline-flex h-10 w-full items-center justify-center gap-2 rounded-[10px] border border-[#0F766E] bg-white text-[13px] font-semibold text-[#0F766E] hover:bg-[#F0FDFA]"
             >
               Kitob qo‘shish
               <ArrowRight className="size-4" />
@@ -462,9 +462,9 @@ export function KitoblarDesktop() {
 
 function Hero() {
   const stats: { icon: IconType; value: string; label: string; tone: string }[] = [
-    { icon: BookOpen, value: "250+", label: "bepul kitob", tone: "bg-[#e3eeff] text-[#0066FF]" },
-    { icon: FolderOpen, value: "10+", label: "mutaxassislik", tone: "bg-[#e3eeff] text-[#0066FF]" },
-    { icon: Globe, value: "UZ · RU · EN", label: "O‘zbek, Rus, Ingliz tillarida", tone: "bg-[#e3eeff] text-[#0066FF]" },
+    { icon: BookOpen, value: "250+", label: "bepul kitob", tone: "bg-[#e3eeff] text-[#0F766E]" },
+    { icon: FolderOpen, value: "10+", label: "mutaxassislik", tone: "bg-[#e3eeff] text-[#0F766E]" },
+    { icon: Globe, value: "UZ · RU · EN", label: "O‘zbek, Rus, Ingliz tillarida", tone: "bg-[#e3eeff] text-[#0F766E]" },
     { icon: RefreshCw, value: "Doimiy", label: "yangilanib boradi", tone: "bg-[#e3f7ea] text-[#16a34a]" },
   ];
   const benefits: { icon: IconType; text: string; tone: string }[] = [
@@ -475,13 +475,13 @@ function Hero() {
     { icon: RefreshCw, text: "Doimiy yangilanib boradi", tone: "bg-[#ffe9e9] text-[#e5484d]" },
   ];
   return (
-    <section className="relative overflow-hidden rounded-2xl border border-[#dbe7ff] bg-gradient-to-r from-[#eaf2ff] via-[#f3f8ff] to-[#eaf2ff]">
+    <section className="relative overflow-hidden rounded-2xl border border-[#CCFBF1] bg-gradient-to-r from-[#F0FDFA] via-[#F0FDFA] to-[#F0FDFA]">
       <Image src="/images/implant-cutout.png" alt="" fill priority sizes="900px" className="object-cover opacity-[0.14] blur-[2px]" />
-      <div className="absolute inset-0 bg-gradient-to-r from-[#eaf2ff] via-[#eaf2ff]/80 to-[#f5f9ff]/60" />
+      <div className="absolute inset-0 bg-gradient-to-r from-[#F0FDFA] via-[#F0FDFA]/80 to-[#F0FDFA]/60" />
 
       <div className="relative z-10 flex items-stretch gap-5 p-6">
         <div className="min-w-0 flex-1">
-          <p className="text-[12px] font-bold tracking-[0.04em] text-[#0066FF]">Dental E-Library</p>
+          <p className="text-[12px] font-bold tracking-[0.04em] text-[#0F766E]">Dental E-Library</p>
           <h1 className="mt-1.5 max-w-[470px] text-[28px] leading-[1.15] font-extrabold tracking-tight text-[#0B1F4D] min-[1400px]:text-[31px]">
             Stomatologiya bo‘yicha bepul kitoblar
           </h1>
@@ -552,7 +552,7 @@ function BookCover({ src, sizes, iconClass, eager, className }: { src?: string; 
   const [failed, setFailed] = useState(false);
   if (!src || failed) {
     return (
-      <span aria-hidden className="absolute inset-0 grid place-items-center bg-gradient-to-br from-[#dbe8ff] via-[#eaf2ff] to-[#f5f9ff] text-[#0066FF]/60">
+      <span aria-hidden className="absolute inset-0 grid place-items-center bg-gradient-to-br from-[#CCFBF1] via-[#F0FDFA] to-[#F0FDFA] text-[#0F766E]/60">
         <BookOpen className={iconClass} strokeWidth={1.6} />
       </span>
     );
@@ -602,7 +602,7 @@ function BookCard({
           <span className="truncate">{book.author}</span>
         </p>
         <div className="mt-2 flex flex-wrap gap-1">
-          <span className="rounded-full bg-[#e8f1ff] px-2 py-[3px] text-[10.5px] leading-none font-semibold text-[#0066FF]">
+          <span className="rounded-full bg-[#F0FDFA] px-2 py-[3px] text-[10.5px] leading-none font-semibold text-[#0F766E]">
             {bookCategoryLabels[book.category]}
           </span>
           <span className={cn("rounded-full px-2 py-[3px] text-[10.5px] leading-none font-semibold", levelStyle[book.level])}>
@@ -617,7 +617,7 @@ function BookCard({
           <button
             type="button"
             onClick={onDownload}
-            className="inline-flex h-9 min-w-0 flex-1 items-center justify-center gap-1.5 rounded-[10px] bg-[#0066FF] text-[12.5px] font-semibold text-white shadow-[0_3px_10px_rgba(0,102,255,0.25)] transition-colors hover:bg-[#0052cc]"
+            className="inline-flex h-9 min-w-0 flex-1 items-center justify-center gap-1.5 rounded-[10px] bg-[#0F766E] text-[12.5px] font-semibold text-white shadow-[0_3px_10px_rgba(15,118,110,0.25)] transition-colors hover:bg-[#115E59]"
           >
             <Download className="size-3.5" />
             Yuklab olish
@@ -629,7 +629,7 @@ function BookCard({
             aria-label={saved ? "Saqlanganlardan olib tashlash" : "Saqlash"}
             className={cn(
               "grid size-9 shrink-0 place-items-center rounded-[10px] border transition-colors",
-              saved ? "border-[#0066FF] bg-[#eaf2ff] text-[#0066FF]" : "border-[#e6eaf2] bg-white text-[#4b5568] hover:text-[#0066FF]",
+              saved ? "border-[#0F766E] bg-[#F0FDFA] text-[#0F766E]" : "border-[#e6eaf2] bg-white text-[#4b5568] hover:text-[#0F766E]",
             )}
           >
             {saved ? <BookmarkCheck className="size-4" /> : <Bookmark className="size-4" />}

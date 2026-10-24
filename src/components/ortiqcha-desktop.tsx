@@ -235,8 +235,8 @@ export function OrtiqchaDesktop({
                 className={cn(
                   "h-7 rounded-full border px-3 text-[12px] font-medium transition-colors",
                   on
-                    ? "border-[#0066FF] bg-[#0066FF] text-white"
-                    : "border-[#e6eaf2] bg-white text-[#4b5568] hover:border-[#0066FF]/40 hover:text-[#0066FF]",
+                    ? "border-[#0F766E] bg-[#0F766E] text-white"
+                    : "border-[#e6eaf2] bg-white text-[#4b5568] hover:border-[#0F766E]/40 hover:text-[#0F766E]",
                 )}
               >
                 {brand}
@@ -246,26 +246,26 @@ export function OrtiqchaDesktop({
         </div>
 
         {/* Hero */}
-        <section className="relative flex min-h-[188px] items-stretch overflow-hidden rounded-2xl bg-gradient-to-r from-[#e8f1ff] via-[#dfeaff] to-[#cfe0ff] p-6">
+        <section className="relative flex min-h-[188px] items-stretch overflow-hidden rounded-2xl bg-gradient-to-r from-[#F0FDFA] via-[#dfeaff] to-[#99F6E4] p-6">
           <div className="pointer-events-none absolute -top-16 right-40 size-64 rounded-full bg-white/40 blur-2xl" />
           <div className="relative z-10 flex w-[44%] min-w-[260px] flex-col justify-center">
             <h1 className="text-[26px] leading-[1.15] font-extrabold tracking-tight text-[#0B1F4D]">
               Stomatologlar uchun
               <br />
-              <span className="text-[#0066FF]">Ortiqcha materiallar marketi</span>
+              <span className="text-[#0F766E]">Ortiqcha materiallar marketi</span>
             </h1>
             <p className="mt-2 max-w-[340px] text-[13px] leading-snug text-[#4b5568]">
               Ishlatilmagan va ortiqcha qolgan materiallarni qulay narxda soting yoki xarid qiling.
             </p>
             <div className="mt-3 flex flex-wrap items-center gap-x-4 gap-y-1 text-[11.5px] font-medium text-[#3b4a66]">
               <span className="inline-flex items-center gap-1">
-                <ShieldCheck className="size-3.5 text-[#0066FF]" /> Muddat majburiy
+                <ShieldCheck className="size-3.5 text-[#0F766E]" /> Muddat majburiy
               </span>
               <span className="inline-flex items-center gap-1">
-                <Package className="size-3.5 text-[#0066FF]" /> Yopiq / Ochilgan
+                <Package className="size-3.5 text-[#0F766E]" /> Yopiq / Ochilgan
               </span>
               <span className="inline-flex items-center gap-1">
-                <BadgeCheck className="size-3.5 text-[#0066FF]" /> Original
+                <BadgeCheck className="size-3.5 text-[#0F766E]" /> Original
               </span>
             </div>
           </div>
@@ -300,13 +300,13 @@ export function OrtiqchaDesktop({
             <button
               type="button"
               onClick={onPost}
-              className="mt-3 inline-flex h-10 w-full items-center justify-center rounded-xl bg-[#0066FF] text-[14px] font-semibold text-white shadow-[0_4px_12px_rgba(0,102,255,0.28)] transition-colors hover:bg-[#0052cc]"
+              className="mt-3 inline-flex h-10 w-full items-center justify-center rounded-xl bg-[#0F766E] text-[14px] font-semibold text-white shadow-[0_4px_12px_rgba(15,118,110,0.28)] transition-colors hover:bg-[#115E59]"
             >
               E’lon joylash
             </button>
             <Link
               href="/ortiqcha-material/elonlarim"
-              className="mt-2 inline-flex items-center justify-center gap-1.5 text-[12px] font-semibold text-[#0066FF] hover:underline"
+              className="mt-2 inline-flex items-center justify-center gap-1.5 text-[12px] font-semibold text-[#0F766E] hover:underline"
             >
               <FileText className="size-3.5" />
               Mening e’lonlarim
@@ -338,7 +338,7 @@ export function OrtiqchaDesktop({
           <p className="text-[15px] font-bold text-[#0B1F4D]">
             {visible.length} ta material
             {filtersOn ? (
-              <button type="button" onClick={clearAll} className="ml-3 text-[12px] font-semibold text-[#0066FF] hover:underline">
+              <button type="button" onClick={clearAll} className="ml-3 text-[12px] font-semibold text-[#0F766E] hover:underline">
                 Tozalash
               </button>
             ) : null}
@@ -380,7 +380,7 @@ export function OrtiqchaDesktop({
             <button
               type="button"
               onClick={filtersOn ? clearAll : onPost}
-              className="mt-4 inline-flex h-10 items-center rounded-xl bg-[#0066FF] px-5 text-sm font-semibold text-white"
+              className="mt-4 inline-flex h-10 items-center rounded-xl bg-[#0F766E] px-5 text-sm font-semibold text-white"
             >
               {filtersOn ? "Filtrlarni tozalash" : "E’lon joylash"}
             </button>
@@ -409,7 +409,7 @@ export function OrtiqchaDesktop({
         )}
 
         <p className="flex items-center gap-2.5 rounded-xl bg-[#f5f8ff] px-4 py-3 text-[13px] text-[#4b5568]">
-          <ShieldCheck className="size-4 shrink-0 text-[#0066FF]" />
+          <ShieldCheck className="size-4 shrink-0 text-[#0F766E]" />
           <span>
             Faqat shaxsiy ortiqcha — stomatologlar o‘z ortiqchasini joylaydi, dilerlik e’lonlari qabul qilinmaydi.
           </span>
@@ -420,7 +420,7 @@ export function OrtiqchaDesktop({
       <aside className="sticky top-0 max-h-[calc(100vh-104px)] overflow-y-auto rounded-xl border border-[#eceff5] bg-white p-4 shadow-[0_2px_12px_rgba(15,23,42,0.05)] [scrollbar-width:thin]">
         <div className="mb-3 flex items-center justify-between">
           <h2 className="text-[15px] font-bold text-[#0B1F4D]">Filtrlar</h2>
-          <button type="button" onClick={clearAll} className="text-[12px] font-semibold text-[#0066FF] hover:underline">
+          <button type="button" onClick={clearAll} className="text-[12px] font-semibold text-[#0F766E] hover:underline">
             Barchasini tozalash
           </button>
         </div>
@@ -456,7 +456,7 @@ export function OrtiqchaDesktop({
               value={brandQuery}
               onChange={(event) => setBrandQuery(event.target.value)}
               placeholder="Brend qidirish"
-              className="h-9 w-full rounded-lg border border-[#e6eaf2] bg-white pr-2 pl-8 text-[12.5px] outline-none placeholder:text-[#9aa3b2] focus:border-[#0066FF]"
+              className="h-9 w-full rounded-lg border border-[#e6eaf2] bg-white pr-2 pl-8 text-[12.5px] outline-none placeholder:text-[#9aa3b2] focus:border-[#0F766E]"
             />
           </div>
           {shownBrands.map((row) => (
@@ -473,7 +473,7 @@ export function OrtiqchaDesktop({
             <button
               type="button"
               onClick={() => setAllBrands((v) => !v)}
-              className="pt-1 text-left text-[12px] font-semibold text-[#0066FF] hover:underline"
+              className="pt-1 text-left text-[12px] font-semibold text-[#0F766E] hover:underline"
             >
               {allBrands ? "Kamroq ko‘rsatish" : `Yana ${hiddenBrands} ta brend`}
             </button>
@@ -489,7 +489,7 @@ export function OrtiqchaDesktop({
           <div className="relative mx-1 mt-3 mb-1 h-[18px]">
             <div className="absolute top-1/2 right-0 left-0 h-1 -translate-y-1/2 rounded-full bg-[#e6eaf2]" />
             <div
-              className="absolute top-1/2 h-1 -translate-y-1/2 rounded-full bg-[#0066FF]"
+              className="absolute top-1/2 h-1 -translate-y-1/2 rounded-full bg-[#0F766E]"
               style={{ left: `${minPct}%`, width: `${Math.max(0, maxPct - minPct)}%` }}
             />
             <input
@@ -519,11 +519,11 @@ export function OrtiqchaDesktop({
 
         <FilterGroup title="Joylashuv" last>
           <label className="relative block">
-            <MapPin className="pointer-events-none absolute top-1/2 left-2.5 size-3.5 -translate-y-1/2 text-[#0066FF]" />
+            <MapPin className="pointer-events-none absolute top-1/2 left-2.5 size-3.5 -translate-y-1/2 text-[#0F766E]" />
             <select
               value={filters.city}
               onChange={(event) => setFilters((f) => ({ ...f, city: event.target.value }))}
-              className="h-10 w-full cursor-pointer appearance-none rounded-lg border border-[#e6eaf2] bg-white pr-8 pl-8 text-[13px] font-medium text-[#1a1d26] outline-none focus:border-[#0066FF]"
+              className="h-10 w-full cursor-pointer appearance-none rounded-lg border border-[#e6eaf2] bg-white pr-8 pl-8 text-[13px] font-medium text-[#1a1d26] outline-none focus:border-[#0F766E]"
             >
               <option value="">Barcha hududlar</option>
               {surplusCities.map((city) => (
@@ -559,19 +559,19 @@ function CategoryTile({
       className={cn(
         "flex min-w-0 flex-1 flex-col items-center gap-1.5 rounded-xl border bg-white px-1 py-2.5 transition-colors",
         active
-          ? "border-[#0066FF] bg-[#f3f8ff] shadow-[0_2px_10px_rgba(0,102,255,0.12)]"
-          : "border-[#eceff5] hover:border-[#0066FF]/40",
+          ? "border-[#0F766E] bg-[#F0FDFA] shadow-[0_2px_10px_rgba(15,118,110,0.12)]"
+          : "border-[#eceff5] hover:border-[#0F766E]/40",
       )}
     >
       <span
         className={cn(
           "grid size-9 place-items-center rounded-[10px]",
-          active ? "bg-[#0066FF] text-white" : "bg-[#eef4ff] text-[#0066FF]",
+          active ? "bg-[#0F766E] text-white" : "bg-[#eef4ff] text-[#0F766E]",
         )}
       >
         <Icon className="size-[18px]" strokeWidth={1.8} />
       </span>
-      <span className={cn("max-w-full truncate text-[11.5px] font-semibold", active ? "text-[#0066FF]" : "text-[#1a1d26]")}>
+      <span className={cn("max-w-full truncate text-[11.5px] font-semibold", active ? "text-[#0F766E]" : "text-[#1a1d26]")}>
         {label}
       </span>
     </button>
@@ -597,7 +597,7 @@ export function ViewButton({
       aria-pressed={active}
       className={cn(
         "grid size-8 place-items-center rounded-lg transition-colors",
-        active ? "bg-[#0066FF] text-white" : "text-[#8b93a7] hover:text-[#1a1d26]",
+        active ? "bg-[#0F766E] text-white" : "text-[#8b93a7] hover:text-[#1a1d26]",
       )}
     >
       {children}
@@ -630,8 +630,8 @@ export function CheckRow({
       <input type="checkbox" checked={checked} onChange={onChange} className="peer sr-only" />
       <span
         className={cn(
-          "grid size-4 shrink-0 place-items-center rounded-[5px] border transition-colors peer-focus-visible:ring-2 peer-focus-visible:ring-[#0066FF]/30",
-          checked ? "border-[#0066FF] bg-[#0066FF]" : "border-[#cfd6e4] bg-white",
+          "grid size-4 shrink-0 place-items-center rounded-[5px] border transition-colors peer-focus-visible:ring-2 peer-focus-visible:ring-[#0F766E]/30",
+          checked ? "border-[#0F766E] bg-[#0F766E]" : "border-[#cfd6e4] bg-white",
         )}
       >
         {checked ? (
@@ -675,7 +675,7 @@ export function PriceInput({
         if (event.key === "Enter") event.currentTarget.blur();
       }}
       aria-label={placeholder === "0" ? "Minimal narx" : "Maksimal narx"}
-      className="h-9 w-full min-w-0 rounded-lg border border-[#e6eaf2] bg-white px-2.5 text-[12.5px] font-medium text-[#1a1d26] tabular-nums outline-none focus:border-[#0066FF]"
+      className="h-9 w-full min-w-0 rounded-lg border border-[#e6eaf2] bg-white px-2.5 text-[12.5px] font-medium text-[#1a1d26] tabular-nums outline-none focus:border-[#0F766E]"
     />
   );
 }
@@ -746,7 +746,7 @@ function DesktopCard({
         <div>
           <p className="text-[11.5px] text-[#8b93a7]">{listing.brand}</p>
           <h3 className="mt-0.5 line-clamp-2 min-h-[34px] text-[13px] leading-[17px] font-bold text-[#1a1d26]">
-            <Link href={`/ortiqcha-material/${listing.id}`} className="hover:text-[#0066FF]">
+            <Link href={`/ortiqcha-material/${listing.id}`} className="hover:text-[#0F766E]">
               {listing.name}
             </Link>
           </h3>
@@ -779,7 +779,7 @@ function DesktopCard({
 
         <div>
           <div className="mt-2 flex flex-wrap items-baseline gap-x-1.5 gap-y-0.5">
-            <span className="text-[15.5px] leading-tight font-extrabold text-[#0066FF]">
+            <span className="text-[15.5px] leading-tight font-extrabold text-[#0F766E]">
               {formatMoney(listing.price, "UZS")}
             </span>
           </div>
@@ -800,7 +800,7 @@ function DesktopCard({
             {avatar ? (
               <Image src={avatar} alt="" width={22} height={22} className="size-[22px] shrink-0 rounded-full object-cover" />
             ) : (
-              <span className="grid size-[22px] shrink-0 place-items-center rounded-full bg-[#e8f1ff] text-[9px] font-bold text-[#0066FF]">
+              <span className="grid size-[22px] shrink-0 place-items-center rounded-full bg-[#F0FDFA] text-[9px] font-bold text-[#0F766E]">
                 {seller.replace(/^Siz · /, "").replace(/^Dr\.\s*/, "").slice(0, 1)}
               </span>
             )}
@@ -815,7 +815,7 @@ function DesktopCard({
               <button
                 type="button"
                 onClick={onEdit}
-                className="inline-flex h-9 flex-1 items-center justify-center gap-1.5 rounded-[10px] bg-[#0066FF] text-[13px] font-semibold text-white hover:bg-[#0052cc]"
+                className="inline-flex h-9 flex-1 items-center justify-center gap-1.5 rounded-[10px] bg-[#0F766E] text-[13px] font-semibold text-white hover:bg-[#115E59]"
               >
                 <Pencil className="size-3.5" />
                 Tahrirlash
@@ -824,7 +824,7 @@ function DesktopCard({
               <button
                 type="button"
                 onClick={onContact}
-                className="inline-flex h-9 flex-1 items-center justify-center gap-1.5 rounded-[10px] bg-[#0066FF] text-[13px] font-semibold text-white shadow-[0_3px_10px_rgba(0,102,255,0.25)] transition-colors hover:bg-[#0052cc]"
+                className="inline-flex h-9 flex-1 items-center justify-center gap-1.5 rounded-[10px] bg-[#0F766E] text-[13px] font-semibold text-white shadow-[0_3px_10px_rgba(15,118,110,0.25)] transition-colors hover:bg-[#115E59]"
               >
                 <MessageCircle className="size-3.5" />
                 Bog‘lanish

@@ -16,7 +16,6 @@ import {
   X,
 } from "lucide-react";
 import { FormaProductCard } from "@/components/forma-product-card";
-import { FormaMobileHero } from "@/components/forma-mobile-hero";
 import { buttonVariants } from "@/components/ui/button";
 import {
   clothingSizes,
@@ -87,7 +86,7 @@ function Dropdown({
         aria-expanded={open}
         className={cn(
           "flex h-[54px] w-full items-center justify-between gap-2 rounded-xl border bg-white px-3 text-left transition-colors",
-          active || open ? "border-[#0066FF]" : "border-[#e6eaf2] hover:border-[#c9d3e6]",
+          active || open ? "border-[#0F766E]" : "border-[#e6eaf2] hover:border-[#c9d3e6]",
         )}
       >
         <span className="min-w-0">
@@ -117,7 +116,7 @@ function Option({ on, onClick, children }: { on: boolean; onClick: () => void; c
       onClick={onClick}
       className={cn(
         "flex w-full items-center justify-between rounded-lg px-3 py-2 text-left text-[13px] hover:bg-[#f2f6ff]",
-        on ? "font-semibold text-[#0066FF]" : "text-[#1a1d26]",
+        on ? "font-semibold text-[#0F766E]" : "text-[#1a1d26]",
       )}
     >
       {children}
@@ -205,18 +204,10 @@ export function FormaDesktop({
         </Link>
       </div>
 
-      {/* Same promo slider as on phones (shared PromoSlider). */}
-      <FormaMobileHero
-        onPick={(target) => {
-          setCat(target);
-          document.getElementById("katalog")?.scrollIntoView({ behavior: "smooth", block: "start" });
-        }}
-      />
-
       {/* Hero */}
-      <section className="relative overflow-hidden rounded-[20px] bg-linear-to-r from-[#dcecff] via-[#e8f3ff] to-[#f3f9ff] px-8 pt-7 pb-6">
-        <Plus className="pointer-events-none absolute top-6 right-[44%] size-9 text-sky-200" />
-        <Plus className="pointer-events-none absolute right-10 bottom-6 size-7 text-sky-200/80" />
+      <section className="relative overflow-hidden rounded-[20px] bg-linear-to-r from-[#F0FDFA] via-[#F0FDFA] to-[#F0FDFA] px-8 pt-7 pb-6">
+        <Plus className="pointer-events-none absolute top-6 right-[44%] size-9 text-[#99F6E4]" />
+        <Plus className="pointer-events-none absolute right-10 bottom-6 size-7 text-[#99F6E4]/80" />
         <div className="grid items-center gap-6 lg:grid-cols-[minmax(0,1fr)_480px]">
           <div>
             <h1 className="text-[40px] leading-none font-extrabold tracking-tight text-[#0B1F4D]">Forma</h1>
@@ -226,7 +217,7 @@ export function FormaDesktop({
             <div className="mt-5 grid max-w-[640px] grid-cols-4 gap-3">
               {trust.map(({ icon: Icon, title, sub }) => (
                 <div key={title} className="flex items-center gap-2.5">
-                  <span className="flex size-10 shrink-0 items-center justify-center rounded-full bg-white text-[#0066FF] shadow-sm">
+                  <span className="flex size-10 shrink-0 items-center justify-center rounded-full bg-white text-[#0F766E] shadow-sm">
                     <Icon className="size-5" />
                   </span>
                   <p className="text-[12px] leading-tight font-semibold text-[#0B1F4D]">
@@ -269,8 +260,8 @@ export function FormaDesktop({
               className={cn(
                 "h-10 rounded-full border px-5 text-[14px] font-semibold transition-colors",
                 on
-                  ? "border-[#0066FF] bg-[#0066FF] text-white"
-                  : "border-[#e6eaf2] bg-white text-[#2b3447] hover:border-[#0066FF]/50 hover:text-[#0066FF]",
+                  ? "border-[#0F766E] bg-[#0F766E] text-white"
+                  : "border-[#e6eaf2] bg-white text-[#2b3447] hover:border-[#0F766E]/50 hover:text-[#0F766E]",
               )}
             >
               {item.label}
@@ -312,7 +303,7 @@ export function FormaDesktop({
                   onClick={() => { setSize(size === item ? "" : item); close(); }}
                   className={cn(
                     "h-9 min-w-11 rounded-lg border px-3 text-[13px] font-semibold",
-                    size === item ? "border-[#0066FF] bg-[#0066FF] text-white" : "border-[#e6eaf2] text-[#2b3447] hover:border-[#0066FF]/50",
+                    size === item ? "border-[#0F766E] bg-[#0F766E] text-white" : "border-[#e6eaf2] text-[#2b3447] hover:border-[#0F766E]/50",
                   )}
                 >
                   {item}
@@ -400,8 +391,8 @@ export function FormaDesktop({
               className={cn(
                 "h-9 rounded-lg border px-3.5 text-[13px] font-semibold transition-colors",
                 sort === item.id
-                  ? "border-[#0066FF] bg-[#eaf2ff] text-[#0066FF]"
-                  : "border-[#cfe0ff] bg-white text-[#0066FF] hover:bg-[#f2f7ff]",
+                  ? "border-[#0F766E] bg-[#F0FDFA] text-[#0F766E]"
+                  : "border-[#99F6E4] bg-white text-[#0F766E] hover:bg-[#F0FDFA]",
               )}
             >
               {item.label}
@@ -413,12 +404,12 @@ export function FormaDesktop({
           <button
             type="button"
             onClick={() => setPanel((v) => !v)}
-            className="flex h-9 items-center gap-2 rounded-lg border border-[#e6eaf2] bg-white px-3.5 text-[13px] font-semibold text-[#1a1d26] hover:border-[#0066FF]/50"
+            className="flex h-9 items-center gap-2 rounded-lg border border-[#e6eaf2] bg-white px-3.5 text-[13px] font-semibold text-[#1a1d26] hover:border-[#0F766E]/50"
           >
             <SlidersHorizontal className="size-4" />
             Filtrlar
             {chips.length ? (
-              <span className="flex size-5 items-center justify-center rounded-full bg-[#0066FF] text-[11px] text-white">{chips.length}</span>
+              <span className="flex size-5 items-center justify-center rounded-full bg-[#0F766E] text-[11px] text-white">{chips.length}</span>
             ) : null}
           </button>
           {panel ? (
@@ -437,7 +428,7 @@ export function FormaDesktop({
                         key={chip.key}
                         type="button"
                         onClick={chip.clear}
-                        className="inline-flex items-center gap-1 rounded-full bg-[#eaf2ff] px-2.5 py-1 text-[12px] font-semibold text-[#0066FF]"
+                        className="inline-flex items-center gap-1 rounded-full bg-[#F0FDFA] px-2.5 py-1 text-[12px] font-semibold text-[#0F766E]"
                       >
                         {chip.label}
                         <X className="size-3" />
@@ -461,7 +452,7 @@ export function FormaDesktop({
         {list.length === 0 ? (
           <div className="rounded-[14px] border border-[#eceff5] bg-white px-6 py-16 text-center text-[#8b93a7]">
             Bu filtrlar bo‘yicha forma yo‘q.{" "}
-            <button type="button" onClick={reset} className="font-semibold text-[#0066FF] hover:underline">
+            <button type="button" onClick={reset} className="font-semibold text-[#0F766E] hover:underline">
               Filtrlarni tozalash
             </button>
           </div>

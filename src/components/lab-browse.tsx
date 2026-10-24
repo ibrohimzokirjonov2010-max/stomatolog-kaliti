@@ -28,7 +28,6 @@ import {
 import { useDoctorProfile } from "@/components/doctor-profile-provider";
 import { useLabWork } from "@/components/lab-provider";
 import { LabMobileList } from "@/components/lab-mobile-list";
-import { LabMobileHero } from "@/components/lab-mobile-hero";
 import { Button, buttonVariants } from "@/components/ui/button";
 import { FormField, inputCls, textareaCls } from "@/components/work-ui";
 import {
@@ -121,14 +120,6 @@ export function LabBrowse() {
       <LabMobileList />
     </div>
     <div className="hidden lg:block">
-      {/* Same promo slider as on phones (shared PromoSlider). */}
-      <LabMobileHero
-        onService={(sv) => {
-          setService(sv);
-          document.getElementById("lab-desktop-list")?.scrollIntoView({ behavior: "smooth", block: "start" });
-        }}
-        onList={() => document.getElementById("lab-desktop-list")?.scrollIntoView({ behavior: "smooth", block: "start" })}
-      />
       <div className="mb-4 flex items-start justify-between gap-3">
         <header className="min-w-0">
           <h1 className="text-[26px] font-bold tracking-tight text-[#0B1F4D] lg:text-[#1a1d26]">Laboratoriya</h1>
@@ -157,7 +148,7 @@ export function LabBrowse() {
           value={query}
           onChange={(e) => setQuery(e.target.value)}
           placeholder="Lab, xizmat, shahar..."
-          className="h-12 w-full rounded-2xl border-0 bg-white pr-3 pl-10 text-[15px] text-[#1a1d26] shadow-[0_4px_16px_rgba(15,23,42,0.06)] outline-none placeholder:text-[#8b93a7] focus:ring-2 focus:ring-[#0066FF]/20"
+          className="h-12 w-full rounded-2xl border-0 bg-white pr-3 pl-10 text-[15px] text-[#1a1d26] shadow-[0_4px_16px_rgba(15,23,42,0.06)] outline-none placeholder:text-[#8b93a7] focus:ring-2 focus:ring-[#0F766E]/20"
         />
       </div>
 
@@ -182,7 +173,7 @@ export function LabBrowse() {
           {labCities.map((i) => <option key={i} value={i}>{i}</option>)}
         </FilterPill>
         {filtered ? (
-          <button type="button" onClick={clear} className="inline-flex shrink-0 items-center gap-1.5 px-2 text-sm font-medium text-[#0066FF] hover:underline lg:ml-auto">
+          <button type="button" onClick={clear} className="inline-flex shrink-0 items-center gap-1.5 px-2 text-sm font-medium text-[#0F766E] hover:underline lg:ml-auto">
             Filtrlarni tozalash
             <RotateCcw className="size-3.5" />
           </button>
@@ -190,10 +181,10 @@ export function LabBrowse() {
       </div>
 
       {/* order tracking strip */}
-      <section className="mb-5 rounded-[16px] bg-[#eaf2ff] px-4 py-4 lg:px-5" data-testid="lab-tracking">
+      <section className="mb-5 rounded-[16px] bg-[#F0FDFA] px-4 py-4 lg:px-5" data-testid="lab-tracking">
         <div className="flex flex-col gap-4 xl:flex-row xl:items-center">
           <div className="flex min-w-[200px] items-start gap-3">
-            <span className="flex size-11 shrink-0 items-center justify-center rounded-2xl bg-white text-[#0066FF] shadow-sm">
+            <span className="flex size-11 shrink-0 items-center justify-center rounded-2xl bg-white text-[#0F766E] shadow-sm">
               <ClipboardList className="size-5" />
             </span>
             <div className="min-w-0">
@@ -201,7 +192,7 @@ export function LabBrowse() {
               <p className="text-[12px] text-[#8b93a7]">
                 {latest ? `${latest.labName} · ${labServiceLabel(latest.service)}` : "Hali buyurtma yo‘q — yangi buyurtma bering."}
               </p>
-              <Link href="/laboratoriya/buyurtmalarim" className="mt-1 inline-flex items-center gap-0.5 text-[12px] font-semibold text-[#0066FF] hover:underline">
+              <Link href="/laboratoriya/buyurtmalarim" className="mt-1 inline-flex items-center gap-0.5 text-[12px] font-semibold text-[#0F766E] hover:underline">
                 Mening lab buyurtmalarim{counts.all ? ` (${counts.all})` : ""}
                 <ChevronRight className="size-3.5" />
               </Link>
@@ -214,7 +205,7 @@ export function LabBrowse() {
               const current = stepIndex === index;
               return (
                 <li key={step.id} className="flex min-w-0 flex-col items-center gap-1.5 text-center lg:flex-row lg:items-start lg:text-left">
-                  <span className={cn("flex size-9 shrink-0 items-center justify-center rounded-full bg-white text-[#0066FF] lg:size-10", on && "ring-2 ring-[#0066FF]", current && "bg-[#0066FF] text-white")}>
+                  <span className={cn("flex size-9 shrink-0 items-center justify-center rounded-full bg-white text-[#0F766E] lg:size-10", on && "ring-2 ring-[#0F766E]", current && "bg-[#0F766E] text-white")}>
                     <Icon className="size-4" />
                   </span>
                   <span className="min-w-0">
@@ -237,7 +228,7 @@ export function LabBrowse() {
         <p className="py-10 text-center text-sm text-[#8b93a7]">Yuklanmoqda…</p>
       ) : labs.length === 0 ? (
         <div className="rounded-[18px] border border-[#eceff5] bg-white px-6 py-14 text-center shadow-[0_4px_14px_rgba(15,23,42,0.04)]" data-testid="no-labs">
-          <span className="mx-auto grid size-14 place-items-center rounded-full bg-[#eef4ff] text-[#0066FF]"><FlaskConical className="size-6" /></span>
+          <span className="mx-auto grid size-14 place-items-center rounded-full bg-[#eef4ff] text-[#0F766E]"><FlaskConical className="size-6" /></span>
           <p className="mt-4 text-[16px] font-semibold text-[#1a1d26]">Hali e’lon yo‘q</p>
           <p className="mx-auto mt-1 max-w-sm text-sm text-[#8b93a7]">Hozircha tasdiqlangan laboratoriya yo‘q. Laboratoriyangiz bo‘lsa, profilingizni joylang.</p>
           <Link href="/laboratoriya/yangi" className={cn(buttonVariants(), "mt-5 inline-flex h-12 min-w-[200px] !rounded-2xl text-[14px] font-semibold")}>Laboratoriya sifatida e’lon berish</Link>
@@ -246,7 +237,7 @@ export function LabBrowse() {
         <div className="rounded-2xl border border-[#eceff5] bg-white px-4 py-12 text-center">
           <p className="text-[14px] font-semibold text-[#1a1d26]">Laboratoriya topilmadi</p>
           <p className="mt-1 text-[13px] text-[#8b93a7]">Filtrlarni o‘zgartiring yoki tozalang.</p>
-          <button type="button" onClick={clear} className="mt-4 inline-flex h-11 items-center justify-center rounded-2xl bg-[#0066FF] px-5 text-[14px] font-semibold text-white">Filtrlarni tozalash</button>
+          <button type="button" onClick={clear} className="mt-4 inline-flex h-11 items-center justify-center rounded-2xl bg-[#0F766E] px-5 text-[14px] font-semibold text-white">Filtrlarni tozalash</button>
         </div>
       ) : (
         <ul className="grid grid-cols-1 gap-3 sm:grid-cols-2 xl:grid-cols-4" data-testid="lab-list">
@@ -260,14 +251,14 @@ export function LabBrowse() {
 
       <section className="mt-5 grid gap-3 sm:grid-cols-2">
         <Link href="/laboratoriya/yangi" className="flex items-center gap-3 rounded-2xl border border-[#eceff5] bg-white px-3.5 py-3.5 lg:hidden">
-          <span className="grid size-10 shrink-0 place-items-center rounded-xl bg-[#e8f1ff] text-[#0066FF]"><Building2 className="size-4" /></span>
+          <span className="grid size-10 shrink-0 place-items-center rounded-xl bg-[#F0FDFA] text-[#0F766E]"><Building2 className="size-4" /></span>
           <span className="min-w-0 leading-tight">
             <span className="block text-[13px] font-bold text-[#1a1d26]">Lab qo‘shish</span>
             <span className="mt-0.5 block text-[12px] text-[#8b93a7]">Profil va buyurtmalarni qabul qilish</span>
           </span>
         </Link>
         <Link href="/marketplace?cat=laboratoriya" className="flex items-center gap-3 rounded-2xl border border-[#eceff5] bg-white px-3.5 py-3.5">
-          <span className="grid size-10 shrink-0 place-items-center rounded-xl bg-[#e8f1ff] text-[#0066FF]"><Box className="size-4" /></span>
+          <span className="grid size-10 shrink-0 place-items-center rounded-xl bg-[#F0FDFA] text-[#0F766E]"><Box className="size-4" /></span>
           <span className="min-w-0 flex-1 leading-tight">
             <span className="block text-[13px] font-bold text-[#1a1d26]">Materiallar va ehtiyot qismlar</span>
             <span className="mt-0.5 block text-[12px] text-[#8b93a7]">Marketplace-ga o‘tish</span>
@@ -308,7 +299,7 @@ function LabCard({ lab, onOpen, onOrder }: { lab: Lab; onOpen: () => void; onOrd
             <Image src={lab.photo} alt="" fill sizes="44px" className="object-cover" />
           </span>
         ) : (
-          <span className="flex size-11 shrink-0 items-center justify-center rounded-xl bg-[#e8f1ff] text-[12px] font-bold text-[#0066FF]">{initialsOf(lab.name)}</span>
+          <span className="flex size-11 shrink-0 items-center justify-center rounded-xl bg-[#F0FDFA] text-[12px] font-bold text-[#0F766E]">{initialsOf(lab.name)}</span>
         )}
         <span className="min-w-0 flex-1">
           <span className="block truncate text-[14px] font-semibold text-[#1a1d26]">{lab.name}</span>
@@ -328,7 +319,7 @@ function LabCard({ lab, onOpen, onOrder }: { lab: Lab; onOpen: () => void; onOrd
         {lab.done > 0 ? <span>{lab.done} ta yetkazilgan</span> : null}
       </div>
       <div className="mt-auto flex items-center gap-3 pt-3">
-        <button type="button" onClick={onOpen} className="text-[13px] font-semibold text-[#0066FF] hover:underline">Batafsil</button>
+        <button type="button" onClick={onOpen} className="text-[13px] font-semibold text-[#0F766E] hover:underline">Batafsil</button>
         {lab.mine ? (
           <span className="text-[12px] font-semibold text-[#8b93a7]">Sizning laboratoriyangiz</span>
         ) : (
@@ -452,7 +443,7 @@ export function OrderForm({ labs, preselectLabId, presetService, presetNote, onS
       </FormField>
       <div className="flex justify-end gap-2 pt-2">
         <Button type="button" variant="outline" className="h-11 !rounded-xl" onClick={onCancel}>Bekor qilish</Button>
-        <Button type="submit" className="h-11 !rounded-xl bg-[#0066FF]" disabled={busy || candidates.length === 0}>{busy ? "Yuborilmoqda…" : "Buyurtma berish"}</Button>
+        <Button type="submit" className="h-11 !rounded-xl bg-[#0F766E]" disabled={busy || candidates.length === 0}>{busy ? "Yuborilmoqda…" : "Buyurtma berish"}</Button>
       </div>
     </form>
   );
@@ -461,7 +452,7 @@ export function OrderForm({ labs, preselectLabId, presetService, presetNote, onS
 function FilterPill({ icon: Icon, value, onChange, children }: { icon: typeof Wrench; value: string; onChange: (value: string) => void; children: ReactNode }) {
   return (
     <label className="relative inline-flex h-11 shrink-0 items-center gap-2 rounded-full border border-[#e6eaf2] bg-white pr-8 pl-3 lg:h-10">
-      <Icon className="size-4 text-[#0066FF]" />
+      <Icon className="size-4 text-[#0F766E]" />
       <select value={value} onChange={(e) => onChange(e.target.value)} className="appearance-none bg-transparent text-sm font-medium text-[#4b5568] outline-none">
         {children}
       </select>
@@ -484,7 +475,7 @@ export function Modal({ title, onClose, children }: { title: string; onClose: ()
         <div className="mx-auto mb-3 h-1 w-10 rounded-full bg-[#e6eaf2] sm:hidden" />
         <div className="mb-4 flex items-center justify-between gap-3">
           <h2 id="lab-modal-title" className="text-[17px] font-bold text-[#1a1d26]">{title}</h2>
-          <button type="button" onClick={onClose} className="inline-flex h-10 items-center rounded-xl px-3 text-sm font-semibold text-[#0066FF]">Yopish</button>
+          <button type="button" onClick={onClose} className="inline-flex h-10 items-center rounded-xl px-3 text-sm font-semibold text-[#0F766E]">Yopish</button>
         </div>
         {children}
       </div>

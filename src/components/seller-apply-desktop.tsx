@@ -40,7 +40,7 @@ import { cn } from "@/lib/utils";
 import { MARKETPLACE_COMMISSION_PERCENT } from "@/lib/commission";
 
 const inputCls =
-  "h-11 w-full rounded-xl border border-[#e3e8f1] bg-white px-3.5 text-[14px] text-[#1a1d26] outline-none transition placeholder:text-[#a3abbd] focus:border-[#0066FF] focus:ring-3 focus:ring-[#0066FF]/15";
+  "h-11 w-full rounded-xl border border-[#e3e8f1] bg-white px-3.5 text-[14px] text-[#1a1d26] outline-none transition placeholder:text-[#a3abbd] focus:border-[#0F766E] focus:ring-3 focus:ring-[#0F766E]/15";
 
 const steps = [
   { n: 1, title: "Ariza", sub: "Ma’lumotlarni kiriting" },
@@ -157,7 +157,7 @@ function DocBlock({
       <div className="mt-3 flex items-center gap-3">
         <label
           className={cn(
-            "inline-flex h-10 cursor-pointer items-center gap-2 rounded-xl border border-[#cfe0ff] bg-white px-4 text-[13.5px] font-semibold text-[#0066FF] transition hover:bg-[#eef4ff]",
+            "inline-flex h-10 cursor-pointer items-center gap-2 rounded-xl border border-[#99F6E4] bg-white px-4 text-[13.5px] font-semibold text-[#0F766E] transition hover:bg-[#eef4ff]",
             uploading && "pointer-events-none opacity-60",
           )}
         >
@@ -179,7 +179,7 @@ function DocBlock({
         <ul className="mt-3 space-y-1.5">
           {mine.map((doc) => (
             <li key={doc.path} className="flex items-center gap-2 rounded-lg bg-white px-2.5 py-1.5 text-[12.5px] text-[#1a1d26]">
-              <FileText className="size-4 shrink-0 text-[#0066FF]" />
+              <FileText className="size-4 shrink-0 text-[#0F766E]" />
               <span className="min-w-0 flex-1 truncate">{doc.name.slice(label.length + 2)}</span>
               <span className="shrink-0 text-[11px] text-[#8b93a7]">{Math.max(1, Math.round(doc.size / 1024))} KB</span>
               <button type="button" aria-label="Olib tashlash" className="shrink-0 rounded p-0.5 text-[#8b93a7] hover:text-[#ef4444]" onClick={() => removeDoc(doc.path)}>
@@ -226,7 +226,7 @@ export function SellerApplyDesktopView({
     <div className="grid grid-cols-[minmax(0,1fr)_340px] items-start gap-6 xl:grid-cols-[minmax(0,1fr)_380px]">
       <div className="min-w-0">
         <nav className="flex items-center gap-1 text-[12.5px] text-[#8b93a7]">
-          <Link href="/marketplace" className="hover:text-[#0066FF]">Marketplace</Link>
+          <Link href="/marketplace" className="hover:text-[#0F766E]">Marketplace</Link>
           <ChevronRight className="size-3.5" />
           <span>Sotuvchi</span>
           <ChevronRight className="size-3.5" />
@@ -236,7 +236,7 @@ export function SellerApplyDesktopView({
         <p className="mt-1 text-[14px] text-[#6b7280]">
           Stomatologik material, jihoz va xizmatlaringizni minglab mutaxassislarga soting.
         </p>
-        <p className="mt-2 inline-flex rounded-full bg-[#eaf2ff] px-3 py-1 text-[12.5px] font-semibold text-[#0052cc]">
+        <p className="mt-2 inline-flex rounded-full bg-[#F0FDFA] px-3 py-1 text-[12.5px] font-semibold text-[#115E59]">
           Platforma komissiyasi: {MARKETPLACE_COMMISSION_PERCENT}% (faqat yakunlangan buyurtmadan, do‘kon ochish bepul)
         </p>
 
@@ -246,13 +246,13 @@ export function SellerApplyDesktopView({
               <span
                 className={cn(
                   "flex size-9 shrink-0 items-center justify-center rounded-full text-[14px] font-bold",
-                  i === 0 ? "bg-[#0066FF] text-white shadow-[0_4px_10px_rgba(0,102,255,0.3)]" : "bg-[#eef1f6] text-[#8b93a7]",
+                  i === 0 ? "bg-[#0F766E] text-white shadow-[0_4px_10px_rgba(15,118,110,0.3)]" : "bg-[#eef1f6] text-[#8b93a7]",
                 )}
               >
                 {s.n}
               </span>
               <span className="min-w-0">
-                <span className={cn("block text-[14px] font-bold", i === 0 ? "text-[#0066FF]" : "text-[#4b5568]")}>{s.title}</span>
+                <span className={cn("block text-[14px] font-bold", i === 0 ? "text-[#0F766E]" : "text-[#4b5568]")}>{s.title}</span>
                 <span className="block truncate text-[12px] text-[#8b93a7]">{s.sub}</span>
               </span>
               {i < steps.length - 1 ? <span className="absolute -right-2 top-1/2 h-px w-4 -translate-y-1/2 bg-[#dfe4ee]" aria-hidden="true" /> : null}
@@ -269,7 +269,7 @@ export function SellerApplyDesktopView({
               </label>
               <label className="block">
                 <Label required>Telefon</Label>
-                <div className="flex h-11 overflow-hidden rounded-xl border border-[#e3e8f1] bg-white transition focus-within:border-[#0066FF] focus-within:ring-3 focus-within:ring-[#0066FF]/15">
+                <div className="flex h-11 overflow-hidden rounded-xl border border-[#e3e8f1] bg-white transition focus-within:border-[#0F766E] focus-within:ring-3 focus-within:ring-[#0F766E]/15">
                   <span className="flex items-center gap-1.5 border-r border-[#e3e8f1] bg-[#f7f9fc] px-3 text-[14px] font-medium text-[#4b5568]">
                     <span className="flex h-3.5 w-5 flex-col overflow-hidden rounded-[2px] border border-black/10" aria-hidden="true">
                       <span className="h-1/3 bg-[#1eb53a]" />
@@ -379,19 +379,19 @@ export function SellerApplyDesktopView({
               <span
                 className={cn(
                   "mt-0.5 flex size-5 shrink-0 items-center justify-center rounded-md border transition",
-                  agreed ? "border-[#0066FF] bg-[#0066FF] text-white" : "border-[#c9d1e0] bg-white",
+                  agreed ? "border-[#0F766E] bg-[#0F766E] text-white" : "border-[#c9d1e0] bg-white",
                 )}
               >
                 {agreed ? <Check className="size-3.5" strokeWidth={3} /> : null}
               </span>
               <span>
-                Men <span className="font-semibold text-[#0066FF]">platforma shartlari</span> va{" "}
-                <span className="font-semibold text-[#0066FF]">maxfiylik siyosati</span> bilan tanishdim va roziman.
+                Men <span className="font-semibold text-[#0F766E]">platforma shartlari</span> va{" "}
+                <span className="font-semibold text-[#0F766E]">maxfiylik siyosati</span> bilan tanishdim va roziman.
               </span>
             </label>
             <button
               type="submit"
-              className="inline-flex h-12 shrink-0 items-center gap-2 rounded-xl bg-[#0066FF] px-8 text-[15px] font-bold text-white shadow-[0_8px_18px_rgba(0,102,255,0.28)] transition hover:bg-[#0058dd]"
+              className="inline-flex h-12 shrink-0 items-center gap-2 rounded-xl bg-[#0F766E] px-8 text-[15px] font-bold text-white shadow-[0_8px_18px_rgba(15,118,110,0.28)] transition hover:bg-[#115E59]"
             >
               Ariza yuborish
               <ArrowRight className="size-4.5" />
@@ -401,7 +401,7 @@ export function SellerApplyDesktopView({
       </div>
 
       <aside className="min-w-0 space-y-4 pt-[26px]">
-        <div className="relative overflow-hidden rounded-2xl bg-gradient-to-br from-[#0b4fd6] via-[#0066FF] to-[#3b8bff] p-6 text-white shadow-[0_10px_28px_rgba(0,102,255,0.25)]">
+        <div className="relative overflow-hidden rounded-2xl bg-gradient-to-br from-[#0b4fd6] via-[#0F766E] to-[#3b8bff] p-6 text-white shadow-[0_10px_28px_rgba(15,118,110,0.25)]">
           <div className="relative z-10 max-w-[210px]">
             <h3 className="text-[19px] font-extrabold leading-snug">Sizning mahsulotlaringiz minglab mutaxassislarga yetib boradi</h3>
           </div>
@@ -434,7 +434,7 @@ export function SellerApplyDesktopView({
           <div className="mt-3.5 grid grid-cols-4 gap-2">
             {categories.map(({ label, icon: Icon }) => (
               <div key={label} className="flex flex-col items-center gap-1.5 rounded-xl border border-[#eef1f6] bg-[#fafbfe] px-1 py-3 text-center">
-                <span className="flex size-9 items-center justify-center rounded-xl bg-[#eaf2ff] text-[#0066FF]">
+                <span className="flex size-9 items-center justify-center rounded-xl bg-[#F0FDFA] text-[#0F766E]">
                   <Icon className="size-[18px]" />
                 </span>
                 <span className="text-[10.5px] font-medium leading-tight text-[#4b5568]">{label}</span>
@@ -456,7 +456,7 @@ export function SellerApplyDesktopView({
             </ul>
             <div className="hidden w-[118px] shrink-0 xl:block" aria-hidden="true">
               <div className="rounded-t-lg border-[3px] border-[#1a1d26] bg-white p-1.5">
-                <div className="mb-1 h-1.5 w-8 rounded bg-[#0066FF]" />
+                <div className="mb-1 h-1.5 w-8 rounded bg-[#0F766E]" />
                 <div className="flex h-10 items-end gap-1">
                   {[40, 65, 50, 85, 70, 95].map((h, i) => (
                     <span key={i} className="flex-1 rounded-sm bg-[#7fb0ff]" style={{ height: `${h}%` }} />
@@ -469,8 +469,8 @@ export function SellerApplyDesktopView({
           </div>
         </section>
 
-        <section className="flex items-center gap-4 rounded-2xl border border-[#d7e4ff] bg-[#f5f9ff] p-5">
-          <span className="flex size-12 shrink-0 items-center justify-center rounded-full bg-[#0066FF] text-white">
+        <section className="flex items-center gap-4 rounded-2xl border border-[#CCFBF1] bg-[#F0FDFA] p-5">
+          <span className="flex size-12 shrink-0 items-center justify-center rounded-full bg-[#0F766E] text-white">
             <Headphones className="size-6" />
           </span>
           <div className="min-w-0 flex-1">
@@ -481,7 +481,7 @@ export function SellerApplyDesktopView({
             href={site.telegram}
             target="_blank"
             rel="noreferrer"
-            className="inline-flex h-10 shrink-0 items-center gap-1.5 rounded-xl border border-[#cfe0ff] bg-white px-3.5 text-[13px] font-semibold text-[#0066FF] hover:bg-[#eef4ff]"
+            className="inline-flex h-10 shrink-0 items-center gap-1.5 rounded-xl border border-[#99F6E4] bg-white px-3.5 text-[13px] font-semibold text-[#0F766E] hover:bg-[#eef4ff]"
           >
             <MessageCircle className="size-4" />
             Qo‘llab-quvvatlash

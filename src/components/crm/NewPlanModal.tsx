@@ -25,13 +25,13 @@ export const PLAN_SERVICES: { name: string; price: number }[] = [
   { name: "Ortodontik davolash", price: 3_000_000 },
 ];
 const STATUSES: { value: TreatmentPlan["status"]; label: string; color: string }[] = [
-  { value: "reja", label: "Reja qilingan", color: "#3b82f6" },
+  { value: "reja", label: "Reja qilingan", color: "#0F766E" },
   { value: "davom", label: "Davom etmoqda", color: "#f59e0b" },
   { value: "yakun", label: "Yakunlangan", color: "#16a34a" },
 ];
 const DURATIONS = ["1 kun", "1 hafta", "1-2 hafta", "2-4 hafta", "1-2 oy", "2-3 oy", "3-6 oy"];
 const DISCOUNTS = [0, 5, 10, 15, 20, 25, 30];
-const STAGE_COLORS = ["#2563eb", "#22c55e", "#f59e0b", "#8b5cf6", "#ef4444"];
+const STAGE_COLORS = ["#0F766E", "#22c55e", "#f59e0b", "#8b5cf6", "#ef4444"];
 const LEGEND: { id: ToothState; label: string; mark?: "ring" | "dash" }[] = [
   { id: "soglom", label: "Sog‘lom tish", mark: "ring" },
   { id: "kariyes", label: "Karies" },
@@ -255,7 +255,7 @@ export function NewPlanModal({ onClose, onSave }: { onClose: () => void; onSave:
     }, asTemplate);
   }
 
-  const statusColor = STATUSES.find((item) => item.value === status)?.color ?? "#3b82f6";
+  const statusColor = STATUSES.find((item) => item.value === status)?.color ?? "#0F766E";
 
   return (
     <CmDialog

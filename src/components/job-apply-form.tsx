@@ -95,7 +95,7 @@ export function JobApplyForm({ job, onCancel, onSuccess, focusNote }: { job: Job
         <Button type="button" variant="outline" className="h-11 rounded-xl" onClick={onCancel}>
           Bekor
         </Button>
-        <Button type="submit" disabled={busy} className="h-11 rounded-xl bg-[#0066FF]">
+        <Button type="submit" disabled={busy} className="h-11 rounded-xl bg-[#0F766E]">
           {busy ? "Yuborilmoqda…" : "Ariza yuborish"}
         </Button>
       </div>

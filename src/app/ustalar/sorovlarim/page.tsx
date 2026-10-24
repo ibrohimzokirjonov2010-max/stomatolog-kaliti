@@ -49,7 +49,7 @@ function Inner() {
     <div>
       <header className="mb-4">
         <p className="text-[13px] text-[#8b93a7]">
-          <Link href="/ustalar" className="text-[#0066FF] hover:underline">
+          <Link href="/ustalar" className="text-[#0F766E] hover:underline">
             Ustalar
           </Link>
           <span className="mx-1">/</span>
@@ -70,7 +70,7 @@ function Inner() {
               role="tab"
               aria-selected={tab === id}
               onClick={() => router.replace(id === "kelgan" ? "/ustalar/sorovlarim?tab=kelgan" : "/ustalar/sorovlarim", { scroll: false })}
-              className={cn("h-10 rounded-full px-4 text-[13px] font-semibold", tab === id ? "bg-white text-[#0066FF] shadow-sm" : "text-[#6b7280]")}
+              className={cn("h-10 rounded-full px-4 text-[13px] font-semibold", tab === id ? "bg-white text-[#0F766E] shadow-sm" : "text-[#6b7280]")}
             >
               {label}
             </button>
@@ -155,16 +155,16 @@ function RequestRow({ item, incoming, busy, onStatus }: { item: UstaRequest; inc
       ) : null}
       {incoming ? (
         <p className="mt-1 text-[12.5px] text-[#4b5568]">
-          <a href={phoneHref(item.phone)} className="font-semibold text-[#0066FF]">{item.phone}</a>
+          <a href={phoneHref(item.phone)} className="font-semibold text-[#0F766E]">{item.phone}</a>
         </p>
       ) : item.masterPhone ? (
         <p className="mt-2 flex flex-wrap items-center gap-2 text-[13px]" data-testid="master-phone">
-          <a href={phoneHref(item.masterPhone)} className="inline-flex items-center gap-1.5 rounded-full bg-[#eef4ff] px-3 py-1.5 font-semibold text-[#0066FF]">
+          <a href={phoneHref(item.masterPhone)} className="inline-flex items-center gap-1.5 rounded-full bg-[#eef4ff] px-3 py-1.5 font-semibold text-[#0F766E]">
             <Phone className="size-3.5" />
             {item.masterPhone}
           </a>
           {item.masterTelegram ? (
-            <a href={telegramHref(item.masterTelegram)} target="_blank" rel="noreferrer" className="inline-flex items-center gap-1.5 rounded-full bg-[#eef4ff] px-3 py-1.5 font-semibold text-[#0066FF]">
+            <a href={telegramHref(item.masterTelegram)} target="_blank" rel="noreferrer" className="inline-flex items-center gap-1.5 rounded-full bg-[#eef4ff] px-3 py-1.5 font-semibold text-[#0F766E]">
               <Send className="size-3.5" />
               Telegram
             </a>

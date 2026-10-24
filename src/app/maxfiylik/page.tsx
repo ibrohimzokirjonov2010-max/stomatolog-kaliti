@@ -89,18 +89,18 @@ export default async function MaxfiylikPage() {
           <li>Ular sotilmaydi, reklama maqsadida ishlatilmaydi va uchinchi tomonlarga reklama/ma’lumot brokerlik uchun berilmaydi.</li>
           <li>
             Platformaning Google API’dan olingan ma’lumotlarni ishlatishi va boshqa ilovaga uzatishi{" "}
-            <a className="font-semibold text-[#0066FF] hover:underline" href="https://developers.google.com/terms/api-services-user-data-policy" target="_blank" rel="noreferrer">
+            <a className="font-semibold text-[#0F766E] hover:underline" href="https://developers.google.com/terms/api-services-user-data-policy" target="_blank" rel="noreferrer">
               Google API Services User Data Policy
             </a>
             ga, jumladan uning “Limited Use” (cheklangan foydalanish) talablariga muvofiq.
           </li>
           <li>
             Google hisobingizdan platformaga berilgan ruxsatni istalgan vaqtda{" "}
-            <a className="font-semibold text-[#0066FF] hover:underline" href="https://myaccount.google.com/permissions" target="_blank" rel="noreferrer">
+            <a className="font-semibold text-[#0F766E] hover:underline" href="https://myaccount.google.com/permissions" target="_blank" rel="noreferrer">
               myaccount.google.com/permissions
             </a>{" "}
             sahifasida bekor qilishingiz mumkin. Platformadagi ma’lumotlarni o‘chirish uchun{" "}
-            <Link className="font-semibold text-[#0066FF] hover:underline" href="/hisobni-ochirish">
+            <Link className="font-semibold text-[#0F766E] hover:underline" href="/hisobni-ochirish">
               so‘rov yuboring
             </Link>
             .
@@ -173,7 +173,7 @@ export default async function MaxfiylikPage() {
         </Ul>
         <p>
           So‘rov yuborish:{" "}
-          <Link className="font-semibold text-[#0066FF] hover:underline" href="/hisobni-ochirish">
+          <Link className="font-semibold text-[#0F766E] hover:underline" href="/hisobni-ochirish">
             /hisobni-ochirish
           </Link>
           . Administrator so‘rovni ko‘rib chiqadi, kerak bo‘lsa shaxsingizni tasdiqlashni so‘raydi va natijani bildirishnoma orqali xabar qiladi.

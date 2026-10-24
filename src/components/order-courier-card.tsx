@@ -63,11 +63,11 @@ export function OrderCourierCard({ order }: { order: Order }) {
     <section className="overflow-hidden rounded-[20px] border border-[#eceff5] bg-white shadow-[0_1px_3px_rgba(15,23,42,0.04)]" data-testid="courier-card">
       <div className="flex items-center justify-between gap-2 px-4 pt-4 sm:px-5">
         <h2 className="text-[15px] font-semibold text-[#1a1d26]">Kuryer</h2>
-        <span className="rounded-full bg-[#e8f1ff] px-2.5 py-0.5 text-[11px] font-semibold text-[#0066FF]">Yandex kuryer</span>
+        <span className="rounded-full bg-[#F0FDFA] px-2.5 py-0.5 text-[11px] font-semibold text-[#0F766E]">Yandex kuryer</span>
       </div>
 
       <div className="flex items-center gap-3 px-4 py-3.5 sm:px-5">
-        <span className="flex size-11 shrink-0 items-center justify-center rounded-full bg-gradient-to-br from-[#0066FF] to-[#3b82f6] text-[15px] font-bold text-white shadow-[0_4px_12px_rgba(0,102,255,0.25)]">
+        <span className="flex size-11 shrink-0 items-center justify-center rounded-full bg-gradient-to-br from-[#0F766E] to-[#0F766E] text-[15px] font-bold text-white shadow-[0_4px_12px_rgba(15,118,110,0.25)]">
           {name ? name[0].toUpperCase() : <Bike className="size-5" />}
         </span>
         <div className="min-w-0 flex-1">
@@ -83,7 +83,7 @@ export function OrderCourierCard({ order }: { order: Order }) {
         {phone ? (
           <a
             href={`tel:${phone.replace(/[^\d+]/g, "")}`}
-            className="inline-flex h-10 shrink-0 items-center gap-1.5 rounded-full bg-[#0066FF] px-4 text-[13px] font-semibold text-white shadow-[0_6px_14px_rgba(0,102,255,0.25)] hover:bg-[#0058dd]"
+            className="inline-flex h-10 shrink-0 items-center gap-1.5 rounded-full bg-[#0F766E] px-4 text-[13px] font-semibold text-white shadow-[0_6px_14px_rgba(15,118,110,0.25)] hover:bg-[#115E59]"
           >
             <Phone className="size-3.5" />
             Qo‘ng‘iroq
@@ -94,7 +94,7 @@ export function OrderCourierCard({ order }: { order: Order }) {
       <div className="border-t border-[#f0f3f8] px-4 py-3.5 sm:px-5">
         <div className="flex items-center justify-between gap-2">
           <p className="flex items-center gap-1.5 text-[12.5px] font-semibold text-[#1a1d26]">
-            <MapPin className="size-3.5 text-[#0066FF]" />
+            <MapPin className="size-3.5 text-[#0F766E]" />
             {delivered ? "Oxirgi joylashuv" : "Kuryer qayerda"}
           </p>
           {when ? <span className="text-[11.5px] text-[#8b93a7]">Yangilangan: {when}</span> : null}
@@ -109,9 +109,9 @@ export function OrderCourierCard({ order }: { order: Order }) {
             href={mapLink}
             target="_blank"
             rel="noopener noreferrer"
-            className="mt-2.5 inline-flex h-10 w-full items-center justify-center gap-1.5 rounded-xl border border-[#e2e8f0] bg-white text-[13px] font-semibold text-[#1a1d26] hover:border-[#0066FF]/40 hover:bg-[#f5f9ff]"
+            className="mt-2.5 inline-flex h-10 w-full items-center justify-center gap-1.5 rounded-xl border border-[#e2e8f0] bg-white text-[13px] font-semibold text-[#1a1d26] hover:border-[#0F766E]/40 hover:bg-[#F0FDFA]"
           >
-            <Navigation className="size-3.5 text-[#0066FF]" />
+            <Navigation className="size-3.5 text-[#0F766E]" />
             Xaritada ochish
           </a>
         ) : (

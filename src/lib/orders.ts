@@ -418,11 +418,11 @@ export function statusBadgeClass(status: OrderStatus): string {
     case "pending_accept":
       return "bg-amber-50 text-amber-800 ring-amber-200/80";
     case "qabul_qilindi":
-      return "bg-[#e8f1ff] text-[#0066FF] ring-[#bfdbfe]";
+      return "bg-[#F0FDFA] text-[#0F766E] ring-[#99F6E4]";
     case "yigilmoqda":
-      return "bg-sky-50 text-sky-800 ring-sky-200/80";
+      return "bg-[#F0FDFA] text-[#115E59] ring-[#99F6E4]/80";
     case "yigish_tugadi":
-      return "bg-indigo-50 text-indigo-800 ring-indigo-200/80";
+      return "bg-[#F0FDFA] text-[#115E59] ring-[#99F6E4]/80";
     case "yolda":
       return "bg-violet-50 text-violet-800 ring-violet-200/80";
     case "yetkazildi":

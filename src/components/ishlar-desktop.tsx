@@ -45,7 +45,6 @@ import {
   jobCategoryOf,
   jobCategoryLabels,
 } from "@/data/jobs";
-import { IshlarMobileHero } from "@/components/ishlar-mobile-hero";
 import { formatMoney, formatSalaryRange } from "@/lib/format";
 import type { JobApplication } from "@/lib/jobs-work";
 import { ClinicInitials } from "@/components/clinic-initials";
@@ -157,7 +156,7 @@ function Select({
 
 function Stat({ icon: Icon, value, label, tone }: { icon: LucideIcon; value: number; label: string; tone: "blue" | "green" | "orange" }) {
   const toneCls = {
-    blue: "bg-[#eaf2ff] text-[#0066FF]",
+    blue: "bg-[#F0FDFA] text-[#0F766E]",
     green: "bg-[#e6f7ee] text-[#16a34a]",
     orange: "bg-[#fff1e0] text-[#f08a1c]",
   }[tone];
@@ -199,7 +198,7 @@ function Actions({ job, applied, onApply, compact }: { job: Job; applied: boolea
       <Link
         href={jobHref(job.id)}
         className={cn(
-          "inline-flex items-center justify-center rounded-xl border border-[#cfe0ff] bg-white font-semibold text-[#0066FF] hover:bg-[#f2f7ff]",
+          "inline-flex items-center justify-center rounded-xl border border-[#99F6E4] bg-white font-semibold text-[#0F766E] hover:bg-[#F0FDFA]",
           compact ? "h-8 px-3 text-[12.5px]" : "h-10 px-5 text-[14px]",
         )}
       >
@@ -215,7 +214,7 @@ function Actions({ job, applied, onApply, compact }: { job: Job; applied: boolea
           type="button"
           onClick={onApply}
           className={cn(
-            "inline-flex items-center justify-center gap-1.5 rounded-xl bg-[#0066FF] font-semibold text-white shadow-[0_4px_12px_rgba(0,102,255,0.25)] hover:bg-[#0058dd]",
+            "inline-flex items-center justify-center gap-1.5 rounded-xl bg-[#0F766E] font-semibold text-white shadow-[0_4px_12px_rgba(15,118,110,0.25)] hover:bg-[#115E59]",
             compact ? "h-8 px-3 text-[12.5px]" : "h-10 px-5 text-[14px]",
           )}
         >
@@ -310,26 +309,17 @@ export function IshlarDesktop({
   return (
     <div className="space-y-3">
       <nav className="flex items-center gap-1 text-[12.5px] text-[#8b93a7]">
-        <Link href="/" className="hover:text-[#0066FF]">Bosh sahifa</Link>
+        <Link href="/" className="hover:text-[#0F766E]">Bosh sahifa</Link>
         <ChevronRight className="size-3.5" />
         <span className="text-[#4b5568]">Ishlar</span>
       </nav>
-
-      {/* Same promo slider as on phones (shared PromoSlider). */}
-      <IshlarMobileHero
-        onSegment={(c) => {
-          setSegment(c);
-          document.getElementById("vakansiyalar")?.scrollIntoView({ behavior: "smooth", block: "start" });
-        }}
-        onPost={onPost}
-      />
 
       <header className="flex items-center justify-between gap-4">
         <div>
           <h1 className="text-[24px] leading-tight font-extrabold tracking-tight text-[#0B1F4D]">Ishlar</h1>
           <p className="mt-0.5 flex items-center gap-3 text-[13px] text-[#6b7280]">
             Stomatologlar va klinika xodimlari uchun vakansiyalar
-            <Link href="/ishlar/arizalarim" className="inline-flex items-center gap-1 text-[12.5px] font-semibold text-[#0066FF] hover:underline">
+            <Link href="/ishlar/arizalarim" className="inline-flex items-center gap-1 text-[12.5px] font-semibold text-[#0F766E] hover:underline">
               <ClipboardList className="size-3.5" />
               Mening arizalarim
             </Link>
@@ -338,14 +328,14 @@ export function IshlarDesktop({
         <div className="flex gap-2.5">
           <Link
             href="/ishlar/vakansiyalarim"
-            className="inline-flex h-10 items-center gap-2 rounded-xl px-4 text-[14px] font-semibold text-[#0B1F4D] hover:bg-[#f2f7ff]"
+            className="inline-flex h-10 items-center gap-2 rounded-xl px-4 text-[14px] font-semibold text-[#0B1F4D] hover:bg-[#F0FDFA]"
           >
             Mening vakansiyalarim
           </Link>
           <button
             type="button"
             onClick={onPost}
-            className="inline-flex h-10 items-center gap-2 rounded-xl border border-[#0066FF] bg-white px-5 text-[14px] font-semibold text-[#0066FF] hover:bg-[#f2f7ff]"
+            className="inline-flex h-10 items-center gap-2 rounded-xl border border-[#0F766E] bg-white px-5 text-[14px] font-semibold text-[#0F766E] hover:bg-[#F0FDFA]"
           >
             <Plus className="size-4" />
             Vakansiya joylash
@@ -353,7 +343,7 @@ export function IshlarDesktop({
           <button
             type="button"
             onClick={onResume}
-            className="inline-flex h-10 items-center gap-2 rounded-xl bg-[#0066FF] px-5 text-[14px] font-semibold text-white shadow-[0_4px_12px_rgba(0,102,255,0.28)] hover:bg-[#0058dd]"
+            className="inline-flex h-10 items-center gap-2 rounded-xl bg-[#0F766E] px-5 text-[14px] font-semibold text-white shadow-[0_4px_12px_rgba(15,118,110,0.28)] hover:bg-[#115E59]"
           >
             <Upload className="size-4" />
             Rezyume joylash
@@ -368,12 +358,12 @@ export function IshlarDesktop({
           <Stat icon={Sparkles} value={stats.fresh} label="yangi vakansiya" tone="green" />
           <Stat icon={Globe} value={stats.remote} label="masofaviy ish" tone="orange" />
         </div>
-        <section className="relative flex h-[64px] items-center overflow-hidden rounded-xl bg-linear-to-r from-[#dcecff] to-[#eef6ff] pl-5">
+        <section className="relative flex h-[64px] items-center overflow-hidden rounded-xl bg-linear-to-r from-[#F0FDFA] to-[#eef6ff] pl-5">
           <div className="relative z-10 max-w-[210px]">
             <p className="text-[14px] leading-tight font-extrabold text-[#0B1F4D]">Orzuyingizdagi jamoani toping</p>
             <a
               href="#vakansiyalar"
-              className="mt-1 inline-flex h-6 items-center gap-1 rounded-md bg-[#0066FF] px-2.5 text-[11px] font-semibold text-white"
+              className="mt-1 inline-flex h-6 items-center gap-1 rounded-md bg-[#0F766E] px-2.5 text-[11px] font-semibold text-white"
             >
               Ko‘rish <ArrowRight className="size-3.5" />
             </a>
@@ -423,7 +413,7 @@ export function IshlarDesktop({
           type="button"
           onClick={clear}
           disabled={!filtersOn}
-          className="mb-2 shrink-0 px-2 text-[13px] font-semibold text-[#0066FF] hover:underline disabled:text-[#b4bccb] disabled:no-underline"
+          className="mb-2 shrink-0 px-2 text-[13px] font-semibold text-[#0F766E] hover:underline disabled:text-[#b4bccb] disabled:no-underline"
         >
           Filtrlarni tozalash
         </button>
@@ -439,8 +429,8 @@ export function IshlarDesktop({
               className={cn(
                 "h-8 rounded-full border px-3.5 text-[12.5px] font-semibold transition-colors",
                 pill === p.key
-                  ? "border-[#0066FF] bg-[#0066FF] text-white"
-                  : "border-[#e6eaf2] bg-white text-[#2b3447] hover:border-[#0066FF]/50",
+                  ? "border-[#0F766E] bg-[#0F766E] text-white"
+                  : "border-[#e6eaf2] bg-white text-[#2b3447] hover:border-[#0F766E]/50",
               )}
             >
               {p.label}
@@ -470,7 +460,7 @@ export function IshlarDesktop({
           <button
             type="button"
             onClick={() => setSegment("")}
-            className="inline-flex items-center gap-1 rounded-full bg-[#0066FF] px-3 py-1 text-[12.5px] font-semibold text-white"
+            className="inline-flex items-center gap-1 rounded-full bg-[#0F766E] px-3 py-1 text-[12.5px] font-semibold text-white"
           >
             {jobCategoryLabels[segment]} ×
           </button>
@@ -482,15 +472,15 @@ export function IshlarDesktop({
           {featured ? (
             <section>
               <h2 className="mb-2 text-[14px] font-bold text-[#0B1F4D]">Tanlangan vakansiya</h2>
-              <article className="relative overflow-hidden rounded-xl border border-[#d6e6ff] bg-linear-to-r from-[#eaf2ff] to-[#f5f9ff] p-3 shadow-[0_2px_10px_rgba(0,102,255,0.07)]">
+              <article className="relative overflow-hidden rounded-xl border border-[#CCFBF1] bg-linear-to-r from-[#F0FDFA] to-[#F0FDFA] p-3 shadow-[0_2px_10px_rgba(15,118,110,0.07)]">
                 <div className="grid grid-cols-[minmax(0,1fr)_120px] gap-3">
                   <div className="flex gap-3">
                     <ClinicLogo brand={featured.brand} name={featured.clinic} size={48} />
                     <div className="min-w-0 flex-1">
                       <div className="flex flex-wrap items-center gap-2">
                         <h3 className="flex items-center gap-1 text-[16px] leading-tight font-extrabold tracking-tight text-[#0B1F4D]">
-                          <Link href={jobHref(featured.id)} className="hover:text-[#0066FF]">{featured.title}</Link>
-                          {featured.verified ? <BadgeCheck className="size-4 fill-[#0066FF] text-white" /> : null}
+                          <Link href={jobHref(featured.id)} className="hover:text-[#0F766E]">{featured.title}</Link>
+                          {featured.verified ? <BadgeCheck className="size-4 fill-[#0F766E] text-white" /> : null}
                         </h3>
                         {featured.featured ? (
                           <span className="inline-flex items-center gap-1 rounded-md bg-[#fff1e0] px-1.5 py-[3px] text-[9.5px] leading-none font-bold tracking-wide text-[#f08a1c]">
@@ -498,12 +488,12 @@ export function IshlarDesktop({
                             TOP VAKANSIYA
                           </span>
                         ) : null}
-                        <span className="ml-auto text-[16px] font-extrabold text-[#0066FF]">{formatSalaryRange(featured.salaryMin, featured.salaryMax)}</span>
+                        <span className="ml-auto text-[16px] font-extrabold text-[#0F766E]">{formatSalaryRange(featured.salaryMin, featured.salaryMax)}</span>
                       </div>
                       <p className="mt-0.5 flex items-center gap-1.5 text-[12px] text-[#4b5568]">
                         {featured.clinic}
                         <span className="text-[#c5cad6]">•</span>
-                        <MapPin className="size-3 text-[#0066FF]" />
+                        <MapPin className="size-3 text-[#0F766E]" />
                         {featured.city}
                         <span className="text-[#c5cad6]">•</span>
                         <span className="truncate">{[jobTypeLabels[featured.type], experienceLabel(featured.experienceYears), ...featured.tags].slice(0, 3).join(" · ")}</span>
@@ -518,7 +508,7 @@ export function IshlarDesktop({
                     </div>
                   </div>
                   <div className="relative min-h-[96px] overflow-hidden rounded-lg">
-                    <Image src="/images/hero-dentist.png" alt="Klinika xonasi" fill sizes="120px" className="object-cover" />
+                    <Image src="/images/hero-dentist.png" alt="Klinika kabineti" fill sizes="120px" className="object-cover" />
                   </div>
                 </div>
               </article>
@@ -531,7 +521,7 @@ export function IshlarDesktop({
               <div className="rounded-2xl border border-[#eceff5] bg-white px-6 py-16 text-center">
                 <p className="font-semibold text-[#1a1d26]">{catalog.length === 0 ? "Hali e’lon yo‘q" : "Vakansiya topilmadi"}</p>
                 <p className="mt-1 text-sm text-[#8b93a7]">{catalog.length === 0 ? "Birinchi bo‘lib vakansiya joylang. E’lonlar admin tasdiqlagach ko‘rinadi." : "Filtrlarni o‘zgartiring yoki tozalang."}</p>
-                <button type="button" onClick={catalog.length === 0 ? onPost : clear} className="mt-4 inline-flex h-10 items-center rounded-xl bg-[#0066FF] px-5 text-sm font-semibold text-white">
+                <button type="button" onClick={catalog.length === 0 ? onPost : clear} className="mt-4 inline-flex h-10 items-center rounded-xl bg-[#0F766E] px-5 text-sm font-semibold text-white">
                   {catalog.length === 0 ? "Vakansiya joylash" : "Filtrlarni tozalash"}
                 </button>
               </div>
@@ -555,8 +545,8 @@ export function IshlarDesktop({
                       <ClinicLogo brand={job.brand} name={job.clinic} size={40} />
                       <div className="min-w-0 flex-1">
                         <h3 className="flex items-center gap-1 text-[14px] leading-tight font-bold text-[#0B1F4D]">
-                          <Link href={jobHref(job.id)} className="truncate hover:text-[#0066FF]">{job.title}</Link>
-                          {job.verified ? <BadgeCheck className="size-3.5 shrink-0 fill-[#0066FF] text-white" /> : null}
+                          <Link href={jobHref(job.id)} className="truncate hover:text-[#0F766E]">{job.title}</Link>
+                          {job.verified ? <BadgeCheck className="size-3.5 shrink-0 fill-[#0F766E] text-white" /> : null}
                           {job.postedLocal ? (
                             <span className="rounded-full bg-emerald-50 px-1.5 py-px text-[10px] font-semibold text-emerald-700">Faol</span>
                           ) : null}
@@ -569,7 +559,7 @@ export function IshlarDesktop({
                         </p>
                       </div>
                       <div className="flex shrink-0 items-start gap-1">
-                        <p className="pt-0.5 text-[14px] font-extrabold whitespace-nowrap text-[#0066FF]">{formatSalaryRange(job.salaryMin, job.salaryMax)}</p>
+                        <p className="pt-0.5 text-[14px] font-extrabold whitespace-nowrap text-[#0F766E]">{formatSalaryRange(job.salaryMin, job.salaryMax)}</p>
                         <button
                           type="button"
                           onClick={() => toggleSaved(job.id)}
@@ -599,7 +589,7 @@ export function IshlarDesktop({
           <section className="rounded-xl border border-[#eceff5] bg-white p-3 shadow-[0_2px_10px_rgba(15,23,42,0.04)]">
             <div className="mb-2 flex items-center justify-between">
               <h2 className="text-[14px] font-bold text-[#0B1F4D]">Talabgorlar</h2>
-              <button type="button" onClick={() => setAllPeople((v) => !v)} className="text-[13px] font-semibold text-[#0066FF] hover:underline">
+              <button type="button" onClick={() => setAllPeople((v) => !v)} className="text-[13px] font-semibold text-[#0F766E] hover:underline">
                 {allPeople ? "Yopish" : "Barchasini ko‘rish"}
               </button>
             </div>
@@ -610,19 +600,19 @@ export function IshlarDesktop({
                   {person.photo ? (
                     <Image src={person.photo} alt="" width={40} height={40} className="size-10 shrink-0 rounded-full object-cover object-top" />
                   ) : (
-                    <span className="grid size-10 shrink-0 place-items-center rounded-full bg-[#dbeafe] text-sm font-semibold text-[#0066FF]">
+                    <span className="grid size-10 shrink-0 place-items-center rounded-full bg-[#CCFBF1] text-sm font-semibold text-[#0F766E]">
                       {person.name.split(" ").map((s) => s[0]).join("").slice(0, 2)}
                     </span>
                   )}
                   <div className="min-w-0 flex-1">
                     <p className="flex items-center gap-1 text-[13px] font-bold text-[#0B1F4D]">
                       <span className="truncate">{person.mine ? "Mening rezyumem" : person.name}</span>
-                      {person.verified ? <BadgeCheck className="size-4 shrink-0 fill-[#0066FF] text-white" /> : null}
+                      {person.verified ? <BadgeCheck className="size-4 shrink-0 fill-[#0F766E] text-white" /> : null}
                     </p>
                     <p className="text-[12px] text-[#6b7280]">{person.mine ? `${person.name} · ${person.role}` : person.role}</p>
                     <p className="text-[11.5px] text-[#8b93a7]">{experienceLabel(person.experienceYears, false)} • {person.city}</p>
                     {person.salaryFrom ? <p className="text-[12px] font-semibold text-[#1a1d26]">{formatMoney(person.salaryFrom, "UZS")}dan</p> : null}
-                    <button type="button" onClick={() => onProfile(person)} className="text-[12px] font-semibold text-[#0066FF] hover:underline">
+                    <button type="button" onClick={() => onProfile(person)} className="text-[12px] font-semibold text-[#0F766E] hover:underline">
                       Profil ko‘rish
                     </button>
                   </div>
@@ -631,7 +621,7 @@ export function IshlarDesktop({
             </ul>
           </section>
 
-          <section className="rounded-xl bg-linear-to-b from-[#0066FF] to-[#0052cc] p-3.5 text-white shadow-[0_8px_24px_rgba(0,102,255,0.28)]">
+          <section className="rounded-xl bg-linear-to-b from-[#0F766E] to-[#115E59] p-3.5 text-white shadow-[0_8px_24px_rgba(15,118,110,0.28)]">
             <h2 className="text-[14px] font-bold">Ish qidiruvchilar uchun</h2>
             <ul className="mt-2 space-y-1.5 text-[12px]">
               {[
@@ -649,7 +639,7 @@ export function IshlarDesktop({
             <button
               type="button"
               onClick={onResume}
-              className="mt-3 flex h-9 w-full items-center justify-center gap-2 rounded-lg bg-white text-[13px] font-semibold text-[#0066FF] hover:bg-[#f2f7ff]"
+              className="mt-3 flex h-9 w-full items-center justify-center gap-2 rounded-lg bg-white text-[13px] font-semibold text-[#0F766E] hover:bg-[#F0FDFA]"
             >
               Rezyume joylash
               <ArrowRight className="size-4" />

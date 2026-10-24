@@ -192,7 +192,7 @@ export function PostForm({ listing, onDone, onCancel }: { listing?: SurplusListi
         </div>
       </div>
 
-      <p className="text-[13px] font-semibold text-[#0066FF]" data-testid="surplus-step">{step}/3 · {step === 1 ? "Mahsulot" : step === 2 ? "Jonli video" : "Narx va joylash"}</p>
+      <p className="text-[13px] font-semibold text-[#0F766E]" data-testid="surplus-step">{step}/3 · {step === 1 ? "Mahsulot" : step === 2 ? "Jonli video" : "Narx va joylash"}</p>
       <p className="text-[12px] text-[#6b7280]">~3 daqiqa. Ochilgan yoki muddati yaqin material, anestetik va boshqa dorilar qabul qilinmaydi.</p>
       {step === 1 ? (
         <>
@@ -433,7 +433,7 @@ function Field({
     <div>
       <Label>
         {clean}
-        {showStar ? <span className="text-[#0066FF]"> *</span> : null}
+        {showStar ? <span className="text-[#0F766E]"> *</span> : null}
       </Label>
       {children}
     </div>

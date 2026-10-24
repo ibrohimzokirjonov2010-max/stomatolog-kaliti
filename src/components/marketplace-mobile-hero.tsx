@@ -24,7 +24,7 @@ const CATEGORY_SLIDES: CatSlide[] = [
   {
     id: "implantlar",
     badge: "IMPLANTLAR",
-    badgeCls: "bg-[#0066FF] text-white",
+    badgeCls: "bg-[#0F766E] text-white",
     title: "Implantlar va abatmentlar",
     subtitle: "Ishonchli brendlar, Toshkent bo‘ylab 24 soatda yetkazish",
     cta: "Ko‘rish",

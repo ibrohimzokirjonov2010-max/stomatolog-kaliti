@@ -109,7 +109,7 @@ function ScrubDiagram() {
         <rect x="190" y="150" width="26" height="34" rx="3" fill="none" />
         <path d="M92 108 L62 128" fill="none" />
       </g>
-      <g stroke="#0066FF" strokeWidth="1.8" strokeDasharray="5 4">
+      <g stroke="#0F766E" strokeWidth="1.8" strokeDasharray="5 4">
         <path d="M92 100 H228" />
         <path d="M92 190 H228" />
         <path d="M290 36 V252" />
@@ -120,7 +120,7 @@ function ScrubDiagram() {
         { x: 290, y: 144, t: "C" },
       ].map((m) => (
         <g key={m.t}>
-          <circle cx={m.x} cy={m.y} r="12" fill="#0066FF" />
+          <circle cx={m.x} cy={m.y} r="12" fill="#0F766E" />
           <text x={m.x} y={m.y + 4.5} textAnchor="middle" fontSize="13" fontWeight="700" fill="#fff">
             {m.t}
           </text>
@@ -190,7 +190,7 @@ export function FormaProductDesktop({ product }: { product: Product }) {
   );
 
   const badge = isBestseller(product)
-    ? { text: "Bestseller", cls: "bg-[#0066FF]" }
+    ? { text: "Bestseller", cls: "bg-[#0F766E]" }
     : product.discount
       ? { text: `-${product.discount}%`, cls: "bg-[#ef4444]" }
       : isNewForma(product)
@@ -236,7 +236,7 @@ export function FormaProductDesktop({ product }: { product: Product }) {
       aria-label={`Rasm ${i + 1}`}
       className={cn(
         "size-[76px] shrink-0 overflow-hidden rounded-xl border-2 bg-[#f7f8fb]",
-        i === active ? "border-[#0066FF]" : "border-[#eceff5] hover:border-[#bcd5ff]",
+        i === active ? "border-[#0F766E]" : "border-[#eceff5] hover:border-[#5EEAD4]",
       )}
     >
       <Image src={src} alt="" width={152} height={152} className="size-full object-cover" />
@@ -246,9 +246,9 @@ export function FormaProductDesktop({ product }: { product: Product }) {
   return (
     <div className="space-y-5">
       <nav className="flex flex-wrap items-center gap-1 text-[12.5px] text-[#8b93a7]">
-        <Link href="/" className="hover:text-[#0066FF]">Bosh sahifa</Link>
+        <Link href="/" className="hover:text-[#0F766E]">Bosh sahifa</Link>
         <ChevronRight className="size-3.5" />
-        <Link href="/forma" className="hover:text-[#0066FF]">Forma</Link>
+        <Link href="/forma" className="hover:text-[#0F766E]">Forma</Link>
         <ChevronRight className="size-3.5" />
         <span className="line-clamp-1 text-[#4b5568]">{product.name}</span>
       </nav>
@@ -298,7 +298,7 @@ export function FormaProductDesktop({ product }: { product: Product }) {
         <div className="min-w-0">
           <p className="inline-flex items-center gap-1 text-[13px] font-extrabold tracking-wide text-[#0B1F4D] uppercase">
             {product.brand}
-            <BadgeCheck className="size-4 fill-[#0066FF] text-white" />
+            <BadgeCheck className="size-4 fill-[#0F766E] text-white" />
           </p>
           <h1 className="mt-1 text-[28px] leading-tight font-bold tracking-tight text-[#0B1F4D]">{product.name}</h1>
           <div className="mt-2 flex items-center gap-2 text-[13px]">
@@ -308,7 +308,7 @@ export function FormaProductDesktop({ product }: { product: Product }) {
                 <span className="font-semibold text-[#1a1d26]">{rv.avg.toFixed(1)}</span>
               </>
             ) : null}
-            <button type="button" onClick={() => setTab("sharhlar")} className="text-[#0066FF] hover:underline">
+            <button type="button" onClick={() => setTab("sharhlar")} className="text-[#0F766E] hover:underline">
               {rv.count > 0 ? `Sharhlarni ko‘rish (${rv.count})` : "Hali sharh yo‘q"}
             </button>
           </div>
@@ -326,7 +326,7 @@ export function FormaProductDesktop({ product }: { product: Product }) {
               <Check className="size-4" strokeWidth={2.6} />
               {stockLabel(product)}
             </span>
-            <span className="inline-flex items-center gap-1.5 rounded-lg bg-[#eaf2ff] px-3 py-1.5 text-[12.5px] font-semibold text-[#0066FF]">
+            <span className="inline-flex items-center gap-1.5 rounded-lg bg-[#F0FDFA] px-3 py-1.5 text-[12.5px] font-semibold text-[#0F766E]">
               <Truck className="size-4" />
               {product.delivery || "Toshkent 24 soat"}
             </span>
@@ -337,7 +337,7 @@ export function FormaProductDesktop({ product }: { product: Product }) {
             {own ? null : (
               <>
                 <span className="mx-2 text-[#d4dae6]">|</span>
-                <Link href="/forma" className="font-semibold text-[#0066FF] hover:underline">
+                <Link href="/forma" className="font-semibold text-[#0F766E] hover:underline">
                   Klinika uchun ham mos
                 </Link>
               </>
@@ -364,7 +364,7 @@ export function FormaProductDesktop({ product }: { product: Product }) {
                       aria-pressed={on}
                       className={cn(
                         "size-9 rounded-full border-2 border-white shadow-[0_0_0_1px_#d4dae6]",
-                        on && "shadow-[0_0_0_2px_#0066FF]",
+                        on && "shadow-[0_0_0_2px_#0F766E]",
                       )}
                       style={{ backgroundColor: formaColors.find((c) => c.id === id)?.hex ?? "#cbd5e1" }}
                     />
@@ -381,7 +381,7 @@ export function FormaProductDesktop({ product }: { product: Product }) {
                   O‘lcham: <span className="font-medium text-[#4b5568]">{size || "tanlang"}</span>
                 </p>
                 {showChart ? (
-                  <button type="button" onClick={openSizeChart} className="text-[13px] font-semibold text-[#0066FF] hover:underline">
+                  <button type="button" onClick={openSizeChart} className="text-[13px] font-semibold text-[#0F766E] hover:underline">
                     O‘lcham jadvali
                   </button>
                 ) : null}
@@ -397,7 +397,7 @@ export function FormaProductDesktop({ product }: { product: Product }) {
                       aria-pressed={on}
                       className={cn(
                         "h-11 min-w-14 rounded-lg border px-3 text-[14px] font-semibold transition-colors",
-                        on ? "border-[#0066FF] bg-[#eaf2ff] text-[#0066FF]" : "border-[#e6eaf2] bg-white text-[#2b3447] hover:border-[#0066FF]/50",
+                        on ? "border-[#0F766E] bg-[#F0FDFA] text-[#0F766E]" : "border-[#e6eaf2] bg-white text-[#2b3447] hover:border-[#0F766E]/50",
                       )}
                     >
                       {item}
@@ -423,7 +423,7 @@ export function FormaProductDesktop({ product }: { product: Product }) {
             <button
               type="button"
               onClick={() => { add(); }}
-              className="flex h-12 flex-1 items-center justify-center gap-2 rounded-xl bg-[#0066FF] text-[15px] font-bold text-white shadow-[0_6px_16px_rgba(0,102,255,0.28)] hover:bg-[#0058dd]"
+              className="flex h-12 flex-1 items-center justify-center gap-2 rounded-xl bg-[#0F766E] text-[15px] font-bold text-white shadow-[0_6px_16px_rgba(15,118,110,0.28)] hover:bg-[#115E59]"
             >
               <ShoppingCart className="size-5" />
               Savatga qo‘shish
@@ -441,7 +441,7 @@ export function FormaProductDesktop({ product }: { product: Product }) {
           <button
             type="button"
             onClick={() => { if (add()) router.push("/buyurtma"); }}
-            className="mt-2.5 h-11 w-full rounded-xl border border-[#0066FF] text-[14px] font-semibold text-[#0066FF] hover:bg-[#f2f7ff]"
+            className="mt-2.5 h-11 w-full rounded-xl border border-[#0F766E] text-[14px] font-semibold text-[#0F766E] hover:bg-[#F0FDFA]"
           >
             Hozir sotib olish
           </button>
@@ -458,7 +458,7 @@ export function FormaProductDesktop({ product }: { product: Product }) {
               onClick={() => setTab(t.id)}
               className={cn(
                 "-mb-px border-b-2 py-4 text-[14px] font-semibold",
-                tab === t.id ? "border-[#0066FF] text-[#0066FF]" : "border-transparent text-[#4b5568] hover:text-[#0066FF]",
+                tab === t.id ? "border-[#0F766E] text-[#0F766E]" : "border-transparent text-[#4b5568] hover:text-[#0F766E]",
               )}
             >
               {t.label}
@@ -483,7 +483,7 @@ export function FormaProductDesktop({ product }: { product: Product }) {
                   <div className="mt-3 grid grid-cols-5 gap-3">
                     {features.map(({ icon: Icon, title, sub }) => (
                       <div key={title} className="flex flex-col items-center rounded-xl bg-[#f5f8ff] px-2 py-3 text-center">
-                        <span className="grid size-10 place-items-center rounded-full bg-white text-[#0066FF] shadow-sm">
+                        <span className="grid size-10 place-items-center rounded-full bg-white text-[#0F766E] shadow-sm">
                           <Icon className="size-5" />
                         </span>
                         <p className="mt-2 text-[12px] leading-tight font-semibold text-[#0B1F4D]">{title}</p>
@@ -505,8 +505,8 @@ export function FormaProductDesktop({ product }: { product: Product }) {
                 <div className="relative overflow-hidden rounded-xl">
                   <Image src={gallery[1] ?? product.image} alt="Material tarkibi" width={560} height={300} className="h-[170px] w-full object-cover" />
                   <div className="absolute inset-0 grid place-items-center bg-[#0B1F4D]/25">
-                    <span className="grid size-14 place-items-center rounded-full bg-white/95 text-[#0066FF] shadow-lg">
-                      <Play className="size-6 fill-[#0066FF]" />
+                    <span className="grid size-14 place-items-center rounded-full bg-white/95 text-[#0F766E] shadow-lg">
+                      <Play className="size-6 fill-[#0F766E]" />
                     </span>
                   </div>
                   <span className="absolute bottom-2 left-3 rounded-md bg-white/95 px-2 py-1 text-[12px] font-semibold text-[#0B1F4D]">
@@ -545,7 +545,7 @@ export function FormaProductDesktop({ product }: { product: Product }) {
 
           {tab === "yetkazib" ? (
             <div className="space-y-2 text-[14px] leading-relaxed text-[#4b5568]">
-              <p className="flex items-center gap-2 font-semibold text-[#0066FF]">
+              <p className="flex items-center gap-2 font-semibold text-[#0F766E]">
                 <Truck className="size-4" />
                 {product.delivery || "Toshkent 24 soat"}
               </p>
@@ -574,7 +574,7 @@ export function FormaProductDesktop({ product }: { product: Product }) {
                 onClick={() => setChart(id)}
                 className={cn(
                   "h-10 rounded-lg border px-5 text-[14px] font-semibold",
-                  chart === id ? "border-[#0066FF] bg-[#0066FF] text-white" : "border-[#e6eaf2] bg-white text-[#2b3447] hover:border-[#0066FF]/50",
+                  chart === id ? "border-[#0F766E] bg-[#0F766E] text-white" : "border-[#e6eaf2] bg-white text-[#2b3447] hover:border-[#0F766E]/50",
                 )}
               >
                 {charts[id].label}
@@ -601,7 +601,7 @@ export function FormaProductDesktop({ product }: { product: Product }) {
                   </thead>
                   <tbody>
                     {charts[chart].rows.map((row) => (
-                      <tr key={row.size} className={cn("border-t border-[#eceff5]", size === row.size && "bg-[#eaf2ff]")}>
+                      <tr key={row.size} className={cn("border-t border-[#eceff5]", size === row.size && "bg-[#F0FDFA]")}>
                         <td className="py-3 font-bold text-[#0B1F4D]">{row.size}</td>
                         <td className="py-3 text-[#4b5568]">{row.chest}</td>
                         <td className="py-3 text-[#4b5568]">{row.waist}</td>
@@ -623,7 +623,7 @@ export function FormaProductDesktop({ product }: { product: Product }) {
                   { t: "C", title: "Bo‘y", text: "Poyabzalsiz, tik turib, boshdan tovongacha bo‘lgan balandlikni o‘lchang." },
                 ].map((step) => (
                   <li key={step.t} className="flex gap-3">
-                    <span className="grid size-7 shrink-0 place-items-center rounded-full bg-[#0066FF] text-[13px] font-bold text-white">{step.t}</span>
+                    <span className="grid size-7 shrink-0 place-items-center rounded-full bg-[#0F766E] text-[13px] font-bold text-white">{step.t}</span>
                     <p className="text-[13px] leading-snug text-[#4b5568]">
                       <span className="font-semibold text-[#1a1d26]">{step.title}.</span> {step.text}
                     </p>

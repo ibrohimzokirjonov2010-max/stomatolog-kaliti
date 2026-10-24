@@ -50,14 +50,14 @@ function RegisterButton({ left, mine, upcoming, onRegister }: Pick<Props, "left"
   if (!upcoming) return <span className={cn(base, "bg-[#f1f3f7] text-[#8b93a7]")}>O‘tgan seminar</span>;
   if (mine)
     return (
-      <Link href={`/seminarlar/yozuvlarim/${mine.id}`} className={cn(base, "bg-[#f5f9ff] px-4 text-[#0066FF]")}>
+      <Link href={`/seminarlar/yozuvlarim/${mine.id}`} className={cn(base, "bg-[#F0FDFA] px-4 text-[#0F766E]")}>
         <SeminarStatusBadge status={mine.status} />
         Chipta
       </Link>
     );
   if (left <= 0) return <span className={cn(base, "bg-[#f1f3f7] text-[#8b93a7]")}>Joy qolmadi</span>;
   return (
-    <button type="button" data-testid="seminar-register-cta" onClick={onRegister} className={cn(base, "px-4 min-[410px]:min-w-[46%] bg-[#0066FF] text-white shadow-[0_8px_18px_rgba(0,102,255,0.3)]")}>
+    <button type="button" data-testid="seminar-register-cta" onClick={onRegister} className={cn(base, "px-4 min-[410px]:min-w-[46%] bg-[#0F766E] text-white shadow-[0_8px_18px_rgba(15,118,110,0.3)]")}>
       Ro‘yxatdan o‘tish
       <ArrowRight className="size-4" />
     </button>
@@ -88,7 +88,7 @@ function CardHead({ title, action }: { title: string; action?: ReactNode }) {
 
 function LinkBtn({ children, onClick, testId }: { children: ReactNode; onClick: () => void; testId?: string }) {
   return (
-    <button type="button" data-testid={testId} onClick={onClick} className="inline-flex shrink-0 items-center gap-0.5 text-[12px] font-semibold text-[#0066FF]">
+    <button type="button" data-testid={testId} onClick={onClick} className="inline-flex shrink-0 items-center gap-0.5 text-[12px] font-semibold text-[#0F766E]">
       {children}
       <ChevronRight className="size-3.5" />
     </button>
@@ -209,7 +209,7 @@ export function SeminarDetailMobile({ seminar: s, left, mine, upcoming, onRegist
             <div className="flex min-w-0 flex-wrap gap-1">
               {!upcoming ? <span className="rounded-md bg-white/25 px-2 py-[5px] text-[10px] leading-none font-bold tracking-wide uppercase">O‘tgan</span> : null}
               {tags.map((t) => (
-                <span key={t.label} className="rounded-md bg-[#0066FF] px-2 py-[5px] text-[10px] leading-none font-bold tracking-wide uppercase">
+                <span key={t.label} className="rounded-md bg-[#0F766E] px-2 py-[5px] text-[10px] leading-none font-bold tracking-wide uppercase">
                   {t.label}
                 </span>
               ))}
@@ -312,7 +312,7 @@ export function SeminarDetailMobile({ seminar: s, left, mine, upcoming, onRegist
                 aria-current={tab === t.id}
                 className={cn(
                   "h-9 shrink-0 rounded-full border px-4 text-[13px] font-semibold",
-                  tab === t.id ? "border-[#0066FF] bg-[#0066FF] text-white shadow-[0_4px_12px_rgba(0,102,255,0.25)]" : "border-[#e3e8f1] bg-white text-[#4b5568]",
+                  tab === t.id ? "border-[#0F766E] bg-[#0F766E] text-white shadow-[0_4px_12px_rgba(15,118,110,0.25)]" : "border-[#e3e8f1] bg-white text-[#4b5568]",
                 )}
               >
                 {t.label}
@@ -328,14 +328,14 @@ export function SeminarDetailMobile({ seminar: s, left, mine, upcoming, onRegist
             <ul className="mt-2 space-y-1">
               {s.learnings.map((l) => (
                 <li key={l} className="flex gap-2 text-[12.5px] leading-snug text-[#1a1d26]">
-                  <span className="mt-[6px] size-1.5 shrink-0 rounded-full bg-[#0066FF]" />
+                  <span className="mt-[6px] size-1.5 shrink-0 rounded-full bg-[#0F766E]" />
                   {l}
                 </li>
               ))}
             </ul>
           ) : null}
           {(s.description && s.description.length > 140) || s.learnings?.length ? (
-            <button type="button" onClick={() => setMoreAbout((v) => !v)} className="mt-1 text-[12px] font-semibold text-[#0066FF]">
+            <button type="button" onClick={() => setMoreAbout((v) => !v)} className="mt-1 text-[12px] font-semibold text-[#0F766E]">
               {moreAbout ? "Yig‘ish" : "Batafsil"}
             </button>
           ) : null}
@@ -347,7 +347,7 @@ export function SeminarDetailMobile({ seminar: s, left, mine, upcoming, onRegist
                   data-on={on}
                   className={cn("flex flex-col items-center gap-1 rounded-xl px-1 py-2 text-center", on ? "bg-[#f0f5ff]" : "border border-dashed border-[#dfe5ef] bg-[#f8fafc]")}
                 >
-                  <Icon className={cn("size-[18px]", on ? "text-[#0066FF]" : "text-[#a3acbd]")} />
+                  <Icon className={cn("size-[18px]", on ? "text-[#0F766E]" : "text-[#a3acbd]")} />
                   <span className={cn("text-[10px] leading-[1.2] font-medium", on ? "text-[#33405a]" : "text-[#8b93a7]")}>{label}</span>
                   {sub ? <span className="text-[8.5px] leading-[1.15] text-[#6b7280]">{sub}</span> : null}
                   {!on ? <span className="text-[8.5px] leading-none text-[#a3acbd]">Aniqlanmoqda</span> : null}
@@ -370,7 +370,7 @@ export function SeminarDetailMobile({ seminar: s, left, mine, upcoming, onRegist
                   onClick={() => setDay(i)}
                   className={cn(
                     "rounded-lg py-1.5 text-[12.5px] leading-tight font-semibold",
-                    curDay === d ? "bg-white text-[#0066FF] shadow-[0_2px_8px_rgba(15,23,42,0.08)]" : "text-[#6b7280]",
+                    curDay === d ? "bg-white text-[#0F766E] shadow-[0_2px_8px_rgba(15,23,42,0.08)]" : "text-[#6b7280]",
                   )}
                 >
                   {d.label.toUpperCase()} · {d.title}
@@ -381,7 +381,7 @@ export function SeminarDetailMobile({ seminar: s, left, mine, upcoming, onRegist
             <ul className="mb-3 grid grid-cols-1 gap-1" data-testid="seminar-day-topics">
               {curDay.topics.map((t) => (
                 <li key={t} className="flex gap-2 text-[12.5px] leading-snug text-[#1a1d26]">
-                  <span className="mt-[6px] size-1.5 shrink-0 rounded-full bg-[#0066FF]" />
+                  <span className="mt-[6px] size-1.5 shrink-0 rounded-full bg-[#0F766E]" />
                   {t}
                 </li>
               ))}
@@ -392,9 +392,9 @@ export function SeminarDetailMobile({ seminar: s, left, mine, upcoming, onRegist
                 const brk = /kofe|tushlik/i.test(st.title);
                 return (
                   <li key={`${st.time}-${i}`} className="relative flex items-center gap-2.5 py-1.5">
-                    {i < arr.length - 1 ? <span className="absolute top-1/2 left-[7px] h-full w-[2px] bg-[#cfe0ff]" aria-hidden /> : null}
+                    {i < arr.length - 1 ? <span className="absolute top-1/2 left-[7px] h-full w-[2px] bg-[#99F6E4]" aria-hidden /> : null}
                     <span className="relative grid w-4 shrink-0 place-items-center">
-                      <span className={cn("rounded-full", brk ? "size-2 bg-[#b9c6dc]" : "size-2.5 bg-[#0066FF]")} />
+                      <span className={cn("rounded-full", brk ? "size-2 bg-[#b9c6dc]" : "size-2.5 bg-[#0F766E]")} />
                     </span>
                     <span className="w-[86px] shrink-0 text-[11.5px] font-medium text-[#6b7280]">{st.time}</span>
                     <span className={cn("min-w-0 flex-1 text-[12.5px] leading-snug", brk ? "text-[#8b93a7]" : "font-semibold text-[#1a1d26]")}>{st.title}</span>
@@ -421,13 +421,13 @@ export function SeminarDetailMobile({ seminar: s, left, mine, upcoming, onRegist
                 const on = pickStep === i;
                 return (
                   <li key={`${st.title}-${i}`} className="relative">
-                    {i < arr.length - 1 ? <span className="absolute top-1/2 left-[7px] h-full w-[2px] bg-[#cfe0ff]" aria-hidden /> : null}
-                    <button type="button" onClick={() => setPickStep(i)} className={cn("relative flex w-full items-center gap-2.5 rounded-xl py-2 pr-2 text-left", on && "bg-[#eaf2ff]")}>
+                    {i < arr.length - 1 ? <span className="absolute top-1/2 left-[7px] h-full w-[2px] bg-[#99F6E4]" aria-hidden /> : null}
+                    <button type="button" onClick={() => setPickStep(i)} className={cn("relative flex w-full items-center gap-2.5 rounded-xl py-2 pr-2 text-left", on && "bg-[#F0FDFA]")}>
                       <span className="grid w-4 shrink-0 place-items-center">
-                        <span className={cn("rounded-full bg-[#0066FF]", on ? "size-3.5 ring-[3px] ring-[#cfe0ff]" : "size-2.5")} />
+                        <span className={cn("rounded-full bg-[#0F766E]", on ? "size-3.5 ring-[3px] ring-[#99F6E4]" : "size-2.5")} />
                       </span>
-                      <span className={cn("w-[92px] shrink-0 text-[11.5px] font-medium", on ? "text-[#0066FF]" : "text-[#6b7280]")}>{st.time.replace(/\s/g, "")}</span>
-                      <span className={cn("min-w-0 flex-1 truncate text-[12.5px] font-semibold", on ? "text-[#0066FF]" : "text-[#1a1d26]")}>{st.title}</span>
+                      <span className={cn("w-[92px] shrink-0 text-[11.5px] font-medium", on ? "text-[#0F766E]" : "text-[#6b7280]")}>{st.time.replace(/\s/g, "")}</span>
+                      <span className={cn("min-w-0 flex-1 truncate text-[12.5px] font-semibold", on ? "text-[#0F766E]" : "text-[#1a1d26]")}>{st.title}</span>
                       <ChevronRight className="size-4 shrink-0 text-[#9aa3b5]" />
                     </button>
                   </li>
@@ -451,7 +451,7 @@ export function SeminarDetailMobile({ seminar: s, left, mine, upcoming, onRegist
                     {sp.photo ? (
                       <Image src={sp.photo} alt="" width={46} height={46} className="size-[46px] shrink-0 rounded-full object-cover" />
                     ) : (
-                      <span className="grid size-[46px] shrink-0 place-items-center rounded-full bg-[#e8f1ff] text-[13px] font-bold text-[#0066FF]">{initials(sp.name)}</span>
+                      <span className="grid size-[46px] shrink-0 place-items-center rounded-full bg-[#F0FDFA] text-[13px] font-bold text-[#0F766E]">{initials(sp.name)}</span>
                     )}
                     <span className="min-w-0 flex-1">
                       <span className="block truncate text-[13.5px] font-bold text-[#0B1F4D]">{sp.name}</span>
@@ -517,7 +517,7 @@ export function SeminarDetailMobile({ seminar: s, left, mine, upcoming, onRegist
           <Card id="sem-organizer">
             <CardHead title="Tashkilotchi" />
             <div className="flex items-center gap-3" data-testid="seminar-organizer">
-              <span className="grid size-10 shrink-0 place-items-center rounded-xl bg-[#eaf2ff] text-[#0066FF]">
+              <span className="grid size-10 shrink-0 place-items-center rounded-xl bg-[#F0FDFA] text-[#0F766E]">
                 <Building2 className="size-5" />
               </span>
               <div className="min-w-0 flex-1 leading-tight">
@@ -531,7 +531,7 @@ export function SeminarDetailMobile({ seminar: s, left, mine, upcoming, onRegist
         <Card id="sem-place">
           <CardHead title="Manzil" />
           <div className="flex items-center gap-3">
-            <span className="grid size-10 shrink-0 place-items-center rounded-xl bg-[#eaf2ff] text-[#0066FF]">{online ? <Video className="size-5" /> : <MapPin className="size-5" />}</span>
+            <span className="grid size-10 shrink-0 place-items-center rounded-xl bg-[#F0FDFA] text-[#0F766E]">{online ? <Video className="size-5" /> : <MapPin className="size-5" />}</span>
             <div className="min-w-0 flex-1 leading-tight">
               <p className="truncate text-[13.5px] font-semibold text-[#0B1F4D]">{online ? "Seminar onlayn o‘tadi" : s.venue || s.city}</p>
               <p className="mt-0.5 truncate text-[11.5px] text-[#6b7280]">
@@ -539,7 +539,7 @@ export function SeminarDetailMobile({ seminar: s, left, mine, upcoming, onRegist
               </p>
             </div>
             {!online && s.venue ? (
-              <a href={mapsHref(s)} target="_blank" rel="noopener noreferrer" className="inline-flex h-9 shrink-0 items-center gap-1 rounded-xl bg-[#f5f9ff] px-3 text-[12px] font-semibold text-[#0066FF]">
+              <a href={mapsHref(s)} target="_blank" rel="noopener noreferrer" className="inline-flex h-9 shrink-0 items-center gap-1 rounded-xl bg-[#F0FDFA] px-3 text-[12px] font-semibold text-[#0F766E]">
                 Xarita <ExternalLink className="size-3.5" />
               </a>
             ) : null}

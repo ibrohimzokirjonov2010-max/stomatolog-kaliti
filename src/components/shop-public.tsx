@@ -49,7 +49,7 @@ export function PublicShopPage({ slug }: { slug: string }) {
       <ShopPhone shop={shop} items={items} isOwner={isOwner} />
       <div className="hidden lg:block">
       <p className="text-[13px] text-[#8b93a7]">
-        <Link href="/marketplace" className="text-[#0066FF] hover:underline">
+        <Link href="/marketplace" className="text-[#0F766E] hover:underline">
           Marketplace
         </Link>
         <span className="mx-1">/</span>

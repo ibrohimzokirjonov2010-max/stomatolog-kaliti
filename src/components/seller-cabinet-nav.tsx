@@ -79,7 +79,7 @@ function Menu() {
             scroll={false}
             className={cn(
               "flex items-center gap-3 rounded-[12px] px-3 py-2.5 text-[13.5px] font-medium transition-colors",
-              on ? "bg-[#e8f1ff] font-semibold text-[#0066FF]" : "text-slate-500 hover:bg-slate-50 hover:text-foreground",
+              on ? "bg-[#F0FDFA] font-semibold text-[#0F766E]" : "text-slate-500 hover:bg-slate-50 hover:text-foreground",
             )}
           >
             <Icon className="size-[18px] shrink-0" strokeWidth={on ? 2 : 1.6} />

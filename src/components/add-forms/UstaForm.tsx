@@ -207,7 +207,7 @@ export function UstaForm() {
             <span className="logo">{logo ? <img src={logo.preview || logo.url} alt="" /> : <Wrench size={26} />}</span>
           </div>
           <div className="cap">
-            <h3 className="af-name">{form.name.trim() || "Ustaxona nomi"}<BadgeCheck size={16} color="#0066ff" /></h3>
+            <h3 className="af-name">{form.name.trim() || "Ustaxona nomi"}<BadgeCheck size={16} color="#0F766E" /></h3>
             <p className="muted">{ustaTitle(form.services) || "Mutaxassislik tanlanmagan"}</p>
             <p className="af-line"><MapPin size={14} /> {[form.city, form.district].filter(Boolean).join(", ") || "Shahar"}</p>
             <div className="af-btns">

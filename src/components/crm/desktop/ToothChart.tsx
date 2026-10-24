@@ -34,7 +34,7 @@ export const toothFill: Record<ToothState, string> = {
   plomba: "#4aa8f0",
   endo: "#f27a7a",
   implant: "#94a3b8",
-  koronka: "#3b82f6",
+  koronka: "#0F766E",
   shtift: "#f5b638",
   ekstraksiya: "#cbd5e1",
 };

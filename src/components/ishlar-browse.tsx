@@ -216,7 +216,7 @@ function FilterChip({
       onClick={onClick}
       className={cn(
         "h-11 rounded-xl text-[13px] font-semibold",
-        active ? "bg-[#0066FF] text-white" : "bg-[#f4f6fa] text-[#4b5568]",
+        active ? "bg-[#0F766E] text-white" : "bg-[#f4f6fa] text-[#4b5568]",
       )}
     >
       {label}
@@ -249,7 +249,7 @@ function FilterSheet({
             <button type="button" onClick={onClear} className="text-sm font-semibold text-[#8b93a7]">
               Tozalash
             </button>
-            <button type="button" onClick={onClose} className="text-sm font-semibold text-[#0066FF]">
+            <button type="button" onClick={onClose} className="text-sm font-semibold text-[#0F766E]">
               Tayyor
             </button>
           </div>
@@ -270,7 +270,7 @@ function FeaturedJob({
   onApply: () => void;
 }) {
   return (
-    <article className="rounded-[16px] bg-[#eaf2ff] px-5 py-5">
+    <article className="rounded-[16px] bg-[#F0FDFA] px-5 py-5">
       <div className="flex flex-col gap-4 lg:flex-row lg:items-start">
         <ClinicMark brand={job.brand} name={job.clinic} className="size-[72px]" />
         <div className="min-w-0 flex-1">
@@ -417,7 +417,7 @@ function TypeBadge({ type }: { type: JobType }) {
         type === "part" && "bg-orange-50 text-orange-700",
         type === "shift" && "bg-amber-50 text-amber-700",
         type === "freelance" && "bg-violet-50 text-violet-700",
-        type === "amaliyot" && "bg-sky-50 text-sky-700",
+        type === "amaliyot" && "bg-[#F0FDFA] text-[#0F766E]",
       )}
     >
       {jobTypeLabels[type]}
@@ -475,7 +475,7 @@ function CandidateAvatar({ person, large = false }: { person: Candidate; large?:
     <span
       className={cn(
         size,
-        "flex shrink-0 items-center justify-center rounded-full bg-[#dbeafe] text-sm font-semibold text-primary"
+        "flex shrink-0 items-center justify-center rounded-full bg-[#CCFBF1] text-sm font-semibold text-primary"
       )}
     >
       {initials}

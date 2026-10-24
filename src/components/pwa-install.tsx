@@ -162,7 +162,7 @@ export function PwaInstall() {
               <button
                 type="button"
                 onClick={install}
-                className="mt-2 h-9 rounded-xl bg-[#0066FF] px-4 text-[13.5px] font-semibold text-white active:scale-[0.98]"
+                className="mt-2 h-9 rounded-xl bg-[#0F766E] px-4 text-[13.5px] font-semibold text-white active:scale-[0.98]"
               >
                 O‘rnatish
               </button>
@@ -170,7 +170,7 @@ export function PwaInstall() {
           ) : (
             <p className="mt-1 text-[12.5px] leading-snug text-[#5b6478]">
               Pastdagi{" "}
-              <span className="inline-flex translate-y-[2px] items-center text-[#0066FF]">
+              <span className="inline-flex translate-y-[2px] items-center text-[#0F766E]">
                 <Share className="size-4" aria-label="Ulashish" />
               </span>{" "}
               <b className="text-[#0B1220]">Ulashish</b> tugmasini bosing, so‘ng{" "}

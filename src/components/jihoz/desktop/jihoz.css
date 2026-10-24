@@ -13,7 +13,7 @@
   --j-line: #e5eaf1;
   --j-green: #17a34a;
   --j-red: #e5394a;
-  --j-blue: #2563eb;
+  --j-blue: #0F766E;
   color: var(--j-ink);
 }
 .sh .jx .i, .sh .jxp .i { width: 1em; height: 1em; flex: none; }

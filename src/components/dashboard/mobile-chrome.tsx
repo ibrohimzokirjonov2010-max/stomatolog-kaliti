@@ -141,7 +141,7 @@ function MobileProfileChip() {
     return (
       <Link
         href="/kirish"
-        className="ml-0.5 inline-flex h-9 items-center justify-center rounded-full bg-[#0066FF] px-3 text-[12px] font-bold text-white"
+        className="ml-0.5 inline-flex h-9 items-center justify-center rounded-full bg-[#0F766E] px-3 text-[12px] font-bold text-white"
       >
         Kirish
       </Link>
@@ -163,7 +163,7 @@ function MobileProfileChip() {
           className="size-8 rounded-full object-cover ring-2 ring-[#e8eef4]"
         />
       ) : (
-        <span className="grid size-8 place-items-center rounded-full bg-[#e8f1ff] text-[11px] font-bold text-[#0066FF] ring-2 ring-[#e8eef4]">
+        <span className="grid size-8 place-items-center rounded-full bg-[#F0FDFA] text-[11px] font-bold text-[#0F766E] ring-2 ring-[#e8eef4]">
           {initialsFromName(profile.fullName)}
         </span>
       )}
@@ -183,7 +183,7 @@ function CartButton({ count, blue }: { count: number; blue?: boolean | "teal" })
         <span
           className={cn(
             "absolute top-1 right-1 flex h-[18px] min-w-[18px] items-center justify-center rounded-full px-1 text-[10px] font-bold text-white",
-            blue === "teal" ? "bg-[#0F766E]" : blue ? "bg-[#0066FF]" : "bg-destructive",
+            blue === "teal" ? "bg-[#0F766E]" : blue ? "bg-[#0F766E]" : "bg-destructive",
           )}
         >
           {count}
@@ -304,15 +304,15 @@ export function MobileTopbar() {
                 onListing
                   ? "bg-[#0F766E] text-white"
                   : onUstalarHome || onFormaHome || onCommunityHome
-                  ? "bg-[#e8f1ff] text-[#0066FF]"
-                  : "bg-[#0066FF] text-white",
+                  ? "bg-[#F0FDFA] text-[#0F766E]"
+                  : "bg-[#0F766E] text-white",
               )}
             >
               <ToothIcon className="size-5" />
             </span>
             {onSeminarlar ? (
               <span className="min-w-0 leading-[1.1]">
-                <span className="block truncate text-[16px] font-extrabold tracking-[0.04em] text-[#0066FF]">
+                <span className="block truncate text-[16px] font-extrabold tracking-[0.04em] text-[#0F766E]">
                   STOMA<span className="text-[#0B1F4D]">HUB</span>
                 </span>
                 <span className="block truncate text-[10px] font-semibold tracking-[0.14em] text-[#8b93a7]">
@@ -321,7 +321,7 @@ export function MobileTopbar() {
               </span>
             ) : onUstalarHome || onFormaHome || onCommunityHome ? (
               <span className="min-w-0 leading-[1.05]">
-                <span className="block truncate text-[15px] font-extrabold tracking-[0.08em] text-[#0066FF]">
+                <span className="block truncate text-[15px] font-extrabold tracking-[0.08em] text-[#0F766E]">
                   STOMA<span className="text-[#8b93a7]">HUB</span>
                 </span>
               </span>
@@ -332,7 +332,7 @@ export function MobileTopbar() {
               </span>
             ) : (
               <span className="min-w-0 leading-tight">
-                <span className="block truncate text-[13px] font-extrabold tracking-[0.08em] text-[#0066FF]">
+                <span className="block truncate text-[13px] font-extrabold tracking-[0.08em] text-[#0F766E]">
                   STOMAHUB
                 </span>
                 <span className="block text-[12px] text-[#8b93a7]">
@@ -377,7 +377,7 @@ export function MobileTopbar() {
               className="mr-0.5 inline-flex h-9 shrink-0 items-center gap-1 rounded-full border border-[#e8eef4] bg-[#f7f8fb] px-2.5 text-[12px] font-semibold text-[#1a1d26]"
               aria-label="Shahar"
             >
-              <MapPin className="size-3.5 text-[#0066FF]" />
+              <MapPin className="size-3.5 text-[#0F766E]" />
               Toshkent
               <ChevronDown className="size-3.5 text-[#8b93a7]" />
             </button>
@@ -414,13 +414,13 @@ export function MobileTopbar() {
         ) : onUstalarHome ? (
           <Link
             href="/ustalar/sorovlarim"
-            className="ml-auto inline-flex h-10 min-w-[72px] items-center justify-center rounded-full bg-[#0066FF] px-4 text-[13px] font-bold text-white shadow-[0_4px_12px_rgba(0,102,255,0.28)]"
+            className="ml-auto inline-flex h-10 min-w-[72px] items-center justify-center rounded-full bg-[#0F766E] px-4 text-[13px] font-bold text-white shadow-[0_4px_12px_rgba(15,118,110,0.28)]"
           >
             So‘rov
           </Link>
         ) : onUstaRequests ? (
           <span
-            className="ml-auto grid size-11 place-items-center text-[#0066FF]"
+            className="ml-auto grid size-11 place-items-center text-[#0F766E]"
             aria-hidden="true"
           >
             <ShieldCheck className="size-5" />
@@ -453,8 +453,8 @@ export function MobileTopbar() {
 const APP_VERSION = "0.1.0";
 
 const GROUP_TONES: Record<string, { bg: string; color: string }> = {
-  top: { bg: "#e8f1ff", color: "#0066ff" },
-  dokon: { bg: "#e8f1ff", color: "#2563eb" },
+  top: { bg: "#F0FDFA", color: "#0F766E" },
+  dokon: { bg: "#F0FDFA", color: "#0F766E" },
   talim: { bg: "#ffe8ee", color: "#e11d48" },
   klinika: { bg: "#e7f6f4", color: "#0d9488" },
   xizmatlar: { bg: "#fff1e6", color: "#ea580c" },
@@ -637,13 +637,13 @@ export function MobileDrawer() {
                 // eslint-disable-next-line @next/next/no-img-element -- profile photo is a user upload
                 <img src={profile.avatarUrl} alt="" className="size-12 rounded-full object-cover" />
               ) : (
-                <span className="grid size-12 place-items-center rounded-full bg-[#e8f1ff] text-[15px] font-extrabold text-[#0066FF]">
+                <span className="grid size-12 place-items-center rounded-full bg-[#F0FDFA] text-[15px] font-extrabold text-[#0F766E]">
                   {initialsFromName(profile.fullName)}
                 </span>
               )}
               <div className="min-w-0">
                 <p className="truncate text-[16px] font-extrabold text-[#1a1d26]">{profile.fullName}</p>
-                <Link href="/profil" className="mt-0.5 inline-flex text-[13px] font-semibold text-[#0066FF]">
+                <Link href="/profil" className="mt-0.5 inline-flex text-[13px] font-semibold text-[#0F766E]">
                   Profilni ko‘rish
                 </Link>
               </div>
@@ -654,13 +654,13 @@ export function MobileDrawer() {
               <div className="mt-3 flex flex-wrap gap-2">
                 <Link
                   href="/kirish"
-                  className="inline-flex h-9 items-center rounded-full bg-[#0066FF] px-4 text-[13px] font-bold text-white"
+                  className="inline-flex h-9 items-center rounded-full bg-[#0F766E] px-4 text-[13px] font-bold text-white"
                 >
                   Kirish
                 </Link>
                 <Link
                   href="/royxat"
-                  className="inline-flex h-9 items-center rounded-full border border-[#d7e3f4] px-4 text-[13px] font-bold text-[#0066FF]"
+                  className="inline-flex h-9 items-center rounded-full border border-[#d7e3f4] px-4 text-[13px] font-bold text-[#0F766E]"
                 >
                   Ro‘yxatdan o‘tish
                 </Link>
@@ -769,9 +769,9 @@ export function MobileCartBar() {
         href="/savat"
         className="flex h-[52px] items-center gap-3 rounded-2xl border border-[#e8eef8] bg-white px-3 text-[#1a1d26] shadow-[0_8px_24px_rgba(15,23,42,0.08)]"
       >
-        <span className="relative grid size-10 place-items-center rounded-xl bg-[#e8f1ff] text-[#0066FF]">
+        <span className="relative grid size-10 place-items-center rounded-xl bg-[#F0FDFA] text-[#0F766E]">
           <ShoppingCart className="size-5" />
-          <span className="absolute -top-1 -right-1 flex size-4 items-center justify-center rounded-full bg-[#0066FF] text-[9px] font-bold text-white">
+          <span className="absolute -top-1 -right-1 flex size-4 items-center justify-center rounded-full bg-[#0F766E] text-[9px] font-bold text-white">
             {count}
           </span>
         </span>
@@ -783,7 +783,7 @@ export function MobileCartBar() {
         </span>
         <span className="ml-auto text-right leading-tight">
           <span className="block text-[11px] text-[#8b93a7]">{delivery > 0 ? "Jami, yetkazish bilan" : "Jami"}</span>
-          <span className="block text-[14px] font-bold text-[#0066FF]" data-testid="mini-cart-total">
+          <span className="block text-[14px] font-bold text-[#0F766E]" data-testid="mini-cart-total">
             {formatMoney(payable, "UZS")}
           </span>
         </span>

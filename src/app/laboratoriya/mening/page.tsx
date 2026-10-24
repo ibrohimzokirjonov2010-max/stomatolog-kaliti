@@ -139,7 +139,7 @@ export default function MyLabPage() {
     <div className="mx-auto max-w-2xl">
       <header className="mb-4">
         <p className="text-[13px] text-[#8b93a7]">
-          <Link href="/laboratoriya" className="text-[#0066FF] hover:underline">Laboratoriya</Link>
+          <Link href="/laboratoriya" className="text-[#0F766E] hover:underline">Laboratoriya</Link>
           <span className="mx-1">/</span>
           <span>Laboratoriya profilim</span>
         </p>
@@ -253,12 +253,12 @@ export default function MyLabPage() {
             </FormField>
           </div>
           <div className="flex flex-wrap gap-2 pt-1">
-            <button type="submit" disabled={busy} className="inline-flex h-12 min-w-[160px] items-center justify-center rounded-2xl bg-[#0066FF] px-6 text-[14px] font-semibold text-white disabled:opacity-60">
+            <button type="submit" disabled={busy} className="inline-flex h-12 min-w-[160px] items-center justify-center rounded-2xl bg-[#0F766E] px-6 text-[14px] font-semibold text-white disabled:opacity-60">
               {busy ? "Saqlanmoqda…" : mine ? "Saqlash" : "Moderatsiyaga yuborish"}
             </button>
             {mine ? (
               <>
-                <Link href="/laboratoriya/buyurtmalarim?tab=kelgan" className="inline-flex h-12 items-center justify-center rounded-2xl border border-[#dbe7ff] px-5 text-[14px] font-semibold text-[#0066FF]">Kelgan buyurtmalar</Link>
+                <Link href="/laboratoriya/buyurtmalarim?tab=kelgan" className="inline-flex h-12 items-center justify-center rounded-2xl border border-[#CCFBF1] px-5 text-[14px] font-semibold text-[#0F766E]">Kelgan buyurtmalar</Link>
                 <button type="button" onClick={remove} className="inline-flex h-12 items-center justify-center rounded-2xl px-4 text-[14px] font-semibold text-[#dc2626]">O‘chirish</button>
               </>
             ) : null}

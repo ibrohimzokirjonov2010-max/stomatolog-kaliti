@@ -7,8 +7,8 @@
   --kd-mut: #6a7a91;
   --kd-line: #e8edf4;
   --kd-teal: #0fa6a0;
-  --kd-teal-d: #0b7f7b;
-  --kd-teal-l: #e3f6f4;
+  --kd-teal-d: #0F766E;
+  --kd-teal-l: #F0FDFA;
   display: flex;
   flex-direction: column;
   gap: calc(8 * var(--k));
@@ -125,13 +125,13 @@
 .sh .kd-table td.debt { color: #d64545; font-weight: 700; }
 .sh .kd-empty-row { color: var(--kd-mut); text-align: center; padding: calc(16 * var(--k)) 0; }
 .sh .kd-st { display: inline-block; padding: calc(2 * var(--k)) calc(8 * var(--k)); border-radius: calc(6 * var(--k)); font-size: calc(10 * var(--k)); font-weight: 700; background: #e5f7ee; color: #129a5c; }
-.sh .kd-st.yangi { background: #e7f0ff; color: #0b8f8a; }
+.sh .kd-st.yangi { background: #e7f0ff; color: #0F766E; }
 .sh .kd-st.davolanishda { background: var(--kd-teal-l); color: var(--kd-teal-d); }
 .sh .kd-st.kuzatuvda { background: #fff4e0; color: #d27b0c; }
 .sh .kd-st.nofaol { background: #eef2f6; color: var(--kd-mut); }
 .sh .kd-lab { font-size: calc(10 * var(--k)); }
 .sh .kd-lab td, .sh .kd-lab th { padding-left: calc(3 * var(--k)); padding-right: calc(3 * var(--k)); }
-.sh .kd-lab-st { display: inline-block; padding: calc(2 * var(--k)) calc(5 * var(--k)); border-radius: calc(6 * var(--k)); font-size: calc(9.5 * var(--k)); font-weight: 700; background: #e7f0ff; color: #0b8f8a; }
+.sh .kd-lab-st { display: inline-block; padding: calc(2 * var(--k)) calc(5 * var(--k)); border-radius: calc(6 * var(--k)); font-size: calc(9.5 * var(--k)); font-weight: 700; background: #e7f0ff; color: #0F766E; }
 .sh .kd-lab-st.yangi { background: #fff4e0; color: #d27b0c; }
 .sh .kd-lab-st.ishlanmoqda { background: #fff4e0; color: #d27b0c; }
 .sh .kd-lab-st.tayyor { background: #e5f7ee; color: #129a5c; }

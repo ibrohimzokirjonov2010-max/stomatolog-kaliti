@@ -14,11 +14,11 @@
 .nw-search input { flex: 1; border: 0; outline: none; background: transparent; font-size: 13px; }
 .nw-search input::placeholder { color: #9aa3b5; }
 .nw-search > svg { width: 16px; height: 16px; color: #8b93a7; flex: none; }
-.nw-filter { width: 32px; height: 32px; border-radius: 8px; background: transparent; color: #2f6bff; display: grid; place-items: center; flex: none; }
+.nw-filter { width: 32px; height: 32px; border-radius: 8px; background: transparent; color: #0F766E; display: grid; place-items: center; flex: none; }
 .nw-filter svg { width: 18px; height: 18px; }
 .nw-cats { display: flex; gap: 2px; }
 .nw-cats button { flex: 1 0 0; background: none; color: #5c6b82; font-size: 9px; font-weight: 700; line-height: 1.15; display: flex; flex-direction: column; align-items: center; gap: 4px; white-space: nowrap; }
-.nw-cats i { width: 32px; height: 32px; border-radius: 10px; background: #e8f1ff; color: #2f6bff; display: grid; place-items: center; }
+.nw-cats i { width: 32px; height: 32px; border-radius: 10px; background: #F0FDFA; color: #0F766E; display: grid; place-items: center; }
 .nw-cats i svg { width: 18px; height: 18px; }
 .nw-cats button.on { color: #0f9f75; }
 .nw-cats button.on i { background: #12b981; color: #fff; }

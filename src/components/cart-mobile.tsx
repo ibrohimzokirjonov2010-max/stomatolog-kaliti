@@ -60,7 +60,7 @@ export function CartMobile() {
         <h1 className="text-[30px] font-extrabold tracking-tight text-[#0B1220]">Savat</h1>
         <p className="mt-0.5 text-[14px] text-[#7a8397]">Tanlangan mahsulotlar ro‘yxati</p>
         <div className="mt-4 rounded-[16px] bg-white px-6 py-14 text-center shadow-[0_1px_3px_rgba(15,23,42,0.06)]">
-          <span className="mx-auto flex size-14 items-center justify-center rounded-2xl bg-[#e8f1ff] text-[#1f6bff]">
+          <span className="mx-auto flex size-14 items-center justify-center rounded-2xl bg-[#F0FDFA] text-[#1f6bff]">
             <ShoppingBag className="size-7" />
           </span>
           <p className="mt-4 text-[17px] font-bold text-[#0B1220]">Savat bo‘sh</p>

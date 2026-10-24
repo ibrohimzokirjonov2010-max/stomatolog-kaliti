@@ -48,7 +48,7 @@ export function MasterAvatar({ master, size, dot = true, priority }: { master: M
           className="size-full rounded-full object-cover ring-[3px] ring-[#eef3fb]"
         />
       ) : (
-        <span className="grid size-full place-items-center rounded-full bg-[#e8f1ff] text-[#0066FF] ring-[3px] ring-[#eef3fb]">
+        <span className="grid size-full place-items-center rounded-full bg-[#F0FDFA] text-[#0F766E] ring-[3px] ring-[#eef3fb]">
           <UserRound className="size-1/2" strokeWidth={1.6} />
         </span>
       )}
@@ -67,7 +67,7 @@ export function MasterAvatar({ master, size, dot = true, priority }: { master: M
 export function VerifiedBadge({ className }: { className?: string }) {
   return (
     <span title="Moderatsiyadan o‘tgan" aria-label="Moderatsiyadan o‘tgan" className="inline-flex shrink-0">
-      <BadgeCheck className={cn("size-[17px] fill-[#0066FF] text-white", className)} />
+      <BadgeCheck className={cn("size-[17px] fill-[#0F766E] text-white", className)} />
     </span>
   );
 }

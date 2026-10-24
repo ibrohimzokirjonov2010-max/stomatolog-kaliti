@@ -41,7 +41,7 @@ export function MySeminars({ seminars, onChanged }: { seminars: SeminarRow[]; on
     <section className="mb-5" data-testid="my-seminars">
       <div className="mb-3 flex items-center justify-between gap-3">
         <h2 className="text-[17px] font-bold text-[#1a1d26]">Mening seminarlarim</h2>
-        <Link href="/seminarlar/yozuvlarim/tashkilotchi/yangi" className="inline-flex h-10 items-center gap-1.5 rounded-xl bg-[#0066FF] px-4 text-[13.5px] font-semibold text-white shadow-[0_6px_14px_rgba(0,102,255,0.28)]" data-testid="new-seminar">
+        <Link href="/seminarlar/yozuvlarim/tashkilotchi/yangi" className="inline-flex h-10 items-center gap-1.5 rounded-xl bg-[#0F766E] px-4 text-[13.5px] font-semibold text-white shadow-[0_6px_14px_rgba(15,118,110,0.28)]" data-testid="new-seminar">
           <Plus className="size-4" /> Yangi seminar
         </Link>
       </div>

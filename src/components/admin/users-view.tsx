@@ -114,7 +114,7 @@ export function UsersView() {
 
   const stats = data
     ? [
-        { label: "Shifokorlar", value: data.counts.doctors, icon: Users, tone: "bg-[#e8f1ff] text-primary" },
+        { label: "Shifokorlar", value: data.counts.doctors, icon: Users, tone: "bg-[#F0FDFA] text-primary" },
         { label: "Sotuvchilar", value: data.counts.sellers, icon: Store, tone: "bg-[#fff7ed] text-[#c2410c]" },
         { label: "Adminlar", value: data.counts.admins, icon: ShieldCheck, tone: "bg-[#f3efff] text-[#6d28d9]" },
         { label: "Bloklangan", value: data.counts.blocked, icon: Ban, tone: "bg-[#fef2f2] text-[#b91c1c]" },

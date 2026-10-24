@@ -131,7 +131,7 @@
 .sh .ij-clinics button:hover, .sh .ij-clinics button.on { background: var(--t-soft); }
 .sh .ij-clinics img { width: calc(2.2 * var(--u)); height: calc(2.2 * var(--u)); border-radius: 50%; object-fit: cover; }
 .sh .ij-clinics span { display: flex; flex-direction: column; min-width: 0; }
-.sh .ij-clinic-ini { width: calc(2.2 * var(--u)); height: calc(2.2 * var(--u)); border-radius: 50%; display: grid; place-items: center; background: var(--t-soft); color: var(--t-dark, #0b7f7b); font-style: normal; font-weight: 800; font-size: calc(.9 * var(--uf)); }
+.sh .ij-clinic-ini { width: calc(2.2 * var(--u)); height: calc(2.2 * var(--u)); border-radius: 50%; display: grid; place-items: center; background: var(--t-soft); color: var(--t-dark, #0F766E); font-style: normal; font-weight: 800; font-size: calc(.9 * var(--uf)); }
 .sh .ij-clinics b { font-size: calc(0.885 * var(--uf)); font-weight: 700; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 .sh .ij-clinics small { font-size: calc(0.834 * var(--uf)); color: var(--mut); }
 .sh .ij-clinics em { font-style: normal; font-size: calc(0.768 * var(--uf)); color: var(--sub); background: #f1f4f8; border-radius: calc(.3 * var(--u)); padding: calc(.2 * var(--u)) calc(.45 * var(--u)); white-space: nowrap; }

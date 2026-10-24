@@ -3,13 +3,13 @@ import type { Lab } from "@/data/labs";
 import type { Listing } from "@/data/listings";
 
 export const phoneCategories = [
-  { id: "materiallar", title: "Stomatologik materiallar", count: "1 245 mahsulot", href: "/marketplace?cat=materiallar", image: "/img/phone14/cat-materiallar.png", tint: "#e8f1ff", color: "#0066ff" },
+  { id: "materiallar", title: "Stomatologik materiallar", count: "1 245 mahsulot", href: "/marketplace?cat=materiallar", image: "/img/phone14/cat-materiallar.png", tint: "#F0FDFA", color: "#0F766E" },
   { id: "implantlar", title: "Implantlar", count: "856 mahsulot", href: "/marketplace?cat=implantlar", image: "/img/phone14/cat-implantlar.png", tint: "#e7f8f2", color: "#0f9f75" },
   { id: "instrumentlar", title: "Instrumentlar", count: "1 032 mahsulot", href: "/marketplace?cat=asboblar", image: "/img/phone14/cat-instrumentlar.png", tint: "#fff4e8", color: "#e07a1f" },
   { id: "uskunalar", title: "Uskunalar", count: "412 mahsulot", href: "/jihozlar", image: "/img/phone14/cat-uskunalar.png", tint: "#f3e8ff", color: "#7c3aed" },
   { id: "endo", title: "Endodontiya", count: "623 mahsulot", href: "/marketplace?q=endo", image: "/img/phone14/cat-endo.png", tint: "#e7f6ff", color: "#0284c7" },
   { id: "orto", title: "Ortodontiya", count: "498 mahsulot", href: "/marketplace?q=ortodont", image: "/img/phone14/cat-orto.png", tint: "#fde8f3", color: "#db2777" },
-  { id: "lab", title: "Laboratoriya materiallari", count: "534 mahsulot", href: "/marketplace?cat=laboratoriya", image: "/img/phone14/cat-lab.png", tint: "#eef2ff", color: "#4f46e5" },
+  { id: "lab", title: "Laboratoriya materiallari", count: "534 mahsulot", href: "/marketplace?cat=laboratoriya", image: "/img/phone14/cat-lab.png", tint: "#F0FDFA", color: "#0F766E" },
   { id: "forma", title: "Stomatologik forma", count: "765 mahsulot", href: "/forma", image: "/img/phone14/cat-forma.png", tint: "#e8f8ff", color: "#0891b2" },
   { id: "seminar", title: "Seminarlar", count: "248 tadbir", href: "/seminarlar", image: "/img/phone14/cat-seminar.png", tint: "#fff7e6", color: "#d97706" },
   { id: "ehtiyot", title: "Ehtiyot qismlar", count: "312 mahsulot", href: "/marketplace?q=ehtiyot", image: "/img/phone14/cat-ehtiyot.png", tint: "#f1f5f9", color: "#475569" },

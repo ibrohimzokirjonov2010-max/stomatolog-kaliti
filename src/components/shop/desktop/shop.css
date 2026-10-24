@@ -3,7 +3,7 @@
 .sh .dk-banner {
   height: calc(2.9 * var(--u));
   border-radius: calc(.6 * var(--u));
-  background: linear-gradient(90deg, #0f9f98 0%, #2bb5ab 30%, #dff4f1 52%, #e9f8f6 100%);
+  background: linear-gradient(90deg, #0f9f98 0%, #2bb5ab 30%, #dff4f1 52%, #F0FDFA 100%);
   display: flex; align-items: center; gap: calc(1.2 * var(--u));
   padding: 0 calc(.6 * var(--u)) 0 0;
   margin-bottom: calc(.8 * var(--u));
@@ -19,7 +19,7 @@
 .sh .dk-banner-art { height: 140%; width: auto; margin-left: auto; object-fit: contain; pointer-events: none; }
 .sh .dk-banner .go {
   flex: none; height: calc(1.85 * var(--u)); padding: 0 calc(1.1 * var(--u));
-  background: #0b7f7b; color: #fff; border-radius: calc(.45 * var(--u));
+  background: #0F766E; color: #fff; border-radius: calc(.45 * var(--u));
   font-size: calc(.68 * var(--ut)); font-weight: 700; display: inline-flex; align-items: center; gap: calc(.3 * var(--u));
 }
 .sh .dk-h1 { margin: 0; font-size: clamp(21px, 1.75vw, 28px); font-weight: 800; letter-spacing: -.02em; }
@@ -86,7 +86,7 @@
 .sh .dk-card .ph img { width: 100%; height: 100%; object-fit: contain; }
 .sh .dk-badge { position: absolute; top: calc(.35 * var(--u)); left: calc(.35 * var(--u)); height: calc(1.15 * var(--u)); padding: 0 calc(.4 * var(--u)); border-radius: calc(.28 * var(--u)); color: #fff; font-size: calc(.55 * var(--ut)); font-weight: 750; display: inline-flex; align-items: center; }
 .sh .dk-badge.red { background: #ef3b3b; }
-.sh .dk-badge.blue { background: #0b8f8a; }
+.sh .dk-badge.blue { background: #0F766E; }
 .sh .dk-badge.mint { background: #e7f4ff; color: #1d6fe8; }
 .sh .dk-card .brand { margin-top: calc(.4 * var(--u)); color: #8b9bb0; font-size: calc(.58 * var(--ut)); }
 .sh .dk-card h3 { margin: calc(.08 * var(--u)) 0 calc(.25 * var(--u)); font-size: var(--fs); line-height: 1.25; font-weight: 700; min-height: 0; }
@@ -137,7 +137,7 @@
 .sh .dk-checko { width: 100%; height: calc(2.15 * var(--u)); margin-top: calc(.45 * var(--u)); background: var(--teal); color: #fff; border-radius: calc(.45 * var(--u)); font-weight: 750; font-size: calc(.72 * var(--ut)); }
 .sh .dk-perks { margin-top: calc(.7 * var(--u)); display: flex; flex-direction: column; gap: calc(.45 * var(--u)); }
 .sh .dk-perk { display: flex; gap: calc(.45 * var(--u)); align-items: flex-start; }
-.sh .dk-perk .ic { width: calc(1.45 * var(--u)); height: calc(1.45 * var(--u)); border-radius: 50%; background: #e7f7f4; color: var(--teal); display: grid; place-items: center; flex: none; font-size: calc(.72 * var(--ut)); }
+.sh .dk-perk .ic { width: calc(1.45 * var(--u)); height: calc(1.45 * var(--u)); border-radius: 50%; background: #F0FDFA; color: var(--teal); display: grid; place-items: center; flex: none; font-size: calc(.72 * var(--ut)); }
 .sh .dk-perk b { display: block; font-size: calc(.62 * var(--ut)); }
 .sh .dk-perk small { color: #7d8da3; font-size: calc(.55 * var(--ut)); }
 .sh .dk-help { margin-top: calc(.7 * var(--u)); padding: calc(.7 * var(--u)); display: flex; gap: calc(.5 * var(--u)); align-items: center; }
@@ -206,7 +206,7 @@
 .sh .pd-buy { width: 100%; height: calc(2.2 * var(--u)); border-radius: calc(.45 * var(--u)); background: var(--teal); color: #fff; font-weight: 750; font-size: calc(.72 * var(--ut)); display: inline-flex; align-items: center; justify-content: center; gap: calc(.35 * var(--u)); margin-top: calc(.35 * var(--u)); }
 .sh .pd-ghost { width: 100%; height: calc(2 * var(--u)); border-radius: calc(.45 * var(--u)); border: 1px solid #d5deea; margin-top: calc(.35 * var(--u)); font-weight: 700; font-size: calc(.68 * var(--ut)); color: #1d2b45; display: inline-flex; align-items: center; justify-content: center; gap: calc(.35 * var(--u)); }
 .sh .pd-seller { display: flex; gap: calc(.5 * var(--u)); align-items: center; }
-.sh .pd-seller img, .sh .pd-ava { width: calc(2.4 * var(--u)); height: calc(2.4 * var(--u)); border-radius: calc(.4 * var(--u)); object-fit: cover; background: #e7f6f8; display: grid; place-items: center; color: var(--teal); font-weight: 800; }
+.sh .pd-seller img, .sh .pd-ava { width: calc(2.4 * var(--u)); height: calc(2.4 * var(--u)); border-radius: calc(.4 * var(--u)); object-fit: cover; background: #F0FDFA; display: grid; place-items: center; color: var(--teal); font-weight: 800; }
 .sh .pd-seller b { font-size: calc(.75 * var(--ut)); }
 .sh .pd-seller small { display: block; color: #6a7c93; font-size: calc(.6 * var(--ut)); }
 .sh .pd-mini { width: 100%; margin-top: calc(.5 * var(--u)); height: calc(1.8 * var(--u)); border-radius: calc(.4 * var(--u)); border: 1px solid #d7e3ea; color: var(--teal); font-weight: 700; font-size: calc(.64 * var(--ut)); }
@@ -232,7 +232,7 @@
 .sh .sp-badges { display: flex; gap: calc(.3 * var(--u)); flex-wrap: wrap; margin: calc(.35 * var(--u)) 0; }
 .sh .sp-badge { height: calc(1.25 * var(--u)); padding: 0 calc(.45 * var(--u)); border-radius: calc(.3 * var(--u)); font-size: calc(.58 * var(--ut)); font-weight: 700; display: inline-flex; align-items: center; }
 .sh .sp-badge.green { background: #e5f8ef; color: #128a52; }
-.sh .sp-badge.blue { background: #e7f0ff; color: #0b8f8a; }
+.sh .sp-badge.blue { background: #e7f0ff; color: #0F766E; }
 .sh .sp-badge.orange { background: #fff1e4; color: #e07a1f; }
 .sh .sp-facts { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: calc(.4 * var(--u)); margin-top: calc(.5 * var(--u)); }
 .sh .sp-low { display: grid; grid-template-columns: minmax(0, 1fr) calc(16.6 * var(--u)); gap: calc(.7 * var(--u)); margin-top: calc(.7 * var(--u)); }

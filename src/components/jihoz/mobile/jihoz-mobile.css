@@ -49,8 +49,8 @@
 .jz-heart svg { width: 14px; height: 14px; }
 .jz-logo { display: inline-flex; align-items: center; gap: 3px; font-weight: 900; letter-spacing: .04em; font-size: calc(.95 * var(--u)); line-height: 1; }
 .jz-logo.ajax span { color: #e11d48; }
-.jz-logo.eighteeth { color: #1d4ed8; }
-.jz-logo.eighteeth i { width: 8px; height: 8px; border-radius: 50%; background: #1d4ed8; display: inline-block; }
+.jz-logo.eighteeth { color: #0F766E; }
+.jz-logo.eighteeth i { width: 8px; height: 8px; border-radius: 50%; background: #0F766E; display: inline-block; }
 .jz-logo.nsk { color: #0f2744; letter-spacing: .14em; }
 .jz-logo.woodpecker { color: #e11d48; font-size: 9px; letter-spacing: .06em; }
 .jz-card h3 { margin: 0; font-size: calc(1.02 * var(--u)); line-height: 1.2; font-weight: 800; }

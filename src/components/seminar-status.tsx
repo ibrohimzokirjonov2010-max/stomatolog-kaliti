@@ -17,7 +17,7 @@ const copy: Record<RegistrationStatus, { label: string; className: string }> = {
   },
   attended: {
     label: "Kirdi",
-    className: "bg-blue-50 text-blue-800 ring-1 ring-blue-200/80",
+    className: "bg-[#F0FDFA] text-[#115E59] ring-1 ring-[#99F6E4]/80",
   },
   cancelled: {
     label: "Bekor qilindi",

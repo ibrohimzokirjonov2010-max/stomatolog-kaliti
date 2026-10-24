@@ -89,7 +89,7 @@ function CatalogDetailInner({ id, expect }: { id: string; expect?: "forma" | "ji
   const back = expect === "forma" ? "/forma" : expect === "jihozlar" ? "/jihozlar" : "/marketplace";
   const missing = expect === "forma" ? "Forma topilmadi" : expect === "jihozlar" ? "Jihoz topilmadi" : "Mahsulot topilmadi";
   if (card === undefined) return <Shell title="Yuklanmoqda...">{null}</Shell>;
-  if (!card) return <Shell title={missing}><Link href={back} className="text-[#0066FF]">Orqaga</Link></Shell>;
+  if (!card) return <Shell title={missing}><Link href={back} className="text-[#0F766E]">Orqaga</Link></Shell>;
 
   const gallery = [card.image, ...card.images].filter((src, index, all) => src && all.indexOf(src) === index);
   const shot = gallery[photo] || gallery[0] || "";
@@ -127,14 +127,14 @@ function CatalogDetailInner({ id, expect }: { id: string; expect?: "forma" | "ji
     <>
     <CatalogPhoneProduct key={card.id} card={card} back={back} delivery={delivery} specs={specs} />
     <article className="mx-auto hidden max-w-5xl px-4 py-6 pb-28 lg:block lg:pb-6" data-testid="product-live">
-      <Link href={back} className="text-[13px] font-semibold text-[#0066FF]">Orqaga</Link>
+      <Link href={back} className="text-[13px] font-semibold text-[#0F766E]">Orqaga</Link>
       <div className="mt-3 grid gap-6 lg:grid-cols-[minmax(0,1fr)_minmax(0,1fr)]">
         <div data-testid="product-gallery">
           {shot ? <img src={shot} alt="" className="max-h-[420px] w-full rounded-2xl bg-[#f4f7fc] object-contain" /> : <div className="grid h-64 place-items-center rounded-2xl bg-[#f4f7fc] text-sm text-[#6b7280]" data-testid="product-no-photo">Rasm yo‘q</div>}
           {gallery.length > 1 ? (
             <div className="mt-3 flex gap-2 overflow-x-auto">
               {gallery.map((src, index) => (
-                <button key={src} type="button" aria-label={`Rasm ${index + 1}`} className={index === photo ? "rounded-xl ring-2 ring-[#0066FF]" : "rounded-xl"} onClick={() => setPhoto(index)}>
+                <button key={src} type="button" aria-label={`Rasm ${index + 1}`} className={index === photo ? "rounded-xl ring-2 ring-[#0F766E]" : "rounded-xl"} onClick={() => setPhoto(index)}>
                   <img src={src} alt="" className="h-16 w-16 rounded-xl object-cover" />
                 </button>
               ))}
@@ -149,13 +149,13 @@ function CatalogDetailInner({ id, expect }: { id: string; expect?: "forma" | "ji
               <p className="text-[12px] font-semibold text-[#6b7280]">Sotuvchi</p>
               <p className="text-[15px] font-bold text-[#0B1F4D]">{card.shopName}</p>
               {card.shopSlug ? (
-                <Link href={`/marketplace/dokon/${card.shopSlug}`} className="mt-1 inline-block text-[13px] font-semibold text-[#0066FF]">
+                <Link href={`/marketplace/dokon/${card.shopSlug}`} className="mt-1 inline-block text-[13px] font-semibold text-[#0F766E]">
                   Do‘konni ko‘rish
                 </Link>
               ) : null}
             </aside>
           ) : null}
-          <p className="mt-3 text-[22px] font-extrabold text-[#0066FF]">{formatMoney(card.price, "UZS")}</p>
+          <p className="mt-3 text-[22px] font-extrabold text-[#0F766E]">{formatMoney(card.price, "UZS")}</p>
           {short ? <p className="mt-3 text-[15px] leading-relaxed text-[#24344d]" data-testid="product-short">{short}</p> : null}
           <dl className="mt-4 grid grid-cols-2 gap-2 text-[14px]">
             {card.sku ? <div data-testid="product-sku"><dt className="text-[#6b7280]">SKU</dt><dd className="font-semibold">{card.sku}</dd></div> : null}
@@ -169,7 +169,7 @@ function CatalogDetailInner({ id, expect }: { id: string; expect?: "forma" | "ji
               <p className="text-[13px] font-semibold text-[#52637c]">O‘lcham</p>
               <div className="mt-2 flex flex-wrap gap-2">
                 {card.sizes.map((item) => (
-                  <button key={item} type="button" data-testid={`size-${item}`} className={size === item ? "h-9 rounded-lg bg-[#0066FF] px-3 text-[13px] font-bold text-white" : "h-9 rounded-lg border border-[#d7e0ee] px-3 text-[13px] font-semibold"} onClick={() => setSize(item)}>{item}</button>
+                  <button key={item} type="button" data-testid={`size-${item}`} className={size === item ? "h-9 rounded-lg bg-[#0F766E] px-3 text-[13px] font-bold text-white" : "h-9 rounded-lg border border-[#d7e0ee] px-3 text-[13px] font-semibold"} onClick={() => setSize(item)}>{item}</button>
                 ))}
               </div>
             </div>
@@ -181,7 +181,7 @@ function CatalogDetailInner({ id, expect }: { id: string; expect?: "forma" | "ji
                 {card.colors.map((item) => {
                   const hex = formaColors.find((entry) => entry.id === item)?.hex ?? "#d1d5db";
                   return (
-                    <button key={item} type="button" data-testid={`color-${item}`} className={color === item ? "inline-flex h-9 items-center gap-2 rounded-lg bg-[#0066FF] px-3 text-[13px] font-bold text-white" : "inline-flex h-9 items-center gap-2 rounded-lg border border-[#d7e0ee] px-3 text-[13px] font-semibold"} onClick={() => setColor(item)}>
+                    <button key={item} type="button" data-testid={`color-${item}`} className={color === item ? "inline-flex h-9 items-center gap-2 rounded-lg bg-[#0F766E] px-3 text-[13px] font-bold text-white" : "inline-flex h-9 items-center gap-2 rounded-lg border border-[#d7e0ee] px-3 text-[13px] font-semibold"} onClick={() => setColor(item)}>
                       <i className="inline-block size-3 rounded-full border border-black/10" style={{ background: hex }} />
                       {colorLabel(item)}
                     </button>
@@ -205,7 +205,7 @@ function CatalogDetailInner({ id, expect }: { id: string; expect?: "forma" | "ji
             </div>
           </div>
           {error ? <p className="mt-3 text-[13px] font-semibold text-[#dc2626]">{error}</p> : null}
-          <button type="button" className="mt-4 inline-flex h-11 items-center rounded-xl bg-[#0066FF] px-4 text-[14px] font-bold text-white disabled:opacity-50" data-testid="product-add" disabled={card.stockQty < 1} onClick={addLine}>
+          <button type="button" className="mt-4 inline-flex h-11 items-center rounded-xl bg-[#0F766E] px-4 text-[14px] font-bold text-white disabled:opacity-50" data-testid="product-add" disabled={card.stockQty < 1} onClick={addLine}>
             Savatga
           </button>
         </div>
@@ -218,9 +218,9 @@ function CatalogDetailInner({ id, expect }: { id: string; expect?: "forma" | "ji
         </div>
         <p className="mt-3 text-[13px]">
           {profile ? (
-            <Link href="/buyurtmalarim" className="font-semibold text-[#0066FF]">Yetkazilgan buyurtma bo‘lsa, sharhni buyurtma sahifasida qoldiring</Link>
+            <Link href="/buyurtmalarim" className="font-semibold text-[#0F766E]">Yetkazilgan buyurtma bo‘lsa, sharhni buyurtma sahifasida qoldiring</Link>
           ) : (
-            <Link href="/kirish" className="font-semibold text-[#0066FF]">Sharh qoldirish uchun kiring</Link>
+            <Link href="/kirish" className="font-semibold text-[#0F766E]">Sharh qoldirish uchun kiring</Link>
           )}
         </p>
       </section>
@@ -234,7 +234,7 @@ function CatalogDetailInner({ id, expect }: { id: string; expect?: "forma" | "ji
                   {item.image ? <img src={item.image} alt="" className="h-28 w-full rounded-xl object-contain" /> : null}
                   <p className="mt-2 text-[12px] text-[#6b7280]">{item.brand}</p>
                   <p className="text-[14px] font-semibold text-[#0B1F4D]">{item.name}</p>
-                  <p className="text-[14px] font-bold text-[#0066FF]">{formatMoney(item.price, "UZS")}</p>
+                  <p className="text-[14px] font-bold text-[#0F766E]">{formatMoney(item.price, "UZS")}</p>
                 </Link>
               </li>
             ))}
@@ -258,7 +258,7 @@ export function BookPage({ id }: { id: string }) {
     };
   }, [id]);
   if (book === undefined) return <Shell title="Yuklanmoqda...">{null}</Shell>;
-  if (!book) return <Shell title="Kitob topilmadi"><Link href="/kitoblar" className="text-[#0066FF]">Kitoblar</Link></Shell>;
+  if (!book) return <Shell title="Kitob topilmadi"><Link href="/kitoblar" className="text-[#0F766E]">Kitoblar</Link></Shell>;
   return (
     <>
     <BookDetailPhone book={book} />
@@ -269,7 +269,7 @@ export function BookPage({ id }: { id: string }) {
       <p className="mt-3 text-[18px] font-bold">{book.price > 0 ? formatMoney(book.price, "UZS") : "Bepul"}</p>
       {book.progress ? <p className="mt-1 text-[13px] text-[#6b7280]">O‘qilgan: {book.progress.percent}%</p> : null}
       <p className="mt-3 whitespace-pre-wrap text-[15px] leading-relaxed">{book.description}</p>
-      <Link href={`/kitoblar/${book.id}/oqish`} className="mt-5 inline-flex h-11 items-center rounded-xl bg-[#0066FF] px-4 text-[14px] font-bold text-white">O‘qish</Link>
+      <Link href={`/kitoblar/${book.id}/oqish`} className="mt-5 inline-flex h-11 items-center rounded-xl bg-[#0F766E] px-4 text-[14px] font-bold text-white">O‘qish</Link>
     </Shell>
     </div>
     </>
@@ -288,7 +288,7 @@ export function NewsPage({ id }: { id: string }) {
     };
   }, [id]);
   if (article === undefined) return <Shell title="Yuklanmoqda...">{null}</Shell>;
-  if (!article) return <Shell title="Yangilik topilmadi"><Link href="/yangiliklar" className="text-[#0066FF]">Yangiliklar</Link></Shell>;
+  if (!article) return <Shell title="Yangilik topilmadi"><Link href="/yangiliklar" className="text-[#0F766E]">Yangiliklar</Link></Shell>;
   return (
     <Shell title={article.title}>
       <p className="mt-1 text-[13px] text-[#6b7280]">{article.publishedAt ? new Date(article.publishedAt).toLocaleDateString("ru-RU") : ""} {article.tags.join(" · ")}</p>
@@ -311,7 +311,7 @@ export function CoursePlayer({ id }: { id: string }) {
     };
   }, [id]);
   if (course === undefined) return <Shell title="Yuklanmoqda...">{null}</Shell>;
-  if (!course) return <Shell title="Kurs topilmadi"><Link href="/talim" className="text-[#0066FF]">Ta’lim</Link></Shell>;
+  if (!course) return <Shell title="Kurs topilmadi"><Link href="/talim" className="text-[#0F766E]">Ta’lim</Link></Shell>;
   const current = course.lessons[lesson];
   return (
     <>
@@ -322,7 +322,7 @@ export function CoursePlayer({ id }: { id: string }) {
       {course.cover ? <img src={course.cover} alt="" className="mt-4 max-h-64 rounded-2xl object-cover" /> : null}
       <p className="mt-3 text-[15px] leading-relaxed">{course.description}</p>
       {!course.enrolled ? (
-        <button type="button" className="mt-4 h-11 rounded-xl bg-[#0066FF] px-4 text-[14px] font-bold text-white" onClick={() => void enrollCourse(course.id).then((next) => next && setCourse(next))}>
+        <button type="button" className="mt-4 h-11 rounded-xl bg-[#0F766E] px-4 text-[14px] font-bold text-white" onClick={() => void enrollCourse(course.id).then((next) => next && setCourse(next))}>
           Kursga yozilish
         </button>
       ) : null}
@@ -335,7 +335,7 @@ export function CoursePlayer({ id }: { id: string }) {
               {item.done ? "✓ " : ""}{item.title}
             </button>
             {course.enrolled && !item.done ? (
-              <button type="button" className="ml-3 text-[13px] text-[#0066FF]" onClick={() => void saveLessonDone(course.id, item.id).then((next) => next && setCourse(next))}>
+              <button type="button" className="ml-3 text-[13px] text-[#0F766E]" onClick={() => void saveLessonDone(course.id, item.id).then((next) => next && setCourse(next))}>
                 Ko‘rildi
               </button>
             ) : null}

@@ -42,7 +42,7 @@
 .cm-who span { color: #8b93a7; font-size: calc(.88 * var(--u)); }
 .cm-side { position: relative; display: flex; align-items: center; gap: calc(.15 * var(--u)); justify-self: end; }
 .cm-badge { display: inline-flex; align-items: center; gap: calc(.15 * var(--u)); border-radius: calc(.7 * var(--u)); padding: 0 calc(.4 * var(--u)); height: calc(1.7 * var(--u)); font-size: calc(.78 * var(--u)); font-weight: 800; white-space: nowrap; }
-.cm-badge.klinik { background: #e8f1ff; color: #0b7f7d; }
+.cm-badge.klinik { background: #F0FDFA; color: #0b7f7d; }
 .cm-badge.maslahat { background: #e7f8ef; color: #0b7f7d; }
 .cm-badge.savol { background: #f3e8ff; color: #7c3aed; }
 .cm-badge.yangilik { background: #fff4e5; color: #d97706; }

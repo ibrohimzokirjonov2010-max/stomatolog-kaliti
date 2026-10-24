@@ -137,7 +137,7 @@ function SurplusProductBody({ id }: { id: string }) {
         <Package className="mx-auto size-10 text-[#8b93a7]" />
         <p className="mt-3 text-[16px] font-bold text-[#1a1d26]">E’lon topilmadi</p>
         <p className="mt-1 text-[13.5px] text-[#8b93a7]">E’lon yopilgan, o‘chirilgan yoki hali admin tasdig‘ini kutmoqda.</p>
-        <Link href="/ortiqcha-material" className="mt-5 inline-flex h-11 items-center rounded-2xl bg-[#0066FF] px-5 text-[14px] font-semibold text-white">
+        <Link href="/ortiqcha-material" className="mt-5 inline-flex h-11 items-center rounded-2xl bg-[#0F766E] px-5 text-[14px] font-semibold text-white">
           Ortiqcha materiallarga qaytish
         </Link>
       </div>
@@ -176,7 +176,7 @@ function SurplusProductBody({ id }: { id: string }) {
       {/* ─────────── DESKTOP ─────────── */}
       <div className="hidden lg:block">
         <nav className="mb-4 flex items-center gap-1.5 text-[13px] text-[#8b93a7]">
-          <Link href="/ortiqcha-material" className="inline-flex items-center gap-1 font-semibold text-[#0066FF] hover:underline">
+          <Link href="/ortiqcha-material" className="inline-flex items-center gap-1 font-semibold text-[#0F766E] hover:underline">
             <ChevronLeft className="size-4" />
             Ortiqcha material
           </Link>
@@ -240,7 +240,7 @@ function Card({ title, icon, children, className, testid }: { title?: string; ic
     <section className={cn("rounded-[24px] bg-white p-4", className)} data-testid={testid}>
       {title ? (
         <h2 className="mb-3 flex items-center gap-2 text-[16px] font-bold text-[#1a1d26]">
-          {icon ? <span className="text-[#0066FF]">{icon}</span> : null}
+          {icon ? <span className="text-[#0F766E]">{icon}</span> : null}
           {title}
         </h2>
       ) : null}
@@ -308,7 +308,7 @@ function TitleCard({ l, className }: { l: SurplusListing; className?: string }) 
           {statusLabel[l.status]}
         </span>
         <span className="rounded-full bg-[#f2f4f7] px-3 py-1.5 text-[12.5px] font-semibold text-[#374151]">{conditionLabel[condition]}</span>
-        <span className="rounded-full bg-[#eef4ff] px-3 py-1.5 text-[12.5px] font-semibold text-[#0066FF]">Yaroqlilik: {listingExpiry(l)}</span>
+        <span className="rounded-full bg-[#eef4ff] px-3 py-1.5 text-[12.5px] font-semibold text-[#0F766E]">Yaroqlilik: {listingExpiry(l)}</span>
       </div>
       <div className="mt-3 rounded-[16px] border border-[#eceff3] px-3.5 py-3" data-testid="surplus-rating">
         <span className="flex items-center gap-1">
@@ -398,7 +398,7 @@ function MiniMap({ lat, lng }: { lat: number; lng: number }) {
           />
         ))}
       </div>
-      <MapPin className="absolute top-1/2 left-1/2 size-10 -translate-x-1/2 -translate-y-full fill-[#0066FF] text-white drop-shadow" strokeWidth={1.6} />
+      <MapPin className="absolute top-1/2 left-1/2 size-10 -translate-x-1/2 -translate-y-full fill-[#0F766E] text-white drop-shadow" strokeWidth={1.6} />
       <span className="absolute right-1 bottom-0.5 text-[9px] text-[#4b5568]">© OpenStreetMap</span>
     </div>
   );
@@ -427,7 +427,7 @@ function LocationCard({ l }: { l: SurplusListing }) {
         {hasPin ? (
           <>
             <MiniMap lat={l.lat as number} lng={l.lng as number} />
-            <a href={mapHref} target="_blank" rel="noreferrer" className="mt-2 inline-flex items-center gap-1.5 text-[13px] font-semibold text-[#0066FF]">
+            <a href={mapHref} target="_blank" rel="noreferrer" className="mt-2 inline-flex items-center gap-1.5 text-[13px] font-semibold text-[#0F766E]">
               <ExternalLink className="size-3.5" />
               Xaritada ochish
             </a>
@@ -444,7 +444,7 @@ function SellerCard({ l }: { l: SurplusListing }) {
   return (
     <Card title="Sotuvchi" icon={<User className="size-5" />} testid="surplus-seller" className="border border-transparent lg:border-[#eceff5]">
       <div className="flex items-center gap-3">
-        <span className="grid size-12 shrink-0 place-items-center rounded-full bg-[#e8f1ff] text-[15px] font-bold text-[#0066FF]">{initials(l.seller)}</span>
+        <span className="grid size-12 shrink-0 place-items-center rounded-full bg-[#F0FDFA] text-[15px] font-bold text-[#0F766E]">{initials(l.seller)}</span>
         <div className="min-w-0 flex-1">
           <p className="truncate text-[15px] font-bold text-[#1a1d26]">{sellerLine(l)}</p>
           <p className="mt-0.5 text-[12.5px] text-[#8b93a7]">Doktor · shaxsiy ortiqcha</p>
@@ -493,9 +493,9 @@ function SafetyCard() {
   return (
     <Card title="Xavfsiz xarid" icon={<ShieldCheck className="size-5" />} testid="surplus-safety">
       <ul className="space-y-2 text-[13.5px] text-[#4b5568]">
-        <li className="flex gap-2"><CalendarDays className="mt-0.5 size-4 shrink-0 text-[#0066FF]" />Yaroqlilik muddatini qadoqda tekshiring.</li>
-        <li className="flex gap-2"><Package className="mt-0.5 size-4 shrink-0 text-[#0066FF]" />Ochilgan qadoqda saqlash sharoitini so‘rang.</li>
-        <li className="flex gap-2"><ShieldCheck className="mt-0.5 size-4 shrink-0 text-[#0066FF]" />Originalligini ko‘rib, keyin to‘lang. Oldindan pul o‘tkazmang.</li>
+        <li className="flex gap-2"><CalendarDays className="mt-0.5 size-4 shrink-0 text-[#0F766E]" />Yaroqlilik muddatini qadoqda tekshiring.</li>
+        <li className="flex gap-2"><Package className="mt-0.5 size-4 shrink-0 text-[#0F766E]" />Ochilgan qadoqda saqlash sharoitini so‘rang.</li>
+        <li className="flex gap-2"><ShieldCheck className="mt-0.5 size-4 shrink-0 text-[#0F766E]" />Originalligini ko‘rib, keyin to‘lang. Oldindan pul o‘tkazmang.</li>
       </ul>
     </Card>
   );
@@ -547,7 +547,7 @@ function BottomBar({ l, onContact, onEdit }: { l: SurplusListing; onContact: () 
               <Link href="/ortiqcha-material/elonlarim" className="flex h-[52px] flex-1 items-center justify-center rounded-[14px] bg-[#f2f4f7] text-[15px] font-semibold text-[#1a1d26]">
                 Mening e’lonlarim
               </Link>
-              <button type="button" onClick={onEdit} className="flex h-[52px] flex-1 items-center justify-center gap-2 rounded-[14px] bg-[#0066FF] text-[16px] font-semibold text-white shadow-[0_8px_18px_rgba(0,102,255,0.28)]">
+              <button type="button" onClick={onEdit} className="flex h-[52px] flex-1 items-center justify-center gap-2 rounded-[14px] bg-[#0F766E] text-[16px] font-semibold text-white shadow-[0_8px_18px_rgba(15,118,110,0.28)]">
                 <PencilLine className="size-5" />
                 Tahrirlash
               </button>
@@ -555,17 +555,17 @@ function BottomBar({ l, onContact, onEdit }: { l: SurplusListing; onContact: () 
           ) : (
             <>
               {c.inCart ? (
-                <Link href="/savat" data-testid="surplus-goto-cart" className="flex h-[52px] w-[42%] shrink-0 items-center justify-center gap-2 rounded-[14px] bg-[#e8f1ff] text-[15px] font-semibold text-[#0066FF]">
+                <Link href="/savat" data-testid="surplus-goto-cart" className="flex h-[52px] w-[42%] shrink-0 items-center justify-center gap-2 rounded-[14px] bg-[#F0FDFA] text-[15px] font-semibold text-[#0F766E]">
                   <ShoppingBag className="size-5" />
                   Savatda
                 </Link>
               ) : (
-                <button type="button" onClick={c.add} data-testid="surplus-add" className="flex h-[52px] w-[42%] shrink-0 items-center justify-center gap-2 rounded-[14px] bg-[#e8f1ff] text-[15px] font-semibold text-[#0066FF]">
+                <button type="button" onClick={c.add} data-testid="surplus-add" className="flex h-[52px] w-[42%] shrink-0 items-center justify-center gap-2 rounded-[14px] bg-[#F0FDFA] text-[15px] font-semibold text-[#0F766E]">
                   <ShoppingCart className="size-5" />
                   Savatga
                 </button>
               )}
-              <button type="button" onClick={onContact} data-testid="surplus-contact" className="flex h-[52px] flex-1 flex-col items-center justify-center rounded-[14px] bg-[#0066FF] leading-tight text-white shadow-[0_8px_18px_rgba(0,102,255,0.28)]">
+              <button type="button" onClick={onContact} data-testid="surplus-contact" className="flex h-[52px] flex-1 flex-col items-center justify-center rounded-[14px] bg-[#0F766E] leading-tight text-white shadow-[0_8px_18px_rgba(15,118,110,0.28)]">
                 <span className="inline-flex items-center gap-1.5 text-[16px] font-semibold">
                   <MessageCircle className="size-[18px]" />
                   Bog‘lanish
@@ -587,23 +587,23 @@ function DesktopActions({ l, onContact, onEdit }: { l: SurplusListing; onContact
   return (
     <div className="flex gap-2.5">
       {l.mine ? (
-        <button type="button" onClick={onEdit} className="flex h-12 flex-1 items-center justify-center gap-2 rounded-2xl bg-[#0066FF] text-[15px] font-semibold text-white">
+        <button type="button" onClick={onEdit} className="flex h-12 flex-1 items-center justify-center gap-2 rounded-2xl bg-[#0F766E] text-[15px] font-semibold text-white">
           <PencilLine className="size-5" />
           Tahrirlash
         </button>
       ) : (
         <>
-          <button type="button" onClick={onContact} className="flex h-12 flex-1 items-center justify-center gap-2 rounded-2xl bg-[#0066FF] text-[15px] font-semibold text-white">
+          <button type="button" onClick={onContact} className="flex h-12 flex-1 items-center justify-center gap-2 rounded-2xl bg-[#0F766E] text-[15px] font-semibold text-white">
             <MessageCircle className="size-5" />
             Bog‘lanish
           </button>
           {c.inCart ? (
-            <Link href="/savat" className="flex h-12 flex-1 items-center justify-center gap-2 rounded-2xl bg-[#e8f1ff] text-[15px] font-semibold text-[#0066FF]">
+            <Link href="/savat" className="flex h-12 flex-1 items-center justify-center gap-2 rounded-2xl bg-[#F0FDFA] text-[15px] font-semibold text-[#0F766E]">
               <ShoppingBag className="size-5" />
               Savatda
             </Link>
           ) : (
-            <button type="button" onClick={c.add} className="flex h-12 flex-1 items-center justify-center gap-2 rounded-2xl bg-[#e8f1ff] text-[15px] font-semibold text-[#0066FF]">
+            <button type="button" onClick={c.add} className="flex h-12 flex-1 items-center justify-center gap-2 rounded-2xl bg-[#F0FDFA] text-[15px] font-semibold text-[#0F766E]">
               <ShoppingCart className="size-5" />
               Savatga
             </button>
@@ -638,7 +638,7 @@ function DesktopGallery({ l, gallery }: { l: SurplusListing; gallery: string[] }
             key={`${src}-${i}`}
             type="button"
             onClick={() => setActive(i)}
-            className={cn("size-[72px] overflow-hidden rounded-xl border-2 bg-white", i === active ? "border-[#0066FF]" : "border-[#eceff5]")}
+            className={cn("size-[72px] overflow-hidden rounded-xl border-2 bg-white", i === active ? "border-[#0F766E]" : "border-[#eceff5]")}
             aria-label={`Rasm ${i + 1}`}
           >
             <img src={src} alt="" className="h-full w-full object-contain p-1" />

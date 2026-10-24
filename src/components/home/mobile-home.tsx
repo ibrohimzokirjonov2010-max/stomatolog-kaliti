@@ -36,11 +36,11 @@ import "./mobile-home.css";
 
 const tiles = [
   { href: "/seminarlar", label: "Seminarlar", icon: CalendarDays, bg: "#e7f6f4", color: "#1497a8" },
-  { href: "/marketplace", label: "Marketplace", icon: ShoppingBag, bg: "#e8f1ff", color: "#0066ff" },
+  { href: "/marketplace", label: "Marketplace", icon: ShoppingBag, bg: "#F0FDFA", color: "#0F766E" },
   { href: "/ortiqcha-material", label: "Ortiqcha material", icon: Package, bg: "#fff1e6", color: "#f59e0b" },
   { href: "/forma", label: "Forma", icon: Shirt, bg: "#f3e8ff", color: "#8b5cf6" },
   { href: "/talim", label: "Ta’lim", icon: GraduationCap, bg: "#ffe8ee", color: "#f43f5e" },
-  { href: "/kitoblar", label: "Kitoblar", icon: BookOpen, bg: "#e8f1ff", color: "#3b82f6" },
+  { href: "/kitoblar", label: "Kitoblar", icon: BookOpen, bg: "#F0FDFA", color: "#0F766E" },
   { href: "/ustalar", label: "Ustalar", icon: Wrench, bg: "#e7f6f4", color: "#0d9488" },
   { href: "/laboratoriya", label: "Laboratoriya", icon: FlaskConical, bg: "#f3e8ff", color: "#7c3aed" },
 ] as const;

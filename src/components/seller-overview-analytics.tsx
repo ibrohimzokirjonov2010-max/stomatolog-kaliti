@@ -25,7 +25,7 @@ function BarChart({
               <div
                 className={cn(
                   "w-full max-w-[28px] rounded-t-md sm:max-w-[36px]",
-                  sample ? "bg-[#93c5fd]/80" : "bg-[#0066FF]",
+                  sample ? "bg-[#99F6E4]" : "bg-[#0F766E]",
                 )}
                 style={{ height: `${h}%` }}
                 title={formatMoney(p.total, "UZS")}
@@ -53,7 +53,7 @@ function SectionDonut({
 }) {
   const total = marketplace + forma + jihozlar;
   const parts = [
-    { id: "marketplace", label: "Marketplace", value: marketplace, color: "#0066FF" },
+    { id: "marketplace", label: "Marketplace", value: marketplace, color: "#0F766E" },
     { id: "forma", label: "Forma", value: forma, color: "#16a34a" },
     { id: "jihozlar", label: "Jihozlar", value: jihozlar, color: "#f59e0b" },
   ];
@@ -130,7 +130,7 @@ export function SellerOverviewAnalytics() {
         <div className="flex items-start justify-between gap-2">
           <div>
             <h2 className="flex items-center gap-1.5 text-[15px] font-semibold text-[#1a1d26] sm:text-[16px]">
-              <BarChart3 className="size-4 text-[#0066FF]" />
+              <BarChart3 className="size-4 text-[#0F766E]" />
               Sotuv — oxirgi 7 kun
             </h2>
             <p className="mt-0.5 text-[12px] text-[#8b93a7] sm:text-[13px]">
@@ -153,7 +153,7 @@ export function SellerOverviewAnalytics() {
 
       <section className="rounded-[14px] border border-[#eceff5] bg-white p-3 shadow-[0_1px_2px_rgba(15,23,42,0.04)] sm:rounded-[16px] sm:p-5">
         <h2 className="flex items-center gap-1.5 text-[15px] font-semibold text-[#1a1d26] sm:text-[16px]">
-          <Package className="size-4 text-[#0066FF]" />
+          <Package className="size-4 text-[#0F766E]" />
           Eng ko‘p sotilganlar
         </h2>
         <p className="mt-0.5 text-[12px] text-[#8b93a7]">Yetkazish haqi hisobga kirmaydi</p>
@@ -164,7 +164,7 @@ export function SellerOverviewAnalytics() {
                 key={row.productId + row.name}
                 className="flex items-center gap-2.5 rounded-[12px] border border-[#eceff5] bg-[#f7f9fc] p-2 sm:p-2.5"
               >
-                <span className="grid size-7 shrink-0 place-items-center rounded-full bg-white text-[12px] font-bold text-[#0066FF]">
+                <span className="grid size-7 shrink-0 place-items-center rounded-full bg-white text-[12px] font-bold text-[#0F766E]">
                   {i + 1}
                 </span>
                 {row.image ? (

@@ -60,7 +60,7 @@
   font-weight: 650;
   white-space: nowrap;
 }
-.sh .mx-chips button.on { background: #0b8f8a; border-color: #0b8f8a; color: #fff; }
+.sh .mx-chips button.on { background: #0F766E; border-color: #0F766E; color: #fff; }
 
 .sh .mx-grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: calc(.85 * var(--u)); }
 .sh .mx-card {
@@ -133,20 +133,20 @@
   gap: calc(.2 * var(--u));
 }
 .sh .mx-profil { background: #fff; border: 1px solid #e1e8f2; color: #24344d; }
-.sh .mx-contact { background: #0b8f8a; border: 1px solid #0b8f8a; color: #fff; }
+.sh .mx-contact { background: #0F766E; border: 1px solid #0F766E; color: #fff; }
 .sh .mx-contact .i { font-size: calc(1.1 * var(--uf)); }
 .sh .mx-empty { background: #fff; border-radius: calc(.6 * var(--u)); padding: calc(1.6 * var(--u)); text-align: center; color: #5b6b82; }
 .sh .mx-empty button {
   margin-top: calc(.5 * var(--u));
   height: calc(1.8 * var(--u));
   padding: 0 calc(.9 * var(--u));
-  background: #0b8f8a;
+  background: #0F766E;
   color: #fff;
   border-radius: calc(.4 * var(--u));
   font-weight: 750;
   font-size: calc(1.06 * var(--uf));
 }
-.sh .brd-promo .mx-cap { color: #0b8f8a; font-size: calc(1.494 * var(--uf)); }
+.sh .brd-promo .mx-cap { color: #0F766E; font-size: calc(1.494 * var(--uf)); }
 .sh .mx-promo b, .sh .mx-promo small { max-width: calc(8 * var(--u)); }
 .sh .mx-chat {
   position: fixed;
@@ -159,7 +159,7 @@
   overflow: hidden;
   box-shadow: 0 calc(.3 * var(--u)) calc(1.2 * var(--u)) rgba(15, 30, 60, .18);
 }
-.sh .mx-chat header { background: #0b8f8a; color: #fff; padding: calc(.5 * var(--u)) calc(.65 * var(--u)); display: flex; justify-content: space-between; align-items: center; font-size: calc(1.08 * var(--uf)); }
+.sh .mx-chat header { background: #0F766E; color: #fff; padding: calc(.5 * var(--u)) calc(.65 * var(--u)); display: flex; justify-content: space-between; align-items: center; font-size: calc(1.08 * var(--uf)); }
 .sh .mx-chat header button { color: #fff; }
 .sh .mx-chat .log { max-height: calc(12 * var(--u)); overflow: auto; padding: calc(.5 * var(--u)); display: flex; flex-direction: column; gap: calc(.3 * var(--u)); }
 .sh .mx-chat .log p { margin: 0; color: #6a7c93; font-size: calc(0.942 * var(--uf)); }
@@ -167,7 +167,7 @@
 .sh .mx-chat .msg.me { background: #e6f6f4; align-self: flex-end; }
 .sh .mx-chat form { display: flex; border-top: 1px solid #eef2f7; }
 .sh .mx-chat input { flex: 1; border: 0; outline: 0; padding: calc(.45 * var(--u)); font: inherit; font-size: calc(1.021 * var(--uf)); }
-.sh .mx-chat form button { padding: 0 calc(.55 * var(--u)); color: #0b8f8a; font-weight: 750; font-size: calc(1.001 * var(--uf)); }
+.sh .mx-chat form button { padding: 0 calc(.55 * var(--u)); color: #0F766E; font-weight: 750; font-size: calc(1.001 * var(--uf)); }
 .sh .mx-promo img {
   width: calc(7.2 * var(--u));
   height: calc(6.4 * var(--u));

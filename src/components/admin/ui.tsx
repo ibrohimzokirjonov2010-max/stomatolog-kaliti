@@ -117,7 +117,7 @@ const TONES = {
   green: "bg-[#ecfdf3] text-[#15803d]",
   orange: "bg-[#fff7ed] text-[#c2410c]",
   red: "bg-[#fef2f2] text-[#b91c1c]",
-  blue: "bg-[#e8f1ff] text-[#0066FF]",
+  blue: "bg-[#F0FDFA] text-[#0F766E]",
   gray: "bg-[#f1f5f9] text-[#475569]",
   violet: "bg-[#f3efff] text-[#6d28d9]",
 } as const;
@@ -203,7 +203,7 @@ export function ErrorBox({ text, onRetry }: { text: string; onRetry?: () => void
 
 export function Avatar({ name, src, className, tone = 0 }: { name: string; src?: string | null; className?: string; tone?: number }) {
   const palette = [
-    ["#e8f1ff", "#0066FF"],
+    ["#F0FDFA", "#0F766E"],
     ["#ecfdf3", "#15803d"],
     ["#f3efff", "#6d28d9"],
     ["#fff7ed", "#c2410c"],
@@ -325,7 +325,7 @@ export function AreaChart({
   bars,
   labels,
   height = 240,
-  color = "#0066FF",
+  color = "#0F766E",
   yFormat = (v: number) => (v >= 1_000_000 ? `${+(v / 1_000_000).toFixed(1)}M` : v >= 10_000 ? `${Math.round(v / 1_000)}k` : fmtInt(Math.round(v))),
 }: {
   values: number[];
@@ -370,7 +370,7 @@ export function AreaChart({
       {bars?.map((b, i) => {
         const bw = (iw / n) * 0.55;
         const bh = (ih * b) / ymax;
-        return <rect key={i} x={xs[i] - bw / 2} y={padT + ih - bh} width={bw} height={bh} rx={2} fill="#dbe7ff" />;
+        return <rect key={i} x={xs[i] - bw / 2} y={padT + ih - bh} width={bw} height={bh} rx={2} fill="#CCFBF1" />;
       })}
       {values.length > 1 ? (
         <>
@@ -404,7 +404,7 @@ function pickLabelIdx(len: number, count: number) {
   return [...new Set(out)];
 }
 
-export function Spark({ values, color = "#0066FF", w = 96, h = 30 }: { values: number[]; color?: string; w?: number; h?: number }) {
+export function Spark({ values, color = "#0F766E", w = 96, h = 30 }: { values: number[]; color?: string; w?: number; h?: number }) {
   if (values.length < 2) return <svg width={w} height={h} />;
   const mx = Math.max(...values);
   const mn = Math.min(...values);

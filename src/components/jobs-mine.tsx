@@ -41,7 +41,7 @@ export function JobsMinePage() {
     <div>
       <header className="mb-4">
         <p className="text-[13px] text-[#8b93a7]">
-          <Link href="/ishlar" className="text-[#0066FF] hover:underline">Ishlar</Link>
+          <Link href="/ishlar" className="text-[#0F766E] hover:underline">Ishlar</Link>
           <span className="mx-1">/</span>
           <span>Mening vakansiyalarim</span>
         </p>
@@ -84,7 +84,7 @@ export function JobsMinePage() {
                     <li key={job.id} className="rounded-2xl border border-[#eceff5] bg-white p-4 shadow-[0_4px_16px_rgba(15,23,42,0.04)] lg:rounded-[14px] lg:shadow-none" data-testid="my-job-row">
                       <div className="flex flex-wrap items-start justify-between gap-2">
                         <div className="min-w-0">
-                          <Link href={`/ishlar/${job.id}`} className="text-[15px] font-semibold text-[#1a1d26] hover:text-[#0066FF]">{job.title}</Link>
+                          <Link href={`/ishlar/${job.id}`} className="text-[15px] font-semibold text-[#1a1d26] hover:text-[#0F766E]">{job.title}</Link>
                           <p className="mt-0.5 text-[13px] text-[#4b5568]">{job.clinic}</p>
                           <p className="mt-0.5 flex items-center gap-1 text-[12px] text-[#8b93a7]"><MapPin className="size-3" />{job.city} · {jobTypeLabels[job.type]} · {formatSalaryRange(job.salaryMin, job.salaryMax)}</p>
                         </div>
@@ -157,7 +157,7 @@ export function IncomingRow({ item, busy, onSet }: { item: JobApplication; busy:
       </div>
       {item.note ? <p className="mt-2 text-[13px] leading-relaxed text-[#4b5568]">“{item.note}”</p> : null}
       {item.phone ? (
-        <a href={phoneHref(item.phone)} className="mt-2 inline-flex items-center gap-1.5 text-[13px] font-semibold text-[#0066FF]">
+        <a href={phoneHref(item.phone)} className="mt-2 inline-flex items-center gap-1.5 text-[13px] font-semibold text-[#0F766E]">
           <Phone className="size-3.5" />
           {item.phone}
         </a>

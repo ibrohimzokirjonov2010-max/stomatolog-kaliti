@@ -16,7 +16,7 @@
   height: calc(2.1 * var(--u));
   border-radius: calc(.45 * var(--u));
   background: #eef5ff;
-  color: #0b8f8a;
+  color: #0F766E;
   display: grid;
   place-items: center;
   flex: none;
@@ -24,7 +24,7 @@
 .sh .kat-ic .i { width: calc(1.05 * var(--u)); height: calc(1.05 * var(--u)); }
 .sh .kat-body h2 { margin: 0; font-size: calc(1.464 * var(--uf)); font-weight: 600; }
 .sh .kat-body p { margin: calc(.1 * var(--u)) 0 0; color: #6a7c93; font-size: calc(1.257 * var(--uf)); font-weight: 500; line-height: 1.35; min-height: calc(2.2 * var(--u)); }
-.sh .kat-body em { display: block; margin-top: calc(.18 * var(--u)); color: #0b8f8a; font-style: normal; font-weight: 700; font-size: calc(1.316 * var(--uf)); }
+.sh .kat-body em { display: block; margin-top: calc(.18 * var(--u)); color: #0F766E; font-style: normal; font-weight: 700; font-size: calc(1.316 * var(--uf)); }
 .sh .kat-body .brd-go { margin-left: auto; align-self: center; }
 
 /* Sizes from designs/add-forms-1020/kateogriyakar bolimi dizyini.png */

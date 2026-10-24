@@ -28,7 +28,7 @@
 .rd-name { flex: 1; min-width: 0; }
 .rd-name b { display: block; font-size: 15px; line-height: 1.2; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 .rd-name span { display: block; color: #8b93a7; font-size: 12px; }
-.rd-mark.on { color: #0066ff; }
+.rd-mark.on { color: #0F766E; }
 .rd-chap {
   margin: 0 12px 8px;
   display: flex;
@@ -42,13 +42,13 @@
   color: inherit;
 }
 .rd-chap i {
-  width: 32px; height: 32px; border-radius: 10px; background: #e8f1ff; color: #0066ff;
+  width: 32px; height: 32px; border-radius: 10px; background: #F0FDFA; color: #0F766E;
   display: grid; place-items: center; flex: none;
 }
 .rd-chap svg { width: 16px; height: 16px; }
-.rd-chap b { display: block; font-size: 13px; color: #0066ff; }
+.rd-chap b { display: block; font-size: 13px; color: #0F766E; }
 .rd-chap span { display: block; color: #6a7c93; font-size: 11px; line-height: 1.25; }
-.rd-chap .chev { margin-left: auto; color: #0066ff; flex: none; }
+.rd-chap .chev { margin-left: auto; color: #0F766E; flex: none; }
 .rd-scroll { position: relative; flex: 1; min-height: 0; overflow: auto; padding: 4px 16px 12px; }
 .rd-scroll h2 { margin: 14px 0 8px; font-size: 1.25em; letter-spacing: -0.02em; color: #16325c; }
 .rd-scroll p { margin: 0 0 10px; font-size: 1em; line-height: 1.45; color: #243044; }
@@ -60,7 +60,7 @@
   background: #eef5ff; border-radius: 14px; padding: 10px; margin: 0 0 8px;
 }
 .rd-factor i {
-  width: 26px; height: 26px; border-radius: 50%; background: #0066ff; color: #fff;
+  width: 26px; height: 26px; border-radius: 50%; background: #0F766E; color: #fff;
   display: grid; place-items: center; font-style: normal; font-weight: 800; font-size: 13px; flex: none;
 }
 .rd-factor b { display: block; font-size: 0.95em; }
@@ -79,11 +79,11 @@
 }
 .rd-range input::-webkit-slider-runnable-track {
   height: 4px; border-radius: 4px;
-  background: linear-gradient(90deg, #0066ff var(--p), #d9e6ff var(--p));
+  background: linear-gradient(90deg, #0F766E var(--p), #d9e6ff var(--p));
 }
 .rd-range input::-webkit-slider-thumb {
   -webkit-appearance: none; width: 18px; height: 18px; margin-top: -7px; border-radius: 50%;
-  background: #fff; border: 3px solid #0066ff;
+  background: #fff; border: 3px solid #0F766E;
 }
 .rd-range span { color: #5c6b82; font-size: 12px; font-weight: 700; white-space: nowrap; }
 .rd-tools { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); margin-top: 6px; }
@@ -93,7 +93,7 @@
 }
 .rd-tools svg { width: 18px; height: 18px; }
 .rd-tools .big { font-size: 16px; font-weight: 800; line-height: 1; height: 18px; }
-.rd-tools button.on { color: #0066ff; }
+.rd-tools button.on { color: #0F766E; }
 .rd-sheet { position: fixed; inset: 0; z-index: 80; background: rgba(15, 23, 42, 0.45); display: flex; align-items: flex-end; }
 .rd-box {
   position: relative; z-index: 1; width: 100%; max-height: 70%; overflow: auto;
@@ -104,7 +104,7 @@
 .rd-box button.ch {
   text-align: left; background: #f4f7fc; border-radius: 12px; padding: 10px 12px; color: inherit;
 }
-.rd-box button.ch.on { background: #e8f1ff; color: #0066ff; }
+.rd-box button.ch.on { background: #F0FDFA; color: #0F766E; }
 .rd-box button.ch b { display: block; font-size: 14px; }
 .rd-box button.ch span { color: #6a7c93; font-size: 12px; }
 .rd.dark { background: #101826; color: #e8eef8; }

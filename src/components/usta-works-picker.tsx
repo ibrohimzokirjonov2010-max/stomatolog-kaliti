@@ -59,7 +59,7 @@ export function WorksPicker({ value, onChange, error }: { value: string[]; onCha
             type="button"
             onClick={() => ref.current?.click()}
             disabled={busy}
-            className="grid size-20 place-items-center rounded-xl border border-dashed border-[#c9d8f5] bg-[#f8faff] text-[11px] font-semibold text-[#0066FF] disabled:opacity-60"
+            className="grid size-20 place-items-center rounded-xl border border-dashed border-[#c9d8f5] bg-[#f8faff] text-[11px] font-semibold text-[#0F766E] disabled:opacity-60"
           >
             <span className="flex flex-col items-center gap-1">
               <ImagePlus className="size-5" />

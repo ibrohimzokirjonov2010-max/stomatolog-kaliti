@@ -338,7 +338,7 @@ export function MapPicker({
             {places.map((p) => (
               <li key={p.id} className="flex items-center gap-2.5 rounded-[12px] border border-[#e3e8f0] px-2.5 py-2">
                 <button type="button" onClick={() => goTo(p)} className="flex min-w-0 flex-1 items-center gap-2.5 text-left">
-                  <span className="grid size-9 shrink-0 place-items-center rounded-full bg-[#e8f1ff] text-[#1f6bff]">
+                  <span className="grid size-9 shrink-0 place-items-center rounded-full bg-[#F0FDFA] text-[#1f6bff]">
                     <PlaceIcon label={p.label} className="size-[18px]" />
                   </span>
                   <span className="min-w-0">
@@ -374,7 +374,7 @@ export function MapPicker({
                 onClick={() => setLabel(l)}
                 className={cn(
                   "h-8 rounded-full border px-3 text-[12.5px] font-medium",
-                  label === l ? "border-[#1f6bff] bg-[#e8f1ff] text-[#1f6bff]" : "border-[#dfe4ec] bg-white text-[#4b5568]",
+                  label === l ? "border-[#1f6bff] bg-[#F0FDFA] text-[#1f6bff]" : "border-[#dfe4ec] bg-white text-[#4b5568]",
                 )}
               >
                 {l}

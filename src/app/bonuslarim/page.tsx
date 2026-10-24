@@ -15,7 +15,7 @@ export default function BonuslarimPage() {
     <div className="mx-auto hidden max-w-2xl lg:block">
       <header className="mb-4">
         <p className="text-[13px] text-[#8b93a7]">
-          <Link href="/marketplace" className="text-[#0066FF] hover:underline">Marketplace</Link>
+          <Link href="/marketplace" className="text-[#0F766E] hover:underline">Marketplace</Link>
           <span className="mx-1.5 text-[#d0d5e0]">/</span>
           <span>Bonuslarim</span>
         </p>

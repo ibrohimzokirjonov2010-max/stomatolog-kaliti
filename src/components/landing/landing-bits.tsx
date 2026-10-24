@@ -37,7 +37,7 @@ export function LandingSocials({ names, tone = "muted" }: { names: (keyof typeof
           key={name}
           href={SOCIALS[name].href}
           aria-label={SOCIALS[name].label}
-          className={tone === "brand" ? "grid size-10 place-items-center rounded-full bg-[#1d6cf2] text-white hover:bg-[#1557d0]" : "grid size-11 place-items-center rounded-full bg-[#f4f7fb] text-[#334155] hover:text-[#0066FF]"}
+          className={tone === "brand" ? "grid size-10 place-items-center rounded-full bg-[#1d6cf2] text-white hover:bg-[#1557d0]" : "grid size-11 place-items-center rounded-full bg-[#f4f7fb] text-[#334155] hover:text-[#0F766E]"}
         >
           <SocialGlyph name={name} />
         </a>
@@ -60,7 +60,7 @@ export function LandingLogo({ tagline = true, size = "md", teal = false }: { tag
         <path d={toothOutline} />
       </svg>
       <span className="leading-tight">
-        <span className={`block font-extrabold tracking-tight ${ink} ${large ? "text-[24px]" : "text-[20px]"}`}>Stoma<span className="text-[#0b8f8a]">Hub</span></span>
+        <span className={`block font-extrabold tracking-tight ${ink} ${large ? "text-[24px]" : "text-[20px]"}`}>Stoma<span className="text-[#0F766E]">Hub</span></span>
         {tagline ? <span className="mt-0.5 block max-w-[168px] text-[12px] font-medium leading-snug text-[#64748b]">Stomatologlar uchun yagona platforma</span> : null}
       </span>
     </span>
@@ -70,7 +70,7 @@ export function LandingLogo({ tagline = true, size = "md", teal = false }: { tag
 export function ToothBadge({ className = "size-16" }: { className?: string }) {
   return (
     <span className={`grid place-items-center rounded-[18px] bg-white shadow-[0_14px_32px_rgba(15,23,42,0.14)] ring-1 ring-[#e6eef8] ${className}`}>
-      <svg viewBox="0 0 32 32" className="size-[55%] text-[#0066FF]" aria-hidden="true">
+      <svg viewBox="0 0 32 32" className="size-[55%] text-[#0F766E]" aria-hidden="true">
         <path fill="currentColor" d={toothPath} />
       </svg>
     </span>
@@ -80,7 +80,7 @@ export function ToothBadge({ className = "size-16" }: { className?: string }) {
 export function PayMarks() {
   return (
     <div className="flex flex-wrap gap-2">
-      <span className="inline-flex h-10 min-w-[92px] items-center justify-center rounded-lg bg-[#0066FF] px-3 text-[15px] font-black tracking-[0.16em] text-white">CLICK</span>
+      <span className="inline-flex h-10 min-w-[92px] items-center justify-center rounded-lg bg-[#0F766E] px-3 text-[15px] font-black tracking-[0.16em] text-white">CLICK</span>
       <span className="inline-flex h-10 min-w-[92px] items-center justify-center rounded-lg bg-[#00C2A8] px-3 text-[17px] font-extrabold tracking-tight text-white">Payme</span>
     </div>
   );
@@ -124,7 +124,7 @@ export function LandingSearch() {
             placeholder="Mahsulot yoki brend"
             className="h-10 min-w-0 flex-1 rounded-xl bg-[#f7f9fc] px-3 text-[14px] outline-none"
           />
-          <button type="submit" className="h-10 rounded-xl bg-[#0066FF] px-3 text-[13px] font-bold text-white">
+          <button type="submit" className="h-10 rounded-xl bg-[#0F766E] px-3 text-[13px] font-bold text-white">
             Qidirish
           </button>
         </form>
@@ -162,10 +162,10 @@ export function LandingMenu() {
                   {item.label}
                 </Link>
               ))}
-              <Link href="/kirish" onClick={() => setOpen(false)} className="mt-3 flex h-11 items-center justify-center rounded-full border border-[#0066FF] text-[15px] font-bold text-[#0066FF]">
+              <Link href="/kirish" onClick={() => setOpen(false)} className="mt-3 flex h-11 items-center justify-center rounded-full border border-[#0F766E] text-[15px] font-bold text-[#0F766E]">
                 Kirish
               </Link>
-              <Link href="/royxat" onClick={() => setOpen(false)} className="mt-2 flex h-11 items-center justify-center rounded-full bg-[#0066FF] text-[15px] font-bold text-white">
+              <Link href="/royxat" onClick={() => setOpen(false)} className="mt-2 flex h-11 items-center justify-center rounded-full bg-[#0F766E] text-[15px] font-bold text-white">
                 Ro‘yxatdan o‘tish
               </Link>
             </div>
@@ -254,7 +254,7 @@ export function LandingLang() {
                   setLang(item.id);
                   setOpen(false);
                 }}
-                className={`block w-full px-4 py-2.5 text-left text-[14px] hover:bg-[#f4f7fb] ${item.id === lang ? "font-bold text-[#0066FF]" : "text-[#16324f]"}`}
+                className={`block w-full px-4 py-2.5 text-left text-[14px] hover:bg-[#f4f7fb] ${item.id === lang ? "font-bold text-[#0F766E]" : "text-[#16324f]"}`}
               >
                 {item.label}
               </button>

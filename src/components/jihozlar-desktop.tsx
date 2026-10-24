@@ -55,7 +55,7 @@ function JihozCard({ product }: { product: Product }) {
   const badge = product.discount
     ? { text: `-${product.discount}%`, cls: "bg-[#ef4444] text-white" }
     : jihozBestseller(product)
-      ? { text: "Bestseller", cls: "bg-[#0066FF] text-white" }
+      ? { text: "Bestseller", cls: "bg-[#0F766E] text-white" }
       : condition === "yangi"
         ? { text: "Yangi", cls: "bg-[#16a34a] text-white" }
         : { text: conditionText[condition], cls: "bg-[#f59e0b] text-white" };
@@ -94,10 +94,10 @@ function JihozCard({ product }: { product: Product }) {
       </div>
       <p className="mt-3 inline-flex items-center gap-1 text-[11px] font-extrabold tracking-wide text-[#0B1F4D] uppercase">
         {product.brand}
-        <BadgeCheck className="size-3.5 fill-[#0066FF] text-white" />
+        <BadgeCheck className="size-3.5 fill-[#0F766E] text-white" />
       </p>
       <Link href={href} className="mt-0.5 block">
-        <h3 className="line-clamp-2 min-h-[38px] text-[14px] leading-[19px] font-semibold text-[#1a1d26] hover:text-[#0066FF]">
+        <h3 className="line-clamp-2 min-h-[38px] text-[14px] leading-[19px] font-semibold text-[#1a1d26] hover:text-[#0F766E]">
           {product.name}
         </h3>
       </Link>
@@ -113,7 +113,7 @@ function JihozCard({ product }: { product: Product }) {
           <Check className="size-3.5" strokeWidth={2.6} />
           {stock}
         </p>
-        <p className="flex items-center gap-1 text-[#0066FF]">
+        <p className="flex items-center gap-1 text-[#0F766E]">
           <Truck className="size-3.5" />
           {delivery}
         </p>
@@ -126,7 +126,7 @@ function JihozCard({ product }: { product: Product }) {
         <button
           type="button"
           onClick={() => add(product.id, product.listedBySeller ? product : undefined)}
-          className="mt-2 inline-flex h-10 w-full items-center justify-center gap-1.5 rounded-[10px] bg-[#0066FF] text-[13px] font-semibold text-white shadow-[0_3px_10px_rgba(0,102,255,0.25)] transition-colors hover:bg-[#0052cc]"
+          className="mt-2 inline-flex h-10 w-full items-center justify-center gap-1.5 rounded-[10px] bg-[#0F766E] text-[13px] font-semibold text-white shadow-[0_3px_10px_rgba(15,118,110,0.25)] transition-colors hover:bg-[#115E59]"
         >
           <ShoppingCart className="size-3.5" />
           Savatga qo‘shish
@@ -235,15 +235,15 @@ export function JihozlarDesktop({ catalog, q }: { catalog: Product[]; q: string 
   return (
     <div className="space-y-4">
       <nav className="flex items-center gap-1 text-[12.5px] text-[#8b93a7]">
-        <Link href="/" className="hover:text-[#0066FF]">Bosh sahifa</Link>
+        <Link href="/" className="hover:text-[#0F766E]">Bosh sahifa</Link>
         <ChevronRight className="size-3.5" />
-        <Link href="/marketplace" className="hover:text-[#0066FF]">Marketplace</Link>
+        <Link href="/marketplace" className="hover:text-[#0F766E]">Marketplace</Link>
         <ChevronRight className="size-3.5" />
         <span className="text-[#4b5568]">Jihozlar</span>
       </nav>
 
       {/* Hero */}
-      <section className="relative overflow-hidden rounded-[20px] bg-linear-to-r from-[#dcecff] via-[#e8f3ff] to-[#f3f9ff] p-6">
+      <section className="relative overflow-hidden rounded-[20px] bg-linear-to-r from-[#F0FDFA] via-[#F0FDFA] to-[#F0FDFA] p-6">
         <div className="grid items-center gap-6 lg:grid-cols-[minmax(0,1fr)_minmax(0,1.05fr)]">
           <div>
             <h1 className="text-[36px] leading-none font-extrabold tracking-tight text-[#0B1F4D]">Jihozlar</h1>
@@ -274,7 +274,7 @@ export function JihozlarDesktop({ catalog, q }: { catalog: Product[]; q: string 
           onClick={() => setTypes([])}
           className={cn(
             "h-9 rounded-full border px-4 text-[13.5px] font-semibold transition-colors",
-            types.length === 0 ? "border-[#0066FF] bg-[#0066FF] text-white" : "border-[#e6eaf2] bg-white text-[#2b3447] hover:border-[#0066FF]/50",
+            types.length === 0 ? "border-[#0F766E] bg-[#0F766E] text-white" : "border-[#e6eaf2] bg-white text-[#2b3447] hover:border-[#0F766E]/50",
           )}
         >
           Hammasi
@@ -288,7 +288,7 @@ export function JihozlarDesktop({ catalog, q }: { catalog: Product[]; q: string 
               onClick={() => setTypes(on ? [] : [t.id])}
               className={cn(
                 "h-9 rounded-full border px-4 text-[13.5px] font-semibold transition-colors",
-                on ? "border-[#0066FF] bg-[#0066FF] text-white" : "border-[#e6eaf2] bg-white text-[#2b3447] hover:border-[#0066FF]/50",
+                on ? "border-[#0F766E] bg-[#0F766E] text-white" : "border-[#e6eaf2] bg-white text-[#2b3447] hover:border-[#0F766E]/50",
               )}
             >
               {t.chip}
@@ -302,7 +302,7 @@ export function JihozlarDesktop({ catalog, q }: { catalog: Product[]; q: string 
           <div className="mb-1 flex items-center justify-between">
             <h2 className="text-[15px] font-bold text-[#0B1F4D]">Filtrlar</h2>
             {filtersOn ? (
-              <button type="button" onClick={clearAll} className="text-[12px] font-semibold text-[#0066FF] hover:underline">
+              <button type="button" onClick={clearAll} className="text-[12px] font-semibold text-[#0F766E] hover:underline">
                 Tozalash
               </button>
             ) : null}
@@ -325,7 +325,7 @@ export function JihozlarDesktop({ catalog, q }: { catalog: Product[]; q: string 
                 value={brandQuery}
                 onChange={(e) => setBrandQuery(e.target.value)}
                 placeholder="Brendni qidirish..."
-                className="h-9 w-full rounded-lg border border-[#e6eaf2] bg-white pr-2 pl-8 text-[12.5px] outline-none placeholder:text-[#9aa3b2] focus:border-[#0066FF]"
+                className="h-9 w-full rounded-lg border border-[#e6eaf2] bg-white pr-2 pl-8 text-[12.5px] outline-none placeholder:text-[#9aa3b2] focus:border-[#0F766E]"
               />
             </div>
             {brandRows.map((r) => (
@@ -352,7 +352,7 @@ export function JihozlarDesktop({ catalog, q }: { catalog: Product[]; q: string 
             </div>
             <div className="relative mx-1 mt-3 mb-1 h-[18px]">
               <div className="absolute top-1/2 right-0 left-0 h-1 -translate-y-1/2 rounded-full bg-[#e6eaf2]" />
-              <div className="absolute top-1/2 h-1 -translate-y-1/2 rounded-full bg-[#0066FF]" style={{ left: `${minPct}%`, width: `${Math.max(0, maxPct - minPct)}%` }} />
+              <div className="absolute top-1/2 h-1 -translate-y-1/2 rounded-full bg-[#0F766E]" style={{ left: `${minPct}%`, width: `${Math.max(0, maxPct - minPct)}%` }} />
               <input
                 type="range"
                 aria-label="Minimal narx"
@@ -408,19 +408,19 @@ export function JihozlarDesktop({ catalog, q }: { catalog: Product[]; q: string 
           {filtersOn ? (
             <div className="flex flex-wrap gap-2">
               {types.map((t) => (
-                <button key={t} type="button" onClick={() => setTypes((l) => l.filter((x) => x !== t))} className="inline-flex h-7 items-center gap-1.5 rounded-md bg-[#eaf2ff] px-2.5 text-[12px] font-semibold text-[#0066FF]">
+                <button key={t} type="button" onClick={() => setTypes((l) => l.filter((x) => x !== t))} className="inline-flex h-7 items-center gap-1.5 rounded-md bg-[#F0FDFA] px-2.5 text-[12px] font-semibold text-[#0F766E]">
                   {jihozTypes.find((x) => x.id === t)?.label}
                   <X className="size-3" />
                 </button>
               ))}
               {brands.map((b) => (
-                <button key={b} type="button" onClick={() => setBrands((l) => l.filter((x) => x !== b))} className="inline-flex h-7 items-center gap-1.5 rounded-md bg-[#eaf2ff] px-2.5 text-[12px] font-semibold text-[#0066FF]">
+                <button key={b} type="button" onClick={() => setBrands((l) => l.filter((x) => x !== b))} className="inline-flex h-7 items-center gap-1.5 rounded-md bg-[#F0FDFA] px-2.5 text-[12px] font-semibold text-[#0F766E]">
                   {b}
                   <X className="size-3" />
                 </button>
               ))}
               {conditions.map((c) => (
-                <button key={c} type="button" onClick={() => setConditions((l) => l.filter((x) => x !== c))} className="inline-flex h-7 items-center gap-1.5 rounded-md bg-[#eaf2ff] px-2.5 text-[12px] font-semibold text-[#0066FF]">
+                <button key={c} type="button" onClick={() => setConditions((l) => l.filter((x) => x !== c))} className="inline-flex h-7 items-center gap-1.5 rounded-md bg-[#F0FDFA] px-2.5 text-[12px] font-semibold text-[#0F766E]">
                   {conditionText[c]}
                   <X className="size-3" />
                 </button>
@@ -432,7 +432,7 @@ export function JihozlarDesktop({ catalog, q }: { catalog: Product[]; q: string 
             <div className="rounded-xl border border-[#eceff5] bg-white px-6 py-16 text-center">
               <p className="font-semibold text-[#1a1d26]">Mos mahsulot topilmadi.</p>
               <p className="mt-1 text-sm text-[#8b93a7]">Filtrlarni o‘zgartiring yoki tozalang.</p>
-              <button type="button" onClick={clearAll} className="mt-4 inline-flex h-10 items-center rounded-xl bg-[#0066FF] px-5 text-sm font-semibold text-white">
+              <button type="button" onClick={clearAll} className="mt-4 inline-flex h-10 items-center rounded-xl bg-[#0F766E] px-5 text-sm font-semibold text-white">
                 Filtrlarni tozalash
               </button>
             </div>

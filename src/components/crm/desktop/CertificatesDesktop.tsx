@@ -43,7 +43,7 @@ const paperFill: Record<Certificate["theme"], string> = {
   sand: "#fff8e8",
   navy: "#0c2454",
   sky: "#eaf3ff",
-  royal: "#dbeafe",
+  royal: "#CCFBF1",
 };
 
 const designPreview: Record<string, string> = {

@@ -43,7 +43,7 @@ export function SeminarMobileRegistration({
         type="button"
         data-testid="seminar-mobile-submit"
         onClick={() => router.push(`/seminarlar/${live.id}/royxat`)}
-        className="inline-flex h-12 w-full items-center justify-center gap-1.5 rounded-xl bg-[#0066FF] text-[14.5px] font-semibold text-white shadow-[0_8px_18px_rgba(0,102,255,0.28)]"
+        className="inline-flex h-12 w-full items-center justify-center gap-1.5 rounded-xl bg-[#0F766E] text-[14.5px] font-semibold text-white shadow-[0_8px_18px_rgba(15,118,110,0.28)]"
       >
         Yozilishni tasdiqlash
         <ArrowRight className="size-4" />

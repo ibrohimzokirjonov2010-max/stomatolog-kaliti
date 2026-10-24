@@ -50,7 +50,7 @@
 .kb-card .by { margin: 0; color: #8b93a7; font-size: calc(.88 * var(--u)); }
 .kb-rate { display: flex; align-items: center; gap: calc(.15 * var(--u)); margin-top: calc(.15 * var(--u)); font-size: calc(.85 * var(--u)); color: #5c6b82; }
 .kb-rate svg { width: calc(.9 * var(--u)); height: calc(.9 * var(--u)); color: #f5b400; fill: #f5b400; }
-.kb-chip { align-self: flex-start; margin-top: calc(.2 * var(--u)); background: #e8f1ff; color: #0b7f7d; border-radius: calc(.4 * var(--u)); padding: 0 calc(.35 * var(--u)); font-size: calc(.78 * var(--u)); font-weight: 800; }
+.kb-chip { align-self: flex-start; margin-top: calc(.2 * var(--u)); background: #F0FDFA; color: #0b7f7d; border-radius: calc(.4 * var(--u)); padding: 0 calc(.35 * var(--u)); font-size: calc(.78 * var(--u)); font-weight: 800; }
 .kb-price { margin: calc(.2 * var(--u)) 0; font-size: calc(1.15 * var(--u)); font-weight: 800; }
 .kb-cart { margin-top: auto; height: calc(2.7 * var(--u)); border-radius: calc(.7 * var(--u)); background: #0b7f7d; color: #fff; font-weight: 800; font-size: calc(.95 * var(--u)); display: flex; align-items: center; justify-content: center; gap: calc(.2 * var(--u)); }
 .kb-cart svg { width: calc(1.05 * var(--u)); height: calc(1.05 * var(--u)); }
@@ -77,7 +77,7 @@
 .fk-ava .youtube { background: #ff0033; }
 .fk-row h3 { margin: 0; font-size: calc(1.02 * var(--u)); }
 .fk-row p { margin: 0; color: #6a7c93; font-size: calc(.85 * var(--u)); }
-.fk-row .topic { display: inline-flex; margin-top: calc(.1 * var(--u)); background: #e8f1ff; color: #0b7f7d; border-radius: calc(.35 * var(--u)); padding: 0 calc(.3 * var(--u)); font-size: calc(.75 * var(--u)); font-weight: 800; }
+.fk-row .topic { display: inline-flex; margin-top: calc(.1 * var(--u)); background: #F0FDFA; color: #0b7f7d; border-radius: calc(.35 * var(--u)); padding: 0 calc(.3 * var(--u)); font-size: calc(.75 * var(--u)); font-weight: 800; }
 .fk-bid { text-align: right; }
 .fk-bid b { display: block; color: #0b7f7d; font-size: calc(.95 * var(--u)); }
 .fk-bid span { display: block; color: #8b93a7; font-size: calc(.75 * var(--u)); }

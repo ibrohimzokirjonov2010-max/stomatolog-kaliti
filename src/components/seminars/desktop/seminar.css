@@ -43,7 +43,7 @@
 .sh .sem-thumb { display: block; width: 100%; height: calc(6.1 * var(--u)); object-fit: cover; border-radius: calc(.4 * var(--u)); background: #eef3f8; }
 .sh .sem-tag {
   display: inline-flex; align-items: center; height: calc(1.15 * var(--u)); padding: 0 calc(.4 * var(--u));
-  border-radius: calc(.3 * var(--u)); background: #e7f6f8; color: #0e8c9e; font-size: calc(.55 * var(--ut)); font-weight: 700;
+  border-radius: calc(.3 * var(--u)); background: #F0FDFA; color: #0e8c9e; font-size: calc(.55 * var(--ut)); font-weight: 700;
 }
 .sh .sem-card h3 { margin: calc(.25 * var(--u)) 0 calc(.1 * var(--u)); font-size: calc(.76 * var(--ut)); font-weight: 800; line-height: 1.25; }
 .sh .sem-card h3 a:hover { color: var(--teal); }
@@ -66,7 +66,7 @@
 .sh .sem-actions { display: flex; justify-content: flex-end; align-items: center; gap: calc(.3 * var(--u)); margin-top: calc(.3 * var(--u)); }
 .sh .sem-go {
   height: calc(2.1 * var(--u)); padding: 0 calc(.7 * var(--u)); border-radius: calc(.45 * var(--u));
-  background: #0b8f8a; color: #fff; font-weight: 700; font-size: calc(.62 * var(--ut)); white-space: nowrap;
+  background: #0F766E; color: #fff; font-weight: 700; font-size: calc(.62 * var(--ut)); white-space: nowrap;
   display: inline-flex; align-items: center;
 }
 .sh .sem-heart {
@@ -102,7 +102,7 @@
 .sh .sem-mine b { font-size: calc(.62 * var(--ut)); display: block; line-height: 1.25; }
 .sh .sem-mine small { color: #7d8da3; font-size: calc(.54 * var(--ut)); }
 .sh .sem-why { display: flex; gap: calc(.4 * var(--u)); align-items: flex-start; margin: calc(.4 * var(--u)) 0; }
-.sh .sem-why .ic { width: calc(1.6 * var(--u)); height: calc(1.6 * var(--u)); border-radius: 50%; background: #e7f7f4; color: var(--teal); display: grid; place-items: center; flex: none; }
+.sh .sem-why .ic { width: calc(1.6 * var(--u)); height: calc(1.6 * var(--u)); border-radius: 50%; background: #F0FDFA; color: var(--teal); display: grid; place-items: center; flex: none; }
 .sh .sem-why b { display: block; font-size: calc(.64 * var(--ut)); }
 .sh .sem-why small { color: #6a7c93; font-size: calc(.56 * var(--ut)); }
 

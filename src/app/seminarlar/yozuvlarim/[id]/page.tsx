@@ -50,7 +50,7 @@ export default function TicketPage({ params }: { params: Promise<{ id: string }>
 
   const back = (
     <p className="mb-3 text-[13px]">
-      <Link href="/seminarlar/yozuvlarim" className="inline-flex items-center gap-1 text-[#0066FF] hover:underline">
+      <Link href="/seminarlar/yozuvlarim" className="inline-flex items-center gap-1 text-[#0F766E] hover:underline">
         <ChevronLeft className="size-4" />
         Mening yozuvlarim
       </Link>

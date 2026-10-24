@@ -78,15 +78,15 @@ export function MarketplaceBonusBanner({ className }: { className?: string }) {
   if (!ready) return null;
   if (!signedIn) {
     return (
-      <div className={cn("flex flex-wrap items-center gap-3 rounded-2xl border border-[#cfe0ff] bg-[linear-gradient(135deg,#eaf2ff,#f6f9ff)] px-4 py-3", className)}>
-        <span className="grid size-10 shrink-0 place-items-center rounded-xl bg-[#0066FF] text-white">
+      <div className={cn("flex flex-wrap items-center gap-3 rounded-2xl border border-[#99F6E4] bg-[linear-gradient(135deg,#F0FDFA,#f6f9ff)] px-4 py-3", className)}>
+        <span className="grid size-10 shrink-0 place-items-center rounded-xl bg-[#0F766E] text-white">
           <Gift className="size-5" />
         </span>
         <p className="min-w-0 flex-1 basis-56 text-[13.5px] font-semibold leading-snug text-[#0B1F4D]">
           Ro‘yxatdan o‘ting — {som(BONUS_SIGNUP_UZS)} bonus, birinchi xariddan keyin yana {som(BONUS_FIRST_PURCHASE_UZS)}.{" "}
           <span className="font-medium text-[#5b6b8c]">Faqat Marketplace’da; bonus telefon tasdiqlangach beriladi.</span>
         </p>
-        <Link href="/royxat" className="inline-flex h-9 items-center rounded-full bg-[#0066FF] px-4 text-[13px] font-bold text-white hover:bg-[#0052cc]">
+        <Link href="/royxat" className="inline-flex h-9 items-center rounded-full bg-[#0F766E] px-4 text-[13px] font-bold text-white hover:bg-[#115E59]">
           Ro‘yxatdan o‘tish
         </Link>
       </div>
@@ -107,8 +107,8 @@ export function MarketplaceBonusBanner({ className }: { className?: string }) {
     );
   }
   return (
-    <div className={cn("flex flex-wrap items-center gap-3 rounded-2xl border border-[#cfe0ff] bg-[linear-gradient(135deg,#eaf2ff,#f6f9ff)] px-4 py-3", className)}>
-      <span className="grid size-10 shrink-0 place-items-center rounded-xl bg-[#0066FF] text-white">
+    <div className={cn("flex flex-wrap items-center gap-3 rounded-2xl border border-[#99F6E4] bg-[linear-gradient(135deg,#F0FDFA,#f6f9ff)] px-4 py-3", className)}>
+      <span className="grid size-10 shrink-0 place-items-center rounded-xl bg-[#0F766E] text-white">
         <Gift className="size-5" />
       </span>
       <div className="min-w-0 flex-1 basis-48">
@@ -118,7 +118,7 @@ export function MarketplaceBonusBanner({ className }: { className?: string }) {
       <p className="basis-56 text-[12.5px] leading-snug text-[#5b6b8c]">
         {info.firstPurchasePending ? (
           <>
-            Birinchi xaridingiz yetkazilib, tasdiqlangach yana <b className="text-[#0066FF]">+{som(first)}</b>. Savatda “Bonus ishlatish”ni yoqing.
+            Birinchi xaridingiz yetkazilib, tasdiqlangach yana <b className="text-[#0F766E]">+{som(first)}</b>. Savatda “Bonus ishlatish”ni yoqing.
           </>
         ) : (
           <>Savatda “Bonus ishlatish”ni yoqing. Faqat Marketplace buyurtmalarida, naqdga yechilmaydi.</>
@@ -166,8 +166,8 @@ export function BonusUseCard({ use, className }: { use: BonusUse; className?: st
   if (!info || (balance <= 0 && !info.signupGranted)) return null;
   if (balance <= 0) {
     return (
-      <div className={cn("flex items-center gap-2.5 rounded-xl border border-[#cfe0ff] bg-[#f3f8ff] p-3", className)} data-testid="bonus-use-card">
-        <span className="grid size-8 shrink-0 place-items-center rounded-lg bg-[#0066FF] text-white"><Gift className="size-4" /></span>
+      <div className={cn("flex items-center gap-2.5 rounded-xl border border-[#99F6E4] bg-[#F0FDFA] p-3", className)} data-testid="bonus-use-card">
+        <span className="grid size-8 shrink-0 place-items-center rounded-lg bg-[#0F766E] text-white"><Gift className="size-4" /></span>
         <p className="text-[12.5px] text-[#5b6b8c]">
           Bonus balans: <b className="text-[#0B1F4D]">{som(0)}</b>
           {info.firstPurchasePending ? ` · birinchi xariddan keyin +${som(info.rules.firstPurchase)}` : ""}
@@ -178,9 +178,9 @@ export function BonusUseCard({ use, className }: { use: BonusUse; className?: st
   const noEligible = quote != null && quote.eligible <= 0;
   const disabled = usable <= 0;
   return (
-    <div className={cn("rounded-xl border border-[#cfe0ff] bg-[#f3f8ff] p-3", className)} data-testid="bonus-use-card">
+    <div className={cn("rounded-xl border border-[#99F6E4] bg-[#F0FDFA] p-3", className)} data-testid="bonus-use-card">
       <div className="flex items-center gap-2.5">
-        <span className="grid size-8 shrink-0 place-items-center rounded-lg bg-[#0066FF] text-white">
+        <span className="grid size-8 shrink-0 place-items-center rounded-lg bg-[#0F766E] text-white">
           <Gift className="size-4" />
         </span>
         <div className="min-w-0 flex-1">
@@ -196,7 +196,7 @@ export function BonusUseCard({ use, className }: { use: BonusUse; className?: st
           onClick={() => setEnabled(!enabled)}
           className={cn(
             "relative h-6 w-11 shrink-0 rounded-full transition disabled:opacity-40",
-            enabled ? "bg-[#0066FF]" : "bg-[#cbd5e1]",
+            enabled ? "bg-[#0F766E]" : "bg-[#cbd5e1]",
           )}
         >
           <span className={cn("absolute top-0.5 size-5 rounded-full bg-white shadow transition-all", enabled ? "left-[22px]" : "left-0.5")} />
@@ -235,7 +235,7 @@ const statusClass: Record<Row["status"], string> = {
   given: "bg-[#e7f8ee] text-[#15803d]",
   pending: "bg-[#fff4e0] text-[#b45309]",
   spent: "bg-[#eef1f6] text-[#4b5568]",
-  refund: "bg-[#e8f1ff] text-[#0052cc]",
+  refund: "bg-[#F0FDFA] text-[#115E59]",
   expired: "bg-[#fef2f2] text-[#dc2626]",
 };
 const dateOf = (iso: string) => new Date(iso).toLocaleDateString("uz-UZ");
@@ -285,7 +285,7 @@ export function BonusBalanceCard({ compact = false, className }: { compact?: boo
     return (
       <section className={cn("rounded-[20px] border border-[#e8eef4] bg-white px-4 py-6 text-center text-[13.5px] text-[#6b7280]", className)}>
         Bonuslaringizni ko‘rish uchun{" "}
-        <Link href="/kirish?next=/bonuslarim" className="font-semibold text-[#0066FF] hover:underline">tizimga kiring</Link>.
+        <Link href="/kirish?next=/bonuslarim" className="font-semibold text-[#0F766E] hover:underline">tizimga kiring</Link>.
       </section>
     );
   }
@@ -301,11 +301,11 @@ export function BonusBalanceCard({ compact = false, className }: { compact?: boo
   const shown = compact ? rows.slice(0, 3) : rows;
   return (
     <section
-      className={cn("overflow-hidden rounded-[20px] border border-[#cfe0ff] bg-[linear-gradient(135deg,#eaf2ff,#f8fbff)] shadow-[0_1px_3px_rgba(15,23,42,0.04)]", className)}
+      className={cn("overflow-hidden rounded-[20px] border border-[#99F6E4] bg-[linear-gradient(135deg,#F0FDFA,#f8fbff)] shadow-[0_1px_3px_rgba(15,23,42,0.04)]", className)}
       data-testid="bonus-balance-card"
     >
       <div className="flex flex-wrap items-center gap-3 px-4 py-3.5 sm:px-5">
-        <span className="grid size-11 shrink-0 place-items-center rounded-2xl bg-[#0066FF] text-white shadow-[0_6px_14px_rgba(0,102,255,0.3)]">
+        <span className="grid size-11 shrink-0 place-items-center rounded-2xl bg-[#0F766E] text-white shadow-[0_6px_14px_rgba(15,118,110,0.3)]">
           <Gift className="size-5" />
         </span>
         <div className="min-w-0 flex-1 basis-40">
@@ -336,7 +336,7 @@ export function BonusBalanceCard({ compact = false, className }: { compact?: boo
         </ul>
       ) : null}
       {compact ? (
-        <Link href="/bonuslarim" className="block border-t border-[#dfe9fb] bg-white/80 px-4 py-2.5 text-center text-[13px] font-semibold text-[#0066FF] hover:bg-white sm:px-5">
+        <Link href="/bonuslarim" className="block border-t border-[#dfe9fb] bg-white/80 px-4 py-2.5 text-center text-[13px] font-semibold text-[#0F766E] hover:bg-white sm:px-5">
           Bonuslarim tarixi →
         </Link>
       ) : null}

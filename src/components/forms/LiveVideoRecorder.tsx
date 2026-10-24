@@ -192,7 +192,7 @@ export function LiveVideoRecorder({
   return (
     <div className="space-y-2" data-testid="surplus-video">
       <p className="text-[12.5px] leading-snug text-[#6b7280]">Videoda mahsulot, yaroqlilik muddati, LOT va qadoq butunligi ko‘rinsin. Kodni aytib yoki ekranga tutib yozing.</p>
-      {token ? <p className="text-[22px] font-black tracking-wide text-[#0066FF]" data-testid="surplus-video-code">Tekshiruv kodi #{token.code}</p> : null}
+      {token ? <p className="text-[22px] font-black tracking-wide text-[#0F766E]" data-testid="surplus-video-code">Tekshiruv kodi #{token.code}</p> : null}
       {tokenError ? <p className="text-[13px] font-medium text-[#9a3412]">{tokenError}</p> : null}
       {phase === "live" ? (
         <div className="relative overflow-hidden rounded-2xl bg-black">
@@ -210,7 +210,7 @@ export function LiveVideoRecorder({
       {previewUrl && phase !== "live" ? <video className="aspect-[4/3] w-full rounded-2xl bg-black" src={previewUrl} controls playsInline /> : null}
       <div className="flex flex-wrap gap-2">
         {phase !== "live" ? (
-          <button type="button" className="h-12 rounded-xl bg-[#0066FF] px-4 text-[14px] font-semibold text-white" onClick={() => void startLive()}>
+          <button type="button" className="h-12 rounded-xl bg-[#0F766E] px-4 text-[14px] font-semibold text-white" onClick={() => void startLive()}>
             Videoni yozish
           </button>
         ) : null}
@@ -246,7 +246,7 @@ export function LiveVideoRecorder({
         )}
         {phase === "preview" ? (
           <>
-            <button type="button" className="h-12 rounded-xl bg-[#0066FF] px-4 text-[14px] font-semibold text-white" onClick={() => void accept()}>Ishlatish</button>
+            <button type="button" className="h-12 rounded-xl bg-[#0F766E] px-4 text-[14px] font-semibold text-white" onClick={() => void accept()}>Ishlatish</button>
             <button type="button" className="h-12 rounded-xl border border-[#d7dee8] px-4 text-[14px] font-semibold" onClick={() => { setPhase("idle"); setPreviewUrl(""); pending.current = null; }}>Qayta yozish</button>
           </>
         ) : null}

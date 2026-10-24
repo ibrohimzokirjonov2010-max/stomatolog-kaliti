@@ -163,7 +163,7 @@ export function ProductCard({
               size="sm"
             />
           ) : sellerLabel ? (
-            <p className="mt-0.5 truncate text-[11px] font-medium text-[#0066FF]">{sellerLabel}</p>
+            <p className="mt-0.5 truncate text-[11px] font-medium text-[#0F766E]">{sellerLabel}</p>
           ) : null}
           {showRating ? (
             <p className="mt-1 flex items-center gap-1 text-[11px] font-medium text-[#8b93a7]">
@@ -177,7 +177,7 @@ export function ProductCard({
           <div className="mt-auto flex items-end justify-between gap-2 pt-1.5">
             <div className="min-w-0">
               <p className="flex flex-wrap items-center gap-1.5">
-                <span className="text-[15px] font-bold text-[#0066FF]">{formatMoney(product.price, "UZS")}</span>
+                <span className="text-[15px] font-bold text-[#0F766E]">{formatMoney(product.price, "UZS")}</span>
                 {product.discount ? (
                   <span className="rounded-md bg-[#e8f8ef] px-1.5 py-0.5 text-[11px] font-semibold text-[#16a34a]">
                     -{product.discount}%
@@ -193,7 +193,7 @@ export function ProductCard({
               <button
                 type="button"
                 onClick={ortiqcha.onEdit}
-                className="inline-flex h-9 min-h-9 shrink-0 items-center justify-center gap-1 rounded-xl bg-[#0066FF] px-3 text-[12px] font-semibold text-white"
+                className="inline-flex h-9 min-h-9 shrink-0 items-center justify-center gap-1 rounded-xl bg-[#0F766E] px-3 text-[12px] font-semibold text-white"
               >
                 Tahrirlash
               </button>
@@ -202,7 +202,7 @@ export function ProductCard({
                 type="button"
                 disabled={false}
                 onClick={ortiqcha ? ortiqcha.onContact : addToCart}
-                className="inline-flex h-9 min-h-9 shrink-0 items-center justify-center gap-1 rounded-xl bg-[#0066FF] px-3 text-[12px] font-semibold text-white disabled:opacity-70"
+                className="inline-flex h-9 min-h-9 shrink-0 items-center justify-center gap-1 rounded-xl bg-[#0F766E] px-3 text-[12px] font-semibold text-white disabled:opacity-70"
               >
                 {ortiqcha ? <MessageCircle className="size-3.5" /> : <ShoppingCart className="size-3.5" />}
                 {ortiqcha ? "Bog‘lanish" : "Savatga"}
@@ -252,7 +252,7 @@ export function ProductCard({
             size="sm"
           />
         ) : sellerLabel ? (
-          <p className="mt-1 truncate text-[11px] font-medium text-[#0066FF]">{sellerLabel}</p>
+          <p className="mt-1 truncate text-[11px] font-medium text-[#0F766E]">{sellerLabel}</p>
         ) : null}
 
         {showRating ? (
@@ -270,7 +270,7 @@ export function ProductCard({
             <div className="mt-auto flex items-center justify-between gap-2 pt-2">
               <div className="min-w-0">
                 <p className="flex flex-wrap items-center gap-1.5">
-                  <span className="text-[14px] font-bold leading-tight text-[#0066FF]">
+                  <span className="text-[14px] font-bold leading-tight text-[#0F766E]">
                     {formatMoney(product.price, "UZS")}
                   </span>
                 </p>
@@ -282,7 +282,7 @@ export function ProductCard({
                 <button
                   type="button"
                   onClick={ortiqcha.onEdit}
-                  className="inline-flex h-8 shrink-0 items-center justify-center rounded-lg bg-[#0066FF] px-2.5 text-[11px] font-semibold text-white"
+                  className="inline-flex h-8 shrink-0 items-center justify-center rounded-lg bg-[#0F766E] px-2.5 text-[11px] font-semibold text-white"
                 >
                   Tahrirlash
                 </button>
@@ -291,7 +291,7 @@ export function ProductCard({
                   type="button"
                   disabled={false}
                   onClick={ortiqcha ? ortiqcha.onContact : addToCart}
-                  className="inline-flex h-8 shrink-0 items-center justify-center gap-1 rounded-lg bg-[#0066FF] px-2.5 text-[11px] font-semibold text-white disabled:opacity-70"
+                  className="inline-flex h-8 shrink-0 items-center justify-center gap-1 rounded-lg bg-[#0F766E] px-2.5 text-[11px] font-semibold text-white disabled:opacity-70"
                 >
                   {ortiqcha ? <MessageCircle className="size-3.5" /> : <ShoppingCart className="size-3.5" />}
                   {ortiqcha ? "Bog‘lanish" : "Savatga"}
@@ -305,7 +305,7 @@ export function ProductCard({
                 <button
                   type="button"
                   onClick={ortiqcha.onContact}
-                  className="ml-auto inline-flex size-7 shrink-0 items-center justify-center rounded-full text-[#0066FF] hover:bg-[#e8f1ff]"
+                  className="ml-auto inline-flex size-7 shrink-0 items-center justify-center rounded-full text-[#0F766E] hover:bg-[#F0FDFA]"
                   aria-label="Bog‘lanish"
                 >
                   <MessageCircle className="size-3.5" />
@@ -316,7 +316,7 @@ export function ProductCard({
         ) : (
           <>
             <div className="mt-1.5 flex flex-wrap items-center gap-1.5">
-              <span className="text-[14px] font-bold leading-tight text-[#0066FF]">
+              <span className="text-[14px] font-bold leading-tight text-[#0F766E]">
                 {formatMoney(product.price, "UZS")}
               </span>
               {product.discount ? (
@@ -334,7 +334,7 @@ export function ProductCard({
             <button
               type="button"
               onClick={ortiqcha ? ortiqcha.onContact : addToCart}
-              className="mt-2.5 inline-flex h-9 w-full items-center justify-center gap-1.5 rounded-xl bg-[#0066FF] text-[13px] font-semibold text-white"
+              className="mt-2.5 inline-flex h-9 w-full items-center justify-center gap-1.5 rounded-xl bg-[#0F766E] text-[13px] font-semibold text-white"
             >
               {ortiqcha ? <MessageCircle className="size-3.5" /> : <ShoppingCart className="size-3.5" />}
               Savatga
@@ -378,9 +378,9 @@ export function ProductCard({
           city={ortiqcha?.sellerCity}
         />
       ) : sellerLabel ? (
-        <p className="mt-1 truncate text-[12px] font-medium text-[#0066FF]">{sellerLabel}</p>
+        <p className="mt-1 truncate text-[12px] font-medium text-[#0F766E]">{sellerLabel}</p>
       ) : shop ? (
-        <Link href={shopHref(shop.slug)} className="mt-1 text-[12px] font-medium text-[#0066FF] hover:underline">
+        <Link href={shopHref(shop.slug)} className="mt-1 text-[12px] font-medium text-[#0F766E] hover:underline">
           {shop.name}
         </Link>
       ) : null}
@@ -396,7 +396,7 @@ export function ProductCard({
       <div className="mt-auto flex items-center justify-between gap-2 pt-3">
         <div className="min-w-0">
           <p className="flex flex-wrap items-center gap-1.5">
-            <span className="text-[15px] font-bold text-[#0066FF]">{formatMoney(product.price, "UZS")}</span>
+            <span className="text-[15px] font-bold text-[#0F766E]">{formatMoney(product.price, "UZS")}</span>
             {product.discount ? (
               <span className="text-[12px] font-semibold text-[#22c55e]">-{product.discount}%</span>
             ) : oldPrice && isOrtiqcha ? (
@@ -433,7 +433,7 @@ export function ProductCard({
           <button
             type="button"
             onClick={ortiqcha.onContact}
-            className="ml-auto inline-flex size-7 shrink-0 items-center justify-center rounded-full text-[#0066FF] hover:bg-[#e8f1ff]"
+            className="ml-auto inline-flex size-7 shrink-0 items-center justify-center rounded-full text-[#0F766E] hover:bg-[#F0FDFA]"
             aria-label="Bog‘lanish"
             title="Bog‘lanish"
           >
@@ -475,14 +475,14 @@ function OrtiqchaSellerRow({
         <span
           className={cn(
             avatarSize,
-            "grid shrink-0 place-items-center rounded-full bg-[#e8f1ff] font-bold text-[#0066FF]",
+            "grid shrink-0 place-items-center rounded-full bg-[#F0FDFA] font-bold text-[#0F766E]",
           )}
         >
           {sellerInitials(label)}
         </span>
       )}
       <div className="min-w-0 flex-1 leading-tight">
-        <p className={cn("truncate font-medium text-[#0066FF]", nameSize)}>{label}</p>
+        <p className={cn("truncate font-medium text-[#0F766E]", nameSize)}>{label}</p>
         {city ? <p className="truncate text-[10px] text-[#8b93a7]">{city}</p> : null}
       </div>
     </div>
@@ -511,7 +511,7 @@ export function OrtiqchaImageBadges({
       )}
     >
       {featured ? (
-        <span className={cn("rounded-md bg-[#0066FF] text-white", pad)}>
+        <span className={cn("rounded-md bg-[#0F766E] text-white", pad)}>
           {size === "sm" ? "TOP" : "Ajratilgan"}
         </span>
       ) : null}
@@ -520,7 +520,7 @@ export function OrtiqchaImageBadges({
           className={cn(
             "rounded-md text-white",
             pad,
-            status === "yopiq" ? (featured ? "bg-[#0B1F4D]" : "bg-[#0066FF]") : "bg-[#f43f5e]",
+            status === "yopiq" ? (featured ? "bg-[#0B1F4D]" : "bg-[#0F766E]") : "bg-[#f43f5e]",
           )}
         >
           {statusText}
@@ -608,7 +608,7 @@ function MarketCard({
         <div>
           <p className="truncate text-[11.5px] text-[#8b93a7]">{product.brand}</p>
           <Link href={href} className="block">
-            <h3 className="mt-0.5 line-clamp-2 min-h-[34px] text-[13px] leading-[17px] font-bold text-[#1a1d26] hover:text-[#0066FF]">
+            <h3 className="mt-0.5 line-clamp-2 min-h-[34px] text-[13px] leading-[17px] font-bold text-[#1a1d26] hover:text-[#0F766E]">
               {product.name}
             </h3>
           </Link>
@@ -617,7 +617,7 @@ function MarketCard({
             {specs.map((spec) => (
               <span
                 key={spec}
-                className="rounded-md bg-[#eaf2ff] px-1.5 py-[3px] text-[10.5px] leading-none font-medium text-[#0066FF]"
+                className="rounded-md bg-[#F0FDFA] px-1.5 py-[3px] text-[10.5px] leading-none font-medium text-[#0F766E]"
               >
                 {spec}
               </span>
@@ -642,7 +642,7 @@ function MarketCard({
         </div>
 
         <div>
-          <div className="mt-2 text-[15.5px] leading-tight font-extrabold text-[#0066FF]">
+          <div className="mt-2 text-[15.5px] leading-tight font-extrabold text-[#0F766E]">
             {formatMoney(product.price, "UZS")}
           </div>
           {oldPrice ? (
@@ -665,10 +665,10 @@ function MarketCard({
                 alt=""
                 width={22}
                 height={22}
-                className="size-[22px] shrink-0 rounded-full bg-[#e8f1ff] object-contain p-0.5"
+                className="size-[22px] shrink-0 rounded-full bg-[#F0FDFA] object-contain p-0.5"
               />
             ) : (
-              <span className="grid size-[22px] shrink-0 place-items-center rounded-full bg-[#e8f1ff] text-[9px] font-bold text-[#0066FF]">
+              <span className="grid size-[22px] shrink-0 place-items-center rounded-full bg-[#F0FDFA] text-[9px] font-bold text-[#0F766E]">
                 {sellerInitials(sellerName)}
               </span>
             )}
@@ -681,7 +681,7 @@ function MarketCard({
           <button
             type="button"
             onClick={onAdd}
-            className="mt-2.5 inline-flex h-9 w-full items-center justify-center gap-1.5 rounded-[10px] bg-[#0066FF] text-[13px] font-semibold text-white shadow-[0_3px_10px_rgba(0,102,255,0.25)] transition-colors hover:bg-[#0052cc]"
+            className="mt-2.5 inline-flex h-9 w-full items-center justify-center gap-1.5 rounded-[10px] bg-[#0F766E] text-[13px] font-semibold text-white shadow-[0_3px_10px_rgba(15,118,110,0.25)] transition-colors hover:bg-[#115E59]"
           >
             <ShoppingCart className="size-3.5" />
             Savatga

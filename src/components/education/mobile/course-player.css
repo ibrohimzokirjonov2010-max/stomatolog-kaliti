@@ -51,7 +51,7 @@
 .cp-list li.on > button { background: #eaf6f5; border-color: #d4ecea; }
 .cp-num { flex: none; width: 24px; height: 24px; border-radius: 50%; background: #eef3f5; display: grid; place-items: center; font-size: 11.5px; font-weight: 600; }
 .cp-list li.on .cp-num { width: 32px; height: 32px; background: #0b6f6d; color: #fff; font-size: 13px; }
-.cp-tick { flex: none; width: 16px; height: 16px; color: #fff; fill: #0d9f9a; }
+.cp-tick { flex: none; width: 16px; height: 16px; color: #fff; fill: #0F766E; }
 .cp-name { flex: 1; display: flex; flex-direction: column; gap: 2px; }
 .cp-name b { font-size: 12.5px; font-weight: 500; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 .cp-list li.on .cp-name b { color: #0b6f6d; font-weight: 600; }
@@ -60,7 +60,7 @@
 .cp-state { flex: none; width: 24px; height: 24px; border-radius: 50%; background: #0b6f6d; color: #fff; display: grid; place-items: center; }
 .cp-state svg { width: 12px; height: 12px; fill: #fff; }
 .cp-done, .cp-todo { flex: none; width: 20px; height: 20px; color: #8b93a7; }
-.cp-done { color: #0b8f8a; }
+.cp-done { color: #0F766E; }
 .cp-pad { height: 64px; }
 .cp-bar { position: fixed; left: 0; right: 0; bottom: 0; z-index: 35; padding: 8px 14px calc(10px + env(safe-area-inset-bottom)); background: linear-gradient(to top, #f3f9f9 70%, rgba(243, 249, 249, 0)); }
 .cp-bar:empty { display: none; }

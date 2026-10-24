@@ -9,7 +9,7 @@ import { fileToCompressedDataUrl } from "@/lib/seller-work";
 import { formatGroupedNumber } from "@/lib/format";
 
 const UNITS = ["dona", "quti", "to‘plam", "shprits", "kartrij", "paket", "ml", "gramm"];
-const PLACES = ["Asosiy ombor", "Kabinet 1", "Kabinet 2", "Sterilizatsiya xonasi", "Muzlatgich", "Qabulxona"];
+const PLACES = ["Asosiy ombor", "Kabinet 1", "Kabinet 2", "Sterilizatsiya kabineti", "Muzlatgich", "Qabulxona"];
 
 export function NewStockModal({ suppliers, onClose, onSave }: { suppliers: string[]; onClose: () => void; onSave: (item: StockItem) => void }) {
   const [photo, setPhoto] = useState("");

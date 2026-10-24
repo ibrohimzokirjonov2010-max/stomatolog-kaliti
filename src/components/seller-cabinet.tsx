@@ -166,7 +166,7 @@ function Dashboard({ shop }: { shop: Shop }) {
       {/* ───── Mobile / tablet ───── */}
       <div className="space-y-2 pb-20 sm:space-y-4 lg:hidden">
         <p className="text-[12px] text-[#8b93a7] sm:text-[13px]">
-          <Link href="/marketplace" className="text-[#0066FF] hover:underline">
+          <Link href="/marketplace" className="text-[#0F766E] hover:underline">
             Marketplace
           </Link>
           <span className="mx-1">/</span>
@@ -230,7 +230,7 @@ function Dashboard({ shop }: { shop: Shop }) {
                 onClick={() => setTab(item.id)}
                 className={cn(
                   "inline-flex h-8 shrink-0 items-center gap-1 rounded-full px-2.5 text-[12px] font-semibold transition-colors sm:h-10 sm:gap-1.5 sm:px-3.5 sm:text-[13px]",
-                  on ? "bg-[#0066FF] text-white" : "border border-[#e6eaf2] bg-white text-[#4b5568] hover:bg-[#f7f9fc]",
+                  on ? "bg-[#0F766E] text-white" : "border border-[#e6eaf2] bg-white text-[#4b5568] hover:bg-[#f7f9fc]",
                 )}
               >
                 <Icon className="size-3.5" />
@@ -312,9 +312,9 @@ function OverviewPanel({
         <button
           type="button"
           onClick={onAdd}
-          className="hidden flex-col items-start justify-center rounded-[16px] border border-dashed border-[#93c5fd] bg-[#f5f9ff] p-4 text-left transition hover:bg-[#eaf2ff] lg:flex"
+          className="hidden flex-col items-start justify-center rounded-[16px] border border-dashed border-[#99F6E4] bg-[#F0FDFA] p-4 text-left transition hover:bg-[#F0FDFA] lg:flex"
         >
-          <span className="flex size-9 items-center justify-center rounded-xl bg-[#0066FF] text-white">
+          <span className="flex size-9 items-center justify-center rounded-xl bg-[#0F766E] text-white">
             <Plus className="size-4" />
           </span>
           <p className="mt-3 text-[15px] font-semibold text-[#1a1d26]">Mahsulot qo‘shish</p>
@@ -357,7 +357,7 @@ function OverviewPanel({
                   <p className="text-[14px] font-semibold text-[#1a1d26]">{item.title}</p>
                   <p className="mt-0.5 text-[12px] text-[#8b93a7]">{item.text}</p>
                 </div>
-                <span className="rounded-full bg-white px-2.5 py-0.5 text-[13px] font-bold text-[#0066FF]">
+                <span className="rounded-full bg-white px-2.5 py-0.5 text-[13px] font-bold text-[#0F766E]">
                   {item.count}
                 </span>
               </div>
@@ -365,7 +365,7 @@ function OverviewPanel({
                 <button
                   type="button"
                   onClick={() => onOpenProducts(item.id)}
-                  className="text-[12.5px] font-semibold text-[#0066FF] hover:underline"
+                  className="text-[12.5px] font-semibold text-[#0F766E] hover:underline"
                 >
                   Ro‘yxat
                 </button>
@@ -425,7 +425,7 @@ function ProductsPanel({
               onClick={() => onFilter(item.id)}
               className={cn(
                 "h-8 shrink-0 rounded-full px-3 text-[12px] font-semibold sm:h-9 sm:px-3.5 sm:text-[13px]",
-                on ? "bg-[#e8f1ff] text-[#0066FF]" : "bg-[#f4f6fa] text-[#4b5568]",
+                on ? "bg-[#F0FDFA] text-[#0F766E]" : "bg-[#f4f6fa] text-[#4b5568]",
               )}
             >
               {item.label}
@@ -486,7 +486,7 @@ function ProductTable({
                   </p>
                 </div>
                 <div className="flex shrink-0 flex-wrap items-center justify-end gap-1">
-                  <span className="inline-flex items-center rounded-full bg-[#e8f1ff] px-2 py-0.5 text-[10px] font-semibold text-[#0066FF] sm:px-2.5 sm:text-[11px]">
+                  <span className="inline-flex items-center rounded-full bg-[#F0FDFA] px-2 py-0.5 text-[10px] font-semibold text-[#0F766E] sm:px-2.5 sm:text-[11px]">
                     {section === "forma" ? "Forma" : section === "jihozlar" ? "Jihozlar" : "Market"}
                   </span>
                   <span
@@ -499,7 +499,7 @@ function ProductTable({
                   </span>
                 </div>
               </div>
-              <p className="mt-0.5 text-[14px] font-bold text-[#0066FF] sm:mt-1 sm:text-[15px]">{formatMoney(item.price, "UZS")}</p>
+              <p className="mt-0.5 text-[14px] font-bold text-[#0F766E] sm:mt-1 sm:text-[15px]">{formatMoney(item.price, "UZS")}</p>
               <p className="truncate text-[11px] text-[#8b93a7] sm:text-[12px]">
                 {item.stockQty ?? 0} dona · {item.delivery}
                 {item.sizes?.length ? ` · ${item.sizes.join(", ")}` : ""}
@@ -528,7 +528,7 @@ function ProductTable({
                 </Button>
                 <Link
                   href={productHref(item)}
-                  className="inline-flex h-7 items-center text-[11.5px] font-semibold text-[#0066FF] sm:h-8 sm:text-[12.5px]"
+                  className="inline-flex h-7 items-center text-[11.5px] font-semibold text-[#0F766E] sm:h-8 sm:text-[12.5px]"
                 >
                   Ko‘rish
                 </Link>
@@ -705,7 +705,7 @@ function OrdersPanel() {
                     {order.name} · {order.phone} · {order.city}
                   </p>
                 </div>
-                <p className="text-[15px] font-bold text-[#0066FF]">{formatMoney(order.total, "UZS")}</p>
+                <p className="text-[15px] font-bold text-[#0F766E]">{formatMoney(order.total, "UZS")}</p>
               </div>
               <p className="mt-2 text-[12px] text-[#6b7280]">
                 {new Date(order.createdAt).toLocaleString("uz-UZ")} · {pay} · {order.items.length}{" "}
@@ -945,7 +945,7 @@ function ProfileForm({
             placeholder="https://… yoki rasm yuklang"
             onChange={(e) => setForm({ ...form, logo: e.target.value })}
           />
-          <label className="inline-flex h-9 shrink-0 cursor-pointer items-center rounded-lg border border-[#d7e4ff] px-3 text-[12.5px] font-medium text-[#0066FF] hover:bg-[#f5f9ff] sm:h-10">
+          <label className="inline-flex h-9 shrink-0 cursor-pointer items-center rounded-lg border border-[#CCFBF1] px-3 text-[12.5px] font-medium text-[#0F766E] hover:bg-[#F0FDFA] sm:h-10">
             {logoUploading ? "Yuklanmoqda…" : "Yuklash"}
             <input
               type="file"
@@ -1009,7 +1009,7 @@ function CardPanel() {
       <div className="flex flex-wrap items-start justify-between gap-2 sm:gap-3">
         <div>
           <h2 className="flex items-center gap-2 text-[15px] font-semibold text-[#1a1d26] sm:text-[16px]">
-            <CreditCard className="size-4 text-[#0066FF]" />
+            <CreditCard className="size-4 text-[#0F766E]" />
             Karta / to‘lov
           </h2>
           <p className="mt-1 text-[13px] font-medium text-[#1a1d26]">{cardStatusLabel(card)}</p>
@@ -1032,7 +1032,7 @@ function CardPanel() {
           </Button>
         )}
       </div>
-      <p className="mt-3 rounded-xl bg-[#eaf2ff] px-3 py-2 text-[12.5px] leading-relaxed text-[#3b82f6]">
+      <p className="mt-3 rounded-xl bg-[#F0FDFA] px-3 py-2 text-[12.5px] leading-relaxed text-[#0F766E]">
         Hozircha faqat Naqd pul ishlaydi. Karta, Click, Payme va Uzum ulanmagan.
       </p>
       {open && !card ? (
@@ -1102,7 +1102,7 @@ function StatCard({
   const body = (
     <>
       <p className="flex items-center gap-1.5 text-[11px] font-medium text-[#8b93a7] sm:gap-2 sm:text-[12px]">
-        <span className="text-[#0066FF]">{icon}</span>
+        <span className="text-[#0F766E]">{icon}</span>
         {label}
       </p>
       <p className="mt-1 text-[18px] font-bold tracking-tight text-[#1a1d26] sm:mt-2 sm:text-[22px]">{value}</p>
@@ -1111,7 +1111,7 @@ function StatCard({
   );
   if (onClick) {
     return (
-      <button type="button" onClick={onClick} className={cn(className, "transition hover:border-[#d7e4ff]")}>
+      <button type="button" onClick={onClick} className={cn(className, "transition hover:border-[#CCFBF1]")}>
         {body}
       </button>
     );

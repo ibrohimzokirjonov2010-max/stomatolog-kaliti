@@ -26,7 +26,7 @@ const SLIDES: (Omit<PromoSlide, "onClick" | "href"> & { preset: JihozPreset })[]
   {
     id: "kreslo",
     badge: "KRESLO",
-    badgeCls: "bg-[#0066FF] text-white",
+    badgeCls: "bg-[#0F766E] text-white",
     title: "Kreslo va stomatologik qurilmalar",
     subtitle: "Klinikangizni zamonaviy uskunalar bilan jihozlang",
     cta: "Ko‘rish",
@@ -34,7 +34,7 @@ const SLIDES: (Omit<PromoSlide, "onClick" | "href"> & { preset: JihozPreset })[]
     preset: null,
     image: "/images/jihozlar/jihoz-slayd-2-kreslo-mobil.webp",
     desktopImage: "/images/jihozlar/jihoz-slayd-2-kreslo.webp",
-    alt: "Zamonaviy stomatologik kreslo va qurilma klinika xonasida",
+    alt: "Zamonaviy stomatologik kreslo va qurilma klinika kabinetida",
   },
   {
     id: "diagnostika",

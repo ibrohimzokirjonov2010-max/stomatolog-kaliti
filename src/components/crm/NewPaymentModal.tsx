@@ -29,7 +29,7 @@ function PaymeLogo() {
 
 const METHODS: { id: PayMethod; label: string; logo: ReactNode }[] = [
   { id: "Naqd", label: "Naqd", logo: <Banknote style={{ color: "#16a34a" }} /> },
-  { id: "Karta", label: "Karta", logo: <CreditCard style={{ color: "#2563eb" }} /> },
+  { id: "Karta", label: "Karta", logo: <CreditCard style={{ color: "#0F766E" }} /> },
   { id: "Click", label: "Click", logo: <ClickLogo /> },
   { id: "Payme", label: "Payme", logo: <PaymeLogo /> },
   { id: "O‘tkazma", label: "O‘tkazma", logo: <Landmark style={{ color: "#1e3a8a" }} /> },

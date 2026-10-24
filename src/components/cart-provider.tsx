@@ -268,7 +268,7 @@ export function CartProvider({ children }: { children: ReactNode }) {
       {children}
       {toast ? (
         <div className="pointer-events-none fixed right-4 bottom-24 z-[70] w-[min(100%-2rem,360px)] lg:bottom-4">
-          <div className="pointer-events-auto rounded-2xl border border-[#d7e4ff] bg-white p-4 shadow-[0_12px_40px_rgba(15,23,42,0.16)]">
+          <div className="pointer-events-auto rounded-2xl border border-[#CCFBF1] bg-white p-4 shadow-[0_12px_40px_rgba(15,23,42,0.16)]">
             <div className="flex items-start gap-3">
               <span className="flex size-9 shrink-0 items-center justify-center rounded-full bg-[#ecfdf3] text-[#16a34a]">
                 <Check className="size-4" strokeWidth={2.5} />

@@ -24,7 +24,7 @@ export function PageTitle({ title, subtitle, right }: { title: string; subtitle:
 export function StatBadge({ icon: Icon, title, text }: { icon: LucideIcon; title: string; text?: string }) {
   return (
     <div className="flex items-center gap-3 rounded-xl border border-[#e3ebfa] bg-[#EEF4FF] px-4 py-2.5">
-      <Icon className="size-6 shrink-0 text-[#0066FF]" strokeWidth={1.7} />
+      <Icon className="size-6 shrink-0 text-[#0F766E]" strokeWidth={1.7} />
       <div className="leading-tight">
         <div className="text-[13px] font-bold text-[#0B1F4D]">{title}</div>
         {text ? <div className="mt-0.5 text-[11.5px] text-[#6b7590]">{text}</div> : null}
@@ -55,8 +55,8 @@ export function ChipRow<T extends string>({
           className={cn(
             "h-9 shrink-0 rounded-lg border px-3.5 text-[12.5px] font-medium whitespace-nowrap transition-colors",
             value === item.id
-              ? "border-[#0066FF] bg-[#0066FF] text-white"
-              : "border-[#e6eaf2] bg-white text-[#1f2a44] hover:border-[#0066FF]/40",
+              ? "border-[#0F766E] bg-[#0F766E] text-white"
+              : "border-[#e6eaf2] bg-white text-[#1f2a44] hover:border-[#0F766E]/40",
           )}
         >
           {item.label}

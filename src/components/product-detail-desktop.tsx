@@ -166,17 +166,17 @@ export function ProductDetailDesktop({ product }: { product: Product }) {
       <nav className="flex flex-wrap items-center gap-1 text-[12.5px] text-[#8b93a7]">
         {isForma ? (
           <>
-            <Link href="/forma" className="hover:text-[#0066FF]">Forma</Link>
+            <Link href="/forma" className="hover:text-[#0F766E]">Forma</Link>
           </>
         ) : (
           <>
-            <Link href="/marketplace" className="hover:text-[#0066FF]">Marketplace</Link>
+            <Link href="/marketplace" className="hover:text-[#0F766E]">Marketplace</Link>
             <ChevronRight className="size-3.5" />
-            <Link href={`/marketplace?cat=${product.category}`} className="hover:text-[#0066FF]">
+            <Link href={`/marketplace?cat=${product.category}`} className="hover:text-[#0F766E]">
               {categoryLabels[product.category]}
             </Link>
             <ChevronRight className="size-3.5" />
-            <Link href={`/marketplace?cat=${group}`} className="hover:text-[#0066FF]">{groupLabel}</Link>
+            <Link href={`/marketplace?cat=${group}`} className="hover:text-[#0F766E]">{groupLabel}</Link>
           </>
         )}
         <ChevronRight className="size-3.5" />
@@ -192,12 +192,12 @@ export function ProductDetailDesktop({ product }: { product: Product }) {
                 {conditionLabels[condition]}
               </span>
               {details.officialImport ? (
-                <span className="rounded-md bg-[#eaf2ff] px-2 py-1 text-[11px] leading-none font-semibold text-[#0066FF]">
+                <span className="rounded-md bg-[#F0FDFA] px-2 py-1 text-[11px] leading-none font-semibold text-[#0F766E]">
                   Original
                 </span>
               ) : null}
               {details.certified ? (
-                <span className="inline-flex items-center gap-1 rounded-md border border-[#bcd5ff] bg-white px-2 py-[3px] text-[11px] leading-none font-semibold text-[#0066FF]">
+                <span className="inline-flex items-center gap-1 rounded-md border border-[#5EEAD4] bg-white px-2 py-[3px] text-[11px] leading-none font-semibold text-[#0F766E]">
                   <BadgeCheck className="size-3" />
                   Sertifikat mavjud
                 </span>
@@ -218,7 +218,7 @@ export function ProductDetailDesktop({ product }: { product: Product }) {
                   type="button"
                   aria-label="Oldingi rasm"
                   onClick={() => setActiveImage((i) => (i - 1 + gallery.length) % gallery.length)}
-                  className="absolute top-1/2 left-2.5 z-10 grid size-8 -translate-y-1/2 place-items-center rounded-full bg-white/95 text-[#4b5568] shadow-sm hover:text-[#0066FF]"
+                  className="absolute top-1/2 left-2.5 z-10 grid size-8 -translate-y-1/2 place-items-center rounded-full bg-white/95 text-[#4b5568] shadow-sm hover:text-[#0F766E]"
                 >
                   <ChevronLeft className="size-4" />
                 </button>
@@ -226,7 +226,7 @@ export function ProductDetailDesktop({ product }: { product: Product }) {
                   type="button"
                   aria-label="Keyingi rasm"
                   onClick={() => setActiveImage((i) => (i + 1) % gallery.length)}
-                  className="absolute top-1/2 right-2.5 z-10 grid size-8 -translate-y-1/2 place-items-center rounded-full bg-white/95 text-[#4b5568] shadow-sm hover:text-[#0066FF]"
+                  className="absolute top-1/2 right-2.5 z-10 grid size-8 -translate-y-1/2 place-items-center rounded-full bg-white/95 text-[#4b5568] shadow-sm hover:text-[#0F766E]"
                 >
                   <ChevronRight className="size-4" />
                 </button>
@@ -250,7 +250,7 @@ export function ProductDetailDesktop({ product }: { product: Product }) {
                 aria-label={`Rasm ${i + 1}`}
                 className={cn(
                   "aspect-[1.15/1] overflow-hidden rounded-lg border bg-[#f7f8fb] p-1.5 transition",
-                  i === activeImage ? "border-[#0066FF] ring-1 ring-[#0066FF]/30" : "border-[#eceff5] hover:border-[#0066FF]/40",
+                  i === activeImage ? "border-[#0F766E] ring-1 ring-[#0F766E]/30" : "border-[#eceff5] hover:border-[#0F766E]/40",
                 )}
               >
                 {/* eslint-disable-next-line @next/next/no-img-element */}
@@ -265,7 +265,7 @@ export function ProductDetailDesktop({ product }: { product: Product }) {
           <div className="flex flex-wrap items-center gap-2">
             <p className="text-[15px] font-extrabold tracking-tight text-[#0B1F4D]">{product.brand}</p>
             {details.officialImport ? (
-              <span className="inline-flex items-center gap-1 rounded-full bg-[#eaf2ff] px-2 py-0.5 text-[11px] font-semibold text-[#0066FF]">
+              <span className="inline-flex items-center gap-1 rounded-full bg-[#F0FDFA] px-2 py-0.5 text-[11px] font-semibold text-[#0F766E]">
                 <BadgeCheck className="size-3.5" />
                 Rasmiy distribyutor
               </span>
@@ -288,7 +288,7 @@ export function ProductDetailDesktop({ product }: { product: Product }) {
             ) : (
               <span className="text-[#8b93a7]">Hali sharh yo‘q</span>
             )}
-            <button type="button" onClick={() => setTab("sharhlar")} className="font-semibold text-[#0066FF] hover:underline">
+            <button type="button" onClick={() => setTab("sharhlar")} className="font-semibold text-[#0F766E] hover:underline">
               Sharhlarni ko‘rish
             </button>
           </div>
@@ -298,9 +298,9 @@ export function ProductDetailDesktop({ product }: { product: Product }) {
             <div className="mt-3">
               <div className="flex items-center justify-between">
                 <p className="text-[12.5px] font-bold text-[#0B1F4D]">
-                  Rang (shade): <span className="font-semibold text-[#0066FF]">{shade}</span>
+                  Rang (shade): <span className="font-semibold text-[#0F766E]">{shade}</span>
                 </p>
-                <button type="button" onClick={() => setTab("xususiyatlar")} className="text-[12px] font-semibold text-[#0066FF] hover:underline">
+                <button type="button" onClick={() => setTab("xususiyatlar")} className="text-[12px] font-semibold text-[#0F766E] hover:underline">
                   Shade qo‘llanmasi
                 </button>
               </div>
@@ -360,7 +360,7 @@ export function ProductDetailDesktop({ product }: { product: Product }) {
 
         {/* ───── Purchase box ───── */}
         <aside className="sticky top-0 min-w-0 rounded-xl border border-[#eceff5] bg-white p-4 shadow-[0_4px_18px_rgba(15,23,42,0.07)]">
-          <p className="text-[28px] leading-none font-extrabold tracking-tight text-[#0066FF] min-[1400px]:text-[30px]">
+          <p className="text-[28px] leading-none font-extrabold tracking-tight text-[#0F766E] min-[1400px]:text-[30px]">
             {formatMoney(product.price, "UZS")}
           </p>
           {oldPrice ? (
@@ -403,7 +403,7 @@ export function ProductDetailDesktop({ product }: { product: Product }) {
           <button
             type="button"
             onClick={() => void addToCart()}
-            className="mt-3 inline-flex h-11 w-full items-center justify-center gap-2 rounded-[10px] bg-[#0066FF] text-[14px] font-semibold text-white shadow-[0_4px_12px_rgba(0,102,255,0.28)] transition-colors hover:bg-[#0052cc]"
+            className="mt-3 inline-flex h-11 w-full items-center justify-center gap-2 rounded-[10px] bg-[#0F766E] text-[14px] font-semibold text-white shadow-[0_4px_12px_rgba(15,118,110,0.28)] transition-colors hover:bg-[#115E59]"
           >
             <ShoppingCart className="size-4" />
             Savatga qo‘shish
@@ -411,7 +411,7 @@ export function ProductDetailDesktop({ product }: { product: Product }) {
           <button
             type="button"
             onClick={buyNow}
-            className="mt-2 inline-flex h-11 w-full items-center justify-center rounded-[10px] border border-[#0066FF] bg-white text-[14px] font-semibold text-[#0066FF] transition-colors hover:bg-[#f3f8ff]"
+            className="mt-2 inline-flex h-11 w-full items-center justify-center rounded-[10px] border border-[#0F766E] bg-white text-[14px] font-semibold text-[#0F766E] transition-colors hover:bg-[#F0FDFA]"
           >
             Hozir xarid qilish
           </button>
@@ -424,12 +424,12 @@ export function ProductDetailDesktop({ product }: { product: Product }) {
                   alt=""
                   width={36}
                   height={36}
-                  className="size-9 shrink-0 rounded-full bg-[#e8f1ff] object-contain p-1"
+                  className="size-9 shrink-0 rounded-full bg-[#F0FDFA] object-contain p-1"
                 />
                 <div className="min-w-0 flex-1 leading-tight">
                   <p className="flex items-center gap-1 text-[13px] font-bold text-[#1a1d26]">
                     <span className="truncate">{sellerName}</span>
-                    <BadgeCheck className="size-3.5 shrink-0 fill-[#0066FF] text-white" />
+                    <BadgeCheck className="size-3.5 shrink-0 fill-[#0F766E] text-white" />
                   </p>
                   {rv.count > 0 && rv.avg != null ? (
                     <p className="mt-0.5 flex items-center gap-1 text-[11.5px] text-[#8b93a7]">
@@ -447,7 +447,7 @@ export function ProductDetailDesktop({ product }: { product: Product }) {
               {shop ? (
                 <Link
                   href={shopHref(shop.slug)}
-                  className="mt-2.5 inline-flex h-8 w-full items-center justify-center rounded-lg border border-[#dbe7ff] bg-white text-[12.5px] font-semibold text-[#0066FF] hover:bg-[#f3f8ff]"
+                  className="mt-2.5 inline-flex h-8 w-full items-center justify-center rounded-lg border border-[#CCFBF1] bg-white text-[12.5px] font-semibold text-[#0F766E] hover:bg-[#F0FDFA]"
                 >
                   Sotuvchi profili
                 </Link>
@@ -477,7 +477,7 @@ export function ProductDetailDesktop({ product }: { product: Product }) {
               onClick={() => setTab(item.id)}
               className={cn(
                 "shrink-0 border-b-2 px-4 py-3 text-[13.5px] font-semibold transition",
-                tab === item.id ? "border-[#0066FF] text-[#0066FF]" : "border-transparent text-[#8b93a7] hover:text-[#4b5568]",
+                tab === item.id ? "border-[#0F766E] text-[#0F766E]" : "border-transparent text-[#8b93a7] hover:text-[#4b5568]",
               )}
             >
               {item.label}
@@ -493,7 +493,7 @@ export function ProductDetailDesktop({ product }: { product: Product }) {
                 <ul className="mt-3 space-y-1.5">
                   {details.benefits.map((b) => (
                     <li key={b} className="flex gap-2">
-                      <Check className="mt-0.5 size-4 shrink-0 text-[#0066FF]" strokeWidth={2.4} />
+                      <Check className="mt-0.5 size-4 shrink-0 text-[#0F766E]" strokeWidth={2.4} />
                       <span>{b}</span>
                     </li>
                   ))}
@@ -530,7 +530,7 @@ export function ProductDetailDesktop({ product }: { product: Product }) {
                 <ul className="mt-2 space-y-1.5">
                   {usageItems.map((item) => (
                     <li key={item} className="flex gap-2">
-                      <span className="mt-2 size-1.5 shrink-0 rounded-full bg-[#0066FF]" />
+                      <span className="mt-2 size-1.5 shrink-0 rounded-full bg-[#0F766E]" />
                       <span>{item}</span>
                     </li>
                   ))}
@@ -545,7 +545,7 @@ export function ProductDetailDesktop({ product }: { product: Product }) {
               <ul className="mt-2 space-y-1.5">
                 {usageItems.map((item) => (
                   <li key={item} className="flex gap-2">
-                    <Check className="mt-0.5 size-4 shrink-0 text-[#0066FF]" strokeWidth={2.4} />
+                    <Check className="mt-0.5 size-4 shrink-0 text-[#0F766E]" strokeWidth={2.4} />
                     <span>{item}</span>
                   </li>
                 ))}
@@ -567,14 +567,14 @@ export function ProductDetailDesktop({ product }: { product: Product }) {
           {tab === "sertifikat" ? (
             <div className="max-w-2xl space-y-2">
               <p className="flex items-center gap-2 font-semibold text-[#1a1d26]">
-                <ShieldCheck className="size-4 text-[#0066FF]" />
+                <ShieldCheck className="size-4 text-[#0F766E]" />
                 {own ? (details.docs?.length ? "Sotuvchi hujjatlari" : "Sotuvchi hujjat yuklamagan") : details.certified ? "Sertifikat mavjud" : "Sertifikat talab qilinmaydi"}
               </p>
               {own && details.docs?.length ? (
                 <ul className="space-y-1.5">
                   {details.docs.map((d) => (
                     <li key={d.url}>
-                      <a href={d.url} target="_blank" rel="noreferrer" className="font-medium text-[#0066FF] hover:underline">{d.name}</a>
+                      <a href={d.url} target="_blank" rel="noreferrer" className="font-medium text-[#0F766E] hover:underline">{d.name}</a>
                     </li>
                   ))}
                 </ul>
@@ -594,15 +594,15 @@ export function ProductDetailDesktop({ product }: { product: Product }) {
               <p>{details.delivery}</p>
               <ul className="space-y-2 text-[13px]">
                 <li className="flex gap-2">
-                  <Truck className="mt-0.5 size-4 shrink-0 text-[#0066FF]" />
+                  <Truck className="mt-0.5 size-4 shrink-0 text-[#0F766E]" />
                   Toshkent ichida 24 soat
                 </li>
                 <li className="flex gap-2">
-                  <Package className="mt-0.5 size-4 shrink-0 text-[#0066FF]" />
+                  <Package className="mt-0.5 size-4 shrink-0 text-[#0F766E]" />
                   Viloyatlarga 2–3 ish kuni
                 </li>
                 <li className="flex gap-2">
-                  <Clock className="mt-0.5 size-4 shrink-0 text-[#0066FF]" />
+                  <Clock className="mt-0.5 size-4 shrink-0 text-[#0F766E]" />
                   Buyurtma 16:00 gacha berilsa, shu kuni jo‘natiladi
                 </li>
               </ul>
@@ -615,7 +615,7 @@ export function ProductDetailDesktop({ product }: { product: Product }) {
       <section>
         <div className="mb-3 flex items-center justify-between gap-3">
           <h2 className="text-[18px] font-bold text-[#0B1F4D]">O‘xshash mahsulotlar</h2>
-          <Link href={isForma ? "/forma" : "/marketplace"} className="text-[13px] font-semibold text-[#0066FF] hover:underline">
+          <Link href={isForma ? "/forma" : "/marketplace"} className="text-[13px] font-semibold text-[#0F766E] hover:underline">
             Barchasini ko‘rish
           </Link>
         </div>
@@ -641,7 +641,7 @@ function Chip({ active, onClick, children }: { active?: boolean; onClick?: () =>
       aria-pressed={active}
       className={cn(
         "h-8 min-w-11 rounded-lg border px-3 text-[13px] font-semibold transition-colors",
-        active ? "border-[#0066FF] bg-[#f3f8ff] text-[#0066FF]" : "border-[#e6eaf2] bg-white text-[#4b5568] hover:border-[#0066FF]/40",
+        active ? "border-[#0F766E] bg-[#F0FDFA] text-[#0F766E]" : "border-[#e6eaf2] bg-white text-[#4b5568] hover:border-[#0F766E]/40",
       )}
     >
       {children}
@@ -661,7 +661,7 @@ function InfoCell({ label, value, tone }: { label: string; value: string; tone?:
 function Trust({ icon: Icon, text }: { icon: LucideIcon; text: string }) {
   return (
     <li className="flex items-center gap-2 text-[12.5px] font-medium text-[#4b5568]">
-      <Icon className="size-4 shrink-0 text-[#0066FF]" strokeWidth={1.9} />
+      <Icon className="size-4 shrink-0 text-[#0F766E]" strokeWidth={1.9} />
       {text}
     </li>
   );
@@ -672,7 +672,7 @@ function DocButton({ label, onClick }: { label: string; onClick: () => void }) {
     <button
       type="button"
       onClick={onClick}
-      className="inline-flex h-9 items-center gap-1.5 rounded-lg border border-[#e6eaf2] bg-white px-3 text-[12.5px] font-semibold text-[#0B1F4D] hover:border-[#0066FF]/40 hover:text-[#0066FF]"
+      className="inline-flex h-9 items-center gap-1.5 rounded-lg border border-[#e6eaf2] bg-white px-3 text-[12.5px] font-semibold text-[#0B1F4D] hover:border-[#0F766E]/40 hover:text-[#0F766E]"
     >
       <FileText className="size-4 text-[#e5484d]" />
       {label}

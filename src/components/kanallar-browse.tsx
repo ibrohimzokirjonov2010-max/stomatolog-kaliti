@@ -34,7 +34,7 @@ function parseAmount(value: string) {
 }
 
 const inputCls =
-  "mt-1 h-11 w-full rounded-xl border border-[#eceff5] px-3.5 text-[14px] text-[#1a1d26] outline-none focus:border-[#0066FF] focus:ring-2 focus:ring-[#0066FF]/15";
+  "mt-1 h-11 w-full rounded-xl border border-[#eceff5] px-3.5 text-[14px] text-[#1a1d26] outline-none focus:border-[#0F766E] focus:ring-2 focus:ring-[#0F766E]/15";
 
 function RankBadge({ rank }: { rank: number }) {
   if (rank === 1) {
@@ -193,7 +193,7 @@ function AddChannelDialog({ onClose }: { onClose: () => void }) {
             </button>
             <button
               type="submit"
-              className="h-11 flex-1 rounded-xl bg-[#0066FF] text-sm font-semibold text-white shadow-[0_4px_12px_rgba(0,102,255,0.28)]"
+              className="h-11 flex-1 rounded-xl bg-[#0F766E] text-sm font-semibold text-white shadow-[0_4px_12px_rgba(15,118,110,0.28)]"
             >
               Qo‘shish
             </button>
@@ -273,7 +273,7 @@ function BidDialog({ channel, onClose }: { channel: Channel; onClose: () => void
             </button>
             <button
               type="submit"
-              className="h-11 flex-1 rounded-xl bg-[#0066FF] text-sm font-semibold text-white shadow-[0_4px_12px_rgba(0,102,255,0.28)]"
+              className="h-11 flex-1 rounded-xl bg-[#0F766E] text-sm font-semibold text-white shadow-[0_4px_12px_rgba(15,118,110,0.28)]"
             >
               To‘lash
             </button>
@@ -302,8 +302,8 @@ function MobileCard({ channel, rank, onBid }: { channel: Channel; rank: number; 
           </span>
         </div>
         <div className="min-w-0 flex-1">
-          <p className="truncate text-[15px] leading-tight font-bold text-[#0066FF]">{channel.username}</p>
-          <span className="mt-1 inline-block rounded-md bg-[#e8f1ff] px-2 py-[3px] text-[11px] leading-none font-semibold text-[#0066FF]">
+          <p className="truncate text-[15px] leading-tight font-bold text-[#0F766E]">{channel.username}</p>
+          <span className="mt-1 inline-block rounded-md bg-[#F0FDFA] px-2 py-[3px] text-[11px] leading-none font-semibold text-[#0F766E]">
             {channelCategoryLabel[channel.category]}
           </span>
           <p className="mt-1.5 flex items-center gap-1 text-[11.5px] text-[#8b93a7]">
@@ -314,8 +314,8 @@ function MobileCard({ channel, rank, onBid }: { channel: Channel; rank: number; 
         <button type="button" onClick={onBid} aria-label="O‘rinni olish" className="flex shrink-0 items-center gap-0.5 text-right">
           <span className="block">
             <span className="block text-[10.5px] text-[#8b93a7]">Eng yuqori taklif</span>
-            <span className="block text-[15px] leading-tight font-bold text-[#0066FF]">{money(channel.bidSum)}</span>
-            <span className="block text-[10.5px] font-semibold text-[#0066FF]">O‘rinni olish</span>
+            <span className="block text-[15px] leading-tight font-bold text-[#0F766E]">{money(channel.bidSum)}</span>
+            <span className="block text-[10.5px] font-semibold text-[#0F766E]">O‘rinni olish</span>
           </span>
           <ChevronRight className="size-4 text-[#8b93a7]" />
         </button>
@@ -325,7 +325,7 @@ function MobileCard({ channel, rank, onBid }: { channel: Channel; rank: number; 
         onClick={() => openTelegram(channel)}
         className={cn(
           "mt-3 inline-flex h-10 w-full items-center justify-center gap-1.5 rounded-xl text-[13px] font-semibold",
-          rank === 1 ? "bg-[#0066FF] text-white shadow-[0_4px_12px_rgba(0,102,255,0.28)]" : "border border-[#0066FF] bg-white text-[#0066FF]",
+          rank === 1 ? "bg-[#0F766E] text-white shadow-[0_4px_12px_rgba(15,118,110,0.28)]" : "border border-[#0F766E] bg-white text-[#0F766E]",
         )}
       >
         <Plus className="size-3.5" />
@@ -338,7 +338,7 @@ function MobileCard({ channel, rank, onBid }: { channel: Channel; rank: number; 
 function ChannelIcons() {
   return (
     <div className="relative h-[84px] w-[132px] shrink-0" aria-hidden>
-      <span className="absolute top-0 left-6 grid size-11 -rotate-6 place-items-center rounded-2xl bg-gradient-to-br from-white to-[#dbe7ff] text-[#0066FF] shadow-[0_8px_16px_rgba(0,102,255,0.2)]">
+      <span className="absolute top-0 left-6 grid size-11 -rotate-6 place-items-center rounded-2xl bg-gradient-to-br from-white to-[#CCFBF1] text-[#0F766E] shadow-[0_8px_16px_rgba(15,118,110,0.2)]">
         <svg viewBox="0 0 24 24" className="size-6" fill="currentColor"><path d="M12 3.2c-2.2 0-4 1.6-4 3.6 0 1-.3 2.4-.8 3.8C6.6 12.4 6 14 6 15.4c0 2 1.5 3.4 3.2 3.4 1 0 1.7-.6 2.8-.6s1.8.6 2.8.6c1.7 0 3.2-1.4 3.2-3.4 0-1.4-.6-3-1.2-4.8-.5-1.4-.8-2.8-.8-3.8 0-2-1.8-3.6-4-3.6z" /></svg>
       </span>
       <span className="absolute top-2 right-0 grid size-12 rotate-6 place-items-center rounded-2xl bg-gradient-to-br from-[#4fc3f7] to-[#229ED9] text-white shadow-[0_8px_16px_rgba(34,158,217,0.35)]">
@@ -393,7 +393,7 @@ export function KanallarBrowse() {
         value={query}
         onChange={(e) => setQuery(e.target.value)}
         placeholder="@username yoki kanal nomi bilan qidirish..."
-        className="h-11 w-full rounded-xl border border-[#eceff5] bg-white pl-10 pr-3 text-[14px] text-[#1a1d26] placeholder:text-[#8b93a7] outline-none focus:border-[#0066FF] focus:ring-2 focus:ring-[#0066FF]/15"
+        className="h-11 w-full rounded-xl border border-[#eceff5] bg-white pl-10 pr-3 text-[14px] text-[#1a1d26] placeholder:text-[#8b93a7] outline-none focus:border-[#0F766E] focus:ring-2 focus:ring-[#0F766E]/15"
       />
     </>
   );
@@ -412,21 +412,21 @@ export function KanallarBrowse() {
         <button
           type="button"
           onClick={() => setAddOpen(true)}
-          className="mb-3 flex h-12 w-full items-center justify-center gap-2 rounded-2xl bg-[#0066FF] text-[14px] font-semibold text-white shadow-[0_4px_12px_rgba(0,102,255,0.28)]"
+          className="mb-3 flex h-12 w-full items-center justify-center gap-2 rounded-2xl bg-[#0F766E] text-[14px] font-semibold text-white shadow-[0_4px_12px_rgba(15,118,110,0.28)]"
         >
           <Plus className="size-4" />
           Kanal qo‘shish
         </button>
-        <div className="mb-3 flex gap-3 rounded-2xl border border-[#cfe0ff] bg-[#eef5ff] p-3.5">
-          <Lightbulb className="mt-0.5 size-5 shrink-0 text-[#0066FF]" />
+        <div className="mb-3 flex gap-3 rounded-2xl border border-[#99F6E4] bg-[#eef5ff] p-3.5">
+          <Lightbulb className="mt-0.5 size-5 shrink-0 text-[#0F766E]" />
           <p className="flex-1 text-[12px] leading-relaxed text-[#1a3a7a]">
             Maslahat: Yuqori o‘rinlar auksion orqali belgilanadi. Eng ko‘p taklif bergan kanal yuqori o‘ringa chiqadi.
           </p>
-          <TrendingUp className="mt-0.5 size-5 shrink-0 text-[#0066FF]" />
+          <TrendingUp className="mt-0.5 size-5 shrink-0 text-[#0F766E]" />
         </div>
         <div className="mb-3 flex items-center gap-2">
           <div className="relative min-w-0 flex-1">{searchInput}</div>
-          <button type="button" aria-label="Filtr" onClick={() => setFilterOpen(true)} className="grid size-11 shrink-0 place-items-center rounded-xl border border-[#eceff5] bg-white text-[#0066FF]">
+          <button type="button" aria-label="Filtr" onClick={() => setFilterOpen(true)} className="grid size-11 shrink-0 place-items-center rounded-xl border border-[#eceff5] bg-white text-[#0F766E]">
             <SlidersHorizontal className="size-[18px]" />
           </button>
         </div>
@@ -439,7 +439,7 @@ export function KanallarBrowse() {
               className={cn(
                 "shrink-0 rounded-full border px-3.5 py-[7px] text-[13px] font-semibold transition-colors",
                 category === t.id
-                  ? "border-[#0066FF] bg-[#0066FF] text-white shadow-[0_4px_12px_rgba(0,102,255,0.28)]"
+                  ? "border-[#0F766E] bg-[#0F766E] text-white shadow-[0_4px_12px_rgba(15,118,110,0.28)]"
                   : "border-[#eceff5] bg-white text-[#4b5568]"
               )}
             >
@@ -480,7 +480,7 @@ export function KanallarBrowse() {
             <div className="mx-auto mb-3 h-1 w-10 rounded-full bg-[#e6eaf2]" />
             <div className="mb-3 flex items-center justify-between">
               <p className="text-[16px] font-bold text-[#1a1d26]">Yo‘nalish bo‘yicha filtr</p>
-              <button type="button" onClick={() => setFilterOpen(false)} className="text-sm font-semibold text-[#0066FF]">Tayyor</button>
+              <button type="button" onClick={() => setFilterOpen(false)} className="text-sm font-semibold text-[#0F766E]">Tayyor</button>
             </div>
             <div className="flex flex-wrap gap-2 pb-2">
               {[{ id: "" as const, label: "Barchasi" }, ...channelCategories].map((c) => (
@@ -491,7 +491,7 @@ export function KanallarBrowse() {
                     setCategory(c.id);
                     setFilterOpen(false);
                   }}
-                  className={cn("h-11 rounded-xl px-4 text-[14px] font-semibold", category === c.id ? "bg-[#0066FF] text-white" : "bg-[#f4f6fa] text-[#4b5568]")}
+                  className={cn("h-11 rounded-xl px-4 text-[14px] font-semibold", category === c.id ? "bg-[#0F766E] text-white" : "bg-[#f4f6fa] text-[#4b5568]")}
                 >
                   {c.label}
                 </button>

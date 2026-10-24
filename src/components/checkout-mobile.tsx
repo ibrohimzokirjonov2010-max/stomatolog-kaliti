@@ -269,7 +269,7 @@ export function CheckoutMobile() {
       <div className="px-1 pt-1 pb-6" data-testid="buyurtma-mobile">
         <h1 className="text-[28px] font-extrabold tracking-tight text-[#0B1220]">Buyurtma berish</h1>
         <div className="mt-4 rounded-[18px] bg-white px-6 py-14 text-center shadow-[0_1px_3px_rgba(15,23,42,0.06)]">
-          <span className="mx-auto flex size-14 items-center justify-center rounded-2xl bg-[#e8f1ff] text-[#1f6bff]">
+          <span className="mx-auto flex size-14 items-center justify-center rounded-2xl bg-[#F0FDFA] text-[#1f6bff]">
             <ShoppingBag className="size-7" />
           </span>
           <p className="mt-4 text-[17px] font-bold text-[#0B1220]">Savatda tanlangan mahsulot yo‘q</p>
@@ -345,7 +345,7 @@ export function CheckoutMobile() {
                 <Thumb key={i.key} src={i.product.image} />
               ))}
               {extra > 0 ? (
-                <span className="grid size-[58px] place-items-center rounded-[10px] bg-[#e8f1ff] text-[17px] font-bold text-[#1f6bff]">
+                <span className="grid size-[58px] place-items-center rounded-[10px] bg-[#F0FDFA] text-[17px] font-bold text-[#1f6bff]">
                   +{extra}
                 </span>
               ) : null}
@@ -430,7 +430,7 @@ export function CheckoutMobile() {
                   onClick={() => setPickerOpen(true)}
                   className={cn(
                     "flex min-h-[54px] items-center justify-center gap-2 rounded-[12px] px-2 text-[13.5px] font-semibold",
-                    mapPoint ? "bg-[#e8f8ee] text-[#16a34a]" : "bg-[#e8f1ff] text-[#1f6bff]",
+                    mapPoint ? "bg-[#e8f8ee] text-[#16a34a]" : "bg-[#F0FDFA] text-[#1f6bff]",
                   )}
                   data-testid="xarita-btn"
                 >
@@ -479,7 +479,7 @@ export function CheckoutMobile() {
                     <button
                       type="button"
                       onClick={() => setPickerOpen(true)}
-                      className="flex h-10 shrink-0 items-center gap-1 rounded-full border border-dashed border-[#9ec0ff] bg-[#f3f7ff] px-3 text-[13px] font-semibold text-[#1f6bff]"
+                      className="flex h-10 shrink-0 items-center gap-1 rounded-full border border-dashed border-[#5EEAD4] bg-[#f3f7ff] px-3 text-[13px] font-semibold text-[#1f6bff]"
                     >
                       <Plus className="size-4" /> Qo‘shish
                     </button>

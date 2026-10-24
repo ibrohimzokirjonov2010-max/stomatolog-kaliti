@@ -70,12 +70,12 @@ export function normalizeUsername(value: string) {
 }
 
 const avatarPalette = [
-  "#0066FF",
+  "#0F766E",
   "#0d9488",
   "#7c3aed",
   "#ea580c",
   "#db2777",
-  "#2563eb",
+  "#0F766E",
   "#059669",
   "#4f46e5",
 ];

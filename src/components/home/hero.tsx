@@ -7,8 +7,8 @@ import { cn } from "@/lib/utils";
 export function HomeHero() {
   return (
     <section className="grid grid-cols-[1.45fr_0.9fr] gap-4">
-      <div className="relative min-h-[220px] overflow-hidden rounded-2xl bg-[#1d4ed8] text-white">
-        <div className="absolute inset-0 bg-[linear-gradient(90deg,#1d4ed8_0%,#2563eb_42%,transparent_78%)]" />
+      <div className="relative min-h-[220px] overflow-hidden rounded-2xl bg-[#0F766E] text-white">
+        <div className="absolute inset-0 bg-[linear-gradient(90deg,#0F766E_0%,#0F766E_42%,transparent_78%)]" />
         <Image
           src="/images/hero-dentist.png"
           alt=""
@@ -17,7 +17,7 @@ export function HomeHero() {
           className="absolute right-0 bottom-0 h-full w-[48%] object-cover object-[center_15%]"
           priority
         />
-        <div className="absolute inset-y-0 right-[20%] w-40 bg-[linear-gradient(90deg,#1d4ed8,transparent)]" />
+        <div className="absolute inset-y-0 right-[20%] w-40 bg-[linear-gradient(90deg,#0F766E,transparent)]" />
         <div className="relative z-10 max-w-lg px-7 py-7">
           <h1 className="text-[28px] leading-tight font-bold tracking-tight">
             Stomatologlar uchun hamma narsa bitta platformada
@@ -51,7 +51,7 @@ export function HomeHero() {
         />
         <div className="absolute inset-0 bg-[linear-gradient(90deg,#0b1220_35%,transparent_80%)]" />
         <div className="relative z-10 p-6">
-          <p className="text-[11px] font-semibold tracking-wide text-blue-300 uppercase">
+          <p className="text-[11px] font-semibold tracking-wide text-[#CCFBF1] uppercase">
             Premium
           </p>
           <h2 className="mt-1 text-xl font-bold">Implant Tizimlari</h2>

@@ -208,7 +208,7 @@ export function ListingDetailDesktop({ id }: { id: string }) {
               <span className={`el-flag ${item.type}`} style={{ position: "static" }}>{item.typeLabel}</span>
               <h1 style={{ fontSize: "calc(1.2 * var(--u))", margin: "calc(.3 * var(--u)) 0" }}>{item.title}</h1>
               <p className="el-price">{item.priceLabel}</p>
-              <p className="crm-muted">{item.city} · {item.dateLabel} · {item.views} ko‘rish</p>
+              <p className="crm-muted">{item.city} · {item.dateLabel}{item.views ? ` · ${item.views} ko‘rish` : ""}</p>
               <p>{item.description}</p>
             </div>
           </div>

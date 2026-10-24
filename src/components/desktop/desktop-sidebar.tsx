@@ -8,17 +8,18 @@ import { ShNavTree, useProfilActive } from "@/components/nav/sh-nav-tree";
 import { navBottom } from "@/data/nav";
 import "./desktop-chrome.css";
 
-const HELP_PREFIXES = ["/mening-klinikam", "/klinika", "/crm", "/profil", "/buyurtmalarim"];
+/** Shop screens use the StomaHub Pro card. Every other desktop page uses the help card from the main PNGs. */
+const PRO_PREFIXES = ["/marketplace", "/product", "/kategoriyalar", "/savat", "/cart", "/checkout", "/buyurtma", "/forma", "/jihozlar", "/ortiqcha-material"];
 const COLLAPSE_KEY = "stomahub.nav.collapsed";
 
-function wantsHelp(pathname: string) {
-  return HELP_PREFIXES.some((prefix) => pathname === prefix || pathname.startsWith(`${prefix}/`));
+function wantsPro(pathname: string) {
+  return PRO_PREFIXES.some((prefix) => pathname === prefix || pathname.startsWith(`${prefix}/`));
 }
 
 /** The one desktop sidebar: design groups, then StomaHub Pro (or help on clinic and profile). */
 export function DesktopSidebar() {
   const pathname = usePathname() ?? "/";
-  const help = wantsHelp(pathname);
+  const help = !wantsPro(pathname);
   const profilActive = useProfilActive();
   const ProfilIcon = navBottom.icon;
   const [collapsed, setCollapsed] = useState(false);

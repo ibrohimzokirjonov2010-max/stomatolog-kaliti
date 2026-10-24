@@ -1,5 +1,5 @@
 /* Onlayn darslar (/talim desktop) — designs/add-forms-1020/onlini darslar bolimi dizyaini.png */
-.sh .odl { --ol: #0b8f8a; --ol-dark: #0a6f6b; --ol-soft: #e6f6f4; --ol-line: #e3eaf1; --ol-ink: #0f1d33; --ol-mute: #6b7a90; color: var(--ol-ink); }
+.sh .odl { --ol: #0F766E; --ol-dark: #0a6f6b; --ol-soft: #e6f6f4; --ol-line: #e3eaf1; --ol-ink: #0f1d33; --ol-mute: #6b7a90; color: var(--ol-ink); }
 .sh .odl .i { width: 16px; height: 16px; flex: none; }
 .sh .odl button { font-family: inherit; cursor: pointer; }
 .sh .odl-head { display: flex; justify-content: space-between; align-items: flex-start; gap: 16px; }

@@ -82,7 +82,7 @@ export type ResumeOffer = { id: string; name: string; phone: string; message: st
 
 export const appStatusCopy: Record<JobAppStatus, { label: string; className: string }> = {
   yuborildi: { label: "Yuborildi", className: "bg-amber-50 text-amber-800 ring-1 ring-amber-200/80" },
-  korilmoqda: { label: "Ko‘rib chiqilmoqda", className: "bg-sky-50 text-sky-800 ring-1 ring-sky-200/80" },
+  korilmoqda: { label: "Ko‘rib chiqilmoqda", className: "bg-[#F0FDFA] text-[#115E59] ring-1 ring-[#99F6E4]/80" },
   qabul: { label: "Qabul", className: "bg-emerald-50 text-emerald-800 ring-1 ring-emerald-200/80" },
   rad: { label: "Rad", className: "bg-rose-50 text-rose-800 ring-1 ring-rose-200/80" },
   bekor: { label: "Bekor", className: "bg-slate-100 text-slate-500 ring-1 ring-slate-200/80" },

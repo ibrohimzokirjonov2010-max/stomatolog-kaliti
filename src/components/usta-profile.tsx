@@ -74,7 +74,7 @@ export function UstaProfile({ id }: { id: string }) {
         <div className="mt-6 rounded-[22px] bg-white px-5 py-12 text-center" data-testid="usta-not-found">
           <p className="text-[16px] font-semibold text-[#1a1d26]">Usta topilmadi</p>
           <p className="mt-1 text-[13px] text-[#8b93a7]">Profil o‘chirilgan yoki hali moderatsiyadan o‘tmagan.</p>
-          <Link href="/ustalar" className="mt-4 inline-flex h-11 items-center rounded-xl bg-[#0066FF] px-5 text-[14px] font-semibold text-white">
+          <Link href="/ustalar" className="mt-4 inline-flex h-11 items-center rounded-xl bg-[#0F766E] px-5 text-[14px] font-semibold text-white">
             Ustalar ro‘yxati
           </Link>
         </div>
@@ -267,7 +267,7 @@ function TopBar({ onBack, saved, onSave, onShare }: { onBack: () => void; saved?
       <button type="button" onClick={onBack} className="grid size-10 place-items-center rounded-full text-[#0B1220]" aria-label="Orqaga">
         <ChevronLeft className="size-7" />
       </button>
-      <span className="flex-1 text-[20px] font-extrabold tracking-[0.04em] text-[#0066FF]">
+      <span className="flex-1 text-[20px] font-extrabold tracking-[0.04em] text-[#0F766E]">
         STOMA<span className="text-[#8b93a7]">HUB</span>
       </span>
       {onSave ? (

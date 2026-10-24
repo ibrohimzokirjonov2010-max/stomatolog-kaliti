@@ -11,7 +11,7 @@ export function ClinicInitials({ name, className, style }: { name: string; class
     .toUpperCase();
   return (
     <span
-      className={cn("flex size-12 shrink-0 items-center justify-center rounded-xl bg-[#e8f1ff] text-[15px] font-bold text-[#0066FF] ring-1 ring-[#dbe7ff]", className)}
+      className={cn("flex size-12 shrink-0 items-center justify-center rounded-xl bg-[#F0FDFA] text-[15px] font-bold text-[#0F766E] ring-1 ring-[#CCFBF1]", className)}
       style={style}
       aria-hidden
     >

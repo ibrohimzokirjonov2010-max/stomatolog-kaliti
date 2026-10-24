@@ -58,7 +58,7 @@ type Format = "all" | "online" | "offline";
 type Kind = "all" | "master" | "course" | "kongress";
 
 const toneClass: Record<SeminarTag["tone"], string> = {
-  blue: "bg-[#e8f1ff] text-[#0066FF]",
+  blue: "bg-[#F0FDFA] text-[#0F766E]",
   green: "bg-[#e3f8ec] text-[#0f9d58]",
   violet: "bg-[#f0e9ff] text-[#7c3aed]",
   orange: "bg-[#fff1e0] text-[#e8730c]",
@@ -143,7 +143,7 @@ export function BookmarkButton({ id, className, onDark }: { id: string; classNam
 export function SeminarCover({ src, sizes, className, gray }: { src?: string; sizes: string; className?: string; gray?: boolean }) {
   if (!src)
     return (
-      <span className={cn("absolute inset-0 grid place-items-center bg-gradient-to-br from-[#e8f1ff] to-[#cfe0ff] text-[#0066FF]", className)}>
+      <span className={cn("absolute inset-0 grid place-items-center bg-gradient-to-br from-[#F0FDFA] to-[#99F6E4] text-[#0F766E]", className)}>
         <ToothOutline className="size-8" />
       </span>
     );
@@ -183,7 +183,7 @@ function HeroSlide({ seminar, top }: { seminar: Seminar; top: boolean }) {
     <Link
       href={seminarHref(live.id)}
       data-testid="seminar-hero"
-      className="relative block h-[200px] w-full shrink-0 snap-center overflow-hidden rounded-[20px] bg-gradient-to-br from-[#2f7bff] via-[#0a5cf0] to-[#0a3fb8] text-white shadow-[0_10px_26px_rgba(0,102,255,0.26)]"
+      className="relative block h-[200px] w-full shrink-0 snap-center overflow-hidden rounded-[20px] bg-gradient-to-br from-[#2f7bff] via-[#0a5cf0] to-[#0a3fb8] text-white shadow-[0_10px_26px_rgba(15,118,110,0.26)]"
     >
       <span className="pointer-events-none absolute -top-16 -left-10 size-48 rounded-full bg-white/10 blur-2xl" aria-hidden />
       {photo ? (
@@ -259,7 +259,7 @@ function HeroCarousel({ items }: { items: Seminar[] }) {
             type="button"
             aria-label={`${i + 1}-slayd`}
             onClick={() => ref.current?.scrollTo({ left: i * (ref.current?.clientWidth ?? 0), behavior: "smooth" })}
-            className={cn("h-1.5 rounded-full transition-all", i === idx ? "w-5 bg-[#0066FF]" : "w-1.5 bg-[#cdd5e4]")}
+            className={cn("h-1.5 rounded-full transition-all", i === idx ? "w-5 bg-[#0F766E]" : "w-1.5 bg-[#cdd5e4]")}
           />
         ))}
       </div>
@@ -312,7 +312,7 @@ function ListCard({ seminar }: { seminar: Seminar }) {
               {sp.photo ? (
                 <Image src={sp.photo} alt="" width={20} height={20} className="size-5 shrink-0 rounded-full object-cover" />
               ) : (
-                <span className="grid size-5 shrink-0 place-items-center rounded-full bg-[#e8f1ff] text-[8.5px] font-bold text-[#0066FF]">{initials(sp.name)}</span>
+                <span className="grid size-5 shrink-0 place-items-center rounded-full bg-[#F0FDFA] text-[8.5px] font-bold text-[#0F766E]">{initials(sp.name)}</span>
               )}
               <p className="min-w-0 truncate text-[11px] leading-tight">
                 <span className="font-semibold text-[#1a1d26]">{sp.name}</span>
@@ -322,7 +322,7 @@ function ListCard({ seminar }: { seminar: Seminar }) {
           ) : null}
           {live.organizer ? (
             <div className="mt-1.5 flex items-center gap-1.5" data-testid="seminar-card-organizer">
-              <span className="grid size-5 shrink-0 place-items-center rounded-full bg-[#e8f1ff] text-[#0066FF]">
+              <span className="grid size-5 shrink-0 place-items-center rounded-full bg-[#F0FDFA] text-[#0F766E]">
                 <Building2 className="size-3" />
               </span>
               <p className="min-w-0 truncate text-[11px] leading-tight">
@@ -364,7 +364,7 @@ function ListCard({ seminar }: { seminar: Seminar }) {
             Batafsil
           </Link>
         ) : mine ? (
-          <Link href={href} className="inline-flex h-[38px] shrink-0 items-center gap-1.5 rounded-xl bg-[#f5f9ff] px-3 text-[12.5px] font-semibold text-[#0066FF]">
+          <Link href={href} className="inline-flex h-[38px] shrink-0 items-center gap-1.5 rounded-xl bg-[#F0FDFA] px-3 text-[12.5px] font-semibold text-[#0F766E]">
             <SeminarStatusBadge status={mine.status} />
           </Link>
         ) : left <= 0 ? (
@@ -395,7 +395,7 @@ function Choice<T extends string>({ value, options, onChange }: { value: T; opti
           aria-pressed={value === o.key}
           className={cn(
             "h-9 rounded-full border px-3.5 text-[13px] font-semibold",
-            value === o.key ? "border-[#0066FF] bg-[#0066FF] text-white" : "border-[#e3e8f1] bg-white text-[#1a1d26]",
+            value === o.key ? "border-[#0F766E] bg-[#0F766E] text-white" : "border-[#e3e8f1] bg-white text-[#1a1d26]",
           )}
         >
           {o.label}
@@ -474,7 +474,7 @@ export function SeminarListMobile() {
             placeholder="Seminar, ma’ruzachi yoki shahar..."
             aria-label="Seminar qidirish"
             data-testid="seminar-search"
-            className="h-11 w-full rounded-xl border border-[#e6eaf2] bg-white pr-10 pl-10 text-[14px] text-[#1a1d26] shadow-[0_2px_10px_rgba(15,23,42,0.05)] outline-none placeholder:text-[#8b93a7] focus:ring-2 focus:ring-[#0066FF]/20 [&::-webkit-search-cancel-button]:hidden"
+            className="h-11 w-full rounded-xl border border-[#e6eaf2] bg-white pr-10 pl-10 text-[14px] text-[#1a1d26] shadow-[0_2px_10px_rgba(15,23,42,0.05)] outline-none placeholder:text-[#8b93a7] focus:ring-2 focus:ring-[#0F766E]/20 [&::-webkit-search-cancel-button]:hidden"
           />
           {q ? (
             <button type="button" aria-label="Tozalash" onClick={() => setQ("")} className="absolute top-1/2 right-2 grid size-8 -translate-y-1/2 place-items-center text-[#8b93a7]">
@@ -491,7 +491,7 @@ export function SeminarListMobile() {
         >
           <SlidersHorizontal className="size-5" />
           {extraFilters > 0 ? (
-            <span className="absolute -top-1 -right-1 grid size-[18px] place-items-center rounded-full bg-[#0066FF] text-[10px] font-bold text-white ring-2 ring-[#F4F7FC]">
+            <span className="absolute -top-1 -right-1 grid size-[18px] place-items-center rounded-full bg-[#0F766E] text-[10px] font-bold text-white ring-2 ring-[#F4F7FC]">
               {extraFilters}
             </span>
           ) : null}
@@ -510,7 +510,7 @@ export function SeminarListMobile() {
                 resetAll();
                 listRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
               }}
-              className="inline-flex items-center gap-0.5 text-[12px] font-semibold text-[#0066FF]"
+              className="inline-flex items-center gap-0.5 text-[12px] font-semibold text-[#0F766E]"
             >
               Barchasini ko‘rish <ArrowRight className="size-3.5" />
             </button>
@@ -524,17 +524,17 @@ export function SeminarListMobile() {
                 <span
                   className={cn(
                     "grid size-[54px] place-items-center rounded-[15px]",
-                    active ? "bg-[#e8f1ff] text-[#0066FF] ring-[1.5px] ring-[#0066FF]" : "bg-white text-[#4b5568] shadow-[0_2px_8px_rgba(15,23,42,0.06)] ring-1 ring-[#edf0f6]",
+                    active ? "bg-[#F0FDFA] text-[#0F766E] ring-[1.5px] ring-[#0F766E]" : "bg-white text-[#4b5568] shadow-[0_2px_8px_rgba(15,23,42,0.06)] ring-1 ring-[#edf0f6]",
                   )}
                 >
                   {img ? (
                     // eslint-disable-next-line @next/next/no-img-element
                     <img src={`/icons/seminar/${img}-128.png`} alt="" width={30} height={30} className="size-[30px] object-contain" />
                   ) : (
-                    <Icon className="size-[27px] text-[#0066FF] [stroke-width:1.6]" />
+                    <Icon className="size-[27px] text-[#0F766E] [stroke-width:1.6]" />
                   )}
                 </span>
-                <span className={cn("text-center text-[10.5px] leading-[1.2]", active ? "font-semibold text-[#0066FF]" : "font-medium text-[#4b5568]")}>{label}</span>
+                <span className={cn("text-center text-[10.5px] leading-[1.2]", active ? "font-semibold text-[#0F766E]" : "font-medium text-[#4b5568]")}>{label}</span>
               </button>
             );
           })}
@@ -544,12 +544,12 @@ export function SeminarListMobile() {
       <section ref={listRef} className="mb-5 scroll-mt-20">
         <SectionHead
           title="Yaqinlashib kelayotgan seminarlar"
-          action={<span className="rounded-full bg-[#e8f1ff] px-2.5 py-0.5 text-[12px] font-semibold text-[#0066FF]" data-testid="seminar-count">{upcoming.length}</span>}
+          action={<span className="rounded-full bg-[#F0FDFA] px-2.5 py-0.5 text-[12px] font-semibold text-[#0F766E]" data-testid="seminar-count">{upcoming.length}</span>}
         />
         {upcoming.length === 0 ? (
           <div className="rounded-2xl bg-white px-4 py-10 text-center text-[13px] text-[#8b93a7] ring-1 ring-[#edf0f6]">
             {seminars.length === 0 && !q && extraFilters === 0 ? "Hozircha seminar yo‘q." : "Bu filtrlar bo‘yicha yaqin seminar yo‘q."}
-            <button type="button" onClick={resetAll} className="mt-2 block w-full font-semibold text-[#0066FF]">
+            <button type="button" onClick={resetAll} className="mt-2 block w-full font-semibold text-[#0F766E]">
               Filtrlarni tozalash
             </button>
           </div>
@@ -583,8 +583,8 @@ export function SeminarListMobile() {
         </section>
       ) : null}
 
-      <Link href="/seminarlar/yozuvlarim" className="mb-1.5 flex items-center gap-2.5 rounded-xl border border-[#dbe7ff] bg-[#f5f8ff] px-3 py-2.5">
-        <span className="grid size-9 shrink-0 place-items-center rounded-lg bg-[#0066FF] text-white">
+      <Link href="/seminarlar/yozuvlarim" className="mb-1.5 flex items-center gap-2.5 rounded-xl border border-[#CCFBF1] bg-[#f5f8ff] px-3 py-2.5">
+        <span className="grid size-9 shrink-0 place-items-center rounded-lg bg-[#0F766E] text-white">
           <Bookmark className="size-4" />
         </span>
         <span className="min-w-0 flex-1 leading-tight">
@@ -593,8 +593,8 @@ export function SeminarListMobile() {
         </span>
         <ChevronRight className="size-5 shrink-0 text-[#8b93a7]" />
       </Link>
-      <Link href="/seminarlar/yozuvlarim/tashkilotchi" className="mb-1.5 flex items-center gap-2.5 rounded-xl border border-[#dbe7ff] bg-white px-3 py-2.5">
-        <span className="grid size-9 shrink-0 place-items-center rounded-lg bg-[#e8f1ff] text-[#0066FF]">
+      <Link href="/seminarlar/yozuvlarim/tashkilotchi" className="mb-1.5 flex items-center gap-2.5 rounded-xl border border-[#CCFBF1] bg-white px-3 py-2.5">
+        <span className="grid size-9 shrink-0 place-items-center rounded-lg bg-[#F0FDFA] text-[#0F766E]">
           <Plus className="size-4" />
         </span>
         <span className="min-w-0 flex-1 leading-tight">
@@ -661,7 +661,7 @@ export function SeminarListMobile() {
               >
                 Tozalash
               </button>
-              <button type="button" data-testid="seminar-filter-apply" onClick={() => setFilterOpen(false)} className="h-12 flex-[2] rounded-xl bg-[#0066FF] text-[14px] font-semibold text-white">
+              <button type="button" data-testid="seminar-filter-apply" onClick={() => setFilterOpen(false)} className="h-12 flex-[2] rounded-xl bg-[#0F766E] text-[14px] font-semibold text-white">
                 {upcoming.length} ta seminarni ko‘rsatish
               </button>
             </div>

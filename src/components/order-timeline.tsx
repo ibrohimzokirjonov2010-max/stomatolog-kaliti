@@ -62,7 +62,7 @@ export function OrderTimeline({ order }: { order: Order }) {
                 <span
                   className={cn(
                     "absolute top-[22px] left-[calc(50%+26px)] h-[3px] w-[calc(100%-52px)] rounded-full sm:top-[24px]",
-                    connectorDone ? "bg-[#0066FF]" : "bg-[#e8ecf3]",
+                    connectorDone ? "bg-[#0F766E]" : "bg-[#e8ecf3]",
                   )}
                   aria-hidden
                 />
@@ -71,8 +71,8 @@ export function OrderTimeline({ order }: { order: Order }) {
                 className={cn(
                   "relative z-[1] flex items-center justify-center rounded-full transition-all duration-200",
                   active &&
-                    "size-[52px] bg-[#0066FF] shadow-[0_0_0_6px_rgba(0,102,255,0.14),0_8px_20px_rgba(0,102,255,0.28)] sm:size-[56px]",
-                  done && !active && "size-[44px] bg-[#0066FF] sm:size-[46px]",
+                    "size-[52px] bg-[#0F766E] shadow-[0_0_0_6px_rgba(15,118,110,0.14),0_8px_20px_rgba(15,118,110,0.28)] sm:size-[56px]",
+                  done && !active && "size-[44px] bg-[#0F766E] sm:size-[46px]",
                   !done &&
                     !active &&
                     "size-[44px] bg-[#f1f4f9] ring-1 ring-[#e4e9f1] sm:size-[46px]",
@@ -96,7 +96,7 @@ export function OrderTimeline({ order }: { order: Order }) {
           <ol className="mt-3 space-y-3">
             {[...order.statusHistory].reverse().map((h, i) => (
               <li key={`${h.status}-${h.at}-${i}`} className="flex gap-3">
-                <span className={cn("mt-1.5 size-2.5 shrink-0 rounded-full", i === 0 ? "bg-[#0066FF] ring-4 ring-[#0066FF]/15" : "bg-[#c5cfe0]")} aria-hidden />
+                <span className={cn("mt-1.5 size-2.5 shrink-0 rounded-full", i === 0 ? "bg-[#0F766E] ring-4 ring-[#0F766E]/15" : "bg-[#c5cfe0]")} aria-hidden />
                 <div className="min-w-0 flex-1">
                   <div className="flex flex-wrap items-baseline justify-between gap-x-3">
                     <p className="text-[14px] font-semibold text-[#1a1d26]">{orderStatusLabel[h.status] ?? h.status}</p>
@@ -130,9 +130,9 @@ function MapCanvas({ delivered }: { delivered?: boolean }) {
           <stop offset="100%" stopColor="#c8d5e4" />
         </linearGradient>
         <linearGradient id="routeGlow" x1="0" y1="0" x2="1" y2="0">
-          <stop offset="0%" stopColor="#0066FF" stopOpacity="0.15" />
-          <stop offset="50%" stopColor="#0066FF" stopOpacity="0.45" />
-          <stop offset="100%" stopColor="#0066FF" stopOpacity="0.15" />
+          <stop offset="0%" stopColor="#0F766E" stopOpacity="0.15" />
+          <stop offset="50%" stopColor="#0F766E" stopOpacity="0.45" />
+          <stop offset="100%" stopColor="#0F766E" stopOpacity="0.15" />
         </linearGradient>
         <filter id="pinShadow" x="-50%" y="-50%" width="200%" height="200%">
           <feDropShadow dx="0" dy="3" stdDeviation="3.5" floodOpacity="0.28" />
@@ -169,7 +169,7 @@ function MapCanvas({ delivered }: { delivered?: boolean }) {
       <path
         d="M48 168 C95 155 120 130 155 108 C200 78 250 58 332 48"
         fill="none"
-        stroke="#0066FF"
+        stroke="#0F766E"
         strokeWidth="4.5"
         strokeLinecap="round"
         opacity="0.92"
@@ -184,7 +184,7 @@ function MapCanvas({ delivered }: { delivered?: boolean }) {
       <g transform="translate(320,20)" filter="url(#pinShadow)">
         <path
           d="M12 0 C5.4 0 0 5.4 0 12 C0 21 12 34 12 34 S24 21 24 12 C24 5.4 18.6 0 12 0Z"
-          fill="#0066FF"
+          fill="#0F766E"
         />
         <circle cx="12" cy="12" r="4.5" fill="white" />
       </g>
@@ -192,7 +192,7 @@ function MapCanvas({ delivered }: { delivered?: boolean }) {
       {!delivered ? (
         <g transform="translate(148,88)" filter="url(#pinShadow)">
           <circle cx="20" cy="20" r="20" fill="white" />
-          <circle cx="20" cy="20" r="16.5" fill="#0066FF" />
+          <circle cx="20" cy="20" r="16.5" fill="#0F766E" />
           <rect x="9" y="16" width="22" height="10" rx="2.5" fill="white" />
           <path d="M12 16 L15 11 H24 L28 16 Z" fill="white" opacity="0.95" />
           <circle cx="14" cy="27" r="2.4" fill="#0f172a" />
@@ -248,7 +248,7 @@ export function OrderTrackMap({ order }: { order: Order }) {
               {order.city ? ` · ${order.city}` : ""}
             </span>
           </span>
-          <span className="pointer-events-auto inline-flex max-w-[85%] items-center gap-1.5 self-end rounded-full bg-[#0066FF] px-2.5 py-1 text-[11px] font-semibold text-white shadow-[0_4px_12px_rgba(0,102,255,0.35)]">
+          <span className="pointer-events-auto inline-flex max-w-[85%] items-center gap-1.5 self-end rounded-full bg-[#0F766E] px-2.5 py-1 text-[11px] font-semibold text-white shadow-[0_4px_12px_rgba(15,118,110,0.35)]">
             <span className="size-1.5 shrink-0 rounded-full bg-white" />
             <span className="truncate">{destShort}</span>
           </span>

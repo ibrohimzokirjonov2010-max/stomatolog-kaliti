@@ -75,7 +75,7 @@ function Confirmation() {
               : "To‘lov hali tasdiqlanmagan. Sotuvchi qabulini kutmoqda."
             : "Sotuvchi qabulini kutmoqda."}
         </p>
-        <p className="mt-4 inline-flex rounded-xl bg-[#e8f1ff] px-4 py-2.5 text-[15px] font-semibold text-[#0066FF]">
+        <p className="mt-4 inline-flex rounded-xl bg-[#F0FDFA] px-4 py-2.5 text-[15px] font-semibold text-[#0F766E]">
           {order.id}
         </p>
         <div className="mt-3 flex flex-wrap items-center justify-center gap-2">

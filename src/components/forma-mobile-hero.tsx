@@ -12,7 +12,7 @@ const SLIDES: (Omit<PromoSlide, "onClick" | "href"> & { target: FormaHeroTarget 
     badgeCls: "bg-[#0B1220] text-white",
     title: (
       <>
-        Stomatologlar uchun zamonaviy <span className="text-[#0066FF]">forma</span>
+        Stomatologlar uchun zamonaviy <span className="text-[#0F766E]">forma</span>
       </>
     ),
     subtitle: "Qulay, sifatli va professional ko‘rinish",
@@ -25,7 +25,7 @@ const SLIDES: (Omit<PromoSlide, "onClick" | "href"> & { target: FormaHeroTarget 
   {
     id: "klassik",
     badge: "KLASSIK",
-    badgeCls: "bg-[#0066FF] text-white",
+    badgeCls: "bg-[#0F766E] text-white",
     title: "Klassik to‘plam",
     subtitle: "Oq xalat va yengil formalar, har kuni toza va ishonchli ko‘rinish",
     cta: "Ko‘rish",

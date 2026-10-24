@@ -111,12 +111,12 @@ export function LabProfile({ id }: { id: string }) {
   if (!lab)
     return (
       <div className="mx-auto max-w-md py-16 text-center" data-testid="lab-notfound">
-        <span className="mx-auto grid size-14 place-items-center rounded-full bg-[#eef4ff] text-[#0066FF]">
+        <span className="mx-auto grid size-14 place-items-center rounded-full bg-[#eef4ff] text-[#0F766E]">
           <FlaskConical className="size-6" />
         </span>
         <p className="mt-4 text-[16px] font-semibold text-[#1a1d26]">Laboratoriya topilmadi</p>
         <p className="mt-1 text-[13px] text-[#8b93a7]">Profil o‘chirilgan yoki hali tasdiqlanmagan bo‘lishi mumkin.</p>
-        <Link href="/laboratoriya" className="mt-5 inline-flex h-11 items-center rounded-2xl bg-[#0066FF] px-5 text-[14px] font-semibold text-white">
+        <Link href="/laboratoriya" className="mt-5 inline-flex h-11 items-center rounded-2xl bg-[#0F766E] px-5 text-[14px] font-semibold text-white">
           Laboratoriyalarga qaytish
         </Link>
       </div>
@@ -209,7 +209,7 @@ function LabProfileView({ lab }: { lab: Lab }) {
         <div className="-mx-4 overflow-x-auto px-4 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden" data-testid="lab-thumbs">
           <div className="flex w-max gap-2">
             {gallery.map((src, i) => (
-              <button key={`${src}-${i}`} type="button" onClick={() => setIdx(i)} className={cn("relative h-[58px] w-[80px] overflow-hidden rounded-xl ring-2", i === idx ? "ring-[#0066FF]" : "ring-transparent")} aria-label={`Rasm ${i + 1}`}>
+              <button key={`${src}-${i}`} type="button" onClick={() => setIdx(i)} className={cn("relative h-[58px] w-[80px] overflow-hidden rounded-xl ring-2", i === idx ? "ring-[#0F766E]" : "ring-transparent")} aria-label={`Rasm ${i + 1}`}>
                 <Image src={src} alt="" fill sizes="80px" className="object-cover" />
               </button>
             ))}
@@ -217,7 +217,7 @@ function LabProfileView({ lab }: { lab: Lab }) {
               <button type="button" onClick={() => setVideo(true)} className="relative grid h-[58px] w-[80px] place-items-center overflow-hidden rounded-xl bg-[#0B1220] text-white" data-testid="lab-video-tile">
                 {gallery[0] ? <Image src={gallery[0]} alt="" fill sizes="80px" className="object-cover opacity-45" /> : null}
                 <span className="relative grid place-items-center">
-                  <span className="grid size-7 place-items-center rounded-full bg-white/90 text-[#0066FF]">
+                  <span className="grid size-7 place-items-center rounded-full bg-white/90 text-[#0F766E]">
                     <Play className="size-3.5 fill-current" />
                   </span>
                   <span className="mt-0.5 text-[11px] font-semibold">Video</span>
@@ -259,7 +259,7 @@ function LabProfileView({ lab }: { lab: Lab }) {
                 <MapPin className="size-3.5 text-[#6b7487]" />
                 {labPlace(lab)}
               </span>
-              <a href={labMapHref(lab)} target="_blank" rel="noreferrer" className="inline-flex items-center font-semibold text-[#0066FF]" data-testid="lab-map">
+              <a href={labMapHref(lab)} target="_blank" rel="noreferrer" className="inline-flex items-center font-semibold text-[#0F766E]" data-testid="lab-map">
                 Xaritada ko‘rish
                 <ChevronRight className="size-3.5" />
               </a>
@@ -289,7 +289,7 @@ function LabProfileView({ lab }: { lab: Lab }) {
                 type="button"
                 onClick={() => setTab(key)}
                 aria-pressed={tab === key}
-                className={cn("h-10 flex-auto shrink-0 rounded-xl px-[7px] text-[12px] whitespace-nowrap", tab === key ? "bg-[#0066FF] font-semibold text-white shadow-[0_4px_12px_rgba(0,102,255,0.3)]" : "font-medium text-[#1a1d26]")}
+                className={cn("h-10 flex-auto shrink-0 rounded-xl px-[7px] text-[12px] whitespace-nowrap", tab === key ? "bg-[#0F766E] font-semibold text-white shadow-[0_4px_12px_rgba(15,118,110,0.3)]" : "font-medium text-[#1a1d26]")}
               >
                 {label}
               </button>
@@ -328,7 +328,7 @@ function LabProfileView({ lab }: { lab: Lab }) {
                       type="button"
                       onClick={() => setCat(c.id)}
                       aria-pressed={cat === c.id}
-                      className={cn("h-8 shrink-0 rounded-full px-3.5 text-[12.5px] font-medium", cat === c.id ? "bg-[#0066FF] font-semibold text-white" : "border border-[#e6ebf3] bg-white text-[#1a1d26]")}
+                      className={cn("h-8 shrink-0 rounded-full px-3.5 text-[12.5px] font-medium", cat === c.id ? "bg-[#0F766E] font-semibold text-white" : "border border-[#e6ebf3] bg-white text-[#1a1d26]")}
                     >
                       {c.label}
                     </button>
@@ -356,7 +356,7 @@ function LabProfileView({ lab }: { lab: Lab }) {
                         </span>
                       </span>
                       <span className="shrink-0 text-right">
-                        <span className={cn("block text-[13.5px] font-bold", row.price != null ? "text-[#0066FF]" : "text-[#6b7487]")}>{priceText(row)}</span>
+                        <span className={cn("block text-[13.5px] font-bold", row.price != null ? "text-[#0F766E]" : "text-[#6b7487]")}>{priceText(row)}</span>
                         <span className="mt-1 inline-flex items-center gap-1 text-[11.5px] text-[#6b7487]">
                           <Clock className="size-3.5" />
                           {daysText(row.daysMin, row.daysMax)}
@@ -414,16 +414,16 @@ function LabProfileView({ lab }: { lab: Lab }) {
             <InfoRow label="Telegram" value={labTg ?? (labPhone ? "Ko‘rsatilmagan" : "Buyurtma qabul qilingach ochiladi")} />
             <InfoRow label="Kurier" value={lab.courier === "ha" ? `Bor${lab.courierArea ? ` · ${lab.courierArea}` : ""}` : lab.courier === "yoq" ? "Yo‘q" : "Aniqlanmoqda"} />
             {sourceUrlValue(lab.sourceUrl ?? "") ? (
-              <a href={sourceUrlValue(lab.sourceUrl ?? "")} target="_blank" rel="noopener nofollow" className="mt-3 inline-flex text-[13px] font-semibold text-[#0066FF] break-all" data-testid="lab-source">
+              <a href={sourceUrlValue(lab.sourceUrl ?? "")} target="_blank" rel="noopener nofollow" className="mt-3 inline-flex text-[13px] font-semibold text-[#0F766E] break-all" data-testid="lab-source">
                 {sourceUrlValue(lab.sourceUrl ?? "")}
               </a>
             ) : null}
             {instagramHref(lab.instagram ?? "") ? (
-              <a href={instagramHref(lab.instagram ?? "")} target="_blank" rel="noopener nofollow" className="mt-3 inline-flex text-[13px] font-semibold text-[#0066FF] break-all" data-testid="lab-instagram">
+              <a href={instagramHref(lab.instagram ?? "")} target="_blank" rel="noopener nofollow" className="mt-3 inline-flex text-[13px] font-semibold text-[#0F766E] break-all" data-testid="lab-instagram">
                 {instagramValue(lab.instagram ?? "")}
               </a>
             ) : null}
-            <a href={labMapHref(lab)} target="_blank" rel="noreferrer" className="mt-3 inline-flex h-10 items-center gap-1.5 rounded-xl border border-[#dbe3f0] px-3.5 text-[13px] font-semibold text-[#0066FF]">
+            <a href={labMapHref(lab)} target="_blank" rel="noreferrer" className="mt-3 inline-flex h-10 items-center gap-1.5 rounded-xl border border-[#dbe3f0] px-3.5 text-[13px] font-semibold text-[#0F766E]">
               <MapPin className="size-4" />
               Xaritada ko‘rish
             </a>
@@ -433,7 +433,7 @@ function LabProfileView({ lab }: { lab: Lab }) {
         {lab.mine ? (
           <p className="mt-3 rounded-xl bg-[#eef4ff] px-3 py-2.5 text-[12.5px] text-[#2f4a7a]">
             Bu sizning laboratoriyangiz.{" "}
-            <Link href={`/laboratoriya/yangi?id=${lab.id}`} className="font-semibold text-[#0066FF]">
+            <Link href={`/laboratoriya/yangi?id=${lab.id}`} className="font-semibold text-[#0F766E]">
               Profilni tahrirlash
             </Link>
           </p>
@@ -457,11 +457,11 @@ function LabProfileView({ lab }: { lab: Lab }) {
           />
           <BarButton icon={<Phone className="size-[18px]" />} title="Qo‘ng‘iroq qilish" href={labPhone ? phoneHref(labPhone) : undefined} onClick={labPhone ? undefined : () => setContact("call")} testId="lab-call" />
           {lab.mine ? (
-            <Link href="/laboratoriya/mening" className="flex h-[52px] items-center justify-center gap-2 rounded-2xl bg-[#0066FF] px-2 text-[13px] font-semibold text-white">
+            <Link href="/laboratoriya/mening" className="flex h-[52px] items-center justify-center gap-2 rounded-2xl bg-[#0F766E] px-2 text-[13px] font-semibold text-white">
               Tahrirlash
             </Link>
           ) : (
-            <button type="button" onClick={() => orderFrom()} className="flex h-[52px] items-center justify-center gap-1.5 rounded-2xl bg-[#0066FF] px-1.5 text-white shadow-[0_8px_18px_rgba(0,102,255,0.3)]" data-testid="lab-order">
+            <button type="button" onClick={() => orderFrom()} className="flex h-[52px] items-center justify-center gap-1.5 rounded-2xl bg-[#0F766E] px-1.5 text-white shadow-[0_8px_18px_rgba(15,118,110,0.3)]" data-testid="lab-order">
               <FileText className="size-[18px] shrink-0" />
               <span className="text-left leading-tight">
                 <span className="block text-[12.5px] font-semibold whitespace-nowrap">Buyurtma berish</span>
@@ -481,7 +481,7 @@ function LabProfileView({ lab }: { lab: Lab }) {
       {contact ? (
         <Modal title={contact === "tg" ? "Telegram orqali yozish" : "Qo‘ng‘iroq qilish"} onClose={() => setContact(null)}>
           <div className="text-center" data-testid="lab-contact-sheet">
-            <span className="mx-auto grid size-12 place-items-center rounded-full bg-[#eef4ff] text-[#0066FF]">{contact === "tg" ? <Send className="size-5" /> : <Phone className="size-5" />}</span>
+            <span className="mx-auto grid size-12 place-items-center rounded-full bg-[#eef4ff] text-[#0F766E]">{contact === "tg" ? <Send className="size-5" /> : <Phone className="size-5" />}</span>
             <p className="mt-3 text-[15px] font-semibold text-[#1a1d26]">
               {labPhone && contact === "tg" ? "Laboratoriya Telegram manzilini ko‘rsatmagan" : "Aloqa ma’lumotlari buyurtma qabul qilingach ochiladi"}
             </p>
@@ -492,7 +492,7 @@ function LabProfileView({ lab }: { lab: Lab }) {
             </p>
             <div className="mt-4 flex justify-center gap-2">
               {labPhone && contact === "tg" ? (
-                <a href={phoneHref(labPhone)} className="inline-flex h-11 items-center rounded-xl bg-[#0066FF] px-5 text-[14px] font-semibold text-white">
+                <a href={phoneHref(labPhone)} className="inline-flex h-11 items-center rounded-xl bg-[#0F766E] px-5 text-[14px] font-semibold text-white">
                   Qo‘ng‘iroq qilish
                 </a>
               ) : lab.mine ? null : (
@@ -502,7 +502,7 @@ function LabProfileView({ lab }: { lab: Lab }) {
                     setContact(null);
                     orderFrom();
                   }}
-                  className="inline-flex h-11 items-center rounded-xl bg-[#0066FF] px-5 text-[14px] font-semibold text-white"
+                  className="inline-flex h-11 items-center rounded-xl bg-[#0F766E] px-5 text-[14px] font-semibold text-white"
                 >
                   {authed ? "Buyurtma berish" : "Kirish va buyurtma berish"}
                 </button>
@@ -589,7 +589,7 @@ function Card({
   return (
     <section className="mt-3 rounded-[20px] border border-[#eceff5] bg-white px-3.5 py-3.5 shadow-[0_2px_10px_rgba(15,23,42,0.03)]" data-testid={testId}>
       <div className="mb-2.5 flex items-start gap-2">
-        <span className="mt-0.5 text-[#0066FF]">{icon}</span>
+        <span className="mt-0.5 text-[#0F766E]">{icon}</span>
         <div className="min-w-0 flex-1">
           <h2 className="text-[16px] font-bold text-[#0B1220]">{title}</h2>
           {sub ? <p className="mt-0.5 text-[11.5px] text-[#8b93a7]">{sub}</p> : null}
@@ -598,7 +598,7 @@ function Card({
           <button
             type="button"
             onClick={onAction}
-            className={cn("inline-flex shrink-0 items-center gap-0.5 text-[12.5px] font-semibold text-[#0066FF]", actionBoxed && "h-8 rounded-full border border-[#cfe0ff] px-3")}
+            className={cn("inline-flex shrink-0 items-center gap-0.5 text-[12.5px] font-semibold text-[#0F766E]", actionBoxed && "h-8 rounded-full border border-[#99F6E4] px-3")}
           >
             {action}
             <ChevronRight className="size-3.5" />
@@ -613,7 +613,7 @@ function Card({
 function Stat({ icon, value, label, small }: { icon: ReactNode; value: string; label: string; small?: boolean }) {
   return (
     <div className="flex min-w-0 items-start gap-1.5 rounded-2xl border border-[#eceff5] bg-white px-2 py-2.5">
-      <span className="mt-px shrink-0 text-[#0066FF]">{icon}</span>
+      <span className="mt-px shrink-0 text-[#0F766E]">{icon}</span>
       <span className="min-w-0 leading-tight">
         <span className={cn("block font-bold break-words text-[#0B1220]", small ? "text-[11.5px]" : "text-[13px]")}>{value}</span>
         <span className="mt-0.5 block text-[10px] leading-[1.15] break-words text-[#8b93a7]">{label}</span>
@@ -641,7 +641,7 @@ function EmptyNote({ icon, text }: { icon: ReactNode; text: string }) {
 }
 
 function BarButton({ icon, title, sub, href, onClick, testId }: { icon: ReactNode; title: string; sub?: string; href?: string; onClick?: () => void; testId: string }) {
-  const cls = "flex h-[52px] min-w-0 items-center justify-center gap-1 rounded-2xl border border-[#dbe3f0] bg-white px-1 text-[#0066FF]";
+  const cls = "flex h-[52px] min-w-0 items-center justify-center gap-1 rounded-2xl border border-[#dbe3f0] bg-white px-1 text-[#0F766E]";
   const inner = (
     <>
       <span className="shrink-0">{icon}</span>

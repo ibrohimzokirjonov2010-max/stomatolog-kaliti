@@ -72,7 +72,7 @@ function Avatar({ name, size = 40 }: { name: string; size?: number }) {
   );
 }
 
-function MiniBars({ values, color = "#0066FF" }: { values: number[]; color?: string }) {
+function MiniBars({ values, color = "#0F766E" }: { values: number[]; color?: string }) {
   const max = Math.max(...values, 1);
   return (
     <div className="flex h-9 items-end gap-[3px]" aria-hidden="true">
@@ -338,7 +338,7 @@ export function SellerReviewsDesktop() {
               onClick={() => setStar(s)}
               className={cn(
                 "inline-flex h-9 items-center gap-1.5 rounded-lg border px-3.5 text-[13px] font-semibold transition-colors",
-                star === s ? "border-[#0066FF] bg-[#0066FF] text-white" : "border-[#e4e9f2] bg-white text-[#4b5568] hover:border-[#bcd3ff] hover:text-[#0066FF]",
+                star === s ? "border-[#0F766E] bg-[#0F766E] text-white" : "border-[#e4e9f2] bg-white text-[#4b5568] hover:border-[#99F6E4] hover:text-[#0F766E]",
               )}
             >
               {s === 0 ? "Barchasi" : <>{s} <Star className={cn("size-3.5", star === s ? "fill-white text-white" : "fill-[#f5b100] text-[#f5b100]")} /></>} ({n})
@@ -347,7 +347,7 @@ export function SellerReviewsDesktop() {
         })}
         <div className="ml-auto flex items-center gap-2">
           <SelectBox label="Saralash" value={sort} onChange={setSort} options={SORTS} className="h-9 min-w-[130px]" />
-          <button type="button" onClick={() => setFiltersOpen((v) => !v)} className={cn("inline-flex h-9 items-center gap-1.5 rounded-lg border px-3.5 text-[13px] font-semibold", filtersOpen || onlyUnanswered || onlyPhotos ? "border-[#0066FF] text-[#0066FF]" : "border-[#e4e9f2] text-[#4b5568]")}>
+          <button type="button" onClick={() => setFiltersOpen((v) => !v)} className={cn("inline-flex h-9 items-center gap-1.5 rounded-lg border px-3.5 text-[13px] font-semibold", filtersOpen || onlyUnanswered || onlyPhotos ? "border-[#0F766E] text-[#0F766E]" : "border-[#e4e9f2] text-[#4b5568]")}>
             <Filter className="size-4" />Filtr
           </button>
         </div>
@@ -378,7 +378,7 @@ export function SellerReviewsDesktop() {
                   <button
                     type="button"
                     onClick={() => { setSelId(r.id); setEditing(false); setReply(""); }}
-                    className={cn("flex w-full gap-3 border-b border-l-[3px] border-b-[#f1f4f9] px-3.5 py-3 text-left hover:bg-[#f7faff]", sel?.id === r.id ? "border-l-[#0066FF] bg-[#f0f6ff]" : "border-l-transparent")}
+                    className={cn("flex w-full gap-3 border-b border-l-[3px] border-b-[#f1f4f9] px-3.5 py-3 text-left hover:bg-[#f7faff]", sel?.id === r.id ? "border-l-[#0F766E] bg-[#f0f6ff]" : "border-l-transparent")}
                   >
                     <Avatar name={r.buyerName ?? "?"} />
                     <div className="min-w-0 flex-1">
@@ -427,20 +427,20 @@ export function SellerReviewsDesktop() {
                     <p className="truncate text-[13px] font-bold text-[#0B1F4D]">{sel.productName ?? "Mahsulot"}</p>
                     <p className="text-[12px] text-[#6b7280]">{sel.productPrice != null ? formatMoney(sel.productPrice, "UZS") : `Buyurtma ${sel.orderId}`}</p>
                   </div>
-                  {sel.productId ? <Link href={`/marketplace/${sel.productId}`} className="inline-flex h-9 items-center rounded-lg border border-[#d7e4ff] bg-white px-3.5 text-[12.5px] font-semibold text-[#0066FF] hover:bg-[#f5f9ff]">Mahsulotni ko‘rish</Link> : null}
+                  {sel.productId ? <Link href={`/marketplace/${sel.productId}`} className="inline-flex h-9 items-center rounded-lg border border-[#CCFBF1] bg-white px-3.5 text-[12.5px] font-semibold text-[#0F766E] hover:bg-[#F0FDFA]">Mahsulotni ko‘rish</Link> : null}
                 </div>
 
                 <div className="mt-5 border-t border-[#eef1f6] pt-4">
                   {sel.reply && !editing ? (
                     <div className="rounded-xl bg-[#f0f6ff] p-4">
                       <div className="flex items-center justify-between gap-2">
-                        <p className="flex items-center gap-1.5 text-[13px] font-bold text-[#0B1F4D]"><MessageSquareText className="size-4 text-[#0066FF]" />Sizning javobingiz</p>
+                        <p className="flex items-center gap-1.5 text-[13px] font-bold text-[#0B1F4D]"><MessageSquareText className="size-4 text-[#0F766E]" />Sizning javobingiz</p>
                         <span className="text-[11.5px] text-[#8b93a7]">
                           {sel.replyAt ? dmyHm(new Date(sel.replyAt)) : ""}{sel.replyEditedAt ? " · tahrirlangan" : ""}
                         </span>
                       </div>
                       <p className="mt-2 text-[13.5px] leading-relaxed break-words whitespace-pre-wrap text-[#1a1d26]">{sel.reply}</p>
-                      <button type="button" onClick={() => { setEditing(true); setReply(sel.reply ?? ""); }} className="mt-3 inline-flex h-8 items-center gap-1.5 rounded-lg border border-[#d7e4ff] bg-white px-3 text-[12.5px] font-semibold text-[#0066FF] hover:bg-[#f5f9ff]">
+                      <button type="button" onClick={() => { setEditing(true); setReply(sel.reply ?? ""); }} className="mt-3 inline-flex h-8 items-center gap-1.5 rounded-lg border border-[#CCFBF1] bg-white px-3 text-[12.5px] font-semibold text-[#0F766E] hover:bg-[#F0FDFA]">
                         <Edit3 className="size-3.5" />Javobni tahrirlash
                       </button>
                     </div>
@@ -454,10 +454,10 @@ export function SellerReviewsDesktop() {
                           rows={3}
                           maxLength={1500}
                           placeholder="Javobingizni yozing..."
-                          className="min-h-[84px] flex-1 resize-none rounded-xl border border-[#e4e9f2] bg-[#f7f9fc] px-3.5 py-2.5 text-[13.5px] outline-none focus:border-[#0066FF] focus:bg-white"
+                          className="min-h-[84px] flex-1 resize-none rounded-xl border border-[#e4e9f2] bg-[#f7f9fc] px-3.5 py-2.5 text-[13.5px] outline-none focus:border-[#0F766E] focus:bg-white"
                         />
                         <div className="flex flex-col gap-2">
-                          <button type="button" disabled={!reply.trim() || busy} onClick={() => void saveReply()} className="grid size-11 place-items-center rounded-xl bg-[#0066FF] text-white hover:bg-[#0055d4] disabled:bg-[#b9d2ff]" aria-label="Javobni yuborish">
+                          <button type="button" disabled={!reply.trim() || busy} onClick={() => void saveReply()} className="grid size-11 place-items-center rounded-xl bg-[#0F766E] text-white hover:bg-[#0055d4] disabled:bg-[#b9d2ff]" aria-label="Javobni yuborish">
                             <Send className="size-[18px]" />
                           </button>
                           {editing ? <button type="button" onClick={() => { setEditing(false); setReply(""); }} className="h-8 rounded-lg border border-[#e4e9f2] px-2 text-[12px] font-semibold text-[#4b5568]">Bekor</button> : null}
@@ -477,7 +477,7 @@ export function SellerReviewsDesktop() {
             <Panel title="Reyting dinamikasi" className="!p-4">
               {chartVals.length && calc.firstIdx >= 0 ? (
                 <div className="mt-3">
-                  <LineChart labels={chartLabels} tooltipLabels={chartTips} series={[{ key: "r", label: "O‘rtacha reyting", color: "#0066FF", values: chartVals, area: true, fmt: (n) => n.toFixed(2) }]} height={150} leftTick={(n) => String(n)} />
+                  <LineChart labels={chartLabels} tooltipLabels={chartTips} series={[{ key: "r", label: "O‘rtacha reyting", color: "#0F766E", values: chartVals, area: true, fmt: (n) => n.toFixed(2) }]} height={150} leftTick={(n) => String(n)} />
                   <p className="mt-1 text-[11px] text-[#8b93a7]">Kumulyativ o‘rtacha baho (1–5)</p>
                 </div>
               ) : (
@@ -489,7 +489,7 @@ export function SellerReviewsDesktop() {
                 {calc.cats.map((c) => (
                   <li key={c.key}>
                     <div className="flex items-center justify-between text-[12.5px]"><span className="text-[#4b5568]">{c.label}</span><b className="text-[#0B1F4D]">{c.v != null ? c.v.toFixed(1) : "—"}</b></div>
-                    <div className="mt-1 h-1.5 rounded-full bg-[#eef1f6]"><div className="h-1.5 rounded-full bg-[#0066FF]" style={{ width: `${c.v != null ? (c.v / 5) * 100 : 0}%` }} /></div>
+                    <div className="mt-1 h-1.5 rounded-full bg-[#eef1f6]"><div className="h-1.5 rounded-full bg-[#0F766E]" style={{ width: `${c.v != null ? (c.v / 5) * 100 : 0}%` }} /></div>
                   </li>
                 ))}
               </ul>

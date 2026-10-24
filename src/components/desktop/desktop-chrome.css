@@ -51,7 +51,7 @@
   color: #16324f;
 }
 .dh-word b {
-  color: #0b8f8a;
+  color: #0F766E;
   font-weight: 800;
 }
 
@@ -116,7 +116,7 @@
   height: 24px;
   border: 0;
   border-radius: 7px;
-  background: #00a8a3;
+  background: #0F766E;
   color: #fff;
   display: grid;
   place-items: center;
@@ -131,7 +131,7 @@
   padding: 0 10px;
   border: 0;
   border-radius: 8px;
-  background: #00a8a3;
+  background: #0F766E;
   color: #fff;
   display: inline-flex;
   align-items: center;
@@ -167,7 +167,7 @@
   cursor: pointer;
   white-space: nowrap;
 }
-.dh-top .dh-city > button .i { width: 16px; height: 16px; color: #00a8a3; }
+.dh-top .dh-city > button .i { width: 16px; height: 16px; color: #0F766E; }
 .dh-top .dh-city > button .chev { width: 14px; height: 14px; color: #5b6b82; }
 .dh-ic {
   position: relative;
@@ -194,7 +194,7 @@
   height: 16px;
   padding: 0 4px;
   border-radius: 99px;
-  background: #00a8a3;
+  background: #0F766E;
   color: #fff;
   font-size: 10px;
   font-style: normal;
@@ -241,8 +241,8 @@
   border-radius: 50%;
   display: grid;
   place-items: center;
-  background: #e8f1ff;
-  color: #0066ff;
+  background: #F0FDFA;
+  color: #0F766E;
   font-size: 12px;
   font-weight: 800;
   flex: none;

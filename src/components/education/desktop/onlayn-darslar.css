@@ -62,7 +62,7 @@
   font-weight: 650;
   white-space: nowrap;
 }
-.sh .od-chips button.on { background: #0b8f8a; border-color: #0b8f8a; color: #fff; }
+.sh .od-chips button.on { background: #0F766E; border-color: #0F766E; color: #fff; }
 
 .sh .od-grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: calc(.85 * var(--u)); }
 .sh .od-card {
@@ -92,7 +92,7 @@
 }
 .sh .od-flag.best { background: #ef3b3b; }
 .sh .od-flag.new { background: #16a34a; }
-.sh .od-flag.pop { background: #0b8f8a; }
+.sh .od-flag.pop { background: #0F766E; }
 .sh .od-flag.pro { background: #f59e0b; }
 .sh .od-hours {
   position: absolute;
@@ -126,7 +126,7 @@
   box-shadow: 0 calc(.04 * var(--u)) calc(.16 * var(--u)) rgba(15, 30, 60, .12);
 }
 .sh .od-mark .i { font-size: calc(1.179 * var(--uf)); }
-.sh .od-mark.on { color: #0b8f8a; }
+.sh .od-mark.on { color: #0F766E; }
 .sh .od-mark.on .i { fill: currentColor; }
 .sh .od-card h3 {
   margin: calc(.4 * var(--u)) 0 0;
@@ -153,19 +153,19 @@
 .sh .od-meta b { color: #24344d; font-weight: 750; }
 .sh .od-meta .stu { margin-left: auto; display: inline-flex; align-items: center; gap: calc(.15 * var(--u)); white-space: nowrap; }
 .sh .od-meta .stu .i { font-size: calc(1.1 * var(--uf)); }
-.sh .od-price { margin: calc(.28 * var(--u)) 0 0; color: #0b8f8a; font-size: calc(1.809 * var(--uf)); font-weight: 800; }
+.sh .od-price { margin: calc(.28 * var(--u)) 0 0; color: #0F766E; font-size: calc(1.809 * var(--uf)); font-weight: 800; }
 .sh .od-empty { background: #fff; border-radius: calc(.6 * var(--u)); padding: calc(1.6 * var(--u)); text-align: center; color: #5b6b82; }
 .sh .od-empty button {
   margin-top: calc(.5 * var(--u));
   height: calc(1.8 * var(--u));
   padding: 0 calc(.9 * var(--u));
-  background: #0b8f8a;
+  background: #0F766E;
   color: #fff;
   border-radius: calc(.4 * var(--u));
   font-weight: 750;
   font-size: calc(1.06 * var(--uf));
 }
-.sh .brd-promo .od-cap { color: #0b8f8a; font-size: calc(1.543 * var(--uf)); }
+.sh .brd-promo .od-cap { color: #0F766E; font-size: calc(1.543 * var(--uf)); }
 .sh .od-promo { min-height: calc(8.6 * var(--u)); }
 .sh .od-promo b, .sh .od-promo small { max-width: calc(7.6 * var(--u)); }
 .sh .od-promo img {
