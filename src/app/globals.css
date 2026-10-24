@@ -243,33 +243,33 @@
 /* Sidebar */
 .sh .sh-body { display:flex; min-width:0; max-width:100%; }
 .sh { max-width:100%; min-width:0; }
-.sh .sh-side { width:var(--side-w, clamp(184px, 14.4vw, 220px)); flex:none; background:#fff; border-right:1px solid #EEF2F7; padding:8px 10px 10px; min-height:calc(100dvh - var(--dh, 46px)); position:sticky; top:var(--dh, 46px); align-self:flex-start; height:calc(100dvh - var(--dh, 46px)); overflow:hidden; display:flex; flex-direction:column; box-sizing:border-box; }
+.sh .sh-side { width:var(--side-w, clamp(184px, 14.4vw, 220px)); flex:none; background:#fff; border-right:1px solid #EEF2F7; padding:4px 8px 6px; min-height:calc(100dvh - var(--dh, 46px)); position:sticky; top:var(--dh, 46px); align-self:flex-start; height:calc(100dvh - var(--dh, 46px)); overflow:hidden; display:flex; flex-direction:column; box-sizing:border-box; }
 .sh .sh-side.is-collapsed { width:72px; padding:8px 6px; }
-.sh .sh-side-nav { flex:1; min-height:0; overflow:auto; }
+.sh .sh-side-nav { flex:1; min-height:0; overflow:hidden; }
 .sh .sh-collapse { position:absolute; right:6px; top:50%; transform:translateY(-50%); display:grid; place-items:center; width:22px; height:22px; margin:0; padding:0; border:0; border-radius:6px; background:transparent; color:#8B98AD; cursor:pointer; box-sizing:border-box; }
 .sh .sh-collapse:focus-visible { outline:2px solid var(--teal); }
 .sh .sh-collapse:hover { background:#EEF3F9; }
 .sh .sh-collapse .i { width:14px; height:14px; flex:none; }
 .sh .sh-side.is-collapsed .sh-collapse { position:static; transform:none; margin:6px auto 0; }
-.sh .sh-pro { margin: 8px 0 0; background: linear-gradient(160deg,#F0FDFA,#EEF9F7); border-radius: 12px; padding: 10px 12px; display:flex; flex-direction:column; align-items:flex-start; gap: 4px; flex:none; }
+.sh .sh-pro { margin: 4px 0 0; background: linear-gradient(160deg,#F0FDFA,#EEF9F7); border-radius: 10px; padding: 6px 8px; display:flex; flex-direction:column; align-items:flex-start; gap: 1px; flex:none; }
 .sh .sh-pro { position:relative; }
-.sh .sh-pro .crown { position:absolute; top:10px; right:10px; width: 26px; height: 26px; border-radius: 8px; background:#FFC93C; color:#fff; display:grid; place-items:center; font-size: 14px; }
+.sh .sh-pro .crown { position:absolute; top:6px; right:6px; width: 20px; height: 20px; border-radius: 6px; background:#FFC93C; color:#fff; display:grid; place-items:center; font-size: 12px; }
 .sh .sh-pro > b { padding-right: 30px; }
 .sh .sh-pro .crown .i { width: 16px; height: 16px; }
 .sh .sh-pro .crown.help { color: var(--teal); }
-.sh .sh-pro b { font-size: 13px; font-weight: 700; line-height: 1.2; }
-.sh .sh-pro small { display: block; font-size: 12px; color:#5B6B82; line-height: 1.3; max-height: none; }
-.sh .sh-pro .go { margin-top: 6px; height: 28px; padding: 0 12px; background: var(--teal); color:#fff; border-radius: 7px; font-size: 12px; font-weight:700; display:inline-flex; align-items:center; gap: 4px; }
+.sh .sh-pro b { font-size: 12px; font-weight: 700; line-height: 1.15; }
+.sh .sh-pro small { display: block; font-size: 10px; color:#5B6B82; line-height: 1.2; max-height: 2.4em; overflow: hidden; }
+.sh .sh-pro .go { margin-top: 3px; height: 22px; padding: 0 8px; background: var(--teal); color:#fff; border-radius: 6px; font-size: 11px; font-weight:700; display:inline-flex; align-items:center; gap: 3px; }
 .sh .sh-pro .go .i { width: 14px; height: 14px; }
-.sh .sh-side-row { flex:none; margin-top:8px; position:relative; }
+.sh .sh-side-row { flex:none; margin-top:2px; height:18px; position:relative; }
 .sh .sh-side-row::before { content:""; position:absolute; left:0; right:0; top:-4px; border-top:1px solid #EEF2F7; }
 .sh .sh-side-row .sh-nav { padding-right:30px; }
-.sh .sh-help { flex:none; margin-top:6px; display:flex; align-items:center; gap:7px; padding:8px; border-radius:12px; background:linear-gradient(160deg,#F0FDFA,#EEF9F7); color:var(--ink); }
-.sh .sh-help .crown { width:28px; height:28px; border-radius:50%; background:#fff; color:var(--teal); display:grid; place-items:center; flex:none; }
+.sh .sh-help { flex:none; margin-top:4px; display:flex; align-items:center; gap:6px; padding:6px 8px; border-radius:10px; background:linear-gradient(160deg,#F0FDFA,#EEF9F7); color:var(--ink); }
+.sh .sh-help .crown { width:22px; height:22px; border-radius:50%; background:#fff; color:var(--teal); display:grid; place-items:center; flex:none; }
 .sh .sh-help .crown .i { width:16px; height:16px; }
 .sh .sh-help-t { flex:1; min-width:0; display:flex; flex-direction:column; gap:2px; }
-.sh .sh-help-t b { font-size:11.5px; white-space:nowrap; font-weight:700; line-height:1.2; }
-.sh .sh-help-t small { font-size:10px; white-space:nowrap; color:#5B6B82; line-height:1.25; }
+.sh .sh-help-t b { font-size:11px; white-space:nowrap; font-weight:700; line-height:1.15; }
+.sh .sh-help-t small { font-size:10px; white-space:nowrap; color:#5B6B82; line-height:1.15; }
 .sh .sh-help .sh-help-go { width:13px; height:13px; color:#5B6B82; }
 .sh .sh-side.is-collapsed .sh-help { justify-content:center; padding:8px; }
 .sh .sh-side.is-collapsed .sh-help-t,
@@ -290,8 +290,8 @@
 .sh .sh-nav span { line-height:1; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
 .sh .sh-group { margin-top:0; padding-top:0; }
 .sh .sh-cam .i { font-size: calc(0.9 * var(--u)); }
-.sh .sh-nav { display:flex; align-items:center; gap:9px; height:23px; min-height:23px; padding:0 8px; border-radius:7px; font-size:12px; line-height:1; color:#33425B; font-weight:500; box-sizing:border-box; }
-.sh .sh-nav .i { width:15px; height:15px; font-size:15px; color:#5B6B82; stroke-width:1.75; flex:none; }
+.sh .sh-nav { display:flex; align-items:center; gap:6px; height:17px; min-height:17px; padding:0 6px; border-radius:6px; font-size:11px; line-height:1; color:#33425B; font-weight:500; box-sizing:border-box; }
+.sh .sh-nav .i { width:13px; height:13px; font-size:13px; color:#5B6B82; stroke-width:1.75; flex:none; }
 .sh .sh-nav:hover { background:#F0FDFA; color:#115E59; }
 .sh .sh-nav.active { background:#CCFBF1; color:#0F766E; font-weight:600; }
 .sh .sh-nav.active .i { color:var(--teal); }
