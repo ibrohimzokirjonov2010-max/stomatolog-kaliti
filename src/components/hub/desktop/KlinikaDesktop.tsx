@@ -16,6 +16,7 @@ import {
   MapPin,
   MoreHorizontal,
   Plus,
+  Search,
   Settings,
   UserRound,
 } from "lucide-react";
@@ -43,6 +44,7 @@ const CHAIRS = [
 const SLOT_TIMES = ["09:00", "10:00", "11:30", "14:00", "15:30", "17:00"];
 const LUNCH = "13:00";
 const DAY_MS = 86_400_000;
+const STATUS_PILL: Record<string, string> = { tasdiq: "Tasdiqlangan", kutil: "Kutilmoqda", davol: "Qabulda", yakun: "Tugallandi" };
 
 type StaffRow = { id: string; name: string; role: string; onDuty: boolean };
 
@@ -126,6 +128,8 @@ export function KlinikaDesktop() {
   const [bookOpen, setBookOpen] = useState<{ chair: string; time: string } | null>(null);
   const [settings, setSettings] = useState(false);
   const [team, setTeam] = useState<StaffRow[]>([]);
+  const [patientQ, setPatientQ] = useState("");
+  const [calMonth, setCalMonth] = useState<Date | null>(null);
 
   // Staff live in the clinic record (clinic_staff); managed on /klinika.
   useEffect(() => {
@@ -258,6 +262,29 @@ export function KlinikaDesktop() {
     return list.slice(0, 4);
   }, [profile, team]);
 
+  const shownPatients = useMemo(() => {
+    const q = patientQ.trim().toLowerCase();
+    const digits = q.replace(/\D/g, "");
+    return patients.filter((patient) => !q || patient.name.toLowerCase().includes(q) || (digits && (patient.phone || "").replace(/\D/g, "").includes(digits)));
+  }, [patientQ, patients]);
+
+  const dayYear = date.getFullYear();
+  const dayMonth = date.getMonth();
+  const month = useMemo(() => calMonth ?? new Date(dayYear, dayMonth, 1), [calMonth, dayMonth, dayYear]);
+  const calDays = useMemo(() => {
+    const first = new Date(month.getFullYear(), month.getMonth(), 1);
+    const lead = (first.getDay() + 6) % 7;
+    const count = new Date(month.getFullYear(), month.getMonth() + 1, 0).getDate();
+    const busy = new Set(appointments.filter((item) => item.status !== "bekor").map((item) => item.date));
+    return [
+      ...Array.from({ length: lead }, () => null),
+      ...Array.from({ length: count }, (_, index) => {
+        const d = new Date(month.getFullYear(), month.getMonth(), index + 1);
+        return { d, key: iso(d), busy: busy.has(iso(d)) };
+      }),
+    ];
+  }, [appointments, month]);
+
   const openLab = labOrders.filter((order) => order.status !== "yetkazildi" && order.status !== "bekor").slice(0, 4);
 
   function shift(days: number) {
@@ -300,6 +327,14 @@ export function KlinikaDesktop() {
               </p>
             </div>
           </div>
+          <div className="kd-banner">
+            <img src="/img/jihoz/chair.jpg" alt="" />
+            <span>
+              <b>Klinikangizni to‘liq nazorat qiling</b>
+              <small>Bemorlar, moliya, ombor va xodimlar bir joyda</small>
+              <button type="button" onClick={() => setSettings(true)}>Klinika sozlamalari <ArrowRight className="i" /></button>
+            </span>
+          </div>
           <div className="kd-head-actions">
             <button type="button" className="kd-btn ghost" onClick={() => setPatientOpen(true)}>
               <Plus className="i" /> Bemor qo‘shish
@@ -318,7 +353,7 @@ export function KlinikaDesktop() {
         </header>
 
         <section className="kd-kpis" aria-label="Bugungi ko‘rsatkichlar">
-          <Kpi icon={<CalendarDays className="i" />} label="Bugungi qabullar" value={String(dayAppts.length)} change={delta(dayAppts.length, apptsWeekAgo)} note={`Jami ${slotTotal} ta slotdan`} />
+          <Kpi icon={<CalendarDays className="i" />} label="Bugungi qabullar" value={String(dayAppts.length)} change={delta(dayAppts.length, apptsWeekAgo)} note={`Jami ${slotTotal} ta slotdan`} meter={slotTotal ? Math.round((slotBusy / slotTotal) * 100) : 0} />
           <Kpi icon={<UserRound className="i" />} label="Yangi bemorlar" value={String(newThisWeek)} change={delta(newThisWeek, newPrevWeek)} note={`Jami: ${patients.length} ta bemor`} />
           <Kpi
             icon={<CircleDollarSign className="i" />}
@@ -329,7 +364,7 @@ export function KlinikaDesktop() {
             note={`O‘tgan oy: ${som(lastMonthIncome)}`}
             testId="clinic-income"
           />
-          <Kpi icon={<Armchair className="i" />} label="Kreslo bandligi" value={`${occupancy}%`} note={`${CHAIRS.length} ta kreslodan`} testId="clinic-occupancy" />
+          <Kpi icon={<Armchair className="i" />} label="Kreslo bandligi" value={`${occupancy}%`} note={`${CHAIRS.length} ta kreslodan`} testId="clinic-occupancy" ring={occupancy} />
         </section>
 
         <div className="kd-grid">
@@ -347,6 +382,7 @@ export function KlinikaDesktop() {
                       <ChevronRight className="i" />
                     </button>
                   </div>
+                  <button type="button" className="kd-btn ghost sm" disabled={isToday} onClick={() => { setDate(new Date()); setCalMonth(null); }}>Bugun</button>
                   <div className="kd-drop">
                     <button type="button" className="kd-btn ghost sm" aria-expanded={filterOpen} onClick={() => setFilterOpen((open) => !open)}>
                       {filter === "busy" ? "Band qabullar" : filter === "free" ? "Bo‘sh slotlar" : "Barcha qabullar"}
@@ -419,6 +455,10 @@ export function KlinikaDesktop() {
                     Barchasini ko‘rish <ArrowRight className="i" />
                   </Link>
                 </div>
+                <label className="kd-search">
+                  <Search className="i" />
+                  <input value={patientQ} onChange={(event) => setPatientQ(event.target.value)} placeholder="Bemor qidirish (ism, telefon)..." aria-label="Bemor qidirish" />
+                </label>
                 <div className="kd-table-wrap">
                   <table className="kd-table">
                     <thead>
@@ -440,7 +480,10 @@ export function KlinikaDesktop() {
                           </td>
                         </tr>
                       ) : null}
-                      {patients.slice(0, 5).map((patient, index) => {
+                      {patients.length > 0 && shownPatients.length === 0 ? (
+                        <tr><td colSpan={7} className="kd-empty-row">Bemor topilmadi.</td></tr>
+                      ) : null}
+                      {shownPatients.slice(0, 5).map((patient, index) => {
                         const debt = debtOf(patient);
                         const status = patientStatuses.find((item) => item.id === patient.status);
                         return (
@@ -492,6 +535,39 @@ export function KlinikaDesktop() {
           </div>
 
           <aside className="kd-right">
+            <section className="kd-card kd-cal">
+              <div className="kd-card-h">
+                <h2>Kalendar</h2>
+                <Link className="kd-link" href="/crm/uchrashuvlar">Barchasini ko‘rish <ArrowRight className="i" /></Link>
+              </div>
+              <div className="kd-cal-h">
+                <b>{MONTHS[month.getMonth()][0].toUpperCase()}{MONTHS[month.getMonth()].slice(1)} {month.getFullYear()}</b>
+                <span>
+                  <button type="button" aria-label="Oldingi oy" onClick={() => setCalMonth(new Date(month.getFullYear(), month.getMonth() - 1, 1))}><ChevronLeft className="i" /></button>
+                  <button type="button" aria-label="Keyingi oy" onClick={() => setCalMonth(new Date(month.getFullYear(), month.getMonth() + 1, 1))}><ChevronRight className="i" /></button>
+                </span>
+              </div>
+              <div className="kd-cal-grid">
+                {["Du", "Se", "Cho", "Pa", "Ju", "Sha", "Ya"].map((name) => <small key={name}>{name}</small>)}
+                {calDays.map((cell, index) =>
+                  cell ? (
+                    <button
+                      key={cell.key}
+                      type="button"
+                      className={[cell.key === day ? "on" : "", now && cell.key === iso(now) ? "today" : "", cell.busy ? "busy" : ""].filter(Boolean).join(" ") || undefined}
+                      aria-pressed={cell.key === day}
+                      aria-label={labelOf(cell.d)}
+                      onClick={() => setDate(cell.d)}
+                    >
+                      {cell.d.getDate()}
+                    </button>
+                  ) : (
+                    <span key={`e${index}`} />
+                  ),
+                )}
+              </div>
+              <p className="kd-cal-key"><i className="today" /> Bugun <i className="busy" /> Qabul bor</p>
+            </section>
             <section className="kd-card">
               <div className="kd-card-h">
                 <h2>Daromad statistikasi</h2>
@@ -761,6 +837,8 @@ function Kpi({
   change = null,
   tone = "teal",
   testId,
+  meter,
+  ring,
 }: {
   icon: React.ReactNode;
   label: string;
@@ -769,6 +847,8 @@ function Kpi({
   change?: number | null;
   tone?: "teal" | "orange";
   testId?: string;
+  meter?: number;
+  ring?: number;
 }) {
   return (
     <article className="kd-kpi">
@@ -784,7 +864,14 @@ function Kpi({
           ) : null}
         </span>
         <small>{note}</small>
+        {meter !== undefined ? <span className="kd-meter" aria-hidden><i style={{ width: `${Math.min(100, meter)}%` }} /></span> : null}
       </div>
+      {ring !== undefined ? (
+        <svg className="kd-ring" viewBox="0 0 44 44" aria-hidden>
+          <circle cx="22" cy="22" r="18" className="bg" />
+          <circle cx="22" cy="22" r="18" className="fg" strokeDasharray={`${(Math.min(100, ring) / 100) * 113.1} 113.1`} transform="rotate(-90 22 22)" />
+        </svg>
+      ) : null}
     </article>
   );
 }
@@ -817,6 +904,7 @@ function SlotRow({ slot, current, onFree }: { slot: SlotView; current: boolean; 
         <b>{appt.patient}</b>
         <small>{appt.service}</small>
       </span>
+      {STATUS_PILL[appt.status] ? <span className={`kd-apst ${appt.status}`}>{STATUS_PILL[appt.status]}</span> : null}
       <Link className="kd-more" href="/crm/uchrashuvlar" aria-label={`${appt.patient} uchrashuvi`}>
         <MoreHorizontal className="i" />
       </Link>
