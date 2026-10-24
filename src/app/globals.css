@@ -302,21 +302,21 @@
 .sh .sh-main { flex:1; padding:calc(.75 * var(--u)) calc(0.9 * var(--u)) calc(1 * var(--u)) calc(1 * var(--u)); min-width:0; }
 .sh .sh-hero-row { display:flex; gap:calc(.8 * var(--u)); height:calc(13.5 * var(--u)); }
 .sh .sh-hero, .sh .sh-implant { position:relative; border-radius:calc(.7 * var(--u)); overflow:hidden; }
-.sh .sh-hero { flex:1 1 auto; min-width:0; background:linear-gradient(90deg,#CCFBF1 0%,#F0FDFA 55%,#F7F8FA 100%); }
+.sh .sh-hero { flex:1 1 auto; min-width:0; background:linear-gradient(90deg,#BCDDFD 0%,#D3E6FA 35%,#E4ECF5 60%); }
 /* The implant banner lines up with the right rail below it; the main slide matches the left column. */
-.sh .sh-implant { flex:1 1 0; min-width:calc(18 * var(--u)); background:#115E59; }
+.sh .sh-implant { flex:1 1 0; min-width:calc(18 * var(--u)); background:#3B5878; }
 .sh .sh-hero { flex:0 0 calc(65.2 * var(--u)); }
 .sh .slide { position:absolute; inset:0; opacity:0; transition:opacity .6s; pointer-events:none; }
 .sh .slide.on { opacity:1; pointer-events:auto; }
 .sh .sh-hero .slide img { position:absolute; right:0; top:0; height:100%; width:calc(39.1 * var(--u)); object-fit:cover; -webkit-mask-image:linear-gradient(90deg,transparent 0,#000 18%); mask-image:linear-gradient(90deg,transparent 0,#000 18%); }
 .sh .sh-hero .txt { position:absolute; left:calc(1.4 * var(--u)); top:calc(.7 * var(--u)); width:calc(18 * var(--u)); }
-.sh .sh-hero h1 { font-size:clamp(22px, 1.72vw, 28px); line-height:1.12; font-weight:700; margin:0; color:#111827; letter-spacing:-.01em; }
-.sh .sh-hero p { font-size: calc(0.85 * var(--u)); line-height:1.25; margin:calc(.15 * var(--u)) 0 calc(.45 * var(--u)); color:#111827; width:calc(17 * var(--u)); }
+.sh .sh-hero h1 { font-size:clamp(22px, 1.72vw, 28px); line-height:1.12; font-weight:700; margin:0; color:#10224A; letter-spacing:-.01em; }
+.sh .sh-hero p { font-size: calc(0.85 * var(--u)); line-height:1.25; margin:calc(.15 * var(--u)) 0 calc(.45 * var(--u)); color:#2C3D5C; width:calc(17 * var(--u)); }
 .sh .sh-hero .btn-teal { height:calc(2 * var(--u)); padding:0 calc(1 * var(--u)); font-size: calc(0.78 * var(--u)); }
 .sh .sh-hero .btn-teal .i { font-size: calc(0.85 * var(--u)); }
 .sh .dots { position:absolute; left:calc(21.8 * var(--u)); bottom:calc(1 * var(--u)); display:flex; gap:calc(.75 * var(--u)); }
 .sh .dots button { width:calc(.65 * var(--u)); height:calc(.65 * var(--u)); border-radius:50%; background:#B9C6D6; }
-.sh .dots button.on { background:#111827; }
+.sh .dots button.on { background:#14315E; }
 .sh .dots.light { left:auto; right:calc(8 * var(--u)); bottom:calc(.9 * var(--u)); }
 .sh .dots.light button { background:#9FB0C4; } .sh .dots.light button.on { background:#fff; }
 .sh .sh-implant .slide img { position:absolute; right:0; top:0; height:100%; width:calc(11.2 * var(--u)); object-fit:cover; -webkit-mask-image:linear-gradient(90deg,transparent 0,#000 30%); mask-image:linear-gradient(90deg,transparent 0,#000 30%); }
@@ -330,7 +330,7 @@
 .sh .sh-rail { flex:1; display:flex; flex-direction:column; gap:calc(.75 * var(--u)); min-width:0; }
 .sh .sh-head { display:flex; align-items:center; height:calc(2.2 * var(--u)); margin-top:calc(.15 * var(--u)); }
 .sh .sh-head h3 { font-size: calc(1.2 * var(--u)); font-weight:700; margin:0 0 0 calc(.2 * var(--u)); flex:1; letter-spacing:-.01em; }
-.sh .sh-head a { color:var(--blue); font-size: calc(0.7 * var(--u)); font-weight:500; display:flex; gap:calc(.6 * var(--u)); align-items:center; margin-right:calc(4 * var(--u)); }
+.sh .sh-head a { color:#0066FF; font-size: calc(0.7 * var(--u)); font-weight:500; display:flex; gap:calc(.6 * var(--u)); align-items:center; margin-right:calc(4 * var(--u)); }
 .sh .sh-head a .i { font-size: calc(0.8 * var(--u)); }
 .sh .sh-head .ghost { color:#B7C2D0; font-size: calc(0.85 * var(--u)); margin-right:calc(1.5 * var(--u)); margin-left:calc(-2.2 * var(--u)); }
 .sh .sh-cat .sh-head a, .sh .sh-prod .sh-head a { margin-right:calc(.8 * var(--u)); }
@@ -340,8 +340,8 @@
 .sh .sh-sem .card { overflow:hidden; height:calc(13.4 * var(--u)); }
 .sh .sh-sem .ph { position:relative; height:calc(6.7 * var(--u)); }
 .sh .sh-sem .ph img { width:100%; height:100%; object-fit:cover; }
-.sh .date { position:absolute; left:calc(.55 * var(--u)); top:calc(.55 * var(--u)); width:calc(2.8 * var(--u)); height:calc(3.05 * var(--u)); background:#fff; border-radius:calc(.45 * var(--u)); display:flex; flex-direction:column; align-items:center; justify-content:center; font-size: calc(0.72 * var(--u)); color:var(--blue); font-weight:600; box-shadow:0 calc(.1 * var(--u)) calc(.4 * var(--u)) rgba(0,0,0,.08); }
-.sh .date b { font-size: calc(1.15 * var(--u)); color:var(--ink); line-height:calc(1.2 * var(--u)); font-weight:700; }
+.sh .date { position:absolute; left:calc(.55 * var(--u)); top:calc(.55 * var(--u)); width:calc(2.8 * var(--u)); height:calc(3.05 * var(--u)); background:#fff; border-radius:calc(.45 * var(--u)); display:flex; flex-direction:column; align-items:center; justify-content:center; font-size: calc(0.72 * var(--u)); color:#0066FF; font-weight:600; box-shadow:0 calc(.1 * var(--u)) calc(.4 * var(--u)) rgba(0,0,0,.08); }
+.sh .date b { font-size: calc(1.15 * var(--u)); color:#0F1E3D; line-height:calc(1.2 * var(--u)); font-weight:700; }
 .sh .sh-sem .bd { padding:calc(.6 * var(--u)) calc(.75 * var(--u)); }
 .sh .sh-sem h5 { font-size: calc(0.78 * var(--u)); font-weight:700; margin:0; letter-spacing:.01em; }
 .sh .sh-sem .bd p { font-size: calc(0.7 * var(--u)); color:#3E4D66; margin:calc(.2 * var(--u)) 0 calc(.7 * var(--u)); }
@@ -354,10 +354,10 @@
 .sh .sh-cat { margin-top:calc(.5 * var(--u)); }
 .sh .sh-cat .grid { display:grid; grid-template-columns:repeat(9,minmax(0,1fr)); gap:calc(.6 * var(--u)); margin-top:calc(.4 * var(--u)); }
 .sh .tile { height:calc(6.6 * var(--u)); display:flex; flex-direction:column; align-items:center; padding:calc(.3 * var(--u)); transition:box-shadow .15s; }
-.sh .tile:hover { box-shadow:0 calc(.2 * var(--u)) calc(.8 * var(--u)) rgba(17, 24, 39, .12); }
+.sh .tile:hover { box-shadow:0 calc(.2 * var(--u)) calc(.8 * var(--u)) rgba(20,40,80,.12); }
 .sh .tile .ph { width:100%; height:calc(4.6 * var(--u)); display:grid; place-items:center; border-radius:calc(.4 * var(--u)); overflow:hidden; }
 .sh .tile .ph img { width:100%; height:100%; object-fit:cover; }
-.sh .tile .more { width:100%; height:100%; background:#F1F5FA; display:grid; place-items:center; color:#111827; font-size: calc(1.2 * var(--u)); letter-spacing:calc(.1 * var(--u)); font-weight:800; }
+.sh .tile .more { width:100%; height:100%; background:#F1F5FA; display:grid; place-items:center; color:#1E3A6B; font-size: calc(1.2 * var(--u)); letter-spacing:calc(.1 * var(--u)); font-weight:800; }
 .sh .tile > span { font-size: calc(0.62 * var(--u)); font-weight:600; text-align:center; line-height:calc(.8 * var(--u)); margin-top:calc(.2 * var(--u)); }
 
 .sh .sh-prod { margin-top:calc(.6 * var(--u)); }
@@ -385,7 +385,7 @@
 .sh .offer s { font-size: calc(0.7 * var(--u)); color:#9AA6B6; margin:calc(.75 * var(--u)) 0 calc(.1 * var(--u)); }
 .sh .offer strong { font-size: calc(1.08 * var(--u)); font-weight:700; }
 .sh .offer .btn-teal.cart { width:calc(3 * var(--u)); height:calc(2.15 * var(--u)); font-size: calc(1 * var(--u)); margin-top:calc(.75 * var(--u)); }
-.sh .sellers .hd { margin-bottom:calc(.45 * var(--u)); } .sh .sellers .hd a { color:var(--blue); font-size: calc(0.72 * var(--u)); font-weight:500; display:flex; gap:calc(.5 * var(--u)); align-items:center; }
+.sh .sellers .hd { margin-bottom:calc(.45 * var(--u)); } .sh .sellers .hd a { color:#0066FF; font-size: calc(0.72 * var(--u)); font-weight:500; display:flex; gap:calc(.5 * var(--u)); align-items:center; }
 .sh .row { display:flex; align-items:center; height:calc(2.75 * var(--u)); gap:calc(.7 * var(--u)); }
 .sh .row img { width:calc(2 * var(--u)); height:calc(2 * var(--u)); border-radius:50%; }
 .sh .row .nm { flex:1; min-width:0; } .sh .row b { display:block; font-size: calc(0.72 * var(--u)); font-weight:600; } .sh .row small { font-size: calc(0.68 * var(--u)); color:var(--mut); }
@@ -413,40 +413,8 @@
   .sh .sh-sem .grid { grid-template-columns:repeat(4,1fr); } .sh .sh-cat .grid { grid-template-columns:repeat(9,1fr); } .sh .sh-prod .grid { grid-template-columns:repeat(6,1fr); }
   .sh .sh-search-box { width:auto; max-width:calc(40 * var(--u)); }
 }
-/* Logged-in Bosh sahifa (05-bosh-sahifa-desktop.png). */
-.sh .dhb { display: flex; flex-direction: column; gap: 14px; color: #111827; }
-.sh .dhb h1 { margin: 0; font-size: 28px; line-height: 1.15; font-weight: 800; letter-spacing: -.02em; }
-.sh .dhb h2 { margin: 4px 0 0; font-size: 18px; font-weight: 800; }
-.sh .dhb-hello { background: linear-gradient(90deg, #F0FDFA 0%, #fff 70%); border: 1px solid #CCFBF1; border-radius: 16px; padding: 18px 20px; }
-.sh .dhb-hello .quote { margin: 6px 0 0; font-size: 15px; color: #115E59; font-weight: 600; }
-.sh .dhb-hello .when { margin: 4px 0 0; color: #5B6B82; font-size: 13px; }
-.sh .dhb-stats { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 12px; }
-.sh .dhb-stats a { background: #fff; border: 1px solid #E4EAF2; border-radius: 14px; padding: 14px 16px; display: flex; flex-direction: column; gap: 2px; min-height: 92px; }
-.sh .dhb-stats b { font-size: 22px; font-weight: 800; color: #0F766E; }
-.sh .dhb-stats span { font-size: 14px; font-weight: 700; }
-.sh .dhb-stats small { color: #5B6B82; font-size: 12px; }
-.sh .dhb-stats .i { width: 22px; height: 22px; color: #0F766E; }
-.sh .dhb-quick { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 12px; }
-.sh .dhb-quick a { background: #fff; border: 1px solid #E4EAF2; border-radius: 14px; padding: 14px; display: flex; flex-direction: column; gap: 4px; min-height: 108px; }
-.sh .dhb-quick a:hover { border-color: #CCFBF1; background: #F0FDFA; }
-.sh .dhb-quick .i { width: 22px; height: 22px; color: #0F766E; }
-.sh .dhb-quick b { font-size: 14px; font-weight: 800; }
-.sh .dhb-quick small { color: #5B6B82; font-size: 12px; line-height: 1.35; }
-.sh .dhb-cols { display: grid; grid-template-columns: 1.2fr 1fr .9fr; gap: 12px; align-items: start; }
-.sh .dhb-cols section { background: #fff; border: 1px solid #E4EAF2; border-radius: 14px; padding: 14px; min-height: 180px; }
-.sh .dhb-cols header { display: flex; align-items: center; justify-content: space-between; gap: 8px; margin-bottom: 10px; }
-.sh .dhb-cols h3 { margin: 0; font-size: 15px; font-weight: 800; }
-.sh .dhb-cols header a { color: #0F766E; font-size: 12px; font-weight: 700; display: inline-flex; align-items: center; gap: 4px; }
-.sh .dhb-cols .i { width: 14px; height: 14px; }
-.sh .dhb-cols .empty { margin: 0; color: #5B6B82; font-size: 13px; }
-.sh .dhb-cols ul { margin: 0; padding: 0; list-style: none; display: flex; flex-direction: column; gap: 8px; }
-.sh .dhb-cols li a { display: flex; gap: 8px; align-items: center; }
-.sh .dhb-cols img, .sh .dhb-cols .ph { width: 48px; height: 48px; border-radius: 8px; object-fit: cover; background: #F0FDFA; flex: none; }
-.sh .dhb-cols li b { display: block; font-size: 13px; font-weight: 700; }
-.sh .dhb-cols li em { font-style: normal; color: #0F766E; font-size: 12px; font-weight: 800; }
-.sh .dhb-cols .cats { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
-.sh .dhb-cols .cats a { display: flex; align-items: center; gap: 6px; height: 36px; padding: 0 8px; border-radius: 8px; background: #F0FDFA; color: #115E59; font-size: 12px; font-weight: 700; }
-.sh .dhb-cols .cats .i { width: 14px; height: 14px; }
+/* Logged-in desktop home canvas. Only the page that still has the pre-#49 hero. */
+.sh:has(.sh-hero-row) { background:#F4F7FB; }
 
 .sh strong, .sh .row b, .sh .row small, .sh .row button, .sh .meta span, .sh .why b { white-space:nowrap; }
 .sh .sh-prod strong { font-size: calc(0.88 * var(--u)); letter-spacing:-.02em; }
@@ -455,7 +423,7 @@
 .sh .offer .in > div { padding-left:calc(1 * var(--u)); }
 .sh .rt { margin-right:calc(.6 * var(--u)); }
 .sh .row button { width:calc(6 * var(--u)); }
-.sh .sh-rail .row button { width:auto; padding:0 8px; font-size:11px; flex:none; }
+.sh .sh-rail .row button { width:auto; padding:0 8px; font-size:11px; flex:none; color:#1F2E4A; }
 .sh .why small { white-space:normal; }
 .sh .sh-implant .dots button { height:calc(.65 * var(--u)); width:calc(.65 * var(--u)); padding:0; border-radius:50%; background:#9FB0C4; }
 .sh .sh-implant .dots button.on { background:#fff; }

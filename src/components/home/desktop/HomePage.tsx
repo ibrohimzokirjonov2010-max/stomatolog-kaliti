@@ -1,9 +1,6 @@
 "use client";
-import Topbar from "./Topbar";
-import Sidebar from "./Sidebar";
-import { DashboardHome } from "./DashboardHome";
-
-/** Logged-in desktop home matches 05-bosh-sahifa: greeting, stats, quick actions, three columns. */
+import Topbar from "./Topbar"; import Sidebar from "./Sidebar"; import Hero from "./Hero";
+import Seminars from "./Seminars"; import Categories from "./Categories"; import Products from "./Products"; import RightRail from "./RightRail";
 export default function HomePage() {
   return (
       <div className="sh dh">
@@ -11,7 +8,11 @@ export default function HomePage() {
         <div className="sh-body">
           <Sidebar />
           <main className="sh-main">
-            <DashboardHome />
+            <Hero />
+            <div className="sh-cols">
+              <div className="sh-left"><Seminars /><Categories /><Products /></div>
+              <RightRail />
+            </div>
           </main>
         </div>
       </div>
